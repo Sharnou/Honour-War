@@ -85,7 +85,7 @@ func _input(event:InputEvent)->void:
 			var ids:=SkillSystem.all_skills(str(hero.get("class","Warrior")))
 			if index<ids.size():
 				selected_skill_id=str(ids[index]["id"])
-				use_skill(selected_skill_id)
+				if str(ids[index]["kind"])!="passive": use_skill(selected_skill_id)
 
 func refresh()->void:
 	if game==null or not game.get("hero") is Dictionary: return
@@ -113,13 +113,15 @@ func refresh()->void:
 		tree_box.add_child(row)
 		var button:=Button.new()
 		button.custom_minimum_size=Vector2(310,58)
-		button.text="%d. %s\nLv.%d/%d  •  %s" % [slot+1,str(skill["name"]),SkillSystem.skill_level(hero,str(skill["id"])),int(skill["max_level"]),str(skill["kind"]).to_upper()]
+		var rank:=SkillSystem.skill_level(hero,str(skill["id"]))
+		button.text="%d. %s\nLv.%d/%d  •  %s" % [slot+1,str(skill["name"]),rank,int(skill["max_level"]),str(skill["kind"]).to_upper()]
 		button.pressed.connect(select_skill.bind(str(skill["id"])))
 		row.add_child(button)
 		skill_buttons[str(skill["id"])]=button
 		var learn:=Button.new()
 		learn.text="UPGRADE"
 		learn.custom_minimum_size=Vector2(110,58)
+		learn.disabled=rank>=int(skill["max_level"])
 		learn.pressed.connect(learn_skill.bind(str(skill["id"])))
 		row.add_child(learn)
 		slot+=1
@@ -141,13 +143,15 @@ func update_detail()->void:
 	var level:=SkillSystem.skill_level(hero,selected_skill_id)
 	var req_text:="None"
 	if skill["requires"].size()>0: req_text=", ".join(skill["requires"])
-	detail_label.text="%s\n\nType: %s\nTier: %d\nRank: %d / %d\nRequired Hero Level: %d\nUpgrade Cost: %d SP\nSkill SP Cost: %d\nCooldown: %.1fs\nPower: %d\nPrerequisites: %s\n\n%s" % [skill["name"],str(skill["kind"]).to_upper(),skill["tier"],level,skill["max_level"],skill["required_level"],skill["cost"],SkillSystem.sp_cost(hero,selected_skill_id),skill["cooldown"],SkillSystem.power(hero,selected_skill_id),req_text,skill["description"]]
+	var stats:=SkillSystem.combat_stats(hero)
+	var effect:=SkillSystem.effect_text(hero,selected_skill_id)
+	detail_label.text="%s\n\nType: %s\nTier: %d\nRank: %d / %d\nRequired Hero Level: %d\nUpgrade Cost: %d SP\nSkill SP Cost: %d\nCooldown: %.1fs\nPower: %d\nPrerequisites: %s\n\nEffect: %s\n\nLIVE PASSIVE BONUSES\nPower +%d  Crit +%d%%\nDefense +%d  Healing +%d\nRefine +%d\n\n%s" % [skill["name"],str(skill["kind"]).to_upper(),skill["tier"],level,skill["max_level"],skill["required_level"],skill["cost"],SkillSystem.sp_cost(hero,selected_skill_id),skill["cooldown"],SkillSystem.power(hero,selected_skill_id),req_text,effect,stats["power_bonus"],stats["crit_bonus"],stats["defense_bonus"],stats["healing_bonus"],stats["refine_bonus"],skill["description"]]
 
 func learn_skill(skill_id:String)->void:
 	var hero:Dictionary=game.get("hero")
 	if SkillSystem.learn(hero,skill_id):
 		selected_skill_id=skill_id
-		game.call("log_message","Skill upgraded: %s Lv.%d." % [SkillSystem.skill_map(str(hero["class"]))[skill_id]["name"],SkillSystem.skill_level(hero,skill_id)])
+		game.call("log_message","Skill upgraded: %s Lv.%d. Passive effects are now active." % [SkillSystem.skill_map(str(hero["class"]))[skill_id]["name"],SkillSystem.skill_level(hero,skill_id)])
 		game.call("save_game")
 	else:
 		game.call("log_message","Cannot upgrade this skill: level, prerequisite, max rank, or skill points requirement not met.")
@@ -165,16 +169,38 @@ func use_skill(skill_id:String)->void:
 		refresh()
 		return
 	var target=game.call("nearest_monster")
-	if target==null:
-		game.call("log_message","%s ready. Move near a monster to cast it." % result["skill"]["name"])
-		refresh()
-		return
+	var sid:=str(skill_id)
 	var damage:=int(result["power"])
-	var kind:=str(result["skill"]["kind"])
-	if kind=="ultimate": damage*=2
-	target["hp"]-=damage
-	game.call("log_message","%s Lv.%d unleashed for %d damage!" % [result["skill"]["name"],result["level"],damage])
-	if target["hp"]<=0: game.call("defeat_monster",target)
+	if str(result["skill"]["kind"])=="ultimate": damage*=2
+	if target==null:
+		if sid=="aco_heaven_gate" or sid=="aco_sanctuary" or sid=="aco_seraphic_light":
+			heal_hero(hero,damage)
+			game.call("log_message","%s restored %d HP." % [result["skill"]["name"],damage])
+		else:
+			game.call("log_message","%s ready. Move near a monster to cast it." % result["skill"]["name"])
+			refresh()
+			return
+	else:
+		target["hp"]-=damage
+		if sid=="aco_heaven_gate" or sid=="aco_sanctuary" or sid=="aco_seraphic_light": heal_hero(hero,max(1,int(damage/2)))
+		if sid=="mer_arsenal_overlord":
+			heal_pet(hero,max(1,int(damage/4)))
+			hero["temporary_power_until"]=Time.get_ticks_msec()/1000.0+10.0
+		if sid=="war_guardian_roar" or sid=="mer_fortify": hero["temporary_defense_until"]=Time.get_ticks_msec()/1000.0+8.0
+		if sid=="thief_smoke": hero["temporary_evasion_until"]=Time.get_ticks_msec()/1000.0+6.0
+		game.call("log_message","%s Lv.%d unleashed for %d damage!" % [result["skill"]["name"],result["level"],damage])
+		if target["hp"]<=0: game.call("defeat_monster",target)
 	game.call("save_game")
 	game.call("update_ui")
 	refresh()
+
+func heal_hero(hero:Dictionary,amount:int)->void:
+	var stats:=SkillSystem.combat_stats(hero)
+	var final_amount:=amount+int(stats["healing_bonus"])
+	hero["hp"]=min(int(hero.get("max_hp",1)),int(hero.get("hp",0))+final_amount)
+
+func heal_pet(hero:Dictionary,amount:int)->void:
+	if not hero.get("pet",{}) is Dictionary: return
+	var pet:Dictionary=hero["pet"]
+	pet["hp"]=min(int(pet.get("max_hp",1)),int(pet.get("hp",0))+amount)
+	hero["pet"]=pet
