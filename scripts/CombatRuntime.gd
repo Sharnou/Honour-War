@@ -69,14 +69,16 @@ func move_monsters(delta:float,hero:Dictionary)->void:
     var hero_pos:=Vector2(float(hero.get("pos_x",0.0)),float(hero.get("pos_y",0.0)))
     for monster in monsters:
         if not monster is Dictionary or int(monster.get("hp",0))<=0: continue
-        var distance:float=hero_pos.distance_to(monster["pos"])
+        var monster_pos:Vector2=monster["pos"]
+        var distance:float=hero_pos.distance_to(monster_pos)
         if distance>CHASE_RANGE or distance<=MONSTER_RANGE: continue
-        var direction:Vector2=monster["pos"].direction_to(hero_pos)
+        var direction:Vector2=monster_pos.direction_to(hero_pos)
         var speed:=MONSTER_SPEED
         if float(monster.get("slow_until",0.0))>now_seconds(): speed*=0.45
-        monster["pos"]+=direction*speed*delta
-        monster["pos"].x=clamp(float(monster["pos"].x),365.0,1107.0)
-        monster["pos"].y=clamp(float(monster["pos"].y),120.0,420.0)
+        monster_pos+=direction*speed*delta
+        monster_pos.x=clamp(monster_pos.x,365.0,1107.0)
+        monster_pos.y=clamp(monster_pos.y,120.0,420.0)
+        monster["pos"]=monster_pos
 
 func regenerate_sp(hero:Dictionary)->void:
     if sp_regen_timer<SP_REGEN_INTERVAL: return
@@ -156,13 +158,14 @@ func pet_strike(hero:Dictionary,monster:Dictionary)->void:
         if role=="Assassin" and rng.randf()<0.30:
             monster["poison_until"]=now_seconds()+5.0
             monster["poison_tick"]=now_seconds()+1.0
-    monster["hp"]=int(monster.get("hp",0))-max(1,damage-int(monster.get("defense",0)))
+    var dealt:=max(1,damage-int(monster.get("defense",0)))
+    monster["hp"]=int(monster.get("hp",0))-dealt
     monster["hit_flash"]=0.20
     var pet_visual=game.get("pet_visual")
     if pet_visual is PetVisual: pet_visual.trigger_attack()
     call_vfx("pet_attack",monster["pos"],str(pet.get("role","")),false)
-    call_vfx("hit",monster["pos"],str(damage),special)
-    if special: game.call("log_message","%s unleashes %s for %d damage!" % [pet.get("name","Pet"),pet.get("skills",["Pet Skill"])[0],damage])
+    call_vfx("hit",monster["pos"],str(dealt),special)
+    if special: game.call("log_message","%s unleashes %s for %d damage!" % [pet.get("name","Pet"),pet.get("skills",["Pet Skill"])[0],dealt])
     if int(monster["hp"])<=0: finish_monster(monster)
 
 func monster_phase(hero:Dictionary)->void:
@@ -224,6 +227,6 @@ func call_vfx(kind:String,position:Vector2,text:String,critical:bool)->void:
         "hero_attack": vfx.hero_attack(position)
         "pet_attack": vfx.pet_attack(position,text)
         "hit": vfx.hit(position,int(text),critical)
-        "miss": vfx.hit(position,0,false)
+        "miss": vfx.hit(position,0,critical)
         "monster_death": vfx.monster_death(position)
         "heal": vfx.heal(position,int(text))
