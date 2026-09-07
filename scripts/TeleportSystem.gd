@@ -2,15 +2,15 @@ class_name TeleportSystem
 extends RefCounted
 
 const MAPS := {
-	0: {"name":"Prontera", "type":"town", "width":1152, "height":648},
-	1: {"name":"Payon", "type":"town", "width":1152, "height":648},
-	2: {"name":"Geffen", "type":"town", "width":1152, "height":648},
-	3: {"name":"Morroc", "type":"town", "width":1152, "height":648},
-	4: {"name":"Izlude", "type":"town", "width":1152, "height":648},
-	10: {"name":"Prontera Sewer", "type":"dungeon", "width":1152, "height":648},
-	11: {"name":"Payon Cave", "type":"dungeon", "width":1152, "height":648},
-	12: {"name":"Geffen Tower", "type":"dungeon", "width":1152, "height":648},
-	13: {"name":"Morroc Ruins", "type":"dungeon", "width":1152, "height":648}
+	0: {"name":"Prontera", "type":"town", "width":742, "height":300},
+	1: {"name":"Payon", "type":"town", "width":742, "height":300},
+	2: {"name":"Geffen", "type":"town", "width":742, "height":300},
+	3: {"name":"Morroc", "type":"town", "width":742, "height":300},
+	4: {"name":"Izlude", "type":"town", "width":742, "height":300},
+	10: {"name":"Prontera Sewer", "type":"dungeon", "width":742, "height":300},
+	11: {"name":"Payon Cave", "type":"dungeon", "width":742, "height":300},
+	12: {"name":"Geffen Tower", "type":"dungeon", "width":742, "height":300},
+	13: {"name":"Morroc Ruins", "type":"dungeon", "width":742, "height":300}
 }
 
 static func parse_go(command:String) -> Dictionary:
@@ -26,7 +26,7 @@ static func parse_go(command:String) -> Dictionary:
 	var x:=int(coords[0]); var y:=int(coords[1])
 	var map:Dictionary=MAPS[map_id]
 	if x<0 or x>=int(map["width"]) or y<0 or y>=int(map["height"]):
-		return {"ok":false,"error":"Coordinates outside %s bounds." % map["name"]}
+		return {"ok":false,"error":"Coordinates outside %s bounds: 0-%d:0-%d." % [map["name"],int(map["width"])-1,int(map["height"])-1]}
 	return {"ok":true,"map_id":map_id,"x":x,"y":y,"name":map["name"],"type":map["type"]}
 
 static func map_name(map_id:int)->String:
