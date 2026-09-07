@@ -13,6 +13,7 @@ var status:Label
 var log_label:RichTextLabel
 var name_edit:LineEdit
 var class_box:OptionButton
+var command_edit:LineEdit
 
 func _ready()->void:
 	rng.randomize()
@@ -24,8 +25,9 @@ func _ready()->void:
 	queue_redraw()
 
 func ensure_state()->void:
-	if not hero.has("pos_x"): hero["pos_x"]=500.0
-	if not hero.has("pos_y"): hero["pos_y"]=280.0
+	if not hero.has("pos_x"): hero["pos_x"]=595.0
+	if not hero.has("pos_y"): hero["pos_y"]=340.0
+	if not hero.has("map_id"): hero["map_id"]=0
 	if not hero.has("materials"): hero["materials"]={"Phracon":5,"Emveretarcon":2,"Oridecon":0}
 	if not hero.has("inventory"): hero["inventory"]={}
 	if not hero.has("equipment"): hero["equipment"]={"weapon":"Novice Weapon","armor":"Novice Armor"}
@@ -34,11 +36,13 @@ func ensure_state()->void:
 	if not hero.has("city_building"): hero["city_building"]={"Prontera":CitySystem.new_city()}
 	hero["age"]=GameData.STARTING_AGE+int(float(hero.get("online_days",0.0))/GameData.AGE_DAYS_PER_YEAR)
 	hero["class_tier"]=max(int(hero.get("class_tier",0)),GameData.class_tier_for_level(int(hero.get("level",1))))
+	var parsed:=TeleportSystem.parse_go("@go %d %d:%d" % [int(hero["map_id"]),int(hero["pos_x"])-365,int(hero["pos_y"])-120])
+	if not parsed["ok"]: hero["map_id"]=0; hero["pos_x"]=595.0; hero["pos_y"]=340.0
 
 func build_ui()->void:
 	var bg:=ColorRect.new(); bg.color=Color("#071426"); bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); add_child(bg)
 	var title:=Label.new(); title.text="HONOUR WAR"; title.position=Vector2(24,16); title.add_theme_font_size_override("font_size",32); title.add_theme_color_override("font_color",Color("#f4c95d")); add_child(title)
-	var sub:=Label.new(); sub.text="Adventure • Class Evolution • Refinement • Crafting • Cities"; sub.position=Vector2(28,55); sub.add_theme_color_override("font_color",Color("#9eb8d2")); add_child(sub)
+	var sub:=Label.new(); sub.text="Adventure • Class Evolution • Refinement • Crafting • Cities • Fast Travel"; sub.position=Vector2(28,55); sub.add_theme_color_override("font_color",Color("#9eb8d2")); add_child(sub)
 	var side:=Panel.new(); side.position=Vector2(20,95); side.size=Vector2(300,525); add_child(side)
 	var box:=VBoxContainer.new(); box.position=Vector2(14,14); box.size=Vector2(272,495); side.add_child(box)
 	var h:=Label.new(); h.text="HERO PROFILE"; h.add_theme_font_size_override("font_size",20); h.add_theme_color_override("font_color",Color("#f4c95d")); box.add_child(h)
@@ -52,6 +56,8 @@ func build_ui()->void:
 	var right:=Panel.new(); right.position=Vector2(340,95); right.size=Vector2(792,525); add_child(right)
 	status=Label.new(); status.position=Vector2(18,15); right.add_child(status)
 	var help:=Label.new(); help.text="WASD / Arrows: move   SPACE: attack   R: refine   Q: quest   C: craft   B: buy"; help.position=Vector2(18,42); help.add_theme_color_override("font_color",Color("#9eb8d2")); right.add_child(help)
+	command_edit=LineEdit.new(); command_edit.position=Vector2(18,395); command_edit.size=Vector2(650,36); command_edit.placeholder_text="Fast travel: @go 0 230:220   |   @go 10 300:180"; command_edit.text_submitted.connect(execute_command); right.add_child(command_edit)
+	var go_button:=Button.new(); go_button.text="GO"; go_button.position=Vector2(678,395); go_button.size=Vector2(96,36); go_button.pressed.connect(execute_command_from_button); right.add_child(go_button)
 	log_label=RichTextLabel.new(); log_label.position=Vector2(18,450); log_label.size=Vector2(756,58); right.add_child(log_label)
 	name_edit.text=str(hero["name"]); class_box.select(max(0,CLASS_NAMES().find(str(hero["class"]))))
 	update_ui()
@@ -89,7 +95,7 @@ func refine_chance()->int: return int(WorldSystem.refinement_chance(int(hero["ag
 func _process(delta:float)->void:
 	spawn_timer+=delta; save_timer+=delta; age_timer+=delta
 	var move:=Vector2(Input.get_axis("move_left","move_right"),Input.get_axis("move_up","move_down")).normalized()
-	hero["pos_x"]=clamp(float(hero["pos_x"])+move.x*180.0*delta,365.0,1110.0); hero["pos_y"]=clamp(float(hero["pos_y"])+move.y*180.0*delta,150.0,420.0)
+	hero["pos_x"]=clamp(float(hero["pos_x"])+move.x*180.0*delta,365.0,1107.0); hero["pos_y"]=clamp(float(hero["pos_y"])+move.y*180.0*delta,120.0,420.0)
 	if spawn_timer>=4.0 and monsters.size()<8: spawn_timer=0.0; spawn_monster()
 	if age_timer>=8.0: age_timer=0.0; hero["online_days"]+=8.0/86400.0; update_age()
 	if save_timer>=8.0: save_timer=0.0; save_game(); update_ui()
@@ -103,6 +109,28 @@ func _input(event:InputEvent)->void:
 			KEY_Q: quest()
 			KEY_C: craft()
 			KEY_B: buy_material()
+
+func execute_command(command:String)->void:
+	var result:=TeleportSystem.parse_go(command)
+	if not result["ok"]: log_message(str(result["error"])); update_ui(); return
+	fast_travel(int(result["map_id"]),int(result["x"]),int(result["y"]))
+	command_edit.clear()
+
+func execute_command_from_button()->void:
+	execute_command(command_edit.text)
+
+func fast_travel(map_id:int,x:int,y:int)->void:
+	if not TeleportSystem.MAPS.has(map_id): log_message("Unknown destination."); return
+	var old_map:=int(hero["map_id"])
+	hero["map_id"]=map_id
+	hero["pos_x"]=365.0+float(x)
+	hero["pos_y"]=120.0+float(y)
+	monsters.clear()
+	for i in 4: spawn_monster()
+	var kind:="Dungeon" if TeleportSystem.is_dungeon(map_id) else "Town"
+	log_message("Fast transmission: %s -> %s (%d:%d)." % ["same map" if old_map==map_id else TeleportSystem.map_name(old_map),TeleportSystem.map_name(map_id),x,y])
+	log_message("Arrived in %s %s at X:%d Y:%d." % [kind,TeleportSystem.map_name(map_id),x,y])
+	save_game(); update_ui()
 
 func spawn_monster()->void:
 	var families:=GameData.monster_families(); var family:String=families[rng.randi_range(0,families.size()-1)]; var zone:=max(1,int(hero["level"])/10+1); var level:=WorldSystem.monster_level_for_zone(zone,rng.randi_range(0,families.size()-1)); var s:Dictionary=WorldSystem.monster_stats(level)
@@ -163,8 +191,11 @@ func buy_material()->void:
 func update_ui()->void:
 	if not profile: return
 	var m:Dictionary=hero["materials"]; var city:Dictionary=hero["city_building"].get("Prontera",CitySystem.new_city())
+	var map_name:=TeleportSystem.map_name(int(hero["map_id"]))
+	var map_kind:="Dungeon" if TeleportSystem.is_dungeon(int(hero["map_id"])) else "Town"
+	var map_x:=int(hero["pos_x"]-365.0); var map_y:=int(hero["pos_y"]-120.0)
 	profile.text="Name: %s\nClass: %s\nLevel: %d/%d\nEXP: %d/%d\nAge: %d\nOnline: %.4f days\nHP: %d/%d\nZeny: %d\n\nPhracon: %d  Emveretarcon: %d  Oridecon: %d\nAge skill bonus: +%d%%\nRefine chance: %d%%\nPrice discount: -%d%%\nWeapon: %s\nCards: %d  Inventory: %d\nProntera Lv.%d" % [hero["name"],GameData.class_title(hero),hero["level"],GameData.MAX_HERO_LEVEL,hero["exp"],GameData.exp_to_next(int(hero["level"])),hero["age"],hero["online_days"],hero["hp"],hero["max_hp"],hero["zeny"],m["Phracon"],m["Emveretarcon"],m["Oridecon"],age_bonus(),refine_chance(),int(WorldSystem.age_discount(int(hero["age"]))*100.0),hero["equipment"]["weapon"],hero["cards"].size(),hero["inventory"].size(),city.get("level",1)]
-	status.text="FIELD | %s | %s | Basic Power: %d | Monsters: %d | Kills: %d" % [hero["last_safe_city"],GameData.class_title(hero),skill_power(),monsters.size(),hero.get("kills",0)]
+	status.text="%s | %s | MAP %d: %s | X:%d Y:%d | Basic Power: %d | Monsters: %d | Kills: %d" % [map_kind,map_name,int(hero["map_id"]),GameData.class_title(hero),map_x,map_y,skill_power(),monsters.size(),hero.get("kills",0)]
 	log_label.text="\n".join(logs)
 
 func log_message(message:String)->void:
