@@ -30,14 +30,16 @@ static func material_definitions() -> Dictionary:
 	}
 
 static func new_hero() -> Dictionary:
+	var hero_class:="Warrior"
 	return {
-		"name":"Aldric", "class":"Warrior", "class_tier":0, "level":1, "exp":0,
+		"name":"Aldric", "class":hero_class, "class_tier":0, "level":1, "exp":0,
 		"age":18, "online_days":0.0, "hp":100, "max_hp":100, "sp":50, "max_sp":50,
 		"zeny":500, "refine":0, "kills":0, "quest_progress":{}, "quests_completed":[],
 		"inventory":{}, "materials":{"Phracon":5, "Emveretarcon":2, "Oridecon":0},
 		"equipment":{"weapon":"Novice Weapon", "armor":"Novice Armor"},
-		"cards":[], "skills":[], "city_building":{"Prontera":{"level":1, "wood":0, "stone":0, "gold":0}},
-		"last_safe_city":"Prontera", "pos_x":270.0, "pos_y":330.0
+		"cards":[], "skills":[], "pet":PetSystem.new_pet(hero_class),
+		"city_building":{"Prontera":{"level":1,"wood":0,"stone":0,"gold":0}},
+		"last_safe_city":"Prontera", "pos_x":595.0, "pos_y":340.0, "map_id":0
 	}
 
 static func exp_to_next(level:int) -> int:
