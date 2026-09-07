@@ -74,12 +74,15 @@ func toggle()->void:
 func _input(event:InputEvent)->void:
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode==KEY_K:
 		toggle()
+		return
 	if not visible: return
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.keycode>=KEY_1 and event.keycode<=KEY_8:
 			var index:=int(event.keycode-KEY_1)
 			var ids:=SkillSystem.skill_map(str(game.get("hero").get("class","Warrior"))).keys()
-			if index<ids.size(): select_skill(str(ids[index]))
+			if index<ids.size():
+				selected_skill_id=str(ids[index])
+				use_skill(selected_skill_id)
 
 func refresh()->void:
 	if game==null or not game.get("hero") is Dictionary: return
