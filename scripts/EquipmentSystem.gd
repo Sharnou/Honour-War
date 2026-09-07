@@ -4,10 +4,12 @@ extends RefCounted
 const MAX_CARD_SLOTS := 4
 const SLOTS := ["weapon","shield","head_upper","head_middle","head_lower","armor","garment","shoes","accessory_1","accessory_2"]
 const SLOT_LABELS := {"weapon":"Weapon","shield":"Shield","head_upper":"Upper Headgear","head_middle":"Middle Headgear","head_lower":"Lower Headgear","armor":"Armor","garment":"Garment","shoes":"Shoes","accessory_1":"Accessory 1","accessory_2":"Accessory 2"}
+const LEGACY_WEAPON_MAP := {"Sword":"Novice Sword","Staff":"Arcane Staff","Bow":"Hunter Bow","Dagger":"Shadow Dagger","Mace":"Holy Mace","Hammer":"Merchant Hammer"}
 
 static func base_item_name(item_name:String)->String:
 	var marker:=item_name.find(" +")
-	return item_name.substr(0,marker) if marker>=0 else item_name
+	var base:=item_name.substr(0,marker) if marker>=0 else item_name
+	return str(LEGACY_WEAPON_MAP.get(base,base))
 
 static func ensure_state(hero:Dictionary)->void:
 	if not hero.has("equipment") or not hero["equipment"] is Dictionary: hero["equipment"]={}
