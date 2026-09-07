@@ -78,7 +78,7 @@ static func add_card(hero:Dictionary,card_name:String)->bool:
 	ensure_state(hero)
 	var catalog:=CardDatabase.all()
 	if card_name=="" or not catalog.has(card_name): return false
-	if not bool(hero["loot_rules"].get("auto_pick_cards",true): return false
+	if not bool(hero["loot_rules"].get("auto_pick_cards",true)): return false
 	if not accept(hero,str(catalog[card_name].get("rarity","Common"))): return false
 	if hero["cards"].has(card_name): return false
 	hero["cards"].append(card_name)
