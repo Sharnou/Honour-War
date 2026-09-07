@@ -12,7 +12,6 @@ var game:Node
 var hero_attack_timer:=0.0
 var pet_attack_timer:=0.0
 var monster_attack_timer:=0.0
-var combat_active:=true
 var target
 var rng:=RandomNumberGenerator.new()
 
@@ -27,7 +26,6 @@ func _process(delta:float)->void:
 	hero_attack_timer+=delta
 	pet_attack_timer+=delta
 	monster_attack_timer+=delta
-	# The legacy timer is held at zero while this runtime owns pet combat.
 	if game.get("pet_attack_timer") != null: game.set("pet_attack_timer",0.0)
 	update_target(hero)
 	if target!=null and hero_attack_timer>=HERO_ATTACK_INTERVAL:
@@ -49,8 +47,7 @@ func update_target(hero:Dictionary)->void:
 	var best=null
 	var best_distance:=HERO_RANGE
 	for monster in monsters:
-		if not monster is Dictionary: continue
-		if int(monster.get("hp",0))<=0: continue
+		if not monster is Dictionary or int(monster.get("hp",0))<=0: continue
 		var distance:=hero_pos.distance_to(monster["pos"])
 		if distance<best_distance:
 			best=monster
@@ -60,8 +57,13 @@ func update_target(hero:Dictionary)->void:
 func hero_strike(hero:Dictionary,monster:Dictionary)->void:
 	var class_id:=str(hero.get("class","Warrior"))
 	var base:=18
-	var classes:=game.get("CLASSES")
-	if classes is Dictionary and classes.has(class_id): base=int(classes[class_id]["base"])
+	match class_id:
+		"Warrior": base=18
+		"Mage": base=23
+		"Archer": base=20
+		"Thief": base=19
+		"Acolyte": base=15
+		"Merchant": base=17
 	var passive:=SkillSystem.combat_stats(hero)
 	var power:=base+int(hero.get("level",1))*2+int(hero.get("refine",0))*2+int(passive["power_bonus"])
 	var critical_chance:=int(passive["crit_bonus"])
@@ -74,7 +76,8 @@ func hero_strike(hero:Dictionary,monster:Dictionary)->void:
 	monster["hit_flash"]=0.16
 	call_vfx("hero_attack",monster["pos"],"",false)
 	call_vfx("hit",monster["pos"],str(damage),critical)
-	game.call("log_message","Auto attack: %s %d%d damage to Lv.%d %s." % ["CRITICAL " if critical else "",damage,0,int(monster.get("level",1)),str(monster.get("name","Monster"))])
+	var prefix:="CRITICAL " if critical else ""
+	game.call("log_message","Auto attack: %s%d damage to Lv.%d %s." % [prefix,damage,int(monster.get("level",1)),str(monster.get("name","Monster"))])
 	if int(monster["hp"])<=0: finish_monster(monster)
 
 func pet_strike(hero:Dictionary,monster:Dictionary)->void:
@@ -90,7 +93,7 @@ func pet_strike(hero:Dictionary,monster:Dictionary)->void:
 		if str(pet.get("role",""))=="Healer":
 			var heal:=PetSystem.heal_power(pet)
 			hero["hp"]=min(int(hero.get("max_hp",1)),int(hero.get("hp",0))+heal)
-			call_vfx("heal",hero_pos,"%d" % heal,false)
+			call_vfx("heal",hero_pos,str(heal),false)
 		if str(pet.get("role",""))=="Guardian" or str(pet.get("role",""))=="Tank":
 			pet["guard_until"]=Time.get_ticks_msec()/1000.0+2.0
 	monster["hp"]=int(monster.get("hp",0))-damage
@@ -109,23 +112,22 @@ func monster_phase(hero:Dictionary)->void:
 	var pet:Dictionary=hero.get("pet",{})
 	for monster in monsters.duplicate():
 		if not monster is Dictionary or int(monster.get("hp",0))<=0: continue
-		var distance:=hero_pos.distance_to(monster["pos"])
-		if distance>MONSTER_RANGE: continue
+		if hero_pos.distance_to(monster["pos"])>MONSTER_RANGE: continue
 		var attack:=max(1,int(monster.get("attack",int(monster.get("level",1))*4)))
 		var target_pet:=false
 		var role:=str(pet.get("role",""))
 		if role=="Tank" or role=="Guardian": target_pet=rng.randf()<0.55
 		if target_pet and int(pet.get("hp",0))>0:
-			var reduced:=max(1,int(float(attack)*0.75))
-			pet["hp"]=max(0,int(pet.get("hp",0))-reduced)
-			call_vfx("hit",game.call("get_pet_visual_position") if game.has_method("get_pet_visual_position") else hero_pos, str(reduced),false)
+			var pet_damage:=max(1,int(float(attack)*0.75))
+			pet["hp"]=max(0,int(pet.get("hp",0))-pet_damage)
+			var pet_pos:=hero_pos+Vector2(34,24)
+			call_vfx("hit",pet_pos,str(pet_damage),false)
 		else:
 			var stats:=SkillSystem.combat_stats(hero)
-			var reduced:=max(1,attack-int(stats["defense_bonus"])-int(hero.get("refine",0)))
-			hero["hp"]=max(0,int(hero.get("hp",0))-reduced)
-			call_vfx("hit",hero_pos,str(reduced),false)
-		if int(hero.get("hp",0))<=0:
-			respawn_hero(hero)
+			var hero_damage:=max(1,attack-int(stats["defense_bonus"])-int(hero.get("refine",0)))
+			hero["hp"]=max(0,int(hero.get("hp",0))-hero_damage)
+			call_vfx("hit",hero_pos,str(hero_damage),false)
+		if int(hero.get("hp",0))<=0: respawn_hero(hero)
 
 func finish_monster(monster:Dictionary)->void:
 	call_vfx("monster_death",monster["pos"],"",false)
