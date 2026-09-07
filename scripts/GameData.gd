@@ -1,10 +1,12 @@
 class_name GameData
 extends RefCounted
 
-const MAX_HERO_LEVEL := 250
-const MAX_MONSTER_LEVEL := 300
-const STARTING_AGE := 18
-const AGE_DAYS_PER_YEAR := 3.0
+const PetSystemClass = preload("res://scripts/PetSystem.gd")
+
+const MAX_HERO_LEVEL:int = 250
+const MAX_MONSTER_LEVEL:int = 300
+const STARTING_AGE:int = 18
+const AGE_DAYS_PER_YEAR:float = 3.0
 
 static func class_definitions() -> Dictionary:
 	return {
@@ -30,14 +32,14 @@ static func material_definitions() -> Dictionary:
 	}
 
 static func new_hero() -> Dictionary:
-	var hero_class:="Warrior"
+	var hero_class:String = "Warrior"
 	return {
 		"name":"Aldric", "class":hero_class, "class_tier":0, "level":1, "exp":0,
 		"age":18, "online_days":0.0, "hp":100, "max_hp":100, "sp":50, "max_sp":50,
 		"zeny":500, "refine":0, "kills":0, "quest_progress":{}, "quests_completed":[],
 		"inventory":{}, "materials":{"Phracon":5, "Emveretarcon":2, "Oridecon":0},
 		"equipment":{"weapon":"Novice Weapon", "armor":"Novice Armor"},
-		"cards":[], "skills":[], "pet":PetSystem.new_pet(hero_class),
+		"cards":[], "skills":[], "pet":PetSystemClass.new_pet(hero_class),
 		"city_building":{"Prontera":{"level":1,"wood":0,"stone":0,"gold":0}},
 		"last_safe_city":"Prontera", "pos_x":595.0, "pos_y":340.0, "map_id":0
 	}
@@ -56,7 +58,7 @@ static func class_tier_for_level(level:int) -> int:
 	return 0
 
 static func class_title(hero:Dictionary) -> String:
-	var defs=class_definitions()
-	var class_name=str(hero.get("class", "Warrior"))
-	var tree:Array=defs[class_name]["tree"]
-	return tree[min(int(hero.get("class_tier", 0)), tree.size() - 1)]
+	var defs:Dictionary = class_definitions()
+	var class_id:String = str(hero.get("class", "Warrior"))
+	var tree:Array = defs[class_id]["tree"]
+	return str(tree[min(int(hero.get("class_tier", 0)), tree.size() - 1)])
