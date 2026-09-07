@@ -10,9 +10,13 @@ var detail_label:Label
 var open_button:Button
 var skill_buttons:Dictionary={}
 var selected_skill_id:String=""
+var combat_vfx:CombatVFX
 
 func _ready()->void:
 	game=get_parent()
+	combat_vfx=CombatVFX.new()
+	game.add_child(combat_vfx)
+	combat_vfx.setup(game)
 	build()
 	panel.visible=false
 	call_deferred("refresh")
@@ -163,33 +167,47 @@ func use_selected()->void:
 
 func use_skill(skill_id:String)->void:
 	var hero:Dictionary=game.get("hero")
+	var target=game.call("nearest_monster")
+	var sid:=str(skill_id)
+	var skill_map:=SkillSystem.skill_map(str(hero.get("class","Warrior")))
+	if not skill_map.has(sid): return
+	var skill_def:Dictionary=skill_map[sid]
+	var targetless_heal:=sid=="aco_heaven_gate" or sid=="aco_sanctuary" or sid=="aco_seraphic_light"
+	if target==null and not targetless_heal:
+		game.call("log_message","%s requires a nearby monster target." % str(skill_def["name"]))
+		refresh()
+		return
 	var result:=SkillSystem.use(hero,skill_id,Time.get_ticks_msec()/1000.0)
 	if not result["ok"]:
 		game.call("log_message","Skill unavailable: %s." % str(result["reason"]))
 		refresh()
 		return
-	var target=game.call("nearest_monster")
-	var sid:=str(skill_id)
 	var damage:=int(result["power"])
-	if str(result["skill"]["kind"])=="ultimate": damage*=2
+	var ultimate:=str(result["skill"]["kind"])=="ultimate"
+	if ultimate: damage*=2
+	var hero_pos:=Vector2(float(hero.get("pos_x",0.0)),float(hero.get("pos_y",0.0)))
+	if combat_vfx!=null:
+		combat_vfx.skill_cast(target["pos"] if target!=null else hero_pos,str(result["skill"]["name"]),ultimate)
 	if target==null:
-		if sid=="aco_heaven_gate" or sid=="aco_sanctuary" or sid=="aco_seraphic_light":
-			heal_hero(hero,damage)
-			game.call("log_message","%s restored %d HP." % [result["skill"]["name"],damage])
-		else:
-			game.call("log_message","%s ready. Move near a monster to cast it." % result["skill"]["name"])
-			refresh()
-			return
+		heal_hero(hero,damage)
+		if combat_vfx!=null: combat_vfx.heal(hero_pos,damage)
+		game.call("log_message","%s restored %d HP." % [result["skill"]["name"],damage])
 	else:
 		target["hp"]-=damage
-		if sid=="aco_heaven_gate" or sid=="aco_sanctuary" or sid=="aco_seraphic_light": heal_hero(hero,max(1,int(damage/2)))
+		var critical:=int(result["power"])>=SkillSystem.power(hero,skill_id)*2
+		if combat_vfx!=null: combat_vfx.hit(target["pos"],damage,critical)
+		if sid=="aco_heaven_gate" or sid=="aco_sanctuary" or sid=="aco_seraphic_light":
+			heal_hero(hero,max(1,int(damage/2)))
+			if combat_vfx!=null: combat_vfx.heal(hero_pos,max(1,int(damage/2)))
 		if sid=="mer_arsenal_overlord":
 			heal_pet(hero,max(1,int(damage/4)))
 			hero["temporary_power_until"]=Time.get_ticks_msec()/1000.0+10.0
 		if sid=="war_guardian_roar" or sid=="mer_fortify": hero["temporary_defense_until"]=Time.get_ticks_msec()/1000.0+8.0
 		if sid=="thief_smoke": hero["temporary_evasion_until"]=Time.get_ticks_msec()/1000.0+6.0
 		game.call("log_message","%s Lv.%d unleashed for %d damage!" % [result["skill"]["name"],result["level"],damage])
-		if target["hp"]<=0: game.call("defeat_monster",target)
+		if target["hp"]<=0:
+			if combat_vfx!=null: combat_vfx.monster_death(target["pos"])
+			game.call("defeat_monster",target)
 	game.call("save_game")
 	game.call("update_ui")
 	refresh()
