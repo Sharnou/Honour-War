@@ -11,11 +11,11 @@ const PETS := {
 	"Merchant": {"name":"Iron Beetle", "role":"Guardian", "species":"Iron Beetle", "base_power":15, "skill":"Iron Charge", "skill_power":27, "color":"#82b7c9"}
 }
 
-static func definition(class_name:String) -> Dictionary:
-	return PETS.get(class_name, PETS["Warrior"])
+static func definition(class_id:String) -> Dictionary:
+	return PETS.get(class_id, PETS["Warrior"])
 
-static func new_pet(class_name:String) -> Dictionary:
-	var d:Dictionary=definition(class_name)
+static func new_pet(class_id:String) -> Dictionary:
+	var d:Dictionary=definition(class_id)
 	return {
 		"name":d["name"], "role":d["role"], "species":d["species"], "level":1, "exp":0,
 		"hp":60, "max_hp":60, "sp":30, "max_sp":30, "skills":[d["skill"]], "skill_points":0,
@@ -40,21 +40,21 @@ static func heal_power(pet:Dictionary)->int:
 	return 10+int(pet.get("level",1))*2+int(pet.get("skill_level",1))*4
 
 static func add_exp(pet:Dictionary, amount:int)->bool:
-	var leveled:=false
+	var leveled:bool=false
 	if int(pet.get("level",1))>=MAX_PET_LEVEL:
 		pet["exp"]=0
 		return false
-	pet["exp"]+=amount
+	pet["exp"]=int(pet.get("exp",0))+amount
 	while int(pet["level"])<MAX_PET_LEVEL and int(pet["exp"])>=exp_to_next(int(pet["level"])):
-		pet["exp"]-=exp_to_next(int(pet["level"]))
-		pet["level"]+=1
-		pet["max_hp"]+=7
-		pet["hp"]=pet["max_hp"]
-		pet["max_sp"]+=3
-		pet["sp"]=pet["max_sp"]
-		pet["skill_points"]+=1
+		pet["exp"]=int(pet["exp"])-exp_to_next(int(pet["level"]))
+		pet["level"]=int(pet["level"])+1
+		pet["max_hp"]=int(pet["max_hp"])+7
+		pet["hp"]=int(pet["max_hp"])
+		pet["max_sp"]=int(pet["max_sp"])+3
+		pet["sp"]=int(pet["max_sp"])
+		pet["skill_points"]=int(pet.get("skill_points",0))+1
 		if int(pet["level"])%10==0:
-			pet["skill_level"]+=1
+			pet["skill_level"]=int(pet.get("skill_level",1))+1
 		leveled=true
 	return leveled
 
