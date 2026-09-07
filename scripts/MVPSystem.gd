@@ -22,24 +22,27 @@ static func roll_name(rng:RandomNumberGenerator)->String:
 static func decorate(monster:Dictionary,rng:RandomNumberGenerator,hero_level:int)->Dictionary:
 	if monster.get("mvp_checked",false): return monster
 	monster["mvp_checked"]=true
-	var chance:=0.018 if hero_level<150 else 0.035
+	if hero_level<200:
+		monster["mvp"]=false
+		return monster
+	var chance:=0.018 if hero_level<250 else 0.035
 	if rng.randf()>chance:
 		monster["mvp"]=false
 		return monster
 	var name:=roll_name(rng)
-	var d:Dictionary=definitions()[name]
+	var definition:Dictionary=definitions()[name]
 	monster["mvp"]=true
 	monster["name"]=name
-	monster["title"]=d["title"]
-	monster["level"]=min(GameData.MAX_MONSTER_LEVEL,int(d["level"]))
-	monster["hp"]=max(1,int(float(monster.get("hp",100))*float(d["hp_mult"])))
+	monster["title"]=definition["title"]
+	monster["level"]=min(GameData.MAX_MONSTER_LEVEL,int(definition["level"]))
+	monster["hp"]=max(1,int(float(monster.get("hp",100))*float(definition["hp_mult"])))
 	monster["max"]=monster["hp"]
-	monster["attack"]=max(1,int(float(monster.get("attack",20))*float(d["attack_mult"])))
-	monster["defense"]=max(1,int(float(monster.get("defense",10))*float(d["defense_mult"])))
-	monster["exp"]=int(float(monster.get("exp",100))*float(d["hp_mult"])*1.6)
+	monster["attack"]=max(1,int(float(monster.get("attack",20))*float(definition["attack_mult"])))
+	monster["defense"]=max(1,int(float(monster.get("defense",10))*float(definition["defense_mult"])))
+	monster["exp"]=int(float(monster.get("exp",100))*float(definition["hp_mult"])*1.6)
 	monster["zmin"]=int(float(monster.get("zmin",10))*4.0)
 	monster["zmax"]=int(float(monster.get("zmax",20))*7.0)
-	monster["mvp_skill"]=d["skill"]
-	monster["mvp_card"]=d["card"]
-	monster["mvp_loot"]=d["loot"]
+	monster["mvp_skill"]=definition["skill"]
+	monster["mvp_card"]=definition["card"]
+	monster["mvp_loot"]=definition["loot"]
 	return monster
