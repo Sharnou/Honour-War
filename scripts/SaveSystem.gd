@@ -2,7 +2,7 @@ class_name SaveSystem
 extends RefCounted
 
 const SAVE_PATH := "user://honour_war_save.json"
-const SAVE_VERSION := 2
+const SAVE_VERSION := 3
 
 static func save_game(hero:Dictionary) -> bool:
 	var data=hero.duplicate(true)
@@ -37,6 +37,10 @@ static func migrate(hero:Dictionary) -> Dictionary:
 	if not hero.has("equipment"): hero["equipment"]={"weapon":"Novice Weapon", "armor":"Novice Armor"}
 	if not hero.has("cards"): hero["cards"]=[]
 	if not hero.has("skills"): hero["skills"]=[]
+	if not hero.has("skill_levels"): hero["skill_levels"]={}
+	if not hero.has("skill_points"): hero["skill_points"]=max(0,int(hero.get("level",1))-1)
+	if not hero.has("skill_cooldowns"): hero["skill_cooldowns"]={}
+	if not hero.has("pet") or not hero["pet"] is Dictionary: hero["pet"]={}
 	if not hero.has("city_building"): hero["city_building"]={"Prontera":{"level":1, "wood":0, "stone":0, "gold":0}}
 	if not hero.has("last_safe_city"): hero["last_safe_city"]="Prontera"
 	if not hero.has("pos_x"): hero["pos_x"]=270.0
