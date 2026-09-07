@@ -5,9 +5,9 @@ var effects:Array[Dictionary]=[]
 var game:Node
 var elapsed:float=0.0
 
-const CLASS_COLORS:Dictionary = {
-	"Warrior":Color("#e8a34b"), "Mage":Color("#b88cff"), "Archer":Color("#8fe08f"),
-	"Thief":Color("#ff7eb6"), "Acolyte":Color("#fff0a3"), "Merchant":Color("#7ed7ff")
+const CLASS_COLORS:Dictionary={
+	"Warrior":Color("#e8a34b"),"Mage":Color("#b88cff"),"Archer":Color("#8fe08f"),
+	"Thief":Color("#ff7eb6"),"Acolyte":Color("#fff0a3"),"Merchant":Color("#7ed7ff")
 }
 
 func setup(owner:Node)->void:
@@ -19,7 +19,7 @@ func setup(owner:Node)->void:
 func _process(delta:float)->void:
 	elapsed+=delta
 	for i in range(effects.size()-1,-1,-1):
-		effects[i]["age"] = float(effects[i].get("age",0.0))+delta
+		effects[i]["age"]=float(effects[i].get("age",0.0))+delta
 		if float(effects[i]["age"])>=float(effects[i].get("duration",0.4)):
 			effects.remove_at(i)
 	queue_redraw()
@@ -28,12 +28,12 @@ func emit_effect(kind:String,position:Vector2,duration:float=0.45,scale:float=1.
 	effects.append({"kind":kind,"pos":position,"age":0.0,"duration":duration,"scale":scale,"text":text})
 	queue_redraw()
 
-func hero_attack(position:Vector2)->void: emit_effect("hero_attack",position,0.22,1.0)
-func pet_attack(position:Vector2,role:String="")->void: emit_effect("pet_attack",position,0.28,1.0,role)
-func skill_cast(position:Vector2,skill_name:String,ultimate:bool=false)->void: emit_effect("ultimate" if ultimate else "skill",position,0.72 if ultimate else 0.42,1.35 if ultimate else 1.0,skill_name)
-func hit(position:Vector2,damage:int,critical:bool=false)->void: emit_effect("critical" if critical else "hit",position,0.5,1.0,str(damage))
-func monster_death(position:Vector2)->void: emit_effect("death",position,0.8,1.2)
-func heal(position:Vector2,amount:int)->void: emit_effect("heal",position,0.65,1.0,str(amount))
+func hero_attack(position:Vector2)->void: emit_effect("hero_attack",position,0.28,1.0)
+func pet_attack(position:Vector2,role:String="")->void: emit_effect("pet_attack",position,0.34,1.0,role)
+func skill_cast(position:Vector2,skill_name:String,ultimate:bool=false)->void: emit_effect("ultimate" if ultimate else "skill",position,1.0 if ultimate else 0.58,1.5 if ultimate else 1.0,skill_name)
+func hit(position:Vector2,damage:int,critical:bool=false)->void: emit_effect("critical" if critical else "hit",position,0.55,1.0,str(damage))
+func monster_death(position:Vector2)->void: emit_effect("death",position,1.0,1.25)
+func heal(position:Vector2,amount:int)->void: emit_effect("heal",position,0.8,1.0,str(amount))
 
 func _draw()->void:
 	if game!=null and game.get("hero") is Dictionary:
@@ -47,8 +47,12 @@ func _draw()->void:
 
 func _draw_aura(pos:Vector2,color:Color)->void:
 	var pulse:float=0.5+0.5*sin(elapsed*3.5)
-	draw_arc(pos,23.0+2.0*pulse,0.0,TAU,40,Color(color,0.12+0.08*pulse),2.0)
-	draw_arc(pos,28.0+2.0*pulse,elapsed,elapsed+1.8,24,Color(color,0.22),1.0)
+	draw_arc(pos,25.0+3.0*pulse,0.0,TAU,48,Color(color,0.12+0.08*pulse),2.0)
+	draw_arc(pos,32.0+3.0*pulse,elapsed,elapsed+1.8,32,Color(color,0.22),1.0)
+	for i in range(8):
+		var a:float=elapsed*0.7+float(i)*TAU/8.0
+		var mote:Vector2=pos+Vector2(cos(a)*28.0,sin(a)*14.0-8.0)
+		draw_circle(mote,1.5+0.8*sin(elapsed*4.0+float(i)),Color(color,0.55))
 
 func _draw_pet_link(hero_pos:Vector2,color:Color)->void:
 	var pet_pos:Vector2=hero_pos+Vector2(34.0,24.0)
@@ -65,42 +69,63 @@ func _draw_effect(e:Dictionary)->void:
 	var kind:String=str(e["kind"])
 	var alpha:float=1.0-t
 	if kind=="hero_attack":
-		var radius:float=18.0+34.0*t
-		draw_arc(pos,radius,-0.9,0.9,18,Color(1.0,0.82,0.32,alpha),4.0)
+		_draw_slash(pos,t,alpha,s,Color("#ffd36b"))
 	elif kind=="pet_attack":
-		for j in range(4):
-			var a:float=float(j)*1.57+t*2.0
-			var p:Vector2=pos+Vector2(cos(a),sin(a))*(10.0+24.0*t)*s
-			draw_line(pos,p,Color(0.65,0.9,1.0,alpha),3.0)
+		for j in range(8):
+			var a:float=float(j)*TAU/8.0+t*3.0
+			var inner:float=8.0+12.0*t
+			var outer:float=inner+30.0*(1.0-t)*s
+			draw_line(pos+Vector2(cos(a),sin(a))*inner,pos+Vector2(cos(a),sin(a))*outer,Color(0.65,0.9,1.0,alpha),3.0)
+		_draw_ring(pos,20.0+30.0*t,alpha,Color("#8fe8ff"),2.0)
 	elif kind=="skill":
-		draw_circle(pos,16.0+55.0*t*s,Color(0.65,0.45,1.0,alpha*0.16))
-		draw_arc(pos,18.0+50.0*t*s,t*4.0,t*4.0+4.6,28,Color(0.82,0.68,1.0,alpha),3.0)
-		if t<0.75: _draw_label(pos+Vector2(-45,-34*t),str(e.get("text","SKILL")),alpha)
+		_draw_magic_circle(pos,t,alpha,s,Color("#b98cff"))
+		_draw_label(pos+Vector2(-48,-42-18*t),str(e.get("text","SKILL")),alpha)
 	elif kind=="ultimate":
-		var radius:float=25.0+110.0*t*s
-		draw_circle(pos,radius,Color(0.75,0.55,1.0,alpha*0.08))
-		draw_arc(pos,radius,-t*TAU,t*TAU,48,Color(1.0,0.82,0.28,alpha),5.0)
-		draw_arc(pos,radius*0.68,t*TAU,-t*TAU,40,Color(0.55,0.8,1.0,alpha),3.0)
-		_draw_label(pos+Vector2(-70,-55*t),str(e.get("text","ULTIMATE")),alpha)
+		_draw_magic_circle(pos,t,alpha,s,Color("#ffd35c"))
+		_draw_ring(pos,35.0+125.0*t*s,alpha,Color("#fff0a3"),5.0)
+		for j in range(12):
+			var a:float=elapsed*1.2+float(j)*TAU/12.0
+			var p:Vector2=pos+Vector2(cos(a),sin(a))*((35.0+105.0*t)*s)
+			draw_circle(p,3.0*(1.0-t),Color(0.7,0.85,1.0,alpha))
+		_draw_label(pos+Vector2(-72,-62-24*t),str(e.get("text","ULTIMATE")),alpha)
 	elif kind=="hit" or kind=="critical":
-		var rays:int=8 if kind=="critical" else 5
+		var rays:int=12 if kind=="critical" else 7
 		for j in range(rays):
-			var a:float=float(j)*TAU/float(rays)+t
-			var inner:float=8.0+10.0*t
-			var outer:float=inner+20.0*(1.0-t)*s
-			draw_line(pos+Vector2(cos(a),sin(a))*inner,pos+Vector2(cos(a),sin(a))*outer,Color(1.0,0.72,0.28,alpha),3.0 if kind=="critical" else 2.0)
-		_draw_label(pos+Vector2(-15,-30-18*t),str(e.get("text","0")),alpha)
+			var a:float=float(j)*TAU/float(rays)+t*2.0
+			var inner:float=7.0+12.0*t
+			var outer:float=inner+30.0*(1.0-t)*s
+			draw_line(pos+Vector2(cos(a),sin(a))*inner,pos+Vector2(cos(a),sin(a))*outer,Color(1.0,0.72,0.28,alpha),4.0 if kind=="critical" else 2.0)
+		_draw_ring(pos,12.0+22.0*t,alpha,Color("#ffb347"),2.0)
+		_draw_label(pos+Vector2(-15,-34-18*t),str(e.get("text","0")),alpha)
 	elif kind=="death":
-		draw_circle(pos,18.0+48.0*t,Color(0.95,0.85,0.45,alpha*0.14))
-		for j in range(7):
-			var a:float=float(j)*TAU/7.0
-			var p:Vector2=pos+Vector2(cos(a),sin(a))*(12.0+45.0*t)
-			draw_circle(p,3.0*(1.0-t),Color(1.0,0.85,0.4,alpha))
+		_draw_ring(pos,20.0+58.0*t,alpha,Color("#ffe08a"),3.0)
+		for j in range(12):
+			var a:float=float(j)*TAU/12.0+elapsed
+			var p:Vector2=pos+Vector2(cos(a),sin(a))*(12.0+52.0*t)
+			draw_circle(p,4.0*(1.0-t),Color(1.0,0.85,0.4,alpha))
 	elif kind=="heal":
-		for j in range(3):
-			var p:Vector2=pos+Vector2(-12.0+j*12.0,-18.0-38.0*t-float(j)*5.0)
+		_draw_ring(pos,20.0+38.0*t,alpha,Color("#8dffb1"),2.0)
+		for j in range(5):
+			var p:Vector2=pos+Vector2(-20.0+j*10.0,-18.0-48.0*t-float(j)*5.0)
 			draw_circle(p,4.0*(1.0-t),Color(0.55,1.0,0.72,alpha))
-		_draw_label(pos+Vector2(-18,-30-20*t),"+"+str(e.get("text","0")),alpha)
+		_draw_label(pos+Vector2(-18,-34-20*t),"+"+str(e.get("text","0")),alpha)
+
+func _draw_slash(pos:Vector2,t:float,alpha:float,s:float,color:Color)->void:
+	var start:float=-2.3+t*2.8
+	var finish:float=start+1.8
+	draw_arc(pos,25.0+34.0*t*s,start,finish,32,Color(color,alpha),6.0)
+	draw_arc(pos,30.0+34.0*t*s,start,finish,32,Color(1.0,1.0,1.0,alpha*0.8),2.0)
+
+func _draw_magic_circle(pos:Vector2,t:float,alpha:float,s:float,color:Color)->void:
+	_draw_ring(pos,18.0+62.0*t*s,alpha,color,3.0)
+	draw_arc(pos,30.0+42.0*t*s,-elapsed*1.5,TAU-elapsed*1.5,64,Color(color,alpha*0.8),2.0)
+	for j in range(6):
+		var a:float=elapsed+float(j)*TAU/6.0
+		var p:Vector2=pos+Vector2(cos(a),sin(a))*((18.0+42.0*t)*s)
+		draw_circle(p,2.5*(1.0-t),Color(color,alpha))
+
+func _draw_ring(pos:Vector2,radius:float,alpha:float,color:Color,width:float)->void:
+	draw_arc(pos,radius,0.0,TAU,64,Color(color,alpha),width)
 
 func _draw_label(pos:Vector2,text:String,alpha:float)->void:
-	draw_string(ThemeDB.fallback_font,pos,text,HORIZONTAL_ALIGNMENT_LEFT,-1,14,Color(1.0,1.0,1.0,alpha))
+	draw_string(ThemeDB.fallback_font,pos,text,HORIZONTAL_ALIGNMENT_LEFT,-1,15,Color(1.0,1.0,1.0,alpha))
