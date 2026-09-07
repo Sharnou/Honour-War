@@ -14,8 +14,8 @@ var selected_skill_id:String=""
 func _ready()->void:
 	game=get_parent()
 	build()
-	visible=false
-	refresh()
+	panel.visible=false
+	call_deferred("refresh")
 
 func build()->void:
 	open_button=Button.new()
@@ -68,26 +68,30 @@ func build()->void:
 	detail_panel.add_child(use)
 
 func toggle()->void:
-	visible=not visible
+	panel.visible=not panel.visible
 	refresh()
 
 func _input(event:InputEvent)->void:
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode==KEY_K:
 		toggle()
 		return
-	if not visible: return
+	if not panel.visible: return
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.keycode>=KEY_1 and event.keycode<=KEY_8:
 			var index:=int(event.keycode-KEY_1)
-			var ids:=SkillSystem.skill_map(str(game.get("hero").get("class","Warrior"))).keys()
+			var hero_value=game.get("hero")
+			if not hero_value is Dictionary: return
+			var hero:Dictionary=hero_value
+			var ids:=SkillSystem.all_skills(str(hero.get("class","Warrior")))
 			if index<ids.size():
-				selected_skill_id=str(ids[index])
+				selected_skill_id=str(ids[index]["id"])
 				use_skill(selected_skill_id)
 
 func refresh()->void:
 	if game==null or not game.get("hero") is Dictionary: return
 	var hero:Dictionary=game.get("hero")
 	SkillSystem.ensure_state(hero)
+	if title_label==null or points_label==null or tree_box==null: return
 	title_label.text="HONOUR WAR — %s SKILL TREE" % str(hero.get("class","Warrior"))
 	points_label.text="Skill Points: %d   |   Hero Lv.%d" % [int(hero.get("skill_points",0)),int(hero.get("level",1))]
 	for child in tree_box.get_children(): child.queue_free()
@@ -127,8 +131,10 @@ func select_skill(skill_id:String)->void:
 	update_detail()
 
 func update_detail()->void:
-	if game==null or selected_skill_id=="": return
-	var hero:Dictionary=game.get("hero")
+	if game==null or selected_skill_id=="" or detail_label==null: return
+	var hero_value=game.get("hero")
+	if not hero_value is Dictionary: return
+	var hero:Dictionary=hero_value
 	var skills:=SkillSystem.skill_map(str(hero.get("class","Warrior")))
 	if not skills.has(selected_skill_id): return
 	var skill:Dictionary=skills[selected_skill_id]
