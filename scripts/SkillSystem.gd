@@ -16,55 +16,142 @@ static func trees() -> Dictionary:
 
 static func s(id:String,name:String,tier:int,cost:int,max_level:int,required_level:int,requires:Array,kind:String,power:int,sp_cost:int,cooldown:float,description:String)->Dictionary:
 	return {"id":id,"name":name,"tier":tier,"cost":cost,"max_level":max_level,"required_level":required_level,"requires":requires,"kind":kind,"power":power,"sp_cost":sp_cost,"cooldown":cooldown,"description":description}
+
 static func all_skills(class_id:String)->Array: return trees().get(class_id,trees()["Warrior"])
+
 static func skill_map(class_id:String)->Dictionary:
 	var result:Dictionary={}
 	for skill in all_skills(class_id): result[skill["id"]]=skill
 	return result
+
 static func ensure_state(hero:Dictionary)->void:
 	if not hero.has("skill_levels"): hero["skill_levels"]={}
 	if not hero.has("skill_points"): hero["skill_points"]=max(0,int(hero.get("level",1))-1)
 	if not hero.has("skill_cooldowns"): hero["skill_cooldowns"]={}
+	if not hero.has("skill_points_level"): hero["skill_points_level"]=int(hero.get("level",1))
+	var current_level:=int(hero.get("level",1))
+	var recorded_level:=int(hero.get("skill_points_level",current_level))
+	if current_level>recorded_level:
+		hero["skill_points"]=min(MAX_SKILL_POINTS,int(hero.get("skill_points",0))+(current_level-recorded_level))
+		hero["skill_points_level"]=current_level
 	var valid:=skill_map(str(hero.get("class","Warrior")))
 	for id in valid.keys():
 		if not hero["skill_levels"].has(id): hero["skill_levels"][id]=0
 	var basic_id:=str(valid.keys()[0])
 	if int(hero["skill_levels"].get(basic_id,0))<1: hero["skill_levels"][basic_id]=1
+
 static func can_learn(hero:Dictionary,skill_id:String)->bool:
-	ensure_state(hero); var skills:=skill_map(str(hero.get("class","Warrior")))
+	ensure_state(hero)
+	var skills:=skill_map(str(hero.get("class","Warrior")))
 	if not skills.has(skill_id): return false
-	var skill:Dictionary=skills[skill_id]; var current:=int(hero["skill_levels"].get(skill_id,0))
+	var skill:Dictionary=skills[skill_id]
+	var current:=int(hero["skill_levels"].get(skill_id,0))
 	if current>=int(skill["max_level"]) or int(hero.get("level",1))<int(skill["required_level"]) or int(hero.get("skill_points",0))<int(skill["cost"]): return false
 	for req in skill["requires"]:
 		if int(hero["skill_levels"].get(req,0))<1: return false
 	return true
+
 static func learn(hero:Dictionary,skill_id:String)->bool:
 	if not can_learn(hero,skill_id): return false
 	var skill:=skill_map(str(hero.get("class","Warrior")))[skill_id]
-	hero["skill_points"]-=int(skill["cost"]); hero["skill_levels"][skill_id]=int(hero["skill_levels"].get(skill_id,0))+1
+	hero["skill_points"]-=int(skill["cost"])
+	hero["skill_levels"][skill_id]=int(hero["skill_levels"].get(skill_id,0))+1
 	return true
+
 static func skill_level(hero:Dictionary,skill_id:String)->int:
-	ensure_state(hero); return int(hero["skill_levels"].get(skill_id,0))
-static func power(hero:Dictionary,skill_id:String)->int:
-	var skills:=skill_map(str(hero.get("class","Warrior")))
-	if not skills.has(skill_id): return 0
-	var skill:Dictionary=skills[skill_id]; var level:=skill_level(hero,skill_id)
-	return int(skill["power"])+max(0,level-1)*int(skill["power"])/3
-static func sp_cost(hero:Dictionary,skill_id:String)->int:
-	var skills:=skill_map(str(hero.get("class","Warrior")))
-	if not skills.has(skill_id): return 0
-	return int(skills[skill_id]["sp_cost"])+max(0,skill_level(hero,skill_id)-1)*2
-static func is_ready(hero:Dictionary,skill_id:String,now:float)->bool: return float(hero.get("skill_cooldowns",{}).get(skill_id,0.0))<=now
-static func use(hero:Dictionary,skill_id:String,now:float)->Dictionary:
-	ensure_state(hero); var skills:=skill_map(str(hero.get("class","Warrior")))
-	if not skills.has(skill_id) or skill_level(hero,skill_id)<=0: return {"ok":false,"reason":"locked"}
-	if not is_ready(hero,skill_id,now): return {"ok":false,"reason":"cooldown"}
-	var cost:=sp_cost(hero,skill_id)
-	if int(hero.get("sp",0))<cost: return {"ok":false,"reason":"sp"}
-	hero["sp"]-=cost; hero["skill_cooldowns"][skill_id]=now+float(skills[skill_id]["cooldown"])
-	return {"ok":true,"skill":skills[skill_id],"level":skill_level(hero,skill_id),"power":power(hero,skill_id),"sp_cost":cost}
+	ensure_state(hero)
+	return int(hero["skill_levels"].get(skill_id,0))
+
 static func passive_power_bonus(hero:Dictionary)->int:
 	var total:=0
 	for skill in all_skills(str(hero.get("class","Warrior"))):
 		if skill["kind"]=="passive": total+=skill_level(hero,skill["id"])*int(skill["power"])/5
 	return total
+
+static func passive_damage_multiplier(hero:Dictionary)->float:
+	var multiplier:=1.0
+	for skill in all_skills(str(hero.get("class","Warrior"))):
+		var level:=skill_level(hero,skill["id"])
+		if level<=0 or skill["kind"]!="passive": continue
+		multiplier+=float(level*int(skill["power"]))/500.0
+	if str(hero.get("class","Warrior"))=="Warrior":
+		var hp_ratio:=float(hero.get("hp",0))/max(1.0,float(hero.get("max_hp",1)))
+		if hp_ratio<0.40: multiplier+=0.10
+	return multiplier
+
+static func passive_sp_bonus(hero:Dictionary)->int:
+	var bonus:=0
+	if str(hero.get("class","Warrior"))=="Mage": bonus+=skill_level(hero,"mage_mana_mastery")*8
+	return bonus
+
+static func combat_stats(hero:Dictionary)->Dictionary:
+	ensure_state(hero)
+	var max_sp:=int(hero.get("max_sp",100))+passive_sp_bonus(hero)
+	var power_bonus:=passive_power_bonus(hero)
+	return {"power_bonus":power_bonus,"damage_multiplier":passive_damage_multiplier(hero),"max_sp":max_sp,"crit_bonus":passive_crit_bonus(hero),"defense_bonus":passive_defense_bonus(hero),"healing_bonus":passive_healing_bonus(hero),"refine_bonus":passive_refine_bonus(hero)}
+
+static func passive_crit_bonus(hero:Dictionary)->int:
+	var total:=0
+	if str(hero.get("class","Warrior"))=="Archer": total+=skill_level(hero,"arch_eagle_eye")*2+skill_level(hero,"arch_deadeye")*3
+	if str(hero.get("class","Warrior"))=="Thief": total+=skill_level(hero,"thief_assassin_instinct")*4
+	return total
+
+static func passive_defense_bonus(hero:Dictionary)->int:
+	var total:=0
+	if str(hero.get("class","Warrior"))=="Warrior": total+=skill_level(hero,"war_berserker")*2
+	if str(hero.get("class","Warrior"))=="Acolyte": total+=skill_level(hero,"aco_divine_grace")*2+skill_level(hero,"aco_blessing")*3
+	if str(hero.get("class","Warrior"))=="Merchant": total+=skill_level(hero,"mer_overcharge")*2
+	return total
+
+static func passive_healing_bonus(hero:Dictionary)->int:
+	if str(hero.get("class","Warrior"))=="Acolyte": return skill_level(hero,"aco_divine_grace")*4+skill_level(hero,"aco_blessing")*6
+	return 0
+
+static func passive_refine_bonus(hero:Dictionary)->int:
+	if str(hero.get("class","Warrior"))=="Merchant": return skill_level(hero,"mer_master_crafter")
+	return 0
+
+static func power(hero:Dictionary,skill_id:String)->int:
+	var skills:=skill_map(str(hero.get("class","Warrior")))
+	if not skills.has(skill_id): return 0
+	var skill:Dictionary=skills[skill_id]
+	var level:=skill_level(hero,skill_id)
+	var value:=int(skill["power"])+max(0,level-1)*int(skill["power"])/3
+	if skill["kind"]!="passive": value+=passive_power_bonus(hero)
+	value=int(round(float(value)*passive_damage_multiplier(hero)))
+	return value
+
+static func sp_cost(hero:Dictionary,skill_id:String)->int:
+	var skills:=skill_map(str(hero.get("class","Warrior")))
+	if not skills.has(skill_id): return 0
+	return int(skills[skill_id]["sp_cost"])+max(0,skill_level(hero,skill_id)-1)*2
+
+static func is_ready(hero:Dictionary,skill_id:String,now:float)->bool:
+	return float(hero.get("skill_cooldowns",{}).get(skill_id,0.0))<=now
+
+static func use(hero:Dictionary,skill_id:String,now:float)->Dictionary:
+	ensure_state(hero)
+	var skills:=skill_map(str(hero.get("class","Warrior")))
+	if not skills.has(skill_id) or skill_level(hero,skill_id)<=0: return {"ok":false,"reason":"locked"}
+	var skill:Dictionary=skills[skill_id]
+	if skill["kind"]=="passive": return {"ok":false,"reason":"passive"}
+	if not is_ready(hero,skill_id,now): return {"ok":false,"reason":"cooldown"}
+	var cost:=sp_cost(hero,skill_id)
+	if int(hero.get("sp",0))<cost: return {"ok":false,"reason":"sp"}
+	hero["sp"]-=cost
+	hero["skill_cooldowns"][skill_id]=now+float(skill["cooldown"])
+	return {"ok":true,"skill":skill,"level":skill_level(hero,skill_id),"power":power(hero,skill_id),"sp_cost":cost,"stats":combat_stats(hero)}
+
+static func effect_text(hero:Dictionary,skill_id:String)->String:
+	var skills:=skill_map(str(hero.get("class","Warrior")))
+	if not skills.has(skill_id): return ""
+	var skill:Dictionary=skills[skill_id]
+	if skill["kind"]=="passive": return "Passive effect is always active."
+	match skill_id:
+		"war_guardian_roar": return "Defense strengthened for the hero and pet."
+		"mage_frost_prison": return "Target is slowed by the frost field."
+		"thief_smoke": return "Hero gains a short evasion window."
+		"aco_sanctuary", "aco_seraphic_light", "aco_heaven_gate": return "Holy recovery effect restores the hero."
+		"mer_fortify": return "Defense strengthened and refinement efficiency improved."
+		"mer_arsenal_overlord": return "Hero and pet equipment receive a temporary power surge."
+		_: return "Direct combat damage."
