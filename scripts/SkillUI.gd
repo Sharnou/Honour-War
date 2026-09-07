@@ -15,11 +15,17 @@ var combat_vfx:CombatVFX
 func _ready()->void:
 	game=get_parent()
 	combat_vfx=CombatVFX.new()
-	game.add_child(combat_vfx)
-	combat_vfx.setup(game)
+	call_deferred("_add_combat_vfx")
 	build()
 	panel.visible=false
 	call_deferred("refresh")
+
+func _add_combat_vfx()->void:
+	if combat_vfx==null or game==null:
+		return
+	if combat_vfx.get_parent()==null:
+		game.add_child(combat_vfx)
+	combat_vfx.setup(game)
 
 func build()->void:
 	open_button=Button.new()

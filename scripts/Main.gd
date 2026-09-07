@@ -501,7 +501,7 @@ func craft()->void:
 		return
 	hero["materials"]["Phracon"]-=2
 	hero["zeny"]-=80
-	var item:=CLASSES[hero["class"]]["weapon"]+" Core"
+	var item:String=CLASSES[hero["class"]]["weapon"]+" Core"
 	hero["inventory"][item]=int(hero["inventory"].get(item,0))+1
 	log_message("Crafted %s." % item)
 	save_game()
