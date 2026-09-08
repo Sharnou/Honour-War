@@ -22,7 +22,13 @@ static func all() -> Dictionary:
 		"Ancient Golem Card":{"monster":"Ancient Golem","rarity":"MVP","slot":"Armor","bonus":"+25 defense and stagger resistance","power":55,"defense":25,"stagger_resist":25},
 		"Thanatos Card":{"monster":"Thanatos","rarity":"MVP","slot":"Weapon","bonus":"+25% boss damage","power":65,"boss_damage_percent":25.0},
 		"Moonlight Dragon Card":{"monster":"Moonlight Dragon","rarity":"MVP","slot":"Accessory","bonus":"+20% XP and +10% movement","power":60,"xp_percent":20.0,"move_percent":10.0},
-		"Abyss Emperor Card":{"monster":"Abyss Emperor","rarity":"MVP","slot":"Weapon","bonus":"+30% all damage","power":80,"damage_percent":30.0,"boss_damage_percent":30.0,"all_rewards_percent":5.0}
+		"Abyss Emperor Card":{"monster":"Abyss Emperor","rarity":"MVP","slot":"Weapon","bonus":"+30% all damage","power":80,"damage_percent":30.0,"boss_damage_percent":30.0,"all_rewards_percent":5.0},
+		"Super Orc Lord Card":{"monster":"Orc Lord","rarity":"MVP","slot":"Armor","bonus":"+25% HP, +35 defense, +10% boss damage","power":100,"hp_percent":25.0,"defense":35,"boss_damage_percent":10.0,"super_card":true},
+		"Super Baphomet Card":{"monster":"Baphomet","rarity":"MVP","slot":"Weapon","bonus":"+35% physical damage, +15% boss damage","power":110,"damage_percent":35.0,"boss_damage_percent":15.0,"super_card":true},
+		"Super Evil Druid Lord Card":{"monster":"Evil Druid Lord","rarity":"MVP","slot":"Accessory","bonus":"+35% magic damage, +15% dark damage","power":110,"magic_damage_percent":35.0,"dark_percent":15.0,"super_card":true},
+		"Super Fire Dragon Card":{"monster":"Fire Dragon","rarity":"MVP","slot":"Weapon","bonus":"+40% fire damage, +15% boss damage","power":120,"fire_percent":40.0,"boss_damage_percent":15.0,"super_card":true},
+		"Super Thanatos Card":{"monster":"Thanatos","rarity":"MVP","slot":"Weapon","bonus":"+45% boss damage, +20% all damage","power":140,"boss_damage_percent":45.0,"damage_percent":20.0,"super_card":true},
+		"Super Abyss Emperor Card":{"monster":"Abyss Emperor","rarity":"MVP","slot":"Weapon","bonus":"+55% all damage, +30% boss damage, +10% rewards","power":180,"damage_percent":55.0,"boss_damage_percent":30.0,"all_rewards_percent":10.0,"super_card":true}
 	}
 
 static func for_monster(monster_name:String)->String:
@@ -54,6 +60,7 @@ static func apply_effect(result:Dictionary,card_name:String,hero:Dictionary,slot
 	result["move_percent"]+=float(data.get("move_percent",0.0))
 	result["fire_percent"]+=float(data.get("fire_percent",0.0))
 	result["ice_resist_percent"]+=float(data.get("ice_resist_percent",0.0))
+	result["dark_percent"]+=float(data.get("dark_percent",0.0))
 	result["all_rewards_percent"]+=float(data.get("all_rewards_percent",0.0))
 	result["poison_resist"]+=int(data.get("poison_resist",0))
 	result["power_bonus"] = int(result.get("power_bonus",0))+int(data.get("power",0))
