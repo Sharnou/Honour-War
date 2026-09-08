@@ -1,10 +1,12 @@
 class_name HDChatBootstrap
 extends CanvasLayer
 
+const ChatService = preload("res://scripts/ChatService.gd")
+
 @export var chat_panel_scene: PackedScene
 @export var toggle_key := KEY_ENTER
-var chat_service: ChatService
-var chat_dock: Control
+var chat_service:Node
+var chat_dock:Control
 
 func _ready() -> void:
     layer = 20
