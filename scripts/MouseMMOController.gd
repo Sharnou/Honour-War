@@ -27,16 +27,16 @@ func _ready()->void:
 	call_deferred("_build_cursor_marker")
 
 func _process(delta:float)->void:
-	if legacy==null or camera==null: return
+	if legacy==null or camera==null or not camera.is_inside_tree(): return
 	attack_timer=max(0.0,attack_timer-delta)
 	auto_scan_timer=max(0.0,auto_scan_timer-delta)
 	var hero_value:Variant=legacy.get("hero")
 	if not hero_value is Dictionary: return
 	var hero:Dictionary=hero_value
 
-	# Ragnarok-style default auto-combat: the hero continuously acquires the
-	# nearest living monster when there is no explicit mouse-selected target.
-	if auto_attack_enabled and attack_target.is_empty() and auto_scan_timer<=0.0:
+	# Never steal a player-issued ground movement command. Auto-combat resumes
+	# after the requested destination is reached.
+	if auto_attack_enabled and not has_move_target and attack_target.is_empty() and auto_scan_timer<=0.0:
 		auto_scan_timer=AUTO_ATTACK_SCAN_INTERVAL
 		var nearest:Dictionary=_find_nearest_monster(hero)
 		if not nearest.is_empty():
@@ -54,10 +54,8 @@ func _process(delta:float)->void:
 			var min_y:float=ORIGIN_Y
 			var max_x:float=ORIGIN_X+float(map_data.get("width",1200))-1.0
 			var max_y:float=ORIGIN_Y+float(map_data.get("height",700))-1.0
-			var next_x:float=clamp(float(hero["pos_x"])+direction.x*step,min_x,max_x)
-			var next_y:float=clamp(float(hero["pos_y"])+direction.y*step,min_y,max_y)
-			hero["pos_x"]=next_x
-			hero["pos_y"]=next_y
+			hero["pos_x"]=clamp(float(hero["pos_x"])+direction.x*step,min_x,max_x)
+			hero["pos_y"]=clamp(float(hero["pos_y"])+direction.y*step,min_y,max_y)
 		else:
 			hero["pos_x"]=target_2d.x
 			hero["pos_y"]=target_2d.y
@@ -99,12 +97,13 @@ func _find_nearest_monster(hero:Dictionary)->Dictionary:
 			best=monster
 	return best
 
-func _unhandled_input(event:InputEvent)->void:
+func _input(event:InputEvent)->void:
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index==MOUSE_BUTTON_LEFT or event.button_index==MOUSE_BUTTON_RIGHT:
 			_handle_mouse_click(event.position)
 
 func _handle_mouse_click(screen_position:Vector2)->void:
+	if camera==null or not camera.is_inside_tree(): return
 	var gate:Node=_pick_warp_gate(screen_position)
 	if gate!=null:
 		if gate.has_method("activate"): gate.call("activate")
@@ -114,11 +113,15 @@ func _handle_mouse_click(screen_position:Vector2)->void:
 	var monster:Dictionary=_pick_monster(screen_position)
 	if not monster.is_empty():
 		attack_target=monster
-		has_move_target=true
-		mouse_target=_map_to_world(monster.get("pos",Vector2.ZERO))
+		var monster_pos:Variant=monster.get("pos",Vector2.ZERO)
+		if monster_pos is Vector2:
+			has_move_target=true
+			mouse_target=_map_to_world(monster_pos as Vector2)
 		return
 	var world_point:Vector3=_screen_to_ground(screen_position)
 	if world_point==Vector3.INF: return
+	# Empty-ground click = authoritative movement command. Clear combat target
+	# so nearest-monster auto-acquisition cannot immediately redirect the hero.
 	attack_target={}
 	mouse_target=world_point
 	has_move_target=true
