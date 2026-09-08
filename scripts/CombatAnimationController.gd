@@ -55,7 +55,7 @@ func _build_animation_trees()->void:
 
 func _make_tree(player:AnimationPlayer)->AnimationTree:
     var tree:=AnimationTree.new()
-    tree.anim_player=tree.get_path_to(player)
+    tree.anim_player=NodePath("../"+player.name)
     var machine:=AnimationNodeStateMachine.new()
     machine.add_node("idle",_animation_node("idle"),Vector2(-360,0))
     machine.add_node("walk",_animation_node("walk"),Vector2(-80,0))
