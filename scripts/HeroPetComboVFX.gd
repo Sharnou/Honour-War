@@ -15,12 +15,9 @@ func _ready()->void:
     combo=game.get_node_or_null("HeroPetComboSystem") if game else null
     events=game.get_node_or_null("CombatEventBus") if game else null
     if combo:
-        if combo.has_signal("combo_changed"):
-            combo.combo_changed.connect(_on_combo_changed)
-        if combo.has_signal("combo_triggered"):
-            combo.combo_triggered.connect(_on_combo_triggered)
-    if events and events.has_signal("target_changed"):
-        events.target_changed.connect(_on_target_changed)
+        if combo.has_signal("combo_changed"): combo.combo_changed.connect(_on_combo_changed)
+        if combo.has_signal("combo_triggered"): combo.combo_triggered.connect(_on_combo_triggered)
+    if events and events.has_signal("target_changed"): events.target_changed.connect(_on_target_changed)
     _build_lock_ring()
     call_deferred("_sync_target")
 
@@ -31,8 +28,7 @@ func _process(delta:float)->void:
         lock_ring.rotation.y=elapsed*1.8
         lock_ring.scale=Vector3.ONE*(1.0+sin(elapsed*5.0)*0.04)
         lock_ring.visible=lock_target!=null and is_instance_valid(lock_target)
-        if lock_target!=null and is_instance_valid(lock_target):
-            lock_ring.global_position=lock_target.global_position+Vector3(0.0,0.05,0.0)
+        if lock_target!=null and is_instance_valid(lock_target): lock_ring.global_position=lock_target.global_position+Vector3(0.0,0.05,0.0)
     for effect in active_effects.duplicate():
         if not is_instance_valid(effect):
             active_effects.erase(effect)
@@ -47,12 +43,11 @@ func _process(delta:float)->void:
 
 func _set_effect_alpha(effect:Node3D,alpha:float)->void:
     if effect==null or not is_instance_valid(effect): return
-    var material:Material=effect.get("material_override") as Material
-    if material is StandardMaterial3D:
-        var standard:StandardMaterial3D=material
-        var base:Color=standard.albedo_color
-        standard.albedo_color=Color(base.r,base.g,base.b,alpha)
-        standard.transparency=BaseMaterial3D.TRANSPARENCY_ALPHA
+    var material:=effect.get("material_override") as StandardMaterial3D
+    if material==null: return
+    var base:=material.albedo_color
+    material.albedo_color=Color(base.r,base.g,base.b,alpha)
+    material.transparency=BaseMaterial3D.TRANSPARENCY_ALPHA
 
 func _build_lock_ring()->void:
     lock_ring=MeshInstance3D.new()
@@ -78,8 +73,7 @@ func _sync_target()->void:
     var combat:Node=events.get("combat") as Node
     if combat==null: return
     var value:Variant=combat.get("target")
-    if value is Dictionary:
-        _on_target_changed(value)
+    if value is Dictionary: _on_target_changed(value)
 
 func _on_target_changed(target:Dictionary)->void:
     lock_target=null
@@ -88,8 +82,7 @@ func _on_target_changed(target:Dictionary)->void:
     var visuals:Variant=game.get("monster_visuals")
     if visuals is Dictionary and visuals.has(id):
         var candidate:Variant=visuals[id]
-        if candidate is Node3D and is_instance_valid(candidate):
-            lock_target=candidate
+        if candidate is Node3D and is_instance_valid(candidate): lock_target=candidate
 
 func _on_combo_changed(count:int,_grade:String)->void:
     if count>=5:
@@ -97,32 +90,31 @@ func _on_combo_changed(count:int,_grade:String)->void:
         _draw_bond_link(0.16,0.8+min(0.9,float(count)*0.025))
 
 func _on_combo_triggered(name:String,count:int)->void:
-    if name=="Bond Finisher":
-        _spawn_finisher_burst(count)
-    elif count>=5:
-        _spawn_milestone_burst(count)
+    if name=="Bond Finisher": _spawn_finisher_burst(count)
+    elif count>=5: _spawn_milestone_burst(count)
 
 func _draw_bond_link(duration:float,width:float)->void:
     var hero:Node3D=game.get("hero_visual") as Node3D
     var pet:Node3D=game.get("pet_visual") as Node3D
-    if hero==null or pet==null: return
-    var midpoint:Vector3=(hero.global_position+pet.global_position)*0.5+Vector3(0.0,0.8,0.0)
-    var beam:=_beam(hero.global_position+Vector3(0,0.7,0),pet.global_position+Vector3(0,0.7,0),width)
-    beam.set_meta("ttl",duration)
-    active_effects.append(beam)
-    add_child(beam)
-    if lock_target!=null and is_instance_valid(lock_target):
-        var beam2:=_beam(pet.global_position+Vector3(0,0.7,0),lock_target.global_position+Vector3(0,0.7,0),width*0.7)
-        beam2.set_meta("ttl",duration)
-        active_effects.append(beam2)
-        add_child(beam2)
+    if hero==null or pet==null or not hero.is_inside_tree() or not pet.is_inside_tree(): return
+    var hero_pos:=hero.global_position+Vector3(0,0.7,0)
+    var pet_pos:=pet.global_position+Vector3(0,0.7,0)
+    var midpoint:Vector3=(hero_pos+pet_pos)*0.5+Vector3(0.0,0.8,0.0)
+    var beam:=_beam(hero_pos,pet_pos,width)
+    _activate(beam,duration)
+    if lock_target!=null and is_instance_valid(lock_target) and lock_target.is_inside_tree():
+        var target_pos:=lock_target.global_position+Vector3(0,0.7,0)
+        var beam2:=_beam(pet_pos,target_pos,width*0.7)
+        _activate(beam2,duration)
     var orb:=_orb(midpoint,0.16+width*0.06)
-    orb.set_meta("ttl",duration)
-    active_effects.append(orb)
-    add_child(orb)
+    _activate(orb,duration)
+
+func _activate(effect:Node3D,duration:float)->void:
+    effect.set_meta("ttl",duration)
+    active_effects.append(effect)
 
 func _spawn_milestone_burst(count:int)->void:
-    if lock_target==null or not is_instance_valid(lock_target): return
+    if lock_target==null or not is_instance_valid(lock_target) or not lock_target.is_inside_tree(): return
     var ring:=MeshInstance3D.new()
     var mesh:=TorusMesh.new()
     mesh.inner_radius=0.42+float(count)*0.012
@@ -130,19 +122,17 @@ func _spawn_milestone_burst(count:int)->void:
     mesh.rings=36
     mesh.ring_segments=12
     ring.mesh=mesh
-    ring.global_position=lock_target.global_position+Vector3(0,0.12,0)
-    var mat:=_glow_material(Color(1.0,0.78,0.18),3.2)
-    ring.material_override=mat
-    ring.set_meta("ttl",0.55)
-    active_effects.append(ring)
     add_child(ring)
+    ring.global_position=lock_target.global_position+Vector3(0,0.12,0)
+    ring.material_override=_glow_material(Color(1.0,0.78,0.18),3.2)
+    _activate(ring,0.55)
 
 func _spawn_finisher_burst(count:int)->void:
     var hero:Node3D=game.get("hero_visual") as Node3D
     var pet:Node3D=game.get("pet_visual") as Node3D
-    if hero==null or pet==null: return
+    if hero==null or pet==null or not hero.is_inside_tree() or not pet.is_inside_tree(): return
     var center:Vector3=(hero.global_position+pet.global_position)*0.5+Vector3(0,1.0,0)
-    if lock_target!=null and is_instance_valid(lock_target): center=(center+lock_target.global_position+Vector3(0,0.7,0))*0.5
+    if lock_target!=null and is_instance_valid(lock_target) and lock_target.is_inside_tree(): center=(center+lock_target.global_position+Vector3(0,0.7,0))*0.5
     var ring:=MeshInstance3D.new()
     var mesh:=TorusMesh.new()
     mesh.inner_radius=0.2
@@ -150,19 +140,16 @@ func _spawn_finisher_burst(count:int)->void:
     mesh.rings=48
     mesh.ring_segments=16
     ring.mesh=mesh
-    ring.global_position=center
-    var mat:=_glow_material(Color(1.0,0.62,0.08),5.0)
-    ring.material_override=mat
-    ring.set_meta("ttl",0.9)
-    active_effects.append(ring)
     add_child(ring)
+    ring.global_position=center
+    ring.material_override=_glow_material(Color(1.0,0.62,0.08),5.0)
+    _activate(ring,0.9)
     _draw_bond_link(0.8,1.7+min(1.0,float(count)*0.03))
-    if lock_target!=null and is_instance_valid(lock_target):
+    if lock_target!=null and is_instance_valid(lock_target) and lock_target.is_inside_tree():
+        var target_pos:=lock_target.global_position+Vector3(0,0.7,0)
         for angle in range(0,360,45):
-            var spoke:=_beam(center,lock_target.global_position+Vector3(cos(deg_to_rad(float(angle)))*0.35,0.5,sin(deg_to_rad(float(angle)))*0.35),0.35)
-            spoke.set_meta("ttl",0.5)
-            active_effects.append(spoke)
-            add_child(spoke)
+            var spoke:=_beam(center,target_pos+Vector3(cos(deg_to_rad(float(angle)))*0.35,0.5,sin(deg_to_rad(float(angle)))*0.35),0.35)
+            _activate(spoke,0.5)
 
 func _beam(from:Vector3,to:Vector3,width:float)->MeshInstance3D:
     var node:=MeshInstance3D.new()
@@ -172,9 +159,12 @@ func _beam(from:Vector3,to:Vector3,width:float)->MeshInstance3D:
     mesh.height=max(0.05,from.distance_to(to))
     mesh.radial_segments=10
     node.mesh=mesh
+    add_child(node)
     node.global_position=(from+to)*0.5
-    node.look_at(to,Vector3.UP)
-    node.rotate_object_local(Vector3.RIGHT,PI*0.5)
+    var direction:=to-from
+    if direction.length_squared()>0.0001:
+        node.look_at_from_position(node.global_position,to,Vector3.UP)
+        node.rotate_object_local(Vector3.RIGHT,PI*0.5)
     node.material_override=_glow_material(Color(1.0,0.78,0.25),3.8)
     return node
 
@@ -186,6 +176,7 @@ func _orb(position:Vector3,radius:float)->MeshInstance3D:
     mesh.radial_segments=16
     mesh.rings=8
     node.mesh=mesh
+    add_child(node)
     node.global_position=position
     node.material_override=_glow_material(Color(1.0,0.85,0.35),4.0)
     return node
