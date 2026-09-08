@@ -5,6 +5,10 @@ var game:Node3D
 var legacy:Node2D
 var hero_player:AnimationPlayer
 var pet_player:AnimationPlayer
+var hero_tree:AnimationTree
+var pet_tree:AnimationTree
+var hero_machine:AnimationNodeStateMachinePlayback
+var pet_machine:AnimationNodeStateMachinePlayback
 var last_hero_pos:=Vector2.ZERO
 var elapsed:=0.0
 var hero_pulse:=0.0
@@ -22,6 +26,7 @@ func _ready()->void:
     if game!=null:
         legacy=game.get_node_or_null("LegacyGame")
     _build_animation_players()
+    _build_animation_trees()
     set_process(true)
 
 func _build_animation_players()->void:
@@ -33,6 +38,52 @@ func _build_animation_players()->void:
     pet_player.name="PetAnimationPlayer"
     add_child(pet_player)
     pet_player.add_animation_library("",_build_library(true))
+
+func _build_animation_trees()->void:
+    hero_tree=_make_tree(hero_player)
+    hero_tree.name="HeroAnimationTree"
+    add_child(hero_tree)
+    pet_tree=_make_tree(pet_player)
+    pet_tree.name="PetAnimationTree"
+    add_child(pet_tree)
+    hero_machine=hero_tree.get("parameters/playback") as AnimationNodeStateMachinePlayback
+    pet_machine=pet_tree.get("parameters/playback") as AnimationNodeStateMachinePlayback
+    if hero_machine!=null:
+        hero_machine.start("idle")
+    if pet_machine!=null:
+        pet_machine.start("idle")
+
+func _make_tree(player:AnimationPlayer)->AnimationTree:
+    var tree:=AnimationTree.new()
+    tree.anim_player=tree.get_path_to(player)
+    var machine:=AnimationNodeStateMachine.new()
+    machine.add_node("idle",_animation_node("idle"),Vector2(-360,0))
+    machine.add_node("walk",_animation_node("walk"),Vector2(-80,0))
+    machine.add_node("attack",_animation_node("attack"),Vector2(200,-100))
+    machine.add_node("hit",_animation_node("hit"),Vector2(200,100))
+    _add_transition(machine,"idle","walk",0.10)
+    _add_transition(machine,"walk","idle",0.10)
+    _add_transition(machine,"idle","attack",0.04)
+    _add_transition(machine,"walk","attack",0.04)
+    _add_transition(machine,"idle","hit",0.03)
+    _add_transition(machine,"walk","hit",0.03)
+    _add_transition(machine,"attack","idle",0.08)
+    _add_transition(machine,"attack","walk",0.08)
+    _add_transition(machine,"hit","idle",0.06)
+    tree.tree_root=machine
+    tree.active=true
+    return tree
+
+func _animation_node(animation_name:String)->AnimationNodeAnimation:
+    var node:=AnimationNodeAnimation.new()
+    node.animation=StringName(animation_name)
+    return node
+
+func _add_transition(machine:AnimationNodeStateMachine,from:String,to:String,fade:float)->void:
+    var transition:=AnimationNodeStateMachineTransition.new()
+    transition.xfade_time=fade
+    transition.advance_mode=AnimationNodeStateMachineTransition.ADVANCE_MODE_ENABLED
+    machine.add_transition(from,to,transition)
 
 func _build_library(is_pet:bool)->AnimationLibrary:
     var library:=AnimationLibrary.new()
@@ -124,16 +175,21 @@ func _process(delta:float)->void:
             _set_hero_state("walk" if moving else "idle")
         last_hero_pos=hero_pos
     if pet_node!=null and pet_attack_lock<=0.0 and pet_pulse<=0.0:
-        if pet_player.current_animation!="idle":
-            pet_player.play("idle",0.10)
+        _set_pet_state("idle")
     _update_monster_motion()
     _watch_combat_effects()
 
 func _set_hero_state(state:String)->void:
-    if hero_player==null or hero_state==state:
+    if hero_machine==null or hero_state==state:
         return
     hero_state=state
-    hero_player.play(state,0.10)
+    hero_machine.travel(state)
+
+func _set_pet_state(state:String)->void:
+    if pet_machine==null:
+        return
+    if str(pet_machine.get_current_node())!=state:
+        pet_machine.travel(state)
 
 func _update_monster_motion()->void:
     var monsters_value:Variant=legacy.get("monsters")
@@ -225,16 +281,16 @@ func _watch_combat_effects()->void:
 func trigger_hero_attack()->void:
     hero_pulse=1.0
     hero_attack_lock=0.34
-    if hero_player!=null:
-        hero_player.play("attack",0.05)
+    if hero_machine!=null:
+        hero_machine.travel("attack")
 
 func trigger_pet_attack()->void:
     pet_pulse=1.0
     pet_attack_lock=0.30
-    if pet_player!=null:
-        pet_player.play("attack",0.05)
+    if pet_machine!=null:
+        pet_machine.travel("attack")
 
 func trigger_hit()->void:
     hit_pulse=1.0
-    if hero_player!=null:
-        hero_player.play("hit",0.04)
+    if hero_machine!=null:
+        hero_machine.travel("hit")
