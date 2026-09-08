@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3]
+[gd_scene load_steps=20 format=3]
 
 [ext_resource path="res://scripts/Game3D.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/Main.gd" type="Script" id="2"]
@@ -17,6 +17,8 @@
 [ext_resource path="res://scripts/CombatAnimationController.gd" type="Script" id="15"]
 [ext_resource path="res://scripts/HDVisualDirector.gd" type="Script" id="16"]
 [ext_resource path="res://scripts/EquipmentOverlay3D.gd" type="Script" id="17"]
+[ext_resource path="res://scripts/CombatReactionDirector.gd" type="Script" id="18"]
+[ext_resource path="res://scripts/HeroAgePetDirector.gd" type="Script" id="19"]
 
 [node name="HonourWar3D" type="Node3D"]
 script = ExtResource("1")
@@ -26,6 +28,12 @@ script = ExtResource("16")
 
 [node name="CombatAnimationController" type="Node3D" parent="."]
 script = ExtResource("15")
+
+[node name="CombatReactionDirector" type="Node3D" parent="."]
+script = ExtResource("18")
+
+[node name="HeroAgePetDirector" type="Node3D" parent="."]
+script = ExtResource("19")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 position = Vector3(0,12.5,15.8)
