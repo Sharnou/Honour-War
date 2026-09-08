@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3]
+[gd_scene load_steps=23 format=3]
 
 [ext_resource path="res://scripts/Game3D.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/Main.gd" type="Script" id="2"]
@@ -10,7 +10,7 @@
 [ext_resource path="res://scripts/CharacterDetail3D.gd" type="Script" id="8"]
 [ext_resource path="res://scripts/PetDetail3D.gd" type="Script" id="9"]
 [ext_resource path="res://scripts/WarpGates3D.gd" type="Script" id="10"]
-[ext_resource path="res://scripts/MouseMMOController.gd" type="Script" id="11"]
+[ext_resource path="res://scripts/MouseMMOControllerV2.gd" type="Script" id="11"]
 [ext_resource path="res://scripts/Combat3DBridge.gd" type="Script" id="12"]
 [ext_resource path="res://scripts/CombatVFX.gd" type="Script" id="13"]
 [ext_resource path="res://scripts/CombatNumberRelay.gd" type="Script" id="14"]
@@ -20,6 +20,8 @@
 [ext_resource path="res://scripts/CombatReactionDirector.gd" type="Script" id="18"]
 [ext_resource path="res://scripts/HeroAgePetDirector.gd" type="Script" id="19"]
 [ext_resource path="res://scripts/AttackPointDirector.gd" type="Script" id="20"]
+[ext_resource path="res://scripts/WorldPopulationDirector.gd" type="Script" id="21"]
+[ext_resource path="res://scripts/MapDetailDirector.gd" type="Script" id="22"]
 
 [node name="HonourWar3D" type="Node3D"]
 script = ExtResource("1")
@@ -39,12 +41,18 @@ script = ExtResource("20")
 [node name="HeroAgePetDirector" type="Node3D" parent="."]
 script = ExtResource("19")
 
+[node name="WorldPopulationDirector" type="Node" parent="."]
+script = ExtResource("21")
+
+[node name="MapDetailDirector" type="Node3D" parent="."]
+script = ExtResource("22")
+
 [node name="Camera3D" type="Camera3D" parent="."]
-position = Vector3(0,12.5,15.8)
+position = Vector3(0,13.5,17.5)
 rotation_degrees = Vector3(-38,0,0)
 current = true
 projection = 1
-size = 13.0
+size = 16.0
 
 [node name="LegacyGame" type="Node2D" parent="."]
 visible = false
