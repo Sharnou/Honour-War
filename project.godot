@@ -1,6 +1,6 @@
 [application]
 config/name="Honour War"
-run/main_scene="res://Main.tscn"
+run/main_scene="res://Main3D.tscn"
 config/features=PackedStringArray("4.2")
 
 [display]
