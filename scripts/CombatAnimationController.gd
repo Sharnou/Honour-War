@@ -15,6 +15,7 @@ var pet_attack_lock:=0.0
 var hero_state:String=""
 var monster_hp_cache:Dictionary={}
 var monster_hit_timer:Dictionary={}
+var monster_base_y:Dictionary={}
 
 func _ready()->void:
     game=get_parent() as Node3D
@@ -151,6 +152,9 @@ func _update_monster_motion()->void:
         var visual:Node3D=visuals[id] as Node3D
         if visual==null:
             continue
+        if not monster_base_y.has(id):
+            monster_base_y[id]=visual.position.y
+        var base_y:float=float(monster_base_y[id])
         var hp:int=int(monster.get("hp",0))
         var old_hp:int=int(monster_hp_cache.get(id,hp))
         if hp<old_hp:
@@ -161,7 +165,7 @@ func _update_monster_motion()->void:
         var boss:bool=bool(monster.get("mvp",false))
         var bob_speed:float=2.6 if boss else 3.4
         var bob_amount:float=0.055 if boss else 0.035
-        var target_y:float=sin(elapsed*bob_speed+float(id.hash()%17))*bob_amount
+        var target_y:float=base_y+sin(elapsed*bob_speed+float(id.hash()%17))*bob_amount
         visual.position.y=lerp(visual.position.y,target_y,0.10)
         var target_scale:Vector3=Vector3.ONE*(1.08 if boss else 1.0)
         if hit>0.0:
@@ -174,6 +178,7 @@ func _update_monster_motion()->void:
         if not active.has(id):
             monster_hp_cache.erase(id)
             monster_hit_timer.erase(id)
+            monster_base_y.erase(id)
 
 func delta_rotation(boss:bool)->float:
     return (0.0035 if boss else 0.0020)*sin(elapsed*1.7)
