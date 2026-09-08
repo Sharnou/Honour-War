@@ -2,9 +2,9 @@ class_name ChatDock
 extends Control
 
 @export var chat_service: ChatService
-@onready var channel_tabs: OptionButton = get_node_or_null("ChannelTabs")
-@onready var message_list: RichTextLabel = get_node_or_null("MessageList")
-@onready var input_box: LineEdit = get_node_or_null("InputBox")
+@onready var channel_tabs: OptionButton = get_node_or_null("Margin/VBox/ChannelTabs")
+@onready var message_list: RichTextLabel = get_node_or_null("Margin/VBox/MessageList")
+@onready var input_box: LineEdit = get_node_or_null("Margin/VBox/InputBox")
 
 var active_channel := "General"
 
@@ -18,6 +18,9 @@ func _ready() -> void:
         channel_tabs.item_selected.connect(_on_channel_selected)
     if input_box:
         input_box.text_submitted.connect(_on_text_submitted)
+    if message_list:
+        message_list.bbcode_enabled = true
+        message_list.scroll_following = true
 
 func _on_channel_selected(index: int) -> void:
     if channel_tabs and index >= 0 and index < ChatService.CHANNELS.size():
@@ -43,8 +46,8 @@ func _on_message_received(message: Dictionary) -> void:
     if chat_service and chat_service.is_hidden(message):
         return
     if message_list:
-        message_list.append_text("[" + str(message.get("channel", "General")) + "] " + str(message.get("sender_name", "Unknown")) + ": " + str(message.get("text", "")) + "\n")
+        message_list.append_text("[color=#9aa8c7][" + str(message.get("channel", "General")) + "][/color] " + str(message.get("sender_name", "Unknown")) + ": " + str(message.get("text", "")) + "\n")
 
 func _on_system_message(text: String) -> void:
     if message_list:
-        message_list.append_text("[System] " + text + "\n")
+        message_list.append_text("[color=#e5c07b][System][/color] " + text + "\n")
