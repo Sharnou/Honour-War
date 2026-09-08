@@ -1,0 +1,69 @@
+name: Expand 3D World and Mouse Movement
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  upgrade:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Patch world scale and controls
+        shell: python
+        run: |
+          from pathlib import Path
+
+          main = Path('scripts/Main.gd')
+          text = main.read_text(encoding='utf-8')
+
+          old = '''\tvar speed:=180.0*(1.0+float(equipment.get("move_percent",0.0))/100.0)\n\thero["pos_x"]=clamp(float(hero["pos_x"])+move.x*speed*delta,365.0,1107.0)\n\thero["pos_y"]=clamp(float(hero["pos_y"])+move.y*speed*delta,120.0,420.0)'''
+          new = '''\tvar speed:=180.0*(1.0+float(equipment.get("move_percent",0.0))/100.0)\n\tvar current_map:Dictionary=TeleportSystem.MAPS.get(int(hero.get("map_id",0)),{})\n\tvar min_x:float=365.0\n\tvar min_y:float=120.0\n\tvar max_x:float=min_x+float(current_map.get("width",1200))-1.0\n\tvar max_y:float=min_y+float(current_map.get("height",700))-1.0\n\thero["pos_x"]=clamp(float(hero["pos_x"])+move.x*speed*delta,min_x,max_x)\n\thero["pos_y"]=clamp(float(hero["pos_y"])+move.y*speed*delta,min_y,max_y)'''
+          if old in text:
+              text=text.replace(old,new)
+
+          old = '''\tmonsters.append({"name":family,"level":level,"pos":Vector2(rng.randf_range(410.0,1080.0),rng.randf_range(175.0,405.0)),"hp":stats["max_hp"],"max":stats["max_hp"],"attack":stats["attack"],"defense":stats["defense"],"exp":stats["exp"],"zmin":stats["zeny_min"],"zmax":stats["zeny_max"]})'''
+          new = '''\tvar map_data:Dictionary=TeleportSystem.MAPS.get(int(hero.get("map_id",10)),{})\n\tvar min_x:float=365.0+80.0\n\tvar min_y:float=120.0+80.0\n\tvar max_x:float=365.0+float(map_data.get("width",1400))-80.0\n\tvar max_y:float=120.0+float(map_data.get("height",900))-80.0\n\tmonsters.append({"name":family,"level":level,"pos":Vector2(rng.randf_range(min_x,max_x),rng.randf_range(min_y,max_y)),"hp":stats["max_hp"],"max":stats["max_hp"],"attack":stats["attack"],"defense":stats["defense"],"exp":stats["exp"],"zmin":stats["zeny_min"],"zmax":stats["zeny_max"]})'''
+          if old in text:
+              text=text.replace(old,new)
+
+          main.write_text(text,encoding='utf-8')
+
+          mouse = Path('scripts/MouseMMOController.gd')
+          text = mouse.read_text(encoding='utf-8')
+          old = '''\t\tif distance>7.0:\n\t\t\tvar step:float=min(distance,260.0*delta)\n\t\t\tvar direction:Vector2=hero_pos.direction_to(target_2d)\n\t\t\thero["pos_x"]=clamp(float(hero["pos_x"])+direction.x*step,365.0,1107.0)\n\t\t\thero["pos_y"]=clamp(float(hero["pos_y"])+direction.y*step,120.0,420.0)'''
+          new = '''\t\tif distance>7.0:\n\t\t\tvar step:float=min(distance,260.0*delta)\n\t\t\tvar direction:Vector2=hero_pos.direction_to(target_2d)\n\t\t\tvar map_data:Dictionary=TeleportSystem.MAPS.get(int(hero.get("map_id",0)),{})\n\t\t\tvar min_x:float=ORIGIN_X\n\t\t\tvar min_y:float=ORIGIN_Y\n\t\t\tvar max_x:float=ORIGIN_X+float(map_data.get("width",1200))-1.0\n\t\t\tvar max_y:float=ORIGIN_Y+float(map_data.get("height",700))-1.0\n\t\t\thero["pos_x"]=clamp(float(hero["pos_x"])+direction.x*step,min_x,max_x)\n\t\t\thero["pos_y"]=clamp(float(hero["pos_y"])+direction.y*step,min_y,max_y)'''
+          if old in text:
+              text=text.replace(old,new)
+          mouse.write_text(text,encoding='utf-8')
+
+      - name: Upgrade 3D roads and map scale
+        shell: python
+        run: |
+          from pathlib import Path
+          p=Path('scripts/Game3D.gd')
+          text=p.read_text(encoding='utf-8')
+          old='''\tvar ground:MeshInstance3D = MeshInstance3D.new()\n\tvar plane:PlaneMesh = PlaneMesh.new()\n\tplane.size = Vector2(42.0,18.0)\n\tground.mesh = plane\n\tground.position = Vector3(20.4,-0.05,8.2)\n\tground.material_override = _material(Color("#1a2e2d"),0.0,0.82)\n\tworld_root.add_child(ground)\n\tvar path:MeshInstance3D = MeshInstance3D.new()\n\tvar path_mesh:BoxMesh = BoxMesh.new()\n\tpath_mesh.size = Vector3(7.5,0.08,18.0)\n\tpath.mesh = path_mesh\n\tpath.position = Vector3(20.4,0.02,8.2)\n\tpath.material_override = _material(Color("#594a3d"),0.0,1.0)\n\tworld_root.add_child(path)\n\t_build_environment_objects()'''
+          new='''\tvar map_center:=Vector3(12.925,0.0,12.65)\n\tvar ground:MeshInstance3D = MeshInstance3D.new()\n\tvar plane:PlaneMesh = PlaneMesh.new()\n\tplane.size = Vector2(70.0,43.0)\n\tground.mesh = plane\n\tground.position = map_center-Vector3(0.0,0.05,0.0)\n\tground.material_override = _material(Color("#172825"),0.0,0.88)\n\tworld_root.add_child(ground)\n\t_build_road(map_center,Vector3(9.0,0.10,43.0),Color("#5b4b3e"))\n\t_build_road(map_center,Vector3(70.0,0.10,6.5),Color("#614f40"))\n\t_build_road(map_center+Vector3(0.0,0.03,-9.5),Vector3(56.0,0.08,4.2),Color("#725c48"))\n\t_build_road(map_center+Vector3(-17.0,0.04,6.5),Vector3(4.2,0.08,25.0),Color("#725c48"))\n\t_build_road(map_center+Vector3(17.0,0.04,6.5),Vector3(4.2,0.08,25.0),Color("#725c48"))\n\t_build_plaza(map_center+Vector3(0.0,0.08,5.0))\n\t_build_city_landmarks(map_center)\n\t_build_environment_objects()'''
+          if old in text:
+              text=text.replace(old,new)
+          anchor='''func _build_environment_objects() -> void:\n'''
+          helpers='''func _build_road(center:Vector3,size:Vector3,color:Color)->void:\n\tvar road:MeshInstance3D=MeshInstance3D.new()\n\tvar mesh:BoxMesh=BoxMesh.new()\n\tmesh.size=size\n\troad.mesh=mesh\n\troad.position=center+Vector3(0.0,-0.01,0.0)\n\troad.material_override=_material(color,0.0,1.0)\n\tworld_root.add_child(road)\n\nfunc _build_plaza(center:Vector3)->void:\n\tvar plaza:MeshInstance3D=MeshInstance3D.new()\n\tvar mesh:CylinderMesh=CylinderMesh.new()\n\tmesh.top_radius=4.8\n\tmesh.bottom_radius=4.8\n\tmesh.height=0.16\n\tplaza.mesh=mesh\n\tplaza.position=center\n\tplaza.material_override=_material(Color("#75624d"),0.0,0.92)\n\tworld_root.add_child(plaza)\n\tvar fountain:MeshInstance3D=_ring(Color("#6ecfff"),2.2,0.12)\n\tfountain.rotation_degrees.x=90.0\n\tfountain.position=center+Vector3(0.0,0.18,0.0)\n\tworld_root.add_child(fountain)\n\nfunc _build_city_landmarks(center:Vector3)->void:\n\tvar positions:Array[Vector3]=[center+Vector3(-12.0,2.0,-7.0),center+Vector3(12.0,2.0,-7.0),center+Vector3(-12.0,2.0,13.0),center+Vector3(12.0,2.0,13.0)]\n\tfor i in positions.size():\n\t\tvar building:MeshInstance3D=MeshInstance3D.new()\n\t\tvar mesh:BoxMesh=BoxMesh.new()\n\t\tmesh.size=Vector3(6.0,4.0,5.0)\n\t\tbuilding.mesh=mesh\n\t\tbuilding.position=positions[i]\n\t\tbuilding.material_override=_material(Color("#6b5547"),0.05,0.76)\n\t\tworld_root.add_child(building)\n\t\tvar roof:MeshInstance3D=MeshInstance3D.new()\n\t\tvar roof_mesh:CylinderMesh=CylinderMesh.new()\n\t\troof_mesh.top_radius=0.0\n\t\troof_mesh.bottom_radius=3.9\n\t\troof_mesh.height=2.3\n\t\troof.mesh=roof_mesh\n\t\troof.position=positions[i]+Vector3(0.0,3.0,0.0)\n\t\troof.material_override=_material(Color("#3b3138"),0.0,0.9)\n\t\tworld_root.add_child(roof)\n\n'''
+          if anchor in text and 'func _build_city_landmarks' not in text:
+              text=text.replace(anchor,helpers+anchor)
+          p.write_text(text,encoding='utf-8')
+
+      - name: Commit upgrade
+        shell: bash
+        run: |
+          git config user.name "honour-war-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add scripts/Main.gd scripts/Game3D.gd scripts/MouseMMOController.gd
+          git diff --cached --quiet && exit 0
+          git commit -m "Expand maps, roads, city landmarks and mouse movement"
+          git push
