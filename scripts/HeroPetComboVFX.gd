@@ -3,6 +3,7 @@ extends Node3D
 
 var game:Node3D
 var combo:Node
+var events:Node
 var active_effects:Array[Node3D]=[]
 var lock_ring:MeshInstance3D
 var lock_target:Node3D
@@ -12,21 +13,23 @@ var pulse:float=0.0
 func _ready()->void:
     game=get_parent() as Node3D
     combo=game.get_node_or_null("HeroPetComboSystem") if game else null
+    events=game.get_node_or_null("CombatEventBus") if game else null
     if combo:
         combo.combo_changed.connect(_on_combo_changed)
         combo.combo_triggered.connect(_on_combo_triggered)
-        combo.finisher_executed.connect(_on_finisher)
+    if events and events.has_signal("target_changed"):
+        events.target_changed.connect(_on_target_changed)
     _build_lock_ring()
+    call_deferred("_sync_target")
 
 func _process(delta:float)->void:
     elapsed+=delta
     pulse=max(0.0,pulse-delta)
-    _resolve_target()
     if lock_ring!=null:
         lock_ring.rotation.y=elapsed*1.8
         lock_ring.scale=Vector3.ONE*(1.0+sin(elapsed*5.0)*0.04)
-        lock_ring.visible=lock_target!=null
-        if lock_target!=null:
+        lock_ring.visible=lock_target!=null and is_instance_valid(lock_target)
+        if lock_target!=null and is_instance_valid(lock_target):
             lock_ring.global_position=lock_target.global_position+Vector3(0.0,0.05,0.0)
     for effect in active_effects.duplicate():
         if not is_instance_valid(effect):
@@ -59,23 +62,26 @@ func _build_lock_ring()->void:
     lock_ring.material_override=material
     add_child(lock_ring)
 
-func _resolve_target()->void:
-    if game==null: return
-    var combat:Node=game.get_node_or_null("LegacyGame/CombatRuntime")
+func _sync_target()->void:
+    if events==null:
+        return
+    var combat:Node=events.get("combat") as Node
     if combat==null:
-        lock_target=null
         return
     var value:Variant=combat.get("target")
-    if not value is Dictionary:
-        lock_target=null
+    if value is Dictionary:
+        _on_target_changed(value)
+
+func _on_target_changed(target:Dictionary)->void:
+    lock_target=null
+    if game==null or target.is_empty():
         return
-    var target:Dictionary=value
     var id:String=str(target.get("visual_id",target.get("name","")))
     var visuals:Variant=game.get("monster_visuals")
     if visuals is Dictionary and visuals.has(id):
-        lock_target=visuals[id] as Node3D
-    else:
-        lock_target=null
+        var candidate:Variant=visuals[id]
+        if candidate is Node3D and is_instance_valid(candidate):
+            lock_target=candidate
 
 func _on_combo_changed(count:int,_grade:String)->void:
     if count>=5:
@@ -88,9 +94,6 @@ func _on_combo_triggered(name:String,count:int)->void:
     elif count>=5:
         _spawn_milestone_burst(count)
 
-func _on_finisher(_damage:int,_target:Node)->void:
-    _spawn_finisher_burst(10)
-
 func _draw_bond_link(duration:float,width:float)->void:
     var hero:Node3D=game.get("hero_visual") as Node3D
     var pet:Node3D=game.get("pet_visual") as Node3D
@@ -100,7 +103,7 @@ func _draw_bond_link(duration:float,width:float)->void:
     beam.set_meta("ttl",duration)
     active_effects.append(beam)
     add_child(beam)
-    if lock_target!=null:
+    if lock_target!=null and is_instance_valid(lock_target):
         var beam2:=_beam(pet.global_position+Vector3(0,0.7,0),lock_target.global_position+Vector3(0,0.7,0),width*0.7)
         beam2.set_meta("ttl",duration)
         active_effects.append(beam2)
@@ -111,7 +114,7 @@ func _draw_bond_link(duration:float,width:float)->void:
     add_child(orb)
 
 func _spawn_milestone_burst(count:int)->void:
-    if lock_target==null: return
+    if lock_target==null or not is_instance_valid(lock_target): return
     var ring:=MeshInstance3D.new()
     var mesh:=TorusMesh.new()
     mesh.inner_radius=0.42+float(count)*0.012
@@ -131,7 +134,7 @@ func _spawn_finisher_burst(count:int)->void:
     var pet:Node3D=game.get("pet_visual") as Node3D
     if hero==null or pet==null: return
     var center:Vector3=(hero.global_position+pet.global_position)*0.5+Vector3(0,1.0,0)
-    if lock_target!=null: center=(center+lock_target.global_position+Vector3(0,0.7,0))*0.5
+    if lock_target!=null and is_instance_valid(lock_target): center=(center+lock_target.global_position+Vector3(0,0.7,0))*0.5
     var ring:=MeshInstance3D.new()
     var mesh:=TorusMesh.new()
     mesh.inner_radius=0.2
@@ -146,7 +149,7 @@ func _spawn_finisher_burst(count:int)->void:
     active_effects.append(ring)
     add_child(ring)
     _draw_bond_link(0.8,1.7+min(1.0,float(count)*0.03))
-    if lock_target!=null:
+    if lock_target!=null and is_instance_valid(lock_target):
         for angle in range(0,360,45):
             var spoke:=_beam(center,lock_target.global_position+Vector3(cos(deg_to_rad(float(angle)))*0.35,0.5,sin(deg_to_rad(float(angle)))*0.35),0.35)
             spoke.set_meta("ttl",0.5)
