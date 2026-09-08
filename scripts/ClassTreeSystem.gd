@@ -6,12 +6,12 @@ const TIER_NAMES:Dictionary={1:"Foundation",2:"Specialization",3:"Advanced",4:"M
 
 static func class_profile(class_id:String)->Dictionary:
     var profiles:Dictionary={
-        "Warrior":{"title":"Iron Vanguard","identity":"Front-line weapon master","branches":["Warlord","Guardian","Berserker"],"primary":"STR","secondary":"VIT"},
-        "Mage":{"title":"Astral Arcanist","identity":"Elemental and arcane caster","branches":["Elementalist","Voidcaller","Astral Sage"],"primary":"INT","secondary":"SP"},
-        "Archer":{"title":"Celestial Ranger","identity":"Precision ranged damage dealer","branches":["Sniper","Falconer","Trapper"],"primary":"DEX","secondary":"CRIT"},
-        "Thief":{"title":"Shadow Assassin","identity":"Critical burst and poison specialist","branches":["Assassin","Phantom","Venomblade"],"primary":"AGI","secondary":"CRIT"},
-        "Acolyte":{"title":"Divine Hierophant","identity":"Holy damage and party sustain","branches":["Priest","Saint","Exorcist"],"primary":"INT","secondary":"VIT"},
-        "Merchant":{"title":"Arsenal Master","identity":"Combat crafter and equipment specialist","branches":["Blacksmith","Alchemist","Arsenal Lord"],"primary":"STR","secondary":"LUK"}
+        "Warrior":{"title":"Iron Vanguard","identity":"Front-line weapon master","branches":["Warlord","Guardian","Berserker","Dragoon"],"primary":"STR","secondary":"VIT"},
+        "Mage":{"title":"Astral Arcanist","identity":"Elemental and arcane caster","branches":["Elementalist","Voidcaller","Astral Sage","Chronomancer"],"primary":"INT","secondary":"SP"},
+        "Archer":{"title":"Celestial Ranger","identity":"Precision ranged damage dealer","branches":["Sniper","Falconer","Trapper","Ballista"],"primary":"DEX","secondary":"CRIT"},
+        "Thief":{"title":"Shadow Assassin","identity":"Critical burst and poison specialist","branches":["Assassin","Phantom","Venomblade","Shadow Dancer"],"primary":"AGI","secondary":"CRIT"},
+        "Acolyte":{"title":"Divine Hierophant","identity":"Holy damage and party sustain","branches":["Priest","Saint","Exorcist","Oracle"],"primary":"INT","secondary":"VIT"},
+        "Merchant":{"title":"Arsenal Master","identity":"Combat crafter and equipment specialist","branches":["Blacksmith","Alchemist","Arsenal Lord","Tactician"],"primary":"STR","secondary":"LUK"}
     }
     return profiles.get(class_id,profiles["Warrior"])
 
@@ -29,12 +29,12 @@ static func branch_for_skill(skill_id:String)->String:
 
 static func branch_descriptions(class_id:String)->Dictionary:
     var descriptions:Dictionary={
-        "Warrior":{"Warlord":"Weapon damage, armor penetration and execution power.","Guardian":"Defense, taunt strength and survivability.","Berserker":"Critical burst and low-health damage."},
-        "Mage":{"Elementalist":"Elemental area damage and burn/freeze pressure.","Voidcaller":"Defense penetration, control and burst magic.","Astral Sage":"Mana efficiency, ultimate power and party utility."},
-        "Archer":{"Sniper":"Range, precision and critical damage.","Falconer":"Pet/Falcon synergy and sustained damage.","Trapper":"Control fields, slows and tactical area damage."},
-        "Thief":{"Assassin":"Critical burst and execution damage.","Phantom":"Evasion, stealth and mobility.","Venomblade":"Poison, damage-over-time and weakening effects."},
-        "Acolyte":{"Priest":"Healing, defense and party sustain.","Saint":"Holy power, blessings and recovery.","Exorcist":"Holy damage, undead/MVP pressure and purification."},
-        "Merchant":{"Blacksmith":"Weapon power, defense and refinement.","Alchemist":"Consumable efficiency, elemental pressure and sustain.","Arsenal Lord":"Pet/equipment synergy and high-end combat power."}
+        "Warrior":{"Warlord":"Weapon damage, armor penetration and execution power.","Guardian":"Defense, taunt strength and survivability.","Berserker":"Critical burst and low-health damage.","Dragoon":"Reach, mounted-style momentum and anti-MVP burst."},
+        "Mage":{"Elementalist":"Elemental area damage and burn/freeze pressure.","Voidcaller":"Defense penetration, control and burst magic.","Astral Sage":"Mana efficiency, ultimate power and party utility.","Chronomancer":"Cooldown control, tempo manipulation and sustained spell casting."},
+        "Archer":{"Sniper":"Range, precision and critical damage.","Falconer":"Pet/Falcon synergy and sustained damage.","Trapper":"Control fields, slows and tactical area damage.","Ballista":"Heavy ranged power, armor-breaking shots and siege pressure."},
+        "Thief":{"Assassin":"Critical burst and execution damage.","Phantom":"Evasion, stealth and mobility.","Venomblade":"Poison, damage-over-time and weakening effects.","Shadow Dancer":"Combo mobility, evasive burst and multi-target pressure."},
+        "Acolyte":{"Priest":"Healing, defense and party sustain.","Saint":"Holy power, blessings and recovery.","Exorcist":"Holy damage, undead/MVP pressure and purification.","Oracle":"Foresight, barrier support and high-impact divine control."},
+        "Merchant":{"Blacksmith":"Weapon power, defense and refinement.","Alchemist":"Consumable efficiency, elemental pressure and sustain.","Arsenal Lord":"Pet/equipment synergy and high-end combat power.","Tactician":"Battlefield control, team utility and resource efficiency."}
     }
     return descriptions.get(class_id,descriptions["Warrior"])
 
@@ -45,6 +45,7 @@ static func ensure_state(hero:Dictionary)->void:
     if not hero.has("class_mastery"): hero["class_mastery"]=0
     if str(hero.get("class_branch",""))!="" and not profile["branches"].has(str(hero.get("class_branch"))):
         hero["class_branch"]=""
+        hero["class_mastery"]=0
 
 static func tier_unlocked(hero:Dictionary,tier:int)->bool:
     return int(hero.get("level",1))>=int(TIER_LEVELS.get(tier,999))
@@ -75,6 +76,7 @@ static func capstone(class_id:String)->String:
 static func can_select_branch(hero:Dictionary,branch:String)->bool:
     ensure_state(hero)
     var profile:=class_profile(str(hero.get("class","Warrior")))
+    if str(hero.get("class_branch",""))!="": return false
     return int(hero.get("level",1))>=25 and profile["branches"].has(branch)
 
 static func select_branch(hero:Dictionary,branch:String)->bool:
@@ -100,26 +102,32 @@ static func branch_bonus(hero:Dictionary)->Dictionary:
             if branch=="Warlord": bonus["damage"]=0.12+0.10*mastery
             elif branch=="Guardian": bonus["defense"]=0.15+0.12*mastery
             elif branch=="Berserker": bonus["damage"]=0.08+0.18*mastery; bonus["crit"]=8.0+12.0*mastery
+            elif branch=="Dragoon": bonus["damage"]=0.10+0.16*mastery; bonus["range"]=12.0+8.0*mastery; bonus["crit"]=4.0+6.0*mastery
         "Mage":
             if branch=="Elementalist": bonus["damage"]=0.10+0.12*mastery; bonus["control"]=0.10+0.10*mastery
             elif branch=="Voidcaller": bonus["damage"]=0.14+0.14*mastery; bonus["control"]=0.15+0.10*mastery
             elif branch=="Astral Sage": bonus["sp_efficiency"]=0.12+0.13*mastery; bonus["damage"]=0.06+0.08*mastery
+            elif branch=="Chronomancer": bonus["sp_efficiency"]=0.10+0.15*mastery; bonus["damage"]=0.08+0.10*mastery; bonus["control"]=0.10+0.12*mastery
         "Archer":
             if branch=="Sniper": bonus["damage"]=0.10+0.12*mastery; bonus["crit"]=7.0+13.0*mastery; bonus["range"]=10.0+10.0*mastery
             elif branch=="Falconer": bonus["pet_power"]=0.15+0.20*mastery; bonus["damage"]=0.06+0.08*mastery
             elif branch=="Trapper": bonus["control"]=0.20+0.15*mastery; bonus["damage"]=0.08+0.10*mastery
+            elif branch=="Ballista": bonus["damage"]=0.14+0.18*mastery; bonus["crit"]=5.0+8.0*mastery; bonus["range"]=8.0+12.0*mastery
         "Thief":
             if branch=="Assassin": bonus["damage"]=0.12+0.15*mastery; bonus["crit"]=8.0+14.0*mastery
             elif branch=="Phantom": bonus["defense"]=0.08+0.12*mastery; bonus["control"]=0.08+0.12*mastery
             elif branch=="Venomblade": bonus["damage"]=0.10+0.14*mastery; bonus["control"]=0.18+0.12*mastery
+            elif branch=="Shadow Dancer": bonus["damage"]=0.12+0.16*mastery; bonus["crit"]=6.0+10.0*mastery; bonus["range"]=4.0+6.0*mastery
         "Acolyte":
             if branch=="Priest": bonus["healing"]=0.18+0.17*mastery; bonus["defense"]=0.08+0.08*mastery
             elif branch=="Saint": bonus["healing"]=0.10+0.12*mastery; bonus["damage"]=0.12+0.14*mastery
             elif branch=="Exorcist": bonus["damage"]=0.16+0.18*mastery; bonus["control"]=0.10+0.10*mastery
+            elif branch=="Oracle": bonus["healing"]=0.12+0.16*mastery; bonus["defense"]=0.10+0.10*mastery; bonus["control"]=0.12+0.10*mastery
         "Merchant":
             if branch=="Blacksmith": bonus["damage"]=0.10+0.12*mastery; bonus["defense"]=0.10+0.12*mastery
             elif branch=="Alchemist": bonus["healing"]=0.12+0.13*mastery; bonus["control"]=0.12+0.12*mastery
             elif branch=="Arsenal Lord": bonus["pet_power"]=0.14+0.20*mastery; bonus["damage"]=0.08+0.12*mastery
+            elif branch=="Tactician": bonus["damage"]=0.08+0.12*mastery; bonus["defense"]=0.08+0.12*mastery; bonus["control"]=0.12+0.13*mastery; bonus["sp_efficiency"]=0.06+0.09*mastery
     return bonus
 
 static func summary(hero:Dictionary)->Dictionary:
