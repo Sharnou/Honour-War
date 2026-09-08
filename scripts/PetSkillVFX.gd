@@ -50,7 +50,7 @@ func _material(emission:Color,alpha:float=0.85)->StandardMaterial3D:
 func _mesh_node(mesh:Mesh,position:Vector3,material:Material)->MeshInstance3D:
     var node:=MeshInstance3D.new()
     node.mesh=mesh
-    node.global_position=position+Vector3(0,0.08,0)
+    node.position=position+Vector3(0,0.08,0)
     node.material_override=material
     add_child(node)
     active.append(node)
@@ -105,7 +105,7 @@ func _meteor(position:Vector3,radius:float)->void:
     var node:=_mesh_node(sphere,position+Vector3(0,4.5,0),_material(Color(1.0,0.28,0.06)))
     var tween:=create_tween()
     tween.set_parallel(true)
-    tween.tween_property(node,"global_position",position+Vector3(0,0.35,0),0.32)
+    tween.tween_property(node,"position",position+Vector3(0,0.35,0),0.32)
     tween.tween_property(node,"scale",Vector3.ONE*1.5,0.32)
     tween.set_parallel(false)
     tween.tween_callback(func(): _burst(position,radius,1.7))
@@ -150,6 +150,14 @@ func _animate(node:Node3D,final_scale:Vector3,duration:float,rotation_speed:floa
     tween.set_parallel(true)
     tween.tween_property(node,"scale",final_scale,duration)
     tween.tween_property(node,"rotation:y",TAU*rotation_speed,duration)
-    tween.tween_property(node,"modulate:a",0.0,duration).set_delay(duration*0.25)
+    tween.tween_method(func(alpha:float): _set_material_alpha(node,alpha),1.0,0.0,duration).set_delay(duration*0.25)
     tween.set_parallel(false)
     tween.tween_callback(node.queue_free)
+
+func _set_material_alpha(node:Node3D,alpha:float)->void:
+    if node==null or not is_instance_valid(node): return
+    var material:=node.get("material_override") as StandardMaterial3D
+    if material==null: return
+    var base:=material.albedo_color
+    material.albedo_color=Color(base.r,base.g,base.b,alpha)
+    material.transparency=BaseMaterial3D.TRANSPARENCY_ALPHA
