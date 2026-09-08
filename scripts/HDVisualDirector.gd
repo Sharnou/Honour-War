@@ -24,9 +24,22 @@ func _process(delta:float) -> void:
 func _build_hd_presentation() -> void:
 	if not is_inside_tree():
 		return
+	_remove_legacy_root_lighting()
 	_build_environment()
 	_build_lights()
 	_build_atmosphere()
+
+func _remove_legacy_root_lighting() -> void:
+	var scene_root:Node = get_parent()
+	if scene_root == null:
+		return
+	for child in scene_root.get_children():
+		if child == self:
+			continue
+		if child is WorldEnvironment or child is DirectionalLight3D:
+			child.queue_free()
+		elif child is OmniLight3D and str(child.name).begins_with("HDFill") == false:
+			child.queue_free()
 
 func _build_environment() -> void:
 	world_environment = get_node_or_null("WorldEnvironment") as WorldEnvironment
@@ -45,7 +58,6 @@ func _build_environment() -> void:
 	environment.ambient_light_energy = 0.82
 	environment.reflected_light_source = Environment.REFLECTION_SOURCE_BG
 	environment.tonemap_mode = Environment.TONE_MAPPER_FILMIC
-	# Forward+ quality layer: use these features only on the production renderer.
 	environment.ssao_enabled = true
 	environment.ssao_radius = 2.2
 	environment.ssao_intensity = 2.0
