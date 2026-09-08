@@ -23,62 +23,46 @@ func _process(delta:float)->void:
 
 func _decorate_hero(hero:Node3D,game:Node)->void:
 	var key:int=hero.get_instance_id()
-	if decorated.has(key):
-		return
+	if decorated.has(key): return
 	decorated[key]=true
 	var class_id:String="Warrior"
 	var legacy:Node=game.get_node_or_null("LegacyGame")
 	if legacy!=null:
 		var hero_value:Variant=legacy.get("hero")
-		if hero_value is Dictionary:
-			class_id=str(hero_value.get("class","Warrior"))
-	if class_id=="Warrior":
-		_add_armor(hero,Color("#b83d32"),Color("#e3b766"),true)
-	elif class_id=="Mage":
-		_add_robe(hero,Color("#6253d8"),Color("#8fe7ff"))
-	elif class_id=="Archer":
-		_add_armor(hero,Color("#3d7c52"),Color("#d8c17b"),false)
-	elif class_id=="Thief":
-		_add_cloak(hero,Color("#45264e"),Color("#b56af0"))
-	elif class_id=="Acolyte":
-		_add_robe(hero,Color("#f0efe6"),Color("#ffd873"))
-	else:
-		_add_armor(hero,Color("#236d8d"),Color("#d5a84b"),false)
+		if hero_value is Dictionary: class_id=str(hero_value.get("class","Warrior"))
+	if class_id=="Warrior": _add_armor(hero,Color("#b83d32"),Color("#e3b766"),true)
+	elif class_id=="Mage": _add_robe(hero,Color("#6253d8"),Color("#8fe7ff"))
+	elif class_id=="Archer": _add_armor(hero,Color("#3d7c52"),Color("#d8c17b"),false)
+	elif class_id=="Thief": _add_cloak(hero,Color("#45264e"),Color("#b56af0"))
+	elif class_id=="Acolyte": _add_robe(hero,Color("#f0efe6"),Color("#ffd873"))
+	else: _add_armor(hero,Color("#236d8d"),Color("#d5a84b"),false)
 	_add_face(hero)
 	_add_belt_boots(hero)
 	_add_class_mark(hero,class_id)
 
 func _sync_equipment(hero:Node3D,game:Node)->void:
 	var legacy:Node=game.get_node_or_null("LegacyGame")
-	if legacy==null:
-		return
+	if legacy==null: return
 	var hero_value:Variant=legacy.get("hero")
-	if not hero_value is Dictionary:
-		return
+	if not hero_value is Dictionary: return
 	var data:Dictionary=hero_value
 	var equipment_value:Variant=data.get("equipment",{})
-	if not equipment_value is Dictionary:
-		return
+	if not equipment_value is Dictionary: return
 	var equipment:Dictionary=equipment_value
 	var signature:=JSON.stringify(equipment)
-	if signature==equipment_signature:
-		return
+	if signature==equipment_signature: return
 	equipment_signature=signature
 	var old:Node=hero.get_node_or_null("EquippedVisuals")
-	if old!=null:
-		old.queue_free()
-	var group:Node3D=Node3D.new()
+	if old!=null: old.queue_free()
+	var group:=Node3D.new()
 	group.name="EquippedVisuals"
 	hero.add_child(group)
 	for slot in EquipmentSystem.SLOTS:
 		var item_name:=str(equipment.get(slot,""))
-		if item_name=="":
-			continue
-		_add_equipped_piece(group,slot,item_name)
+		if item_name!="": _add_equipped_piece(group,slot,item_name)
 
 func _add_equipped_piece(group:Node3D,slot:String,item_name:String)->void:
-	var catalog:=ItemDatabase.all()
-	var data:Dictionary=catalog.get(EquipmentSystem.base_item_name(item_name),{})
+	var data:Dictionary=ItemDatabase.all().get(EquipmentSystem.base_item_name(item_name),{})
 	var glowing:bool=bool(data.get("glowing",false))
 	var rarity:=str(data.get("rarity","Common"))
 	var base_color:=_item_color(item_name,slot)
@@ -119,6 +103,14 @@ func _material(color:Color,metal:float=0.2,rough:float=0.55,glowing:bool=false)-
 		mat.emission=Color("#72eaff")
 		mat.emission_energy_multiplier=3.2
 	return mat
+
+func _mat(color:Color,metal:float=0.2,rough:float=0.55,glowing:bool=false)->StandardMaterial3D:
+	return _material(color,metal,rough,glowing)
+
+func _mesh_node(parent:Node3D,node_name:String,mesh:MeshInstance3D,pos:Vector3)->void:
+	mesh.name=node_name
+	mesh.position=pos
+	parent.add_child(mesh)
 
 func _piece(group:Node3D,name:String,mesh:MeshInstance3D,pos:Vector3,material:Material)->void:
 	mesh.name=name
@@ -203,14 +195,11 @@ func _make_accessory(group:Node3D,item:String,base:Color,trim:Color,glowing:bool
 func _animate(hero:Node3D)->void:
 	var breathing:float=sin(elapsed*2.1)*0.018
 	var armor:Node3D=hero.get_node_or_null("DetailArmor") as Node3D
-	if armor!=null:
-		armor.rotation.z=breathing
+	if armor!=null: armor.rotation.z=breathing
 	var cape:Node3D=hero.get_node_or_null("DetailCape") as Node3D
-	if cape!=null:
-		cape.rotation.x=sin(elapsed*1.8)*0.05
+	if cape!=null: cape.rotation.x=sin(elapsed*1.8)*0.05
 	var equipped:Node3D=hero.get_node_or_null("EquippedVisuals") as Node3D
-	if equipped!=null:
-		equipped.position.y=sin(elapsed*2.0)*0.008
+	if equipped!=null: equipped.position.y=sin(elapsed*2.0)*0.008
 
 func _add_armor(hero:Node3D,base:Color,trim:Color,heavy:bool)->void:
 	var group:Node3D=Node3D.new(); group.name="DetailArmor"; hero.add_child(group)
@@ -221,7 +210,7 @@ func _add_armor(hero:Node3D,base:Color,trim:Color,heavy:bool)->void:
 func _add_robe(hero:Node3D,robe:Color,glow:Color)->void:
 	var group:Node3D=Node3D.new(); group.name="DetailArmor"; hero.add_child(group)
 	var chest:MeshInstance3D=MeshInstance3D.new(); chest.mesh=SphereMesh.new(); chest.mesh.radius=0.58; chest.mesh.height=1.18; chest.material_override=_mat(robe,0.05,0.62); _mesh_node(group,"Robe",chest,Vector3(0,1.35,0))
-	var sash:MeshInstance3D=MeshInstance3D.new(); sash.mesh=BoxMesh.new(); sash.mesh.size=Vector3(0.88,0.10,0.08); sash.material_override=_mat(glow,0.1,0.34,glow); _mesh_node(group,"Sash",sash,Vector3(0,1.20,0.40))
+	var sash:MeshInstance3D=MeshInstance3D.new(); sash.mesh=BoxMesh.new(); sash.mesh.size=Vector3(0.88,0.10,0.08); sash.material_override=_mat(glow,0.1,0.34,true); _mesh_node(group,"Sash",sash,Vector3(0,1.20,0.40))
 
 func _add_cloak(hero:Node3D,cloak:Color,trim:Color)->void:
 	var group:Node3D=Node3D.new(); group.name="DetailArmor"; hero.add_child(group)
@@ -245,4 +234,4 @@ func _add_class_mark(hero:Node3D,class_id:String)->void:
 		"Thief": color=Color("#ff6fb0")
 		"Acolyte": color=Color("#fff0a3")
 		"Merchant": color=Color("#7ed7ff")
-	var mark:MeshInstance3D=MeshInstance3D.new(); mark.mesh=SphereMesh.new(); mark.mesh.radius=0.10; mark.mesh.height=0.18; mark.material_override=_mat(color,0.1,0.2,color); _mesh_node(hero,"ClassMark",mark,Vector3(0,1.72,0.38))
+	var mark:MeshInstance3D=MeshInstance3D.new(); mark.mesh=SphereMesh.new(); mark.mesh.radius=0.10; mark.mesh.height=0.18; mark.material_override=_mat(color,0.1,0.2,true); _mesh_node(hero,"ClassMark",mark,Vector3(0,1.72,0.38))
