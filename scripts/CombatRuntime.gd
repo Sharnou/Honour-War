@@ -148,8 +148,7 @@ func hero_strike(hero:Dictionary,monster:Dictionary)->void:
     if class_id=="Thief" and rng.randf()<0.35:
         monster["poison_until"]=now_seconds()+6.0
         monster["poison_tick"]=now_seconds()+1.0
-    if class_id=="Mage" and rng.randf()<0.20:
-        monster["slow_until"]=now_seconds()+3.0
+    if class_id=="Mage" and rng.randf()<0.20: monster["slow_until"]=now_seconds()+3.0
     call_vfx("hero_attack",monster["pos"],"",false)
     call_vfx("hit",monster["pos"],str(damage),critical)
     var prefix:String="CRITICAL " if critical else ""
@@ -191,14 +190,18 @@ func monster_phase(hero:Dictionary)->void:
     if not monsters is Array: return
     var hero_pos:=Vector2(float(hero.get("pos_x",0.0)),float(hero.get("pos_y",0.0)))
     var pet:Dictionary=hero.get("pet",{})
+    var now:float=now_seconds()
     for monster in monsters.duplicate():
         if not monster is Dictionary or int(monster.get("hp",0))<=0: continue
         if hero_pos.distance_to(monster["pos"])>MONSTER_RANGE: continue
         var attack:int=max(1,int(monster.get("attack",int(monster.get("level",1))*4)))
         if bool(monster.get("mvp",false)): attack=int(float(attack)*1.25)
         var role:=str(pet.get("role",""))
-        var target_pet:bool=(role=="Tank" or role=="Guardian") and int(pet.get("hp",0))>0 and rng.randf()<0.55
-        if float(hero.get("temporary_evasion_until",0.0))>now_seconds() and rng.randf()<0.40:
+        var pet_alive:bool=int(pet.get("hp",0))>0
+        var threat_active:bool=pet_alive and float(monster.get("target_pet_until",0.0))>now
+        var guard_active:bool=pet_alive and float(pet.get("guard_until",0.0))>now
+        var target_pet:bool=pet_alive and (role=="Tank" or role=="Guardian") and (threat_active or guard_active or rng.randf()<0.35)
+        if float(hero.get("temporary_evasion_until",0.0))>now and rng.randf()<0.40:
             call_vfx("miss",hero_pos,"MISS",false)
             continue
         if target_pet:
@@ -209,7 +212,7 @@ func monster_phase(hero:Dictionary)->void:
         else:
             var stats:Dictionary=SkillSystem.combat_stats(hero)
             var defense:int=int(stats["defense_bonus"])+int(hero.get("refine",0))
-            if float(hero.get("temporary_defense_until",0.0))>now_seconds(): defense+=20
+            if float(hero.get("temporary_defense_until",0.0))>now: defense+=20
             var hero_damage:int=max(1,attack-defense)
             hero["hp"]=max(0,int(hero.get("hp",0))-hero_damage)
             call_vfx("hit",hero_pos,str(hero_damage),false)
@@ -240,13 +243,11 @@ func revive_pet(hero:Dictionary)->void:
 
 func finish_monster(monster:Dictionary)->void:
     call_vfx("monster_death",monster["pos"],"",false)
-    if game.has_method("defeat_monster"):
-        game.call("defeat_monster",monster)
+    if game.has_method("defeat_monster"): game.call("defeat_monster",monster)
     var hero=game.get("hero")
     if hero is Dictionary:
         var gained:Array=LootSystem.on_monster_defeated(hero,monster,rng)
-        if gained.size()>0:
-            game.call("log_message","Auto-loot: %s" % ", ".join(gained))
+        if gained.size()>0: game.call("log_message","Auto-loot: %s" % ", ".join(gained))
         SaveSystem.save_game(hero)
     target=null
 
@@ -262,27 +263,7 @@ func respawn_hero(hero:Dictionary)->void:
 func now_seconds()->float:
     return Time.get_ticks_msec()/1000.0
 
-func _hd_feedback()->Node:
-    if game == null: return null
-    return game.get_parent().get_node_or_null("HDCombatFeedback")
-
-func _hd_world_position(position:Vector2)->Vector3:
-    return Vector3((position.x-595.0)*0.055,0.9,(position.y-340.0)*0.055)
-
-func _emit_hd_combat(kind:String,position:Vector2,text:String,critical:bool)->void:
-    var feedback:=_hd_feedback()
-    if feedback == null: return
-    var world_position:=_hd_world_position(position)
-    match kind:
-        "hit": feedback.show_damage(max(0,int(text)),world_position,critical)
-        "heal": feedback.show_damage(max(0,int(text)),world_position,false)
-        "mvp": feedback.show_telegraph("circle",world_position,2.2,0.9); feedback.play_skill_effect("mvp:"+text,world_position)
-        "pet_attack": feedback.play_skill_effect("pet:"+text,world_position)
-        "hero_attack": feedback.play_skill_effect("basic_attack",world_position)
-        "monster_death": feedback.play_skill_effect("monster_death",world_position)
-
 func call_vfx(kind:String,position:Vector2,text:String,critical:bool)->void:
-    _emit_hd_combat(kind,position,text,critical)
     var vfx=game.get_node_or_null("CombatVFX")
     if vfx==null: return
     match kind:
@@ -290,15 +271,12 @@ func call_vfx(kind:String,position:Vector2,text:String,critical:bool)->void:
         "pet_attack": vfx.pet_attack(position,text)
         "hit":
             vfx.hit(position,int(text),critical)
-            if game.has_method("show_3d_combat_number"):
-                game.call("show_3d_combat_number",position,int(text),critical,"enemy")
+            if game.has_method("show_3d_combat_number"): game.call("show_3d_combat_number",position,int(text),critical,"enemy")
         "miss":
             vfx.hit(position,0,critical)
-            if game.has_method("show_3d_combat_number"):
-                game.call("show_3d_combat_number",position,0,false,"enemy")
+            if game.has_method("show_3d_combat_number"): game.call("show_3d_combat_number",position,0,false,"enemy")
         "monster_death": vfx.monster_death(position)
         "heal":
             vfx.heal(position,int(text))
-            if game.has_method("show_3d_combat_number"):
-                game.call("show_3d_combat_number",position,int(text),false,"heal")
+            if game.has_method("show_3d_combat_number"): game.call("show_3d_combat_number",position,int(text),false,"heal")
         "mvp": vfx.skill_cast(position,text,true)
