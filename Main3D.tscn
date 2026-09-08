@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3]
+[gd_scene load_steps=34 format=3]
 
 [ext_resource path="res://scripts/Game3D.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/Main.gd" type="Script" id="2"]
@@ -32,6 +32,7 @@
 [ext_resource path="res://scripts/HDSkillPresentation.gd" type="Script" id="30"]
 [ext_resource path="res://scripts/PetSkillOverlay3D.gd" type="Script" id="31"]
 [ext_resource path="res://scripts/PetSkillRuntime.gd" type="Script" id="32"]
+[ext_resource path="res://scripts/PetCombatHUD3D.gd" type="Script" id="33"]
 
 [node name="HonourWar3D" type="Node3D"]
 script = ExtResource("1")
@@ -89,6 +90,9 @@ script = ExtResource("31")
 script = ExtResource("32")
 cast_interval = 3.5
 
+[node name="PetCombatHUD3D" type="CanvasLayer" parent="."]
+script = ExtResource("33")
+
 [node name="HDRuntimeIntegration" type="Node" parent="."]
 script = ExtResource("25")
 camera_director_path = NodePath("../HDPresentationDirector")
@@ -118,29 +122,3 @@ script = ExtResource("14")
 [node name="BattleVisuals" type="Node2D" parent="LegacyGame"]
 visible = false
 script = ExtResource("4")
-
-[node name="VisualPolish" type="Node2D" parent="LegacyGame"]
-visible = false
-script = ExtResource("5")
-
-[node name="SkillUI" type="CanvasLayer" parent="LegacyGame"]
-visible = false
-script = ExtResource("6")
-
-[node name="SkillOverlay3D" type="CanvasLayer" parent="."]
-script = ExtResource("7")
-
-[node name="EquipmentOverlay3D" type="CanvasLayer" parent="."]
-script = ExtResource("17")
-
-[node name="CharacterDetail3D" type="Node3D" parent="."]
-script = ExtResource("8")
-
-[node name="PetDetail3D" type="Node3D" parent="."]
-script = ExtResource("9")
-
-[node name="WarpGates3D" type="Node3D" parent="."]
-script = ExtResource("10")
-
-[node name="MouseMMOController" type="Node" parent="."]
-script = ExtResource("11")
