@@ -14,12 +14,20 @@ const DEFAULT_RULES := {
 	"pet_picks_up":true
 }
 
+const MVP_SUPER_CARD_DROP_RATE := 0.10
+const MVP_GLOWING_ITEM_DROP_RATE := 0.10
+const SUPER_CARDS := ["Super Orc Lord Card","Super Baphomet Card","Super Evil Druid Lord Card","Super Fire Dragon Card","Super Thanatos Card","Super Abyss Emperor Card"]
+const GLOWING_MVP_ITEMS := ["Super War Emperor Blade","Super Astral Sovereign Staff","Super Celestial Longbow","Super Eternal Assassin Blade","Super Heaven Gate Mace","Super Arsenal Overlord Hammer","Glowing Aegis of Honour","Glowing War Emperor Armor","Glowing Celestial Wing Mantle","Glowing Celestial Crown"]
+
 static func ensure_state(hero:Dictionary)->void:
 	if not hero.has("loot_rules") or not hero["loot_rules"] is Dictionary: hero["loot_rules"]=DEFAULT_RULES.duplicate(true)
 	else:
 		for key in DEFAULT_RULES.keys():
 			if not hero["loot_rules"].has(key): hero["loot_rules"][key]=DEFAULT_RULES[key]
-	if not hero.has("loot_stats"): hero["loot_stats"]={"items":0,"cards":0,"equipment":0,"materials":0,"zeny":0,"mvp_chests":0}
+	if not hero.has("loot_stats"): hero["loot_stats"]={"items":0,"cards":0,"equipment":0,"materials":0,"zeny":0,"mvp_chests":0,"super_cards":0,"glowing_items":0}
+	else:
+		for key in ["super_cards","glowing_items"]:
+			if not hero["loot_stats"].has(key): hero["loot_stats"][key]=0
 	if not hero.has("ground_loot") or not hero["ground_loot"] is Array: hero["ground_loot"]=[]
 
 static func is_enabled(hero:Dictionary)->bool:
@@ -69,6 +77,7 @@ static func add_item(hero:Dictionary,item_name:String,amount:int=1)->bool:
 	hero["loot_stats"]["items"]+=amount
 	if type in ["Weapon","Armor","Accessory"]: hero["loot_stats"]["equipment"]+=amount
 	if item_name=="MVP Treasure Chest": hero["loot_stats"]["mvp_chests"]+=amount
+	if item_name in GLOWING_MVP_ITEMS: hero["loot_stats"]["glowing_items"]+=amount
 	return true
 
 static func add_material(hero:Dictionary,item_name:String,amount:int=1)->bool:
@@ -83,6 +92,7 @@ static func add_card(hero:Dictionary,card_name:String)->bool:
 	if hero["cards"].has(card_name): return false
 	hero["cards"].append(card_name)
 	hero["loot_stats"]["cards"]+=1
+	if card_name in SUPER_CARDS: hero["loot_stats"]["super_cards"]+=1
 	return true
 
 static func collect_drop(hero:Dictionary,name:String,monster_name:String,rng:RandomNumberGenerator)->bool:
@@ -143,6 +153,14 @@ static func apply_mvp_loot(hero:Dictionary,monster:Dictionary,rng:RandomNumberGe
 		if rng.randf()<0.78 and collect_drop(hero,str(item_name),monster_name,rng): gained.append(str(item_name))
 	if rng.randf()<0.35 and collect_drop(hero,"MVP Bounty Token",monster_name,rng): gained.append("MVP Bounty Token")
 	if collect_drop(hero,"MVP Treasure Chest",monster_name,rng): gained.append("MVP Treasure Chest")
+	# A 10% roll for a super card is independent from the normal MVP card roll.
+	if rng.randf()<MVP_SUPER_CARD_DROP_RATE:
+		var super_card:=str(SUPER_CARDS[rng.randi_range(0,SUPER_CARDS.size()-1)])
+		if collect_drop(hero,super_card,monster_name,rng): gained.append(super_card)
+	# A separate 10% roll awards one glowing, four-slot MVP equipment piece.
+	if rng.randf()<MVP_GLOWING_ITEM_DROP_RATE:
+		var glowing_item:=str(GLOWING_MVP_ITEMS[rng.randi_range(0,GLOWING_MVP_ITEMS.size()-1)])
+		if collect_drop(hero,glowing_item,monster_name,rng): gained.append(glowing_item)
 	return gained
 
 static func on_monster_defeated(hero:Dictionary,monster:Dictionary,rng:RandomNumberGenerator)->Array[String]:
