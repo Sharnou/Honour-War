@@ -12,7 +12,9 @@ var pet_pulse:=0.0
 var hit_pulse:=0.0
 var hero_attack_lock:=0.0
 var pet_attack_lock:=0.0
-var hero_state: String = ""
+var hero_state:String=""
+var monster_hp_cache:Dictionary={}
+var monster_hit_timer:Dictionary={}
 
 func _ready()->void:
     game=get_parent() as Node3D
@@ -101,6 +103,10 @@ func _process(delta:float)->void:
     hit_pulse=max(0.0,hit_pulse-delta*8.0)
     hero_attack_lock=max(0.0,hero_attack_lock-delta)
     pet_attack_lock=max(0.0,pet_attack_lock-delta)
+    for id in monster_hit_timer.keys():
+        monster_hit_timer[id]=max(0.0,float(monster_hit_timer[id])-delta)
+        if float(monster_hit_timer[id])<=0.0:
+            monster_hit_timer.erase(id)
     if game==null or legacy==null:
         return
     var hero_value:Variant=legacy.get("hero")
@@ -119,6 +125,7 @@ func _process(delta:float)->void:
     if pet_node!=null and pet_attack_lock<=0.0 and pet_pulse<=0.0:
         if pet_player.current_animation!="idle":
             pet_player.play("idle",0.10)
+    _update_monster_motion()
     _watch_combat_effects()
 
 func _set_hero_state(state:String)->void:
@@ -126,6 +133,70 @@ func _set_hero_state(state:String)->void:
         return
     hero_state=state
     hero_player.play(state,0.10)
+
+func _update_monster_motion()->void:
+    var monsters_value:Variant=legacy.get("monsters")
+    if not monsters_value is Array:
+        return
+    var active:Dictionary={}
+    for item in monsters_value:
+        if not item is Dictionary:
+            continue
+        var monster:Dictionary=item
+        var id:String=str(monster.get("visual_id",monster.get("name","monster")))
+        active[id]=true
+        var visuals:Dictionary=game.get("monster_visuals") as Dictionary
+        if not visuals.has(id):
+            continue
+        var visual:Node3D=visuals[id] as Node3D
+        if visual==null:
+            continue
+        var hp:int=int(monster.get("hp",0))
+        var old_hp:int=int(monster_hp_cache.get(id,hp))
+        if hp<old_hp:
+            monster_hit_timer[id]=0.18
+            _monster_hit_burst(visual)
+        monster_hp_cache[id]=hp
+        var hit:float=float(monster_hit_timer.get(id,0.0))
+        var boss:bool=bool(monster.get("mvp",false))
+        var bob_speed:float=2.6 if boss else 3.4
+        var bob_amount:float=0.055 if boss else 0.035
+        var base_y:float=0.0
+        var target_y:float=base_y+sin(elapsed*bob_speed+float(id.hash()%17))*bob_amount
+        visual.position.y=lerp(visual.position.y,target_y,0.10)
+        var target_scale:Vector3=Vector3.ONE*(1.08 if boss else 1.0)
+        if hit>0.0:
+            target_scale*=Vector3(1.13,0.86,1.13)
+        else:
+            target_scale*=1.0+sin(elapsed*2.2+float(id.hash()%11))*0.012
+        visual.scale=visual.scale.lerp(target_scale,0.16)
+        visual.rotation.y+=delta_rotation(boss)
+    for id in monster_hp_cache.keys():
+        if not active.has(id):
+            monster_hp_cache.erase(id)
+            monster_hit_timer.erase(id)
+
+func delta_rotation(boss:bool)->float:
+    return (0.0035 if boss else 0.0020)*sin(elapsed*1.7)
+
+func _monster_hit_burst(visual:Node3D)->void:
+    if visual==null:
+        return
+    var burst:Node3D=Node3D.new()
+    burst.name="HitPulse"
+    visual.add_child(burst)
+    var ring:MeshInstance3D=MeshInstance3D.new()
+    var mesh:TorusMesh=TorusMesh.new()
+    mesh.inner_radius=0.12
+    mesh.outer_radius=0.18
+    ring.mesh=mesh
+    ring.rotation_degrees.x=90.0
+    burst.add_child(ring)
+    var tween:Tween=create_tween()
+    tween.set_parallel(true)
+    tween.tween_property(ring,"scale",Vector3(3.0,3.0,3.0),0.16)
+    tween.tween_property(ring,"modulate:a",0.0,0.16)
+    tween.chain().tween_callback(burst.queue_free)
 
 func _watch_combat_effects()->void:
     var vfx=legacy.get_node_or_null("CombatVFX")
