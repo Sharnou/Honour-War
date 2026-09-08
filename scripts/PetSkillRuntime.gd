@@ -52,6 +52,7 @@ func _select_target(pet:Dictionary,hero:Dictionary,director:Node)->Dictionary:
     var current:Dictionary=combat.get("target") if combat.get("target") is Dictionary else {}
     var best:Dictionary={}
     var best_score:float=-INF
+    var now:float=Time.get_ticks_msec()/1000.0
     for candidate in monsters_value:
         if not candidate is Dictionary or int(candidate.get("hp",0))<=0: continue
         var pos:Vector2=candidate.get("pos",Vector2.ZERO)
@@ -68,13 +69,13 @@ func _select_target(pet:Dictionary,hero:Dictionary,director:Node)->Dictionary:
         score+=(1.0-hp_ratio)*4.0
         if role=="Guardian":
             score+=float(candidate.get("pet_threat",0))*0.015
-            if float(candidate.get("target_pet_until",0.0))>Time.get_ticks_msec()/1000.0: score+=8.0
+            if float(candidate.get("target_pet_until",0.0))>now: score+=8.0
         elif role=="DPS":
             score+=(1.0-hp_ratio)*8.0
         elif role=="Ranged":
             score+=max(0.0,5.0-distance*0.01)
         elif role=="Support":
-            if float(hero.get("hp",0))/float(max(1,int(hero.get("max_hp",1))))<low_owner_hp_ratio: score+=3.0
+            if float(hero.get("hp",0))/float(max(1,int(hero.get("max_hp",1))))<low_owner_hp_ratio: score-=2.0
         score-=distance*0.012
         if score>best_score:
             best_score=score
@@ -182,8 +183,9 @@ func _apply_role_effects(pet:Dictionary,hero:Dictionary,monster:Dictionary,skill
         monster["pet_threat"]=int(monster.get("pet_threat",0))+dealt*3
         monster["target_pet_until"]=now+3.5
     if role=="DPS" or role=="Ranged":
-        if int(monster.get("hp",0))<=int(monster.get("max",monster.get("hp",0)))*0.2):
-            monster["execution_mark_until"]=now+2.0
+        var current_hp:int=int(monster.get("hp",0))
+        var current_max:int=max(1,int(monster.get("max",current_hp)))
+        if current_hp<=int(float(current_max)*0.2): monster["execution_mark_until"]=now+2.0
 
 func _get_hero()->Dictionary:
     if game==null: return {}
