@@ -55,23 +55,31 @@ static func parse_go(command:String)->Dictionary:
 		return {"ok":false,"error":"Usage: @go <city|map_id> [x:y]. Examples: @go 0, @go Prontera, @go 0 230:230."}
 	if parts.size()<2:
 		return {"ok":false,"error":"Choose a destination. Try @go 0 or @go Prontera."}
-	var map_token:String=parts[1]
-	var map_id:int=resolve_map(map_token)
+	if parts[1].to_lower()=="list":
+		return {"ok":false,"error":"Destinations: %s" % destination_list()}
+	var coordinate_index:int=-1
+	for i in range(2,parts.size()):
+		if parts[i].contains(":"):
+			coordinate_index=i
+			break
+	var destination_end:int=coordinate_index if coordinate_index>=0 else parts.size()
+	var destination:String=" ".join(parts.slice(1,destination_end))
+	var map_id:int=resolve_map(destination)
 	if map_id<0:
-		return {"ok":false,"error":"Unknown destination '%s'. Use @go list to see destinations." % map_token}
+		return {"ok":false,"error":"Unknown destination '%s'. Use @go list to see destinations." % destination}
 	var point:Vector2=default_point(map_id)
-	if parts.size()>=3:
-		var parsed:Dictionary=parse_coordinates(parts[2])
+	if coordinate_index>=0:
+		if coordinate_index+1!=parts.size():
+			return {"ok":false,"error":"Too many arguments. Use @go 0 230:230."}
+		var parsed:Dictionary=parse_coordinates(parts[coordinate_index])
 		if not bool(parsed.get("ok",false)): return parsed
 		point=Vector2(float(parsed["x"]),float(parsed["y"]))
-	if parts.size()>3:
-		return {"ok":false,"error":"Too many arguments. Use @go 0, @go Prontera, or @go 0 230:230."}
 	var map_data:Dictionary=MAPS[map_id]
 	var x:int=int(point.x)
 	var y:int=int(point.y)
 	if x<0 or x>=int(map_data["width"]) or y<0 or y>=int(map_data["height"]):
 		return {"ok":false,"error":"Coordinates outside %s bounds: 0-%d:0-%d." % [map_data["name"],int(map_data["width"])-1,int(map_data["height"])-1]}
-	return {"ok":true,"map_id":map_id,"x":x,"y":y,"name":map_data["name"],"type":map_data["type"],"shortcut":parts.size()==2}
+	return {"ok":true,"map_id":map_id,"x":x,"y":y,"name":map_data["name"],"type":map_data["type"],"shortcut":coordinate_index<0}
 
 static func destination_list()->String:
 	var names:PackedStringArray=[]
