@@ -4,10 +4,10 @@ run/main_scene="res://Main3D.tscn"
 config/features=PackedStringArray("4.2")
 
 [display]
-window/size/viewport_width=1280
-window/size/viewport_height=720
-window/size/window_width_override=1280
-window/size/window_height_override=720
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/size/window_width_override=1920
+window/size/window_height_override=1080
 window/stretch/mode="canvas_items"
 window/stretch/aspect="keep"
 window/handheld/orientation=1
@@ -15,6 +15,11 @@ window/handheld/orientation=1
 [rendering]
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+renderer/rendering_method.driver="d3d12"
+renderer/rendering_method.driver.mobile="d3d12"
+rendering/driver/driver_name="d3d12"
+rendering/driver/fallback_to_vulkan=true
+rendering/driver/fallback_to_opengl3=true
 rendering/gl_compatibility/driver.windows="opengl3"
 rendering/gl_compatibility/fallback_to_angle=true
 rendering/gl_compatibility/fallback_to_native=true
