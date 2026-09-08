@@ -1,0 +1,52 @@
+name: Fix Game3D Node3D redraw API
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Remove invalid Node3D queue_redraw call
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+
+          p = Path("scripts/Game3D.gd")
+          if not p.exists():
+              raise SystemExit("scripts/Game3D.gd does not exist")
+
+          s = p.read_text(encoding="utf-8")
+          old = '\t_update_visuals(delta)\n\tqueue_redraw()'
+          new = '\t_update_visuals(delta)'
+
+          if old not in s:
+              if 'func _process(delta:float) -> void:' in s and '\tqueue_redraw()' not in s:
+                  print("Game3D queue_redraw() is already absent.")
+                  raise SystemExit(0)
+              raise SystemExit("Expected Game3D _process queue_redraw pattern was not found")
+
+          p.write_text(s.replace(old, new, 1), encoding="utf-8")
+          print("Removed invalid queue_redraw() call from Node3D Game3D.")
+          PY
+
+          if git diff --quiet -- scripts/Game3D.gd; then
+            echo "No changes required."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scripts/Game3D.gd
+          git commit -m "Fix Game3D Node3D redraw API"
+          git push
