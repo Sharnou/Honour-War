@@ -13,11 +13,11 @@ window/stretch/aspect="keep"
 window/handheld/orientation=1
 
 [rendering]
-renderer/rendering_method="gl_compatibility"
-renderer/rendering_method.mobile="gl_compatibility"
-renderer/rendering_method.driver="opengl3"
-renderer/rendering_method.driver.mobile="opengl3"
-rendering/driver/driver_name="opengl3"
+renderer/rendering_method="forward_plus"
+renderer/rendering_method.mobile="mobile"
+renderer/rendering_method.driver="vulkan"
+renderer/rendering_method.driver.mobile="vulkan"
+rendering/driver/driver_name="vulkan"
 rendering/driver/fallback_to_angle=true
 rendering/driver/fallback_to_native=true
 textures/default_filters/use_nearest_mipmap_filter=false
