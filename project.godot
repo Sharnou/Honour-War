@@ -20,7 +20,6 @@ rendering/gl_compatibility/fallback_to_angle=true
 rendering/gl_compatibility/fallback_to_native=true
 textures/default_filters/use_nearest_mipmap_filter=false
 textures/canvas_textures/default_texture_filter=1
-textures/default_filters/use_nearest_mipmap_filter=false
 2d/snap/snap_2d_transforms_to_pixel=false
 2d/snap/snap_2d_vertices_to_pixel=false
 
