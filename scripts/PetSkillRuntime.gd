@@ -38,13 +38,48 @@ func _attempt_cast()->void:
     if not pet_value is Dictionary: return
     var pet:Dictionary=pet_value
     PetSkillSystem.ensure_state(pet)
-    var target_value:Variant=combat.get("target")
-    if not target_value is Dictionary: return
-    var monster:Dictionary=target_value
-    if int(monster.get("hp",0))<=0: return
-    var selected:String=_select_best_skill(pet,hero,monster,director)
+    var target:Dictionary=_select_target(pet,hero,director)
+    if target.is_empty(): return
+    var selected:String=_select_best_skill(pet,hero,target,director)
     if selected.is_empty(): return
-    _cast(selected)
+    _cast(selected,target)
+
+func _select_target(pet:Dictionary,hero:Dictionary,director:Node)->Dictionary:
+    var monsters_value:Variant=game.get("monsters")
+    if not monsters_value is Array: return {}
+    var role:String=str(director.get("pet_role")) if director else str(pet.get("role","Hybrid"))
+    var hero_pos:=Vector2(float(hero.get("pos_x",0.0)),float(hero.get("pos_y",0.0)))
+    var current:Dictionary=combat.get("target") if combat.get("target") is Dictionary else {}
+    var best:Dictionary={}
+    var best_score:float=-INF
+    for candidate in monsters_value:
+        if not candidate is Dictionary or int(candidate.get("hp",0))<=0: continue
+        var pos:Vector2=candidate.get("pos",Vector2.ZERO)
+        var distance:float=hero_pos.distance_to(pos)
+        if distance>220.0: continue
+        var score:float=0.0
+        var level:int=int(candidate.get("level",1))
+        var hp:int=int(candidate.get("hp",1))
+        var max_hp:int=max(1,int(candidate.get("max",hp)))
+        var hp_ratio:float=float(hp)/float(max_hp)
+        if candidate==current: score+=7.0
+        if bool(candidate.get("mvp",false)): score+=5.0
+        score+=float(level)*0.03
+        score+=(1.0-hp_ratio)*4.0
+        if role=="Guardian":
+            score+=float(candidate.get("pet_threat",0))*0.015
+            if float(candidate.get("target_pet_until",0.0))>Time.get_ticks_msec()/1000.0: score+=8.0
+        elif role=="DPS":
+            score+=(1.0-hp_ratio)*8.0
+        elif role=="Ranged":
+            score+=max(0.0,5.0-distance*0.01)
+        elif role=="Support":
+            if float(hero.get("hp",0))/float(max(1,int(hero.get("max_hp",1))))<low_owner_hp_ratio: score+=3.0
+        score-=distance*0.012
+        if score>best_score:
+            best_score=score
+            best=candidate
+    return best
 
 func _select_best_skill(pet:Dictionary,hero:Dictionary,monster:Dictionary,director:Node)->String:
     var species:String=str(pet.get("species","Wolf Cub"))
@@ -63,7 +98,7 @@ func _select_best_skill(pet:Dictionary,hero:Dictionary,monster:Dictionary,direct
         var kind:String=str(skill.get("kind",""))
         if kind=="ultimate": score+=8.0
         if role=="Ranged":
-            if id.find("mark")>=0 or id.find("eye")>=0: score+=5.0
+            if id.find("mark")>=0: score+=6.0
             if id.find("storm")>=0 or id.find("barrage")>=0 or id.find("meteor")>=0: score+=3.0
         elif role=="DPS":
             score+=float(skill.get("power",0))*0.03
@@ -81,13 +116,13 @@ func _select_best_skill(pet:Dictionary,hero:Dictionary,monster:Dictionary,direct
         else:
             if pet_ratio<0.35 and id.find("guard")>=0: score+=4.0
         if int(monster.get("level",1))>int(pet.get("level",1)): score+=1.5
-        if id=="pet_dragon_meteor" or id.find("apocalypse")>=0: score+=2.0
+        if id.find("apocalypse")>=0 or id.find("eternity")>=0: score+=2.0
         if score>best_score:
             best_score=score
             best_id=id
     return best_id
 
-func _cast(skill_id:String)->Dictionary:
+func _cast(skill_id:String,target_override:Dictionary={})->Dictionary:
     if game==null or combat==null: return {"ok":false,"reason":"runtime"}
     var hero:Dictionary=_get_hero()
     if hero.is_empty(): return {"ok":false,"reason":"hero"}
@@ -95,7 +130,7 @@ func _cast(skill_id:String)->Dictionary:
     if not pet_value is Dictionary: return {"ok":false,"reason":"pet"}
     var pet:Dictionary=pet_value
     if int(pet.get("hp",0))<=0: return {"ok":false,"reason":"pet_defeated"}
-    var target_value:Variant=combat.get("target")
+    var target_value:Variant=target_override if not target_override.is_empty() else combat.get("target")
     if not target_value is Dictionary: return {"ok":false,"reason":"no_target"}
     var monster:Dictionary=target_value
     if int(monster.get("hp",0))<=0: return {"ok":false,"reason":"target_defeated"}
@@ -123,15 +158,11 @@ func _cast(skill_id:String)->Dictionary:
         if _is_area(skill): feedback.show_telegraph("circle",world_position,radius,0.65)
         feedback.play_skill_effect(skill_id,world_position)
         feedback.show_damage(dealt,world_position,dealt>scaled+int(skill.get("power",0))/2)
-    if pet_vfx and pet_vfx.has_method("play"):
-        pet_vfx.play(species,skill_id,world_position,radius)
+    if pet_vfx and pet_vfx.has_method("play"): pet_vfx.play(species,skill_id,world_position,radius)
     var combat_vfx:Node=game.get_node_or_null("LegacyGame/CombatVFX")
-    if combat_vfx and combat_vfx.has_method("skill_cast"):
-        combat_vfx.skill_cast(position,skill_id,false)
-    if game.has_method("log_message"):
-        game.call("log_message","%s casts %s for %d damage." % [str(pet.get("name","Pet")),str(skill.get("name",skill_id)),dealt])
-    if int(monster["hp"])<=0 and combat.has_method("finish_monster"):
-        combat.call("finish_monster",monster)
+    if combat_vfx and combat_vfx.has_method("skill_cast"): combat_vfx.skill_cast(position,skill_id,false)
+    if game.has_method("log_message"): game.call("log_message","%s casts %s for %d damage." % [str(pet.get("name","Pet")),str(skill.get("name",skill_id)),dealt])
+    if int(monster["hp"])<=0 and combat.has_method("finish_monster"): combat.call("finish_monster",monster)
     return {"ok":true,"skill_name":str(skill.get("name",skill_id)),"skill_id":skill_id,"damage":dealt,"cooldown":float(skill.get("cooldown",0.0))}
 
 func _apply_role_effects(pet:Dictionary,hero:Dictionary,monster:Dictionary,skill:Dictionary,dealt:int)->void:
@@ -151,7 +182,7 @@ func _apply_role_effects(pet:Dictionary,hero:Dictionary,monster:Dictionary,skill
         monster["pet_threat"]=int(monster.get("pet_threat",0))+dealt*3
         monster["target_pet_until"]=now+3.5
     if role=="DPS" or role=="Ranged":
-        if int(monster.get("hp",0))<=int(monster.get("max",monster.get("hp",0)))*0.2:
+        if int(monster.get("hp",0))<=int(monster.get("max",monster.get("hp",0)))*0.2):
             monster["execution_mark_until"]=now+2.0
 
 func _get_hero()->Dictionary:
