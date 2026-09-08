@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3]
+[gd_scene load_steps=36 format=3]
 
 [ext_resource path="res://scripts/Game3D.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/Main.gd" type="Script" id="2"]
@@ -34,6 +34,7 @@
 [ext_resource path="res://scripts/PetSkillRuntime.gd" type="Script" id="32"]
 [ext_resource path="res://scripts/PetCombatHUD3D.gd" type="Script" id="33"]
 [ext_resource path="res://scripts/PetSkillVFX.gd" type="Script" id="34"]
+[ext_resource path="res://scripts/HeroPetComboSystem.gd" type="Script" id="35"]
 
 [node name="HonourWar3D" type="Node3D"]
 script = ExtResource("1")
@@ -96,6 +97,9 @@ cast_interval = 3.5
 
 [node name="PetCombatHUD3D" type="CanvasLayer" parent="."]
 script = ExtResource("33")
+
+[node name="HeroPetComboSystem" type="Node" parent="."]
+script = ExtResource("35")
 
 [node name="HDRuntimeIntegration" type="Node" parent="."]
 script = ExtResource("25")
