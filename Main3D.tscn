@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3]
+[gd_scene load_steps=40 format=3]
 
 [ext_resource path="res://scripts/Game3D.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/Main.gd" type="Script" id="2"]
@@ -38,6 +38,7 @@
 [ext_resource path="res://scripts/HeroPetComboHUD.gd" type="Script" id="36"]
 [ext_resource path="res://scripts/HeroPetComboVFX.gd" type="Script" id="37"]
 [ext_resource path="res://scripts/CombatEventBus.gd" type="Script" id="38"]
+[ext_resource path="res://scripts/HeroPetCombatAnimationBridge.gd" type="Script" id="39"]
 
 [node name="HonourWar3D" type="Node3D"]
 script = ExtResource("1")
@@ -47,6 +48,9 @@ script = ExtResource("16")
 
 [node name="CombatAnimationController" type="Node3D" parent="."]
 script = ExtResource("15")
+
+[node name="HeroPetCombatAnimationBridge" type="Node" parent="."]
+script = ExtResource("39")
 
 [node name="CombatReactionDirector" type="Node3D" parent="."]
 script = ExtResource("18")
