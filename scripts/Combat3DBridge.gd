@@ -8,7 +8,8 @@ func _ready()->void:
 	numbers=DAMAGE_NUMBERS_SCRIPT.new() as Node3D
 	numbers.name="DamageNumbers3D"
 	var game:=get_parent().get_parent()
-	game.add_child(numbers)
+	if game!=null:
+		game.add_child.call_deferred(numbers)
 
 func show_number(map_position:Vector2,amount:int,critical:bool=false,source:String="enemy")->void:
 	if numbers==null: return
