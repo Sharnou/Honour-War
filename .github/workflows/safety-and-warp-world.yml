@@ -1,0 +1,64 @@
+name: Honour War town safety and warp world rules
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  upgrade:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Patch world spawn rules
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path("scripts/Main.gd")
+          s=p.read_text(encoding="utf-8")
+          changes=[]
+
+          old='''\tfor i in 5:\n\t\tspawn_monster()'''
+          new='''\tif TeleportSystem.is_dungeon(int(hero.get("map_id",0))):\n\t\tfor i in 5:\n\t\t\tspawn_monster()'''
+          if old in s:
+              s=s.replace(old,new,1); changes.append("initial")
+
+          old='''\tif spawn_timer>=4.0 and monsters.size()<8:\n\t\tspawn_timer=0.0\n\t\tspawn_monster()'''
+          new='''\tif TeleportSystem.is_dungeon(int(hero.get("map_id",0))) and spawn_timer>=4.0 and monsters.size()<8:\n\t\tspawn_timer=0.0\n\t\tspawn_monster()'''
+          if old in s:
+              s=s.replace(old,new,1); changes.append("timer")
+
+          old='''\tmonsters.clear()\n\tfor i in 4:\n\t\tspawn_monster()\n\tlog_message("Fast transmission to %s at X:%d Y:%d. Pet follows automatically." % [TeleportSystem.map_name(map_id),x,y])'''
+          new='''\tmonsters.clear()\n\tif TeleportSystem.is_dungeon(map_id):\n\t\tfor i in 4:\n\t\t\tspawn_monster()\n\tlog_message("Fast transmission to %s at X:%d Y:%d. Pet follows automatically.%s" % [TeleportSystem.map_name(map_id),x,y," Combat zone populated." if TeleportSystem.is_dungeon(map_id) else " Safe town: no monsters spawn here."])'''
+          if old in s:
+              s=s.replace(old,new,1); changes.append("travel")
+
+          marker='''func spawn_monster()->void:\n\tvar families:='' '
+          replacement='''func spawn_monster()->void:\n\tif not TeleportSystem.is_dungeon(int(hero.get("map_id",0))):\n\t\treturn\n\tvar families:='' '
+          if marker in s:
+              s=s.replace(marker,replacement,1); changes.append("guard")
+
+          if not changes:
+              raise SystemExit("No expected Main.gd world-spawn blocks were found")
+          p.write_text(s,encoding="utf-8")
+          print("patched", ",".join(changes))
+          PY
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scripts/Main.gd
+          if git diff --cached --quiet; then
+            echo "No Main.gd changes required."
+            exit 0
+          fi
+          git commit -m "Prevent monsters from spawning in town maps"
+          git push
