@@ -37,8 +37,7 @@ func _update_combat_reactions()->void:
 	var current_hero_hp:=int(hero.get("hp",0))
 	if hero_hp>=0 and current_hero_hp<hero_hp:
 		var amount:=hero_hp-current_hero_hp
-		var pos:=_map_to_world(Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0))))
-		_spawn_impact(pos,amount,true,false)
+		_spawn_impact(_map_to_world(Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0)))),amount,true,false)
 	hero_hp=current_hero_hp
 	var pet_value:Variant=hero.get("pet",{})
 	if pet_value is Dictionary:
@@ -63,11 +62,9 @@ func _update_combat_reactions()->void:
 			monster_hp[id]=hp
 			continue
 		if hp<int(monster_hp[id]) and visuals.has(id):
-			var visual:=visuals[id] as Node3D
-			if visual!=null:
-				var map_pos:Vector2=monster.get("pos",Vector2.ZERO)
-				var critical:bool=bool(monster.get("hit_critical",false))
-				_spawn_impact(_map_to_world(map_pos)+Vector3(0.0,0.35,0.0),int(monster_hp[id])-hp,false,false,critical)
+			var map_pos:Vector2=monster.get("pos",Vector2.ZERO)
+			var critical:bool=bool(monster.get("hit_critical",false))
+			_spawn_impact(_map_to_world(map_pos)+Vector3(0.0,0.35,0.0),int(monster_hp[id])-hp,false,false,critical)
 		monster_hp[id]=hp
 	for id in monster_hp.keys():
 		if not active.has(id): monster_hp.erase(id)
@@ -101,7 +98,7 @@ func _spawn_impact(position:Vector3,amount:int,hero_hit:bool,pet_hit:bool,critic
 	root.add_child(spark)
 	var life:=0.42 if not critical else 0.62
 	effects.append({"root":root,"ring":ring,"spark":spark,"age":0.0,"life":life,"amount":amount})
-	
+
 func _update_effects(delta:float)->void:
 	for i in range(effects.size()-1,-1,-1):
 		var e:Dictionary=effects[i]
@@ -112,7 +109,6 @@ func _update_effects(delta:float)->void:
 		if ring!=null:
 			ring.scale=Vector3.ONE*(0.65+2.1*t)
 			ring.rotation.y+=delta*7.0
-			if ring is MeshInstance3D: (ring as MeshInstance3D).transparency=0.0
 		var mat:Material=(ring as MeshInstance3D).material_override if ring is MeshInstance3D else null
 		if mat is StandardMaterial3D:
 			(mat as StandardMaterial3D).albedo_color.a=1.0-t
