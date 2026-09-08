@@ -113,15 +113,14 @@ func _make_walk(is_pet:bool)->Animation:
     var animation:=Animation.new()
     animation.length=0.55
     animation.loop_mode=Animation.LOOP_LINEAR
-    var path:=NodePath("../Actors3D/Pet:position:y" if is_pet else "../Actors3D/Hero:position:y")
+    var path:=NodePath("../Actors3D/Pet:scale" if is_pet else "../Actors3D/Hero:scale")
     var track:=animation.add_track(Animation.TYPE_VALUE)
     animation.track_set_path(track,path)
-    var base:float=0.45 if is_pet else 0.15
-    animation.track_insert_key(track,0.0,base)
-    animation.track_insert_key(track,0.14,base+0.055)
-    animation.track_insert_key(track,0.275,base)
-    animation.track_insert_key(track,0.41,base+0.055)
-    animation.track_insert_key(track,0.55,base)
+    animation.track_insert_key(track,0.0,Vector3.ONE)
+    animation.track_insert_key(track,0.14,Vector3(1.015,0.985,1.015))
+    animation.track_insert_key(track,0.275,Vector3.ONE)
+    animation.track_insert_key(track,0.41,Vector3(1.015,0.985,1.015))
+    animation.track_insert_key(track,0.55,Vector3.ONE)
     return animation
 
 func _make_attack(is_pet:bool)->Animation:
@@ -183,6 +182,23 @@ func _process(delta:float)->void:
         _set_pet_state("idle")
     _update_monster_motion()
     _watch_combat_effects()
+    _stabilize_camera()
+
+func _stabilize_camera()->void:
+    if game==null or legacy==null:
+        return
+    var camera:Camera3D=game.get("camera") as Camera3D
+    if camera==null:
+        return
+    var hero_value:Variant=legacy.get("hero")
+    if not hero_value is Dictionary:
+        return
+    var hero:Dictionary=hero_value
+    var map_pos:=Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0)))
+    var target:=Vector3((map_pos.x-365.0)*0.055,0.0,(map_pos.y-120.0)*0.055)
+    var desired:=target+Vector3(0.0,10.5,13.5)
+    camera.position=camera.position.lerp(desired,1.0-exp(-9.0/60.0))
+    camera.look_at(target+Vector3(0.0,0.8,0.0),Vector3.UP)
 
 func _set_hero_state(state:String)->void:
     if hero_machine==null or hero_state==state:
@@ -213,6 +229,7 @@ func _update_monster_motion()->void:
         var visual:Node3D=visuals[id] as Node3D
         if visual==null:
             continue
+        _add_monster_details(visual,str(monster.get("name","Monster")),bool(monster.get("mvp",false)))
         if not monster_base_y.has(id):
             monster_base_y[id]=visual.position.y
         var base_y:float=float(monster_base_y[id])
@@ -243,6 +260,112 @@ func _update_monster_motion()->void:
 
 func delta_rotation(boss:bool)->float:
     return (0.0035 if boss else 0.0020)*sin(elapsed*1.7)
+
+func _add_monster_details(visual:Node3D,name:String,boss:bool)->void:
+    if visual==null or visual.get_node_or_null("DetailParts")!=null:
+        return
+    var root:=Node3D.new()
+    root.name="DetailParts"
+    visual.add_child(root)
+    var n:=name.to_lower()
+    var accent:=Color("#f2c15d") if boss else Color("#b8c5d0")
+    if "orc" in n:
+        root.add_child(_detail_box(Vector3(0.62,0.34,0.72),Vector3(0.0,1.05,0.0),Color("#4a3828")))
+        root.add_child(_detail_horn(Vector3(-0.32,1.72,0.05),accent))
+        root.add_child(_detail_horn(Vector3(0.32,1.72,0.05),accent))
+    elif "wolf" in n:
+        root.add_child(_detail_ear(Vector3(-0.25,1.82,0.0),accent))
+        root.add_child(_detail_ear(Vector3(0.25,1.82,0.0),accent))
+        root.add_child(_detail_tail(Vector3(0.0,0.72,-0.62),Color("#3d4652")))
+    elif "dragon" in n:
+        root.add_child(_detail_wing(Vector3(-0.62,1.15,0.0),Color("#7e2f39")))
+        root.add_child(_detail_wing(Vector3(0.62,1.15,0.0),Color("#7e2f39")))
+        root.add_child(_detail_horn(Vector3(-0.22,1.95,0.0),accent))
+        root.add_child(_detail_horn(Vector3(0.22,1.95,0.0),accent))
+    elif "golem" in n:
+        root.add_child(_detail_box(Vector3(1.0,0.30,0.82),Vector3(0.0,1.15,0.0),Color("#5c5147")))
+        root.add_child(_detail_box(Vector3(0.82,0.18,0.62),Vector3(0.0,1.62,0.0),Color("#a18c70")))
+    elif "mantis" in n:
+        root.add_child(_detail_blade(Vector3(-0.58,1.0,0.12),Color("#9bc76a")))
+        root.add_child(_detail_blade(Vector3(0.58,1.0,0.12),Color("#9bc76a")))
+    elif "skeleton" in n or "zombie" in n or "evil druid" in n:
+        root.add_child(_detail_box(Vector3(0.78,0.18,0.55),Vector3(0.0,1.1,0.0),Color("#302c31")))
+        root.add_child(_detail_horn(Vector3(-0.24,1.92,0.0),accent))
+        root.add_child(_detail_horn(Vector3(0.24,1.92,0.0),accent))
+    elif "poring" in n:
+        root.add_child(_detail_horn(Vector3(0.0,1.95,0.0),accent))
+    if boss:
+        var crown:=_detail_ring(accent,1.02,0.055)
+        crown.rotation_degrees.x=90.0
+        crown.position.y=0.12
+        root.add_child(crown)
+
+func _detail_box(size:Vector3,pos:Vector3,color:Color)->MeshInstance3D:
+    var node:=MeshInstance3D.new()
+    var mesh:=BoxMesh.new()
+    mesh.size=size
+    node.mesh=mesh
+    node.position=pos
+    node.material_override=_detail_material(color,0.25,0.55)
+    return node
+
+func _detail_horn(pos:Vector3,color:Color)->MeshInstance3D:
+    var node:=MeshInstance3D.new()
+    var mesh:=CylinderMesh.new()
+    mesh.top_radius=0.02
+    mesh.bottom_radius=0.10
+    mesh.height=0.52
+    node.mesh=mesh
+    node.position=pos
+    node.rotation_degrees=Vector3(0.0,0.0,18.0)
+    node.material_override=_detail_material(color,0.35,0.35)
+    return node
+
+func _detail_ear(pos:Vector3,color:Color)->MeshInstance3D:
+    var node:=_detail_box(Vector3(0.18,0.42,0.18),pos,color)
+    node.rotation_degrees.z=22.0 if pos.x<0.0 else -22.0
+    return node
+
+func _detail_tail(pos:Vector3,color:Color)->MeshInstance3D:
+    var node:=MeshInstance3D.new()
+    var mesh:=CylinderMesh.new()
+    mesh.top_radius=0.04
+    mesh.bottom_radius=0.16
+    mesh.height=0.85
+    node.mesh=mesh
+    node.position=pos
+    node.rotation_degrees.x=62.0
+    node.material_override=_detail_material(color,0.05,0.72)
+    return node
+
+func _detail_wing(pos:Vector3,color:Color)->MeshInstance3D:
+    var node:=_detail_box(Vector3(0.16,0.95,0.62),pos,color)
+    node.rotation_degrees.z=25.0 if pos.x<0.0 else -25.0
+    return node
+
+func _detail_blade(pos:Vector3,color:Color)->MeshInstance3D:
+    var node:=_detail_box(Vector3(0.12,0.92,0.20),pos,color)
+    node.rotation_degrees.z=55.0 if pos.x<0.0 else -55.0
+    return node
+
+func _detail_ring(color:Color,radius:float,width:float)->MeshInstance3D:
+    var node:=MeshInstance3D.new()
+    var mesh:=TorusMesh.new()
+    mesh.inner_radius=radius
+    mesh.outer_radius=radius+width
+    node.mesh=mesh
+    node.material_override=_detail_material(color,0.30,0.25)
+    return node
+
+func _detail_material(color:Color,metallic:float,roughness:float)->StandardMaterial3D:
+    var mat:=StandardMaterial3D.new()
+    mat.albedo_color=color
+    mat.metallic=metallic
+    mat.roughness=roughness
+    mat.emission_enabled=true if color.get_luminance()>0.62 else false
+    mat.emission=color
+    mat.emission_energy_multiplier=0.35
+    return mat
 
 func _monster_hit_burst(visual:Node3D)->void:
     if visual==null:

@@ -375,11 +375,17 @@ func _trigger_hit_effect(position:Vector3,boss:bool)->void:
 	tween.chain().tween_callback(root.queue_free)
 
 func _update_camera(delta:float)->void:
-	if camera == null or hero_visual == null:
+	if camera == null or legacy == null:
 		return
-	var desired:Vector3 = hero_visual.position+Vector3(0.0,10.5,13.5)
-	camera.position = camera.position.lerp(desired,1.0-exp(-7.0*max(delta,0.016)))
-	camera.look_at(hero_visual.position+Vector3(0.0,0.8,0.0),Vector3.UP)
+	var hero_value:Variant=legacy.get("hero")
+	if not hero_value is Dictionary:
+		return
+	var hero:Dictionary=hero_value
+	var map_pos:=Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0)))
+	var stable_target:=_map_to_world(map_pos)
+	var desired:Vector3=stable_target+Vector3(0.0,10.5,13.5)
+	camera.position=camera.position.lerp(desired,1.0-exp(-8.0*max(delta,0.016)))
+	camera.look_at(stable_target+Vector3(0.0,0.8,0.0),Vector3.UP)
 
 func _build_hud()->void:
 	hud=CanvasLayer.new()

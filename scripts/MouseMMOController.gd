@@ -21,7 +21,7 @@ func _ready()->void:
 	game=get_parent()
 	legacy=game.get_node_or_null("LegacyGame") as Node2D
 	camera=game.get_node_or_null("Camera3D") as Camera3D
-	_build_cursor_marker()
+	call_deferred("_build_cursor_marker")
 
 func _process(delta:float)->void:
 	if legacy==null or camera==null: return
@@ -34,16 +34,21 @@ func _process(delta:float)->void:
 		var target_2d:Vector2=_world_to_map(mouse_target)
 		var distance:float=hero_pos.distance_to(target_2d)
 		if distance>7.0:
-			var step:float=min(distance,260.0*delta)
+			var step:float=min(distance,320.0*delta)
 			var direction:Vector2=hero_pos.direction_to(target_2d)
 			var map_data:Dictionary=TeleportSystem.MAPS.get(int(hero.get("map_id",0)),{})
 			var min_x:float=ORIGIN_X
 			var min_y:float=ORIGIN_Y
 			var max_x:float=ORIGIN_X+float(map_data.get("width",1200))-1.0
 			var max_y:float=ORIGIN_Y+float(map_data.get("height",700))-1.0
-			hero["pos_x"]=clamp(float(hero["pos_x"])+direction.x*step,min_x,max_x)
-			hero["pos_y"]=clamp(float(hero["pos_y"])+direction.y*step,min_y,max_y)
-		else: has_move_target=false
+			var next_x:float=clamp(float(hero["pos_x"])+direction.x*step,min_x,max_x)
+			var next_y:float=clamp(float(hero["pos_y"])+direction.y*step,min_y,max_y)
+			hero["pos_x"]=next_x
+			hero["pos_y"]=next_y
+		else:
+			hero["pos_x"]=target_2d.x
+			hero["pos_y"]=target_2d.y
+			has_move_target=false
 	if not attack_target.is_empty():
 		var target:Dictionary=attack_target
 		var monsters_value:Variant=legacy.get("monsters")
@@ -84,6 +89,7 @@ func _handle_mouse_click(screen_position:Vector2)->void:
 	attack_target={}
 	mouse_target=world_point
 	has_move_target=true
+	attack_timer=0.0
 
 func _pick_monster(screen_position:Vector2)->Dictionary:
 	if legacy==null: return {}
@@ -108,10 +114,9 @@ func _pick_warp_gate(screen_position:Vector2)->Node:
 	var best:Node=null
 	var best_distance:float=CLICK_RADIUS_PIXELS
 	for item in get_tree().get_nodes_in_group("warp_gate"):
-		var gate:Node=item as Node
-		if gate==null or not gate.visible: continue
-		var gate_3d:Node3D=gate as Node3D
-		if gate_3d==null: continue
+		var gate:Node3D=item as Node3D
+		if gate==null or not gate.is_visible_in_tree(): continue
+		var gate_3d:Node3D=gate
 		var screen:Vector2=camera.unproject_position(gate_3d.global_position+Vector3(0.0,1.1,0.0))
 		var distance:float=screen.distance_to(screen_position)
 		if distance<best_distance:
