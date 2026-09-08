@@ -2,7 +2,7 @@ class_name HeroPetComboHUD
 extends CanvasLayer
 
 var game:Node
-var combo:Node
+var combo:HeroPetComboSystem
 var panel:Panel
 var count_label:Label
 var grade_label:Label
@@ -14,7 +14,7 @@ var flash_timer:float=0.0
 
 func _ready()->void:
     game=get_parent()
-    combo=game.get_node_or_null("HeroPetComboSystem") if game else null
+    combo=game.get_node_or_null("HeroPetComboSystem") as HeroPetComboSystem if game else null
     _build()
     if combo:
         combo.combo_changed.connect(_on_combo_changed)
@@ -26,9 +26,11 @@ func _process(delta:float)->void:
         flash_timer=max(0.0,flash_timer-delta)
         flash.modulate.a=clamp(flash_timer*3.0,0.0,0.75)
     if combo and finisher_button:
-        finisher_button.disabled=int(combo.get("combo_count"))<5 or float(combo.get("finisher_cooldown"))>0.0
-        if float(combo.get("finisher_cooldown"))>0.0:
-            finisher_button.text="FINISHER %.1fs" % float(combo.get("finisher_cooldown"))
+        var combo_count_value=combo.combo_count
+        var cooldown_value=combo.finisher_cooldown
+        finisher_button.disabled=combo_count_value<5 or cooldown_value>0.0
+        if cooldown_value>0.0:
+            finisher_button.text="FINISHER %.1fs" % cooldown_value
         else:
             finisher_button.text="BOND FINISHER"
 
@@ -79,7 +81,7 @@ func _build()->void:
 
 func _refresh()->void:
     if combo==null: return
-    _on_combo_changed(int(combo.get("combo_count")),str(combo.call("_grade")))
+    _on_combo_changed(combo.combo_count,combo.get_grade())
 
 func _on_combo_changed(count:int,grade:String)->void:
     count_label.text="%d HIT" % count
@@ -99,5 +101,5 @@ func _next_milestone(count:int)->int:
 
 func _on_finisher()->void:
     if combo and combo.has_method("force_finisher"):
-        if combo.call("force_finisher"):
+        if combo.force_finisher():
             flash_timer=0.55
