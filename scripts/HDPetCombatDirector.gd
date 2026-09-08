@@ -12,10 +12,17 @@ const STATES := ["Follow", "Assist", "Defend", "Aggressive", "Hold", "Return"]
 
 var pet_state := "Follow"
 var owner_node: Node3D
+var pet_visual: Node3D
 var target_node: Node3D
+var _base_scale := Vector3.ONE
 
 func set_owner_node(value: Node3D) -> void:
     owner_node = value
+
+func set_pet_visual(value: Node3D) -> void:
+    pet_visual = value
+    if pet_visual and is_instance_valid(pet_visual):
+        _base_scale = pet_visual.scale
 
 func set_target_node(value: Node3D) -> void:
     target_node = value
@@ -48,6 +55,8 @@ func command_return() -> void:
 func _process(delta: float) -> void:
     if not owner_node or not is_instance_valid(owner_node):
         return
+    if not pet_visual or not is_instance_valid(pet_visual):
+        return
     if pet_state == "Hold":
         return
     if pet_state == "Aggressive" and target_node and is_instance_valid(target_node):
@@ -55,18 +64,18 @@ func _process(delta: float) -> void:
         return
     if pet_state == "Assist" and target_node and is_instance_valid(target_node):
         var assist_destination := target_node.global_position - target_node.global_transform.basis.z * combat_distance
-        global_position = global_position.lerp(assist_destination, clamp(delta * follow_smoothing, 0.0, 1.0))
+        pet_visual.global_position = pet_visual.global_position.lerp(assist_destination, clamp(delta * follow_smoothing, 0.0, 1.0))
         return
     _follow_owner(delta)
 
 func _follow_owner(delta: float) -> void:
-    var distance := global_position.distance_to(owner_node.global_position)
+    var distance := pet_visual.global_position.distance_to(owner_node.global_position)
     var effective_distance := follow_distance
     if pet_state == "Return" or distance > leash_distance:
         effective_distance = 1.6
     var destination := owner_node.global_position - owner_node.global_transform.basis.z * effective_distance
-    global_position = global_position.lerp(destination, clamp(delta * follow_smoothing, 0.0, 1.0))
+    pet_visual.global_position = pet_visual.global_position.lerp(destination, clamp(delta * follow_smoothing, 0.0, 1.0))
 
 func _move_toward_target(delta: float) -> void:
     var destination := target_node.global_position - target_node.global_transform.basis.z * combat_distance
-    global_position = global_position.lerp(destination, clamp(delta * follow_smoothing * 1.25, 0.0, 1.0))
+    pet_visual.global_position = pet_visual.global_position.lerp(destination, clamp(delta * follow_smoothing * 1.25, 0.0, 1.0))
