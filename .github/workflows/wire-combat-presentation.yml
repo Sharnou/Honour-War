@@ -1,0 +1,53 @@
+name: Wire combat presentation
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/wire-combat-presentation.yml'
+
+jobs:
+  wire:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch runtime bridge
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('scripts/CombatRuntime.gd')
+          s=p.read_text()
+          old='''func call_vfx(kind:String,position:Vector2,text:String,critical:bool=false)->void:\n\tvar vfx=game.get_node_or_null("CombatVFX")\n\tif vfx==null: return'''
+          new='''func call_vfx(kind:String,position:Vector2,text:String,critical:bool=false)->void:\n\tvar bridge=game.get_node_or_null("Combat3DBridge")\n\tif bridge!=null:\n\t\tif kind=="hit":\n\t\t\tbridge.show_number(position,int(text),critical,"enemy")\n\t\telif kind=="heal":\n\t\t\tbridge.show_number(position,int(text),false,"heal")\n\t\telif kind=="miss":\n\t\t\tbridge.show_number(position,0,false,"miss")\n\tvar vfx=game.get_node_or_null("CombatVFX")\n\tif vfx==null: return'''
+          if old in s:
+              p.write_text(s.replace(old,new))
+          else:
+              print('runtime pattern not found; leaving file unchanged')
+          PY
+      - name: Add presentation nodes to 3D scene
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('scenes/Main3D.tscn')
+          if not p.exists():
+              p=Path('Main3D.tscn')
+          s=p.read_text()
+          if 'CombatPresentation3D.gd' not in s:
+              s=s.replace('[gd_scene', '[ext_resource type="Script" path="res://scripts/CombatPresentation3D.gd" id="combat_presentation"]\n[ext_resource type="Script" path="res://scripts/GraphicsQualityProfile.gd" id="graphics_profile"]\n\n[gd_scene', 1)
+              anchor='[node name="Combat3DBridge" type="Node" parent="."]'
+              if anchor in s:
+                  insert='[node name="CombatPresentation3D" type="Node3D" parent="."]\nscript = ExtResource("combat_presentation")\n\n[node name="GraphicsQualityProfile" type="Node" parent="."]\nscript = ExtResource("graphics_profile")\n\n'
+                  s=s.replace(anchor, insert+anchor, 1)
+              p.write_text(s)
+          PY
+      - name: Commit changes
+        shell: bash
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add scripts/CombatRuntime.gd scenes/Main3D.tscn Main3D.tscn
+          git diff --cached --quiet || git commit -m 'Wire combat presentation and graphics profile'
+          git push
