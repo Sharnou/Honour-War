@@ -45,20 +45,14 @@ func _build_environment() -> void:
 	environment.ambient_light_energy = 0.82
 	environment.reflected_light_source = Environment.REFLECTION_SOURCE_BG
 	environment.tonemap_mode = Environment.TONE_MAPPER_FILMIC
-	environment.glow_enabled = true
-	environment.glow_intensity = 0.78
-	environment.glow_bloom = 0.12
-	environment.glow_blend_mode = Environment.GLOW_BLEND_MODE_SOFTLIGHT
+	# GL Compatibility does not implement Godot Environment glow or adjustment.
+	# Do not set those properties here: doing so only produces runtime warnings.
 	environment.fog_enabled = true
 	environment.fog_light_color = Color("#8ca9bd")
 	environment.fog_light_energy = 0.38
 	environment.fog_density = 0.008
 	environment.fog_height = 1.5
 	environment.fog_height_density = 0.018
-	environment.adjustment_enabled = true
-	environment.adjustment_brightness = 1.04
-	environment.adjustment_contrast = 1.08
-	environment.adjustment_saturation = 1.10
 
 func _build_lights() -> void:
 	sun = get_node_or_null("HDSun") as DirectionalLight3D
