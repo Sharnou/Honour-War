@@ -25,9 +25,14 @@ func _ready()->void:
     game=get_parent() as Node3D
     if game!=null:
         legacy=game.get_node_or_null("LegacyGame")
+    call_deferred("_build_runtime_nodes")
+    set_process(true)
+
+func _build_runtime_nodes()->void:
+    if not is_inside_tree():
+        return
     _build_animation_players()
     _build_animation_trees()
-    set_process(true)
 
 func _build_animation_players()->void:
     hero_player=AnimationPlayer.new()
