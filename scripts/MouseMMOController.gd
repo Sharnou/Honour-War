@@ -24,12 +24,10 @@ func _ready()->void:
 	_build_cursor_marker()
 
 func _process(delta:float)->void:
-	if legacy==null or camera==null:
-		return
+	if legacy==null or camera==null: return
 	attack_timer=max(0.0,attack_timer-delta)
 	var hero_value:Variant=legacy.get("hero")
-	if not hero_value is Dictionary:
-		return
+	if not hero_value is Dictionary: return
 	var hero:Dictionary=hero_value
 	if has_move_target:
 		var hero_pos:Vector2=Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0)))
@@ -45,8 +43,7 @@ func _process(delta:float)->void:
 			var max_y:float=ORIGIN_Y+float(map_data.get("height",700))-1.0
 			hero["pos_x"]=clamp(float(hero["pos_x"])+direction.x*step,min_x,max_x)
 			hero["pos_y"]=clamp(float(hero["pos_y"])+direction.y*step,min_y,max_y)
-		else:
-			has_move_target=false
+		else: has_move_target=false
 	if not attack_target.is_empty():
 		var target:Dictionary=attack_target
 		var monsters_value:Variant=legacy.get("monsters")
@@ -61,8 +58,7 @@ func _process(delta:float)->void:
 				mouse_target=_map_to_world(target_pos)
 			elif attack_timer<=0.0:
 				attack_timer=ATTACK_INTERVAL
-				if legacy.has_method("attack"):
-					legacy.call("attack")
+				if legacy.has_method("attack"): legacy.call("attack")
 	_update_marker()
 
 func _unhandled_input(event:InputEvent)->void:
@@ -71,9 +67,9 @@ func _unhandled_input(event:InputEvent)->void:
 			_handle_mouse_click(event.position)
 
 func _handle_mouse_click(screen_position:Vector2)->void:
-	var gate:WarpGate3D=_pick_warp_gate(screen_position)
+	var gate:Node=_pick_warp_gate(screen_position)
 	if gate!=null:
-		gate.activate()
+		if gate.has_method("activate"): gate.call("activate")
 		attack_target={}
 		has_move_target=false
 		return
@@ -84,27 +80,22 @@ func _handle_mouse_click(screen_position:Vector2)->void:
 		mouse_target=_map_to_world(monster.get("pos",Vector2.ZERO))
 		return
 	var world_point:Vector3=_screen_to_ground(screen_position)
-	if world_point==Vector3.INF:
-		return
+	if world_point==Vector3.INF: return
 	attack_target={}
 	mouse_target=world_point
 	has_move_target=true
 
 func _pick_monster(screen_position:Vector2)->Dictionary:
-	if legacy==null:
-		return {}
+	if legacy==null: return {}
 	var monsters_value:Variant=legacy.get("monsters")
-	if not monsters_value is Array:
-		return {}
+	if not monsters_value is Array: return {}
 	var best:Dictionary={}
 	var best_distance:float=CLICK_RADIUS_PIXELS
 	for item in monsters_value as Array:
-		if not item is Dictionary:
-			continue
+		if not item is Dictionary: continue
 		var monster:Dictionary=item
 		var pos_value:Variant=monster.get("pos",Vector2.ZERO)
-		if not pos_value is Vector2:
-			continue
+		if not pos_value is Vector2: continue
 		var world:Vector3=_map_to_world(pos_value as Vector2)
 		var screen:Vector2=camera.unproject_position(world+Vector3(0.0,0.8,0.0))
 		var distance:float=screen.distance_to(screen_position)
@@ -113,14 +104,15 @@ func _pick_monster(screen_position:Vector2)->Dictionary:
 			best=monster
 	return best
 
-func _pick_warp_gate(screen_position:Vector2)->WarpGate3D:
-	var best:WarpGate3D=null
+func _pick_warp_gate(screen_position:Vector2)->Node:
+	var best:Node=null
 	var best_distance:float=CLICK_RADIUS_PIXELS
 	for item in get_tree().get_nodes_in_group("warp_gate"):
-		var gate:WarpGate3D=item as WarpGate3D
-		if gate==null or not gate.visible:
-			continue
-		var screen:Vector2=camera.unproject_position(gate.global_position+Vector3(0.0,1.1,0.0))
+		var gate:Node=item as Node
+		if gate==null or not gate.visible: continue
+		var gate_3d:Node3D=gate as Node3D
+		if gate_3d==null: continue
+		var screen:Vector2=camera.unproject_position(gate_3d.global_position+Vector3(0.0,1.1,0.0))
 		var distance:float=screen.distance_to(screen_position)
 		if distance<best_distance:
 			best_distance=distance
@@ -130,11 +122,9 @@ func _pick_warp_gate(screen_position:Vector2)->WarpGate3D:
 func _screen_to_ground(screen_position:Vector2)->Vector3:
 	var origin:Vector3=camera.project_ray_origin(screen_position)
 	var direction:Vector3=camera.project_ray_normal(screen_position)
-	if abs(direction.y)<0.0001:
-		return Vector3.INF
+	if abs(direction.y)<0.0001: return Vector3.INF
 	var distance:float=-origin.y/direction.y
-	if distance<0.0:
-		return Vector3.INF
+	if distance<0.0: return Vector3.INF
 	return origin+direction*distance
 
 func _map_to_world(pos:Vector2)->Vector3:
@@ -160,8 +150,7 @@ func _build_cursor_marker()->void:
 	game.add_child(cursor_marker)
 
 func _update_marker()->void:
-	if cursor_marker==null:
-		return
+	if cursor_marker==null: return
 	cursor_marker.visible=has_move_target
 	if has_move_target:
 		cursor_marker.position=mouse_target+Vector3(0.0,0.045,0.0)
