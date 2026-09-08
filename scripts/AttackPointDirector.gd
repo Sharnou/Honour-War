@@ -100,16 +100,17 @@ func _spawn_attack_arc(origin:Vector2,target:Vector2,direction:Vector2,class_id:
     mesh.ring_segments=24
     arc.mesh=mesh
     arc.position=midpoint
-    arc.rotation_degrees=Vector3(90.0,rad_to_deg(atan2(direction.x,direction.y)),pet else 0.0)
+    var yaw:=rad_to_deg(atan2(direction.x,direction.y))
+    arc.rotation_degrees=Vector3(90.0,yaw,0.0)
     if pet:
-        arc.rotation_degrees.z=0.0
+        arc.rotation_degrees.z=18.0
     var color:=_class_color(class_id)
     arc.material_override=_emissive_material(color,1.8 if not pet else 1.2)
     game.add_child(arc)
     active_fx.append(arc)
     var tween:=create_tween()
     tween.set_parallel(true)
-    tween.tween_property(arc,"scale",Vector3(1.0,1.0,1.0)*1.7,0.13)
+    tween.tween_property(arc,"scale",Vector3.ONE*1.7,0.13)
     tween.tween_property(arc,"transparency",0.9,0.13)
     tween.chain().tween_callback(arc.queue_free)
     var line:=MeshInstance3D.new()
