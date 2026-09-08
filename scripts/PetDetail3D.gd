@@ -15,7 +15,7 @@ func _process(delta:float)->void:
 		return
 	if pet!=last_pet:
 		last_pet=pet
-	_decorate(pet)
+	_decorate(pet,game)
 	var flap:float=sin(elapsed*7.5)*0.18
 	var wings:Node3D=pet.get_node_or_null("DetailWings") as Node3D
 	if wings!=null:
@@ -24,12 +24,19 @@ func _process(delta:float)->void:
 	if tail!=null:
 		tail.rotation.z=sin(elapsed*4.0)*0.08
 
-func _decorate(pet:Node3D)->void:
+func _decorate(pet:Node3D,game:Node)->void:
 	var key:int=pet.get_instance_id()
 	if decorated.has(key):
 		return
 	decorated[key]=true
-	var species:String=str(pet.get_meta("species_id","Pet"))
+	var species:String="Pet"
+	var legacy:Node=game.get_node_or_null("LegacyGame")
+	if legacy!=null:
+		var hero_value:Variant=legacy.get("hero")
+		if hero_value is Dictionary:
+			var pet_value:Variant=hero_value.get("pet",{})
+			if pet_value is Dictionary:
+				species=str(pet_value.get("species","Pet"))
 	if species=="Royal Falcon":
 		_falcon(pet)
 	elif species=="Astral Sprite":
