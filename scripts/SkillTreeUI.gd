@@ -85,38 +85,40 @@ func refresh()->void:
 	points_label.text="Skill Points: %d" % int(game.hero.get("skill_points",0))
 	title.text="%s • SKILL MASTERY" % str(game.hero.get("class","Warrior"))
 	for child in list.get_children(): child.queue_free()
-	var skills:=SkillSystem.all_skills(str(game.hero.get("class","Warrior")))
-	var current_tier:=0
+	var skills:Array=SkillSystem.all_skills(str(game.hero.get("class","Warrior")))
+	var current_tier:int=0
 	for skill in skills:
 		if int(skill["tier"])!=current_tier:
-		current_tier=int(skill["tier"])
-		var tier_label:=Label.new()
-		tier_label.text="TIER %d  •  %s" % [current_tier, tier_name(current_tier)]
-		tier_label.add_theme_font_size_override("font_size",17)
-		list.add_child(tier_label)
-		var divider:=HSeparator.new()
-		list.add_child(divider)
-		var row:=PanelContainer.new()
-		row.custom_minimum_size=Vector2(760,72)
-		list.add_child(row)
-		var hb:=HBoxContainer.new()
-		hb.add_theme_constant_override("separation",10)
-		row.add_child(hb)
-		var info:=Label.new()
-		var lvl:=SkillSystem.skill_level(game.hero,str(skill["id"]))
-		var state:="LOCKED"
-		if lvl>0: state="Lv.%d/%d" % [lvl,int(skill["max_level"])]
-		info.text="%s  [%s]\n%s\nReq Lv.%d • Cost %d SP • Power %d • Cooldown %.1fs" % [skill["name"],state,skill["description"],int(skill["required_level"]),int(skill["cost"]),SkillSystem.power(game.hero,skill["id"]),float(skill["cooldown"])]
-		info.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-		info.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-		hb.add_child(info)
-		var button:=Button.new()
-		if lvl<=0: button.text="LEARN"
-		else: button.text="UPGRADE"
-		button.custom_minimum_size=Vector2(105,48)
-		button.disabled=not SkillSystem.can_learn(game.hero,str(skill["id"]))
-		button.pressed.connect(learn_skill.bind(str(skill["id"])))
-		hb.add_child(button)
+			current_tier=int(skill["tier"])
+			var tier_label:Label=Label.new()
+			tier_label.text="TIER %d  •  %s" % [current_tier,tier_name(current_tier)]
+			tier_label.add_theme_font_size_override("font_size",17)
+			list.add_child(tier_label)
+			var divider:HSeparator=HSeparator.new()
+			list.add_child(divider)
+			var row:PanelContainer=PanelContainer.new()
+			row.custom_minimum_size=Vector2(760,72)
+			list.add_child(row)
+			var hb:HBoxContainer=HBoxContainer.new()
+			hb.add_theme_constant_override("separation",10)
+			row.add_child(hb)
+			var info:Label=Label.new()
+			var lvl:int=SkillSystem.skill_level(game.hero,str(skill["id"]))
+			var state:String="LOCKED"
+			if lvl>0: state="Lv.%d/%d" % [lvl,int(skill["max_level"])]
+			info.text="%s  [%s]
+%s
+Req Lv.%d • Cost %d SP • Power %d • Cooldown %.1fs" % [skill["name"],state,skill["description"],int(skill["required_level"]),int(skill["cost"]),SkillSystem.power(game.hero,skill["id"]),float(skill["cooldown"])]
+			info.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+			info.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+			hb.add_child(info)
+			var button:Button=Button.new()
+			if lvl<=0: button.text="LEARN"
+			else: button.text="UPGRADE"
+			button.custom_minimum_size=Vector2(105,48)
+			button.disabled=not SkillSystem.can_learn(game.hero,str(skill["id"]))
+			button.pressed.connect(learn_skill.bind(str(skill["id"])))
+			hb.add_child(button)
 	notice.text="F: toggle • Skills scale with level and skill rank. Ultimates require Lv.200 and their prerequisite chain."
 
 func tier_name(tier:int)->String:

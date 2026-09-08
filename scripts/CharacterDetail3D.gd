@@ -64,7 +64,7 @@ func _mat(color:Color,metal:float=0.0,rough:float=0.65,emission:Color=Color(0,0,
 	mat.albedo_color=color
 	mat.metallic=metal
 	mat.roughness=rough
-	if emission.length()>0.0:
+	if emission != Color(0,0,0,1):
 		mat.emission_enabled=true
 		mat.emission=emission
 		mat.emission_energy_multiplier=2.4
