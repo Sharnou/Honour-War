@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3]
+[gd_scene load_steps=25 format=3]
 
 [ext_resource path="res://scripts/Game3D.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/Main.gd" type="Script" id="2"]
@@ -22,6 +22,8 @@
 [ext_resource path="res://scripts/AttackPointDirector.gd" type="Script" id="20"]
 [ext_resource path="res://scripts/WorldPopulationDirector.gd" type="Script" id="21"]
 [ext_resource path="res://scripts/MapDetailDirector.gd" type="Script" id="22"]
+[ext_resource path="res://scripts/HDChatBootstrap.gd" type="Script" id="23"]
+[ext_resource path="res://scenes/HDChatPanelLayout.tscn" type="PackedScene" id="24"]
 
 [node name="HonourWar3D" type="Node3D"]
 script = ExtResource("1")
@@ -53,6 +55,10 @@ rotation_degrees = Vector3(-38,0,0)
 current = true
 projection = 1
 size = 16.0
+
+[node name="HDChatBootstrap" type="CanvasLayer" parent="."]
+script = ExtResource("23")
+chat_panel_scene = ExtResource("24")
 
 [node name="LegacyGame" type="Node2D" parent="."]
 visible = false
