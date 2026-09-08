@@ -1,0 +1,41 @@
+name: Fix Game3D GDScript match syntax
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Fix invalid match default
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path("scripts/Game3D.gd")
+          s = p.read_text(encoding="utf-8")
+          old = '\t\telse:\n\t\t\tvar wolf:MeshInstance3D = _capsule(Color("#5d6472"),0.46,0.95)'
+          new = '\t\t_:\n\t\t\tvar wolf:MeshInstance3D = _capsule(Color("#5d6472"),0.46,0.95)'
+          if old in s:
+              p.write_text(s.replace(old, new, 1), encoding="utf-8")
+          elif new not in s:
+              raise SystemExit("Expected Game3D pet fallback pattern was not found")
+          PY
+          if git diff --quiet -- scripts/Game3D.gd; then
+            echo "Game3D match syntax already fixed."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scripts/Game3D.gd
+          git commit -m "Fix Godot 4.2 Game3D match default pattern"
+          git push
