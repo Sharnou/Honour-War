@@ -188,7 +188,7 @@ func _stabilize_camera()->void:
     if game==null or legacy==null:
         return
     var camera:Camera3D=game.get("camera") as Camera3D
-    if camera==null:
+    if camera==null or not camera.is_inside_tree():
         return
     var hero_value:Variant=legacy.get("hero")
     if not hero_value is Dictionary:
