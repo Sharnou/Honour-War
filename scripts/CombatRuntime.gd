@@ -159,8 +159,6 @@ func hero_strike(hero:Dictionary,monster:Dictionary)->void:
         monster["poison_until"]=now_seconds()+6.0
         monster["poison_tick"]=now_seconds()+1.0
     if class_id=="Mage" and rng.randf()<0.20: monster["slow_until"]=now_seconds()+3.0
-    call_vfx("hero_attack",monster["pos"],"",false)
-    call_vfx("hit",monster["pos"],str(damage),critical)
     hero_attack_landed.emit(monster,damage,critical)
     var prefix:String="CRITICAL " if critical else ""
     game.call("log_message","Auto attack: %s%d damage to Lv.%d %s." % [prefix,damage,int(monster.get("level",1)),str(monster.get("name","Monster"))])
@@ -189,10 +187,6 @@ func pet_strike(hero:Dictionary,monster:Dictionary)->void:
     var dealt:int=max(1,damage-int(monster.get("defense",0)))
     monster["hp"]=int(monster.get("hp",0))-dealt
     monster["hit_flash"]=0.20
-    var pet_visual=game.get("pet_visual")
-    if pet_visual is PetVisual: pet_visual.trigger_attack()
-    call_vfx("pet_attack",monster["pos"],str(pet.get("role","")),false)
-    call_vfx("hit",monster["pos"],str(dealt),special)
     pet_attack_landed.emit(monster,dealt,special)
     if special: game.call("log_message","%s unleashes %s for %d damage!" % [pet.get("name","Pet"),pet.get("skills",["Pet Skill"])[0],dealt])
     if int(monster["hp"])<=0: finish_monster(monster)
@@ -274,27 +268,13 @@ func respawn_hero(hero:Dictionary)->void:
     hero["pos_y"]=340.0
     if hero.get("pet",{}) is Dictionary: hero["pet"]["hp"]=hero["pet"].get("max_hp",60)
     game.call("log_message","You were defeated. Your bonded pet revived with you at the safe point.")
-    call_vfx("heal",Vector2(float(hero["pos_x"]),float(hero["pos_y"])),str(hero["max_hp"]),false)
+    call_vfx("heal",Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0))),"FULL",false)
+
+func call_vfx(kind:String,position:Vector2,label:String,critical:bool)->void:
+    if game and game.has_method("show_3d_combat_number") and kind in ["hit","heal"]:
+        game.call("show_3d_combat_number",position,int(label) if label.is_valid_int() else 0,critical,"enemy" if kind=="hit" else "hero")
+    if game and game.has_method("play_combat_effect"):
+        game.call("play_combat_effect",kind,position,label,critical)
 
 func now_seconds()->float:
     return Time.get_ticks_msec()/1000.0
-
-func call_vfx(kind:String,position:Vector2,text:String,critical:bool)->void:
-    var vfx=game.get_node_or_null("CombatVFX")
-    if vfx==null: return
-    match kind:
-        "hero_attack": vfx.hero_attack(position)
-        "pet_attack": vfx.pet_attack(position,text)
-        "hit":
-            vfx.hit(position,int(text),critical)
-            if game.has_method("show_3d_combat_number"): game.call("show_3d_combat_number",position,int(text),critical,"enemy")
-        "miss":
-            vfx.hit(position,0,critical)
-            if game.has_method("show_3d_combat_number"): game.call("show_3d_combat_number",position,0,critical,"enemy")
-        "heal":
-            vfx.heal(position,int(text))
-            if game.has_method("show_3d_combat_number"): game.call("show_3d_combat_number",position,int(text),false,"hero")
-        "mvp":
-            vfx.mvp_skill(position,text)
-        "monster_death":
-            vfx.monster_death(position)
