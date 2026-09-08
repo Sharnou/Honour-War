@@ -4,27 +4,54 @@ extends Node
 @export var camera_director_path: NodePath
 @export var pet_director_path: NodePath
 @export var combat_feedback_path: NodePath
+@export var combat_vfx_path: NodePath
 @export var target_path: NodePath
 @export var owner_path: NodePath
 
 var camera_director: Node
 var pet_director: Node
 var combat_feedback: Node
+var combat_vfx: Node
 var _bound_actor: Node3D
 var _bound_pet: Node3D
+var _bound_events: Node
 var _last_target:Variant = null
 
 func _ready() -> void:
     camera_director = get_node_or_null(camera_director_path)
     pet_director = get_node_or_null(pet_director_path)
     combat_feedback = get_node_or_null(combat_feedback_path)
+    combat_vfx = get_node_or_null(combat_vfx_path)
     _configure_camera()
     _configure_pet()
+    call_deferred("_bind_combat_events")
 
 func _process(_delta: float) -> void:
     _resolve_runtime_actor()
     _resolve_runtime_pet()
-    _resolve_combat_target()
+    if _bound_events == null:
+        _resolve_combat_target()
+
+func _bind_combat_events() -> void:
+    var runtime:Node = get_parent()
+    if runtime == null:
+        return
+    _bound_events = runtime.get_node_or_null("CombatEventBus")
+    if _bound_events == null:
+        return
+    if _bound_events.has_signal("target_changed"):
+        _bound_events.target_changed.connect(_on_target_changed)
+    var current:Variant = _bound_events.get("combat").get("target") if _bound_events.get("combat") else null
+    if current is Dictionary:
+        _on_target_changed(current)
+
+func _on_target_changed(target:Dictionary) -> void:
+    _last_target = target
+    var target_visual:Node3D = _find_monster_visual(target)
+    if pet_director and pet_director.has_method("set_target_node"):
+        pet_director.set_target_node(target_visual)
+    if combat_vfx and combat_vfx.has_method("set_target_marker"):
+        combat_vfx.set_target_marker(target_visual)
 
 func _resolve_runtime_actor() -> void:
     var actor: Node3D = null
@@ -65,9 +92,7 @@ func _resolve_combat_target() -> void:
     if candidate == _last_target:
         return
     _last_target = candidate
-    if pet_director and pet_director.has_method("set_target_node"):
-        var target_visual:Node3D = _find_monster_visual(candidate)
-        pet_director.set_target_node(target_visual)
+    _on_target_changed(candidate if candidate is Dictionary else {})
 
 func _find_monster_visual(target:Variant) -> Node3D:
     if not target is Dictionary:
