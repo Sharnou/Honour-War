@@ -111,7 +111,9 @@ func _update_effects(delta:float)->void:
 			ring.rotation.y+=delta*7.0
 		var mat:Material=(ring as MeshInstance3D).material_override if ring is MeshInstance3D else null
 		if mat is StandardMaterial3D:
-			(mat as StandardMaterial3D).albedo_color.a=1.0-t
+			var fade_color:Color=(mat as StandardMaterial3D).albedo_color
+			fade_color.a=1.0-t
+			(mat as StandardMaterial3D).albedo_color=fade_color
 		if spark!=null:
 			spark.scale=Vector3.ONE*(1.5-1.0*t)
 		if t>=1.0:
