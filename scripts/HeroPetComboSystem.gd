@@ -1,6 +1,10 @@
 class_name HeroPetComboSystem
 extends Node
 
+const SkillSystem = preload("res://scripts/SkillSystem.gd")
+const PetSystem = preload("res://scripts/PetSystem.gd")
+const PetSkillSystem = preload("res://scripts/PetSkillSystem.gd")
+
 signal combo_changed(count:int, grade:String)
 signal combo_triggered(name:String, count:int)
 signal finisher_executed(damage:int, target:Node)
