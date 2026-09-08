@@ -37,7 +37,7 @@ func _watch_effects()->void:
         var age:=float(effect.get("age",99.0))
         if age>0.055:
             continue
-        var key:=str(effect.get("kind",""))+":"+str(i)+":"+str(effect.get("pos",Vector2.ZERO))
+        var key:=str(effect.get("kind",""))+":"+str(effect.get("pos",Vector2.ZERO))+":"+str(effect.get("damage",0))+":"+str(i)
         if seen.has(key):
             continue
         seen[key]=elapsed
@@ -74,8 +74,11 @@ func _pet_attack_point(target_pos:Vector2)->void:
     if not hero_value is Dictionary:
         return
     var hero:Dictionary=hero_value
+    var pet_value:Variant=hero.get("pet",{})
+    var role:="Pet"
+    if pet_value is Dictionary:
+        role=str((pet_value as Dictionary).get("role","Pet"))
     var origin:=Vector2(float(hero.get("pos_x",0.0)),float(hero.get("pos_y",0.0)))+Vector2(34.0,24.0)
-    var role:=str(hero.get("pet",{}).get("role","Pet")) if hero.get("pet",{}) is Dictionary else "Pet"
     _spawn_pet_choreography(origin,target_pos,role)
     _spawn_point_marker(target_pos,Color("#8fe8ff"),0.34,0.9)
 
@@ -132,8 +135,7 @@ func _spawn_sweep(start:Vector3,end:Vector3,direction:Vector2,color:Color,energy
     var tween:=create_tween()
     tween.set_parallel(true)
     tween.tween_property(arc,"scale",Vector3.ONE*scale_value,0.13)
-    tween.tween_property(arc,"transparency",0.9,0.15)
-    tween.chain().tween_callback(arc.queue_free)
+    tween.chain().tween_callback(arc.queue_free).set_delay(0.17)
     _spawn_line(start,end,color,energy*0.55,0.15)
 
 func _spawn_blade_arc(pos:Vector3,direction:Vector2,color:Color,energy:float,duration:float)->void:
@@ -149,10 +151,8 @@ func _spawn_blade_arc(pos:Vector3,direction:Vector2,color:Color,energy:float,dur
     arc.material_override=_emissive_material(color,energy)
     game.add_child(arc)
     var tween:=create_tween()
-    tween.set_parallel(true)
     tween.tween_property(arc,"scale",Vector3(1.8,1.8,1.8),duration)
-    tween.tween_property(arc,"transparency",1.0,duration)
-    tween.chain().tween_callback(arc.queue_free)
+    tween.tween_callback(arc.queue_free)
 
 func _spawn_projectile(start:Vector3,end:Vector3,color:Color,radius:float,energy:float)->void:
     var projectile:=MeshInstance3D.new()
@@ -178,10 +178,8 @@ func _spawn_orb(pos:Vector3,color:Color,duration:float,scale_value:float)->void:
     orb.material_override=_emissive_material(color,2.2)
     game.add_child(orb)
     var tween:=create_tween()
-    tween.set_parallel(true)
     tween.tween_property(orb,"scale",Vector3.ONE*scale_value,duration)
-    tween.tween_property(orb,"transparency",1.0,duration)
-    tween.chain().tween_callback(orb.queue_free)
+    tween.tween_callback(orb.queue_free)
 
 func _spawn_holy_beam(start:Vector3,end:Vector3,color:Color)->void:
     _spawn_line(start,end,color,2.6,0.20)
@@ -197,10 +195,8 @@ func _spawn_impact_box(pos:Vector3,color:Color,duration:float)->void:
     box.material_override=_emissive_material(color,1.8)
     game.add_child(box)
     var tween:=create_tween()
-    tween.set_parallel(true)
     tween.tween_property(box,"scale",Vector3.ONE*2.0,duration)
-    tween.tween_property(box,"transparency",1.0,duration)
-    tween.chain().tween_callback(box.queue_free)
+    tween.tween_callback(box.queue_free)
 
 func _spawn_line(start:Vector3,end:Vector3,color:Color,energy:float,duration:float)->void:
     var line:=MeshInstance3D.new()
@@ -215,8 +211,7 @@ func _spawn_line(start:Vector3,end:Vector3,color:Color,energy:float,duration:flo
     line.material_override=_emissive_material(color,energy)
     game.add_child(line)
     var tween:=create_tween()
-    tween.tween_property(line,"transparency",1.0,duration)
-    tween.tween_callback(line.queue_free)
+    tween.tween_callback(line.queue_free).set_delay(duration)
 
 func _spawn_point_marker(pos:Vector2,color:Color,duration:float,scale_value:float)->void:
     var marker:=MeshInstance3D.new()
@@ -233,10 +228,8 @@ func _spawn_point_marker(pos:Vector2,color:Color,duration:float,scale_value:floa
     marker.material_override=_emissive_material(color,2.0)
     game.add_child(marker)
     var tween:=create_tween()
-    tween.set_parallel(true)
     tween.tween_property(marker,"scale",Vector3.ONE*(scale_value*1.8),duration)
-    tween.tween_property(marker,"transparency",1.0,duration)
-    tween.chain().tween_callback(marker.queue_free)
+    tween.tween_callback(marker.queue_free)
 
 func _impact_point(pos:Vector2,critical:bool)->void:
     var ring:=MeshInstance3D.new()
@@ -252,11 +245,9 @@ func _impact_point(pos:Vector2,critical:bool)->void:
     ring.material_override=_emissive_material(Color("#ffb347") if not critical else Color("#fff0a3"),2.4 if critical else 1.6)
     game.add_child(ring)
     var tween:=create_tween()
-    tween.set_parallel(true)
     tween.tween_property(ring,"scale",Vector3.ONE*(2.8 if critical else 2.1),0.16)
     tween.tween_property(ring,"position:y",0.42 if critical else 0.32,0.16)
-    tween.tween_property(ring,"transparency",1.0,0.18)
-    tween.chain().tween_callback(ring.queue_free)
+    tween.tween_callback(ring.queue_free)
 
 func _death_point(pos:Vector2)->void:
     _spawn_point_marker(pos,Color("#ffe08a"),0.55,1.0)
