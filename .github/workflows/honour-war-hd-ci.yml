@@ -3,8 +3,6 @@ name: Honour War HD Production CI
 on:
   push:
     branches: [main]
-    paths-ignore:
-      - '**.md'
   pull_request:
     branches: [main]
   workflow_dispatch:
@@ -31,11 +29,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if grep -RInE 'tween_property\([^\n]*["'"']modulate:a|modulate:a' scripts --include='*.gd'; then
-            echo 'ERROR: invalid MeshInstance3D alpha tween pattern detected.'
+          if grep -RInF 'modulate:a' scripts --include='*.gd'; then
+            echo 'ERROR: forbidden modulate:a pattern detected in GDScript.'
             exit 1
           fi
-          echo 'PASS: no forbidden modulate:a tween pattern found in scripts.'
+          echo 'PASS: no forbidden modulate:a pattern found in scripts.'
 
       - name: Check production pipeline declaration
         shell: bash
@@ -112,4 +110,4 @@ jobs:
           textures=$(find assets/3d -type f \( -name '*.png' -o -name '*.jpg' -o -name '*.jpeg' -o -name '*.tga' -o -name '*.webp' \) | wc -l)
           echo "Production models: ${models}"
           echo "Production textures: ${textures}"
-          echo "The manifest remains valid even while the production asset library is being authored."
+          echo "The manifest remains valid while the production asset library is being authored."
