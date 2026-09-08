@@ -1,8 +1,10 @@
 class_name PetSkillRuntime
 extends Node
 
-@export var cast_interval:float = 3.5
-@export var auto_cast_states:Array[String] = ["Assist", "Aggressive"]
+@export var cast_interval:float=3.5
+@export var auto_cast_states:Array[String]=["Assist","Aggressive","Defend"]
+@export var low_owner_hp_ratio:float=0.45
+@export var emergency_owner_hp_ratio:float=0.28
 
 var game:Node
 var combat:Node
@@ -36,18 +38,54 @@ func _attempt_cast()->void:
     if not pet_value is Dictionary: return
     var pet:Dictionary=pet_value
     PetSkillSystem.ensure_state(pet)
-    var skills:Array=PetSkillSystem.all_skills(str(pet.get("species","Wolf Cub")))
-    if skills.is_empty(): return
+    var target_value:Variant=combat.get("target")
+    if not target_value is Dictionary: return
+    var monster:Dictionary=target_value
+    if int(monster.get("hp",0))<=0: return
+    var selected:String=_select_best_skill(pet,hero,monster,director)
+    if selected.is_empty(): return
+    _cast(selected)
+
+func _select_best_skill(pet:Dictionary,hero:Dictionary,monster:Dictionary,director:Node)->String:
+    var species:String=str(pet.get("species","Wolf Cub"))
+    var role:String=str(director.get("pet_role")) if director else str(pet.get("role","Hybrid"))
+    var owner_ratio:float=float(hero.get("hp",0))/float(max(1,int(hero.get("max_hp",1))))
+    var pet_ratio:float=float(pet.get("hp",0))/float(max(1,int(pet.get("max_hp",1))))
+    var monster_ratio:float=float(monster.get("hp",0))/float(max(1,int(monster.get("max",monster.get("hp",1)))))
+    var best_id:String=""
+    var best_score:float=-INF
     var now:float=Time.get_ticks_msec()/1000.0
-    for offset in range(skills.size()):
-        var index:int=(last_skill_index+1+offset)%skills.size()
-        var skill:Dictionary=skills[index]
+    for skill in PetSkillSystem.all_skills(species):
         if str(skill.get("kind",""))=="passive": continue
         var id:String=str(skill.get("id",""))
         if PetSkillSystem.skill_level(pet,id)<=0 or not PetSkillSystem.is_ready(pet,id,now): continue
-        last_skill_index=index
-        _cast(id)
-        return
+        var score:float=float(skill.get("power",0))*0.04+float(skill.get("tier",1))*0.5
+        var kind:String=str(skill.get("kind",""))
+        if kind=="ultimate": score+=8.0
+        if role=="Ranged":
+            if id.find("mark")>=0 or id.find("eye")>=0: score+=5.0
+            if id.find("storm")>=0 or id.find("barrage")>=0 or id.find("meteor")>=0: score+=3.0
+        elif role=="DPS":
+            score+=float(skill.get("power",0))*0.03
+            if monster_ratio<0.35: score+=4.0
+            if id.find("rend")>=0 or id.find("fury")>=0 or id.find("apex")>=0: score+=3.0
+        elif role=="Guardian":
+            if owner_ratio<low_owner_hp_ratio: score+=6.0
+            if owner_ratio<emergency_owner_hp_ratio: score+=5.0
+            if id.find("guard")>=0 or id.find("heart")>=0 or id.find("howl")>=0: score+=7.0
+            if id.find("roar")>=0: score+=4.0
+        elif role=="Support":
+            if owner_ratio<emergency_owner_hp_ratio: score+=10.0
+            elif owner_ratio<low_owner_hp_ratio: score+=7.0
+            if id.find("bond")>=0 or id.find("guardian")>=0 or id.find("howl")>=0: score+=6.0
+        else:
+            if pet_ratio<0.35 and id.find("guard")>=0: score+=4.0
+        if int(monster.get("level",1))>int(pet.get("level",1)): score+=1.5
+        if id=="pet_dragon_meteor" or id.find("apocalypse")>=0: score+=2.0
+        if score>best_score:
+            best_score=score
+            best_id=id
+    return best_id
 
 func _cast(skill_id:String)->Dictionary:
     if game==null or combat==null: return {"ok":false,"reason":"runtime"}
@@ -75,6 +113,7 @@ func _cast(skill_id:String)->Dictionary:
     var dealt:int=max(1,scaled-defense/2+rng.randi_range(0,10))
     monster["hp"]=int(monster.get("hp",0))-dealt
     monster["hit_flash"]=0.28
+    _apply_role_effects(pet,hero,monster,skill,dealt)
     var position:Vector2=monster.get("pos",Vector2.ZERO)
     var world_position:=Vector3((position.x-595.0)*0.055,0.9,(position.y-340.0)*0.055)
     var species:String=str(pet.get("species","Wolf Cub"))
@@ -95,6 +134,26 @@ func _cast(skill_id:String)->Dictionary:
         combat.call("finish_monster",monster)
     return {"ok":true,"skill_name":str(skill.get("name",skill_id)),"skill_id":skill_id,"damage":dealt,"cooldown":float(skill.get("cooldown",0.0))}
 
+func _apply_role_effects(pet:Dictionary,hero:Dictionary,monster:Dictionary,skill:Dictionary,dealt:int)->void:
+    var role:String=str(pet.get("role",""))
+    var id:String=str(skill.get("id",""))
+    var now:float=Time.get_ticks_msec()/1000.0
+    if role=="Guardian" or role=="Support":
+        if id.find("guard")>=0 or id.find("heart")>=0 or id.find("bond")>=0:
+            hero["temporary_defense_until"]=max(float(hero.get("temporary_defense_until",0.0)),now+3.0)
+            pet["guard_until"]=now+3.0
+        if role=="Support" and float(hero.get("hp",0))/float(max(1,int(hero.get("max_hp",1))))<low_owner_hp_ratio:
+            var heal:int=max(1,int(dealt*0.35)+int(pet.get("level",1)))
+            hero["hp"]=min(int(hero.get("max_hp",1)),int(hero.get("hp",0))+heal)
+            var hero_pos:=Vector2(float(hero.get("pos_x",0.0)),float(hero.get("pos_y",0.0)))
+            call_vfx("heal",hero_pos,str(heal),false)
+    if role=="Guardian" and (id.find("howl")>=0 or id.find("roar")>=0):
+        monster["pet_threat"]=int(monster.get("pet_threat",0))+dealt*3
+        monster["target_pet_until"]=now+3.5
+    if role=="DPS" or role=="Ranged":
+        if int(monster.get("hp",0))<=int(monster.get("max",monster.get("hp",0)))*0.2:
+            monster["execution_mark_until"]=now+2.0
+
 func _get_hero()->Dictionary:
     if game==null: return {}
     var value:Variant=game.get("hero")
@@ -107,3 +166,8 @@ func _radius(skill:Dictionary)->float:
     if str(skill.get("kind",""))=="ultimate": return 4.5
     if int(skill.get("tier",1))>=4: return 3.2
     return 2.1
+
+func call_vfx(kind:String,position:Vector2,text:String,critical:bool)->void:
+    var vfx:Node=game.get_node_or_null("LegacyGame/CombatVFX") if game else null
+    if vfx==null: return
+    if kind=="heal" and vfx.has_method("heal"): vfx.heal(position,int(text))
