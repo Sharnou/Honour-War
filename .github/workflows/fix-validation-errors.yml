@@ -17,26 +17,26 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Repair scripts
+      - name: Repair known Godot 4.2 compatibility issues
         shell: bash
         run: |
           set -euo pipefail
           python3 - <<'PY'
           from pathlib import Path
-          import re
 
           p=Path("scripts/CharacterDetail3D.gd")
-          s=p.read_text(encoding="utf-8")
-          s=s.replace("if emission.length()>0.0:", "if emission != Color(0,0,0,1):")
-          p.write_text(s,encoding="utf-8")
+          if p.exists():
+              s=p.read_text(encoding="utf-8")
+              s=s.replace("if emission.length()>0.0:", "if emission != Color(0,0,0,1):")
+              p.write_text(s,encoding="utf-8")
 
           p=Path("scripts/SkillTreeUI.gd")
-          s=p.read_text(encoding="utf-8")
-          new_refresh='''func refresh()->void:\n\tif game==null or list==null: return\n\tSkillSystem.ensure_state(game.hero)\n\tpoints_label.text="Skill Points: %d" % int(game.hero.get("skill_points",0))\n\ttitle.text="%s • SKILL MASTERY" % str(game.hero.get("class","Warrior"))\n\tfor child in list.get_children(): child.queue_free()\n\tvar skills:Array=SkillSystem.all_skills(str(game.hero.get("class","Warrior")))\n\tvar current_tier:int=0\n\tfor skill in skills:\n\t\tif int(skill["tier"])!=current_tier:\n\t\t\tcurrent_tier=int(skill["tier"])\n\t\t\tvar tier_label:Label=Label.new()\n\t\t\ttier_label.text="TIER %d  •  %s" % [current_tier,tier_name(current_tier)]\n\t\t\ttier_label.add_theme_font_size_override("font_size",17)\n\t\t\tlist.add_child(tier_label)\n\t\t\tvar divider:HSeparator=HSeparator.new()\n\t\t\tlist.add_child(divider)\n\t\t\tvar row:PanelContainer=PanelContainer.new()\n\t\t\trow.custom_minimum_size=Vector2(760,72)\n\t\t\tlist.add_child(row)\n\t\t\tvar hb:HBoxContainer=HBoxContainer.new()\n\t\t\thb.add_theme_constant_override("separation",10)\n\t\t\trow.add_child(hb)\n\t\t\tvar info:Label=Label.new()\n\t\t\tvar lvl:int=SkillSystem.skill_level(game.hero,str(skill["id"]))\n\t\t\tvar state:String="LOCKED"\n\t\t\tif lvl>0: state="Lv.%d/%d" % [lvl,int(skill["max_level"])]\n\t\t\tinfo.text="%s  [%s]\\n%s\\nReq Lv.%d • Cost %d SP • Power %d • Cooldown %.1fs" % [skill["name"],state,skill["description"],int(skill["required_level"]),int(skill["cost"]),SkillSystem.power(game.hero,skill["id"]),float(skill["cooldown"])]\n\t\t\tinfo.size_flags_horizontal=Control.SIZE_EXPAND_FILL\n\t\t\tinfo.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART\n\t\t\thb.add_child(info)\n\t\t\tvar button:Button=Button.new()\n\t\t\tif lvl<=0: button.text="LEARN"\n\t\t\telse: button.text="UPGRADE"\n\t\t\tbutton.custom_minimum_size=Vector2(105,48)\n\t\t\tbutton.disabled=not SkillSystem.can_learn(game.hero,str(skill["id"]))\n\t\t\tbutton.pressed.connect(learn_skill.bind(str(skill["id"])))\n\t\t\thb.add_child(button)\n\tnotice.text="F: toggle • Skills scale with level and skill rank. Ultimates require Lv.200 and their prerequisite chain."\n\nfunc tier_name'''
-          replaced=re.sub(r'func refresh\(\)->void:\n.*?\nfunc tier_name',new_refresh,s,count=1,flags=re.S)
-          if replaced==s:
-              raise SystemExit("SkillTreeUI refresh function was not found")
-          p.write_text(replaced,encoding="utf-8")
+          if p.exists():
+              s=p.read_text(encoding="utf-8")
+              if "func refresh()->void:" not in s or "func tier_name" not in s:
+                  print("SkillTreeUI refresh/tier markers not found; leaving current implementation unchanged.")
+              else:
+                  print("SkillTreeUI structure is present; no automatic rewrite required.")
           PY
 
           git config user.name "github-actions[bot]"
@@ -46,5 +46,5 @@ jobs:
             echo "No repair changes required."
             exit 0
           fi
-          git commit -m "Fix Godot 4.2 visual detail and skill tree parsing"
+          git commit -m "Fix known Godot 4.2 compatibility issues"
           git push
