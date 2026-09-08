@@ -1,6 +1,8 @@
 class_name PetSkillOverlay3D
 extends CanvasLayer
 
+const PetSkillSystem = preload("res://scripts/PetSkillSystem.gd")
+
 @export var toggle_key:Key = KEY_P
 
 var legacy:Node
