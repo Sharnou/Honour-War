@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3]
+[gd_scene load_steps=17 format=3]
 
 [ext_resource path="res://scripts/Game3D.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/Main.gd" type="Script" id="2"]
@@ -15,9 +15,13 @@
 [ext_resource path="res://scripts/CombatVFX.gd" type="Script" id="13"]
 [ext_resource path="res://scripts/CombatNumberRelay.gd" type="Script" id="14"]
 [ext_resource path="res://scripts/CombatAnimationController.gd" type="Script" id="15"]
+[ext_resource path="res://scripts/HDVisualDirector.gd" type="Script" id="16"]
 
 [node name="HonourWar3D" type="Node3D"]
 script = ExtResource("1")
+
+[node name="HDVisualDirector" type="Node3D" parent="."]
+script = ExtResource("16")
 
 [node name="CombatAnimationController" type="Node3D" parent="."]
 script = ExtResource("15")
