@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3]
+[gd_scene load_steps=31 format=3]
 
 [ext_resource path="res://scripts/Game3D.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/Main.gd" type="Script" id="2"]
@@ -29,6 +29,7 @@
 [ext_resource path="res://scripts/HDPetCombatDirector.gd" type="Script" id="27"]
 [ext_resource path="res://scripts/HDCombatFeedback.gd" type="Script" id="28"]
 [ext_resource path="res://scripts/HDCombatVFX.gd" type="Script" id="29"]
+[ext_resource path="res://scripts/HDSkillPresentation.gd" type="Script" id="30"]
 
 [node name="HonourWar3D" type="Node3D"]
 script = ExtResource("1")
@@ -73,6 +74,10 @@ script = ExtResource("28")
 
 [node name="HDCombatVFX" type="Node3D" parent="."]
 script = ExtResource("29")
+feedback_path = NodePath("../HDCombatFeedback")
+
+[node name="HDSkillPresentation" type="Node" parent="."]
+script = ExtResource("30")
 feedback_path = NodePath("../HDCombatFeedback")
 
 [node name="HDRuntimeIntegration" type="Node" parent="."]
