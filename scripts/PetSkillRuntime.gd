@@ -5,6 +5,7 @@ extends Node
 @export var auto_cast_states:Array[String]=["Assist","Aggressive","Defend"]
 @export var low_owner_hp_ratio:float=0.45
 @export var emergency_owner_hp_ratio:float=0.28
+@export var aoe_radius:float=4.5
 
 var game:Node
 var combat:Node
@@ -70,10 +71,8 @@ func _select_target(pet:Dictionary,hero:Dictionary,director:Node)->Dictionary:
         if role=="Guardian":
             score+=float(candidate.get("pet_threat",0))*0.015
             if float(candidate.get("target_pet_until",0.0))>now: score+=8.0
-        elif role=="DPS":
-            score+=(1.0-hp_ratio)*8.0
-        elif role=="Ranged":
-            score+=max(0.0,5.0-distance*0.01)
+        elif role=="DPS": score+=(1.0-hp_ratio)*8.0
+        elif role=="Ranged": score+=max(0.0,5.0-distance*0.01)
         elif role=="Support":
             if float(hero.get("hp",0))/float(max(1,int(hero.get("max_hp",1))))<low_owner_hp_ratio: score-=2.0
         score-=distance*0.012
@@ -91,13 +90,18 @@ func _select_best_skill(pet:Dictionary,hero:Dictionary,monster:Dictionary,direct
     var best_id:String=""
     var best_score:float=-INF
     var now:float=Time.get_ticks_msec()/1000.0
+    var monsters:Array=game.get("monsters") if game.get("monsters") is Array else []
+    var cluster:int=PetCombatTactics.count_cluster(monsters,monster,aoe_radius)
     for skill in PetSkillSystem.all_skills(species):
         if str(skill.get("kind",""))=="passive": continue
         var id:String=str(skill.get("id",""))
         if PetSkillSystem.skill_level(pet,id)<=0 or not PetSkillSystem.is_ready(pet,id,now): continue
         var score:float=float(skill.get("power",0))*0.04+float(skill.get("tier",1))*0.5
         var kind:String=str(skill.get("kind",""))
+        var use_aoe:bool=PetCombatTactics.should_use_aoe(skill,cluster,role)
         if kind=="ultimate": score+=8.0
+        if use_aoe: score+=float(cluster)*3.0
+        elif kind=="ultimate": score-=6.0
         if role=="Ranged":
             if id.find("mark")>=0: score+=6.0
             if id.find("storm")>=0 or id.find("barrage")>=0 or id.find("meteor")>=0: score+=3.0
@@ -145,11 +149,19 @@ func _cast(skill_id:String,target_override:Dictionary={})->Dictionary:
     var scaled:int=raw_damage+int(float(level)*1.8)
     var stats:Dictionary=PetSkillSystem.combat_stats(pet)
     scaled=int(float(scaled)*float(stats.get("damage_multiplier",1.0)))
-    var defense:int=int(monster.get("defense",0))
-    var dealt:int=max(1,scaled-defense/2+rng.randi_range(0,10))
-    monster["hp"]=int(monster.get("hp",0))-dealt
-    monster["hit_flash"]=0.28
-    _apply_role_effects(pet,hero,monster,skill,dealt)
+    var monsters:Array=game.get("monsters") if game.get("monsters") is Array else []
+    var cluster:Array=PetCombatTactics.nearby_targets(monsters,monster.get("pos",Vector2.ZERO),_radius(skill)*22.0)
+    var total_damage:int=0
+    for affected in cluster:
+        var defense:int=int(affected.get("defense",0))
+        var multiplier:float=1.0 if affected==monster else 0.72
+        var dealt:int=max(1,int(float(scaled)*multiplier)-defense/2+rng.randi_range(0,10))
+        affected["hp"]=int(affected.get("hp",0))-dealt
+        affected["hit_flash"]=0.28
+        total_damage+=dealt
+        _apply_role_effects(pet,hero,affected,skill,dealt)
+        if int(affected["hp"])<=0 and combat.has_method("finish_monster"):
+            combat.call("finish_monster",affected)
     var position:Vector2=monster.get("pos",Vector2.ZERO)
     var world_position:=Vector3((position.x-595.0)*0.055,0.9,(position.y-340.0)*0.055)
     var species:String=str(pet.get("species","Wolf Cub"))
@@ -158,13 +170,14 @@ func _cast(skill_id:String,target_override:Dictionary={})->Dictionary:
     if feedback:
         if _is_area(skill): feedback.show_telegraph("circle",world_position,radius,0.65)
         feedback.play_skill_effect(skill_id,world_position)
-        feedback.show_damage(dealt,world_position,dealt>scaled+int(skill.get("power",0))/2)
+        feedback.show_damage(total_damage,world_position,total_damage>scaled+int(skill.get("power",0))/2)
     if pet_vfx and pet_vfx.has_method("play"): pet_vfx.play(species,skill_id,world_position,radius)
     var combat_vfx:Node=game.get_node_or_null("LegacyGame/CombatVFX")
     if combat_vfx and combat_vfx.has_method("skill_cast"): combat_vfx.skill_cast(position,skill_id,false)
-    if game.has_method("log_message"): game.call("log_message","%s casts %s for %d damage." % [str(pet.get("name","Pet")),str(skill.get("name",skill_id)),dealt])
-    if int(monster["hp"])<=0 and combat.has_method("finish_monster"): combat.call("finish_monster",monster)
-    return {"ok":true,"skill_name":str(skill.get("name",skill_id)),"skill_id":skill_id,"damage":dealt,"cooldown":float(skill.get("cooldown",0.0))}
+    if game.has_method("log_message"):
+        var hit_count:int=cluster.size()
+        game.call("log_message","%s casts %s for %d total damage across %d target(s)." % [str(pet.get("name","Pet")),str(skill.get("name",skill_id)),total_damage,hit_count])
+    return {"ok":true,"skill_name":str(skill.get("name",skill_id)),"skill_id":skill_id,"damage":total_damage,"targets":cluster.size(),"cooldown":float(skill.get("cooldown",0.0))}
 
 func _apply_role_effects(pet:Dictionary,hero:Dictionary,monster:Dictionary,skill:Dictionary,dealt:int)->void:
     var role:String=str(pet.get("role",""))
