@@ -1,0 +1,114 @@
+name: Fix mouse camera and monster presentation
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/fix-mouse-camera-and-graphics.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply gameplay and presentation fixes
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          mouse = Path('scripts/MouseMMOController.gd')
+          text = mouse.read_text(encoding='utf-8')
+
+          text = text.replace('''func _ready()->void:\n\tgame=get_parent()\n\tlegacy=game.get_node_or_null("LegacyGame") as Node2D\n\tcamera=game.get_node_or_null("Camera3D") as Camera3D\n\t_build_cursor_marker()''', '''func _ready()->void:\n\tgame=get_parent()\n\tlegacy=game.get_node_or_null("LegacyGame") as Node2D\n\tcamera=game.get_node_or_null("Camera3D") as Camera3D\n\tcall_deferred("_build_cursor_marker")''')
+
+          text = text.replace('''func _process(delta:float)->void:\n\tif legacy==null or camera==null: return\n\tattack_timer=max(0.0,attack_timer-delta)''', '''func _process(delta:float)->void:\n\tif legacy==null or camera==null: return\n\tattack_timer=max(0.0,attack_timer-delta)''')
+
+          old_pick = '''\tfor item in get_tree().get_nodes_in_group("warp_gate"):\n\t\tvar gate:Node=item as Node\n\t\tif gate==null or not gate.visible: continue\n\t\tvar gate_3d:Node3D=gate as Node3D\n\t\tif gate_3d==null: continue'''
+          new_pick = '''\tfor item in get_tree().get_nodes_in_group("warp_gate"):\n\t\tvar gate:Node3D=item as Node3D\n\t\tif gate==null or not gate.is_visible_in_tree(): continue\n\t\tvar gate_3d:Node3D=gate'''
+          if old_pick not in text:
+              raise SystemExit('Mouse warp-gate block not found')
+          text=text.replace(old_pick,new_pick)
+
+          old_move = '''\t\tif distance>7.0:\n\t\t\tvar step:float=min(distance,260.0*delta)\n\t\t\tvar direction:Vector2=hero_pos.direction_to(target_2d)\n\t\t\tvar map_data:Dictionary=TeleportSystem.MAPS.get(int(hero.get("map_id",0)),{})\n\t\t\tvar min_x:float=ORIGIN_X\n\t\t\tvar min_y:float=ORIGIN_Y\n\t\t\tvar max_x:float=ORIGIN_X+float(map_data.get("width",1200))-1.0\n\t\t\tvar max_y:float=ORIGIN_Y+float(map_data.get("height",700))-1.0\n\t\t\thero["pos_x"]=clamp(float(hero["pos_x"])+direction.x*step,min_x,max_x)\n\t\t\thero["pos_y"]=clamp(float(hero["pos_y"])+direction.y*step,min_y,max_y)\n\t\telse: has_move_target=false'''
+          new_move = '''\t\tif distance>7.0:\n\t\t\tvar step:float=min(distance,320.0*delta)\n\t\t\tvar direction:Vector2=hero_pos.direction_to(target_2d)\n\t\t\tvar map_data:Dictionary=TeleportSystem.MAPS.get(int(hero.get("map_id",0)),{})\n\t\t\tvar min_x:float=ORIGIN_X\n\t\t\tvar min_y:float=ORIGIN_Y\n\t\t\tvar max_x:float=ORIGIN_X+float(map_data.get("width",1200))-1.0\n\t\t\tvar max_y:float=ORIGIN_Y+float(map_data.get("height",700))-1.0\n\t\t\tvar next_x:float=clamp(float(hero["pos_x"])+direction.x*step,min_x,max_x)\n\t\t\tvar next_y:float=clamp(float(hero["pos_y"])+direction.y*step,min_y,max_y)\n\t\t\thero["pos_x"]=next_x\n\t\t\thero["pos_y"]=next_y\n\t\telse:\n\t\t\thero["pos_x"]=target_2d.x\n\t\t\thero["pos_y"]=target_2d.y\n\t\t\thas_move_target=false'''
+          if old_move not in text:
+              raise SystemExit('Mouse movement block not found')
+          text=text.replace(old_move,new_move)
+
+          old_click='''\tvar world_point:Vector3=_screen_to_ground(screen_position)\n\tif world_point==Vector3.INF: return\n\tattack_target={}\n\tmouse_target=world_point\n\thas_move_target=true'''
+          new_click='''\tvar world_point:Vector3=_screen_to_ground(screen_position)\n\tif world_point==Vector3.INF: return\n\tattack_target={}\n\tmouse_target=world_point\n\thas_move_target=true\n\tattack_timer=0.0'''
+          if old_click not in text:
+              raise SystemExit('Mouse ground-click block not found')
+          text=text.replace(old_click,new_click)
+          mouse.write_text(text,encoding='utf-8')
+
+          anim = Path('scripts/CombatAnimationController.gd')
+          text = anim.read_text(encoding='utf-8')
+          old_walk='''func _make_walk(is_pet:bool)->Animation:\n    var animation:=Animation.new()\n    animation.length=0.55\n    animation.loop_mode=Animation.LOOP_LINEAR\n    var path:=NodePath("../Actors3D/Pet:position:y" if is_pet else "../Actors3D/Hero:position:y")\n    var track:=animation.add_track(Animation.TYPE_VALUE)\n    animation.track_set_path(track,path)\n    var base:float=0.45 if is_pet else 0.15\n    animation.track_insert_key(track,0.0,base)\n    animation.track_insert_key(track,0.14,base+0.055)\n    animation.track_insert_key(track,0.275,base)\n    animation.track_insert_key(track,0.41,base+0.055)\n    animation.track_insert_key(track,0.55,base)\n    return animation'''
+          new_walk='''func _make_walk(is_pet:bool)->Animation:\n    var animation:=Animation.new()\n    animation.length=0.55\n    animation.loop_mode=Animation.LOOP_LINEAR\n    var path:=NodePath("../Actors3D/Pet:scale" if is_pet else "../Actors3D/Hero:scale")\n    var track:=animation.add_track(Animation.TYPE_VALUE)\n    animation.track_set_path(track,path)\n    animation.track_insert_key(track,0.0,Vector3.ONE)\n    animation.track_insert_key(track,0.14,Vector3(1.015,0.985,1.015))\n    animation.track_insert_key(track,0.275,Vector3.ONE)\n    animation.track_insert_key(track,0.41,Vector3(1.015,0.985,1.015))\n    animation.track_insert_key(track,0.55,Vector3.ONE)\n    return animation'''
+          if old_walk not in text:
+              raise SystemExit('Combat walk animation block not found')
+          text=text.replace(old_walk,new_walk)
+
+          old_end='''    _update_monster_motion()\n    _watch_combat_effects()'''
+          new_end='''    _update_monster_motion()\n    _watch_combat_effects()\n    _stabilize_camera()'''
+          if old_end not in text:
+              raise SystemExit('Combat process tail not found')
+          text=text.replace(old_end,new_end,1)
+
+          marker='''func _set_hero_state(state:String)->void:'''
+          camera_fn='''func _stabilize_camera()->void:\n    if game==null or legacy==null:\n        return\n    var camera:Camera3D=game.get("camera") as Camera3D\n    if camera==null:\n        return\n    var hero_value:Variant=legacy.get("hero")\n    if not hero_value is Dictionary:\n        return\n    var hero:Dictionary=hero_value\n    var map_pos:=Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0)))\n    var target:=Vector3((map_pos.x-365.0)*0.055,0.0,(map_pos.y-120.0)*0.055)\n    var desired:=target+Vector3(0.0,10.5,13.5)\n    camera.position=camera.position.lerp(desired,1.0-exp(-9.0/60.0))\n    camera.look_at(target+Vector3(0.0,0.8,0.0),Vector3.UP)\n\n'''
+          if marker not in text:
+              raise SystemExit('Combat state marker not found')
+          text=text.replace(marker,camera_fn+marker,1)
+          anim.write_text(text,encoding='utf-8')
+
+          # Improve monster silhouettes without expensive high-poly assets.
+          marker='''func _monster_hit_burst(visual:Node3D)->void:'''
+          detail_fn='''func _add_monster_details(visual:Node3D,name:String,boss:bool)->void:\n    if visual==null or visual.get_node_or_null("DetailParts")!=null:\n        return\n    var root:=Node3D.new()\n    root.name="DetailParts"\n    visual.add_child(root)\n    var n:=name.to_lower()\n    var accent:=Color("#f2c15d") if boss else Color("#b8c5d0")\n    if "orc" in n:\n        root.add_child(_detail_box(Vector3(0.62,0.34,0.72),Vector3(0.0,1.05,0.0),Color("#4a3828")))\n        root.add_child(_detail_horn(Vector3(-0.32,1.72,0.05),accent))\n        root.add_child(_detail_horn(Vector3(0.32,1.72,0.05),accent))\n    elif "wolf" in n:\n        root.add_child(_detail_ear(Vector3(-0.25,1.82,0.0),accent))\n        root.add_child(_detail_ear(Vector3(0.25,1.82,0.0),accent))\n        root.add_child(_detail_tail(Vector3(0.0,0.72,-0.62),Color("#3d4652")))\n    elif "dragon" in n:\n        root.add_child(_detail_wing(Vector3(-0.62,1.15,0.0),Color("#7e2f39")))\n        root.add_child(_detail_wing(Vector3(0.62,1.15,0.0),Color("#7e2f39")))\n        root.add_child(_detail_horn(Vector3(-0.22,1.95,0.0),accent))\n        root.add_child(_detail_horn(Vector3(0.22,1.95,0.0),accent))\n    elif "golem" in n:\n        root.add_child(_detail_box(Vector3(1.0,0.30,0.82),Vector3(0.0,1.15,0.0),Color("#5c5147")))\n        root.add_child(_detail_box(Vector3(0.82,0.18,0.62),Vector3(0.0,1.62,0.0),Color("#a18c70")))\n    elif "mantis" in n:\n        root.add_child(_detail_blade(Vector3(-0.58,1.0,0.12),Color("#9bc76a")))\n        root.add_child(_detail_blade(Vector3(0.58,1.0,0.12),Color("#9bc76a")))\n    elif "skeleton" in n or "zombie" in n or "evil druid" in n:\n        root.add_child(_detail_box(Vector3(0.78,0.18,0.55),Vector3(0.0,1.1,0.0),Color("#302c31")))\n        root.add_child(_detail_horn(Vector3(-0.24,1.92,0.0),accent))\n        root.add_child(_detail_horn(Vector3(0.24,1.92,0.0),accent))\n    elif "poring" in n:\n        root.add_child(_detail_horn(Vector3(0.0,1.95,0.0),accent))\n    if boss:\n        var crown:=_detail_ring(accent,1.02,0.055)\n        crown.rotation_degrees.x=90.0\n        crown.position.y=0.12\n        root.add_child(crown)\n\nfunc _detail_box(size:Vector3,pos:Vector3,color:Color)->MeshInstance3D:\n    var node:=MeshInstance3D.new()\n    var mesh:=BoxMesh.new()\n    mesh.size=size\n    node.mesh=mesh\n    node.position=pos\n    node.material_override=_detail_material(color,0.25,0.55)\n    return node\n\nfunc _detail_horn(pos:Vector3,color:Color)->MeshInstance3D:\n    var node:=MeshInstance3D.new()\n    var mesh:=CylinderMesh.new()\n    mesh.top_radius=0.02\n    mesh.bottom_radius=0.10\n    mesh.height=0.52\n    node.mesh=mesh\n    node.position=pos\n    node.rotation_degrees=Vector3(0.0,0.0,18.0)\n    node.material_override=_detail_material(color,0.35,0.35)\n    return node\n\nfunc _detail_ear(pos:Vector3,color:Color)->MeshInstance3D:\n    var node:=_detail_box(Vector3(0.18,0.42,0.18),pos,color)\n    node.rotation_degrees.z=22.0 if pos.x<0.0 else -22.0\n    return node\n\nfunc _detail_tail(pos:Vector3,color:Color)->MeshInstance3D:\n    var node:=MeshInstance3D.new()\n    var mesh:=CylinderMesh.new()\n    mesh.top_radius=0.04\n    mesh.bottom_radius=0.16\n    mesh.height=0.85\n    node.mesh=mesh\n    node.position=pos\n    node.rotation_degrees.x=62.0\n    node.material_override=_detail_material(color,0.05,0.72)\n    return node\n\nfunc _detail_wing(pos:Vector3,color:Color)->MeshInstance3D:\n    var node:=_detail_box(Vector3(0.16,0.95,0.62),pos,color)\n    node.rotation_degrees.z=25.0 if pos.x<0.0 else -25.0\n    return node\n\nfunc _detail_blade(pos:Vector3,color:Color)->MeshInstance3D:\n    var node:=_detail_box(Vector3(0.12,0.92,0.20),pos,color)\n    node.rotation_degrees.z=55.0 if pos.x<0.0 else -55.0\n    return node\n\nfunc _detail_ring(color:Color,radius:float,width:float)->MeshInstance3D:\n    var node:=MeshInstance3D.new()\n    var mesh:=TorusMesh.new()\n    mesh.inner_radius=radius\n    mesh.outer_radius=radius+width\n    node.mesh=mesh\n    node.material_override=_detail_material(color,0.30,0.25)\n    return node\n\nfunc _detail_material(color:Color,metallic:float,roughness:float)->StandardMaterial3D:\n    var mat:=StandardMaterial3D.new()\n    mat.albedo_color=color\n    mat.metallic=metallic\n    mat.roughness=roughness\n    mat.emission_enabled=true if color.get_luminance()>0.62 else false\n    mat.emission=color\n    mat.emission_energy_multiplier=0.35\n    return mat\n\n'''
+          if marker not in text:
+              raise SystemExit('Monster detail insertion marker not found')
+          text=text.replace(marker,detail_fn+marker,1)
+
+          # Ensure details are created once per monster visual.
+          old='''        if not visuals.has(id):\n            continue\n        var visual:Node3D=visuals[id] as Node3D\n        if visual==null:\n            continue'''
+          new='''        if not visuals.has(id):\n            continue\n        var visual:Node3D=visuals[id] as Node3D\n        if visual==null:\n            continue\n        _add_monster_details(visual,str(monster.get("name","Monster")),bool(monster.get("mvp",false)))'''
+          if old not in text:
+              raise SystemExit('Monster detail call site not found')
+          text=text.replace(old,new,1)
+          anim.write_text(text,encoding='utf-8')
+
+          # Remove the always-on hero root transform conflict by making Game3D camera follow the logical map position.
+          game = Path('scripts/Game3D.gd')
+          text = game.read_text(encoding='utf-8')
+          old='''func _update_camera(delta:float)->void:\n\tif camera == null or hero_visual == null:\n\t\treturn\n\tvar desired:Vector3 = hero_visual.position+Vector3(0.0,10.5,13.5)\n\tcamera.position = camera.position.lerp(desired,1.0-exp(-7.0*max(delta,0.016)))\n\tcamera.look_at(hero_visual.position+Vector3(0.0,0.8,0.0),Vector3.UP)'''
+          new='''func _update_camera(delta:float)->void:\n\tif camera == null or legacy == null:\n\t\treturn\n\tvar hero_value:Variant=legacy.get("hero")\n\tif not hero_value is Dictionary:\n\t\treturn\n\tvar hero:Dictionary=hero_value\n\tvar map_pos:=Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0)))\n\tvar stable_target:=_map_to_world(map_pos)\n\tvar desired:Vector3=stable_target+Vector3(0.0,10.5,13.5)\n\tcamera.position=camera.position.lerp(desired,1.0-exp(-8.0*max(delta,0.016)))\n\tcamera.look_at(stable_target+Vector3(0.0,0.8,0.0),Vector3.UP)'''
+          if old not in text:
+              raise SystemExit('Game3D camera block not found')
+          text=text.replace(old,new,1)
+          game.write_text(text,encoding='utf-8')
+
+      - name: Validate Godot scripts
+        uses: actions/checkout@v4
+        if: false
+
+      - name: Commit fixes
+        shell: bash
+        run: |
+          git config user.name "Honour War Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add scripts/MouseMMOController.gd scripts/CombatAnimationController.gd scripts/Game3D.gd
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "Fix mouse movement camera jitter and monster details"
+          git push
