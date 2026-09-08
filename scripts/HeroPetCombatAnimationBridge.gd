@@ -109,8 +109,13 @@ func _target_visual(target:Dictionary)->Node3D:
 
 func _face_combatants()->void:
     if target_visual==null or not is_instance_valid(target_visual): return
+    if _attack_visual_lock_active(): return
     if hero_visual and is_instance_valid(hero_visual): _face_node(hero_visual,target_visual)
     if pet_visual and is_instance_valid(pet_visual): _face_node(pet_visual,target_visual)
+
+func _attack_visual_lock_active()->bool:
+    if controller==null or not is_instance_valid(controller): return false
+    return bool(controller.get("hero_timeline_active")) or bool(controller.get("pet_timeline_active"))
 
 func _orient_to_target(actor:Node3D)->void:
     if actor==null or target_visual==null or not is_instance_valid(target_visual): return
