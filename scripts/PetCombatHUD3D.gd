@@ -1,6 +1,8 @@
 class_name PetCombatHUD3D
 extends CanvasLayer
 
+const PetSkillSystem = preload("res://scripts/PetSkillSystem.gd")
+
 const STATES:Array[String] = ["Follow", "Assist", "Defend", "Aggressive", "Hold", "Return"]
 const ROLES:Array[String] = ["Guardian", "DPS", "Ranged", "Support", "Hybrid"]
 
