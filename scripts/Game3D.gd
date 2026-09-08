@@ -48,7 +48,6 @@ func _process(delta:float) -> void:
 	if legacy == null:
 		return
 	_update_visuals(delta)
-	queue_redraw()
 
 func _update_visuals(delta:float) -> void:
 	var hero_value:Variant = legacy.get("hero")
