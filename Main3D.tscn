@@ -32,7 +32,7 @@
 [ext_resource path="res://scripts/HDSkillPresentation.gd" type="Script" id="30"]
 [ext_resource path="res://scripts/PetSkillOverlay3D.gd" type="Script" id="31"]
 [ext_resource path="res://scripts/PetSkillRuntime.gd" type="Script" id="32"]
-[ext_resource path="res://scripts/PetCombatHUD3D.gd" type="Script" id="33"]
+[ext_resource path="res://scripts/PetCombatHUD3D.gd" type="CanvasLayer" id="33"]
 [ext_resource path="res://scripts/PetSkillVFX.gd" type="Script" id="34"]
 [ext_resource path="res://scripts/HeroPetComboSystem.gd" type="Script" id="35"]
 [ext_resource path="res://scripts/HeroPetComboHUD.gd" type="Script" id="36"]
@@ -122,6 +122,7 @@ script = ExtResource("25")
 camera_director_path = NodePath("../HDPresentationDirector")
 pet_director_path = NodePath("../HDPetCombatDirector")
 combat_feedback_path = NodePath("../HDCombatFeedback")
+combat_vfx_path = NodePath("../HDCombatVFX")
 
 [node name="HDChatBootstrap" type="CanvasLayer" parent="."]
 script = ExtResource("23")
