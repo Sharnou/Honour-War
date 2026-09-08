@@ -36,13 +36,13 @@ func _update_age(hero:Dictionary,delta:float)->void:
 	if age!=last_age:
 		last_age=age
 		_refresh_age_detail(age)
-	# Persist a continuous online-day clock while the game is running.
 	hero["online_days"]=days+delta/86400.0
 
 func _update_pet(hero:Dictionary,delta:float)->void:
 	var pet_value:Variant=hero.get("pet",{})
 	if not pet_value is Dictionary: return
 	var pet:Dictionary=pet_value
+	PetSkillSystem.ensure_state(pet)
 	var pet_node:Node3D=game.get("pet_visual") as Node3D
 	if pet_node==null: return
 	var level:int=int(pet.get("level",1))
@@ -128,5 +128,6 @@ func _update_label(hero:Dictionary)->void:
 	var pet_text:String="No bonded pet"
 	if pet_value is Dictionary:
 		var pet:Dictionary=pet_value
-		pet_text="%s  Lv.%d  HP %d/%d" % [str(pet.get("name","Pet")),int(pet.get("level",1)),int(pet.get("hp",0)),int(pet.get("max_hp",60))]
+		var stats:Dictionary=PetSkillSystem.combat_stats(pet)
+		pet_text="%s  Lv.%d  HP %d/%d  SPK %.2f" % [str(pet.get("name","Pet")),int(pet.get("level",1)),int(pet.get("hp",0)),int(pet.get("max_hp",60)),float(stats.get("damage_multiplier",1.0))]
 	age_label.text="HERO AGE  %d years\nOnline %.2f days\nPET  %s" % [age,days,pet_text]
