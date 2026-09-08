@@ -12,75 +12,71 @@ signal finisher_executed(damage:int, target:Node)
 
 var game:Node
 var combat:Node
+var events:Node
 var combo_count:int=0
 var last_actor:String=""
 var last_event_time:float=0.0
 var last_target:Dictionary={}
-var last_target_hp:int=-1
-var last_pet_uses:int=-1
-var last_hero_timer:float=0.0
 var finisher_cooldown:float=0.0
 
 func _ready()->void:
     game=get_parent()
     combat=game.get_node_or_null("LegacyGame/CombatRuntime") if game else null
+    events=game.get_node_or_null("CombatEventBus") if game else null
+    if events:
+        events.hero_attack_landed.connect(_on_hero_attack)
+        events.pet_attack_landed.connect(_on_pet_attack)
 
 func _process(delta:float)->void:
-    if game==null or combat==null: return
-    var hero_value:Variant=game.get("hero")
-    if not hero_value is Dictionary: return
-    var hero:Dictionary=hero_value
     if finisher_cooldown>0.0: finisher_cooldown=max(0.0,finisher_cooldown-delta)
-    var target_value:Variant=combat.get("target")
-    if not target_value is Dictionary:
-        _decay()
-        return
-    var target:Dictionary=target_value
-    if target!=last_target:
-        last_target=target
-        last_target_hp=int(target.get("hp",0))
-    var pet_value:Variant=hero.get("pet",{})
-    var pet:Dictionary=pet_value if pet_value is Dictionary else {}
-    var pet_uses:int=int(pet.get("skill_uses",0))
-    var pet_event:bool=last_pet_uses>=0 and pet_uses>last_pet_uses
-    last_pet_uses=pet_uses
-    var hero_timer:float=float(combat.get("hero_attack_timer"))
-    var hero_event:bool=last_hero_timer>0.55 and hero_timer<0.12
-    last_hero_timer=hero_timer
-    var hp_now:int=int(target.get("hp",0))
-    var damage_event:bool=last_target_hp>=0 and hp_now<last_target_hp
-    last_target_hp=hp_now
-    if damage_event:
-        if pet_event and not hero_event: _register_hit("pet",target)
-        elif hero_event and not pet_event: _register_hit("hero",target)
-        elif last_actor=="hero": _register_hit("pet",target)
-        else: _register_hit("hero",target)
-    if combo_count>=synergy_threshold: _apply_synergy(hero,target)
+    _decay()
+
+func _on_hero_attack(target:Dictionary,damage:int,critical:bool)->void:
+    _register_hit("hero",target)
+    if game and game.has_method("log_message") and critical:
+        game.call("log_message","Bond link: Hero critical strike landed for %d." % damage)
+
+func _on_pet_attack(target:Dictionary,damage:int,special:bool)->void:
+    _register_hit("pet",target)
+    if game and game.has_method("log_message") and special:
+        game.call("log_message","Bond link: Pet special strike landed for %d." % damage)
 
 func _register_hit(actor:String,target:Dictionary)->void:
     var now:float=Time.get_ticks_msec()/1000.0
-    if last_event_time<=0.0 or now-last_event_time>combo_timeout or actor==last_actor: combo_count=1
-    else: combo_count=min(max_combo,combo_count+1)
+    if target!=last_target:
+        last_target=target
+        combo_count=0
+        last_actor=""
+    if last_event_time<=0.0 or now-last_event_time>combo_timeout or actor==last_actor:
+        combo_count=1
+    else:
+        combo_count=min(max_combo,combo_count+1)
     last_actor=actor
     last_event_time=now
+    _apply_synergy(target)
     var grade:String=_grade()
     combo_changed.emit(combo_count,grade)
     if combo_count in [5,10,15,20,25,30]:
         var name:String="Bond Combo %d" % combo_count
         combo_triggered.emit(name,combo_count)
-        if game.has_method("log_message"): game.call("log_message","%s! Hero + Pet synergy reached %d hits." % [name,combo_count])
+        if game and game.has_method("log_message"):
+            game.call("log_message","%s! Hero + Pet synchronized hits reached %d." % [name,combo_count])
 
-func _apply_synergy(hero:Dictionary,target:Dictionary)->void:
+func _apply_synergy(target:Dictionary)->void:
     var now:float=Time.get_ticks_msec()/1000.0
-    hero["temporary_power_until"]=max(float(hero.get("temporary_power_until",0.0)),now+0.45)
-    hero["combo_power_bonus"]=min(0.35,float(combo_count)*0.01)
-    var pet_value:Variant=hero.get("pet",{})
-    if pet_value is Dictionary:
-        var pet:Dictionary=pet_value
-        pet["combo_power_bonus"]=min(0.35,float(combo_count)*0.01)
-        pet["combo_until"]=now+0.8
-    target["bond_mark_until"]=now+0.9
-    target["bond_mark_bonus"]=min(0.30,float(combo_count)*0.01)
+    var hero_value:Variant=game.get("hero") if game else null
+    if not hero_value is Dictionary: return
+    var hero:Dictionary=hero_value
+    if combo_count>=synergy_threshold:
+        hero["temporary_power_until"]=max(float(hero.get("temporary_power_until",0.0)),now+0.45)
+        hero["combo_power_bonus"]=min(0.35,float(combo_count)*0.01)
+        var pet_value:Variant=hero.get("pet",{})
+        if pet_value is Dictionary:
+            var pet:Dictionary=pet_value
+            pet["combo_power_bonus"]=min(0.35,float(combo_count)*0.01)
+            pet["combo_until"]=now+0.8
+        target["bond_mark_until"]=now+0.9
+        target["bond_mark_bonus"]=min(0.30,float(combo_count)*0.01)
 
 func force_finisher()->bool:
     if combo_count<synergy_threshold or finisher_cooldown>0.0 or combat==null: return false
@@ -88,7 +84,7 @@ func force_finisher()->bool:
     if not target_value is Dictionary: return false
     var target:Dictionary=target_value
     if int(target.get("hp",0))<=0: return false
-    var hero_value:Variant=game.get("hero")
+    var hero_value:Variant=game.get("hero") if game else null
     if not hero_value is Dictionary: return false
     var hero:Dictionary=hero_value
     var pet_value:Variant=hero.get("pet",{})
@@ -101,7 +97,7 @@ func force_finisher()->bool:
     var hero_power:int=int(hero.get("level",1))*4+int(hero.get("refine",0))*3+int(hero_stats.get("power_bonus",0))
     var pet_power:int=PetSystem.power(pet)+int(pet.get("level",1))*2
     var damage:int=max(10,int(float(hero_power+pet_power)*bond_multiplier))
-    damage=int(float(damage)*(1.0+float(pet_stats.get("damage_multiplier",1.0))-1.0)*1.15)
+    damage=int(float(damage)*float(pet_stats.get("damage_multiplier",1.0))*1.15)
     damage=max(10,damage-int(target.get("defense",0))/2)
     target["hp"]=int(target.get("hp",0))-damage
     target["hit_flash"]=0.45
@@ -112,16 +108,18 @@ func force_finisher()->bool:
     last_event_time=Time.get_ticks_msec()/1000.0
     combo_changed.emit(combo_count,_grade())
     combo_triggered.emit("Bond Finisher",combo_count)
+    if events: events.emit_finisher(target,damage)
     var position:Vector2=target.get("pos",Vector2.ZERO)
-    if game.has_method("show_3d_combat_number"): game.call("show_3d_combat_number",position,damage,true,"enemy")
-    var feedback:Node=game.get_node_or_null("HDCombatFeedback")
+    var feedback:Node=game.get_node_or_null("HDCombatFeedback") if game else null
     if feedback:
         var world_position:=Vector3((position.x-595.0)*0.055,1.0,(position.y-340.0)*0.055)
         feedback.show_telegraph("circle",world_position,4.5,0.8)
         feedback.play_skill_effect("bond_finisher",world_position)
         feedback.show_damage(damage,world_position,true)
+    if game.has_method("show_3d_combat_number"): game.call("show_3d_combat_number",position,damage,true,"enemy")
     var vfx:Node=game.get_node_or_null("PetSkillVFX")
-    if vfx and vfx.has_method("play"): vfx.play(str(pet.get("species","Wolf Cub")),"bond_finisher",Vector3((position.x-595.0)*0.055,0.9,(position.y-340.0)*0.055),4.5)
+    if vfx and vfx.has_method("play"):
+        vfx.play(str(pet.get("species","Wolf Cub")),"bond_finisher",Vector3((position.x-595.0)*0.055,0.9,(position.y-340.0)*0.055),4.5)
     if game.has_method("log_message"): game.call("log_message","BOND FINISHER! Hero and %s deal %d synchronized damage." % [str(pet.get("name","Pet")),damage])
     if int(target.get("hp",0))<=0 and combat.has_method("finish_monster"): combat.call("finish_monster",target)
     finisher_executed.emit(damage,null)
