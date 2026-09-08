@@ -1,0 +1,33 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ChatDock.gd" id="1_chat"]
+
+[node name="HDChatPanel" type="Control"]
+offset_left = 24.0
+offset_top = -300.0
+offset_right = 464.0
+offset_bottom = -24.0
+anchor_top = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_chat")
+
+[node name="Margin" type="MarginContainer" parent="."]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 430.0
+offset_bottom = 266.0
+
+[node name="VBox" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+
+[node name="ChannelTabs" type="OptionButton" parent="Margin/VBox"]
+layout_mode = 2
+
+[node name="MessageList" type="RichTextLabel" parent="Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+
+[node name="InputBox" type="LineEdit" parent="Margin/VBox"]
+layout_mode = 2
+placeholder_text = "Message or /w player text..."
