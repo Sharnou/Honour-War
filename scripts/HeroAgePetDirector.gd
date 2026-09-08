@@ -1,6 +1,8 @@
 class_name HeroAgePetDirector
 extends Node3D
 
+const PetSkillSystem = preload("res://scripts/PetSkillSystem.gd")
+
 const STARTING_AGE:int=18
 const AGE_DAYS_PER_YEAR:float=3.0
 var game:Node3D
