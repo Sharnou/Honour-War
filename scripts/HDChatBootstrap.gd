@@ -12,11 +12,9 @@ func _ready() -> void:
     if chat_panel_scene:
         chat_dock = chat_panel_scene.instantiate()
         add_child(chat_dock)
-        if chat_dock.has_method("set_meta"):
-            chat_dock.set_meta("sender_id", "local")
-            chat_dock.set_meta("sender_name", "Hero")
-        if "chat_service" in chat_dock:
-            chat_dock.chat_service = chat_service
+        chat_dock.set_meta("sender_id", "local")
+        chat_dock.set_meta("sender_name", "Hero")
+        chat_dock.set("chat_service", chat_service)
 
 func toggle_chat() -> void:
     if chat_dock:
