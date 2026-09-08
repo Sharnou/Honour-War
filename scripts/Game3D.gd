@@ -281,46 +281,12 @@ func _create_pet(species:String)->Node3D:
 			poring.scale = Vector3(1.12,0.88,1.05)
 			root.add_child(poring)
 		_:
-			var wolf:MeshInstance3D = _capsule(Color("#5d6472"),0.46,0.95)
-			wolf.scale = Vector3(1.15,0.8,1.35)
+			var wolf:MeshInstance3D = _sphere(Color("#76818a"),0.48)
+			wolf.scale = Vector3(1.2,0.78,1.45)
 			root.add_child(wolf)
-			var muzzle:MeshInstance3D = _sphere(Color("#323742"),0.27)
-			muzzle.position = Vector3(0.0,0.17,0.55)
-			muzzle.scale = Vector3(1.0,0.72,1.2)
-			root.add_child(muzzle)
-	return root
-
-func _create_monster(name:String,mvp:bool)->Node3D:
-	var root:Node3D = Node3D.new()
-	root.name = "Monster_"+name
-	var base_color:Color = _monster_color(name)
-	var scale_factor:float = 1.28 if mvp else 1.0
-	var body:MeshInstance3D = _capsule(base_color,0.48*scale_factor,1.0*scale_factor)
-	body.position.y = 0.76*scale_factor
-	root.add_child(body)
-	var head:MeshInstance3D = _sphere(base_color.lightened(0.08),0.43*scale_factor)
-	head.position.y = 1.55*scale_factor
-	root.add_child(head)
-	var eye_material:StandardMaterial3D = _material(Color("#ffcb55"),0.0,0.25)
-	var eye_l:MeshInstance3D = _sphere(Color("#ffcb55"),0.065*scale_factor)
-	eye_l.position = Vector3(-0.15,1.58*scale_factor,0.38*scale_factor)
-	eye_l.material_override = eye_material
-	root.add_child(eye_l)
-	var eye_r:MeshInstance3D = _sphere(Color("#ffcb55"),0.065*scale_factor)
-	eye_r.position = Vector3(0.15,1.58*scale_factor,0.38*scale_factor)
-	eye_r.material_override = eye_material
-	root.add_child(eye_r)
-	if mvp:
-		var aura:MeshInstance3D = _ring(Color("#ffd66e"),0.90*scale_factor,0.045)
-		aura.rotation_degrees.x = 90.0
-		aura.position.y = 0.08
-		root.add_child(aura)
-		var boss_light:OmniLight3D = OmniLight3D.new()
-		boss_light.light_color = Color("#ffbc53")
-		boss_light.light_energy = 1.3
-		boss_light.omni_range = 3.5
-		boss_light.position.y = 1.1*scale_factor
-		root.add_child(boss_light)
+			var snout:MeshInstance3D = _sphere(Color("#4d5961"),0.25)
+			snout.position = Vector3(0.0,0.02,-0.48)
+			root.add_child(snout)
 	return root
 
 func _update_monsters(delta:float)->void:
@@ -375,7 +341,7 @@ func _trigger_hit_effect(position:Vector3,boss:bool)->void:
 	tween.chain().tween_callback(root.queue_free)
 
 func _update_camera(delta:float)->void:
-	if camera == null or legacy == null:
+	if camera == null or legacy == null or not camera.is_inside_tree():
 		return
 	var hero_value:Variant=legacy.get("hero")
 	if not hero_value is Dictionary:
@@ -501,17 +467,79 @@ func _weapon(class_id:String,accent:Color)->MeshInstance3D:
 	var node:MeshInstance3D=MeshInstance3D.new()
 	if class_id=="Mage":
 		var staff:CylinderMesh=CylinderMesh.new()
-		staff.top_radius=0.055
-		staff.bottom_radius=0.075
-		staff.height=2.1
+		staff.top_radius=0.05
+		staff.bottom_radius=0.07
+		staff.height=1.8
 		node.mesh=staff
-		node.material_override=_material(Color("#765238"),0.0,0.85)
-	else:
-		var blade:BoxMesh=BoxMesh.new()
-		blade.size=Vector3(0.10,1.65,0.22)
-		node.mesh=blade
-		node.material_override=_material(Color("#dce5ef"),0.65,0.28)
+		node.material_override=_material(Color("#8c6b4f"),0.0,0.85)
+		return node
+	if class_id=="Archer":
+		var bow:TorusMesh=TorusMesh.new()
+		bow.inner_radius=0.28
+		bow.outer_radius=0.33
+		node.mesh=bow
+		node.rotation_degrees=Vector3(0.0,90.0,0.0)
+		node.material_override=_material(accent,0.0,0.55)
+		return node
+	var blade:BoxMesh=BoxMesh.new()
+	blade.size=Vector3(0.10,1.25,0.22)
+	node.mesh=blade
+	node.rotation_degrees.z=12.0
+	node.material_override=_material(accent,0.15,0.35)
 	return node
+
+func _class_color(class_id:String)->Color:
+	match class_id:
+		"Mage": return Color("#b88cff")
+		"Archer": return Color("#8fe08f")
+		"Thief": return Color("#ff7eb6")
+		"Acolyte": return Color("#fff0a3")
+		"Merchant": return Color("#7ed7ff")
+	return Color("#e8a34b")
+
+func _create_monster(monster_name:String,mvp:bool)->Node3D:
+	var root:Node3D=Node3D.new()
+	root.name=monster_name
+	var base_color:Color=Color("#8d9aa3")
+	var lower:String=monster_name.to_lower()
+	if lower.contains("poring"): base_color=Color("#f18bb4")
+	elif lower.contains("goblin"): base_color=Color("#79a46a")
+	elif lower.contains("wolf"): base_color=Color("#6f7d8a")
+	elif lower.contains("skeleton"): base_color=Color("#d4d0bd")
+	elif lower.contains("zombie"): base_color=Color("#65816d")
+	elif lower.contains("orc"): base_color=Color("#557b4d")
+	elif lower.contains("mantis"): base_color=Color("#72a84e")
+	elif lower.contains("golem"): base_color=Color("#858c95")
+	elif lower.contains("druid"): base_color=Color("#5e6d8d")
+	elif lower.contains("dragon"): base_color=Color("#a74f62")
+	var scale_factor:float=1.0 if not mvp else 1.55
+	var body:MeshInstance3D=_capsule(base_color,0.48*scale_factor,1.25*scale_factor)
+	body.position.y=0.78*scale_factor
+	root.add_child(body)
+	var head:MeshInstance3D=_sphere(base_color.lightened(0.08),0.43*scale_factor)
+	head.position.y=1.55*scale_factor
+	root.add_child(head)
+	var eye_material:StandardMaterial3D=_material(Color("#ffcb55"),0.0,0.25)
+	var eye_l:MeshInstance3D=_sphere(Color("#ffcb55"),0.065*scale_factor)
+	eye_l.position=Vector3(-0.15,1.58*scale_factor,0.38*scale_factor)
+	eye_l.material_override=eye_material
+	root.add_child(eye_l)
+	var eye_r:MeshInstance3D=_sphere(Color("#ffcb55"),0.065*scale_factor)
+	eye_r.position=Vector3(0.15,1.58*scale_factor,0.38*scale_factor)
+	eye_r.material_override=eye_material
+	root.add_child(eye_r)
+	if mvp:
+		var aura:MeshInstance3D=_ring(Color("#ffd66e"),0.90*scale_factor,0.045)
+		aura.rotation_degrees.x=90.0
+		aura.position.y=0.08
+		root.add_child(aura)
+		var boss_light:OmniLight3D=OmniLight3D.new()
+		boss_light.light_color=Color("#ffbc53")
+		boss_light.light_energy=1.3
+		boss_light.omni_range=3.5
+		boss_light.position.y=1.1*scale_factor
+		root.add_child(boss_light)
+	return root
 
 func _material(color:Color,metallic:float,roughness:float)->StandardMaterial3D:
 	var material:StandardMaterial3D=StandardMaterial3D.new()
@@ -520,31 +548,5 @@ func _material(color:Color,metallic:float,roughness:float)->StandardMaterial3D:
 	material.roughness=roughness
 	return material
 
-func _class_color(class_id:String)->Color:
-	match class_id:
-		"Warrior": return Color("#d59a43")
-		"Mage": return Color("#8c70e7")
-		"Archer": return Color("#68ba7a")
-		"Thief": return Color("#c45a8e")
-		"Acolyte": return Color("#e4d16b")
-		"Merchant": return Color("#57a8c8")
-	return Color("#d6dfe8")
-
-func _monster_color(name:String)->Color:
-	match name:
-		"Orc": return Color("#638d3e")
-		"Wolf": return Color("#667180")
-		"Dragon": return Color("#ad4c42")
-		"Golem": return Color("#8f7660")
-		"Mantis": return Color("#6c9f54")
-		"Poring": return Color("#e47fa8")
-		"Skeleton": return Color("#bdb6a6")
-		"Zombie": return Color("#637a63")
-		"Evil Druid": return Color("#8066a0")
-	return Color("#83909d")
-
 func _map_to_world(pos:Vector2)->Vector3:
 	return Vector3((pos.x-365.0)*WORLD_SCALE,0.0,(pos.y-120.0)*WORLD_SCALE)
-
-func _draw()->void:
-	pass
