@@ -262,7 +262,27 @@ func respawn_hero(hero:Dictionary)->void:
 func now_seconds()->float:
     return Time.get_ticks_msec()/1000.0
 
+func _hd_feedback()->Node:
+    if game == null: return null
+    return game.get_parent().get_node_or_null("HDCombatFeedback")
+
+func _hd_world_position(position:Vector2)->Vector3:
+    return Vector3((position.x-595.0)*0.055,0.9,(position.y-340.0)*0.055)
+
+func _emit_hd_combat(kind:String,position:Vector2,text:String,critical:bool)->void:
+    var feedback:=_hd_feedback()
+    if feedback == null: return
+    var world_position:=_hd_world_position(position)
+    match kind:
+        "hit": feedback.show_damage(max(0,int(text)),world_position,critical)
+        "heal": feedback.show_damage(max(0,int(text)),world_position,false)
+        "mvp": feedback.show_telegraph("circle",world_position,2.2,0.9); feedback.play_skill_effect("mvp:"+text,world_position)
+        "pet_attack": feedback.play_skill_effect("pet:"+text,world_position)
+        "hero_attack": feedback.play_skill_effect("basic_attack",world_position)
+        "monster_death": feedback.play_skill_effect("monster_death",world_position)
+
 func call_vfx(kind:String,position:Vector2,text:String,critical:bool)->void:
+    _emit_hd_combat(kind,position,text,critical)
     var vfx=game.get_node_or_null("CombatVFX")
     if vfx==null: return
     match kind:
