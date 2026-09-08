@@ -34,8 +34,9 @@ func _ready()->void:
 	add_child(pet_visual)
 	pet_visual.z_index=5
 	update_pet_visual()
-	for i in 5:
-		spawn_monster()
+	if TeleportSystem.is_dungeon(int(hero.get("map_id",0))):
+		for i in 5:
+			spawn_monster()
 	log_message("Welcome to Honour War. Write @autoloot to toggle automatic loot.")
 	queue_redraw()
 
@@ -257,7 +258,7 @@ func _process(delta:float)->void:
 	if pet_attack_timer>=1.5:
 		pet_attack_timer=0.0
 		pet_auto_attack()
-	if spawn_timer>=4.0 and monsters.size()<8:
+	if TeleportSystem.is_dungeon(int(hero.get("map_id",0))) and spawn_timer>=4.0 and monsters.size()<8:
 		spawn_timer=0.0
 		spawn_monster()
 	if age_timer>=8.0:
@@ -332,13 +333,16 @@ func fast_travel(map_id:int,x:int,y:int)->void:
 	hero["pos_x"]=365.0+float(x)
 	hero["pos_y"]=120.0+float(y)
 	monsters.clear()
-	for i in 4:
-		spawn_monster()
-	log_message("Fast transmission to %s at X:%d Y:%d. Pet follows automatically." % [TeleportSystem.map_name(map_id),x,y])
+	if TeleportSystem.is_dungeon(map_id):
+		for i in 4:
+			spawn_monster()
+	log_message("Fast transmission to %s at X:%d Y:%d. Pet follows automatically.%s" % [TeleportSystem.map_name(map_id),x,y," Combat zone populated." if TeleportSystem.is_dungeon(map_id) else " Safe town: no monsters spawn here."])
 	save_game()
 	update_ui()
 
 func spawn_monster()->void:
+	if not TeleportSystem.is_dungeon(int(hero.get("map_id",0))):
+		return
 	var families:=GameData.monster_families()
 	var family:String=families[rng.randi_range(0,families.size()-1)]
 	var zone:=max(1,int(hero["level"])/10+1)
