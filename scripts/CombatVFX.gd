@@ -28,12 +28,18 @@ func emit_effect(kind:String,position:Vector2,duration:float=0.45,scale:float=1.
 	effects.append({"kind":kind,"pos":position,"age":0.0,"duration":duration,"scale":scale,"text":text})
 	queue_redraw()
 
-func hero_attack(position:Vector2)->void: emit_effect("hero_attack",position,0.28,1.0)
-func pet_attack(position:Vector2,role:String="")->void: emit_effect("pet_attack",position,0.34,1.0,role)
-func skill_cast(position:Vector2,skill_name:String,ultimate:bool=false)->void: emit_effect("ultimate" if ultimate else "skill",position,1.0 if ultimate else 0.58,1.5 if ultimate else 1.0,skill_name)
-func hit(position:Vector2,damage:int,critical:bool=false)->void: emit_effect("critical" if critical else "hit",position,0.55,1.0,str(damage))
-func monster_death(position:Vector2)->void: emit_effect("death",position,1.0,1.25)
-func heal(position:Vector2,amount:int)->void: emit_effect("heal",position,0.8,1.0,str(amount))
+func hero_attack(position:Vector2)->void:
+	emit_effect("hero_attack",position,0.26,1.05)
+func pet_attack(position:Vector2,role:String="")->void:
+	emit_effect("pet_attack",position,0.34,1.0,role)
+func skill_cast(position:Vector2,skill_name:String,ultimate:bool=false)->void:
+	emit_effect("ultimate" if ultimate else "skill",position,0.95 if ultimate else 0.52,1.45 if ultimate else 1.05,skill_name)
+func hit(position:Vector2,damage:int,critical:bool=false)->void:
+	emit_effect("critical" if critical else "hit",position,0.55,1.0,str(damage))
+func monster_death(position:Vector2)->void:
+	emit_effect("death",position,0.95,1.25)
+func heal(position:Vector2,amount:int)->void:
+	emit_effect("heal",position,0.75,1.0,str(amount))
 
 func _draw()->void:
 	if game!=null and game.get("hero") is Dictionary:
@@ -68,6 +74,10 @@ func _draw_effect(e:Dictionary)->void:
 	var s:float=float(e.get("scale",1.0))
 	var kind:String=str(e["kind"])
 	var alpha:float=1.0-t
+	var class_id:String="Warrior"
+	if game!=null and game.get("hero") is Dictionary:
+		class_id=str(game.get("hero").get("class","Warrior"))
+	var class_color:Color=CLASS_COLORS.get(class_id,Color.WHITE)
 	if kind=="hero_attack":
 		_draw_slash(pos,t,alpha,s,Color("#ffd36b"))
 	elif kind=="pet_attack":
@@ -78,8 +88,7 @@ func _draw_effect(e:Dictionary)->void:
 			draw_line(pos+Vector2(cos(a),sin(a))*inner,pos+Vector2(cos(a),sin(a))*outer,Color(0.65,0.9,1.0,alpha),3.0)
 		_draw_ring(pos,20.0+30.0*t,alpha,Color("#8fe8ff"),2.0)
 	elif kind=="skill":
-		_draw_magic_circle(pos,t,alpha,s,Color("#b98cff"))
-		_draw_label(pos+Vector2(-48,-42-18*t),str(e.get("text","SKILL")),alpha)
+		_draw_class_skill(pos,class_id,class_color,t,alpha,s,str(e.get("text","SKILL")))
 	elif kind=="ultimate":
 		_draw_magic_circle(pos,t,alpha,s,Color("#ffd35c"))
 		_draw_ring(pos,35.0+125.0*t*s,alpha,Color("#fff0a3"),5.0)
@@ -123,6 +132,42 @@ func _draw_magic_circle(pos:Vector2,t:float,alpha:float,s:float,color:Color)->vo
 		var a:float=elapsed+float(j)*TAU/6.0
 		var p:Vector2=pos+Vector2(cos(a),sin(a))*((18.0+42.0*t)*s)
 		draw_circle(p,2.5*(1.0-t),Color(color,alpha))
+
+func _draw_class_skill(pos:Vector2,class_id:String,color:Color,t:float,alpha:float,s:float,label:String)->void:
+	var radius:float=18.0+62.0*t*s
+	match class_id:
+		"Warrior":
+			draw_arc(pos,radius,-1.5,0.25,36,Color(1.0,0.55,0.20,alpha),5.0)
+			draw_arc(pos,radius*0.62,-0.7,0.9,28,Color(1.0,0.84,0.36,alpha*0.7),3.0)
+		"Mage":
+			draw_circle(pos,radius*0.7,Color(0.45,0.35,1.0,alpha*0.12))
+			draw_arc(pos,radius,elapsed*2.0,elapsed*2.0+4.8,48,Color(0.72,0.70,1.0,alpha),3.0)
+			for j in range(8):
+				var a:float=elapsed*2.4+float(j)*TAU/8.0
+				draw_circle(pos+Vector2(cos(a),sin(a))*radius,2.5,Color(0.75,0.9,1.0,alpha))
+		"Archer":
+			for j in range(3):
+				var offset:float=(float(j)-1.0)*9.0
+				var start:Vector2=pos+Vector2(-radius*0.55,offset)
+				var finish:Vector2=pos+Vector2(radius*0.95,offset)
+				draw_line(start,finish,Color(0.70,1.0,0.78,alpha*(1.0-float(j)*0.18)),3.0)
+		"Thief":
+			draw_arc(pos,radius,-2.2,0.2,32,Color(1.0,0.35,0.66,alpha),4.0)
+			draw_arc(pos,radius*0.72,1.0,3.1,28,Color(0.45,0.12,0.30,alpha*0.8),3.0)
+		"Acolyte":
+			draw_circle(pos,radius*0.74,Color(1.0,0.92,0.40,alpha*0.12))
+			draw_arc(pos,radius*0.86,0.0,TAU,40,Color(1.0,0.96,0.60,alpha),3.0)
+			draw_line(pos+Vector2(-radius*0.45,0.0),pos+Vector2(radius*0.45,0.0),Color(1.0,1.0,0.85,alpha),2.0)
+			draw_line(pos+Vector2(0,-radius*0.45),pos+Vector2(0,radius*0.45),Color(1.0,1.0,0.85,alpha),2.0)
+		"Merchant":
+			draw_arc(pos,radius,-0.9,1.1,28,Color(0.35,0.85,1.0,alpha),5.0)
+			for j in range(5):
+				var box_pos:Vector2=pos+Vector2(-radius*0.5+float(j)*radius*0.25,10.0*sin(t*4.0+float(j)))
+				draw_rect(Rect2(box_pos-Vector2(3,3),Vector2(6,6)),Color(0.55,0.9,1.0,alpha*0.85),true)
+		_:
+			draw_arc(pos,radius,elapsed,elapsed+4.7,40,Color(color.r,color.g,color.b,alpha),3.0)
+	if t<0.82:
+		_draw_label(pos+Vector2(-48,-34*t),label,alpha)
 
 func _draw_ring(pos:Vector2,radius:float,alpha:float,color:Color,width:float)->void:
 	draw_arc(pos,radius,0.0,TAU,64,Color(color,alpha),width)
