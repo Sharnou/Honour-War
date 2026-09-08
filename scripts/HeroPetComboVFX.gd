@@ -15,8 +15,10 @@ func _ready()->void:
     combo=game.get_node_or_null("HeroPetComboSystem") if game else null
     events=game.get_node_or_null("CombatEventBus") if game else null
     if combo:
-        combo.combo_changed.connect(_on_combo_changed)
-        combo.combo_triggered.connect(_on_combo_triggered)
+        if combo.has_signal("combo_changed"):
+            combo.combo_changed.connect(_on_combo_changed)
+        if combo.has_signal("combo_triggered"):
+            combo.combo_triggered.connect(_on_combo_triggered)
     if events and events.has_signal("target_changed"):
         events.target_changed.connect(_on_target_changed)
     _build_lock_ring()
@@ -38,10 +40,19 @@ func _process(delta:float)->void:
         var ttl:float=float(effect.get_meta("ttl",0.0))-delta
         effect.set_meta("ttl",ttl)
         effect.scale*=1.0+delta*0.7
-        effect.modulate.a=max(0.0,ttl*1.8)
+        _set_effect_alpha(effect,clamp(ttl*1.8,0.0,1.0))
         if ttl<=0.0:
             active_effects.erase(effect)
             effect.queue_free()
+
+func _set_effect_alpha(effect:Node3D,alpha:float)->void:
+    if effect==null or not is_instance_valid(effect): return
+    var material:Material=effect.get("material_override") as Material
+    if material is StandardMaterial3D:
+        var standard:StandardMaterial3D=material
+        var base:Color=standard.albedo_color
+        standard.albedo_color=Color(base.r,base.g,base.b,alpha)
+        standard.transparency=BaseMaterial3D.TRANSPARENCY_ALPHA
 
 func _build_lock_ring()->void:
     lock_ring=MeshInstance3D.new()
@@ -63,19 +74,16 @@ func _build_lock_ring()->void:
     add_child(lock_ring)
 
 func _sync_target()->void:
-    if events==null:
-        return
+    if events==null: return
     var combat:Node=events.get("combat") as Node
-    if combat==null:
-        return
+    if combat==null: return
     var value:Variant=combat.get("target")
     if value is Dictionary:
         _on_target_changed(value)
 
 func _on_target_changed(target:Dictionary)->void:
     lock_target=null
-    if game==null or target.is_empty():
-        return
+    if game==null or target.is_empty(): return
     var id:String=str(target.get("visual_id",target.get("name","")))
     var visuals:Variant=game.get("monster_visuals")
     if visuals is Dictionary and visuals.has(id):
@@ -184,9 +192,10 @@ func _orb(position:Vector3,radius:float)->MeshInstance3D:
 
 func _glow_material(color:Color,energy:float)->StandardMaterial3D:
     var material:=StandardMaterial3D.new()
-    material.albedo_color=color
+    material.albedo_color=Color(color.r,color.g,color.b,color.a)
     material.emission_enabled=true
     material.emission=color
     material.emission_energy_multiplier=energy
     material.shading_mode=BaseMaterial3D.SHADING_MODE_UNSHADED
+    material.transparency=BaseMaterial3D.TRANSPARENCY_ALPHA
     return material
