@@ -7,7 +7,7 @@ var elapsed:float=0.0
 
 func _process(delta:float)->void:
 	elapsed+=delta
-	var game:Node= get_parent()
+	var game:Node=get_parent()
 	if game==null:
 		return
 	var hero:Node3D=game.get("hero_visual") as Node3D
@@ -15,15 +15,20 @@ func _process(delta:float)->void:
 		return
 	if hero!=last_hero:
 		last_hero=hero
-	_decorate_hero(hero)
+	_decorate_hero(hero,game)
 	_animate(hero)
 
-func _decorate_hero(hero:Node3D)->void:
+func _decorate_hero(hero:Node3D,game:Node)->void:
 	var key:int=hero.get_instance_id()
 	if decorated.has(key):
 		return
 	decorated[key]=true
-	var class_id:String=str(hero.get_meta("class_id","Warrior"))
+	var class_id:String="Warrior"
+	var legacy:Node=game.get_node_or_null("LegacyGame")
+	if legacy!=null:
+		var hero_value:Variant=legacy.get("hero")
+		if hero_value is Dictionary:
+			class_id=str(hero_value.get("class","Warrior"))
 	if class_id=="Warrior":
 		_add_armor(hero,Color("#b83d32"),Color("#e3b766"),true)
 	elif class_id=="Mage":
@@ -59,7 +64,7 @@ func _mat(color:Color,metal:float=0.0,rough:float=0.65,emission:Color=Color(0,0,
 	mat.albedo_color=color
 	mat.metallic=metal
 	mat.roughness=rough
-	if emission.a>0.0 and emission.length()>0.0:
+	if emission.length()>0.0:
 		mat.emission_enabled=true
 		mat.emission=emission
 		mat.emission_energy_multiplier=2.4
