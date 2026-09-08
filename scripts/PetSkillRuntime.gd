@@ -1,6 +1,9 @@
 class_name PetSkillRuntime
 extends Node
 
+const PetSkillSystem = preload("res://scripts/PetSkillSystem.gd")
+const PetCombatTactics = preload("res://scripts/PetCombatTactics.gd")
+
 @export var cast_interval:float=3.5
 @export var auto_cast_states:Array[String]=["Assist","Aggressive","Defend"]
 @export var low_owner_hp_ratio:float=0.45
@@ -51,35 +54,7 @@ func _select_target(pet:Dictionary,hero:Dictionary,director:Node)->Dictionary:
     var role:String=str(director.get("pet_role")) if director else str(pet.get("role","Hybrid"))
     var hero_pos:=Vector2(float(hero.get("pos_x",0.0)),float(hero.get("pos_y",0.0)))
     var current:Dictionary=combat.get("target") if combat.get("target") is Dictionary else {}
-    var best:Dictionary={}
-    var best_score:float=-INF
-    var now:float=Time.get_ticks_msec()/1000.0
-    for candidate in monsters_value:
-        if not candidate is Dictionary or int(candidate.get("hp",0))<=0: continue
-        var pos:Vector2=candidate.get("pos",Vector2.ZERO)
-        var distance:float=hero_pos.distance_to(pos)
-        if distance>220.0: continue
-        var score:float=0.0
-        var level:int=int(candidate.get("level",1))
-        var hp:int=int(candidate.get("hp",1))
-        var max_hp:int=max(1,int(candidate.get("max",hp)))
-        var hp_ratio:float=float(hp)/float(max_hp)
-        if candidate==current: score+=7.0
-        if bool(candidate.get("mvp",false)): score+=5.0
-        score+=float(level)*0.03
-        score+=(1.0-hp_ratio)*4.0
-        if role=="Guardian":
-            score+=float(candidate.get("pet_threat",0))*0.015
-            if float(candidate.get("target_pet_until",0.0))>now: score+=8.0
-        elif role=="DPS": score+=(1.0-hp_ratio)*8.0
-        elif role=="Ranged": score+=max(0.0,5.0-distance*0.01)
-        elif role=="Support":
-            if float(hero.get("hp",0))/float(max(1,int(hero.get("max_hp",1))))<low_owner_hp_ratio: score-=2.0
-        score-=distance*0.012
-        if score>best_score:
-            best_score=score
-            best=candidate
-    return best
+    return PetCombatTactics.best_target(monsters_value,hero_pos,current,role)
 
 func _select_best_skill(pet:Dictionary,hero:Dictionary,monster:Dictionary,director:Node)->String:
     var species:String=str(pet.get("species","Wolf Cub"))
@@ -151,6 +126,7 @@ func _cast(skill_id:String,target_override:Dictionary={})->Dictionary:
     scaled=int(float(scaled)*float(stats.get("damage_multiplier",1.0)))
     var monsters:Array=game.get("monsters") if game.get("monsters") is Array else []
     var cluster:Array=PetCombatTactics.nearby_targets(monsters,monster.get("pos",Vector2.ZERO),_radius(skill)*22.0)
+    if cluster.is_empty(): cluster=[monster]
     var total_damage:int=0
     for affected in cluster:
         var defense:int=int(affected.get("defense",0))
