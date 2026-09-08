@@ -10,6 +10,7 @@ extends Node
 var camera_director: Node
 var pet_director: Node
 var combat_feedback: Node
+var _bound_actor: Node3D
 
 func _ready() -> void:
     camera_director = get_node_or_null(camera_director_path)
@@ -18,6 +19,25 @@ func _ready() -> void:
     _configure_camera()
     _configure_pet()
 
+func _process(_delta: float) -> void:
+    _resolve_runtime_actor()
+
+func _resolve_runtime_actor() -> void:
+    var actor: Node3D = null
+    if target_path != NodePath():
+        actor = get_node_or_null(target_path) as Node3D
+    if actor == null and get_parent() != null:
+        var candidate: Variant = get_parent().get("hero_visual")
+        if candidate is Node3D:
+            actor = candidate
+    if actor == null or actor == _bound_actor or not is_instance_valid(actor):
+        return
+    _bound_actor = actor
+    if camera_director and camera_director.has_method("set_target"):
+        camera_director.set_target(actor)
+    if pet_director and pet_director.has_method("set_owner_node"):
+        pet_director.set_owner_node(actor)
+
 func _configure_camera() -> void:
     if camera_director == null:
         return
@@ -25,7 +45,7 @@ func _configure_camera() -> void:
     if camera and camera_director.has_method("set_camera"):
         camera_director.set_camera(camera)
     if target_path != NodePath() and camera_director.has_method("set_target"):
-        var target := get_node_or_null(target_path)
+        var target := get_node_or_null(target_path) as Node3D
         if target:
             camera_director.set_target(target)
 
@@ -33,22 +53,18 @@ func _configure_pet() -> void:
     if pet_director == null:
         return
     if owner_path != NodePath() and pet_director.has_method("set_owner_node"):
-        var owner := get_node_or_null(owner_path)
+        var owner := get_node_or_null(owner_path) as Node3D
         if owner:
             pet_director.set_owner_node(owner)
-    if target_path != NodePath() and pet_director.has_method("set_target_node"):
-        var target := get_node_or_null(target_path)
-        if target:
-            pet_director.set_target_node(target)
 
 func emit_damage(amount: int, world_position: Vector3, critical: bool = false) -> void:
-    if combat_feedback and combat_feedback.has_method("emit_damage"):
-        combat_feedback.emit_damage(amount, world_position, critical)
+    if combat_feedback and combat_feedback.has_method("show_damage"):
+        combat_feedback.show_damage(amount, world_position, critical)
 
 func emit_telegraph(world_position: Vector3, radius: float, duration: float) -> void:
-    if combat_feedback and combat_feedback.has_method("emit_telegraph"):
-        combat_feedback.emit_telegraph(world_position, radius, duration)
+    if combat_feedback and combat_feedback.has_method("show_telegraph"):
+        combat_feedback.show_telegraph("circle", world_position, radius, duration)
 
 func emit_skill(skill_id: String, world_position: Vector3) -> void:
-    if combat_feedback and combat_feedback.has_method("emit_skill"):
-        combat_feedback.emit_skill(skill_id, world_position)
+    if combat_feedback and combat_feedback.has_method("play_skill_effect"):
+        combat_feedback.play_skill_effect(skill_id, world_position)
