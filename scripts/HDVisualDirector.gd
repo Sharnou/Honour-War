@@ -56,9 +56,9 @@ func _build_environment() -> void:
 	environment.fog_height = 1.5
 	environment.fog_height_density = 0.018
 	environment.adjustment_enabled = true
-environment.adjustment_brightness = 1.04
-environment.adjustment_contrast = 1.08
-environment.adjustment_saturation = 1.10
+	environment.adjustment_brightness = 1.04
+	environment.adjustment_contrast = 1.08
+	environment.adjustment_saturation = 1.10
 
 func _build_lights() -> void:
 	sun = get_node_or_null("HDSun") as DirectionalLight3D
