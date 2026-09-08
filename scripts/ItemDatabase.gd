@@ -94,5 +94,15 @@ static func all() -> Dictionary:
 		"MVP Bounty Token":{"type":"Currency","rarity":"MVP","value":1000,"effect":"Exchange for boss rewards"},
 		"Teleport Scroll":{"type":"Utility","rarity":"Common","value":100,"effect":"Return to safe city"},
 		"Butterfly Wing":{"type":"Utility","rarity":"Common","value":80,"effect":"Return to last safe city"},
-		"Magnifier":{"type":"Utility","rarity":"Common","value":40,"effect":"Identify equipment"}
+		"Magnifier":{"type":"Utility","rarity":"Common","value":40,"effect":"Identify equipment"},
+		"Super War Emperor Blade":{"type":"Weapon","slot":"weapon","rarity":"MVP","value":60000,"attack":360,"crit":25,"boss_damage_percent":20.0,"card_slots":4,"refine_cap":15,"glowing":true,"effect":"Super MVP weapon; 4 slots; permanent glow"},
+		"Super Astral Sovereign Staff":{"type":"Weapon","slot":"weapon","rarity":"MVP","value":62000,"attack":280,"magic":430,"sp":180,"boss_damage_percent":20.0,"card_slots":4,"refine_cap":15,"glowing":true,"effect":"Super MVP staff; 4 slots; permanent glow"},
+		"Super Celestial Longbow":{"type":"Weapon","slot":"weapon","rarity":"MVP","value":61000,"attack":340,"crit":32,"move_percent":8.0,"boss_damage_percent":20.0,"card_slots":4,"refine_cap":15,"glowing":true,"effect":"Super MVP bow; 4 slots; permanent glow"},
+		"Super Eternal Assassin Blade":{"type":"Weapon","slot":"weapon","rarity":"MVP","value":64000,"attack":380,"crit":40,"evasion":18,"damage_percent":15.0,"card_slots":4,"refine_cap":15,"glowing":true,"effect":"Super MVP dagger; 4 slots; permanent glow"},
+		"Super Heaven Gate Mace":{"type":"Weapon","slot":"weapon","rarity":"MVP","value":60000,"attack":300,"magic":160,"healing":120,"hp":500,"card_slots":4,"refine_cap":15,"glowing":true,"effect":"Super MVP mace; 4 slots; permanent glow"},
+		"Super Arsenal Overlord Hammer":{"type":"Weapon","slot":"weapon","rarity":"MVP","value":63000,"attack":330,"defense":90,"carry":80,"all_rewards_percent":10.0,"card_slots":4,"refine_cap":15,"glowing":true,"effect":"Super MVP hammer; 4 slots; permanent glow"},
+		"Glowing Aegis of Honour":{"type":"Armor","slot":"shield","rarity":"MVP","value":58000,"defense":240,"hp":1100,"boss_damage_percent":8.0,"card_slots":4,"refine_cap":15,"glowing":true,"effect":"Glowing MVP shield; 4 slots"},
+		"Glowing War Emperor Armor":{"type":"Armor","slot":"armor","rarity":"MVP","value":60000,"defense":300,"hp":900,"damage_percent":10.0,"card_slots":4,"refine_cap":15,"glowing":true,"effect":"Glowing MVP armor; 4 slots"},
+		"Glowing Celestial Wing Mantle":{"type":"Armor","slot":"garment","rarity":"MVP","value":57000,"defense":120,"hp":750,"move_percent":15.0,"all_rewards_percent":8.0,"card_slots":4,"refine_cap":15,"glowing":true,"effect":"Glowing MVP mantle; 4 slots"},
+		"Glowing Celestial Crown":{"type":"Armor","slot":"head_upper","rarity":"MVP","value":59000,"defense":110,"hp":650,"magic":150,"boss_damage_percent":10.0,"card_slots":4,"refine_cap":15,"glowing":true,"effect":"Glowing MVP crown; 4 slots"}
 	}
