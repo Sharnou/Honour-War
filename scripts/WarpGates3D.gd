@@ -2,12 +2,12 @@ class_name WarpGates3D
 extends Node3D
 
 const GATES:Array[Dictionary]=[
-	{"map_id":10,"name":"Prontera Sewer","color":Color("#56d6ff"),"pos":Vector3(-8.0,0.05,5.5),"x":180,"y":450},
-	{"map_id":11,"name":"Payon Cave","color":Color("#7cff82"),"pos":Vector3(8.0,0.05,5.5),"x":180,"y":450},
-	{"map_id":12,"name":"Geffen Tower","color":Color("#9d7cff"),"pos":Vector3(-8.0,0.05,-5.5),"x":180,"y":450},
-	{"map_id":13,"name":"Morroc Ruins","color":Color("#ff9b58"),"pos":Vector3(8.0,0.05,-5.5),"x":180,"y":450},
-	{"map_id":14,"name":"Orc Dungeon","color":Color("#c8ff66"),"pos":Vector3(-3.8,0.05,7.2),"x":180,"y":450},
-	{"map_id":15,"name":"Ice Cave","color":Color("#7feaff"),"pos":Vector3(3.8,0.05,7.2),"x":180,"y":450}
+	{"map_id":10,"name":"Prontera Sewer","color":Color("#56d6ff"),"pos":Vector3(6.5,0.05,10.5),"x":180,"y":450},
+	{"map_id":11,"name":"Payon Cave","color":Color("#7cff82"),"pos":Vector3(19.5,0.05,10.5),"x":180,"y":450},
+	{"map_id":12,"name":"Geffen Tower","color":Color("#9d7cff"),"pos":Vector3(6.5,0.05,14.8),"x":180,"y":450},
+	{"map_id":13,"name":"Morroc Ruins","color":Color("#ff9b58"),"pos":Vector3(19.5,0.05,14.8),"x":180,"y":450},
+	{"map_id":14,"name":"Orc Dungeon","color":Color("#c8ff66"),"pos":Vector3(10.2,0.05,18.0),"x":180,"y":450},
+	{"map_id":15,"name":"Ice Cave","color":Color("#7feaff"),"pos":Vector3(15.8,0.05,18.0),"x":180,"y":450}
 ]
 
 var legacy:Node
