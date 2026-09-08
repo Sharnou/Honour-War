@@ -18,6 +18,10 @@ var gate_nodes:Array[Node3D]=[]
 
 func _ready()->void:
 	legacy=get_parent().get_node_or_null("LegacyGame")
+	call_deferred("_build_runtime")
+
+func _build_runtime()->void:
+	if not is_inside_tree(): return
 	root=Node3D.new()
 	root.name="WarpGates"
 	add_child(root)
@@ -30,7 +34,7 @@ func _process(delta:float)->void:
 	if not hero_value is Dictionary: return
 	var map_id:int=int((hero_value as Dictionary).get("map_id",0))
 	var visible:bool=not TeleportSystem.is_dungeon(map_id)
-	root.visible=visible
+	if root!=null: root.visible=visible
 	for i in gate_nodes.size():
 		var gate:Node3D=gate_nodes[i]
 		if gate==null: continue
