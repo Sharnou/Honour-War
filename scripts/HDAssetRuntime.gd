@@ -26,7 +26,7 @@ func _process(delta:float) -> void:
 	if poll_elapsed < poll_interval:
 		return
 	poll_elapsed = 0.0
-	if game == null:
+	if game == null or not is_instance_valid(game):
 		game = get_parent()
 	if game == null:
 		return
@@ -46,7 +46,7 @@ func _sync_hero() -> void:
 		return
 	var hero:Dictionary = hero_value
 	var class_id:String = str(hero.get("class", "Warrior"))
-	var path:String = hero_asset_root + "/hero_" + class_id.to_lower() + ".glb"
+	var path:String = hero_asset_root + "/hero_" + _stable_id(class_id) + ".glb"
 	_replace_if_available("hero", hero_visual, path)
 
 func _sync_pet() -> void:
@@ -91,13 +91,18 @@ func _sync_monsters() -> void:
 		var root:String = mvp_asset_root if kind == "MVP" else monster_asset_root
 		var prefix:String = "mvp_" if kind == "MVP" else "monster_"
 		var path:String = root + "/" + prefix + _stable_id(str(monster.get("name", "monster"))) + ".glb"
-		_replace_if_available("monster:" + id, visual, path)
+		_replace_if_available("monster:" + id, visual, path, id)
 
-func _replace_if_available(key:String, current:Node3D, path:String) -> void:
+func _replace_if_available(key:String, current:Node3D, path:String, monster_id:String = "") -> void:
 	if active_assets.has(key):
-		var existing:Node = active_assets[key] as Node
-		if existing != null and is_instance_valid(existing):
-			return
+		var record:Variant = active_assets[key]
+		if record is Dictionary:
+			var existing:Node = record.get("node") as Node
+			var existing_path:String = str(record.get("path", ""))
+			if existing != null and is_instance_valid(existing) and existing_path == path:
+				return
+			if existing != null and is_instance_valid(existing):
+				existing.queue_free()
 		active_assets.erase(key)
 	if attempted_paths.has(path) and not ResourceLoader.exists(path):
 		return
@@ -109,17 +114,26 @@ func _replace_if_available(key:String, current:Node3D, path:String) -> void:
 		attempted_paths[path] = true
 		return
 	var parent:Node = current.get_parent()
-	if parent == null:
+	if parent == null or not current.is_inside_tree():
 		return
 	var replacement:Node = packed.instantiate()
-	if replacement == null:
+	if replacement == null or not replacement is Node3D:
+		if replacement != null:
+			replacement.queue_free()
 		return
 	parent.add_child(replacement)
-	if replacement is Node3D:
-		var replacement_3d:Node3D = replacement as Node3D
-		replacement_3d.global_transform = current.global_transform
-		replacement_3d.name = current.name + "_HDAsset"
-	active_assets[key] = replacement
+	var replacement_3d:Node3D = replacement as Node3D
+	replacement_3d.global_transform = current.global_transform
+	replacement_3d.name = current.name + "_HDAsset"
+	active_assets[key] = {"node":replacement,"path":path}
+	if key == "hero":
+		game.set("hero_visual", replacement_3d)
+	elif key == "pet":
+		game.set("pet_visual", replacement_3d)
+	elif not monster_id.is_empty():
+		var visuals:Variant = game.get("monster_visuals")
+		if visuals is Dictionary:
+			visuals[monster_id] = replacement_3d
 	current.queue_free()
 
 func _stable_id(value:String) -> String:
