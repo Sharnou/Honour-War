@@ -7,6 +7,8 @@ var title:Label
 var points_label:Label
 var profile_label:Label
 var progress_label:Label
+var branch_label:Label
+var branch_box:HBoxContainer
 var scroll:ScrollContainer
 var list:VBoxContainer
 var notice:Label
@@ -23,12 +25,12 @@ func setup()->void:
 
 func build()->void:
     panel=Panel.new()
-    panel.position=Vector2(250,38)
-    panel.size=Vector2(920,620)
+    panel.position=Vector2(250,28)
+    panel.size=Vector2(920,650)
     add_child(panel)
     var header:=VBoxContainer.new()
-    header.position=Vector2(18,12)
-    header.size=Vector2(884,70)
+    header.position=Vector2(18,10)
+    header.size=Vector2(884,102)
     panel.add_child(header)
     var top:=HBoxContainer.new()
     top.size_flags_horizontal=Control.SIZE_EXPAND_FILL
@@ -52,21 +54,28 @@ func build()->void:
     progress_label=Label.new()
     progress_label.add_theme_font_size_override("font_size",13)
     header.add_child(progress_label)
+    branch_label=Label.new()
+    branch_label.add_theme_font_size_override("font_size",13)
+    header.add_child(branch_label)
+    branch_box=HBoxContainer.new()
+    branch_box.add_theme_constant_override("separation",6)
+    branch_box.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+    header.add_child(branch_box)
     var line:=HSeparator.new()
-    line.position=Vector2(18,88)
+    line.position=Vector2(18,116)
     line.size=Vector2(884,2)
     panel.add_child(line)
     scroll=ScrollContainer.new()
-    scroll.position=Vector2(18,98)
-    scroll.size=Vector2(884,455)
+    scroll.position=Vector2(18,126)
+    scroll.size=Vector2(884,482)
     panel.add_child(scroll)
     list=VBoxContainer.new()
     list.size_flags_horizontal=Control.SIZE_EXPAND_FILL
     list.add_theme_constant_override("separation",7)
     scroll.add_child(list)
     notice=Label.new()
-    notice.position=Vector2(18,566)
-    notice.size=Vector2(884,38)
+    notice.position=Vector2(18,616)
+    notice.size=Vector2(884,28)
     notice.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
     panel.add_child(notice)
 
@@ -92,13 +101,15 @@ func hide_tree()->void:
 func refresh()->void:
     if game==null or list==null: return
     SkillSystem.ensure_state(game.hero)
+    ClassTreeSystem.ensure_state(game.hero)
     var class_id:=str(game.hero.get("class","Warrior"))
     var summary:=ClassTreeSystem.summary(game.hero)
     var profile:Dictionary=summary["profile"]
     points_label.text="Skill Points: %d" % int(game.hero.get("skill_points",0))
     title.text="%s • %s" % [class_id,profile["title"]]
-    profile_label.text="%s   •   Primary %s   •   Secondary %s   •   Paths: %s" % [profile["identity"],profile["primary"],profile["secondary"],", ".join(profile["branches"])]
-    progress_label.text="Mastery: %d/%d ranks   •   Current Tier: %d   •   Capstone: %s (Lv.200)" % [int(summary["learned"]),int(summary["total"]),int(summary["available_tier"]),str(summary["capstone"])]
+    profile_label.text="%s   •   Primary %s   •   Secondary %s" % [profile["identity"],profile["primary"],profile["secondary"]]
+    progress_label.text="Skill Mastery: %d/%d ranks   •   Current Tier: %d   •   Capstone: %s (Lv.200)" % [int(summary["learned"]),int(summary["total"]),int(summary["available_tier"]),str(summary["capstone"])]
+    _refresh_branches(profile,summary)
     for child in list.get_children(): child.queue_free()
     var skills:Array=SkillSystem.all_skills(class_id)
     var current_tier:=0
@@ -108,7 +119,33 @@ func refresh()->void:
             current_tier=tier
             _add_tier_header(current_tier,ClassTreeSystem.TIER_NAMES.get(current_tier,"Mastery"),int(ClassTreeSystem.TIER_LEVELS.get(current_tier,1)),ClassTreeSystem.tier_unlocked(game.hero,current_tier))
         _add_skill_row(skill)
-    notice.text="F: toggle • Five-tier progression. Unlock thresholds: Lv.1 / 25 / 50 / 100 / 200. Prerequisites and rank costs remain enforced."
+    notice.text="F: toggle • Choose ONE specialization at Lv.25. Four paths are permanent for this class; mastery grows after specialization."
+
+func _refresh_branches(profile:Dictionary,summary:Dictionary)->void:
+    for child in branch_box.get_children(): child.queue_free()
+    var current:=str(summary.get("branch",""))
+    var descriptions:Dictionary=ClassTreeSystem.branch_descriptions(str(summary.get("class","Warrior")))
+    branch_label.text="SPECIALIZATION: %s   •   Mastery %d/100" % [current if current!="" else "NOT SELECTED",int(summary.get("mastery",0))]
+    for branch_value in profile["branches"]:
+        var branch:=str(branch_value)
+        var button:=Button.new()
+        button.text=branch
+        button.custom_minimum_size=Vector2(205,34)
+        button.tooltip_text=str(descriptions.get(branch,""))
+        button.disabled=current!="" or int(game.hero.get("level",1))<25
+        if current==branch: button.text="✓ "+branch
+        button.pressed.connect(select_branch.bind(branch))
+        branch_box.add_child(button)
+
+func select_branch(branch:String)->void:
+    if ClassTreeSystem.select_branch(game.hero,branch):
+        notice.text="Specialization selected: %s. This path is now permanent for this character." % branch
+        game.log_message("Specialized into %s." % branch)
+        game.save_game()
+        game.update_ui()
+        refresh()
+    else:
+        notice.text="Specialization unavailable: reach Lv.25 and select an unchosen path."
 
 func _add_tier_header(tier:int,tier_name:String,required:int,unlocked:bool)->void:
     var tier_label:=Label.new()
