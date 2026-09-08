@@ -1,0 +1,50 @@
+name: Mouse MMO controls and warp gates
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  upgrade:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Apply mouse and warp integration
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('scripts/WarpGates3D.gd')
+          s=p.read_text()
+          start=s.index('func _build_gates()->void:')
+          s=s[:start]+'''func _build_gates()->void:
+\tfor data in GATES:
+\t\tvar gate:WarpGate3D=WarpGate3D.new()
+\t\tgate.name="Warp_"+str(data["map_id"])
+\t\tgate.position=data["pos"]
+\t\tgate.target_map=int(data["map_id"])
+\t\tgate.target_x=int(TeleportSystem.MAPS[gate.target_map].get("spawn_x",180))
+\t\tgate.target_y=int(TeleportSystem.MAPS[gate.target_map].get("spawn_y",150))
+\t\tgate.label_text="WARP GATE • "+str(data["name"])
+\t\tgate_nodes.append(gate)
+\t\troot.add_child(gate)
+'''
+          p.write_text(s)
+
+          p=Path('Main3D.tscn')
+          s=p.read_text()
+          if 'scripts/MouseMMOController.gd' not in s:
+              s=s.replace('[ext_resource path="res://scripts/WarpGates3D.gd" type="Script" id="10"]','[ext_resource path="res://scripts/WarpGates3D.gd" type="Script" id="10"]\n[ext_resource path="res://scripts/MouseMMOController.gd" type="Script" id="11"]')
+              s=s.replace('[node name="HonourWar3D" type="Node3D"]\nscript = ExtResource("1")','[node name="HonourWar3D" type="Node3D"]\nscript = ExtResource("1")\n\n[node name="MouseMMOController" type="Node" parent="."]\nscript = ExtResource("11")')
+              p.write_text(s)
+          PY
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add scripts/WarpGates3D.gd Main3D.tscn
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Enable clickable warp gates and mouse MMORPG controls'
+          git push
