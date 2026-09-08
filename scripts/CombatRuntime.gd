@@ -268,8 +268,17 @@ func call_vfx(kind:String,position:Vector2,text:String,critical:bool)->void:
     match kind:
         "hero_attack": vfx.hero_attack(position)
         "pet_attack": vfx.pet_attack(position,text)
-        "hit": vfx.hit(position,int(text),critical)
-        "miss": vfx.hit(position,0,critical)
+        "hit":
+            vfx.hit(position,int(text),critical)
+            if game.has_method("show_3d_combat_number"):
+                game.call("show_3d_combat_number",position,int(text),critical,"enemy")
+        "miss":
+            vfx.hit(position,0,critical)
+            if game.has_method("show_3d_combat_number"):
+                game.call("show_3d_combat_number",position,0,false,"enemy")
         "monster_death": vfx.monster_death(position)
-        "heal": vfx.heal(position,int(text))
+        "heal":
+            vfx.heal(position,int(text))
+            if game.has_method("show_3d_combat_number"):
+                game.call("show_3d_combat_number",position,int(text),false,"heal")
         "mvp": vfx.skill_cast(position,text,true)
