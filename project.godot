@@ -15,18 +15,18 @@ window/handheld/orientation=1
 [rendering]
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
-renderer/rendering_method.driver="d3d12"
-renderer/rendering_method.driver.mobile="d3d12"
-rendering/driver/driver_name="d3d12"
-rendering/driver/fallback_to_vulkan=true
-rendering/driver/fallback_to_opengl3=true
-rendering/gl_compatibility/driver.windows="opengl3"
-rendering/gl_compatibility/fallback_to_angle=true
-rendering/gl_compatibility/fallback_to_native=true
+renderer/rendering_method.driver="opengl3"
+renderer/rendering_method.driver.mobile="opengl3"
+rendering/driver/driver_name="opengl3"
+rendering/driver/fallback_to_angle=true
+rendering/driver/fallback_to_native=true
 textures/default_filters/use_nearest_mipmap_filter=false
 textures/canvas_textures/default_texture_filter=1
 2d/snap/snap_2d_transforms_to_pixel=false
 2d/snap/snap_2d_vertices_to_pixel=false
+
+[display/window]
+size/mode=0
 
 [debug]
 
