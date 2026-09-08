@@ -157,6 +157,7 @@ func _spawn_telegraph(map_pos:Vector2,direction:Vector2,monster:Dictionary)->voi
 	mesh_instance.mesh=mesh
 	mesh_instance.rotation_degrees.x=90.0
 	var material:=StandardMaterial3D.new()
+	material.transparency=BaseMaterial3D.TRANSPARENCY_ALPHA
 	material.albedo_color=Color("#ff7a5c")
 	material.emission_enabled=true
 	material.emission=material.albedo_color
@@ -178,8 +179,14 @@ func _spawn_telegraph(map_pos:Vector2,direction:Vector2,monster:Dictionary)->voi
 	var tween:=create_tween()
 	tween.set_parallel(true)
 	tween.tween_property(root,"scale",Vector3.ONE*1.55,0.22)
-	tween.tween_property(root,"transparency",1.0,0.28)
+	tween.tween_method(_fade_telegraph.bind(material),1.0,0.0,0.28)
 	tween.chain().tween_callback(root.queue_free)
+
+func _fade_telegraph(material:StandardMaterial3D,alpha:float)->void:
+	if material==null: return
+	var c:=material.albedo_color
+	c.a=alpha
+	material.albedo_color=c
 
 func _update_effects(delta:float)->void:
 	for i in range(effects.size()-1,-1,-1):
