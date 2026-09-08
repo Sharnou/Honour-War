@@ -130,21 +130,66 @@ func _build_lighting() -> void:
 	add_child(rim)
 
 func _build_world() -> void:
+	var map_center:=Vector3(12.925,0.0,12.65)
 	var ground:MeshInstance3D = MeshInstance3D.new()
 	var plane:PlaneMesh = PlaneMesh.new()
-	plane.size = Vector2(42.0,18.0)
+	plane.size = Vector2(70.0,43.0)
 	ground.mesh = plane
-	ground.position = Vector3(20.4,-0.05,8.2)
-	ground.material_override = _material(Color("#1a2e2d"),0.0,0.82)
+	ground.position = map_center-Vector3(0.0,0.05,0.0)
+	ground.material_override = _material(Color("#172825"),0.0,0.88)
 	world_root.add_child(ground)
-	var path:MeshInstance3D = MeshInstance3D.new()
-	var path_mesh:BoxMesh = BoxMesh.new()
-	path_mesh.size = Vector3(7.5,0.08,18.0)
-	path.mesh = path_mesh
-	path.position = Vector3(20.4,0.02,8.2)
-	path.material_override = _material(Color("#594a3d"),0.0,1.0)
-	world_root.add_child(path)
+	_build_road(map_center,Vector3(9.0,0.10,43.0),Color("#5b4b3e"))
+	_build_road(map_center,Vector3(70.0,0.10,6.5),Color("#614f40"))
+	_build_road(map_center+Vector3(0.0,0.03,-9.5),Vector3(56.0,0.08,4.2),Color("#725c48"))
+	_build_road(map_center+Vector3(-17.0,0.04,6.5),Vector3(4.2,0.08,25.0),Color("#725c48"))
+	_build_road(map_center+Vector3(17.0,0.04,6.5),Vector3(4.2,0.08,25.0),Color("#725c48"))
+	_build_plaza(map_center+Vector3(0.0,0.08,5.0))
+	_build_city_landmarks(map_center)
 	_build_environment_objects()
+
+func _build_road(center:Vector3,size:Vector3,color:Color)->void:
+	var road:MeshInstance3D=MeshInstance3D.new()
+	var mesh:BoxMesh=BoxMesh.new()
+	mesh.size=size
+	road.mesh=mesh
+	road.position=center+Vector3(0.0,-0.01,0.0)
+	road.material_override=_material(color,0.0,1.0)
+	world_root.add_child(road)
+
+func _build_plaza(center:Vector3)->void:
+	var plaza:MeshInstance3D=MeshInstance3D.new()
+	var mesh:CylinderMesh=CylinderMesh.new()
+	mesh.top_radius=4.8
+	mesh.bottom_radius=4.8
+	mesh.height=0.16
+	plaza.mesh=mesh
+	plaza.position=center
+	plaza.material_override=_material(Color("#75624d"),0.0,0.92)
+	world_root.add_child(plaza)
+	var fountain:MeshInstance3D=_ring(Color("#6ecfff"),2.2,0.12)
+	fountain.rotation_degrees.x=90.0
+	fountain.position=center+Vector3(0.0,0.18,0.0)
+	world_root.add_child(fountain)
+
+func _build_city_landmarks(center:Vector3)->void:
+	var positions:Array[Vector3]=[center+Vector3(-12.0,2.0,-7.0),center+Vector3(12.0,2.0,-7.0),center+Vector3(-12.0,2.0,13.0),center+Vector3(12.0,2.0,13.0)]
+	for i in positions.size():
+		var building:MeshInstance3D=MeshInstance3D.new()
+		var mesh:BoxMesh=BoxMesh.new()
+		mesh.size=Vector3(6.0,4.0,5.0)
+		building.mesh=mesh
+		building.position=positions[i]
+		building.material_override=_material(Color("#6b5547"),0.05,0.76)
+		world_root.add_child(building)
+		var roof:MeshInstance3D=MeshInstance3D.new()
+		var roof_mesh:CylinderMesh=CylinderMesh.new()
+		roof_mesh.top_radius=0.0
+		roof_mesh.bottom_radius=3.9
+		roof_mesh.height=2.3
+		roof.mesh=roof_mesh
+		roof.position=positions[i]+Vector3(0.0,3.0,0.0)
+		roof.material_override=_material(Color("#3b3138"),0.0,0.9)
+		world_root.add_child(roof)
 
 func _build_environment_objects() -> void:
 	var count:int = QUALITY_COUNTS[quality]

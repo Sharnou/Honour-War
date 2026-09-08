@@ -252,8 +252,13 @@ func _process(delta:float)->void:
 	var move:=Vector2(Input.get_axis("move_left","move_right"),Input.get_axis("move_up","move_down")).normalized()
 	var equipment:=combat_equipment()
 	var speed:=180.0*(1.0+float(equipment.get("move_percent",0.0))/100.0)
-	hero["pos_x"]=clamp(float(hero["pos_x"])+move.x*speed*delta,365.0,1107.0)
-	hero["pos_y"]=clamp(float(hero["pos_y"])+move.y*speed*delta,120.0,420.0)
+	var current_map:Dictionary=TeleportSystem.MAPS.get(int(hero.get("map_id",0)),{})
+	var min_x:float=365.0
+	var min_y:float=120.0
+	var max_x:float=min_x+float(current_map.get("width",1200))-1.0
+	var max_y:float=min_y+float(current_map.get("height",700))-1.0
+	hero["pos_x"]=clamp(float(hero["pos_x"])+move.x*speed*delta,min_x,max_x)
+	hero["pos_y"]=clamp(float(hero["pos_y"])+move.y*speed*delta,min_y,max_y)
 	update_pet_visual()
 	if pet_attack_timer>=1.5:
 		pet_attack_timer=0.0
@@ -348,7 +353,12 @@ func spawn_monster()->void:
 	var zone:=max(1,int(hero["level"])/10+1)
 	var level:=WorldSystem.monster_level_for_zone(zone,rng.randi_range(0,families.size()-1))
 	var stats:Dictionary=WorldSystem.monster_stats(level)
-	monsters.append({"name":family,"level":level,"pos":Vector2(rng.randf_range(410.0,1080.0),rng.randf_range(175.0,405.0)),"hp":stats["max_hp"],"max":stats["max_hp"],"attack":stats["attack"],"defense":stats["defense"],"exp":stats["exp"],"zmin":stats["zeny_min"],"zmax":stats["zeny_max"]})
+	var map_data:Dictionary=TeleportSystem.MAPS.get(int(hero.get("map_id",10)),{})
+	var min_x:float=365.0+80.0
+	var min_y:float=120.0+80.0
+	var max_x:float=365.0+float(map_data.get("width",1400))-80.0
+	var max_y:float=120.0+float(map_data.get("height",900))-80.0
+	monsters.append({"name":family,"level":level,"pos":Vector2(rng.randf_range(min_x,max_x),rng.randf_range(min_y,max_y)),"hp":stats["max_hp"],"max":stats["max_hp"],"attack":stats["attack"],"defense":stats["defense"],"exp":stats["exp"],"zmin":stats["zeny_min"],"zmax":stats["zeny_max"]})
 
 func nearest_monster():
 	var best=null

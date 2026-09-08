@@ -38,8 +38,13 @@ func _process(delta:float)->void:
 		if distance>7.0:
 			var step:float=min(distance,260.0*delta)
 			var direction:Vector2=hero_pos.direction_to(target_2d)
-			hero["pos_x"]=clamp(float(hero["pos_x"])+direction.x*step,365.0,1107.0)
-			hero["pos_y"]=clamp(float(hero["pos_y"])+direction.y*step,120.0,420.0)
+			var map_data:Dictionary=TeleportSystem.MAPS.get(int(hero.get("map_id",0)),{})
+			var min_x:float=ORIGIN_X
+			var min_y:float=ORIGIN_Y
+			var max_x:float=ORIGIN_X+float(map_data.get("width",1200))-1.0
+			var max_y:float=ORIGIN_Y+float(map_data.get("height",700))-1.0
+			hero["pos_x"]=clamp(float(hero["pos_x"])+direction.x*step,min_x,max_x)
+			hero["pos_y"]=clamp(float(hero["pos_y"])+direction.y*step,min_y,max_y)
 		else:
 			has_move_target=false
 	if not attack_target.is_empty():
