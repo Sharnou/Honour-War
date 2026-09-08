@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene load_steps=13 format=3]
 
 [ext_resource path="res://scripts/Game3D.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/Main.gd" type="Script" id="2"]
@@ -11,6 +11,7 @@
 [ext_resource path="res://scripts/PetDetail3D.gd" type="Script" id="9"]
 [ext_resource path="res://scripts/WarpGates3D.gd" type="Script" id="10"]
 [ext_resource path="res://scripts/MouseMMOController.gd" type="Script" id="11"]
+[ext_resource path="res://scripts/Combat3DBridge.gd" type="Script" id="12"]
 
 [node name="HonourWar3D" type="Node3D"]
 script = ExtResource("1")
@@ -28,6 +29,9 @@ script = ExtResource("2")
 
 [node name="CombatRuntime" type="Node" parent="LegacyGame"]
 script = ExtResource("3")
+
+[node name="Combat3DBridge" type="Node" parent="LegacyGame"]
+script = ExtResource("12")
 
 [node name="BattleVisuals" type="Node2D" parent="LegacyGame"]
 visible = false
