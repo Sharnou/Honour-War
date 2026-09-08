@@ -236,7 +236,7 @@ func _create_pet(species:String)->Node3D:
 			var poring:MeshInstance3D = _sphere(Color("#ef8fb8"),0.53)
 			poring.scale = Vector3(1.12,0.88,1.05)
 			root.add_child(poring)
-		else:
+		_:
 			var wolf:MeshInstance3D = _capsule(Color("#5d6472"),0.46,0.95)
 			wolf.scale = Vector3(1.15,0.8,1.35)
 			root.add_child(wolf)
