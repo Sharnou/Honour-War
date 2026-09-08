@@ -29,6 +29,7 @@ static func ensure_state(hero:Dictionary)->void:
 static func item_slot(item_name:String)->String: return str(ItemDatabase.all().get(base_item_name(item_name),{}).get("slot",""))
 static func item_card_slots(item_name:String)->int: return clamp(int(ItemDatabase.all().get(base_item_name(item_name),{}).get("card_slots",0)),0,MAX_CARD_SLOTS)
 static func can_equip(item_name:String,slot:String)->bool: return ItemDatabase.all().has(base_item_name(item_name)) and item_slot(item_name)==slot
+
 static func equip(hero:Dictionary,item_name:String)->bool:
 	ensure_state(hero)
 	if not ItemDatabase.all().has(base_item_name(item_name)): return false
@@ -37,6 +38,58 @@ static func equip(hero:Dictionary,item_name:String)->bool:
 	hero["equipment"][slot]=base_item_name(item_name)
 	hero["equipment_cards"][slot]=[]
 	return true
+
+static func inventory_count(hero:Dictionary,item_name:String)->int:
+	var inventory_value:Variant=hero.get("inventory",{})
+	if not inventory_value is Dictionary:
+		return 0
+	var inventory:Dictionary=inventory_value
+	var base:=base_item_name(item_name)
+	return int(inventory.get(base,inventory.get(item_name,0)))
+
+static func equip_from_inventory(hero:Dictionary,item_name:String)->Dictionary:
+	ensure_state(hero)
+	var base:=base_item_name(item_name.strip_edges())
+	if not ItemDatabase.all().has(base):
+		return {"ok":false,"error":"Unknown equipment: %s" % item_name}
+	var slot:=item_slot(base)
+	if slot=="" or not SLOTS.has(slot):
+		return {"ok":false,"error":"%s is not equippable." % base}
+	if inventory_count(hero,base)<=0:
+		return {"ok":false,"error":"You do not own %s." % base}
+	var inventory:Dictionary=hero.get("inventory",{})
+	var old_item:=str(hero["equipment"].get(slot,""))
+	if old_item==base:
+		return {"ok":false,"error":"%s is already equipped." % base}
+	inventory[base]=int(inventory.get(base,0))-1
+	if int(inventory[base])<=0:
+		inventory.erase(base)
+	if old_item!="":
+		inventory[old_item]=int(inventory.get(old_item,0))+1
+	hero["inventory"]=inventory
+	hero["equipment"][slot]=base
+	hero["equipment_cards"][slot]=[]
+	return {"ok":true,"slot":slot,"item":base,"replaced":old_item}
+
+static func unequip_to_inventory(hero:Dictionary,slot:String)->Dictionary:
+	ensure_state(hero)
+	if not SLOTS.has(slot):
+		return {"ok":false,"error":"Unknown equipment slot: %s" % slot}
+	var item:=str(hero["equipment"].get(slot,""))
+	if item=="":
+		return {"ok":false,"error":"%s is already empty." % SLOT_LABELS[slot]}
+	if slot=="weapon" and item=="Novice Sword":
+		return {"ok":false,"error":"The starting weapon cannot be removed."}
+	var inventory:Dictionary=hero.get("inventory",{})
+	inventory[item]=int(inventory.get(item,0))+1
+	hero["inventory"]=inventory
+	hero["equipment"][slot]=""
+	hero["equipment_cards"][slot]=[]
+	if slot=="armor" and str(hero["equipment"].get("armor",""))=="":
+		hero["equipment"]["armor"]="Novice Armor"
+		inventory[item]=max(0,int(inventory.get(item,0)))
+		hero["inventory"]=inventory
+	return {"ok":true,"slot":slot,"item":item}
 
 static func add_card_to_slot(hero:Dictionary,slot:String,card_name:String)->bool:
 	ensure_state(hero)
