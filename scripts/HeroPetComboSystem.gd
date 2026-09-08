@@ -132,6 +132,9 @@ func _decay()->void:
         last_actor=""
         combo_changed.emit(0,"None")
 
+func get_grade()->String:
+    return _grade()
+
 func _grade()->String:
     if combo_count>=25: return "Legendary"
     if combo_count>=20: return "Mythic"
