@@ -7,6 +7,7 @@ extends Node3D
 @export var camera_distance := 17.5
 @export var camera_smoothing := 6.0
 @export var orthographic_size := 16.0
+@export var look_ahead := 1.2
 
 var _camera: Camera3D
 var _target: Node3D
@@ -32,6 +33,8 @@ func _ready() -> void:
 func _process(delta: float) -> void:
     if not _camera or not is_instance_valid(_camera) or not _target or not is_instance_valid(_target):
         return
-    var desired := _target.global_position + Vector3(0.0, camera_height, camera_distance)
-    _camera.global_position = _camera.global_position.lerp(desired, clamp(delta * camera_smoothing, 0.0, 1.0))
-    _camera.look_at(_target.global_position, Vector3.UP)
+    var forward := -_target.global_transform.basis.z
+    var desired := _target.global_position + Vector3(0.0, camera_height, camera_distance) + forward * look_ahead
+    var blend := clamp(1.0 - exp(-camera_smoothing * max(delta, 0.001)), 0.0, 1.0)
+    _camera.global_position = _camera.global_position.lerp(desired, blend)
+    _camera.look_at(_target.global_position + forward * look_ahead, Vector3.UP)
