@@ -7,6 +7,7 @@ const ORIGIN_Y:float=120.0
 const CLICK_RADIUS_PIXELS:float=70.0
 const ATTACK_DISTANCE:float=105.0
 const ATTACK_INTERVAL:float=0.74
+const AUTO_ATTACK_SCAN_INTERVAL:float=0.35
 
 var game:Node
 var legacy:Node2D
@@ -15,6 +16,8 @@ var mouse_target:Vector3=Vector3.ZERO
 var has_move_target:bool=false
 var attack_target:Dictionary={}
 var attack_timer:float=0.0
+var auto_scan_timer:float=0.0
+var auto_attack_enabled:bool=true
 var cursor_marker:MeshInstance3D
 
 func _ready()->void:
@@ -26,9 +29,19 @@ func _ready()->void:
 func _process(delta:float)->void:
 	if legacy==null or camera==null: return
 	attack_timer=max(0.0,attack_timer-delta)
+	auto_scan_timer=max(0.0,auto_scan_timer-delta)
 	var hero_value:Variant=legacy.get("hero")
 	if not hero_value is Dictionary: return
 	var hero:Dictionary=hero_value
+
+	# Ragnarok-style default auto-combat: the hero continuously acquires the
+	# nearest living monster when there is no explicit mouse-selected target.
+	if auto_attack_enabled and attack_target.is_empty() and auto_scan_timer<=0.0:
+		auto_scan_timer=AUTO_ATTACK_SCAN_INTERVAL
+		var nearest:Dictionary=_find_nearest_monster(hero)
+		if not nearest.is_empty():
+			attack_target=nearest
+
 	if has_move_target:
 		var hero_pos:Vector2=Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0)))
 		var target_2d:Vector2=_world_to_map(mouse_target)
@@ -49,6 +62,7 @@ func _process(delta:float)->void:
 			hero["pos_x"]=target_2d.x
 			hero["pos_y"]=target_2d.y
 			has_move_target=false
+
 	if not attack_target.is_empty():
 		var target:Dictionary=attack_target
 		var monsters_value:Variant=legacy.get("monsters")
@@ -62,9 +76,28 @@ func _process(delta:float)->void:
 				has_move_target=true
 				mouse_target=_map_to_world(target_pos)
 			elif attack_timer<=0.0:
+				has_move_target=false
 				attack_timer=ATTACK_INTERVAL
 				if legacy.has_method("attack"): legacy.call("attack")
 	_update_marker()
+
+func _find_nearest_monster(hero:Dictionary)->Dictionary:
+	var monsters_value:Variant=legacy.get("monsters")
+	if not monsters_value is Array: return {}
+	var hero_pos:=Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0)))
+	var best:Dictionary={}
+	var best_distance:float=INF
+	for item in monsters_value as Array:
+		if not item is Dictionary: continue
+		var monster:Dictionary=item
+		if int(monster.get("hp",1))<=0: continue
+		var monster_pos:Variant=monster.get("pos",Vector2.ZERO)
+		if not monster_pos is Vector2: continue
+		var distance:float=hero_pos.distance_to(monster_pos as Vector2)
+		if distance<best_distance:
+			best_distance=distance
+			best=monster
+	return best
 
 func _unhandled_input(event:InputEvent)->void:
 	if event is InputEventMouseButton and event.pressed:
@@ -116,8 +149,7 @@ func _pick_warp_gate(screen_position:Vector2)->Node:
 	for item in get_tree().get_nodes_in_group("warp_gate"):
 		var gate:Node3D=item as Node3D
 		if gate==null or not gate.is_visible_in_tree(): continue
-		var gate_3d:Node3D=gate
-		var screen:Vector2=camera.unproject_position(gate_3d.global_position+Vector3(0.0,1.1,0.0))
+		var screen:Vector2=camera.unproject_position(gate.global_position+Vector3(0.0,1.1,0.0))
 		var distance:float=screen.distance_to(screen_position)
 		if distance<best_distance:
 			best_distance=distance
