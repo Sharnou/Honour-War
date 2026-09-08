@@ -139,13 +139,13 @@ func _update_monster_motion()->void:
     if not monsters_value is Array:
         return
     var active:Dictionary={}
+    var visuals:Dictionary=game.get("monster_visuals") as Dictionary
     for item in monsters_value:
         if not item is Dictionary:
             continue
         var monster:Dictionary=item
         var id:String=str(monster.get("visual_id",monster.get("name","monster")))
         active[id]=true
-        var visuals:Dictionary=game.get("monster_visuals") as Dictionary
         if not visuals.has(id):
             continue
         var visual:Node3D=visuals[id] as Node3D
@@ -161,8 +161,7 @@ func _update_monster_motion()->void:
         var boss:bool=bool(monster.get("mvp",false))
         var bob_speed:float=2.6 if boss else 3.4
         var bob_amount:float=0.055 if boss else 0.035
-        var base_y:float=0.0
-        var target_y:float=base_y+sin(elapsed*bob_speed+float(id.hash()%17))*bob_amount
+        var target_y:float=sin(elapsed*bob_speed+float(id.hash()%17))*bob_amount
         visual.position.y=lerp(visual.position.y,target_y,0.10)
         var target_scale:Vector3=Vector3.ONE*(1.08 if boss else 1.0)
         if hit>0.0:
@@ -195,7 +194,6 @@ func _monster_hit_burst(visual:Node3D)->void:
     var tween:Tween=create_tween()
     tween.set_parallel(true)
     tween.tween_property(ring,"scale",Vector3(3.0,3.0,3.0),0.16)
-    tween.tween_property(ring,"modulate:a",0.0,0.16)
     tween.chain().tween_callback(burst.queue_free)
 
 func _watch_combat_effects()->void:
