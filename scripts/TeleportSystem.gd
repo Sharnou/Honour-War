@@ -2,15 +2,26 @@ class_name TeleportSystem
 extends RefCounted
 
 const MAPS := {
-	0: {"name":"Prontera", "type":"town", "width":742, "height":300, "spawn_x":230, "spawn_y":230},
-	1: {"name":"Payon", "type":"town", "width":742, "height":300, "spawn_x":230, "spawn_y":230},
-	2: {"name":"Geffen", "type":"town", "width":742, "height":300, "spawn_x":230, "spawn_y":230},
-	3: {"name":"Morroc", "type":"town", "width":742, "height":300, "spawn_x":230, "spawn_y":230},
-	4: {"name":"Izlude", "type":"town", "width":742, "height":300, "spawn_x":230, "spawn_y":230},
-	10: {"name":"Prontera Sewer", "type":"dungeon", "width":742, "height":300, "spawn_x":180, "spawn_y":150, "entrance":0},
-	11: {"name":"Payon Cave", "type":"dungeon", "width":742, "height":300, "spawn_x":180, "spawn_y":150, "entrance":1},
-	12: {"name":"Geffen Tower", "type":"dungeon", "width":742, "height":300, "spawn_x":180, "spawn_y":150, "entrance":2},
-	13: {"name":"Morroc Ruins", "type":"dungeon", "width":742, "height":300, "spawn_x":180, "spawn_y":150, "entrance":3}
+	0: {"name":"Prontera", "type":"town", "width":1200, "height":700, "spawn_x":600, "spawn_y":350},
+	1: {"name":"Payon", "type":"town", "width":1200, "height":700, "spawn_x":600, "spawn_y":350},
+	2: {"name":"Geffen", "type":"town", "width":1200, "height":700, "spawn_x":600, "spawn_y":350},
+	3: {"name":"Morroc", "type":"town", "width":1200, "height":700, "spawn_x":600, "spawn_y":350},
+	4: {"name":"Izlude", "type":"town", "width":1200, "height":700, "spawn_x":600, "spawn_y":350},
+	5: {"name":"Alberta", "type":"town", "width":1200, "height":700, "spawn_x":600, "spawn_y":350},
+	6: {"name":"Comodo", "type":"town", "width":1200, "height":700, "spawn_x":600, "spawn_y":350},
+	7: {"name":"Aldebaran", "type":"town", "width":1200, "height":700, "spawn_x":600, "spawn_y":350},
+	8: {"name":"Lutie", "type":"town", "width":1200, "height":700, "spawn_x":600, "spawn_y":350},
+	9: {"name":"Umbala", "type":"town", "width":1200, "height":700, "spawn_x":600, "spawn_y":350},
+	10: {"name":"Prontera Sewer", "type":"dungeon", "width":1400, "height":900, "spawn_x":180, "spawn_y":450, "entrance":0},
+	11: {"name":"Payon Cave", "type":"dungeon", "width":1400, "height":900, "spawn_x":180, "spawn_y":450, "entrance":1},
+	12: {"name":"Geffen Tower", "type":"dungeon", "width":1400, "height":900, "spawn_x":180, "spawn_y":450, "entrance":2},
+	13: {"name":"Morroc Ruins", "type":"dungeon", "width":1400, "height":900, "spawn_x":180, "spawn_y":450, "entrance":3},
+	14: {"name":"Orc Dungeon", "type":"dungeon", "width":1400, "height":900, "spawn_x":180, "spawn_y":450, "entrance":5},
+	15: {"name":"Ice Cave", "type":"dungeon", "width":1400, "height":900, "spawn_x":180, "spawn_y":450, "entrance":8},
+	16: {"name":"Clock Tower", "type":"dungeon", "width":1400, "height":900, "spawn_x":180, "spawn_y":450, "entrance":7},
+	17: {"name":"Sunken Ship", "type":"dungeon", "width":1400, "height":900, "spawn_x":180, "spawn_y":450, "entrance":6},
+	18: {"name":"Hidden Forest", "type":"dungeon", "width":1400, "height":900, "spawn_x":180, "spawn_y":450, "entrance":9},
+	19: {"name":"Ancient Catacombs", "type":"dungeon", "width":1400, "height":900, "spawn_x":180, "spawn_y":450, "entrance":4}
 }
 
 const ALIASES := {
@@ -19,20 +30,36 @@ const ALIASES := {
 	"geffen":2,
 	"morroc":3,
 	"izlude":4,
+	"alberta":5,
+	"comodo":6,
+	"aldebaran":7,
+	"lutie":8,
+	"umbala":9,
 	"prontera sewer":10,
 	"payon cave":11,
 	"geffen tower":12,
 	"morroc ruins":13,
+	"orc dungeon":14,
+	"ice cave":15,
+	"clock tower":16,
+	"sunken ship":17,
+	"hidden forest":18,
+	"ancient catacombs":19,
 	"prt":0,
 	"pay":1,
 	"gef":2,
 	"moc":3,
-	"izl":4
+	"izl":4,
+	"alb":5,
+	"com":6,
+	"alde":7,
+	"lut":8,
+	"umb":9
 }
 
 static func default_point(map_id:int)->Vector2:
-	var data:Dictionary=MAPS.get(map_id,{"spawn_x":230,"spawn_y":230})
-	return Vector2(float(data.get("spawn_x",230)),float(data.get("spawn_y",230)))
+	var data:Dictionary=MAPS.get(map_id,{"spawn_x":600,"spawn_y":350})
+	return Vector2(float(data.get("spawn_x",600)),float(data.get("spawn_y",350)))
 
 static func resolve_map(value:String)->int:
 	var token:String=value.strip_edges().to_lower()
@@ -44,7 +71,7 @@ static func resolve_map(value:String)->int:
 static func parse_coordinates(value:String)->Dictionary:
 	var coords:PackedStringArray=value.strip_edges().split(":",false)
 	if coords.size()!=2 or not coords[0].is_valid_int() or not coords[1].is_valid_int():
-		return {"ok":false,"error":"Coordinates must use X:Y, for example 230:230."}
+		return {"ok":false,"error":"Coordinates must use X:Y, for example 600:350."}
 	return {"ok":true,"x":int(coords[0]),"y":int(coords[1])}
 
 static func parse_go(command:String)->Dictionary:
@@ -52,9 +79,9 @@ static func parse_go(command:String)->Dictionary:
 	if text.begins_with("@"): text=text.substr(1).strip_edges()
 	var parts:PackedStringArray=text.split(" ",false)
 	if parts.is_empty() or parts[0].to_lower()!="go":
-		return {"ok":false,"error":"Usage: @go <city|map_id> [x:y]. Examples: @go 0, @go Prontera, @go 0 230:230."}
+		return {"ok":false,"error":"Usage: @go <city|map_id> [x:y]. Examples: @go 3, @go 5, @go Morroc, @go 3 600:350."}
 	if parts.size()<2:
-		return {"ok":false,"error":"Choose a destination. Try @go 0 or @go Prontera."}
+		return {"ok":false,"error":"Choose a destination. Try @go 3 or @go 5."}
 	if parts[1].to_lower()=="list":
 		return {"ok":false,"error":"Destinations: %s" % destination_list()}
 	var coordinate_index:int=-1
@@ -70,7 +97,7 @@ static func parse_go(command:String)->Dictionary:
 	var point:Vector2=default_point(map_id)
 	if coordinate_index>=0:
 		if coordinate_index+1!=parts.size():
-			return {"ok":false,"error":"Too many arguments. Use @go 0 230:230."}
+			return {"ok":false,"error":"Too many arguments. Use @go 3 600:350."}
 		var parsed:Dictionary=parse_coordinates(parts[coordinate_index])
 		if not bool(parsed.get("ok",false)): return parsed
 		point=Vector2(float(parsed["x"]),float(parsed["y"]))
