@@ -1,7 +1,9 @@
 class_name ChatDock
 extends Control
 
-@export var chat_service: ChatService
+const ChatService = preload("res://scripts/ChatService.gd")
+
+@export var chat_service:Node
 @onready var channel_tabs: OptionButton = get_node_or_null("Margin/VBox/ChannelTabs")
 @onready var message_list: RichTextLabel = get_node_or_null("Margin/VBox/MessageList")
 @onready var input_box: LineEdit = get_node_or_null("Margin/VBox/InputBox")
@@ -10,8 +12,10 @@ var active_channel := "General"
 
 func _ready() -> void:
     if chat_service:
-        chat_service.message_received.connect(_on_message_received)
-        chat_service.system_message.connect(_on_system_message)
+        if chat_service.has_signal("message_received"):
+            chat_service.message_received.connect(_on_message_received)
+        if chat_service.has_signal("system_message"):
+            chat_service.system_message.connect(_on_system_message)
     if channel_tabs:
         for channel in ChatService.CHANNELS:
             channel_tabs.add_item(channel)
@@ -43,7 +47,7 @@ func _on_text_submitted(text: String) -> void:
         input_box.clear()
 
 func _on_message_received(message: Dictionary) -> void:
-    if chat_service and chat_service.is_hidden(message):
+    if chat_service and chat_service.has_method("is_hidden") and chat_service.is_hidden(message):
         return
     if message_list:
         message_list.append_text("[color=#9aa8c7][" + str(message.get("channel", "General")) + "][/color] " + str(message.get("sender_name", "Unknown")) + ": " + str(message.get("text", "")) + "\n")
