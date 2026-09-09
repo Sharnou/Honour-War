@@ -49,12 +49,13 @@ static func equip(hero:Dictionary,item_id:String)->Dictionary:
 	var item:Dictionary=Equipment.normalize_item(_catalog()[item_id])
 	var type:String=str(item.get("type","")); var slot:String=str(item.get("slot","")).to_lower()
 	if type not in ["Weapon","Armor","Accessory"]: return {"ok":false,"reason":"not_equipment"}
+	var slot_map:Dictionary={"shield":"offhand","head_upper":"head","head_middle":"head_middle","head_lower":"head_lower","garment":"garment","shoes":"shoes","accessory_1":"accessory_1","accessory_2":"accessory_2"}
 	if slot=="":
 		if type=="Weapon": slot="weapon"
 		elif type=="Accessory": slot="accessory_1"
 		else: slot="armor"
-	var slot_map:Dictionary={"shield":"offhand","head_upper":"head","head_middle":"head_middle","head_lower":"head_lower","accessory_1":"accessory_1","accessory_2":"accessory_2"}
-	if slot_map.has(slot): slot=str(slot_map[slot])
+	elif slot_map.has(slot):
+		slot=str(slot_map[slot])
 	if not EQUIPMENT_SLOTS.has(slot): return {"ok":false,"reason":"invalid_slot"}
 	var old:Variant=hero["equipment"].get(slot,null)
 	if old is Dictionary: add_item(hero,str(old.get("id",old.get("name",item_id))),1)
@@ -86,7 +87,8 @@ static func use_consumable(hero:Dictionary,item_id:String)->Dictionary:
 	if str(item.get("type","")) not in CONSUMABLE_TYPES: return {"ok":false,"reason":"not_consumable"}
 	remove_item(hero,item_id,1)
 	var max_stats:Dictionary=Character.stats(hero)
-	var hp_gain:int=int(item.get("hp",item.get("healing",0))); var sp_gain:int=int(item.get("sp",0))
+	var hp_gain:int=int(item.get("hp",item.get("healing",0)))
+	var sp_gain:int=int(item.get("sp",0))
 	hero["hp"]=min(int(max_stats["max_hp"]),int(hero.get("hp",max_stats["max_hp"]))+hp_gain)
 	hero["sp"]=min(int(max_stats["max_sp"]),int(hero.get("sp",max_stats["max_sp"]))+sp_gain)
 	_auto_save(hero)
@@ -97,14 +99,16 @@ static func refine(hero:Dictionary,slot:String,roll:float)->Dictionary:
 	if not hero["equipment"].has(slot): return {"ok":false,"reason":"empty_slot"}
 	var item:Dictionary=hero["equipment"][slot]
 	var current:int=int(item.get("refine",hero["equipment_refine"].get(slot,0)))
-	var material:String="Oridecon" if current>=5 else "Phracon"
-	if not _catalog().has(material): return {"ok":false,"reason":"no_refine_material_catalogue"}
+	var kind:String=str(item.get("type","Armor"))
+	var material:String="Oridecon" if kind=="Weapon" and current>=5 else "Phracon" if kind=="Weapon" else "Elunium" if current>=5 else "Phracon"
+	if not _catalog().has(material): return {"ok":false,"reason":"no_refine_material_catalogue","material":material}
 	if _count(hero,material)<=0: return {"ok":false,"reason":"missing_material","material":material}
 	var result:Dictionary=Equipment.attempt_refine(item,roll)
 	if not bool(result.get("ok",false)): return result
 	remove_item(hero,material,1)
 	var refined:Dictionary=result["item"]
-	hero["equipment"][slot]=refined; hero["equipment_refine"][slot]=int(refined["refine"])
+	hero["equipment"][slot]=refined
+	hero["equipment_refine"][slot]=int(refined["refine"])
 	result["slot"]=slot; result["material"]=material; result["stats"]=Character.stats(hero)
 	_auto_save(hero)
 	return result
@@ -115,7 +119,8 @@ static func insert_card(hero:Dictionary,slot:String,card_id:String)->Dictionary:
 	if not hero["cards"].has(card_id): return {"ok":false,"reason":"card_not_owned"}
 	var result:Dictionary=Equipment.insert_card(hero["equipment"][slot],card_id)
 	if not bool(result.get("ok",false)): return result
-	hero["equipment"][slot]=result["item"]; hero["cards"].erase(card_id)
+	hero["equipment"][slot]=result["item"]
+	hero["cards"].erase(card_id)
 	result["ok"]=true; result["slot"]=slot; result["card"]=card_id; result["stats"]=Character.stats(hero)
 	_auto_save(hero)
 	return result
