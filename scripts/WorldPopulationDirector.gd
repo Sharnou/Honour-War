@@ -1,6 +1,7 @@
 class_name WorldPopulationDirector
 extends Node
 
+const MonsterDetails = preload("res://scripts/MonsterDetailsSystem.gd")
 var legacy:Node2D
 var last_map:int=-1
 var timer:float=0.0
@@ -20,8 +21,7 @@ func _process(delta:float)->void:
 	var hero_value:Variant=legacy.get("hero")
 	if not hero_value is Dictionary: return
 	var map_id:int=int((hero_value as Dictionary).get("map_id",0))
-	if map_id!=last_map:
-		_sync_population()
+	if map_id!=last_map: _sync_population()
 	if timer>=3.0:
 		timer=0.0
 		_replenish()
@@ -34,17 +34,14 @@ func _sync_population()->void:
 	var monsters_value:Variant=legacy.get("monsters")
 	if not monsters_value is Array: return
 	(monsters_value as Array).clear()
-	for i in MIN_MONSTERS:
-		_spawn_one(true)
-	if legacy.has_method("log_message"):
-		legacy.call("log_message","Map populated: %d visible combat creatures are active." % MIN_MONSTERS)
+	for i in MIN_MONSTERS: _spawn_one(true)
+	if legacy.has_method("log_message"): legacy.call("log_message","Map populated: %d visible combat creatures are active." % MIN_MONSTERS)
 
 func _replenish()->void:
 	var monsters_value:Variant=legacy.get("monsters")
 	if not monsters_value is Array: return
 	var monsters:Array=monsters_value as Array
-	while monsters.size()<MIN_MONSTERS:
-		_spawn_one(false)
+	while monsters.size()<MIN_MONSTERS: _spawn_one(false)
 
 func _spawn_one(near_hero:bool)->void:
 	var hero_value:Variant=legacy.get("hero")
@@ -59,6 +56,12 @@ func _spawn_one(near_hero:bool)->void:
 	var zone:int=max(1,int(hero_level/10)+1)
 	var level:int=WorldSystem.monster_level_for_zone(zone,rng.randi_range(0,families.size()-1))
 	var stats:Dictionary=WorldSystem.monster_stats(level)
+	if family=="Bloody Knight":
+		level=clamp(level+25,1,300)
+		stats=WorldSystem.monster_stats(level)
+		stats["max_hp"]=int(float(stats["max_hp"])*1.35)
+		stats["attack"]=int(float(stats["attack"])*1.30)
+		stats["defense"]=int(float(stats["defense"])*1.25)
 	var map_id:int=int(hero.get("map_id",0))
 	var map_data:Dictionary=TeleportSystem.MAPS.get(map_id,{})
 	var width:float=float(map_data.get("width",1200))
@@ -71,7 +74,8 @@ func _spawn_one(near_hero:bool)->void:
 		pos=hero_pos+Vector2(cos(angle),sin(angle))*radius
 	else:
 		pos=Vector2(365.0+rng.randf_range(60.0,max(61.0,width-60.0)),120.0+rng.randf_range(60.0,max(61.0,height-60.0)))
-	pos.x=clamp(pos.x,365.0+60.0,365.0+max(61.0,width-60.0))
-	pos.y=clamp(pos.y,120.0+60.0,120.0+max(61.0,height-60.0))
+	pos.x=clamp(pos.x,425.0,365.0+max(61.0,width-60.0))
+	pos.y=clamp(pos.y,180.0,120.0+max(61.0,height-60.0))
 	spawn_serial+=1
-	monsters.append({"visual_id":family+"_"+str(spawn_serial),"name":family,"level":level,"pos":pos,"hp":stats["max_hp"],"max":stats["max_hp"],"attack":stats["attack"],"defense":stats["defense"],"exp":stats["exp"],"zmin":stats["zeny_min"],"zmax":stats["zeny_max"]})
+	var detail:Dictionary=MonsterDetails.details({"name":family,"level":level})
+	monsters.append({"visual_id":family+"_"+str(spawn_serial),"name":family,"level":level,"pos":pos,"hp":stats["max_hp"],"max":stats["max_hp"],"attack":stats["attack"],"defense":stats["defense"],"exp":stats["exp"],"xp":stats["exp"],"zmin":stats["zeny_min"],"zmax":stats["zeny_max"],"attack_type":"Ranged" if detail["role"]=="Caster" else "Melee","element":detail["element"],"status":detail["status"],"poison_resist":detail["poison_resist"],"danger":detail["danger"]})
