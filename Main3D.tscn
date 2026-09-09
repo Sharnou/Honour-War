@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=3]
+[gd_scene load_steps=49 format=3]
 
 [ext_resource path="res://scripts/Game3D.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/Main.gd" type="Script" id="2"]
@@ -46,6 +46,8 @@
 [ext_resource path="res://scripts/HDArcherProjectilePresentation.gd" type="Script" id="44"]
 [ext_resource path="res://scripts/HDEnvironmentDirector.gd" type="Script" id="45"]
 [ext_resource path="res://scripts/HDUIStyleDirector.gd" type="Script" id="46"]
+[ext_resource path="res://scripts/GameplaySystemsRuntime.gd" type="Script" id="47"]
+[ext_resource path="res://scripts/MonsterVisualEnhancer.gd" type="Script" id="48"]
 
 [node name="HonourWar3D" type="Node3D"]
 script = ExtResource("1")
@@ -60,6 +62,12 @@ script = ExtResource("45")
 
 [node name="HDUIStyleDirector" type="CanvasLayer" parent="."]
 script = ExtResource("46")
+
+[node name="GameplaySystemsRuntime" type="CanvasLayer" parent="."]
+script = ExtResource("47")
+
+[node name="MonsterVisualEnhancer" type="Node3D" parent="."]
+script = ExtResource("48")
 
 [node name="HDActorDetails" type="Node3D" parent="."]
 script = ExtResource("42")
