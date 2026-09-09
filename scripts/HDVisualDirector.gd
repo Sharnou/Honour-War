@@ -10,16 +10,19 @@ var world_environment:WorldEnvironment
 var sun:DirectionalLight3D
 var rim:DirectionalLight3D
 var fill:OmniLight3D
-var time:float=0.0
+time:float=0.0
 var forward_plus:bool=false
 
 func _ready()->void:
-	forward_plus=RenderingServer.get_current_rendering_method()=="forward_plus"
+	# Godot 4.2 does not expose RenderingServer.get_current_rendering_method().
+	# Read the renderer setting directly so the project remains compatible with 4.2.2.
+	var method:String=str(ProjectSettings.get_setting("rendering/renderer/rendering_method","forward_plus"))
+	forward_plus=method=="forward_plus"
 	call_deferred("_build_hd_presentation")
 
 func _process(delta:float)->void:
 	time+=delta
-	if fill!=null:
+	if fill!=null and is_instance_valid(fill):
 		fill.light_energy=1.35+sin(time*0.55)*0.10
 
 func _build_hd_presentation()->void:
@@ -81,8 +84,6 @@ func _build_environment()->void:
 		environment.sdfgi_max_distance=64.0
 		environment.sdfgi_energy=1.0
 	else:
-		# Compatibility/OpenGL: retain ordinary fog only; unsupported Forward+
-		# features are deliberately disabled to keep the console clean.
 		environment.ssao_enabled=false
 		environment.ssil_enabled=false
 		environment.glow_enabled=false
