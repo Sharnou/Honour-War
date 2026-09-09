@@ -22,7 +22,7 @@ static func cities() -> Array:
 	return ["Prontera", "Morroc", "Payon", "Geffen", "Juno", "Alberta", "Izlude"]
 
 static func monster_families() -> Array:
-	return ["Poring", "Goblin", "Wolf", "Skeleton", "Zombie", "Orc", "Mantis", "Golem", "Evil Druid", "Dragon"]
+	return ["Poring", "Goblin", "Wolf", "Skeleton", "Zombie", "Orc", "Mantis", "Golem", "Evil Druid", "Dragon", "Bloody Knight"]
 
 static func material_definitions() -> Dictionary:
 	return {
@@ -41,14 +41,20 @@ static func new_hero() -> Dictionary:
 		"equipment":{"weapon":"Novice Weapon", "armor":"Novice Armor"},
 		"cards":[], "skills":[], "pet":PetSystemClass.new_pet(hero_class),
 		"city_building":{"Prontera":{"level":1,"wood":0,"stone":0,"gold":0}},
-		"last_safe_city":"Prontera", "pos_x":595.0, "pos_y":340.0, "map_id":0
+		"last_safe_city":"Prontera", "pos_x":595.0, "pos_y":340.0, "map_id":0,
+		"event_inventory":{}, "event_progress":{}, "monster_codex":{}
 	}
 
 static func exp_to_next(level:int) -> int:
 	return max(100, level * 100)
 
 static func age_bonus(age:int) -> int:
-	return min(35, max(0, int((age - STARTING_AGE) / 4)))
+	# Unlimited age: no artificial maximum. Every four years grants one bonus tier.
+	return max(0, int((age - STARTING_AGE) / 4))
+
+static func age_strength_bonus(age:int)->Dictionary:
+	var years:int=max(0,age-STARTING_AGE)
+	return {"atk":years*2,"matk":years*2,"def":years,"mdef":years,"hp":years*18,"sp":years*4,"crit":years/10,"hit":years/8,"flee":years/8,"healing":years/5}
 
 static func class_tier_for_level(level:int) -> int:
 	if level >= 200: return 4
