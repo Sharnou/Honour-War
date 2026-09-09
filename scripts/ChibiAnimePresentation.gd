@@ -1,10 +1,8 @@
-class_name ChibiAnimePresentation
 extends Node
 
 ## Presentation layer for the true-3D Honour War art direction.
-## The gameplay model remains 3D; this script applies the visual language:
-## 3-4-head silhouette, oversized expressive eyes, and modular head/hair/outfit
-## containers that can later be replaced by Blender/Substance/GLB assets.
+## This script is registered as an autoload, so it intentionally has no
+## class_name declaration that could collide with the singleton name.
 const HEAD_SCALE:float = 1.16
 const HAIR_SCALE:float = 1.14
 const EYE_RADIUS:float = 0.115
@@ -19,23 +17,18 @@ func _process(_delta:float)->void:
 
 func _scan()->void:
     var scene:Node = get_tree().current_scene
-    if scene == null:
-        return
+    if scene == null: return
     var hero:Node = scene.find_child("Hero",true,false)
-    if hero is Node3D and not processed.has(hero.get_instance_id()):
-        _style_hero(hero as Node3D)
+    if hero is Node3D and not processed.has(hero.get_instance_id()): _style_hero(hero as Node3D)
     var pet:Node = scene.find_child("Pet",true,false)
-    if pet is Node3D and not processed.has(pet.get_instance_id()):
-        _style_pet(pet as Node3D)
+    if pet is Node3D and not processed.has(pet.get_instance_id()): _style_pet(pet as Node3D)
 
 func _style_hero(hero:Node3D)->void:
     var id:int = hero.get_instance_id()
     processed[id] = true
-    # Current procedural mesh order is body, coat, head, hair, shoulders, weapon, light.
     var meshes:Array[MeshInstance3D] = []
     for child in hero.get_children():
-        if child is MeshInstance3D:
-            meshes.append(child as MeshInstance3D)
+        if child is MeshInstance3D: meshes.append(child as MeshInstance3D)
     if meshes.size() >= 4:
         meshes[0].scale *= Vector3(0.92,0.88,0.92)
         meshes[1].scale *= Vector3(0.94,0.90,0.94)
