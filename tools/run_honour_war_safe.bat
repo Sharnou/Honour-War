@@ -4,14 +4,13 @@ cd /d "%~dp0.."
 
 echo ================================================
 echo HONOUR WAR - HD SAFE LAUNCHER
-echo ================================================
+ echo ================================================
 echo.
 
 set "GODOT="
 
 rem Try PATH first.
-where godot.exe >nul 2>&1
-if not errorlevel 1 for /f "delims=" %%G in ('where godot.exe') do if not defined GODOT set "GODOT=%%G"
+for /f "delims=" %%G in ('where godot.exe 2^>nul') do if not defined GODOT set "GODOT=%%G"
 
 rem Try common locations.
 if not defined GODOT if exist "%LOCALAPPDATA%\Programs\Godot\Godot.exe" set "GODOT=%LOCALAPPDATA%\Programs\Godot\Godot.exe"
@@ -37,7 +36,6 @@ echo.
 echo ERROR: That file does not exist:
 echo %GODOT%
 echo.
-echo Check the path and run this file again.
 pause
 exit /b 1
 
@@ -45,15 +43,11 @@ exit /b 1
 echo Godot found:
 echo %GODOT%
 echo.
-echo Starting Honour War in Forward+ Vulkan...
+echo Your PC reports that Godot 4.2.2 cannot initialize Vulkan.
+echo The normal launcher will therefore use Compatibility/OpenGL.
+echo This does NOT change the Honour War production renderer target.
 echo.
-
-"%GODOT%" --path "%~dp0.." --rendering-method forward_plus --rendering-driver vulkan %*
-if not errorlevel 1 exit /b 0
-
-echo.
-echo Forward+ Vulkan could not initialize.
-echo Starting Compatibility/OpenGL fallback...
+echo Starting Honour War in Compatibility/OpenGL...
 echo.
 
 "%GODOT%" --path "%~dp0.." --rendering-method gl_compatibility --rendering-driver opengl3 %*
