@@ -5,16 +5,16 @@ extends RefCounted
 ## These formulas consume live CharacterProgressionSystem stats and never create a second combat loop.
 
 const Character=preload("res://scripts/CharacterProgressionSystem.gd")
+const Equipment=preload("res://scripts/EquipmentProgressionSystem.gd")
 const SkillSystem=preload("res://scripts/SkillSystem.gd")
 
 static func class_id(hero:Dictionary)->String:
     return str(hero.get("class","Warrior"))
 
 static func attack_speed_percent(hero:Dictionary)->float:
-    var stats:Dictionary=Character.stats(hero)
     var agi:int=int(hero.get("stats",{}).get("agi",1))
     var dex:int=int(hero.get("stats",{}).get("dex",1))
-    var equipment:Dictionary=Character.equipment_bonus(hero)
+    var equipment:Dictionary=Equipment.total_stats(hero.get("equipment",{}))
     var result:float=float(agi)*0.55+float(dex)*0.18+float(equipment.get("attack_speed_percent",0.0))
     match class_id(hero):
         "Thief": result+=10.0
@@ -33,7 +33,6 @@ static func physical_power(hero:Dictionary)->int:
     var s:Dictionary=Character.stats(hero)
     var value:int=int(s.get("atk",0))
     match class_id(hero):
-        "Warrior": value+=int(s.get("str",0))*0
         "Archer", "Ranger": value+=int(hero.get("stats",{}).get("dex",1))*2
         "Thief": value+=int(hero.get("stats",{}).get("agi",1))*2
         "Merchant": value+=int(hero.get("stats",{}).get("str",1))
@@ -79,4 +78,6 @@ static func skill_damage(hero:Dictionary,power:int,magical:bool=false)->int:
     var result:int=int(round(float(base)*ratio))+power
     var skill_stats:Dictionary=SkillSystem.combat_stats(hero)
     result=int(round(float(result)*float(skill_stats.get("damage_multiplier",1.0))))
+    var equipment:Dictionary=Equipment.total_stats(hero.get("equipment",{}))
+    result=int(round(float(result)*(1.0+float(equipment.get("damage_percent",0.0))/100.0)))
     return max(1,result)
