@@ -1,7 +1,6 @@
-extends RefCounted
+extends Node
 
-## Honour War gameplay math singleton. Do not declare class_name here because
-## project.godot registers this script as the GameplayFormula autoload.
+## Honour War gameplay math singleton. Registered as GameplayFormula autoload.
 const HERO_MAX_LEVEL:int = 250
 const PET_MAX_LEVEL:int = 250
 const MONSTER_MAX_LEVEL:int = 300
@@ -20,8 +19,7 @@ static func level_from_xp(xp:int)->int:
     var remaining:int = maxi(0,xp)
     while level < HERO_MAX_LEVEL:
         var needed:int = xp_to_next_level(level)
-        if remaining < needed:
-            break
+        if remaining < needed: break
         remaining -= needed
         level += 1
     return level
