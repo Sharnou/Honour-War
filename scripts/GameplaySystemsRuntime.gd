@@ -75,7 +75,7 @@ func _build_ui()->void:
 	status_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	root.add_child(status_label)
 	var hint:=Label.new()
-	hint.text="I Inventory  C Character  E Events  M Monster  •  All character actions save automatically"
+	hint.text="I Inventory  C Character  E Events  M Monster"
 	root.add_child(hint)
 
 func _wire_toolbar()->void:
@@ -231,7 +231,7 @@ func _unequip_slot(slot:String)->void:
 
 func _refine(current:Dictionary)->void:
 	_clear_body()
-	_add_heading("REFINEMENT • AUTOMATIC SAVE")
+	_add_heading("REFINEMENT")
 	for slot in ["weapon","armor","head","head_middle","head_lower","garment","shoes","offhand","accessory_1","accessory_2"]:
 		if not current.get("equipment",{}).has(slot): continue
 		var item:Dictionary=current["equipment"][slot] if current["equipment"][slot] is Dictionary else {}
@@ -271,7 +271,7 @@ func _show_card_picker()->void:
 
 func _select_card(card_id:String)->void:
 	selected_card=card_id
-	_set_mode("equipment")
+	mode="equipment"
 	timer=1.0
 
 func _insert_selected_card()->void:
@@ -302,7 +302,7 @@ func _monster(_current:Dictionary)->void:
 
 func _show_result(result:Dictionary,success_text:String)->void:
 	if bool(result.get("ok",false)):
-		_set_status("✓ "+success_text+" — saved automatically.")
+		_set_status("✓ "+success_text)
 	else:
 		var message:String="✕ "+_reason_text(str(result.get("reason","action_failed")))
 		if result.has("material"): message+="  Material: "+str(result["material"])
