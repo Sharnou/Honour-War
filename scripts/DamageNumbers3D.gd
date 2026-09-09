@@ -33,8 +33,7 @@ func show_damage(world_position:Vector3,amount:int,critical:bool=false,source:St
 	active.append(label)
 	if active.size()>MAX_ACTIVE:
 		var old:Label3D=active.pop_front()
-		if is_instance_valid(old):
-			old.queue_free()
+		if is_instance_valid(old): old.queue_free()
 	var start:Vector3=label.position
 	var end:Vector3=start+Vector3((randf()-0.5)*0.3,1.0,0.0)
 	var duration:float=0.95 if critical else 0.75
@@ -42,8 +41,17 @@ func show_damage(world_position:Vector3,amount:int,critical:bool=false,source:St
 	tween.set_parallel(true)
 	tween.tween_property(label,"position",end,duration).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	tween.tween_property(label,"scale",Vector3.ONE*(1.35 if critical else 1.0),0.12)
-	tween.chain().tween_property(label,"modulate:a",0.0,0.28)
-	tween.chain().tween_callback(_remove_label.bind(label))
+	# Label3D supports modulate, but Godot 4.2 does not reliably accept
+	# the nested "modulate:a" tween path on every generated node.
+	# Animate alpha through the property itself instead.
+	tween.tween_method(func(alpha:float): _set_alpha(label,alpha),1.0,0.0,0.28).set_delay(max(0.0,duration-0.28))
+	tween.set_parallel(false)
+	tween.tween_callback(_remove_label.bind(label))
+
+func _set_alpha(label:Label3D,alpha:float)->void:
+	if label==null or not is_instance_valid(label): return
+	var base:Color=label.modulate
+	label.modulate=Color(base.r,base.g,base.b,alpha)
 
 func _remove_label(label:Label3D)->void:
 	active.erase(label)
