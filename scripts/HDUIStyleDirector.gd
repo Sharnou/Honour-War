@@ -1,14 +1,22 @@
 class_name HDUIStyleDirector
 extends CanvasLayer
 
-## Shared UI language: crisp non-diegetic windows, compact icon controls,
-## strong readability, and no faux-3D framing over the game world.
+## Shared HD UI language: crisp non-diegetic windows, compact icon controls,
+## strong readability, and reusable icon assets instead of text glyphs.
 const PANEL_BG:=Color("#101722e8")
 const PANEL_BORDER:=Color("#d7b96be8")
 const TEXT_MAIN:=Color("#f5f1df")
 const TEXT_MUTED:=Color("#9eabb8")
 const ACCENT:=Color("#e6c45f")
-
+const ICONS:Array[Dictionary]=[
+    {"path":"res://assets/ui/icons/combat.svg","tip":"Combat / Character"},
+    {"path":"res://assets/ui/icons/pet.svg","tip":"Bonded Pet"},
+    {"path":"res://assets/ui/icons/skills.svg","tip":"Skills"},
+    {"path":"res://assets/ui/icons/inventory.svg","tip":"Inventory"},
+    {"path":"res://assets/ui/icons/equipment.svg","tip":"Equipment"},
+    {"path":"res://assets/ui/icons/refine.svg","tip":"Refinement"},
+    {"path":"res://assets/ui/icons/system.svg","tip":"System"}
+]
 var root:Control
 var toolbar:HBoxContainer
 var help_label:Label
@@ -46,37 +54,33 @@ func _build_toolbar()->void:
     toolbar.position=Vector2(640,18)
     toolbar.add_theme_constant_override("separation",5)
     root.add_child(toolbar)
-    var icons:Array[Dictionary]=[
-        {"text":"⚔","tip":"Combat / Character"},
-        {"text":"♢","tip":"Bonded Pet"},
-        {"text":"◆","tip":"Skills"},
-        {"text":"▣","tip":"Inventory"},
-        {"text":"◇","tip":"Equipment"},
-        {"text":"✦","tip":"Refinement"},
-        {"text":"☰","tip":"System"}
-    ]
-    for data in icons:
+    for data in ICONS:
         var button:=Button.new()
-        button.text=str(data["text"])
         button.tooltip_text=str(data["tip"])
         button.custom_minimum_size=Vector2(38,34)
-        button.add_theme_font_size_override("font_size",18)
-        button.add_theme_color_override("font_color",TEXT_MAIN)
         button.add_theme_stylebox_override("normal",button_style(false))
         button.add_theme_stylebox_override("hover",button_style(true))
         button.add_theme_stylebox_override("pressed",button_style(true))
-        button.mouse_filter=Control.MOUSE_FILTER_STOP
+        var icon:=TextureRect.new()
+        icon.texture=load(str(data["path"]))
+        icon.expand_mode=TextureRect.EXPAND_IGNORE_SIZE
+        icon.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+        icon.mouse_filter=Control.MOUSE_FILTER_IGNORE
+        icon.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+        icon.position=Vector2(3,3)
+        icon.size=Vector2(32,28)
+        button.add_child(icon)
         toolbar.add_child(button)
 
 func _build_controls_hint()->void:
     var panel:=PanelContainer.new()
     panel.name="ControlsHint"
     panel.position=Vector2(18,690)
-    panel.size=Vector2(470,52)
+    panel.size=Vector2(600,52)
     panel.add_theme_stylebox_override("panel",panel_style())
     root.add_child(panel)
     help_label=Label.new()
-    help_label.text="LMB: move / target    MMB: rotate    W/S: tilt    A/D: rotate    ESC: cancel"
+    help_label.text="LMB: move / target    MMB: rotate    W/S: camera tilt    A/D: camera rotate    RMB: cancel    ESC: cancel"
     help_label.add_theme_color_override("font_color",TEXT_MUTED)
     help_label.add_theme_font_size_override("font_size",13)
     help_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
