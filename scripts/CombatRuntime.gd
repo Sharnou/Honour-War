@@ -10,9 +10,6 @@ const HERO_ATTACK_INTERVAL:=0.72
 const PET_ATTACK_INTERVAL:=1.15
 const MONSTER_ATTACK_INTERVAL:=1.10
 const SP_REGEN_INTERVAL:=1.0
-const HERO_RANGE:=115.0
-const PET_RANGE:=135.0
-const MONSTER_RANGE:=105.0
 const CHASE_RANGE:=260.0
 const MONSTER_SPEED:=42.0
 
@@ -46,10 +43,11 @@ func _process(delta:float)->void:
     move_monsters(delta,hero)
     regenerate_sp(hero)
     update_status_effects(hero)
-    if target!=null and hero_attack_timer>=HERO_ATTACK_INTERVAL:
+    var hero_interval:float=CombatRules.class_attack_interval(hero)
+    if target!=null and hero_attack_timer>=hero_interval and _hero_in_attack_range(hero,target):
         hero_attack_timer=0.0
         hero_strike(hero,target)
-    if target!=null and pet_attack_timer>=PET_ATTACK_INTERVAL:
+    if target!=null and pet_attack_timer>=CombatRules.pet_attack_interval(hero.get("pet",{})) and _pet_in_attack_range(hero,target):
         pet_attack_timer=0.0
         pet_strike(hero,target)
     if monster_attack_timer>=MONSTER_ATTACK_INTERVAL:
@@ -58,6 +56,16 @@ func _process(delta:float)->void:
     if mvp_skill_timer>=7.0:
         mvp_skill_timer=0.0
         mvp_skill_phase(hero)
+
+func _hero_in_attack_range(hero:Dictionary,monster:Dictionary)->bool:
+    var hero_pos:=Vector2(float(hero.get("pos_x",0.0)),float(hero.get("pos_y",0.0)))
+    return hero_pos.distance_to(monster.get("pos",hero_pos))<=CombatRules.class_engagement_map(hero)
+
+func _pet_in_attack_range(hero:Dictionary,monster:Dictionary)->bool:
+    var pet:Dictionary=hero.get("pet",{})
+    if pet.is_empty(): return false
+    var hero_pos:=Vector2(float(hero.get("pos_x",0.0)),float(hero.get("pos_y",0.0)))
+    return hero_pos.distance_to(monster.get("pos",hero_pos))<=CombatRules.pet_attack_distance_map(pet)
 
 func decorate_world_monsters(hero:Dictionary)->void:
     var monsters=game.get("monsters")
@@ -68,6 +76,8 @@ func decorate_world_monsters(hero:Dictionary)->void:
             if not monster.has("attack"): monster["attack"]=max(5,int(monster.get("level",1))*4)
             if not monster.has("defense"): monster["defense"]=max(1,int(monster.get("level",1))*2)
             if not monster.has("max"): monster["max"]=int(monster.get("hp",1))
+            if not monster.has("attack_type"): monster["attack_type"]="Ranged" if bool(monster.get("ranged",false)) else "Melee"
+            monster["attack_range_map"]=CombatRules.monster_attack_distance(monster)
 
 func update_target(hero:Dictionary)->void:
     var monsters=game.get("monsters")
@@ -75,18 +85,18 @@ func update_target(hero:Dictionary)->void:
         if target!=null: target=null; target_changed.emit({})
         return
     var hero_pos:=Vector2(float(hero.get("pos_x",0.0)),float(hero.get("pos_y",0.0)))
+    var acquire:float=float(CombatRules.class_rule(hero).get("target_acquire_m",18.0))/CombatRules.WORLD_SCALE
     var best=null
-    var best_distance:=HERO_RANGE
+    var best_distance:=acquire
     for monster in monsters:
         if not monster is Dictionary or int(monster.get("hp",0))<=0: continue
-        var distance:=hero_pos.distance_to(monster["pos"])
+        var distance:=hero_pos.distance_to(monster.get("pos",hero_pos))
         if distance<best_distance:
             best=monster
             best_distance=distance
     if best!=target:
         target=best
-        if target is Dictionary: target_changed.emit(target)
-        else: target_changed.emit({})
+        target_changed.emit(target if target is Dictionary else {})
 
 func move_monsters(delta:float,hero:Dictionary)->void:
     var monsters=game.get("monsters")
@@ -96,12 +106,13 @@ func move_monsters(delta:float,hero:Dictionary)->void:
         if not monster is Dictionary or int(monster.get("hp",0))<=0: continue
         var monster_pos:Vector2=monster["pos"]
         var distance:float=hero_pos.distance_to(monster_pos)
-        if distance>CHASE_RANGE or distance<=MONSTER_RANGE: continue
+        var attack_range:float=CombatRules.monster_attack_distance(monster)
+        if distance>CHASE_RANGE or distance<=attack_range: continue
         var direction:Vector2=monster_pos.direction_to(hero_pos)
         var speed:float=MONSTER_SPEED
         if float(monster.get("slow_until",0.0))>now_seconds(): speed*=0.45
         if bool(monster.get("mvp",false)): speed*=0.90
-        monster_pos+=direction*speed*delta
+        monster_pos=CombatRules.snap_map_point(monster_pos+direction*speed*delta)
         monster_pos.x=clamp(monster_pos.x,365.0,1107.0)
         monster_pos.y=clamp(monster_pos.y,120.0,420.0)
         monster["pos"]=monster_pos
@@ -138,6 +149,7 @@ func hero_strike(hero:Dictionary,monster:Dictionary)->void:
         "Warrior": base=18
         "Mage": base=23
         "Archer": base=20
+        "Ranger": base=22
         "Thief": base=19
         "Acolyte": base=15
         "Merchant": base=17
@@ -148,7 +160,7 @@ func hero_strike(hero:Dictionary,monster:Dictionary)->void:
     if combo_bonus>0.0: power=int(float(power)*(1.0+min(0.35,combo_bonus)))
     var critical_chance:int=int(passive["crit_bonus"])
     if class_id=="Thief": critical_chance+=10
-    if class_id=="Archer": critical_chance+=6
+    if class_id=="Archer" or class_id=="Ranger": critical_chance+=6
     var critical:bool=rng.randi_range(1,100)<=min(75,critical_chance)
     var damage:int=power+rng.randi_range(0,9)
     if critical: damage=int(float(damage)*1.75)
@@ -169,7 +181,7 @@ func pet_strike(hero:Dictionary,monster:Dictionary)->void:
     var pet:Dictionary=hero["pet"]
     if int(pet.get("hp",0))<=0: return
     var hero_pos:=Vector2(float(hero.get("pos_x",0.0)),float(hero.get("pos_y",0.0)))
-    if hero_pos.distance_to(monster["pos"])>PET_RANGE: return
+    if hero_pos.distance_to(monster["pos"])>CombatRules.pet_attack_distance_map(pet): return
     var damage:int=PetSystem.power(pet)+rng.randi_range(0,7)
     pet["skill_uses"]=int(pet.get("skill_uses",0))+1
     var special:bool=int(pet["skill_uses"])%5==0
@@ -199,7 +211,8 @@ func monster_phase(hero:Dictionary)->void:
     var now:float=now_seconds()
     for monster in monsters.duplicate():
         if not monster is Dictionary or int(monster.get("hp",0))<=0: continue
-        if hero_pos.distance_to(monster["pos"])>MONSTER_RANGE: continue
+        var attack_range:float=CombatRules.monster_attack_distance(monster)
+        if hero_pos.distance_to(monster["pos"])>attack_range: continue
         var attack:int=max(1,int(monster.get("attack",int(monster.get("level",1))*4)))
         if bool(monster.get("mvp",false)): attack=int(float(attack)*1.25)
         var role:=str(pet.get("role",""))
