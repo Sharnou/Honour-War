@@ -3,6 +3,7 @@ extends Node3D
 
 const PetSkillSystem = preload("res://scripts/PetSkillSystem.gd")
 const OnlineAge = preload("res://scripts/OnlineAgeSystem.gd")
+const Save = preload("res://scripts/SaveSystem.gd")
 
 var game:Node3D
 var legacy:Node2D
@@ -12,6 +13,7 @@ var last_pet_level:int=-1
 var last_pet_hp:int=-1
 var age_detail:Node3D
 var elapsed:float=0.0
+var autosave_timer:float=0.0
 
 func _ready()->void:
     game=get_parent() as Node3D
@@ -21,6 +23,7 @@ func _ready()->void:
 
 func _process(delta:float)->void:
     elapsed+=delta
+    autosave_timer+=delta
     if legacy==null or game==null: return
     var hero_value:Variant=legacy.get("hero")
     if not hero_value is Dictionary: return
@@ -28,6 +31,9 @@ func _process(delta:float)->void:
     _update_age(hero,delta)
     _update_pet(hero)
     _update_label(hero)
+    if autosave_timer>=30.0:
+        autosave_timer=0.0
+        Save.save_game(hero)
 
 func _update_age(hero:Dictionary,delta:float)->void:
     var before:int=int(hero.get("age",OnlineAge.STARTING_AGE))
