@@ -47,8 +47,8 @@ func _build_ui()->void:
 	root.add_child(tabs)
 	for entry in [["character","CHARACTER"],["inventory","INVENTORY"],["events","EVENTS"],["monster","MONSTER"]]:
 		var button:=Button.new()
-		button.text=entry[1]
-		button.pressed.connect(_set_mode.bind(entry[0]))
+		button.text=str(entry[1])
+		button.pressed.connect(_set_mode.bind(str(entry[0])))
 		tabs.add_child(button)
 	body=RichTextLabel.new()
 	body.bbcode_enabled=true
@@ -87,26 +87,33 @@ func _character(hero:Dictionary)->void:
 
 func _inventory(hero:Dictionary)->void:
 	var lines:Array[String]=["[b]INVENTORY LIST[/b]", ""]
-	var inv:Dictionary=hero.get("inventory",{}) if hero.get("inventory",{}) is Dictionary else {}
+	var inv_value:Variant=hero.get("inventory",{})
+	var inv:Dictionary=inv_value if inv_value is Dictionary else {}
 	if inv.is_empty(): lines.append("Inventory is empty. Monster drops and event rewards will appear here.")
 	else:
 		for item_id in inv.keys():
 			var value:Variant=inv[item_id]
 			var amount:int=int(value.get("amount",0)) if value is Dictionary else int(value)
 			lines.append("• %s  x%d" % [str(item_id),amount])
-	lines.append("\nMaterials: %s" % str(hero.get("materials",{})))
-	lines.append("Cards: %d" % (hero.get("cards",[]) as Array).size() if hero.get("cards",[]) is Array else "Cards: 0")
+	var materials:Variant=hero.get("materials",{})
+	lines.append("\nMaterials: %s" % str(materials))
+	var cards_value:Variant=hero.get("cards",[])
+	var card_count:int=cards_value.size() if cards_value is Array else 0
+	lines.append("Cards: %d" % card_count)
 	body.text="\n".join(lines)
 
 func _events(hero:Dictionary)->void:
 	var lines:Array[String]=["[b]LIVE EVENT LIST[/b]", ""]
+	var progress_value:Variant=hero.get("event_progress",{})
+	var progress_map:Dictionary=progress_value if progress_value is Dictionary else {}
 	for event in INV.event_catalog():
 		var id:String=str(event["id"])
-		var progress:int=int(hero.get("event_progress",{}).get(id,0)) if hero.get("event_progress",{}) is Dictionary else 0
-		lines.append("[b]%s[/b]  •  %dh\n%s\nReward: %s\nProgress: %d\n" % [event["name"],int(event["duration_hours"]),event["objective"],event["reward"],progress])
+		var progress:int=int(progress_map.get(id,0))
+		var target:int=int(event.get("target",1))
+		lines.append("[b]%s[/b]  •  %dh\n%s\nReward: %s\nProgress: %d/%d\n" % [event["name"],int(event["duration_hours"]),event["objective"],event["reward"],progress,target])
 	body.text="\n".join(lines)
 
-func _monster(hero:Dictionary)->void:
+func _monster(_hero:Dictionary)->void:
 	var lines:Array[String]=["[b]MONSTER CODEX / DETAILS[/b]", ""]
 	var monsters:Variant=legacy.get("monsters") if legacy!=null else []
 	if monsters is Array:
