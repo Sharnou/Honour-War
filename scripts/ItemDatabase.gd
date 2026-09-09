@@ -27,6 +27,8 @@ static func all() -> Dictionary:
 		"Golem Core":{"type":"Crafting","rarity":"Rare","value":260,"effect":"Golem crafting core"},
 		"Druid Relic":{"type":"Crafting","rarity":"Rare","value":320,"effect":"Dark magic crafting relic"},
 		"Dragon Scale":{"type":"Crafting","rarity":"Epic","value":850,"effect":"Endgame dragon crafting reagent"},
+		"Blood Shard":{"type":"Crafting","rarity":"Legendary","value":1800,"effect":"Bloody Knight blood-forged crafting material"},
+		"Cursed Armor Fragment":{"type":"Crafting","rarity":"Legendary","value":2400,"effect":"Bloody Knight cursed armor material"},
 		"Apple":{"type":"Consumable","rarity":"Common","value":5,"effect":"Heal 30 HP"},
 		"Iron Ore":{"type":"Crafting","rarity":"Common","value":20,"effect":"Basic metal crafting material"},
 		"Bone":{"type":"Crafting","rarity":"Common","value":18,"effect":"Bone crafting material"},
