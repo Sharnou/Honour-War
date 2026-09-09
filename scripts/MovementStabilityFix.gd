@@ -8,6 +8,8 @@ const ORIGIN_Y:float = 120.0
 const WORLD_SCALE:float = 0.055
 const MOVE_SPEED:float = 210.0
 const STOP_DISTANCE:float = 7.0
+const SWORDSMAN_STOP_RANGE:float = 44.0
+const ARCHER_STOP_RANGE:float = 210.0
 const CAMERA_POSITION:Vector3 = Vector3(12.925,10.5,26.15)
 const CAMERA_TARGET:Vector3 = Vector3(12.925,0.0,12.65)
 
@@ -15,6 +17,7 @@ var legacy:Node2D
 var camera:Camera3D
 var destination:Vector2 = Vector2.INF
 var marker:MeshInstance3D
+var selected_monster:Dictionary = {}
 
 func _ready() -> void:
 	process_priority = 1000
@@ -42,7 +45,7 @@ func _setup_marker() -> void:
 	ring.inner_radius = 0.22
 	ring.outer_radius = 0.30
 	marker.mesh = ring
-	marker.rotation_degrees.x = 90.0
+	ring.rotation_degrees.x = 90.0
 	var material:StandardMaterial3D = StandardMaterial3D.new()
 	material.albedo_color = Color("#f6cf67")
 	material.emission_enabled = true
@@ -56,11 +59,63 @@ func _unhandled_input(event:InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		if _ui_has_focus():
 			return
-		var map_point:Vector2 = _screen_to_map(event.position)
-		if map_point != Vector2.INF:
-			destination = map_point
+		_handle_world_click(event.position)
 	elif event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_ESCAPE:
 		destination = Vector2.INF
+		selected_monster = {}
+
+func _handle_world_click(screen_position:Vector2)->void:
+	var clicked:=_pick_monster(screen_position)
+	if not clicked.is_empty():
+		selected_monster = clicked
+		var hero_value:Variant = legacy.get("hero") if legacy else null
+		if not hero_value is Dictionary:
+			return
+		var hero:Dictionary = hero_value
+		var hero_pos:=Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0)))
+		var monster_pos:Vector2 = clicked.get("pos",hero_pos)
+		var distance:=hero_pos.distance_to(monster_pos)
+		var desired:=_engagement_range(hero)
+		if distance <= desired:
+			destination = Vector2.INF
+		else:
+			var direction:=monster_pos.direction_to(hero_pos)
+			destination = monster_pos + direction * desired
+		return
+	var map_point:Vector2 = _screen_to_map(screen_position)
+	if map_point != Vector2.INF:
+		selected_monster = {}
+		destination = map_point
+
+func _engagement_range(hero:Dictionary)->float:
+	var class_id:=str(hero.get("class","Warrior")).to_lower()
+	if class_id == "archer" or class_id == "ranger":
+		return ARCHER_STOP_RANGE
+	return SWORDSMAN_STOP_RANGE
+
+func _pick_monster(screen_position:Vector2)->Dictionary:
+	if legacy == null or camera == null:
+		return {}
+	var monsters_value:Variant = legacy.get("monsters")
+	if not monsters_value is Array:
+		return {}
+	var best:Dictionary = {}
+	var best_distance:float = 58.0
+	for item in monsters_value as Array:
+		if not item is Dictionary:
+			continue
+		var monster:Dictionary = item
+		if int(monster.get("hp",0)) <= 0:
+			continue
+		var p:Variant = monster.get("pos",Vector2.ZERO)
+		if not p is Vector2:
+			continue
+		var screen:Vector2 = camera.unproject_position(_map_to_world(p as Vector2)+Vector3(0.0,1.0,0.0))
+		var distance:float = screen.distance_to(screen_position)
+		if distance < best_distance:
+			best_distance = distance
+			best = monster
+	return best
 
 func _process(delta:float) -> void:
 	if legacy == null or camera == null or not camera.is_inside_tree():
@@ -70,11 +125,7 @@ func _process(delta:float) -> void:
 		return
 	var hero:Dictionary = hero_value
 	var current:Vector2 = Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0)))
-	var keyboard:Vector2 = _physical_keyboard_direction()
-	if keyboard.length_squared() > 0.0:
-		destination = Vector2.INF
-		current += keyboard * MOVE_SPEED * delta
-	elif destination != Vector2.INF:
+	if destination != Vector2.INF:
 		var distance:float = current.distance_to(destination)
 		if distance <= STOP_DISTANCE:
 			current = destination
@@ -88,24 +139,8 @@ func _process(delta:float) -> void:
 		marker.visible = destination != Vector2.INF
 		if marker.visible:
 			marker.position = _map_to_world(destination) + Vector3(0.0,0.06,0.0)
-	# Camera is deliberately fixed. A/D and mouse movement must move the hero,
-	# not drag the entire screen with the hero.
 	camera.global_position = CAMERA_POSITION
 	camera.look_at(CAMERA_TARGET,Vector3.UP)
-
-func _physical_keyboard_direction() -> Vector2:
-	var x:float = 0.0
-	var y:float = 0.0
-	if Input.is_key_pressed(KEY_A) or Input.is_key_pressed(KEY_LEFT):
-		x -= 1.0
-	if Input.is_key_pressed(KEY_D) or Input.is_key_pressed(KEY_RIGHT):
-		x += 1.0
-	if Input.is_key_pressed(KEY_W) or Input.is_key_pressed(KEY_UP):
-		y -= 1.0
-	if Input.is_key_pressed(KEY_S) or Input.is_key_pressed(KEY_DOWN):
-		y += 1.0
-	var direction:Vector2 = Vector2(x,y)
-	return direction.normalized() if direction.length_squared() > 0.0 else Vector2.ZERO
 
 func _screen_to_map(screen_position:Vector2)->Vector2:
 	var origin:Vector3 = camera.project_ray_origin(screen_position)
