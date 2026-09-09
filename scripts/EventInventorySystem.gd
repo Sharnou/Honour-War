@@ -1,12 +1,12 @@
 class_name EventInventorySystem
 extends RefCounted
 
-## Event rewards and a structured inventory list. Stacks are dictionaries so UI,
-## saving and future online synchronization all use the same representation.
+## Event rewards and inventory presentation. Inventory remains compatible with
+## the existing LootSystem integer stacks; event metadata lives separately.
 static func event_catalog()->Array:
 	return [
 		{"id":"daily_hunt","name":"Daily Hunt","duration_hours":24,"objective":"Defeat 20 monsters","target":20,"reward":"Event Token x5 + XP","repeatable":true},
-		{"id":"blood_moon","name":"Blood Moon","duration_hours":3,"objective":"Defeat Blood Moon monsters","target":10,"reward":"Blood Shard + rare loot","repeatable":false},
+		{"id":"blood_moon","name":"Blood Moon","duration_hours":3,"objective":"Defeat Bloody Knights","target":10,"reward":"Blood Shard + rare loot","repeatable":false},
 		{"id":"mvp_hour","name":"MVP Hour","duration_hours":1,"objective":"Defeat an MVP","target":1,"reward":"MVP Token + bonus loot","repeatable":false},
 		{"id":"pet_bond","name":"Pet Bond Festival","duration_hours":6,"objective":"Fight beside your bonded pet","target":25,"reward":"Pet Skill Item + Bond XP","repeatable":false},
 		{"id":"forge_festival","name":"Forge Festival","duration_hours":4,"objective":"Refine or craft equipment","target":1,"reward":"Refine materials + Zeny","repeatable":false},
@@ -23,20 +23,16 @@ static func ensure_inventory(hero:Dictionary)->void:
 static func add_item(hero:Dictionary,item_id:String,amount:int=1,rarity:String="Common")->void:
 	ensure_inventory(hero)
 	if amount<=0: return
-	var current:Variant=hero["inventory"].get(item_id,{"amount":0,"rarity":rarity})
-	if not current is Dictionary: current={"amount":int(current),"rarity":rarity}
-	var stack:Dictionary=current
-	stack["amount"]=int(stack.get("amount",0))+amount
-	stack["rarity"]=rarity if rarity!="" else str(stack.get("rarity","Common"))
-	hero["inventory"][item_id]=stack
+	hero["inventory"][item_id]=int(hero["inventory"].get(item_id,0))+amount
+	hero["event_inventory"][item_id]={"rarity":rarity,"last_source":"event"}
 
 static func remove_item(hero:Dictionary,item_id:String,amount:int=1)->bool:
 	ensure_inventory(hero)
-	var stack:Variant=hero["inventory"].get(item_id)
-	if not stack is Dictionary or int(stack.get("amount",0))<amount: return false
-	var left:int=int(stack.get("amount",0))-amount
+	var current:int=int(hero["inventory"].get(item_id,0))
+	if current<amount: return false
+	var left:int=current-amount
 	if left<=0: hero["inventory"].erase(item_id)
-	else: stack["amount"]=left
+	else: hero["inventory"][item_id]=left
 	return true
 
 static func inventory_list(hero:Dictionary)->Array:
@@ -45,7 +41,8 @@ static func inventory_list(hero:Dictionary)->Array:
 	for id in hero["inventory"].keys():
 		var value:Variant=hero["inventory"][id]
 		var amount:int=int(value.get("amount",0)) if value is Dictionary else int(value)
-		var rarity:String=str(value.get("rarity","Common")) if value is Dictionary else "Common"
+		var event_meta:Dictionary=hero["event_inventory"].get(str(id),{}) if hero["event_inventory"].get(str(id),{}) is Dictionary else {}
+		var rarity:String=str(event_meta.get("rarity","Common"))
 		list.append({"id":str(id),"amount":amount,"rarity":rarity})
 	list.sort_custom(func(a,b): return str(a["id"])<str(b["id"]))
 	return list
