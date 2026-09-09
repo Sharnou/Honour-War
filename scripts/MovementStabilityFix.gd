@@ -32,11 +32,15 @@ func _ready() -> void:
     set_process_unhandled_input(true)
     call_deferred("_setup_camera")
     call_deferred("_setup_marker")
+    call_deferred("_ensure_visual_safety")
+    call_deferred("_ensure_visual_safety")
 
 func _setup_camera() -> void:
     if camera == null or not camera.is_inside_tree(): return
     camera.projection = Camera3D.PROJECTION_ORTHOGONAL
     camera.size = 16.0
+    camera.near = 0.05
+    camera.far = 500.0
     camera.current = true
     _apply_camera()
 
@@ -49,6 +53,101 @@ func _apply_camera() -> void:
     camera.global_position = target+offset
     camera.look_at(target,Vector3.UP)
     camera.current = true
+
+func _ensure_visual_safety() -> void:
+    var root:Node = get_parent()
+    if root == null or not root is Node3D: return
+    var root_3d:Node3D = root as Node3D
+    if root_3d.get_node_or_null("HDVisualSafetyStage") != null: return
+    var stage:Node3D = Node3D.new()
+    stage.name = "HDVisualSafetyStage"
+    root_3d.add_child(stage)
+
+    var environment:WorldEnvironment = WorldEnvironment.new()
+    environment.name = "SafetyEnvironment"
+    var env:Environment = Environment.new()
+    env.background_mode = Environment.BG_COLOR
+    env.background_color = Color("#081521")
+    env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
+    env.ambient_light_color = Color("#d8e5ef")
+    env.ambient_light_energy = 0.9
+    env.tonemap_mode = Environment.TONE_MAPPER_FILMIC
+    environment.environment = env
+    stage.add_child(environment)
+
+    var sun:DirectionalLight3D = DirectionalLight3D.new()
+    sun.name = "SafetySun"
+    sun.rotation_degrees = Vector3(-52.0,-32.0,0.0)
+    sun.light_energy = 1.8
+    sun.shadow_enabled = true
+    stage.add_child(sun)
+
+    var floor:MeshInstance3D = MeshInstance3D.new()
+    floor.name = "SafetyFloor"
+    var floor_mesh:BoxMesh = BoxMesh.new()
+    floor_mesh.size = Vector3(70.0,0.25,43.0)
+    floor.mesh = floor_mesh
+    floor.position = CAMERA_POSITION_TARGET + Vector3(0.0,-0.18,0.0)
+    floor.material_override = _safety_material(Color("#294734"),0.9)
+    stage.add_child(floor)
+
+    var road:MeshInstance3D = MeshInstance3D.new()
+    road.name = "SafetyRoad"
+    var road_mesh:BoxMesh = BoxMesh.new()
+    road_mesh.size = Vector3(9.0,0.10,43.0)
+    road.mesh = road_mesh
+    road.position = CAMERA_POSITION_TARGET + Vector3(0.0,-0.02,0.0)
+    road.material_override = _safety_material(Color("#655141"),1.0)
+    stage.add_child(road)
+
+    _safety_building(stage,Vector3(6.0,2.0,5.0),Color("#a87859"),Color("#713d38"))
+    _safety_building(stage,Vector3(20.0,2.0,5.0),Color("#7d6b58"),Color("#41405a"))
+    _safety_building(stage,Vector3(6.0,2.0,20.0),Color("#96694f"),Color("#583b35"))
+    _safety_building(stage,Vector3(20.0,2.0,20.0),Color("#65735e"),Color("#394d3e"))
+
+    var tree_positions:Array[Vector3] = [Vector3(-4.0,1.5,3.0),Vector3(30.0,1.5,2.0),Vector3(-5.0,1.5,24.0),Vector3(30.0,1.5,23.0)]
+    for p in tree_positions:
+        var trunk:MeshInstance3D = MeshInstance3D.new()
+        var trunk_mesh:CylinderMesh = CylinderMesh.new()
+        trunk_mesh.top_radius = 0.18
+        trunk_mesh.bottom_radius = 0.32
+        trunk_mesh.height = 2.4
+        trunk.mesh = trunk_mesh
+        trunk.position = p
+        trunk.material_override = _safety_material(Color("#51382b"),1.0)
+        stage.add_child(trunk)
+        var crown:MeshInstance3D = MeshInstance3D.new()
+        var crown_mesh:SphereMesh = SphereMesh.new()
+        crown_mesh.radius = 1.3
+        crown_mesh.height = 2.6
+        crown.mesh = crown_mesh
+        crown.position = p + Vector3(0.0,1.8,0.0)
+        crown.material_override = _safety_material(Color("#2f6b45"),0.92)
+        stage.add_child(crown)
+
+func _safety_building(parent:Node3D,pos:Vector3,wall:Color,roof:Color) -> void:
+    var body:MeshInstance3D = MeshInstance3D.new()
+    var body_mesh:BoxMesh = BoxMesh.new()
+    body_mesh.size = Vector3(5.5,4.0,4.5)
+    body.mesh = body_mesh
+    body.position = pos
+    body.material_override = _safety_material(wall,0.82)
+    parent.add_child(body)
+    var top:MeshInstance3D = MeshInstance3D.new()
+    var roof_mesh:CylinderMesh = CylinderMesh.new()
+    roof_mesh.top_radius = 0.0
+    roof_mesh.bottom_radius = 3.7
+    roof_mesh.height = 2.2
+    top.mesh = roof_mesh
+    top.position = pos + Vector3(0.0,3.0,0.0)
+    top.material_override = _safety_material(roof,0.9)
+    parent.add_child(top)
+
+func _safety_material(color:Color,roughness:float) -> StandardMaterial3D:
+    var material:StandardMaterial3D = StandardMaterial3D.new()
+    material.albedo_color = color
+    material.roughness = roughness
+    return material
 
 func _setup_marker() -> void:
     if marker != null or get_parent() == null: return
