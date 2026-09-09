@@ -5,7 +5,6 @@ cd /d "%~dp0.."
 echo ================================================
 echo HONOUR WAR - HD SAFE LAUNCHER
 echo ================================================
-
 echo Looking for Godot 4.2.2...
 
 set "GODOT="
@@ -19,19 +18,19 @@ if not defined GODOT if exist "%LOCALAPPDATA%\Godot\Godot.exe" set "GODOT=%LOCAL
 if not defined GODOT if exist "%ProgramFiles%\Godot\Godot.exe" set "GODOT=%ProgramFiles%\Godot\Godot.exe"
 if not defined GODOT if exist "%ProgramFiles(x86)%\Godot\Godot.exe" set "GODOT=%ProgramFiles(x86)%\Godot\Godot.exe"
 
-rem 3. Search common user folders for the Godot 4.2.2 executable.
+rem 3. Search common user folders for a Godot executable.
 if not defined GODOT for /f "delims=" %%G in ('where /r "%LOCALAPPDATA%\Programs" Godot*.exe 2^>nul') do if not defined GODOT set "GODOT=%%G"
 if not defined GODOT for /f "delims=" %%G in ('where /r "%LOCALAPPDATA%" Godot_v4.2.2*.exe 2^>nul') do if not defined GODOT set "GODOT=%%G"
 if not defined GODOT for /f "delims=" %%G in ('where /r "%USERPROFILE%\Desktop" Godot*.exe 2^>nul') do if not defined GODOT set "GODOT=%%G"
 if not defined GODOT for /f "delims=" %%G in ('where /r "%USERPROFILE%\Downloads" Godot*.exe 2^>nul') do if not defined GODOT set "GODOT=%%G"
 
-rem 4. If Godot is installed somewhere else, let the user select Godot.exe.
+rem 4. If Godot is installed somewhere else, open a Windows file picker.
 if not defined GODOT (
   echo.
   echo Godot was not found automatically.
   echo Please select your Godot 4.2.2 executable in the file picker.
   echo.
-  for /f "usebackq delims=" %%G in (`powershell -NoProfile -STA -Command "$d=New-Object System.Windows.Forms.OpenFileDialog; $d.Title='Select Godot 4.2.2 executable (Godot*.exe)'; $d.Filter='Godot executable|Godot*.exe|Executable files|*.exe'; $d.InitialDirectory=[Environment]::GetFolderPath('Desktop'); if($d.ShowDialog() -eq 'OK'){ $d.FileName }"`) do set "GODOT=%%G"
+  for /f "usebackq delims=" %%G in (`powershell -NoProfile -STA -Command "Add-Type -AssemblyName System.Windows.Forms; $d=New-Object System.Windows.Forms.OpenFileDialog; $d.Title='Select Godot 4.2.2 executable (Godot*.exe)'; $d.Filter='Godot executable|Godot*.exe|Executable files|*.exe'; $d.InitialDirectory=[Environment]::GetFolderPath('Desktop'); if($d.ShowDialog() -eq 'OK'){ $d.FileName }"`) do set "GODOT=%%G"
 )
 
 if not defined GODOT (
