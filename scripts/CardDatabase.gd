@@ -13,6 +13,7 @@ static func all() -> Dictionary:
 		"Golem Card":{"monster":"Golem","rarity":"Rare","slot":"Armor","bonus":"+12 defense","power":12,"defense":12},
 		"Evil Druid Card":{"monster":"Evil Druid","rarity":"Rare","slot":"Armor","bonus":"+8% magic resistance","power":14,"magic_resist_percent":8.0},
 		"Dragon Card":{"monster":"Dragon","rarity":"Epic","slot":"Weapon","bonus":"+12% damage to bosses","power":20,"boss_damage_percent":12.0},
+		"Bloody Knight Card":{"monster":"Bloody Knight","rarity":"Legendary","slot":"Armor","bonus":"+20% bleed resistance, +40 defense, +8% damage to dark monsters","power":70,"defense":40,"bleed_resist":20.0,"dark_damage_percent":8.0},
 		"Orc Lord Card":{"monster":"Orc Lord","rarity":"MVP","slot":"Armor","bonus":"+15% HP and +10 defense","power":35,"hp_percent":15.0,"defense":10},
 		"Baphomet Card":{"monster":"Baphomet","rarity":"MVP","slot":"Weapon","bonus":"+18% physical damage","power":42,"damage_percent":18.0},
 		"Evil Druid Lord Card":{"monster":"Evil Druid Lord","rarity":"MVP","slot":"Accessory","bonus":"+18% magic damage","power":42,"magic_damage_percent":18.0},
@@ -35,8 +36,7 @@ static func for_monster(monster_name:String)->String:
 	var needle:=monster_name.strip_edges()
 	var catalog:=all()
 	for card_name in catalog.keys():
-		if str(catalog[card_name].get("monster",""))==needle:
-			return str(card_name)
+		if str(catalog[card_name].get("monster",""))==needle: return str(card_name)
 	return ""
 
 static func rarity_weight(rarity:String)->float:
@@ -45,6 +45,7 @@ static func rarity_weight(rarity:String)->float:
 		"Uncommon": return 0.006
 		"Rare": return 0.003
 		"Epic": return 0.0015
+		"Legendary": return 0.0008
 		"MVP": return 0.08
 	return 0.001
 
@@ -60,7 +61,7 @@ static func apply_effect(result:Dictionary,card_name:String,hero:Dictionary,slot
 	result["move_percent"]+=float(data.get("move_percent",0.0))
 	result["fire_percent"]+=float(data.get("fire_percent",0.0))
 	result["ice_resist_percent"]+=float(data.get("ice_resist_percent",0.0))
-	result["dark_percent"]+=float(data.get("dark_percent",0.0))
+	result["dark_percent"]+=float(data.get("dark_percent",0.0))+float(data.get("dark_damage_percent",0.0))
 	result["all_rewards_percent"]+=float(data.get("all_rewards_percent",0.0))
 	result["poison_resist"]+=int(data.get("poison_resist",0))
 	result["power_bonus"] = int(result.get("power_bonus",0))+int(data.get("power",0))
