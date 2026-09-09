@@ -92,7 +92,8 @@ func _update_visuals(delta:float) -> void:
 		pet_visual.position.y = 0.45+sin(elapsed*4.5)*0.10
 		pet_visual.rotation.y = lerp_angle(pet_visual.rotation.y,yaw,0.08)
 	_update_monsters(delta)
-	_update_camera(delta)
+	# Camera ownership belongs exclusively to MovementStabilityFix.
+	# Do not follow the hero here; that made A/D move the whole screen.
 	_update_hud(hero)
 	last_hero_position = hero_pos
 
@@ -340,18 +341,9 @@ func _trigger_hit_effect(position:Vector3,boss:bool)->void:
 	tween.tween_property(light,"light_energy",0.0,0.20)
 	tween.chain().tween_callback(root.queue_free)
 
-func _update_camera(delta:float)->void:
-	if camera == null or legacy == null or not camera.is_inside_tree():
-		return
-	var hero_value:Variant=legacy.get("hero")
-	if not hero_value is Dictionary:
-		return
-	var hero:Dictionary=hero_value
-	var map_pos:=Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0)))
-	var stable_target:=_map_to_world(map_pos)
-	var desired:Vector3=stable_target+Vector3(0.0,10.5,13.5)
-	camera.position=camera.position.lerp(desired,1.0-exp(-8.0*max(delta,0.016)))
-	camera.look_at(stable_target+Vector3(0.0,0.8,0.0),Vector3.UP)
+func _update_camera(_delta:float)->void:
+	# Intentionally disabled. MovementStabilityFix is the single camera owner.
+	return
 
 func _build_hud()->void:
 	hud=CanvasLayer.new()
@@ -548,5 +540,5 @@ func _material(color:Color,metallic:float,roughness:float)->StandardMaterial3D:
 	material.roughness=roughness
 	return material
 
-func _map_to_world(pos:Vector2)->Vector3:
-	return Vector3((pos.x-365.0)*WORLD_SCALE,0.0,(pos.y-120.0)*WORLD_SCALE)
+func _map_to_world(map_position:Vector2)->Vector3:
+	return Vector3((map_position.x-365.0)*WORLD_SCALE,0.0,(map_position.y-120.0)*WORLD_SCALE)
