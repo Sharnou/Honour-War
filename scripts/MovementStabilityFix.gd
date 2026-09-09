@@ -8,8 +8,8 @@ const ORIGIN_Y:float = 120.0
 const WORLD_SCALE:float = 0.055
 const MOVE_SPEED:float = 210.0
 const STOP_DISTANCE:float = 7.0
-const CAMERA_HEIGHT:float = 10.5
-const CAMERA_DISTANCE:float = 13.5
+const CAMERA_POSITION:Vector3 = Vector3(12.925,10.5,26.15)
+const CAMERA_TARGET:Vector3 = Vector3(12.925,0.0,12.65)
 
 var legacy:Node2D
 var camera:Camera3D
@@ -21,7 +21,17 @@ func _ready() -> void:
 	legacy = get_node_or_null(legacy_path) as Node2D
 	camera = get_node_or_null(camera_path) as Camera3D
 	set_process_unhandled_input(true)
+	call_deferred("_setup_camera")
 	call_deferred("_setup_marker")
+
+func _setup_camera() -> void:
+	if camera == null or not camera.is_inside_tree():
+		return
+	camera.projection = Camera3D.PROJECTION_ORTHOGONAL
+	camera.size = 16.0
+	camera.global_position = CAMERA_POSITION
+	camera.look_at(CAMERA_TARGET,Vector3.UP)
+	camera.current = true
 
 func _setup_marker() -> void:
 	if marker != null or get_parent() == null:
@@ -78,15 +88,22 @@ func _process(delta:float) -> void:
 		marker.visible = destination != Vector2.INF
 		if marker.visible:
 			marker.position = _map_to_world(destination) + Vector3(0.0,0.06,0.0)
-	_stabilize_camera(hero,delta)
+	# Camera is deliberately fixed. A/D and mouse movement must move the hero,
+	# not drag the entire screen with the hero.
+	camera.global_position = CAMERA_POSITION
+	camera.look_at(CAMERA_TARGET,Vector3.UP)
 
 func _physical_keyboard_direction() -> Vector2:
 	var x:float = 0.0
 	var y:float = 0.0
-	if Input.is_key_pressed(KEY_A) or Input.is_key_pressed(KEY_LEFT): x -= 1.0
-	if Input.is_key_pressed(KEY_D) or Input.is_key_pressed(KEY_RIGHT): x += 1.0
-	if Input.is_key_pressed(KEY_W) or Input.is_key_pressed(KEY_UP): y -= 1.0
-	if Input.is_key_pressed(KEY_S) or Input.is_key_pressed(KEY_DOWN): y += 1.0
+	if Input.is_key_pressed(KEY_A) or Input.is_key_pressed(KEY_LEFT):
+		x -= 1.0
+	if Input.is_key_pressed(KEY_D) or Input.is_key_pressed(KEY_RIGHT):
+		x += 1.0
+	if Input.is_key_pressed(KEY_W) or Input.is_key_pressed(KEY_UP):
+		y -= 1.0
+	if Input.is_key_pressed(KEY_S) or Input.is_key_pressed(KEY_DOWN):
+		y += 1.0
 	var direction:Vector2 = Vector2(x,y)
 	return direction.normalized() if direction.length_squared() > 0.0 else Vector2.ZERO
 
@@ -109,13 +126,6 @@ func _clamp_to_map(point:Vector2,hero:Dictionary)->Vector2:
 	var max_x:float = ORIGIN_X + float(map_data.get("width",1200)) - 1.0
 	var max_y:float = ORIGIN_Y + float(map_data.get("height",700)) - 1.0
 	return Vector2(clamp(point.x,ORIGIN_X,max_x),clamp(point.y,ORIGIN_Y,max_y))
-
-func _stabilize_camera(hero:Dictionary,delta:float)->void:
-	var target:Vector3 = _map_to_world(Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0))))
-	var desired:Vector3 = target + Vector3(0.0,CAMERA_HEIGHT,CAMERA_DISTANCE)
-	var blend:float = clamp(1.0 - exp(-12.0 * max(delta,0.001)),0.0,1.0)
-	camera.global_position = camera.global_position.lerp(desired,blend)
-	camera.look_at(target + Vector3(0.0,0.8,0.0),Vector3.UP)
 
 func _ui_has_focus()->bool:
 	var focus:Control = get_viewport().gui_get_focus_owner() as Control
