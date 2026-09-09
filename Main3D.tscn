@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3]
+[gd_scene load_steps=43 format=3]
 
 [ext_resource path="res://scripts/Game3D.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/Main.gd" type="Script" id="2"]
@@ -41,6 +41,7 @@
 [ext_resource path="res://scripts/HeroPetCombatAnimationBridge.gd" type="Script" id="39"]
 [ext_resource path="res://scripts/HDAssetRuntime.gd" type="Script" id="40"]
 [ext_resource path="res://scripts/MovementStabilityFix.gd" type="Script" id="41"]
+[ext_resource path="res://scripts/HDActorDetails.gd" type="Script" id="42"]
 
 [node name="HonourWar3D" type="Node3D"]
 script = ExtResource("1")
@@ -49,6 +50,9 @@ script = ExtResource("1")
 script = ExtResource("41")
 legacy_path = NodePath("../LegacyGame")
 camera_path = NodePath("../Camera3D")
+
+[node name="HDActorDetails" type="Node3D" parent="."]
+script = ExtResource("42")
 
 [node name="HDVisualDirector" type="Node3D" parent="."]
 script = ExtResource("16")
