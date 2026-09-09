@@ -84,8 +84,8 @@ func _build()->void:
 
 func _refresh()->void:
     if combo==null: return
+    var grade:String=combo.get_grade() if combo.has_method("get_grade") else "Bonding"
     var count:int=int(combo.get("combo_count"))
-    var grade:String=combo.get_grade() if combo.has_method("get_grade") else "Building"
     _on_combo_changed(count,grade)
 
 func _on_combo_changed(count:int,grade:String)->void:
