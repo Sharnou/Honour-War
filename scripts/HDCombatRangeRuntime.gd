@@ -8,7 +8,6 @@ extends CombatRuntime
 const Formula=preload("res://scripts/ClassCombatFormula.gd")
 const Character=preload("res://scripts/CharacterProgressionSystem.gd")
 const SkillSystem=preload("res://scripts/SkillSystem.gd")
-const MonsterDetails=preload("res://scripts/MonsterDetailsSystem.gd")
 
 func hero_strike(hero:Dictionary,monster:Dictionary)->void:
     if int(hero.get("hp",0))<=0: return
