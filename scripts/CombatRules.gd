@@ -6,6 +6,7 @@ extends RefCounted
 # readable in meters while the existing simulation remains deterministic.
 const WORLD_SCALE:float = 0.055
 const GRID_SIZE:float = 1.0
+const ClassFormula=preload("res://scripts/ClassCombatFormula.gd")
 
 const CLASS_RULES:Dictionary = {
     "Warrior": {"label":"Swordsman / Warrior", "engagement_m":2.4, "engagement_map":43.636, "attack_interval":0.72, "target_acquire_m":18.0},
@@ -42,7 +43,8 @@ static func class_engagement_m(hero:Dictionary)->float:
     return float(class_rule(hero).get("engagement_m",2.4))
 
 static func class_attack_interval(hero:Dictionary)->float:
-    return float(class_rule(hero).get("attack_interval",0.72))
+    var base:float=float(class_rule(hero).get("attack_interval",0.72))
+    return ClassFormula.attack_interval(hero,base)
 
 static func pet_rule(pet:Dictionary)->Dictionary:
     var species:String = str(pet.get("species",pet.get("name","Pet")))
