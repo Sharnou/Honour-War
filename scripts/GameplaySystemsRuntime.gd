@@ -21,9 +21,6 @@ var selected_item:String=""
 var selected_slot:String=""
 var selected_card:String=""
 var status_label:Label
-var detail_label:Label
-var list_box:VBoxContainer
-var stats_label:Label
 
 func _ready()->void:
 	game=get_parent() as Node3D
@@ -78,7 +75,7 @@ func _build_ui()->void:
 	status_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	root.add_child(status_label)
 	var hint:=Label.new()
-	hint.text="I Inventory  C Character  E Events  M Monster  •  Equipment/refinement save automatically"
+	hint.text="I Inventory  C Character  E Events  M Monster  •  All character actions save automatically"
 	root.add_child(hint)
 
 func _wire_toolbar()->void:
@@ -161,8 +158,9 @@ func _character(current:Dictionary)->void:
 func _inventory(current:Dictionary)->void:
 	_clear_body()
 	_add_heading("INVENTORY • SELECT AN ITEM")
+	var stats:Dictionary=CHARACTER.stats(current)
 	var economy:=Label.new()
-	economy.text="Zeny: %d   •   HP %d/%d   •   SP %d/%d" % [int(current.get("zeny",0)),int(current.get("hp",0)),int(CHARACTER.stats(current).get("max_hp",0)),int(current.get("sp",0)),int(CHARACTER.stats(current).get("max_sp",0))]
+	economy.text="Zeny: %d   •   HP %d/%d   •   SP %d/%d" % [int(current.get("zeny",0)),int(current.get("hp",0)),int(stats.get("max_hp",0)),int(current.get("sp",0)),int(stats.get("max_sp",0))]
 	body.add_child(economy)
 	var inv_value:Variant=current.get("inventory",{})
 	var inv:Dictionary=inv_value if inv_value is Dictionary else {}
@@ -172,14 +170,8 @@ func _inventory(current:Dictionary)->void:
 		var id:String=str(item_id)
 		var amount:int=int(inv[item_id].get("amount",0)) if inv[item_id] is Dictionary else int(inv[item_id])
 		if amount<=0: continue
-		var row:=HBoxContainer.new()
-		row.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-		body.add_child(row)
-		var info:=Button.new()
-		info.text="%s  x%d" % [id,amount]
-		info.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-		info.pressed.connect(_select_item.bind(id))
-		row.add_child(info)
+		var row:=HBoxContainer.new(); row.size_flags_horizontal=Control.SIZE_EXPAND_FILL; body.add_child(row)
+		var info:=Button.new(); info.text="%s  x%d" % [id,amount]; info.size_flags_horizontal=Control.SIZE_EXPAND_FILL; info.pressed.connect(_select_item.bind(id)); row.add_child(info)
 		var data:Dictionary=ITEMS.all().get(id,{})
 		if str(data.get("type",""))=="Consumable":
 			var use:=Button.new(); use.text="USE"; use.pressed.connect(_use_item.bind(id)); row.add_child(use)
@@ -188,7 +180,7 @@ func _inventory(current:Dictionary)->void:
 	if selected_item!="":
 		_add_heading("SELECTED: "+selected_item)
 		var data:Dictionary=ITEMS.all().get(selected_item,{})
-		var detail:=Label.new(); detail.text="Type: %s\nRarity: %s\nValue: %d\nEffect: %s" % [str(data.get("type","Unknown")),str(data.get("rarity","Common")),int(data.get("value",0)),str(data.get("effect",""))]; body.add_child(detail)
+		var detail:=Label.new(); detail.text="Type: %s\nRarity: %s\nValue: %d\nAttack: %d  Magic: %d  Defense: %d\nSlots: %d\nEffect: %s" % [str(data.get("type","Unknown")),str(data.get("rarity","Common")),int(data.get("value",0)),int(data.get("attack",0)),int(data.get("magic",0)),int(data.get("defense",0)),int(data.get("card_slots",0)),str(data.get("effect",""))]; detail.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; body.add_child(detail)
 
 func _select_item(item_id:String)->void:
 	selected_item=item_id
@@ -210,7 +202,7 @@ func _equipment(current:Dictionary)->void:
 	_add_heading("EQUIPMENT • LIVE CHARACTER STATS")
 	var stats:Dictionary=CHARACTER.stats(current)
 	var stat_box:=Label.new(); stat_box.text="ATK %d   MATK %d   DEF %d   MDEF %d\nHP %d/%d   SP %d/%d   CRIT %d" % [int(stats.get("atk",0)),int(stats.get("matk",0)),int(stats.get("def",0)),int(stats.get("mdef",0)),int(current.get("hp",0)),int(stats.get("max_hp",0)),int(current.get("sp",0)),int(stats.get("max_sp",0)),int(stats.get("crit",0))]; body.add_child(stat_box)
-	for slot in ["weapon","armor","head","offhand","accessory"]:
+	for slot in ["weapon","armor","head","head_middle","head_lower","garment","shoes","offhand","accessory_1","accessory_2"]:
 		var equipped:Variant=current.get("equipment",{}).get(slot,null)
 		var name:String="Empty"
 		var refine:int=0
@@ -224,10 +216,12 @@ func _equipment(current:Dictionary)->void:
 	if selected_slot!="":
 		_add_heading("SELECTED SLOT: "+selected_slot.to_upper())
 		_add_button("REFINE SELECTED SLOT",Callable(self,"_refine_selected"))
-		_add_button("INSERT SELECTED CARD",Callable(self,"_card_for_slot"))
+		_add_button("CHOOSE A CARD FOR THIS SLOT",Callable(self,"_show_card_picker"))
+		if selected_card!="": _add_button("INSERT SELECTED CARD: "+selected_card,Callable(self,"_insert_selected_card"))
 
 func _select_slot(slot:String)->void:
 	selected_slot=slot
+	selected_card=""
 	timer=1.0
 
 func _unequip_slot(slot:String)->void:
@@ -238,36 +232,53 @@ func _unequip_slot(slot:String)->void:
 func _refine(current:Dictionary)->void:
 	_clear_body()
 	_add_heading("REFINEMENT • AUTOMATIC SAVE")
-	for slot in ["weapon","armor","head","offhand","accessory"]:
+	for slot in ["weapon","armor","head","head_middle","head_lower","garment","shoes","offhand","accessory_1","accessory_2"]:
 		if not current.get("equipment",{}).has(slot): continue
 		var item:Dictionary=current["equipment"][slot] if current["equipment"][slot] is Dictionary else {}
 		var refine:int=int(item.get("refine",current.get("equipment_refine",{}).get(slot,0)))
-		var chance:float=EQUIPMENT.refine_chance(item,refine+1)
+		var chance:float=EQUIPMENT.refine_chance(refine)
 		var material:String="Oridecon" if refine>=5 else "Phracon"
 		var owned:int=int(current.get("inventory",{}).get(material,0))
 		if current.get("inventory",{}).get(material,0) is Dictionary: owned=int(current["inventory"][material].get("amount",0))
 		var row:=HBoxContainer.new(); body.add_child(row)
 		var label:=Label.new(); label.text="%s  +%d → +%d  •  %.0f%%  •  %s x%d" % [str(item.get("id","Item")),refine,refine+1,chance*100.0,material,owned]; label.size_flags_horizontal=Control.SIZE_EXPAND_FILL; row.add_child(label)
 		var button:=Button.new(); button.text="REFINE"; button.disabled=owned<=0; button.pressed.connect(_refine_slot.bind(slot)); row.add_child(button)
-	_add_heading("Refinement consumes Phracon through +4 and Oridecon from +5. Every successful interaction saves automatically.")
+	_add_heading("Phracon: +0 to +4 • Oridecon: +5 onward • Failed high refinement can reduce the refine level.")
 
 func _refine_slot(slot:String)->void:
 	var result:Dictionary=CHARACTER_INV.refine(hero,slot,0.5)
-	_show_result(result,"Refinement complete")
+	_show_result(result,"Refinement attempt complete")
 	timer=1.0
 
 func _refine_selected()->void:
 	if selected_slot=="": return
 	_refine_slot(selected_slot)
 
-func _card_for_slot()->void:
-	if selected_slot=="": return
+func _show_card_picker()->void:
+	_clear_body()
+	_add_heading("CARD SELECTOR • SELECT AN OWNED CARD")
 	var cards_value:Variant=hero.get("cards",[])
 	var cards:Array=cards_value if cards_value is Array else []
-	if cards.is_empty(): _set_status("No cards owned. Monster cards are inserted from this screen when acquired."); return
-	selected_card=str(cards[0])
+	if cards.is_empty():
+		var empty:=Label.new(); empty.text="No cards owned."; body.add_child(empty); _add_button("BACK TO EQUIPMENT",Callable(self,"_set_mode").bind("equipment")); return
+	for card_value in cards:
+		var card_id:String=str(card_value)
+		var button:=Button.new(); button.text=card_id; button.pressed.connect(_select_card.bind(card_id)); body.add_child(button)
+	if selected_card!="":
+		_add_heading("SELECTED CARD: "+selected_card)
+		_add_button("INSERT INTO "+selected_slot.to_upper(),Callable(self,"_insert_selected_card"))
+	_add_button("BACK TO EQUIPMENT",Callable(self,"_set_mode").bind("equipment"))
+
+func _select_card(card_id:String)->void:
+	selected_card=card_id
+	_set_mode("equipment")
+	timer=1.0
+
+func _insert_selected_card()->void:
+	if selected_slot=="" or selected_card=="": return
 	var result:Dictionary=CHARACTER_INV.insert_card(hero,selected_slot,selected_card)
 	_show_result(result,"Card inserted")
+	if bool(result.get("ok",false)): selected_card=""
 	timer=1.0
 
 func _events(current:Dictionary)->void:
@@ -293,7 +304,9 @@ func _show_result(result:Dictionary,success_text:String)->void:
 	if bool(result.get("ok",false)):
 		_set_status("✓ "+success_text+" — saved automatically.")
 	else:
-		_set_status("✕ "+_reason_text(str(result.get("reason","action_failed")))+("  Material: "+str(result.get("material"))) if result.has("material") else "✕ "+_reason_text(str(result.get("reason","action_failed"))))
+		var message:String="✕ "+_reason_text(str(result.get("reason","action_failed")))
+		if result.has("material"): message+="  Material: "+str(result["material"])
+		_set_status(message)
 
 func _reason_text(reason:String)->String:
 	match reason:
@@ -307,6 +320,9 @@ func _reason_text(reason:String)->String:
 		"missing_material": return "Required refinement material is missing."
 		"no_refine_material_catalogue": return "Refinement material catalogue is unavailable."
 		"card_not_owned": return "Card is not owned."
+		"no_slots": return "This equipment has no free card slots."
+		"duplicate_card": return "That card is already inserted."
+		"cap": return "This equipment has reached its refinement cap."
 		return reason.replace("_"," ").capitalize()
 
 func _set_status(text:String)->void:
