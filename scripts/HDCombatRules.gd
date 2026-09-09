@@ -8,8 +8,8 @@ const ARCHER_ATTACK_RANGE:float = 12.0
 const ARCHER_MIN_RANGE:float = 2.5
 const MONSTER_MELEE_RANGE:float = 2.2
 
-static func attack_range_for_class(class_name:String)->float:
-    var normalized:=class_name.to_lower()
+static func attack_range_for_class(hero_class:String)->float:
+    var normalized:String = hero_class.to_lower()
     if normalized == "archer" or normalized == "ranger":
         return ARCHER_ATTACK_RANGE
     return SWORDSMAN_MELEE_RANGE
@@ -17,5 +17,5 @@ static func attack_range_for_class(class_name:String)->float:
 static func monster_melee_range()->float:
     return MONSTER_MELEE_RANGE
 
-static func is_in_attack_range(class_name:String, distance:float)->bool:
-    return distance <= attack_range_for_class(class_name)
+static func is_in_attack_range(hero_class:String,distance:float)->bool:
+    return distance <= attack_range_for_class(hero_class)
