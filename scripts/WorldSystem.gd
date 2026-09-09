@@ -11,7 +11,8 @@ const DROP_TABLE := {
 	"Mantis":[{"item":"Mantis Shell","chance":0.30},{"item":"Sharp Claw","chance":0.25},{"item":"Mantis Card","chance":0.0025},{"item":"Emveretarcon","chance":0.025}],
 	"Golem":[{"item":"Golem Core","chance":0.40},{"item":"Stone Fragment","chance":0.35},{"item":"Golem Card","chance":0.002},{"item":"Oridecon","chance":0.012}],
 	"Evil Druid":[{"item":"Druid Relic","chance":0.25},{"item":"Dark Branch","chance":0.30},{"item":"Evil Druid Card","chance":0.0015},{"item":"Oridecon","chance":0.012}],
-	"Dragon":[{"item":"Dragon Scale","chance":0.50},{"item":"Ancient Dragon Heart","chance":0.02},{"item":"Dragon Card","chance":0.001},{"item":"Oridecon","chance":0.018}]
+	"Dragon":[{"item":"Dragon Scale","chance":0.50},{"item":"Ancient Dragon Heart","chance":0.02},{"item":"Dragon Card","chance":0.001},{"item":"Oridecon","chance":0.018}],
+	"Bloody Knight":[{"item":"Bloody Knight Card","chance":0.003},{"item":"Blood Shard","chance":0.20},{"item":"Cursed Armor Fragment","chance":0.16},{"item":"Oridecon","chance":0.05}]
 }
 
 static func monster_level_for_zone(zone_level:int,family_index:int)->int:
