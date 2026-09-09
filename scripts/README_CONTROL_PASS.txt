@@ -1,0 +1,1 @@
+This marker records the HD control/combat pass. Mouse is primary world interaction; MovementStabilityFix owns camera; CombatRuntime owns authoritative ranges; combat-number presentation must remain numeric only.
