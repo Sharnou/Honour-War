@@ -44,5 +44,6 @@ static func migrate(hero:Dictionary) -> Dictionary:
 	if not hero.has("online_days"): hero["online_days"]=0.0
 	if not hero.has("event_inventory") or not hero["event_inventory"] is Dictionary: hero["event_inventory"]={}
 	if not hero.has("event_progress") or not hero["event_progress"] is Dictionary: hero["event_progress"]={}
+	if not hero.has("event_claimed") or not hero["event_claimed"] is Dictionary: hero["event_claimed"]={}
 	if not hero.has("monster_codex") or not hero["monster_codex"] is Dictionary: hero["monster_codex"]={}
 	return hero
