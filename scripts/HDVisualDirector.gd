@@ -10,7 +10,7 @@ var world_environment:WorldEnvironment
 var sun:DirectionalLight3D
 var rim:DirectionalLight3D
 var fill:OmniLight3D
-time:float=0.0
+var time:float=0.0
 var forward_plus:bool=false
 
 func _ready()->void:
