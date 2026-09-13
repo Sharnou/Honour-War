@@ -1,4 +1,3 @@
-class_name HDProductionQualityDirector
 extends Node
 
 ## Honour War production visual pass.
@@ -103,7 +102,7 @@ func _add_plaza_inlays()->void:
     for i in range(10):
         var angle:=float(i)*TAU/10.0
         var p:=Vector3(cos(angle)*4.55,0.09,5.5+sin(angle)*4.55)
-        var slab:=_box(Vector3(1.45,0.07,0.44),p,stone)
+        var slab:=_box(stone,Vector3(1.45,0.07,0.44),p)
         slab.rotation.y=angle
         detail_root.add_child(slab)
     for r in [2.0,4.0,6.0]:
@@ -118,12 +117,12 @@ func _add_road_cobbles()->void:
     for i in range(18):
         var x:float=-9.0+float(i)*1.05
         var p:=Vector3(x,0.065,1.0)
-        var tile:=_box(Vector3(0.88,0.045,5.8),p,road)
+        var tile:=_box(road,Vector3(0.88,0.045,5.8),p)
         tile.rotation.y=0.01 if i%2==0 else -0.01
         detail_root.add_child(tile)
     for i in range(11):
         var x:float=-5.0+float(i)*1.0
-        var curb:=_box(Vector3(0.72,0.08,0.22),Vector3(x,0.08,-1.72),edge)
+        var curb:=_box(edge,Vector3(0.72,0.08,0.22),Vector3(x,0.08,-1.72))
         detail_root.add_child(curb)
 
 func _add_grass_detail()->void:
