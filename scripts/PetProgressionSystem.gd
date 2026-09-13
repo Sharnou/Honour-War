@@ -1,6 +1,7 @@
 class_name PetProgressionSystem
 extends RefCounted
 
+const PetSkillSystem=preload("res://scripts/PetSkillSystem.gd")
 const MAX_LEVEL:int = 250
 
 static func ensure_state(pet:Dictionary)->void:
