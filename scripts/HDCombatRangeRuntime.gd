@@ -1,16 +1,11 @@
 class_name HDCombatRangeRuntime
 extends CombatRuntime
 
-const CombatRules=preload("res://scripts/CombatRules.gd")
-const MonsterDetails=preload("res://scripts/MonsterDetailsSystem.gd")
-
 ## Compatibility facade retained for existing scenes.
-## CombatRuntime remains the only combat loop. This subclass only supplies
+## CombatRuntime owns the shared dependencies; this subclass only supplies
 ## progression-aware hero strike/defense behavior through virtual overrides.
-
 const Formula=preload("res://scripts/ClassCombatFormula.gd")
 const Character=preload("res://scripts/CharacterProgressionSystem.gd")
-const SkillSystem=preload("res://scripts/SkillSystem.gd")
 
 func hero_strike(hero:Dictionary,monster:Dictionary)->void:
     if int(hero.get("hp",0))<=0: return
