@@ -1,6 +1,13 @@
 class_name CombatRuntime
 extends Node
 
+const CombatRules=preload("res://scripts/CombatRules.gd")
+const SkillSystem=preload("res://scripts/SkillSystem.gd")
+const LootSystem=preload("res://scripts/LootSystem.gd")
+const MVPSystem=preload("res://scripts/MVPSystem.gd")
+const SaveSystem=preload("res://scripts/SaveSystem.gd")
+const PetSystem=preload("res://scripts/PetSystem.gd")
+
 signal hero_attack_landed(target:Dictionary,damage:int,critical:bool)
 signal pet_attack_landed(target:Dictionary,damage:int,special:bool)
 signal monster_attack_landed(target_kind:String,damage:int)
