@@ -1,6 +1,9 @@
 class_name MovementStabilityFix
 extends Node
 
+const CombatRules=preload("res://scripts/CombatRules.gd")
+const TeleportSystem=preload("res://scripts/TeleportSystem.gd")
+
 @export var legacy_path:NodePath = NodePath("../LegacyGame")
 @export var camera_path:NodePath = NodePath("../Camera3D")
 const ORIGIN_X:float = 365.0
@@ -39,10 +42,10 @@ func _apply_camera(delta:float=1.0)->void:
     if camera==null or legacy==null: return
     var value:Variant=legacy.get("hero")
     var hero:Dictionary=value if value is Dictionary else {}
-    var map_pos:=Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0)))
-    var target:=_map_to_world(map_pos)+Vector3(0.0,1.15,0.0)
-    var pitch:=deg_to_rad(CAMERA_PITCH)
-    var desired:=target+Vector3(0.0,-sin(pitch)*CAMERA_DISTANCE,cos(pitch)*CAMERA_DISTANCE)
+    var map_pos:Vector2=Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0)))
+    var target:Vector3=_map_to_world(map_pos)+Vector3(0.0,1.15,0.0)
+    var pitch:float=deg_to_rad(CAMERA_PITCH)
+    var desired:Vector3=target+Vector3(0.0,-sin(pitch)*CAMERA_DISTANCE,cos(pitch)*CAMERA_DISTANCE)
     camera.global_position=camera.global_position.lerp(desired,1.0-exp(-7.0*max(delta,0.016)))
     camera.look_at(target,Vector3.UP)
     camera.current=true
@@ -69,10 +72,10 @@ func _handle_world_click(screen_position:Vector2)->void:
         var value:Variant=legacy.get("hero") if legacy else null
         if not value is Dictionary: return
         var hero:Dictionary=value
-        var hero_pos:=Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0)))
+        var hero_pos:Vector2=Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0)))
         var monster_pos:Vector2=clicked.get("pos",hero_pos)
-        var distance:=hero_pos.distance_to(monster_pos)
-        var desired:=CombatRules.class_engagement_map(hero)
+        var distance:float=hero_pos.distance_to(monster_pos)
+        var desired:float=CombatRules.class_engagement_map(hero)
         if distance>desired: destination=CombatRules.snap_map_point(monster_pos+monster_pos.direction_to(hero_pos)*desired)
         else: destination=Vector2.INF
         return
@@ -92,7 +95,7 @@ func _pick_monster(screen_position:Vector2)->Dictionary:
         var p:Variant=monster.get("pos",Vector2.ZERO)
         if not p is Vector2: continue
         var screen:=camera.unproject_position(_map_to_world(p as Vector2)+Vector3(0.0,1.0,0.0))
-        var distance:=screen.distance_to(screen_position)
+        var distance:float=screen.distance_to(screen_position)
         if distance<best_distance: best_distance=distance; best=monster
     return best
 
@@ -101,9 +104,9 @@ func _process(delta:float)->void:
     var value:Variant=legacy.get("hero")
     if not value is Dictionary: return
     var hero:Dictionary=value
-    var current:=Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0)))
+    var current:Vector2=Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0)))
     if destination!=Vector2.INF:
-        var distance:=current.distance_to(destination)
+        var distance:float=current.distance_to(destination)
         if distance<=STOP_DISTANCE: current=destination; destination=Vector2.INF
         else: current+=current.direction_to(destination)*min(distance,MOVE_SPEED*delta)
         current=_clamp_to_map(current,hero); hero["pos_x"]=current.x; hero["pos_y"]=current.y
