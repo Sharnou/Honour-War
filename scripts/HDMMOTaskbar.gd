@@ -39,6 +39,7 @@ func _build()->void:
     _build_status()
     _build_quickbar()
     _build_systembar()
+    call_deferred("_close_progression")
     call_deferred("_install_runtime_directors")
     call_deferred("_hide_legacy_huds")
 
@@ -70,8 +71,7 @@ func _unhandled_input(event:InputEvent)->void:
     if event.keycode==KEY_ESCAPE:
         if equipment_window!=null and equipment_window.has_method("hide_window"):
             equipment_window.call("hide_window")
-        if progression_panel!=null:
-            progression_panel.visible=false
+        _close_progression()
 
 func _hide_legacy_huds()->void:
     var names:Array[String]=["HDUIStyleDirector","PetCombatHUD3D","HeroPetComboHUD"]
@@ -196,8 +196,7 @@ func _build_systembar()->void:
 
 func _open(mode:String)->void:
     if mode=="equipment":
-        if progression_panel!=null:
-            progression_panel.visible=false
+        _close_progression()
         if equipment_window==null:
             equipment_window=EquipmentWindowScript.new() as Node
             if equipment_window==null: return
@@ -248,6 +247,10 @@ func _install_closebar()->void:
                 control.position.y=42.0
 
 func _close_progression()->void:
+    if progression_panel==null:
+        var ui:Node=game.get_node_or_null("GameplaySystemsRuntime")
+        if ui!=null:
+            progression_panel=ui.get("panel") as Control
     if progression_panel!=null:
         progression_panel.visible=false
 
