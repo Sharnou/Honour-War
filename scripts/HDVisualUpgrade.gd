@@ -2,7 +2,7 @@ class_name HDVisualUpgrade
 extends Node3D
 
 ## Compatibility-safe HD presentation layer. Builds a complete readable hero
-## and an authored-looking town without requiring external GLB assets.
+## and authored-looking town without requiring external GLB assets.
 const CENTER:Vector3 = Vector3(12.925,0.0,12.65)
 var root:Node3D
 
@@ -22,8 +22,10 @@ func _build()->void:
     if actors!=null:
         var hero:Node3D=actors.get_node_or_null("Hero") as Node3D
         if hero!=null:
-            var legacy:Node2D=game.get("legacy") as Node2D
-            var hero_data:Dictionary=legacy.get("hero",{}) if legacy!=null else {}
+            var legacy:Node2D=game.get_node_or_null("LegacyGame") as Node2D
+            var hero_data:Dictionary={}
+            if legacy!=null and legacy.get("hero") is Dictionary:
+                hero_data=legacy.get("hero")
             _upgrade_hero(hero,str(hero_data.get("class","Warrior")))
 
 func _mat(color:Color,roughness:float=0.68,metallic:float=0.0)->StandardMaterial3D:
