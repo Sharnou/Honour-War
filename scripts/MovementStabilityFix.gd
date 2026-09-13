@@ -9,7 +9,6 @@ const WORLD_SCALE:float = 0.055
 const MOVE_SPEED:float = 210.0
 const STOP_DISTANCE:float = 1.5
 const CAMERA_DISTANCE:float = 11.5
-const CAMERA_HEIGHT:float = 8.2
 const CAMERA_PITCH:float = -30.0
 const CAMERA_FOV:float = 58.0
 
@@ -20,9 +19,9 @@ var marker:MeshInstance3D
 var selected_monster:Dictionary = {}
 
 func _ready()->void:
-    process_priority = 1000
-    legacy = get_node_or_null(legacy_path) as Node2D
-    camera = get_node_or_null(camera_path) as Camera3D
+    process_priority=1000
+    legacy=get_node_or_null(legacy_path) as Node2D
+    camera=get_node_or_null(camera_path) as Camera3D
     set_process_unhandled_input(true)
     call_deferred("_setup_camera")
     call_deferred("_setup_marker")
@@ -38,12 +37,12 @@ func _setup_camera()->void:
 
 func _apply_camera(delta:float=1.0)->void:
     if camera==null or legacy==null: return
-    var hero_value:Variant=legacy.get("hero")
-    var hero:Dictionary=hero_value if hero_value is Dictionary else {}
+    var value:Variant=legacy.get("hero")
+    var hero:Dictionary=value if value is Dictionary else {}
     var map_pos:=Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0)))
     var target:=_map_to_world(map_pos)+Vector3(0.0,1.15,0.0)
     var pitch:=deg_to_rad(CAMERA_PITCH)
-    var desired:=target+Vector3(0.0,sin(-pitch)*CAMERA_DISTANCE,COS(pitch)*CAMERA_DISTANCE)
+    var desired:=target+Vector3(0.0,-sin(pitch)*CAMERA_DISTANCE,cos(pitch)*CAMERA_DISTANCE)
     camera.global_position=camera.global_position.lerp(desired,1.0-exp(-7.0*max(delta,0.016)))
     camera.look_at(target,Vector3.UP)
     camera.current=true
@@ -67,15 +66,14 @@ func _handle_world_click(screen_position:Vector2)->void:
     var clicked:=_pick_monster(screen_position)
     if not clicked.is_empty():
         selected_monster=clicked
-        var hero_value:Variant=legacy.get("hero") if legacy else null
-        if not hero_value is Dictionary: return
-        var hero:Dictionary=hero_value
+        var value:Variant=legacy.get("hero") if legacy else null
+        if not value is Dictionary: return
+        var hero:Dictionary=value
         var hero_pos:=Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0)))
         var monster_pos:Vector2=clicked.get("pos",hero_pos)
         var distance:=hero_pos.distance_to(monster_pos)
         var desired:=CombatRules.class_engagement_map(hero)
-        if distance>desired:
-            destination=CombatRules.snap_map_point(monster_pos+monster_pos.direction_to(hero_pos)*desired)
+        if distance>desired: destination=CombatRules.snap_map_point(monster_pos+monster_pos.direction_to(hero_pos)*desired)
         else: destination=Vector2.INF
         return
     var map_point:=_screen_to_map(screen_position)
@@ -95,20 +93,18 @@ func _pick_monster(screen_position:Vector2)->Dictionary:
         if not p is Vector2: continue
         var screen:=camera.unproject_position(_map_to_world(p as Vector2)+Vector3(0.0,1.0,0.0))
         var distance:=screen.distance_to(screen_position)
-        if distance<best_distance:
-            best_distance=distance; best=monster
+        if distance<best_distance: best_distance=distance; best=monster
     return best
 
 func _process(delta:float)->void:
     if legacy==null or camera==null or not camera.is_inside_tree(): return
-    var hero_value:Variant=legacy.get("hero")
-    if not hero_value is Dictionary: return
-    var hero:Dictionary=hero_value
+    var value:Variant=legacy.get("hero")
+    if not value is Dictionary: return
+    var hero:Dictionary=value
     var current:=Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0)))
     if destination!=Vector2.INF:
         var distance:=current.distance_to(destination)
-        if distance<=STOP_DISTANCE:
-            current=destination; destination=Vector2.INF
+        if distance<=STOP_DISTANCE: current=destination; destination=Vector2.INF
         else: current+=current.direction_to(destination)*min(distance,MOVE_SPEED*delta)
         current=_clamp_to_map(current,hero); hero["pos_x"]=current.x; hero["pos_y"]=current.y
     _apply_camera(delta)
