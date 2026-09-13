@@ -64,13 +64,20 @@ func _recover(hero:Dictionary)->void:
         hero["pet"]=pet
     var combat:Node=legacy.get_node_or_null("CombatRuntime")
     if combat!=null:
-        combat.set("target",null)
-        combat.set("hero_attack_timer",0.0)
-        combat.set("pet_attack_timer",0.0)
-        combat.set("monster_attack_timer",0.0)
-        combat.set("mvp_skill_timer",0.0)
-    if game.has_method("set"):
-        game.set("last_hero_position",Vector2.ZERO)
+        _set_if_property(combat,"target",null)
+        _set_if_property(combat,"hero_attack_timer",0.0)
+        _set_if_property(combat,"pet_attack_timer",0.0)
+        _set_if_property(combat,"monster_attack_timer",0.0)
+        _set_if_property(combat,"mvp_skill_timer",0.0)
+        if combat.has_method("clear_target"):
+            combat.call("clear_target")
+    game.set("last_hero_position",Vector2.ZERO)
     Save.save_game(hero)
     if game.has_method("log_message"):
         game.call("log_message","Hero returned to Prontera after defeat.")
+
+func _set_if_property(object:Object,property_name:String,value:Variant)->void:
+    for item in object.get_property_list():
+        if str(item.get("name",""))==property_name:
+            object.set(property_name,value)
+            return
