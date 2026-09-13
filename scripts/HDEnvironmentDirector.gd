@@ -22,9 +22,15 @@ func _ready()->void:
     _build_grid_accents()
     _build_backdrop()
     _build_town_set()
+    call_deferred("_attach_upgrade")
+
+func _attach_upgrade()->void:
+    var parent:Node=get_parent()
+    if parent==null or not is_instance_valid(parent): return
+    if parent.get_node_or_null("HDVisualUpgrade")!=null: return
     var upgrade:Node3D=HDUpgrade.new()
     upgrade.name="HDVisualUpgrade"
-    get_parent().add_child(upgrade)
+    parent.add_child(upgrade)
 
 func _material(color:Color,roughness:float=0.88)->StandardMaterial3D:
     var material:=StandardMaterial3D.new()
