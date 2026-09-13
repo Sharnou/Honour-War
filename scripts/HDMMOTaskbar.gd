@@ -2,8 +2,7 @@ class_name HDMMOTaskbar
 extends CanvasLayer
 
 ## Honour War MMORPG HUD. The taskbar owns quick actions plus a readable hit
-## overlay and the progression-window chrome, keeping combat feedback visible
-## over the 3D world instead of inside a tiny panel.
+## overlay and progression-window access.
 const PANEL:=Color("#121a26e8")
 const BORDER:=Color("#b89959")
 const TEXT:=Color("#f3ead7")
@@ -28,6 +27,7 @@ var hit_title:Label
 var hit_number:Label
 var hit_detail:Label
 var progression_panel:Control
+var progression_chrome:Control
 var elapsed:float=0.0
 var hit_tween:Tween
 
@@ -138,13 +138,13 @@ func _add_skill_slot(index:int)->void:
 
 func _open_mode(mode:String)->void:
     var ui:Node=game.get_node_or_null("GameplaySystemsRuntime")
-    if ui!=null:
-        ui.call("_set_mode",mode)
-    var chrome:Node=game.get_node_or_null("HDProgressionWindowController")
-    if chrome!=null and chrome.has_method("show_window"):
-        chrome.call("show_window")
-    elif progression_panel!=null:
-        progression_panel.visible=true
+    if ui!=null: ui.call("_set_mode",mode)
+    _show_progression()
+
+func _show_progression()->void:
+    if progression_panel==null: _install_progression_window_chrome()
+    if progression_panel!=null: progression_panel.visible=true
+    if progression_chrome!=null: progression_chrome.visible=true
 
 func _use_slot(index:int)->void:
     if legacy==null: return
@@ -164,10 +164,9 @@ func _use_slot(index:int)->void:
 
 func _connect_hit_feedback()->void:
     var feedback:Node=game.get_node_or_null("HDCombatFeedback")
-    if feedback==null: return
-    var signal_list:Array[String]=feedback.get_signal_list().map(func(item): return str(item.get("name","")))
-    if signal_list.has("damage_number_requested") and not feedback.damage_number_requested.is_connected(_show_hit_window):
-        feedback.damage_number_requested.connect(_show_hit_window)
+    if feedback==null or not feedback.has_signal("damage_number_requested"): return
+    var callback:=Callable(self,"_show_hit_window")
+    if not feedback.is_connected("damage_number_requested",callback): feedback.connect("damage_number_requested",callback)
 
 func _show_hit_window(amount:int,_world_position:Vector3,critical:bool)->void:
     if hit_panel==null: return
@@ -190,34 +189,33 @@ func _install_progression_window_chrome()->void:
     progression_panel=ui.get("panel") as Control
     if progression_panel==null or progression_panel.has_meta("hw_chrome_installed"): return
     progression_panel.set_meta("hw_chrome_installed",true)
-    var bar:=PanelContainer.new()
-    bar.name="ProgressionWindowTitleBar"
-    bar.position=Vector2(0,0)
-    bar.size=Vector2(progression_panel.size.x,38)
-    bar.add_theme_stylebox_override("panel",_panel_style(Color("#0b111be8")))
-    progression_panel.add_child(bar)
-    var row:=HBoxContainer.new(); row.add_theme_constant_override("separation",4); bar.add_child(row)
+    var parent:=progression_panel.get_parent()
+    if parent==null: return
+    progression_chrome=PanelContainer.new()
+    progression_chrome.name="ProgressionWindowTitleBar"
+    progression_chrome.position=progression_panel.position+Vector2(0,0)
+    progression_chrome.size=Vector2(progression_panel.size.x,38)
+    progression_chrome.z_index=30
+    progression_chrome.add_theme_stylebox_override("panel",_panel_style(Color("#0b111be8")))
+    parent.add_child(progression_chrome)
+    var row:=HBoxContainer.new(); row.add_theme_constant_override("separation",4); progression_chrome.add_child(row)
     var title:=Label.new(); title.text="HONOUR WAR  •  PROGRESSION"; title.size_flags_horizontal=Control.SIZE_EXPAND_FILL; title.vertical_alignment=VERTICAL_ALIGNMENT_CENTER; title.add_theme_color_override("font_color",TEXT); row.add_child(title)
     var minimize:=Button.new(); minimize.text="—"; minimize.tooltip_text="Minimize"; minimize.custom_minimum_size=Vector2(36,30); minimize.pressed.connect(_minimize_progression); row.add_child(minimize)
     var close:=Button.new(); close.text="X"; close.tooltip_text="Close"; close.custom_minimum_size=Vector2(36,30); close.pressed.connect(_close_progression); row.add_child(close)
-    for child in progression_panel.get_children():
-        if child==bar: continue
-        if child is Control:
-            var control:Control=child
-            if control.position.y<38: control.position.y=42.0
 
 func _close_progression()->void:
     if progression_panel!=null: progression_panel.visible=false
+    if progression_chrome!=null: progression_chrome.visible=false
 
 func _minimize_progression()->void:
     if progression_panel==null: return
     var minimized:bool=bool(progression_panel.get_meta("hw_minimized",false))
     minimized=not minimized
     progression_panel.set_meta("hw_minimized",minimized)
-    for child in progression_panel.get_children():
-        if child.name=="ProgressionWindowTitleBar": continue
-        if child is Control: (child as Control).visible=not minimized
+    var panel_box:Node=progression_panel.get_child(0) if progression_panel.get_child_count()>0 else null
+    if panel_box!=null: panel_box.visible=not minimized
     progression_panel.size.y=48.0 if minimized else 735.0
+    if progression_chrome!=null: progression_chrome.visible=true
 
 func _refresh()->void:
     if legacy==null: return
