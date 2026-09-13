@@ -221,10 +221,10 @@ class EquipmentIcon extends Control:
             draw_line(Vector2(10,44),Vector2(46,44),ink,4.0)
         elif slot=="offhand":
             draw_circle(c,17.0,Color("#63778d"))
-            draw_circle(c,17.0,ink,false,3.0)
+            draw_arc(c,17.0,0.0,TAU,32,ink,3.0)
         else:
             draw_circle(c,8.0,ink)
-            draw_circle(c,17.0,ink,false,3.0)
+            draw_arc(c,17.0,0.0,TAU,32,ink,3.0)
 
 class Mannequin extends Control:
     func _draw()->void:
