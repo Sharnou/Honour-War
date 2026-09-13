@@ -3,7 +3,7 @@ setlocal EnableExtensions
 cd /d "%~dp0"
 
 echo ================================================
-echo HONOUR WAR - HD SAFE LAUNCHER
+echo HONOUR WAR - HD GAME LAUNCHER
 echo ================================================
 echo.
 set "GODOT="
@@ -21,12 +21,12 @@ if not defined GODOT goto FAIL
 echo Godot found:
 echo %GODOT%
 echo.
-echo Starting Honour War using Compatibility/OpenGL for Godot 4.2.2.
-echo The production renderer target remains Forward+.
+echo Starting the Honour War GAME in Compatibility/OpenGL mode.
+echo The project production renderer remains Forward+.
 echo.
-rem Keep the executable and each argument separately quoted. Using %CD% avoids
-rem the malformed quoted project path seen in older launcher versions.
-"%GODOT%" --path "%CD%" --editor --rendering-method gl_compatibility --rendering-driver opengl3 %*
+rem IMPORTANT: do not use --editor here. This launcher runs the actual game.
+rem The editor is opened separately when editing the project.
+"%GODOT%" --path "%CD%" --rendering-method gl_compatibility --rendering-driver opengl3 %*
 set "RESULT=%errorlevel%"
 echo.
 if not "%RESULT%"=="0" echo Honour War exited with code %RESULT%.
