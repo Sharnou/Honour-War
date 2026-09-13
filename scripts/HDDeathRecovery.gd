@@ -17,7 +17,22 @@ func _ready()->void:
 func _bind()->void:
     if game==null: return
     legacy=game.get("legacy") as Node
+    _install_visual_drivers()
     set_process(true)
+
+func _install_visual_drivers()->void:
+    if game==null: return
+    _add_runtime_driver("res://scripts/HDProductionAnimationDriver.gd","HDProductionAnimationDriver")
+    _add_runtime_driver("res://scripts/HDEquipmentVisualDriver.gd","HDEquipmentVisualDriver")
+
+func _add_runtime_driver(path:String,node_name:String)->void:
+    if game.get_node_or_null(node_name)!=null: return
+    var script:GDScript=load(path) as GDScript
+    if script==null: return
+    var node:Node=script.new() as Node
+    if node==null: return
+    node.name=node_name
+    game.add_child(node)
 
 func _process(delta:float)->void:
     if cooldown>0.0:
