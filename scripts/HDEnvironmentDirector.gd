@@ -1,8 +1,11 @@
 class_name HDEnvironmentDirector
 extends Node3D
 
-## Production environment layer: low-poly 3D geometry, saturated hand-painted
-## palette, strict 1x1 gameplay grid, and a diorama-style background.
+## Production environment entry point. The legacy environment remains available
+## as a fallback, while HDVisualUpgrade supplies the detailed compatibility-safe
+## presentation used by the current standalone build.
+const HDUpgrade=preload("res://scripts/HDVisualUpgrade.gd")
+
 const TILE_SIZE:float=0.055
 const GRID_WIDTH:int=742
 const GRID_HEIGHT:int=300
@@ -19,6 +22,9 @@ func _ready()->void:
     _build_grid_accents()
     _build_backdrop()
     _build_town_set()
+    var upgrade:Node3D=HDUpgrade.new()
+    upgrade.name="HDVisualUpgrade"
+    get_parent().add_child(upgrade)
 
 func _material(color:Color,roughness:float=0.88)->StandardMaterial3D:
     var material:=StandardMaterial3D.new()
@@ -39,15 +45,12 @@ func _mesh_box(size:Vector3,pos:Vector3,color:Color)->MeshInstance3D:
 func _build_terrain()->void:
     var terrain:=_mesh_box(Vector3(70.0,0.30,43.0),Vector3(12.925,-0.20,12.65),Color("#304c36"))
     environment_root.add_child(terrain)
-    # Three raised terrain shelves create depth without expensive terrain meshes.
     var shelves:Array[Vector3]=[Vector3(-13.0,0.20,-7.0),Vector3(28.0,0.15,-3.0),Vector3(-22.0,0.12,16.0)]
     for p in shelves:
         var shelf:=_mesh_box(Vector3(13.0,0.55,7.0),p,Color("#3d5d3b"))
         environment_root.add_child(shelf)
 
 func _build_grid_accents()->void:
-    # The simulation grid is 1x1 map units. Only every 10th tile is visualized
-    # so the grid reads as an authored world detail instead of a debug overlay.
     var grid_root:=Node3D.new()
     grid_root.name="TileGridAccents"
     environment_root.add_child(grid_root)
@@ -75,7 +78,6 @@ func _build_backdrop()->void:
     environment_root.add_child(far)
     var far2:=_mesh_box(Vector3(92.0,8.0,0.8),Vector3(12.9,3.0,34.0),Color("#49624e"))
     environment_root.add_child(far2)
-    # Stylized distant hills are deliberately simple silhouettes.
     for i in range(9):
         var hill:=MeshInstance3D.new()
         var mesh:=CylinderMesh.new()
@@ -89,12 +91,8 @@ func _build_backdrop()->void:
         environment_root.add_child(hill)
 
 func _build_town_set()->void:
-    var building_positions:Array[Vector3]=[
-        Vector3(-10.0,2.0,-4.0),Vector3(10.0,2.0,-4.0),Vector3(-11.0,2.0,13.5),Vector3(11.0,2.0,13.5),
-        Vector3(-26.0,1.5,5.0),Vector3(28.0,1.5,5.0)
-    ]
-    for i in building_positions.size():
-        _build_building(building_positions[i],i)
+    var building_positions:Array[Vector3]=[Vector3(-10.0,2.0,-4.0),Vector3(10.0,2.0,-4.0),Vector3(-11.0,2.0,13.5),Vector3(11.0,2.0,13.5),Vector3(-26.0,1.5,5.0),Vector3(28.0,1.5,5.0)]
+    for i in building_positions.size(): _build_building(building_positions[i],i)
     _build_tree_cluster(Vector3(-29.0,0.0,-3.0),7)
     _build_tree_cluster(Vector3(30.0,0.0,17.0),8)
     _build_tree_cluster(Vector3(-30.0,0.0,23.0),5)
@@ -113,7 +111,6 @@ func _build_building(pos:Vector3,index:int)->void:
     roof.position=pos+Vector3(0.0,3.15,0.0)
     roof.material_override=_material(roof_color[index%roof_color.size()])
     environment_root.add_child(roof)
-    # Doors/windows are thin painted geometry, keeping the low-poly contract.
     var door:=_mesh_box(Vector3(0.9,1.8,0.08),pos+Vector3(0.0,0.0,2.54),Color("#3b2923"))
     environment_root.add_child(door)
     for side in [-1.0,1.0]:
