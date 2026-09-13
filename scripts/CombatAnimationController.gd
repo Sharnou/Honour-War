@@ -29,25 +29,27 @@ func _process(delta:float)->void:
     elapsed+=delta
     if hero_active:
         hero_timer+=delta
-        var hero:Node3D=game.get("hero_visual") as Node3D if game else null
-        if hero:
-            var phase:=clamp(hero_timer/HERO_ATTACK_LENGTH,0.0,1.0)
+        var hero_value:Variant=game.get("hero_visual") if game!=null else null
+        var hero:Node3D=hero_value as Node3D
+        if hero!=null:
+            var phase:float=clamp(hero_timer/HERO_ATTACK_LENGTH,0.0,1.0)
             hero.scale=Vector3.ONE*(1.0+sin(phase*PI)*0.08)
         if hero_timer>=HERO_IMPACT_TIME and hero_timer-delta<HERO_IMPACT_TIME: hero_attack_impact.emit()
         if hero_timer>=HERO_ATTACK_LENGTH:
             hero_active=false
-            if hero: hero.scale=Vector3.ONE
+            if hero!=null: hero.scale=Vector3.ONE
             hero_attack_completed.emit()
     if pet_active:
         pet_timer+=delta
-        var pet:Node3D=game.get("pet_visual") as Node3D if game else null
-        if pet:
-            var phase_pet:=clamp(pet_timer/PET_ATTACK_LENGTH,0.0,1.0)
+        var pet_value:Variant=game.get("pet_visual") if game!=null else null
+        var pet:Node3D=pet_value as Node3D
+        if pet!=null:
+            var phase_pet:float=clamp(pet_timer/PET_ATTACK_LENGTH,0.0,1.0)
             pet.scale=Vector3.ONE*(1.0+sin(phase_pet*PI)*0.10)
         if pet_timer>=PET_IMPACT_TIME and pet_timer-delta<PET_IMPACT_TIME: pet_attack_impact.emit()
         if pet_timer>=PET_ATTACK_LENGTH:
             pet_active=false
-            if pet: pet.scale=Vector3.ONE
+            if pet!=null: pet.scale=Vector3.ONE
             pet_attack_completed.emit()
 
 func play_hero_attack()->void:
@@ -81,8 +83,10 @@ func trigger_monster_hit(visual:Node3D)->void:
     var tween:=create_tween()
     tween.set_parallel(true)
     tween.tween_property(burst,"scale",Vector3.ONE*2.0,0.18)
-    tween.tween_method(func(alpha:float)->void:
-        if is_instance_valid(material): material.albedo_color=Color(0.96,0.89,0.70,alpha)
-    ,1.0,0.0,0.16)
+    tween.tween_method(Callable(self,"_fade_material").bind(material),1.0,0.0,0.16)
     tween.set_parallel(false)
     tween.tween_callback(burst.queue_free)
+
+func _fade_material(material:StandardMaterial3D,alpha:float)->void:
+    if material==null: return
+    material.albedo_color=Color(0.96,0.89,0.70,alpha)
