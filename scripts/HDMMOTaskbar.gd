@@ -1,8 +1,9 @@
 class_name HDMMOTaskbar
 extends CanvasLayer
 
-## Honour War MMORPG taskbar. Uses runtime-safe Object references so the HUD
-## does not depend on global class-cache state for Game3D.
+## Honour War MMORPG HUD. The taskbar owns quick actions plus a readable hit
+## overlay and the progression-window chrome, keeping combat feedback visible
+## over the 3D world instead of inside a tiny panel.
 const PANEL:=Color("#121a26e8")
 const BORDER:=Color("#b89959")
 const TEXT:=Color("#f3ead7")
@@ -22,7 +23,13 @@ var xp_text:Label
 var hero_label:Label
 var map_label:Label
 var skill_slots:HBoxContainer
+var hit_panel:PanelContainer
+var hit_title:Label
+var hit_number:Label
+var hit_detail:Label
+var progression_panel:Control
 var elapsed:float=0.0
+var hit_tween:Tween
 
 func _ready()->void:
     game=get_parent()
@@ -33,6 +40,8 @@ func _ready()->void:
 func _build_safe()->void:
     if game==null: return
     _build()
+    _install_progression_window_chrome()
+    _connect_hit_feedback()
     _refresh()
 
 func _process(delta:float)->void:
@@ -65,11 +74,22 @@ func _build()->void:
     header.size=Vector2(430,72)
     header.add_theme_stylebox_override("panel",_panel_style())
     root.add_child(header)
-    var hb:=VBoxContainer.new()
-    hb.add_theme_constant_override("separation",1)
-    header.add_child(hb)
+    var hb:=VBoxContainer.new(); hb.add_theme_constant_override("separation",1); header.add_child(hb)
     hero_label=Label.new(); hero_label.add_theme_font_size_override("font_size",15); hero_label.add_theme_color_override("font_color",TEXT); hb.add_child(hero_label)
     map_label=Label.new(); map_label.add_theme_font_size_override("font_size",11); map_label.add_theme_color_override("font_color",MUTED); hb.add_child(map_label)
+
+    hit_panel=PanelContainer.new()
+    hit_panel.name="HITWindow"
+    hit_panel.position=Vector2(790,82)
+    hit_panel.size=Vector2(340,120)
+    hit_panel.visible=false
+    hit_panel.mouse_filter=Control.MOUSE_FILTER_IGNORE
+    hit_panel.add_theme_stylebox_override("panel",_panel_style(Color("#180f12e8")))
+    root.add_child(hit_panel)
+    var hv:=VBoxContainer.new(); hv.add_theme_constant_override("separation",-2); hit_panel.add_child(hv)
+    hit_title=Label.new(); hit_title.text="HIT"; hit_title.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER; hit_title.add_theme_font_size_override("font_size",22); hit_title.add_theme_color_override("font_color",Color("#f0b44b")); hv.add_child(hit_title)
+    hit_number=Label.new(); hit_number.text="0"; hit_number.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER; hit_number.add_theme_font_size_override("font_size",42); hit_number.add_theme_color_override("font_color",Color("#fff1d0")); hv.add_child(hit_number)
+    hit_detail=Label.new(); hit_detail.text="Damage"; hit_detail.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER; hit_detail.add_theme_font_size_override("font_size",11); hit_detail.add_theme_color_override("font_color",MUTED); hv.add_child(hit_detail)
 
     var resources:=PanelContainer.new()
     resources.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
@@ -118,7 +138,13 @@ func _add_skill_slot(index:int)->void:
 
 func _open_mode(mode:String)->void:
     var ui:Node=game.get_node_or_null("GameplaySystemsRuntime")
-    if ui!=null: ui.call("_set_mode",mode)
+    if ui!=null:
+        ui.call("_set_mode",mode)
+    var chrome:Node=game.get_node_or_null("HDProgressionWindowController")
+    if chrome!=null and chrome.has_method("show_window"):
+        chrome.call("show_window")
+    elif progression_panel!=null:
+        progression_panel.visible=true
 
 func _use_slot(index:int)->void:
     if legacy==null: return
@@ -136,6 +162,63 @@ func _use_slot(index:int)->void:
         if not bool(result.get("ok",false)): _open_mode("skills")
     else: _open_mode("inventory")
 
+func _connect_hit_feedback()->void:
+    var feedback:Node=game.get_node_or_null("HDCombatFeedback")
+    if feedback==null: return
+    var signal_list:Array[String]=feedback.get_signal_list().map(func(item): return str(item.get("name","")))
+    if signal_list.has("damage_number_requested") and not feedback.damage_number_requested.is_connected(_show_hit_window):
+        feedback.damage_number_requested.connect(_show_hit_window)
+
+func _show_hit_window(amount:int,_world_position:Vector3,critical:bool)->void:
+    if hit_panel==null: return
+    hit_number.text="%d" % amount
+    hit_title.text="CRITICAL HIT" if critical else "HIT"
+    hit_title.add_theme_color_override("font_color",Color("#fff0a2") if critical else Color("#f0b44b"))
+    hit_detail.text="Critical damage" if critical else "Damage dealt"
+    hit_panel.visible=true
+    hit_panel.modulate=Color(1,1,1,1)
+    if hit_tween!=null and hit_tween.is_valid(): hit_tween.kill()
+    hit_tween=create_tween()
+    hit_tween.tween_property(hit_panel,"position",Vector2(790,64),0.08).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+    hit_tween.tween_interval(0.42)
+    hit_tween.tween_property(hit_panel,"modulate",Color(1,1,1,0),0.22)
+    hit_tween.tween_callback(func(): hit_panel.visible=false)
+
+func _install_progression_window_chrome()->void:
+    var ui:Node=game.get_node_or_null("GameplaySystemsRuntime")
+    if ui==null: return
+    progression_panel=ui.get("panel") as Control
+    if progression_panel==null or progression_panel.has_meta("hw_chrome_installed"): return
+    progression_panel.set_meta("hw_chrome_installed",true)
+    var bar:=PanelContainer.new()
+    bar.name="ProgressionWindowTitleBar"
+    bar.position=Vector2(0,0)
+    bar.size=Vector2(progression_panel.size.x,38)
+    bar.add_theme_stylebox_override("panel",_panel_style(Color("#0b111be8")))
+    progression_panel.add_child(bar)
+    var row:=HBoxContainer.new(); row.add_theme_constant_override("separation",4); bar.add_child(row)
+    var title:=Label.new(); title.text="HONOUR WAR  •  PROGRESSION"; title.size_flags_horizontal=Control.SIZE_EXPAND_FILL; title.vertical_alignment=VERTICAL_ALIGNMENT_CENTER; title.add_theme_color_override("font_color",TEXT); row.add_child(title)
+    var minimize:=Button.new(); minimize.text="—"; minimize.tooltip_text="Minimize"; minimize.custom_minimum_size=Vector2(36,30); minimize.pressed.connect(_minimize_progression); row.add_child(minimize)
+    var close:=Button.new(); close.text="X"; close.tooltip_text="Close"; close.custom_minimum_size=Vector2(36,30); close.pressed.connect(_close_progression); row.add_child(close)
+    for child in progression_panel.get_children():
+        if child==bar: continue
+        if child is Control:
+            var control:Control=child
+            if control.position.y<38: control.position.y=42.0
+
+func _close_progression()->void:
+    if progression_panel!=null: progression_panel.visible=false
+
+func _minimize_progression()->void:
+    if progression_panel==null: return
+    var minimized:bool=bool(progression_panel.get_meta("hw_minimized",false))
+    minimized=not minimized
+    progression_panel.set_meta("hw_minimized",minimized)
+    for child in progression_panel.get_children():
+        if child.name=="ProgressionWindowTitleBar": continue
+        if child is Control: (child as Control).visible=not minimized
+    progression_panel.size.y=48.0 if minimized else 735.0
+
 func _refresh()->void:
     if legacy==null: return
     var value:Variant=legacy.get("hero")
@@ -146,7 +229,6 @@ func _refresh()->void:
     var stats:Dictionary=character_script.stats(hero)
     var hp_max:float=float(stats.get("max_hp",max(1,int(hero.get("hp",1)))))
     var sp_max:float=float(stats.get("max_sp",max(1,int(hero.get("sp",1)))))
-    var level:int=int(hero.get("level",1))
     var xp:int=int(hero.get("xp",0))
     var progress:Dictionary=character_script.xp_progress(hero)
     var next_xp:int=max(1,int(progress.get("next",1)))
@@ -156,7 +238,7 @@ func _refresh()->void:
     hp_text.text="HP  %d / %d" % [int(hero.get("hp",0)),int(hp_max)]
     sp_text.text="SP  %d / %d" % [int(hero.get("sp",0)),int(sp_max)]
     xp_text.text="EXP %d / %d" % [xp,next_xp]
-    hero_label.text="%s   Lv.%d   %s" % [str(hero.get("name","Hero")),level,str(hero.get("class","Warrior"))]
+    hero_label.text="%s   Lv.%d   %s" % [str(hero.get("name","Hero")),int(hero.get("level",1)),str(hero.get("class","Warrior"))]
     map_label.text="Map %d    X %d : Y %d    Age %d" % [int(hero.get("map_id",0)),int(hero.get("pos_x",0))-365,int(hero.get("pos_y",0))-120,int(hero.get("age",18))]
     if skill_slots==null: return
     var skill_system:GDScript=load("res://scripts/SkillSystem.gd") as GDScript
