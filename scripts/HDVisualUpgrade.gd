@@ -13,17 +13,17 @@ func _build()->void:
     var game:Node3D=get_parent() as Node3D
     if game==null: return
     var old_world:Node=game.get_node_or_null("World3D")
-    if old_world: old_world.visible=false
+    if old_world!=null: old_world.visible=false
     var old_env:Node=game.get_node_or_null("HDEnvironmentDirector")
-    if old_env: old_env.visible=false
+    if old_env!=null: old_env.visible=false
     root=Node3D.new(); root.name="HDPresentationWorld"; game.add_child(root)
     _build_ground(); _build_town()
     var actors:Node=game.get_node_or_null("Actors3D")
-    if actors:
+    if actors!=null:
         var hero:Node3D=actors.get_node_or_null("Hero") as Node3D
-        if hero:
+        if hero!=null:
             var legacy:Node2D=game.get("legacy") as Node2D
-            var hero_data:Dictionary=legacy.get("hero",{}) if legacy else {}
+            var hero_data:Dictionary=legacy.get("hero",{}) if legacy!=null else {}
             _upgrade_hero(hero,str(hero_data.get("class","Warrior")))
 
 func _mat(color:Color,roughness:float=0.68,metallic:float=0.0)->StandardMaterial3D:
@@ -63,7 +63,7 @@ func _house(pos:Vector3,wall:Material,roof:Material,index:int)->void:
     var trim:=_mat(Color("#E2CC9C"),0.55)
     _box(h,Vector3(5.7,0.18,0.16),pos+Vector3(0,3.72,2.73),trim)
     _box(h,Vector3(1.05,1.95,0.12),pos+Vector3(0,0.98,2.75),_mat(Color("#3B2922"),0.82))
-    for sx in (-1.65,1.65):
+    for sx in [-1.65,1.65]:
         _box(h,Vector3(1.15,1.05,0.10),pos+Vector3(sx,2.25,2.75),_mat(Color("#88C5D4"),0.18))
         _box(h,Vector3(0.10,1.05,0.12),pos+Vector3(sx,2.25,2.82),trim)
         _box(h,Vector3(1.15,0.10,0.12),pos+Vector3(sx,2.25,2.82),trim)
@@ -71,8 +71,8 @@ func _house(pos:Vector3,wall:Material,roof:Material,index:int)->void:
 
 func _lamps()->void:
     var dark:=_mat(Color("#252A31"),0.60,0.55); var gold:=_mat(Color("#D9B75A"),0.30,0.72)
-    for x in (-19.0,-7.0,7.0,19.0):
-        for z in (-1.0,9.5):
+    for x in [-19.0,-7.0,7.0,19.0]:
+        for z in [-1.0,9.5]:
             var p:=CENTER+Vector3(x,0,z)
             _cyl(root,0.09,2.9,p+Vector3(0,1.45,0),dark,24)
             _sphere(root,0.16,p+Vector3(0,3.0,0),gold,Vector3(1,1,0.75))
@@ -103,7 +103,7 @@ func _upgrade_hero(hero:Node3D,class_id:String)->void:
         "Merchant": accent=Color("#69BDE0")
     var skin:=_mat(Color("#D69B78"),0.62); var cloth:=_mat(accent,0.52); var dark:=_mat(Color("#20252D"),0.70); var metal:=_mat(Color("#C2CBD4"),0.22,0.75); var gold:=_mat(Color("#E9C66A"),0.25,0.80); var hair:=_mat(Color("#2A242C"),0.50); var eye:=_mat(Color("#24314A"),0.30)
     _box(hero,Vector3(0.72,0.46,0.46),Vector3(0,1.02,0),dark)
-    for x in (-0.21,0.21):
+    for x in [-0.21,0.21]:
         _box(hero,Vector3(0.25,0.72,0.30),Vector3(x,0.55,0),cloth)
         _box(hero,Vector3(0.31,0.22,0.48),Vector3(x,0.08,-0.08),dark)
         _box(hero,Vector3(0.28,0.15,0.34),Vector3(x,0.94,0),gold)
@@ -114,12 +114,12 @@ func _upgrade_hero(hero:Node3D,class_id:String)->void:
     _sphere(hero,0.40,Vector3(0,2.50,0.02),hair,Vector3(1.02,0.62,0.96))
     _box(hero,Vector3(0.12,0.25,0.18),Vector3(-0.34,2.34,0.02),hair)
     _box(hero,Vector3(0.12,0.25,0.18),Vector3(0.34,2.34,0.02),hair)
-    for x in (-0.12,0.12):
+    for x in [-0.12,0.12]:
         _box(hero,Vector3(0.08,0.05,0.025),Vector3(x,2.36,-0.34),eye)
         _box(hero,Vector3(0.055,0.025,0.025),Vector3(x,2.28,-0.355),_mat(Color("#F5F3EA"),0.40))
     _box(hero,Vector3(0.06,0.10,0.05),Vector3(0,2.30,-0.35),_mat(Color("#C78168"),0.62))
     _box(hero,Vector3(0.14,0.025,0.025),Vector3(0,2.20,-0.355),_mat(Color("#743543"),0.46))
-    for x in (-0.60,0.60):
+    for x in [-0.60,0.60]:
         _cyl(hero,0.16,0.72,Vector3(x,1.48,0),skin,28)
         _box(hero,Vector3(0.28,0.24,0.44),Vector3(x,1.78,0),cloth)
         _sphere(hero,0.15,Vector3(x,1.06,0),skin)
