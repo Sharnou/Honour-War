@@ -1,6 +1,9 @@
 class_name HDCombatRangeRuntime
 extends CombatRuntime
 
+const CombatRules=preload("res://scripts/CombatRules.gd")
+const MonsterDetails=preload("res://scripts/MonsterDetailsSystem.gd")
+
 ## Compatibility facade retained for existing scenes.
 ## CombatRuntime remains the only combat loop. This subclass only supplies
 ## progression-aware hero strike/defense behavior through virtual overrides.
