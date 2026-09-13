@@ -1,7 +1,7 @@
 class_name HDMMOTaskbar
 extends CanvasLayer
 
-const EquipmentWindow=preload("res://scripts/HDEquipmentWindow.gd")
+const EquipmentWindowScript=preload("res://scripts/HDEquipmentWindow.gd")
 const PANEL:=Color("#111923e8")
 const BORDER:=Color("#b99b5b")
 const TEXT:=Color("#efe8d8")
@@ -13,17 +13,14 @@ const XP:=Color("#5eac66")
 var game:Node
 var legacy:Node
 var root:Control
-var equipment_window:HDEquipmentWindow
+var equipment_window:Node
 var progression_panel:Control
-var hp_bar:ProgressBar
-var sp_bar:ProgressBar
-var xp_bar:ProgressBar
+var skill_slots:HBoxContainer
 var hp_label:Label
 var sp_label:Label
 var xp_label:Label
 var level_label:Label
 var location_label:Label
-var skill_slots:HBoxContainer
 var hidden_timer:float=0.0
 
 func _ready()->void:
@@ -42,7 +39,23 @@ func _build()->void:
     _build_status()
     _build_quickbar()
     _build_systembar()
+    call_deferred("_install_runtime_directors")
     call_deferred("_hide_legacy_huds")
+
+func _install_runtime_directors()->void:
+    if game==null: return
+    _add_runtime_script("res://scripts/HDDeathRecovery.gd","HDDeathRecovery")
+    _add_runtime_script("res://scripts/HDHeroDetailDirector.gd","HDHeroDetailDirector")
+    _add_runtime_script("res://scripts/HDMonsterMotionDirector.gd","HDMonsterMotionDirector")
+
+func _add_runtime_script(path:String,node_name:String)->void:
+    if game.get_node_or_null(node_name)!=null: return
+    var script:GDScript=load(path) as GDScript
+    if script==null: return
+    var node:Node=script.new() as Node
+    if node==null: return
+    node.name=node_name
+    game.add_child(node)
 
 func _process(delta:float)->void:
     hidden_timer+=delta
@@ -50,6 +63,15 @@ func _process(delta:float)->void:
         hidden_timer=0.0
         _hide_legacy_huds()
     _refresh()
+
+func _unhandled_input(event:InputEvent)->void:
+    if not event is InputEventKey: return
+    if not event.pressed or event.echo: return
+    if event.keycode==KEY_ESCAPE:
+        if equipment_window!=null and equipment_window.has_method("hide_window"):
+            equipment_window.call("hide_window")
+        if progression_panel!=null:
+            progression_panel.visible=false
 
 func _hide_legacy_huds()->void:
     var names:Array[String]=["HDUIStyleDirector","PetCombatHUD3D","HeroPetComboHUD"]
@@ -77,46 +99,46 @@ func _style(bg:Color=PANEL)->StyleBoxFlat:
 func _build_status()->void:
     var panel:=PanelContainer.new()
     panel.position=Vector2(16,14)
-    panel.size=Vector2(300,76)
+    panel.size=Vector2(300,72)
     panel.add_theme_stylebox_override("panel",_style())
     root.add_child(panel)
     var box:=VBoxContainer.new()
     box.add_theme_constant_override("separation",1)
     panel.add_child(box)
     level_label=Label.new()
-    level_label.add_theme_font_size_override("font_size",16)
+    level_label.add_theme_font_size_override("font_size",15)
     level_label.add_theme_color_override("font_color",TEXT)
     box.add_child(level_label)
     location_label=Label.new()
     location_label.add_theme_font_size_override("font_size",10)
     location_label.add_theme_color_override("font_color",MUTED)
     box.add_child(location_label)
-    var bars:=HBoxContainer.new()
-    bars.add_theme_constant_override("separation",5)
-    box.add_child(bars)
+    var row:=HBoxContainer.new()
+    box.add_child(row)
     hp_label=Label.new()
     hp_label.add_theme_font_size_override("font_size",9)
     hp_label.add_theme_color_override("font_color",HP)
-    bars.add_child(hp_label)
+    row.add_child(hp_label)
     sp_label=Label.new()
     sp_label.add_theme_font_size_override("font_size",9)
     sp_label.add_theme_color_override("font_color",SP)
-    bars.add_child(sp_label)
+    row.add_child(sp_label)
     xp_label=Label.new()
     xp_label.add_theme_font_size_override("font_size",9)
     xp_label.add_theme_color_override("font_color",XP)
-    bars.add_child(xp_label)
+    row.add_child(xp_label)
 
 func _build_quickbar()->void:
     var panel:=PanelContainer.new()
-    panel.position=Vector2(385,705)
-    panel.size=Vector2(730,105)
+    panel.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
+    panel.position=Vector2(-545,-104)
+    panel.size=Vector2(730,96)
     panel.add_theme_stylebox_override("panel",_style())
     root.add_child(panel)
     var box:=VBoxContainer.new()
     panel.add_child(box)
     var title:=Label.new()
-    title.text="QUICK SLOTS"
+    title.text="QUICK SLOTS   1–8"
     title.add_theme_font_size_override("font_size",9)
     title.add_theme_color_override("font_color",MUTED)
     box.add_child(title)
@@ -125,7 +147,7 @@ func _build_quickbar()->void:
     box.add_child(skill_slots)
     for i in range(8):
         var slot:=Button.new()
-        slot.custom_minimum_size=Vector2(82,60)
+        slot.custom_minimum_size=Vector2(82,58)
         slot.name="QuickSlot_%d" % (i+1)
         slot.add_theme_font_size_override("font_size",9)
         slot.add_theme_stylebox_override("normal",_style(Color("#1b2531")))
@@ -135,8 +157,9 @@ func _build_quickbar()->void:
 
 func _build_systembar()->void:
     var panel:=PanelContainer.new()
-    panel.position=Vector2(1130,705)
-    panel.size=Vector2(760,105)
+    panel.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
+    panel.position=Vector2(210,-104)
+    panel.size=Vector2(720,96)
     panel.add_theme_stylebox_override("panel",_style())
     root.add_child(panel)
     var row:=HBoxContainer.new()
@@ -149,20 +172,20 @@ func _build_systembar()->void:
     ]
     for entry in entries:
         var button:=Button.new()
-        button.custom_minimum_size=Vector2(76,68)
+        button.custom_minimum_size=Vector2(78,70)
         button.tooltip_text=str(entry[1]).capitalize()
         button.add_theme_stylebox_override("normal",_style(Color("#1b2531")))
         button.add_theme_stylebox_override("hover",_style(Color("#3a3222")))
         var icon:=HUDIcon.new()
         icon.kind=int(entry[2])
-        icon.position=Vector2(24,7)
+        icon.position=Vector2(25,7)
         icon.size=Vector2(28,28)
         icon.mouse_filter=Control.MOUSE_FILTER_IGNORE
         button.add_child(icon)
         var text:=Label.new()
         text.text=str(entry[0])
-        text.position=Vector2(0,38)
-        text.size=Vector2(76,25)
+        text.position=Vector2(0,40)
+        text.size=Vector2(78,24)
         text.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
         text.add_theme_font_size_override("font_size",8)
         text.add_theme_color_override("font_color",TEXT)
@@ -173,17 +196,22 @@ func _build_systembar()->void:
 
 func _open(mode:String)->void:
     if mode=="equipment":
-        _close_progression()
+        if progression_panel!=null:
+            progression_panel.visible=false
         if equipment_window==null:
-            equipment_window=EquipmentWindow.new()
+            equipment_window=EquipmentWindowScript.new() as Node
+            if equipment_window==null: return
+            equipment_window.name="EquipmentWindow"
             game.add_child(equipment_window)
-        equipment_window.show_window()
+        if equipment_window.has_method("show_window"):
+            equipment_window.call("show_window")
         return
-    if equipment_window!=null:
-        equipment_window.hide_window()
+    if equipment_window!=null and equipment_window.has_method("hide_window"):
+        equipment_window.call("hide_window")
     var ui:Node=game.get_node_or_null("GameplaySystemsRuntime")
     if ui==null: return
-    ui.call("_set_mode",mode if mode!="map" else "character")
+    var mode_to_use:String=mode if mode!="map" else "character"
+    ui.call("_set_mode",mode_to_use)
     progression_panel=ui.get("panel") as Control
     if progression_panel==null: return
     progression_panel.visible=true
@@ -228,13 +256,13 @@ func _use_slot(index:int)->void:
     var value:Variant=legacy.get("hero")
     if not value is Dictionary: return
     var hero:Dictionary=value
-    var skill_system:GDScript=load("res://scripts/SkillSystem.gd") as GDScript
-    if skill_system==null: return
-    skill_system.ensure_state(hero)
-    var skills:Array=skill_system.all_skills(str(hero.get("class","Warrior")))
+    var system:GDScript=load("res://scripts/SkillSystem.gd") as GDScript
+    if system==null: return
+    system.ensure_state(hero)
+    var skills:Array=system.all_skills(str(hero.get("class","Warrior")))
     if index>=skills.size(): return
-    var id:String=str(skills[index].get("id",""))
-    skill_system.use(hero,id,Time.get_ticks_msec()/1000.0)
+    var skill_id:String=str(skills[index].get("id",""))
+    system.use(hero,skill_id,Time.get_ticks_msec()/1000.0)
 
 func _refresh()->void:
     if legacy==null: return
@@ -250,16 +278,17 @@ func _refresh()->void:
     var sp:int=int(hero.get("sp",0))
     var sp_max:int=max(1,int(stats.get("max_sp",1)))
     level_label.text="Lv.%d / 250" % int(hero.get("level",1))
-    location_label.text="X %d : Y %d   •   %s" % [int(hero.get("pos_x",0))-365,int(hero.get("pos_y",0))-120,_map_name(hero)]
+    location_label.text="%s   X %d : Y %d" % [_map_name(hero),int(hero.get("pos_x",0))-365,int(hero.get("pos_y",0))-120]
     hp_label.text="HP %d/%d" % [hp,hp_max]
     sp_label.text="SP %d/%d" % [sp,sp_max]
     xp_label.text="EXP %d/%d" % [int(xp.get("xp",0)),max(1,int(xp.get("next",1)))]
+    if skill_slots==null: return
+    var skills_script:GDScript=load("res://scripts/SkillSystem.gd") as GDScript
+    if skills_script==null: return
+    var skills:Array=skills_script.all_skills(str(hero.get("class","Warrior")))
     for i in range(skill_slots.get_child_count()):
         var slot:Button=skill_slots.get_child(i) as Button
         if slot==null: continue
-        var skills_script:GDScript=load("res://scripts/SkillSystem.gd") as GDScript
-        if skills_script==null: continue
-        var skills:Array=skills_script.all_skills(str(hero.get("class","Warrior")))
         if i<skills.size():
             var data:Dictionary=skills[i]
             var name:String=str(data.get("name","Skill"))
@@ -286,8 +315,8 @@ class HUDIcon extends Control:
             draw_line(Vector2(7,h-9),Vector2(13,h-3),c,3.0)
         elif kind==1:
             draw_circle(mid,9.0,c,false,3.0)
-            draw_circle(Vector2(9,8),3.0,c)
-            draw_circle(Vector2(w-9,8),3.0,c)
+            draw_circle(Vector2(9,7),3.0,c)
+            draw_circle(Vector2(w-9,7),3.0,c)
         elif kind==2:
             draw_circle(mid,10.0,c,false,3.0)
             for i in range(8):
