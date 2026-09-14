@@ -1,4 +1,3 @@
-class_name HonourWarRuntimeSanitizer
 extends Node
 
 ## Removes obsolete 3D nameplates/equipment labels left by older runtime passes.
@@ -23,7 +22,7 @@ func _sanitize()->void:
     _scan(root)
 
 func _scan(node:Node)->void:
-    for child in node.get_children():
+    for child:Node in node.get_children():
         if child is Label3D:
             child.visible = false
             child.queue_free()
