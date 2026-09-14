@@ -1,8 +1,8 @@
 extends Node
 
-## Loads authored Blender GLBs under the stable gameplay actor nodes.
-## Keeping the gameplay root alive means movement, combat, vitals and emotion
-## systems can continue to reference the same hero/pet node after a visual swap.
+## Loads authored Blender GLBs under stable gameplay actor roots.
+## Gameplay roots stay alive so movement, combat, vitals and emotion systems keep
+## their references after visual assets are attached or swapped.
 
 const GENERATED_ROOT := "res://assets/3d/generated"
 const POLL_INTERVAL := 1.0
@@ -26,6 +26,7 @@ func _sync() -> void:
         return
     _sync_hero(scene_root)
     _sync_pet(scene_root)
+    _sync_monsters(scene_root)
 
 func _sync_hero(scene_root:Node) -> void:
     var actor := _find_hero_node(scene_root)
@@ -56,6 +57,21 @@ func _sync_pet(scene_root:Node) -> void:
             _attach_visual("pet", actor, path)
             return
 
+func _sync_monsters(scene_root:Node) -> void:
+    var values:Variant = scene_root.get("monster_visuals")
+    if not values is Dictionary:
+        return
+    var monsters:Dictionary = values
+    for key in monsters.keys():
+        var actor := monsters[key] as Node3D
+        if actor == null or not is_instance_valid(actor):
+            continue
+        var family := _monster_family(str(key))
+        if family == "":
+            continue
+        var path := GENERATED_ROOT + "/monsters/monster_" + family + ".glb"
+        _attach_visual("monster:" + str(key), actor, path)
+
 func _attach_visual(key:String, actor:Node3D, path:String) -> void:
     if not ResourceLoader.exists(path):
         return
@@ -74,9 +90,10 @@ func _attach_visual(key:String, actor:Node3D, path:String) -> void:
         return
     model.name = "HW_GeneratedGLB"
     actor.add_child(model)
-    (model as Node3D).position = Vector3.ZERO
-    (model as Node3D).rotation = Vector3.ZERO
-    (model as Node3D).scale = Vector3.ONE
+    var model_3d := model as Node3D
+    model_3d.position = Vector3.ZERO
+    model_3d.rotation = Vector3.ZERO
+    model_3d.scale = Vector3.ONE
     for child in actor.get_children():
         if child == model:
             continue
@@ -124,3 +141,11 @@ func _tier_name(level:int) -> String:
     if level >= 25:
         return "Specialization"
     return "Foundation"
+
+func _monster_family(value:String) -> String:
+    var name := value.to_lower()
+    var families := ["poring", "goblin", "wolf", "skeleton", "zombie", "orc", "mantis", "golem", "evil_druid", "dragon", "bloody_knight"]
+    for family in families:
+        if name.contains(family.replace("_"," ")) or name.contains(family):
+            return family
+    return ""
