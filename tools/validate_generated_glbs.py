@@ -66,6 +66,18 @@ def has_named_part(names: set[str], token: str) -> bool:
     return any(name == token or name.startswith(token) for name in names)
 
 
+def validate_embedded_images(path: Path, doc: dict) -> None:
+    images = doc.get("images", [])
+    if not images:
+        raise ValueError(f"{path}: no embedded texture images found")
+    external = [i for i in images if isinstance(i, dict) and "uri" in i]
+    if external:
+        raise ValueError(f"{path}: external texture URI detected; GLB must embed textures")
+    missing_buffer_view = [i for i in images if isinstance(i, dict) and "bufferView" not in i]
+    if missing_buffer_view:
+        raise ValueError(f"{path}: texture image without embedded bufferView detected")
+
+
 def validate_asset(path: Path) -> None:
     if path.stat().st_size < 1024:
         raise ValueError(f"{path}: suspiciously small GLB")
@@ -78,6 +90,7 @@ def validate_asset(path: Path) -> None:
         raise ValueError(f"{path}: no meshes found")
     if not doc.get("materials"):
         raise ValueError(f"{path}: no materials found")
+    validate_embedded_images(path, doc)
 
     names = node_names(doc)
     rel = path.relative_to(ROOT).as_posix()
@@ -133,7 +146,7 @@ def main() -> int:
     pet_count = sum(1 for p in files if "pets" in p.parts)
     monster_count = sum(1 for p in files if "monsters" in p.parts)
     print(f"Heroes: {hero_count} | Pets: {pet_count} | Monsters: {monster_count}")
-    print("PASS: binary structure, glTF 2.0 JSON, meshes, materials and semantic hero nodes are valid.")
+    print("PASS: binary structure, glTF 2.0 JSON, meshes, materials, embedded textures and semantic hero nodes are valid.")
     return 0
 
 
