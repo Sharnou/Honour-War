@@ -10,6 +10,7 @@ on:
       - "tools/blender/honour_war_visual_max_assets.py"
       - "tools/blender/run_visual_max_assets.py"
       - "tools/blender/honour_war_monster_assets.py"
+      - "tools/blender/enhance_generated_glbs.py"
       - "tools/visual_rag/**"
       - "tools/validate_generated_glbs.py"
 
@@ -61,8 +62,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          rm -rf assets/3d/generated/heroes assets/3d/generated/pets
-          mkdir -p assets/3d/generated/heroes assets/3d/generated/pets
+          rm -rf assets/3d/generated/heroes assets/3d/generated/pets assets/3d/generated/characters
+          mkdir -p assets/3d/generated/heroes assets/3d/generated/pets assets/3d/generated/characters
           PYTHONPATH=/tmp/blender-site /opt/blender/blender --background --python tools/blender/run_visual_max_assets.py
 
       - name: Generate final monster GLB assets in Blender
@@ -73,7 +74,13 @@ jobs:
           mkdir -p assets/3d/generated/monsters
           PYTHONPATH=/tmp/blender-site /opt/blender/blender --background --python tools/blender/honour_war_monster_assets.py
 
-      - name: Validate actual binary GLB output
+      - name: Convert GLBs to embedded PBR texture assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=/tmp/blender-site /opt/blender/blender --background --python tools/blender/enhance_generated_glbs.py
+
+      - name: Validate final binary GLB structure
         shell: bash
         run: |
           set -euo pipefail
@@ -88,7 +95,7 @@ jobs:
             test "$magic" = "676c5446"
           done < <(find assets/3d/generated -type f -name '*.glb' | sort)
 
-      - name: Run semantic GLB quality gate
+      - name: Run semantic and PBR GLB quality gate
         shell: bash
         run: |
           set -euo pipefail
@@ -101,21 +108,24 @@ jobs:
           python3 - <<'PY'
           import hashlib
           import json
+          from datetime import datetime, timezone
           from pathlib import Path
 
           root = Path("assets/3d/generated")
           brief = Path("assets/3d/visual_rag/LATEST_VISUAL_BRIEF.json")
           files = []
           for path in sorted(root.rglob("*.glb")):
-              digest = hashlib.sha256(path.read_bytes()).hexdigest()
               files.append({
                   "path": path.as_posix(),
                   "bytes": path.stat().st_size,
-                  "sha256": digest,
+                  "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
               })
           manifest = {
-              "pipeline": "Visual RAG -> Blender 4.2 -> GLB -> Godot 4",
-              "generated_at_utc": __import__("datetime").datetime.now(__import__("datetime").timezone.utc).isoformat(),
+              "pipeline": "Visual RAG -> Blender 4.2 -> PBR texture pass -> embedded GLB -> Godot 4",
+              "geometry_source": "Blender procedural authored geometry",
+              "texture_source": "Blender deterministic PBR texture pass",
+              "substance_painter_status": "handoff-compatible; Substance 3D Painter is not executed in CI",
+              "generated_at_utc": datetime.now(timezone.utc).isoformat(),
               "visual_brief_sha256": hashlib.sha256(brief.read_bytes()).hexdigest(),
               "asset_count": len(files),
               "assets": files,
