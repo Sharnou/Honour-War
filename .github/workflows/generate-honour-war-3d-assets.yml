@@ -40,29 +40,31 @@ jobs:
           echo "Visual RAG completed before Blender."
           cat assets/3d/visual_rag/LATEST_VISUAL_BRIEF.md
 
-      - name: Install Blender
+      - name: Install Blender 4.x
         shell: bash
         run: |
           sudo apt-get update
           sudo apt-get install -y blender
           blender --version
 
-      - name: Generate production character and pet GLB assets
+      - name: Build Visual MAX hero and pet GLBs
         shell: bash
         run: |
-          blender --background --python tools/blender/honour_war_production_assets.py
+          blender --background --python tools/blender/run_visual_max_assets.py
 
-      - name: Generate production monster GLB assets
+      - name: Build production monster GLBs
         shell: bash
         run: |
           blender --background --python tools/blender/honour_war_monster_assets.py
 
-      - name: Report generated assets
+      - name: Validate generated assets
         shell: bash
         run: |
-          echo "Generated GLB/GLTF assets:"
+          test -d assets/3d/generated
           find assets/3d/generated -type f \( -name '*.glb' -o -name '*.gltf' \) | sort | tee /tmp/generated-assets.txt
-          echo "Asset count: $(wc -l < /tmp/generated-assets.txt)"
+          count=$(wc -l < /tmp/generated-assets.txt)
+          echo "Asset count: $count"
+          test "$count" -ge 20
           echo "Total asset size: $(du -sh assets/3d/generated | cut -f1)"
 
       - name: Commit Visual RAG brief and generated assets
@@ -75,5 +77,5 @@ jobs:
             echo "No Visual RAG or generated asset changes to commit."
             exit 0
           fi
-          git commit -m "Run Visual RAG before Honour War 3D asset build"
+          git commit -m "Build Honour War Visual MAX assets from Visual RAG"
           git push origin HEAD:main
