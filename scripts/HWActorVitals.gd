@@ -11,30 +11,28 @@ var monster_bars:Dictionary={}
 var timer:float=0.0
 
 func _ready()->void:
-    game=get_parent() as Node3D
     call_deferred("_bind")
 
 func _process(delta:float)->void:
     timer+=delta
-    if timer<0.08:
-        return
+    if timer<0.08: return
     timer=0.0
-    if legacy==null or not is_instance_valid(legacy):
+    if game==null or not is_instance_valid(game):
         _bind()
         return
+    if legacy==null or not is_instance_valid(legacy):
+        legacy=game.get_node_or_null("LegacyGame")
+        if legacy==null: return
     _update_hero()
     _update_monsters()
 
 func _bind()->void:
-    if game==null:
-        game=get_parent() as Node3D
-    if game!=null:
-        legacy=game.get_node_or_null("LegacyGame")
+    game=get_tree().current_scene as Node3D
+    if game!=null: legacy=game.get_node_or_null("LegacyGame")
 
 func _update_hero()->void:
     var hero:Node3D=game.get("hero_visual") as Node3D
-    if hero==null or not is_instance_valid(hero):
-        return
+    if hero==null or not is_instance_valid(hero): return
     if hero!=hero_last:
         hero_last=hero
         hero_hp_fill=null
@@ -43,8 +41,7 @@ func _update_hero()->void:
         _build_hero_bars(hero)
         _add_class_features(hero)
     var value:Variant=legacy.get("hero")
-    if not value is Dictionary:
-        return
+    if not value is Dictionary: return
     var data:Dictionary=value
     var hp:float=float(data.get("hp",0))
     var max_hp:float=max(1.0,float(data.get("max_hp",hp)))
@@ -73,18 +70,15 @@ func _build_hero_bars(hero:Node3D)->void:
 func _update_monsters()->void:
     var visuals:Variant=game.get("monster_visuals")
     var monsters_value:Variant=legacy.get("monsters")
-    if not visuals is Dictionary or not monsters_value is Array:
-        return
+    if not visuals is Dictionary or not monsters_value is Array: return
     var active:Dictionary={}
     for item in monsters_value as Array:
-        if not item is Dictionary:
-            continue
+        if not item is Dictionary: continue
         var monster:Dictionary=item
         var id:String=str(monster.get("visual_id",monster.get("name","monster")))
         active[id]=true
         var visual:Node3D=visuals.get(id) as Node3D
-        if visual==null or not is_instance_valid(visual):
-            continue
+        if visual==null or not is_instance_valid(visual): continue
         var entry:Dictionary=monster_bars.get(id,{})
         if entry.is_empty():
             entry=_build_monster_bar(visual,bool(monster.get("mvp",false)))
@@ -97,8 +91,7 @@ func _update_monsters()->void:
     for id in monster_bars.keys():
         if not active.has(id):
             var old:Node=monster_bars[id].get("root",null) as Node
-            if old!=null and is_instance_valid(old):
-                old.queue_free()
+            if old!=null and is_instance_valid(old): old.queue_free()
             monster_bars.erase(id)
 
 func _build_monster_bar(monster:Node3D,boss:bool)->Dictionary:
@@ -115,8 +108,7 @@ func _build_monster_bar(monster:Node3D,boss:bool)->Dictionary:
     return {"root":root,"hp":fill,"width":width}
 
 func _set_fill(fill:MeshInstance3D,ratio:float,width:float)->void:
-    if fill==null or not is_instance_valid(fill):
-        return
+    if fill==null or not is_instance_valid(fill): return
     var r:float=clamp(ratio,0.0,1.0)
     fill.scale.x=r
     fill.position.x=-width*(1.0-r)*0.5
@@ -140,15 +132,12 @@ func _bar_material(color:Color)->StandardMaterial3D:
 
 func _remove_old_vitals(hero:Node3D)->void:
     var old:Node=hero.get_node_or_null("HWVitals")
-    if old!=null:
-        old.queue_free()
+    if old!=null: old.queue_free()
 
 func _add_class_features(hero:Node3D)->void:
-    if hero.has_node("HWClassIdentity"):
-        return
+    if hero.has_node("HWClassIdentity"): return
     var data:Variant=legacy.get("hero")
-    if not data is Dictionary:
-        return
+    if not data is Dictionary: return
     var class_id:String=str((data as Dictionary).get("class","Warrior"))
     var root:Node3D=Node3D.new()
     root.name="HWClassIdentity"
@@ -159,8 +148,7 @@ func _add_class_features(hero:Node3D)->void:
     root.add_child(_sphere(accent_mat,0.19,Vector3(-0.52,1.67,0)))
     root.add_child(_sphere(accent_mat,0.19,Vector3(0.52,1.67,0)))
     if class_id=="Archer" or class_id=="Ranger":
-        for i in range(3):
-            root.add_child(_cyl(gold,0.015,0.72,Vector3(-0.48+float(i)*0.045,1.55,0.24)))
+        for i in range(3): root.add_child(_cyl(gold,0.015,0.72,Vector3(-0.48+float(i)*0.045,1.55,0.24)))
     elif class_id=="Mage":
         root.add_child(_sphere(accent_mat,0.11,Vector3(0,2.60,-0.34)))
     elif class_id=="Acolyte":
