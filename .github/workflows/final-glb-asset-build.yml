@@ -2,6 +2,8 @@ name: Honour War Final GLB Asset Build
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "17 2 * * *"
   push:
     paths:
       - "tools/blender/final_glb_build_trigger.txt"
@@ -9,6 +11,11 @@ on:
       - "tools/blender/run_visual_max_assets.py"
       - "tools/blender/honour_war_monster_assets.py"
       - "tools/visual_rag/**"
+      - "tools/validate_generated_glbs.py"
+
+concurrency:
+  group: honour-war-final-glb-assets
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -72,7 +79,7 @@ jobs:
           set -euo pipefail
           count=$(find assets/3d/generated -type f -name '*.glb' | wc -l)
           echo "Generated GLB count: ${count}"
-          test "${count}" -ge 20
+          test "${count}" -ge 53
           while IFS= read -r file; do
             size=$(stat -c%s "$file")
             echo "$file: $size bytes"
@@ -81,7 +88,55 @@ jobs:
             test "$magic" = "676c5446"
           done < <(find assets/3d/generated -type f -name '*.glb' | sort)
 
-      - name: Commit generated GLBs
+      - name: Run semantic GLB quality gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 tools/validate_generated_glbs.py
+
+      - name: Create generated asset manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+
+          root = Path("assets/3d/generated")
+          brief = Path("assets/3d/visual_rag/LATEST_VISUAL_BRIEF.json")
+          files = []
+          for path in sorted(root.rglob("*.glb")):
+              digest = hashlib.sha256(path.read_bytes()).hexdigest()
+              files.append({
+                  "path": path.as_posix(),
+                  "bytes": path.stat().st_size,
+                  "sha256": digest,
+              })
+          manifest = {
+              "pipeline": "Visual RAG -> Blender 4.2 -> GLB -> Godot 4",
+              "generated_at_utc": __import__("datetime").datetime.now(__import__("datetime").timezone.utc).isoformat(),
+              "visual_brief_sha256": hashlib.sha256(brief.read_bytes()).hexdigest(),
+              "asset_count": len(files),
+              "assets": files,
+          }
+          out = root / "GENERATED_ASSET_MANIFEST.json"
+          out.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+          print(f"Wrote {out} with {len(files)} GLBs")
+          PY
+
+      - name: Upload generated GLBs as CI artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: honour-war-generated-glbs
+          path: |
+            assets/3d/generated/**/*.glb
+            assets/3d/generated/GENERATED_ASSET_MANIFEST.json
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 0
+
+      - name: Commit generated GLBs and manifest
         shell: bash
         run: |
           set -euo pipefail
