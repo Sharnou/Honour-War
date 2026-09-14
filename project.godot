@@ -10,17 +10,21 @@ window/size/window_width_override=1920
 window/size/window_height_override=1080
 window/stretch/mode="canvas_items"
 window/stretch/aspect="keep"
+window/handheld/orientation=1
 
 [display/window]
 size/mode=0
 
 [rendering]
-renderer/rendering_method="gl_compatibility"
+renderer/rendering_method="forward_plus"
 renderer/rendering_method.mobile="gl_compatibility"
-renderer/rendering_method.driver="opengl3"
+renderer/rendering_method.driver="vulkan"
 renderer/rendering_method.driver.mobile="opengl3"
-rendering/driver/driver_name="opengl3"
+rendering/driver/driver_name="vulkan"
 rendering/driver/fallback_to_angle=true
+rendering/driver/fallback_to_native=true
+rendering/rendering_device/fallback_to_opengl3=true
 textures/default_filters/use_nearest_mipmap_filter=false
 textures/canvas_textures/default_texture_filter=1
 2d/snap/snap_2d_transforms_to_pixel=false
+2d/snap/snap_2d_vertices_to_pixel=false
