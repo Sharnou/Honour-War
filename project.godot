@@ -21,6 +21,9 @@ HWVisualMaxDirector="*res://scripts/HWVisualMaxDirectorFixed.gd"
 HWCharacterEmotionDirector="*res://scripts/HWCharacterEmotionDirector.gd"
 HWPrimitiveBeautyDirector="*res://scripts/HWPrimitiveBeautyDirector.gd"
 HWVitalsStartupNormalizer="*res://scripts/HWVitalsStartupNormalizer.gd"
+HWStartupDefaults="*res://scripts/HWStartupDefaults.gd"
+HWSkillBarRuntime="*res://scripts/HWSkillBarRuntime.gd"
+HWClassAutoAdvancement="*res://scripts/HWClassAutoAdvancement.gd"
 
 [display]
 window/size/viewport_width=1920
