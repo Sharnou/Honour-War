@@ -7,6 +7,7 @@ config/features=PackedStringArray("4.2")
 GameplayFormula="*res://scripts/GameplayFormula.gd"
 ChibiAnimePresentation="*res://scripts/ChibiAnimePresentation.gd"
 HDProductionQualityDirector="*res://scripts/HDProductionQualityDirector.gd"
+HWMouseAttack="*res://scripts/HWMouseAttack.gd"
 
 [display]
 window/size/viewport_width=1920
