@@ -12,6 +12,8 @@ ClassAdvancementRuntime="*res://scripts/ClassAdvancementRuntime.gd"
 HWGeneratedAssetRuntime="*res://scripts/HWGeneratedAssetRuntime.gd"
 OnlineAgeRuntime="*res://scripts/OnlineAgeRuntime.gd"
 HonourWarRuntimeSanitizer="*res://scripts/HonourWarRuntimeSanitizer.gd"
+HWWorldDetailDirector="*res://scripts/HWWorldDetailDirector.gd"
+HWCombatHUD="*res://scripts/HWCombatHUD.gd"
 
 [display]
 window/size/viewport_width=1920
