@@ -16,7 +16,7 @@ permissions:
 jobs:
   build-final-glb-assets:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,8 +28,9 @@ jobs:
         run: |
           set -euo pipefail
           python3 tools/visual_rag/honour_war_visual_rag.py
-          test -s assets/3d/visual_rag/visual_reference_brief.json
-          echo "Visual RAG brief generated before Blender asset generation."
+          test -s assets/3d/visual_rag/LATEST_VISUAL_BRIEF.json
+          test -s assets/3d/visual_rag/LATEST_VISUAL_BRIEF.md
+          echo "Visual RAG completed before Blender asset generation."
 
       - name: Download official Blender 4.2.23
         shell: bash
@@ -37,32 +38,48 @@ jobs:
           set -euo pipefail
           curl -L --fail --retry 3 -o /tmp/blender.tar.xz \
             https://download.blender.org/release/Blender4.2/blender-4.2.23-linux-x64.tar.xz
-          mkdir -p /opt/blender
+          rm -rf /opt/blender /tmp/blender-site
+          mkdir -p /opt/blender /tmp/blender-site
           tar -xJf /tmp/blender.tar.xz -C /opt/blender --strip-components=1
           /opt/blender/blender --version
+
+      - name: Install Blender Python dependency for GLTF exporter
+        shell: bash
+        run: |
+          set -euo pipefail
+          /opt/blender/blender --background --python-expr 'import ensurepip,sys,subprocess; ensurepip.bootstrap(); subprocess.check_call([sys.executable,"-m","pip","install","--no-cache-dir","--target=/tmp/blender-site","numpy"])'
+          PYTHONPATH=/tmp/blender-site /opt/blender/blender --background --python-expr 'import numpy; print("Blender numpy:", numpy.__version__)'
 
       - name: Generate final hero and pet GLB assets in Blender
         shell: bash
         run: |
           set -euo pipefail
+          rm -rf assets/3d/generated/heroes assets/3d/generated/pets
           mkdir -p assets/3d/generated/heroes assets/3d/generated/pets
-          /opt/blender/blender --background --python tools/blender/run_visual_max_assets.py
+          PYTHONPATH=/tmp/blender-site /opt/blender/blender --background --python tools/blender/run_visual_max_assets.py
 
       - name: Generate final monster GLB assets in Blender
         shell: bash
         run: |
           set -euo pipefail
+          rm -rf assets/3d/generated/monsters
           mkdir -p assets/3d/generated/monsters
-          /opt/blender/blender --background --python tools/blender/honour_war_monster_assets.py
+          PYTHONPATH=/tmp/blender-site /opt/blender/blender --background --python tools/blender/honour_war_monster_assets.py
 
-      - name: Validate actual GLB output
+      - name: Validate actual binary GLB output
         shell: bash
         run: |
           set -euo pipefail
           count=$(find assets/3d/generated -type f -name '*.glb' | wc -l)
           echo "Generated GLB count: ${count}"
           test "${count}" -ge 20
-          find assets/3d/generated -type f -name '*.glb' -print | sort
+          while IFS= read -r file; do
+            size=$(stat -c%s "$file")
+            echo "$file: $size bytes"
+            test "$size" -ge 1024
+            magic=$(dd if="$file" bs=1 count=4 2>/dev/null | od -An -t x1 | tr -d ' \n')
+            test "$magic" = "676c5446"
+          done < <(find assets/3d/generated -type f -name '*.glb' | sort)
 
       - name: Commit generated GLBs
         shell: bash
