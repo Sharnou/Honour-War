@@ -17,6 +17,7 @@ HWReadableActorDirector="*res://scripts/HWReadableActorDirector.gd"
 HWWarpNetwork="*res://scripts/HWWarpNetwork.gd"
 HWActorVitals="*res://scripts/HWActorVitals.gd"
 HWMainInterface="*res://scripts/HWMainInterface.gd"
+HWVisualMaxDirector="*res://scripts/HWVisualMaxDirector.gd"
 
 [display]
 window/size/viewport_width=1920
@@ -36,8 +37,7 @@ renderer/rendering_method.mobile="gl_compatibility"
 renderer/rendering_method.driver="vulkan"
 renderer/rendering_method.driver.mobile="opengl3"
 rendering/driver/driver_name="vulkan"
-rendering/driver/fallback_to_angle=true
-rendering/driver/fallback_to_native=true
+rendering/fallback_to_angle=true
 rendering/rendering_device/fallback_to_opengl3=true
 textures/default_filters/use_nearest_mipmap_filter=false
 textures/canvas_textures/default_texture_filter=1
