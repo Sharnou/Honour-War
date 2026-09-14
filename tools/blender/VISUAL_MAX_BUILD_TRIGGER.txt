@@ -1,0 +1,2 @@
+Honour War Visual MAX build trigger.
+The CI workflow must run Visual RAG first, then Blender Visual MAX assets, then export to GLB/GLTF for Godot 4.
