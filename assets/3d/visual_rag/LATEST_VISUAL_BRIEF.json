@@ -1,0 +1,43 @@
+{
+  "tool": "Honour War Visual RAG preflight",
+  "version": 1,
+  "target": {
+    "style": "high-fidelity fantasy MMORPG with Ragnarok-inspired proportions and readable stylization; not photorealistic and not low-poly placeholder art",
+    "camera": "three-quarter/isometric-friendly camera with strong depth, readable silhouettes and layered foreground/midground/background",
+    "lighting": "bright daylight baseline, soft directional shadows, subtle ambient occlusion, controlled bloom, rich but coherent material response",
+    "characters": "full-body production models, expressive face/hair, layered clothing/armor, distinct class silhouettes, meaningful tier progression",
+    "environment": "dense authored architecture, varied roofs/walls, paving variation, props, vegetation, landmarks, water and social-space details",
+    "materials": "PBR-ready albedo, roughness, metallic and normal maps; avoid flat single-color materials",
+    "negative": [
+      "box-and-cylinder placeholder look",
+      "empty terrain",
+      "uniform buildings",
+      "floating equipment text over hero",
+      "unbounded saturation",
+      "unlit flat meshes"
+    ]
+  },
+  "references": [
+    {
+      "id": "ro_prontera_square",
+      "url": "https://2.bp.blogspot.com/-ZmSk9HF5Bcs/ViKYI1awm-I/AAAAAAAABYc/2bMVExN2T8k/s1600/Prontera.jpg",
+      "purpose": "bright stone plaza, banners, fountain, medieval town composition",
+      "status": "downloaded",
+      "local_reference": "assets/3d/visual_rag/references/ro_prontera_square.img"
+    },
+    {
+      "id": "ro_hugel_market",
+      "url": "https://eu-mds.4game.com/images/patchnoteimages/original/fbd599a3-5a2f-4fdb-a069-c47e740bf14d.i4g",
+      "purpose": "market props, paving, umbrellas, vegetation, lived-in environment",
+      "status": "downloaded",
+      "local_reference": "assets/3d/visual_rag/references/ro_hugel_market.img"
+    },
+    {
+      "id": "ro_town_gathering",
+      "url": "https://livedoor.blogimg.jp/utuho2008/imgs/f/1/f113c55d.png",
+      "purpose": "character density, social hub composition, readable silhouettes",
+      "status": "downloaded",
+      "local_reference": "assets/3d/visual_rag/references/ro_town_gathering.img"
+    }
+  ]
+}
