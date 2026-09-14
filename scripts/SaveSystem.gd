@@ -2,7 +2,7 @@ class_name SaveSystem
 extends RefCounted
 
 const SAVE_PATH := "user://honour_war_save.json"
-const SAVE_VERSION := 5
+const SAVE_VERSION := 6
 
 static func save_game(hero:Dictionary) -> bool:
 	var data=hero.duplicate(true)
@@ -24,6 +24,10 @@ static func load_game(default_hero:Dictionary) -> Dictionary:
 static func migrate(hero:Dictionary) -> Dictionary:
 	if not hero.has("save_version"): hero["save_version"]=1
 	if not hero.has("class_tier"): hero["class_tier"]=0
+	if not hero.has("class_branch"): hero["class_branch"]=""
+	if not hero.has("class_mastery"): hero["class_mastery"]=0
+	if not hero.has("class_rank"): hero["class_rank"]=""
+	if not hero.has("class_rank_tier"): hero["class_rank_tier"]=int(hero.get("class_tier",0))
 	if not hero.has("quest_progress"): hero["quest_progress"]={}
 	if not hero.has("quests_completed"): hero["quests_completed"]=[]
 	if not hero.has("inventory") or not hero["inventory"] is Dictionary: hero["inventory"]={}
