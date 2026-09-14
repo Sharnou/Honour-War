@@ -1,0 +1,4 @@
+FINAL GLB BUILD TRIGGER — 2026-09-14
+
+Generate and commit the real Blender-produced binary GLB assets for Honour War.
+Visual RAG must execute before Blender. Do not substitute procedural Godot primitives for these assets.
