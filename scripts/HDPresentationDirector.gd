@@ -13,7 +13,7 @@ func set_camera(value:Camera3D)->void:
     if _camera:
         # HWIsometricCamera owns projection, zoom, yaw and pitch. Do not reset
         # those values here or it would fight the interactive camera controller.
-        var camera_script:Object=_camera.get_script()
+        var camera_script:Script=_camera.get_script() as Script
         var is_isometric:bool=camera_script != null and camera_script.resource_path.ends_with("HWIsometricCamera.gd")
         if not is_isometric:
             _camera.projection=Camera3D.PROJECTION_PERSPECTIVE
