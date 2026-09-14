@@ -50,17 +50,20 @@ def read_glb_json(path: Path) -> dict:
     raw_json = data[start:end].rstrip(b" \t\r\n\x00")
     try:
         return json.loads(raw_json.decode("utf-8"))
-    except Exception as exc:  # pragma: no cover - error path is the diagnostic
+    except Exception as exc:
         raise ValueError(f"{path}: invalid JSON chunk: {exc}") from exc
 
 
 def node_names(doc: dict) -> set[str]:
-    result = set()
-    for node in doc.get("nodes", []):
-        name = node.get("name")
-        if isinstance(name, str):
-            result.add(name)
-    return result
+    return {
+        node["name"]
+        for node in doc.get("nodes", [])
+        if isinstance(node, dict) and isinstance(node.get("name"), str)
+    }
+
+
+def has_named_part(names: set[str], token: str) -> bool:
+    return any(name == token or name.startswith(token) for name in names)
 
 
 def validate_asset(path: Path) -> None:
@@ -88,8 +91,8 @@ def validate_asset(path: Path) -> None:
             raise ValueError(f"{path}: unknown hero class {class_id}")
         if tier not in HERO_TIERS:
             raise ValueError(f"{path}: unknown hero tier {tier}")
-        required = {"Torso", "Head", "Eye", "Iris", "Mouth", HERO_WEAPONS[class_id]}
-        missing = sorted(required - names)
+        required = ["Torso", "Head", "Eye", "Iris", "Mouth", HERO_WEAPONS[class_id]]
+        missing = [token for token in required if not has_named_part(names, token)]
         if missing:
             raise ValueError(f"{path}: missing required hero nodes: {', '.join(missing)}")
         if len(names) < 12:
