@@ -1,10 +1,9 @@
 extends Node
 
 ## Honour War character emotion + visual identity memory.
-## This is game-side presentation logic: health, combat and social-state cues
-## drive facial/body-language changes so characters react instead of standing rigidly.
-## A small persistent memory keeps the hero's visual baseline and recent emotion
-## history across sessions without changing gameplay statistics.
+## Health, combat and social-state cues drive facial/body-language changes.
+## A small persistent memory keeps the hero's visual baseline and recent
+## emotion history across sessions without changing gameplay statistics.
 
 const MEMORY_PATH := "user://honour_war_character_visual_memory.json"
 const SAMPLE_INTERVAL := 0.18
@@ -70,7 +69,8 @@ func _sample_state() -> void:
     if hp <= 0.0:
         _set_emotion("defeated")
         return
-    if hp > 0.0 and hp < 0.28 * max(previous_hp, hp, 1.0):
+    var hp_reference := max(max(previous_hp,hp),1.0)
+    if hp < 0.28 * hp_reference:
         _set_emotion("strained")
     elif target != "" and target != "null":
         if target != previous_target:
@@ -171,11 +171,7 @@ func _get_visual_root(actor:Node3D) -> Node3D:
     return actor
 
 func _load_identity() -> void:
-    identity = {
-        "appearance_seed": randi(),
-        "last_emotion": "idle",
-        "emotion_history": []
-    }
+    identity = {"appearance_seed":randi(),"last_emotion":"idle","emotion_history":[]}
     if not FileAccess.file_exists(MEMORY_PATH):
         _save_identity()
         return
