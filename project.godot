@@ -16,10 +16,11 @@ HWWorldDetailDirector="*res://scripts/HWWorldDetailDirector.gd"
 HWReadableActorDirector="*res://scripts/HWReadableActorDirector.gd"
 HWWarpNetwork="*res://scripts/HWWarpNetwork.gd"
 HWActorVitals="*res://scripts/HWActorVitals.gd"
-HWMainInterface="*res://scripts/HWPolishedInterface.gd"
+HWMainInterface="*res://scripts/HWPolishedInterfaceV2.gd"
 HWVisualMaxDirector="*res://scripts/HWVisualMaxDirectorFixed.gd"
 HWCharacterEmotionDirector="*res://scripts/HWCharacterEmotionDirector.gd"
 HWPrimitiveBeautyDirector="*res://scripts/HWPrimitiveBeautyDirector.gd"
+HWVitalsStartupNormalizer="*res://scripts/HWVitalsStartupNormalizer.gd"
 
 [display]
 window/size/viewport_width=1920
