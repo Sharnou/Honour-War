@@ -7,7 +7,7 @@ const Teleport = preload("res://scripts/TeleportSystem.gd")
 const CONNECTIONS:Dictionary = {
     0:[20,10,11], 1:[21,11,14], 2:[22,12,16], 3:[23,13,19], 4:[24,17,10],
     5:[25,17,19], 6:[26,18,17], 7:[27,16,12], 8:[28,15,18], 9:[29,18,13],
-    20:[0,10],21:[1,11],22:[2,12],23:[3,13],24:[4,17],25:[5,17],26:[6,18],27:[7,16],28:[8,15],29:[9,18]
+    20:[0,10],21:[1,11],22:[2,12],23:[3,13],24:[4,17],25:[5,17],26:[6,18],27:[7,16],28:[8,15],29:[9,13]
 }
 
 var game:Node3D
@@ -18,17 +18,18 @@ var visual_cache:Dictionary={}
 var pulse:float=0.0
 
 func _ready()->void:
-    game=get_parent() as Node3D
     call_deferred("_bind")
 
 func _process(delta:float)->void:
     pulse+=delta
-    if legacy==null or not is_instance_valid(legacy):
+    if game==null or not is_instance_valid(game):
         _bind()
         return
+    if legacy==null or not is_instance_valid(legacy):
+        legacy=game.get_node_or_null("LegacyGame")
+        if legacy==null: return
     var value:Variant=legacy.get("hero")
-    if not value is Dictionary:
-        return
+    if not value is Dictionary: return
     var map_id:int=int((value as Dictionary).get("map_id",0))
     if map_id!=active_map:
         active_map=map_id
@@ -36,17 +37,18 @@ func _process(delta:float)->void:
     _animate()
 
 func _bind()->void:
-    if game==null: game=get_parent() as Node3D
+    game=get_tree().current_scene as Node3D
     if game==null: return
     legacy=game.get_node_or_null("LegacyGame")
-    if warp_root==null:
+    if warp_root==null or not is_instance_valid(warp_root):
         warp_root=Node3D.new()
         warp_root.name="HWWarpNetwork"
         game.add_child(warp_root)
     call_deferred("_refresh_map")
 
 func _refresh_map()->void:
-    if legacy==null: legacy=game.get_node_or_null("LegacyGame")
+    if game==null: return
+    legacy=game.get_node_or_null("LegacyGame")
     if legacy==null: return
     var value:Variant=legacy.get("hero")
     if value is Dictionary:
