@@ -24,6 +24,7 @@ HWVitalsStartupNormalizer="*res://scripts/HWVitalsStartupNormalizer.gd"
 HWStartupDefaults="*res://scripts/HWStartupDefaults.gd"
 HWSkillBarRuntime="*res://scripts/HWSkillBarRuntime.gd"
 HWClassAutoAdvancement="*res://scripts/HWClassAutoAdvancement.gd"
+GraphicsManager="*res://scripts/GraphicsManager.gd"
 
 [display]
 window/size/viewport_width=1920
@@ -65,3 +66,6 @@ move_left={"deadzone":0.5,"events":[Object(InputEventKey,"physical_keycode":65),
 move_right={"deadzone":0.5,"events":[Object(InputEventKey,"physical_keycode":68),Object(InputEventKey,"physical_keycode":4194321)]}
 camera_rotate_left={"deadzone":0.5,"events":[Object(InputEventKey,"physical_keycode":81)]}
 camera_rotate_right={"deadzone":0.5,"events":[Object(InputEventKey,"physical_keycode":69)]}
+graphics_preset_low={"deadzone":0.5,"events":[Object(InputEventKey,"physical_keycode":4194324)]}
+graphics_preset_med={"deadzone":0.5,"events":[Object(InputEventKey,"physical_keycode":4194325)]}
+graphics_preset_hd={"deadzone":0.5,"events":[Object(InputEventKey,"physical_keycode":4194326)]}
