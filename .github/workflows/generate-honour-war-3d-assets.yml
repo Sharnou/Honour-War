@@ -2,6 +2,13 @@ name: Honour War — Daily 3D Asset Build
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - "tools/visual_rag/**"
+      - "tools/blender/**"
+      - ".github/workflows/generate-honour-war-3d-assets.yml"
+    branches:
+      - main
   schedule:
     - cron: "17 2 * * *"
 
@@ -11,12 +18,27 @@ permissions:
 jobs:
   build-3d-assets:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Install Visual RAG dependencies
+        shell: bash
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install pillow
+
+      - name: REQUIRED FIRST — Visual RAG reference analysis
+        shell: bash
+        run: |
+          python3 tools/visual_rag/honour_war_visual_rag.py
+          test -f assets/3d/visual_rag/LATEST_VISUAL_BRIEF.json
+          test -f assets/3d/visual_rag/LATEST_VISUAL_BRIEF.md
+          echo "Visual RAG completed before Blender."
+          cat assets/3d/visual_rag/LATEST_VISUAL_BRIEF.md
 
       - name: Install Blender
         shell: bash
@@ -43,15 +65,15 @@ jobs:
           echo "Asset count: $(wc -l < /tmp/generated-assets.txt)"
           echo "Total asset size: $(du -sh assets/3d/generated | cut -f1)"
 
-      - name: Commit generated assets
+      - name: Commit Visual RAG brief and generated assets
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/3d/generated
+          git add assets/3d/visual_rag assets/3d/generated
           if git diff --cached --quiet; then
-            echo "No generated asset changes to commit."
+            echo "No Visual RAG or generated asset changes to commit."
             exit 0
           fi
-          git commit -m "Generate Honour War production 3D assets"
+          git commit -m "Run Visual RAG before Honour War 3D asset build"
           git push origin HEAD:main
