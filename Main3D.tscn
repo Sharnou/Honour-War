@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3]
+[gd_scene load_steps=54 format=3]
 
 [ext_resource path="res://scripts/Game3D.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/Main.gd" type="Script" id="2"]
@@ -52,6 +52,7 @@
 [ext_resource path="res://scripts/HWRoleDrivenUpgradeRuntime.gd" type="Script" id="50"]
 [ext_resource path="res://scripts/HWToonMaterialDirector.gd" type="Script" id="51"]
 [ext_resource path="res://scripts/HWIsometricCamera.gd" type="Script" id="52"]
+[ext_resource path="res://scripts/EnvironmentCycle.gd" type="Script" id="53"]
 
 [node name="HonourWar3D" type="Node3D"]
 script = ExtResource("1")
@@ -69,6 +70,11 @@ camera_path = NodePath("../Camera3D")
 
 [node name="HDEnvironmentDirector" type="Node3D" parent="."]
 script = ExtResource("45")
+
+[node name="EnvironmentCycle" type="Node" parent="."]
+script = ExtResource("53")
+time_speed = 0.0025
+current_time = 0.25
 
 [node name="HDUIStyleDirector" type="CanvasLayer" parent="."]
 script = ExtResource("46")
