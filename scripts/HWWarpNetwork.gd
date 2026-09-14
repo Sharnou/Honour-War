@@ -114,7 +114,7 @@ func _create_warp(target_map:int,index:int,total:int)->void:
     gate.add_child(area)
     visual_cache[target_map]=gate
 
-func _on_warp_input(_camera:Node,_event:InputEvent,_position:Vector3,_normal:Vector3,target_map:int)->void:
+func _on_warp_input(_camera:Node,_event:InputEvent,_position:Vector3,_normal:Vector3,_shape_idx:int,target_map:int)->void:
     if _event is InputEventMouseButton:
         var mouse:InputEventMouseButton=_event as InputEventMouseButton
         if mouse.pressed and mouse.button_index==MOUSE_BUTTON_LEFT:
