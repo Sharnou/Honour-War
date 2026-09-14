@@ -41,9 +41,8 @@ func show_damage(world_position:Vector3,amount:int,critical:bool=false,source:St
 	tween.set_parallel(true)
 	tween.tween_property(label,"position",end,duration).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	tween.tween_property(label,"scale",Vector3.ONE*(1.35 if critical else 1.0),0.12)
-	# Label3D supports modulate, but Godot 4.2 does not reliably accept
-	# the nested "modulate:a" tween path on every generated node.
-	# Animate alpha through the property itself instead.
+	# Godot 4.2-safe alpha animation: modify the full color value rather than
+	# addressing a nested alpha property path on generated Label3D instances.
 	tween.tween_method(func(alpha:float): _set_alpha(label,alpha),1.0,0.0,0.28).set_delay(max(0.0,duration-0.28))
 	tween.set_parallel(false)
 	tween.tween_callback(_remove_label.bind(label))
