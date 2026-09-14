@@ -1,5 +1,5 @@
-FINAL GLB BUILD TRIGGER — 2026-09-14 12:20 UTC
+FINAL GLB BUILD TRIGGER — 2026-09-14 21:00 UTC
 
-Run the real Honour War Blender GLB production build now.
-Required order: Visual RAG first -> Blender -> binary GLB validation -> commit to assets/3d/generated.
+Run the real Honour War release build now.
+Required order: Visual RAG first -> Blender 4.2 -> embedded PBR GLB pass -> binary validation -> semantic/PBR quality gate -> manifest -> commit generated assets.
 Do not substitute Godot primitives for generated assets.
