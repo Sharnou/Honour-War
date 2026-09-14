@@ -1,7 +1,8 @@
 extends Node3D
 
 ## Honour War classic isometric/2.5D camera.
-## The camera is orthographic, fixed-angle, and smoothly tracks the active hero.
+## The existing scene Camera3D can host this controller directly, preserving
+## legacy camera references while switching the projection to orthographic.
 
 @export_group("Target Tracking")
 @export var target:Node3D
@@ -16,10 +17,11 @@ extends Node3D
 @export_range(4.0, 20.0, 0.1) var orthographic_size:float = 10.0
 
 var camera:Camera3D
-var timer:float = 0.0
 
 func _ready()->void:
-    camera = get_node_or_null("Camera3D") as Camera3D
+    camera = self as Camera3D
+    if camera == null:
+        camera = get_node_or_null("Camera3D") as Camera3D
     if camera == null:
         camera = Camera3D.new()
         camera.name = "Camera3D"
