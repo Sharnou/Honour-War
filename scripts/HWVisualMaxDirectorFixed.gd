@@ -1,8 +1,8 @@
 extends Node3D
 
 ## Honour War Visual MAX runtime-safe environment director for Godot 4.2.
-## The first visual pass deliberately controls exposure, ambient fill, glow,
-## and sun intensity before any authored asset rebuild is considered.
+## Anime/cel presentation is paired with controlled filmic lighting so glow
+## enhances selected bright effects without returning to the previous whiteout.
 
 var scene:Node3D
 var environment_ready:bool=false
@@ -39,7 +39,6 @@ func _ensure_environment()->void:
         env=Environment.new()
         env_node.environment=env
 
-    # Controlled daylight palette: no blown white pavement/buildings.
     env.background_mode=Environment.BG_SKY
     var sky:Sky=env.sky
     if sky==null:
@@ -54,26 +53,26 @@ func _ensure_environment()->void:
     sky_mat.ground_bottom_color=Color("#1d2728")
     sky_mat.ground_horizon_color=Color("#718b82")
 
-    # Keep the sky as soft fill rather than another strong white light source.
     env.ambient_light_source=Environment.AMBIENT_SOURCE_SKY
     env.ambient_light_energy=0.36
     env.ambient_light_color=Color("#a8c4d1")
 
-    # Filmic tonemapping with negative exposure protects material albedo and
-    # prevents bright stone, trees and enemy armor from clipping to white.
+    # Filmic compression keeps bright stone/armor readable while retaining
+    # richer midtones for the cel bands.
     env.tonemap_mode=Environment.TONE_MAPPER_FILMIC
-    env.tonemap_exposure=-0.65
+    env.tonemap_exposure=1.0
 
-    # Glow is intentionally OFF for the baseline lighting benchmark. It can be
-    # reintroduced later for selected magic/VFX materials only.
-    env.glow_enabled=false
-    env.glow_intensity=0.0
+    # Fantasy glow is enabled, but bloom is deliberately restrained so it does
+    # not recreate the previous overexposed environment.
+    env.glow_enabled=true
+    env.glow_intensity=0.8
+    env.glow_bloom=0.25
+    env.glow_blend_mode=Environment.GLOW_BLEND_MODE_SCREEN
+    env.glow_hdr_threshold=1.0
 
-    # Moderate SSAO/contact shading improves feet, wall intersections and props
-    # without replacing real shadows with an overly dark screen effect.
     env.ssao_enabled=true
-    env.ssao_radius=2.0
-    env.ssao_intensity=1.15
+    env.ssao_radius=1.0
+    env.ssao_intensity=2.0
 
     var sun:DirectionalLight3D=scene.get_node_or_null("HWVisualMaxSun") as DirectionalLight3D
     if sun==null:
@@ -81,14 +80,15 @@ func _ensure_environment()->void:
         sun.name="HWVisualMaxSun"
         scene.add_child(sun)
     sun.rotation_degrees=Vector3(-48.0,-25.0,0.0)
-    sun.light_energy=0.82
+    sun.light_energy=1.1
     sun.light_color=Color("#f6dfb5")
     sun.shadow_enabled=true
     sun.directional_shadow_max_distance=100.0
-    # Godot 4.2 does not expose DirectionalLight3D.angular_distance.
-    # Keep the shadow/contact controls limited to properties supported by 4.2.
+    # Godot 4.2 exposes this as light_angular_distance, not angular_distance.
+    sun.light_angular_distance=0.35
     sun.shadow_bias=0.04
     sun.shadow_normal_bias=1.0
+    sun.directional_shadow_blend_splits=true
 
     environment_ready=true
 
