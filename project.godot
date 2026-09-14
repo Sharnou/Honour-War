@@ -15,6 +15,7 @@ HonourWarRuntimeSanitizer="*res://scripts/HonourWarRuntimeSanitizer.gd"
 HWWorldDetailDirector="*res://scripts/HWWorldDetailDirector.gd"
 HWCombatHUD="*res://scripts/HWCombatHUD.gd"
 HWFunctionalHUD="*res://scripts/HWFunctionalHUD.gd"
+HWReadableActorDirector="*res://scripts/HWReadableActorDirector.gd"
 
 [display]
 window/size/viewport_width=1920
