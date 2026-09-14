@@ -25,10 +25,15 @@ jobs:
           sudo apt-get install -y blender
           blender --version
 
-      - name: Generate production GLB assets
+      - name: Generate production character and pet GLB assets
         shell: bash
         run: |
           blender --background --python tools/blender/honour_war_production_assets.py
+
+      - name: Generate production monster GLB assets
+        shell: bash
+        run: |
+          blender --background --python tools/blender/honour_war_monster_assets.py
 
       - name: Report generated assets
         shell: bash
