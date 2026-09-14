@@ -85,7 +85,8 @@ func _ensure_environment()->void:
     sun.light_color=Color("#f6dfb5")
     sun.shadow_enabled=true
     sun.directional_shadow_max_distance=100.0
-    sun.angular_distance=0.55
+    # Godot 4.2 does not expose DirectionalLight3D.angular_distance.
+    # Keep the shadow/contact controls limited to properties supported by 4.2.
     sun.shadow_bias=0.04
     sun.shadow_normal_bias=1.0
 
