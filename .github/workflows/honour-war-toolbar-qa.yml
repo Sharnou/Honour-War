@@ -1,0 +1,27 @@
+name: Honour War Toolbar QA
+
+on:
+  push:
+    paths:
+      - "scripts/HWIconButton.gd"
+      - "scripts/HWPolishedInterfaceV2.gd"
+      - "scripts/HWVitalsStartupNormalizer.gd"
+      - "tools/validate_toolbar.py"
+      - ".github/workflows/honour-war-toolbar-qa.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  toolbar-static-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Run toolbar static QA
+        shell: bash
+        run: python3 tools/validate_toolbar.py
+      - name: Report
+        run: echo "Toolbar icon/mode/vitals static QA completed. Local Godot click-test remains required for actual Windows rendering/input verification."
