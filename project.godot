@@ -18,6 +18,7 @@ HWWarpNetwork="*res://scripts/HWWarpNetwork.gd"
 HWActorVitals="*res://scripts/HWActorVitals.gd"
 HWMainInterface="*res://scripts/HWMainInterface.gd"
 HWVisualMaxDirector="*res://scripts/HWVisualMaxDirector.gd"
+HWCharacterEmotionDirector="*res://scripts/HWCharacterEmotionDirector.gd"
 
 [display]
 window/size/viewport_width=1920
