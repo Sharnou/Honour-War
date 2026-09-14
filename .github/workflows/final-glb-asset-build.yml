@@ -17,6 +17,7 @@ on:
       - "scripts/HWVisualMaxDirectorFixed.gd"
       - "scripts/HWToonMaterialDirector.gd"
       - "scripts/HWIsometricCamera.gd"
+      - "scripts/EnvironmentCycle.gd"
       - "Main3D.tscn"
 
 concurrency:
