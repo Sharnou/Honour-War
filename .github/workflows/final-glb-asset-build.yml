@@ -13,6 +13,11 @@ on:
       - "tools/blender/enhance_generated_glbs.py"
       - "tools/visual_rag/**"
       - "tools/validate_generated_glbs.py"
+      - "shaders/ToonShader.gdshader"
+      - "scripts/HWVisualMaxDirectorFixed.gd"
+      - "scripts/HWToonMaterialDirector.gd"
+      - "scripts/HWIsometricCamera.gd"
+      - "Main3D.tscn"
 
 concurrency:
   group: honour-war-final-glb-assets
