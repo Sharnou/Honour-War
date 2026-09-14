@@ -8,6 +8,13 @@ const MAX_MONSTER_LEVEL:int = 300
 const STARTING_AGE:int = 18
 const AGE_DAYS_PER_YEAR:float = 3.0
 
+# Honour War class progression:
+# Lv 1  = Foundation
+# Lv 25 = Specialization
+# Lv 50 = Advanced
+# Lv 100 = Mastery
+# Lv 200 = Transcendence
+# Lv 250 = level cap
 static func class_definitions() -> Dictionary:
 	return {
 		"Warrior": {"weapon":"Sword", "basic_skill":"Power Slash", "base_power":18, "tree":["Swordsman", "Knight", "Lord Knight", "Transcendent Knight", "War Emperor"]},
@@ -34,7 +41,7 @@ static func material_definitions() -> Dictionary:
 static func new_hero() -> Dictionary:
 	var hero_class:String = "Warrior"
 	return {
-		"name":"Aldric", "class":hero_class, "class_tier":0, "level":1, "exp":0,
+		"name":"Aldric", "class":hero_class, "class_tier":0, "class_branch":"", "class_mastery":0, "level":1, "exp":0,
 		"age":18, "online_days":0.0, "hp":100, "max_hp":100, "sp":50, "max_sp":50,
 		"zeny":500, "refine":0, "kills":0, "quest_progress":{}, "quests_completed":[],
 		"inventory":{}, "materials":{"Phracon":5, "Emveretarcon":2, "Oridecon":0},
@@ -58,13 +65,20 @@ static func age_strength_bonus(age:int)->Dictionary:
 
 static func class_tier_for_level(level:int) -> int:
 	if level >= 200: return 4
-	if level >= 150: return 3
-	if level >= 100: return 2
-	if level >= 50: return 1
+	if level >= 100: return 3
+	if level >= 50: return 2
+	if level >= 25: return 1
 	return 0
 
+static func class_rank_for_level(level:int, class_id:String="Warrior") -> String:
+	var defs:=class_definitions()
+	var profile:Dictionary=defs.get(class_id,defs["Warrior"])
+	var tree:Array=profile["tree"]
+	var tier:=class_tier_for_level(level)
+	return str(tree[min(tier,tree.size()-1)])
+
+static func class_rank_title(hero:Dictionary)->String:
+	return class_rank_for_level(int(hero.get("level",1)),str(hero.get("class","Warrior")))
+
 static func class_title(hero:Dictionary) -> String:
-	var defs:Dictionary = class_definitions()
-	var class_id:String = str(hero.get("class", "Warrior"))
-	var tree:Array = defs[class_id]["tree"]
-	return str(tree[min(int(hero.get("class_tier", 0)), tree.size() - 1)])
+	return class_rank_title(hero)
