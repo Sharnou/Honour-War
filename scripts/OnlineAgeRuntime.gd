@@ -1,4 +1,3 @@
-class_name OnlineAgeRuntime
 extends Node
 
 ## Live online-age controller. One accumulated online day is represented by
