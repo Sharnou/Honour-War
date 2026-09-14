@@ -21,12 +21,23 @@ const MAPS := {
     16:{"name":"Clock Tower","type":"dungeon","width":1400,"height":900,"spawn_x":180,"spawn_y":450,"entrance":7},
     17:{"name":"Sunken Ship","type":"dungeon","width":1400,"height":900,"spawn_x":180,"spawn_y":450,"entrance":6},
     18:{"name":"Hidden Forest","type":"dungeon","width":1400,"height":900,"spawn_x":180,"spawn_y":450,"entrance":9},
-    19:{"name":"Ancient Catacombs","type":"dungeon","width":1400,"height":900,"spawn_x":180,"spawn_y":450,"entrance":4}
+    19:{"name":"Ancient Catacombs","type":"dungeon","width":1400,"height":900,"spawn_x":180,"spawn_y":450,"entrance":4},
+    20:{"name":"Prontera Field","type":"field","width":1600,"height":1000,"spawn_x":800,"spawn_y":500,"town":0},
+    21:{"name":"Payon Forest","type":"field","width":1600,"height":1000,"spawn_x":800,"spawn_y":500,"town":1},
+    22:{"name":"Geffen Plains","type":"field","width":1600,"height":1000,"spawn_x":800,"spawn_y":500,"town":2},
+    23:{"name":"Morroc Desert","type":"field","width":1600,"height":1000,"spawn_x":800,"spawn_y":500,"town":3},
+    24:{"name":"Izlude Coast","type":"field","width":1600,"height":1000,"spawn_x":800,"spawn_y":500,"town":4},
+    25:{"name":"Alberta Coast","type":"field","width":1600,"height":1000,"spawn_x":800,"spawn_y":500,"town":5},
+    26:{"name":"Comodo Jungle","type":"field","width":1600,"height":1000,"spawn_x":800,"spawn_y":500,"town":6},
+    27:{"name":"Aldebaran Meadow","type":"field","width":1600,"height":1000,"spawn_x":800,"spawn_y":500,"town":7},
+    28:{"name":"Lutie Snowfield","type":"field","width":1600,"height":1000,"spawn_x":800,"spawn_y":500,"town":8},
+    29:{"name":"Umbala Wilds","type":"field","width":1600,"height":1000,"spawn_x":800,"spawn_y":500,"town":9}
 }
 
 const ALIASES := {
     "prontera":0,"payon":1,"geffen":2,"morroc":3,"izlude":4,"alberta":5,"comodo":6,"aldebaran":7,"lutie":8,"umbala":9,
     "prontera sewer":10,"payon cave":11,"geffen tower":12,"morroc ruins":13,"orc dungeon":14,"ice cave":15,"clock tower":16,"sunken ship":17,"hidden forest":18,"ancient catacombs":19,
+    "prontera field":20,"payon forest":21,"geffen plains":22,"morroc desert":23,"izlude coast":24,"alberta coast":25,"comodo jungle":26,"aldebaran meadow":27,"lutie snowfield":28,"umbala wilds":29,
     "prt":0,"pay":1,"gef":2,"moc":3,"izl":4,"alb":5,"com":6,"alde":7,"lut":8,"umb":9
 }
 
@@ -48,7 +59,7 @@ static func parse_go(command:String)->Dictionary:
     if parts.is_empty() or parts[0].to_lower()!="go":
         return {"ok":false,"error":"Usage: @go <town|field|dungeon>. Example: @go Morroc."}
     if parts.size()<2:
-        return {"ok":false,"error":"Choose a destination. Use @go list to see towns and dungeons."}
+        return {"ok":false,"error":"Choose a destination. Use @go list to see towns, fields and dungeons."}
     if parts[1].to_lower()=="list":
         return {"ok":false,"error":"Destinations: %s" % destination_list()}
     var destination:String=" ".join(parts.slice(1,parts.size()))
@@ -73,6 +84,9 @@ static func is_dungeon(map_id:int)->bool:
 
 static func town_for_dungeon(map_id:int)->int:
     return int(MAPS.get(map_id,{"entrance":-1}).get("entrance",-1))
+
+static func town_for_field(map_id:int)->int:
+    return int(MAPS.get(map_id,{"town":-1}).get("town",-1))
 
 static func coordinate(map_id:int,_x:float=0.0,_y:float=0.0)->String:
     return "@go "+str(map_id)
