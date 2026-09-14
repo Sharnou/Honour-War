@@ -20,6 +20,7 @@ var tracked_visual:Node3D
 
 func _ready() -> void:
     _load_identity()
+    emotion = str(identity.get("last_emotion","idle"))
     call_deferred("_bind")
 
 func _process(delta:float) -> void:
@@ -60,17 +61,19 @@ func _sample_state() -> void:
     var hp := float(hero.get("hp",0.0))
     var target_value:Variant = hero.get("target_id", hero.get("target", ""))
     var target := str(target_value)
+    var hp_reference := hp
     if previous_hp >= 0.0:
+        hp_reference = max(previous_hp,hp)
         if hp < previous_hp - 0.5:
             _set_emotion("pain")
         elif hp > previous_hp + 0.5:
             _set_emotion("relief")
-    previous_hp = hp
     if hp <= 0.0:
         _set_emotion("defeated")
+        previous_hp = hp
+        previous_target = target
         return
-    var hp_reference := max(max(previous_hp,hp),1.0)
-    if hp < 0.28 * hp_reference:
+    if hp_reference > 0.0 and hp < 0.28 * hp_reference:
         _set_emotion("strained")
     elif target != "" and target != "null":
         if target != previous_target:
@@ -80,6 +83,7 @@ func _sample_state() -> void:
     else:
         if emotion in ["pain", "relief", "alert", "focused", "strained"]:
             _set_emotion("idle")
+    previous_hp = hp
     previous_target = target
 
 func _set_emotion(value:String) -> void:
