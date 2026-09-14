@@ -11,8 +11,13 @@ var _target:Node3D
 func set_camera(value:Camera3D)->void:
     _camera=value
     if _camera:
-        _camera.projection=Camera3D.PROJECTION_PERSPECTIVE
-        _camera.fov=camera_fov
+        # HWIsometricCamera owns projection, zoom, yaw and pitch. Do not reset
+        # those values here or it would fight the interactive camera controller.
+        var camera_script:Object=_camera.get_script()
+        var is_isometric:bool=camera_script != null and camera_script.resource_path.ends_with("HWIsometricCamera.gd")
+        if not is_isometric:
+            _camera.projection=Camera3D.PROJECTION_PERSPECTIVE
+            _camera.fov=camera_fov
         _camera.near=0.08
         _camera.far=500.0
         _camera.current=true
@@ -27,5 +32,5 @@ func _ready()->void:
     if resolved_target: set_target(resolved_target)
 
 func _process(_delta:float)->void:
-    # Camera position/orientation belongs exclusively to MovementStabilityFix.
+    # Camera position/orientation belongs exclusively to HWIsometricCamera.
     return
