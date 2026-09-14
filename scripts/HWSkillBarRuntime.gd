@@ -86,7 +86,10 @@ func _refresh_bar()->void:
             if wanted.size()>=7:
                 break
     if wanted.size()>8:
-        wanted=wanted.slice(0,8)
+        var limited:Array[String]=[]
+        for i in range(8):
+            limited.append(wanted[i])
+        wanted=limited
     if wanted==active_ids:
         return
     active_ids=wanted
