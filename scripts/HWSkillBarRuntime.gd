@@ -73,7 +73,7 @@ func _refresh_bar()->void:
     var hero:Dictionary=value
     var class_id:String=str(hero.get("class","Warrior"))
     var available:Array=SKILLS.all_skills(class_id)
-    var wanted:Array=[]
+    var wanted:Array[String]=[]
     for skill in available:
         var id:String=str(skill.get("id",""))
         if int(SKILLS.skill_level(hero,id))>0 and str(skill.get("kind","active"))!="passive":
