@@ -1,0 +1,79 @@
+name: Honour War Final GLB Asset Build
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "tools/blender/final_glb_build_trigger.txt"
+      - "tools/blender/honour_war_visual_max_assets.py"
+      - "tools/blender/run_visual_max_assets.py"
+      - "tools/blender/honour_war_monster_assets.py"
+      - "tools/visual_rag/**"
+
+permissions:
+  contents: write
+
+jobs:
+  build-final-glb-assets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Visual RAG first
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 tools/visual_rag/honour_war_visual_rag.py
+          test -s assets/3d/visual_rag/visual_reference_brief.json
+          echo "Visual RAG brief generated before Blender asset generation."
+
+      - name: Download official Blender 4.2.23
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -L --fail --retry 3 -o /tmp/blender.tar.xz \
+            https://download.blender.org/release/Blender4.2/blender-4.2.23-linux-x64.tar.xz
+          mkdir -p /opt/blender
+          tar -xJf /tmp/blender.tar.xz -C /opt/blender --strip-components=1
+          /opt/blender/blender --version
+
+      - name: Generate final hero and pet GLB assets in Blender
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p assets/3d/generated/heroes assets/3d/generated/pets
+          /opt/blender/blender --background --python tools/blender/run_visual_max_assets.py
+
+      - name: Generate final monster GLB assets in Blender
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p assets/3d/generated/monsters
+          /opt/blender/blender --background --python tools/blender/honour_war_monster_assets.py
+
+      - name: Validate actual GLB output
+        shell: bash
+        run: |
+          set -euo pipefail
+          count=$(find assets/3d/generated -type f -name '*.glb' | wc -l)
+          echo "Generated GLB count: ${count}"
+          test "${count}" -ge 20
+          find assets/3d/generated -type f -name '*.glb' -print | sort
+
+      - name: Commit generated GLBs
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/3d/generated assets/3d/visual_rag
+          if git diff --cached --quiet; then
+            echo "No new generated assets to commit."
+            exit 0
+          fi
+          git commit -m "Generate final Honour War GLB visual assets"
+          git push
