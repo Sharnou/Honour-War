@@ -161,10 +161,10 @@ func _normalize_actor(root:Node3D, target_height:float)->void:
     var factor:float = target_height / bounds.size.y
     factor = clamp(factor, 0.55, 1.75)
     root.scale = root.scale * factor
-    # Keep the visible feet on the gameplay ground plane rather than letting
-    # inconsistent Blender export origins hide legs below the terrain.
+    # Recalculate in root-local space; root.scale is deliberately applied here
+    # so Blender exports with different origins still land their feet on y=0.
     var scaled_bounds:AABB = _collect_mesh_bounds(root)
-    root.position.y -= scaled_bounds.position.y
+    root.position.y -= scaled_bounds.position.y * root.scale.y
 
 func _collect_mesh_bounds(root:Node3D)->AABB:
     var found:bool = false
