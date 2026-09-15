@@ -1,46 +1,35 @@
 extends Node
 
-## Godot 4.7 HD presentation guard.
-## Keeps the complete hero in frame, restores the authored environment after any
-## legacy presentation pass, and enforces the HD preset without removing gameplay systems.
+## Godot 4.7 HD startup presentation guard.
+## Applies the authored HD presentation once at startup, then leaves graphics
+## presets, camera zoom, and gameplay-owned settings under their existing systems.
 
 const CAMERA_SIZE := 13.5
-const CAMERA_MIN := 6.5
-const CAMERA_MAX := 20.0
 const TARGET_OFFSET := Vector3(0.0, 1.0, 0.0)
 
-var elapsed:float = 0.0
-var initialized:bool = false
-
 func _ready()->void:
-    call_deferred("_apply")
+    call_deferred("_apply_startup")
 
-func _process(delta:float)->void:
-    elapsed += delta
-    if elapsed < 0.5 and initialized:
-        return
-    elapsed = 0.0
-    _apply()
-
-func _apply()->void:
+func _apply_startup()->void:
     var scene := get_tree().current_scene
     if scene == null:
         return
+
     var graphics := get_node_or_null("/root/GraphicsManager")
-    if graphics != null and graphics.has_method("is_hd") and not graphics.call("is_hd"):
+    if graphics != null and graphics.has_method("apply_preset"):
         graphics.call("apply_preset", 2)
 
     var camera_controller := scene.get_node_or_null("Camera3D") as Node
     var camera := camera_controller as Camera3D
     if camera != null:
         camera.projection = Camera3D.PROJECTION_ORTHOGONAL
-        camera.size = CAMERA_SIZE
+        if camera.size < 6.0 or camera.size > 24.0:
+            camera.size = CAMERA_SIZE
     if camera_controller != null:
-        camera_controller.set("orthographic_size", CAMERA_SIZE)
-        camera_controller.set("min_zoom", CAMERA_MIN)
-        camera_controller.set("max_zoom", CAMERA_MAX)
-        camera_controller.set("target_offset", TARGET_OFFSET)
-        camera_controller.set("target_zoom", CAMERA_SIZE)
+        if camera_controller.get("orthographic_size") != null:
+            camera_controller.set("orthographic_size", CAMERA_SIZE)
+        if camera_controller.get("target_offset") != null:
+            camera_controller.set("target_offset", TARGET_OFFSET)
 
     var authored_world := scene.get_node_or_null("HDEnvironmentDirector")
     if authored_world != null:
@@ -53,7 +42,6 @@ func _apply()->void:
         simple_world.visible = true
 
     _tune_environment(scene)
-    initialized = true
 
 func _tune_environment(scene:Node)->void:
     var environment_nodes:Array[Node] = []
@@ -77,5 +65,5 @@ func _tune_environment(scene:Node)->void:
 func _collect_world_environments(node:Node, output:Array[Node])->void:
     if node is WorldEnvironment:
         output.append(node)
-    for child in node.get_children():
+    for child:Node in node.get_children():
         _collect_world_environments(child, output)
