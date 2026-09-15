@@ -1,0 +1,30 @@
+name: Honour War Top-100 Database QA
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/top_100_items_cards.csv'
+      - 'scripts/Top100Database.gd'
+      - 'scripts/LootProgressionSystem.gd'
+      - 'tools/top100_database_qa.py'
+      - '.github/workflows/honour-war-top100-database-qa.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'data/top_100_items_cards.csv'
+      - 'scripts/Top100Database.gd'
+      - 'scripts/LootProgressionSystem.gd'
+      - 'tools/top100_database_qa.py'
+      - '.github/workflows/honour-war-top100-database-qa.yml'
+  workflow_dispatch:
+
+jobs:
+  validate-top100:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Validate canonical Top-100 database
+        run: python tools/top100_database_qa.py
