@@ -22,6 +22,10 @@ var active_assets:Dictionary = {}
 
 func _ready()->void:
     game = get_parent() as Node3D
+    # Game3D performs its presentation update first. This bridge intentionally
+    # runs later so authored GLB scale/grounding cannot be overwritten by the
+    # procedural fallback animation pass.
+    process_priority = 100
     set_process(true)
 
 func _process(delta:float)->void:
@@ -30,15 +34,15 @@ func _process(delta:float)->void:
         game = get_parent() as Node3D
     if game == null:
         return
-    if poll_elapsed < poll_interval:
-        return
-    poll_elapsed = 0.0
     legacy = game.get_node_or_null("LegacyGame") as Node
     if legacy == null:
         return
-    _sync_hero()
-    _sync_pet()
-    _sync_monsters()
+    if poll_elapsed >= poll_interval:
+        poll_elapsed = 0.0
+        _sync_hero()
+        _sync_pet()
+        _sync_monsters()
+    _enforce_production_transforms()
 
 func _sync_hero()->void:
     var current:Node3D = game.get("hero_visual") as Node3D
@@ -65,6 +69,8 @@ func _sync_hero()->void:
             replacement.set_meta("hw_asset_tier", tier_name)
             replacement.set_meta("hw_asset_class", class_id)
             replacement.set_meta("hw_asset_height", hero_target_height)
+            replacement.set_meta("hw_authored_scale", replacement.scale)
+            replacement.set_meta("hw_ground_y", replacement.position.y)
 
 func _sync_pet()->void:
     var current:Node3D = game.get("pet_visual") as Node3D
@@ -82,6 +88,8 @@ func _sync_pet()->void:
         if replacement != null and is_instance_valid(replacement):
             replacement.set_meta("hw_production_asset", true)
             replacement.set_meta("hw_asset_class", class_id)
+            replacement.set_meta("hw_authored_scale", replacement.scale)
+            replacement.set_meta("hw_ground_y", replacement.position.y)
 
 func _sync_monsters()->void:
     var visuals_value:Variant = game.get("monster_visuals")
@@ -142,6 +150,8 @@ func _replace_if_available(key:String, current:Node3D, path:String, monster_id:S
     replacement_3d.set_meta("hw_source_path", path)
     if target_height > 0.0:
         _normalize_actor(replacement_3d, target_height)
+    replacement_3d.set_meta("hw_authored_scale", replacement_3d.scale)
+    replacement_3d.set_meta("hw_ground_y", replacement_3d.position.y)
     active_assets[key] = {"node": replacement_3d, "path": path}
     if key == "hero":
         game.set("hero_visual", replacement_3d)
@@ -153,6 +163,22 @@ func _replace_if_available(key:String, current:Node3D, path:String, monster_id:S
             visuals_value[monster_id] = replacement_3d
     current.queue_free()
     return true
+
+func _enforce_production_transforms()->void:
+    for key in active_assets.keys():
+        var active:Variant = active_assets.get(key, null)
+        if not active is Dictionary:
+            continue
+        var node:Node3D = active.get("node") as Node3D
+        if node == null or not is_instance_valid(node):
+            continue
+        var authored_scale:Variant = node.get_meta("hw_authored_scale", null)
+        if authored_scale is Vector3:
+            node.scale = authored_scale
+        if key == "hero" or key == "pet":
+            var ground_y:Variant = node.get_meta("hw_ground_y", null)
+            if ground_y is float or ground_y is int:
+                node.position.y = float(ground_y)
 
 func _normalize_actor(root:Node3D, target_height:float)->void:
     var bounds:AABB = _collect_mesh_bounds(root)
