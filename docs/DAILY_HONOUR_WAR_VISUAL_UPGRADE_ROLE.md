@@ -104,7 +104,19 @@ The target HUD contains:
 - bottom action/skill bar;
 - right-side functional menu.
 
-Buttons must be functional system entry points, not decorative placeholders.
+### Player identity and social UI — permanent rule
+- The **owner's character name is never rendered above/below their own character**.
+- Other players see the **real character name**, not a generic class label such as `Swordsman`, positioned **below the character**.
+- Player class and level are not displayed as floating world labels.
+- Other players may reveal another player's class through the player context interaction; the class is not permanently visible in the map/dungeon world label.
+- World player nameplates do not expose HP/SP by default.
+- HP/SP bars are reserved for **enemies, party members and PvP players**, with the local owner excluded from floating target bars.
+- Right-clicking another player opens the player context UI and provides an **EQUIP** action for inspecting that player's equipment.
+- Character Status and Equipment are one combined window; stat-point allocation is available in the same window as equipment.
+- ESC opens exactly three top-level character choices: **Create New Character**, **Switch Characters**, and **Options**.
+- Create New Character is a complete page with real character-name entry and class selection.
+- Switch Characters is a character-selection page tied to the existing save system.
+- Options is a dedicated settings page and must not replace the three-choice ESC structure.
 
 ### Lighting and materials
 Normal world presentation uses bright daylight fantasy lighting while preserving rich PBR detail. Production materials should use Base Color, Normal, Roughness, Metallic, AO and Emissive where appropriate. Lighting must reveal faces, armor, monsters and terrain rather than flattening them or hiding gameplay telegraphs.
@@ -121,9 +133,12 @@ For every upgrade:
 7. Verify class/pet/monster silhouettes remain distinct.
 8. Verify attack/hit/skill effects visibly communicate combat.
 9. Verify maps contain primary, secondary and tertiary visual detail.
-10. Run static/runtime/CI validation after meaningful changes.
-11. When a rendered frame or Windows build is available, inspect the rendered presentation for visual regressions. Static CI must not be described as proof of visual parity.
-12. Continue automatically to the next highest-impact visual deficiency instead of stopping after a single script-level fix.
+10. Verify player identity rules: owner-hidden name, remote real-name nameplate below character, no floating player class/level, restricted HP/SP visibility, and right-click Equip.
+11. Verify Character Status and Equipment remain one combined window with working stat points.
+12. Verify ESC exposes exactly Create New Character, Switch Characters and Options, with all three pages functional.
+13. Run static/runtime/CI validation after meaningful changes.
+14. When a rendered frame or Windows build is available, inspect the rendered presentation for visual regressions. Static CI must not be described as proof of visual parity.
+15. Continue automatically to the next highest-impact visual deficiency instead of stopping after a single script-level fix.
 
 ## Permanent production pipeline
 
@@ -148,6 +163,11 @@ A Daily Upgrade must reject or fix the result when:
 - the camera crops face/legs/feet or obscures the pet/target;
 - materials are flat and indistinguishable;
 - lighting destroys silhouette/readability;
-- required visual files are missing or broken.
+- required visual files are missing or broken;
+- a player's own name is shown as a floating world label;
+- `Swordsman` or another class name is used as the permanent player nameplate;
+- player HP/SP is exposed to everyone instead of only the permitted target categories;
+- Status and Equipment are split into competing windows;
+- ESC does not present exactly the three requested character-management choices.
 
 This role remains active for all future Daily Honour War Upgrades.
