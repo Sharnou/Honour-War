@@ -10,6 +10,8 @@ extends Node3D
 @export var pet_asset_root:String = "res://assets/3d/generated/pets"
 @export var monster_asset_root:String = "res://assets/3d/generated/monsters"
 @export var poll_interval:float = 0.20
+@export var hero_target_height:float = 3.40
+@export var monster_target_height:float = 2.40
 
 const TIERS:Array[String] = ["Foundation", "Specialization", "Advanced", "Mastery", "Transcendence"]
 
@@ -56,12 +58,13 @@ func _sync_hero()->void:
         hero_asset_root + "/" + class_dir + "/" + tier_name + ".glb",
         hero_asset_root + "/" + class_dir + "/" + tier_name + ".gltf"
     ]
-    if _replace_first_available("hero", current, candidates):
+    if _replace_first_available("hero", current, candidates, "", hero_target_height):
         var replacement:Node3D = game.get("hero_visual") as Node3D
         if replacement != null and is_instance_valid(replacement):
             replacement.set_meta("hw_production_asset", true)
             replacement.set_meta("hw_asset_tier", tier_name)
             replacement.set_meta("hw_asset_class", class_id)
+            replacement.set_meta("hw_asset_height", hero_target_height)
 
 func _sync_pet()->void:
     var current:Node3D = game.get("pet_visual") as Node3D
@@ -103,15 +106,15 @@ func _sync_monsters()->void:
         var prefix:String = "mvp_" if kind == "MVP" else "monster_"
         var base:String = monster_asset_root + "/" + prefix + _safe_id(str(monster.get("name", "Monster")))
         var candidates:Array[String] = [base + ".glb", base + ".gltf"]
-        _replace_first_available("monster:" + id, current, candidates, id)
+        _replace_first_available("monster:" + id, current, candidates, id, monster_target_height)
 
-func _replace_first_available(key:String, current:Node3D, paths:Array[String], monster_id:String = "")->bool:
+func _replace_first_available(key:String, current:Node3D, paths:Array[String], monster_id:String = "", target_height:float = 0.0)->bool:
     for path in paths:
         if ResourceLoader.exists(path):
-            return _replace_if_available(key, current, path, monster_id)
+            return _replace_if_available(key, current, path, monster_id, target_height)
     return false
 
-func _replace_if_available(key:String, current:Node3D, path:String, monster_id:String = "")->bool:
+func _replace_if_available(key:String, current:Node3D, path:String, monster_id:String = "", target_height:float = 0.0)->bool:
     var active:Variant = active_assets.get(key, null)
     if active is Dictionary:
         var old_node:Node = active.get("node") as Node
@@ -137,6 +140,8 @@ func _replace_if_available(key:String, current:Node3D, path:String, monster_id:S
     replacement_3d.global_transform = current.global_transform
     replacement_3d.name = current.name + "_HDAsset"
     replacement_3d.set_meta("hw_source_path", path)
+    if target_height > 0.0:
+        _normalize_actor(replacement_3d, target_height)
     active_assets[key] = {"node": replacement_3d, "path": path}
     if key == "hero":
         game.set("hero_visual", replacement_3d)
@@ -148,6 +153,41 @@ func _replace_if_available(key:String, current:Node3D, path:String, monster_id:S
             visuals_value[monster_id] = replacement_3d
     current.queue_free()
     return true
+
+func _normalize_actor(root:Node3D, target_height:float)->void:
+    var bounds:AABB = _collect_mesh_bounds(root)
+    if bounds.size.y <= 0.001:
+        return
+    var factor:float = target_height / bounds.size.y
+    factor = clamp(factor, 0.55, 1.75)
+    root.scale = root.scale * factor
+    # Keep the visible feet on the gameplay ground plane rather than letting
+    # inconsistent Blender export origins hide legs below the terrain.
+    var scaled_bounds:AABB = _collect_mesh_bounds(root)
+    root.position.y -= scaled_bounds.position.y
+
+func _collect_mesh_bounds(root:Node3D)->AABB:
+    var found:bool = false
+    var result:AABB = AABB()
+    var inverse:Transform3D = root.global_transform.affine_inverse()
+    for node:Node in root.find_children("*", "MeshInstance3D", true, false):
+        var mesh_instance:MeshInstance3D = node as MeshInstance3D
+        if mesh_instance == null or mesh_instance.mesh == null:
+            continue
+        var local_bounds:AABB = mesh_instance.get_aabb()
+        for i:int in 8:
+            var corner:Vector3 = local_bounds.position + Vector3(
+                local_bounds.size.x if (i & 1) != 0 else 0.0,
+                local_bounds.size.y if (i & 2) != 0 else 0.0,
+                local_bounds.size.z if (i & 4) != 0 else 0.0
+            )
+            var root_point:Vector3 = inverse * (mesh_instance.global_transform * corner)
+            if not found:
+                result = AABB(root_point, Vector3.ZERO)
+                found = true
+            else:
+                result = result.merge(AABB(root_point, Vector3.ZERO))
+    return result
 
 func _tier_for_level(level:int)->int:
     if level >= 200:
