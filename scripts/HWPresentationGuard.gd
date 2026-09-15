@@ -29,7 +29,6 @@ func _guard()->void:
     _ensure_single_environment()
     _clean_duplicate_actor_nodes()
     _repair_camera()
-    _ensure_class_identity()
 
 func _bind()->void:
     if scene == null or not is_instance_valid(scene):
@@ -84,28 +83,28 @@ func _ensure_single_environment()->void:
         if sky_mat == null:
             sky_mat = ProceduralSkyMaterial.new()
             sky.sky_material = sky_mat
-        sky_mat.sky_top_color = Color("#285b8f")
-        sky_mat.sky_horizon_color = Color("#c0deeb")
-        sky_mat.ground_bottom_color = Color("#19271f")
-        sky_mat.ground_horizon_color = Color("#7f9788")
+        sky_mat.sky_top_color = Color("#244d7b")
+        sky_mat.sky_horizon_color = Color("#a9c9d8")
+        sky_mat.ground_bottom_color = Color("#1d2728")
+        sky_mat.ground_horizon_color = Color("#718b82")
         env.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
-        env.ambient_light_energy = 0.64
-        env.ambient_light_sky_contribution = 0.76
+        env.ambient_light_energy = 0.36
+        env.ambient_light_sky_contribution = 0.62
         env.tonemap_mode = Environment.TONE_MAPPER_ACES
-        env.tonemap_exposure = 1.0
-        env.glow_enabled = true
-        env.glow_intensity = 0.68
-        env.glow_bloom = 0.16
-        env.glow_hdr_threshold = 1.05
+        env.tonemap_exposure = -0.65
+        env.glow_enabled = false
+        env.glow_intensity = 0.0
+        env.glow_bloom = 0.0
+        env.glow_hdr_threshold = 1.4
         env.ssao_enabled = true
-        env.ssao_radius = 1.4
-        env.ssao_intensity = 1.65
+        env.ssao_radius = 2.0
+        env.ssao_intensity = 1.15
         env.fog_enabled = true
-        env.fog_light_color = Color("#a7bfcc")
-        env.fog_light_energy = 0.20
-        env.fog_density = 0.0022
+        env.fog_light_color = Color("#9bb4c0")
+        env.fog_light_energy = 0.10
+        env.fog_density = 0.0012
         env.fog_height = 7.0
-        env.fog_height_density = 0.012
+        env.fog_height_density = 0.008
         environment_ready = true
     _purge_world_environments(get_tree().root, keep)
 
@@ -144,40 +143,6 @@ func _clean_duplicate_actor_nodes()->void:
         hero.visible = true
     if pet != null and is_instance_valid(pet):
         pet.visible = true
-
-func _ensure_class_identity()->void:
-    var hero:Node3D = scene.get("hero_visual") as Node3D
-    var legacy:Node = scene.get_node_or_null("LegacyGame")
-    if hero == null or not is_instance_valid(hero) or legacy == null:
-        return
-    var value:Variant = legacy.get("hero")
-    if not value is Dictionary:
-        return
-    var data:Dictionary = value
-    var class_id:String = str(data.get("class", "Warrior"))
-    var level:int = int(data.get("level", 1))
-    var marker:Label3D = hero.get_node_or_null("HWClassIdentity") as Label3D
-    if marker == null:
-        marker = Label3D.new()
-        marker.name = "HWClassIdentity"
-        marker.billboard = BaseMaterial3D.BILLBOARD_ENABLED
-        marker.no_depth_test = true
-        marker.outline_size = 8
-        marker.font_size = 32
-        marker.pixel_size = 0.0028
-        hero.add_child(marker)
-    marker.text = class_id.to_upper() + "  •  LV " + str(level)
-    marker.modulate = _class_color(class_id)
-    marker.position = Vector3(0.0, 2.45, 0.0)
-
-func _class_color(class_id:String)->Color:
-    match class_id:
-        "Mage": return Color("#8fc7ff")
-        "Archer": return Color("#9fe7a7")
-        "Thief": return Color("#d9a8ff")
-        "Acolyte": return Color("#fff0a6")
-        "Merchant": return Color("#ffbf78")
-        _ : return Color("#ffcf70")
 
 func _repair_camera()->void:
     var camera:Camera3D = scene.get_node_or_null("Camera3D") as Camera3D
