@@ -32,13 +32,16 @@ check('hero_asset_root:String = "res://assets/3d/generated/characters"' in runti
 check('monster_asset_root:String = "res://assets/3d/generated/monsters"' in runtime, "HD monster asset root is not configured")
 check('hw_production_asset' in runtime and 'hw_source_path' in runtime, "Production asset metadata contract is missing")
 check('replacement_3d.name = current.name + "_HDAsset"' in runtime, "HD replacement node naming contract is missing")
+check('hero_target_height:float = 3.40' in runtime and 'monster_target_height:float = 2.40' in runtime, "HD actor framing targets are missing")
+check('_normalize_actor(replacement_3d, target_height)' in runtime, "HD actors are not normalized to a visible production frame")
 
-# Guard must not purge production actors.
+# Guard must not purge production actors. Match only actual broad prefix deletion
+# expressions, not legitimate identifiers such as hero_visual.
 guard = (ROOT / "scripts" / "HWPresentationGuard.gd").read_text(encoding="utf-8")
 check('hw_production_asset' in guard and 'hw_source_path' in guard, "Presentation guard does not protect production assets")
-check('"hero_"' not in guard, "Presentation guard still contains broad hero_ prefix deletion")
-check('"warrior_"' not in guard, "Presentation guard still contains broad warrior_ prefix deletion")
-check('"knight_"' not in guard, "Presentation guard still contains broad knight_ prefix deletion")
+for prefix in ["hero_", "warrior_", "knight_"]:
+    broad_delete = re.search(r"begins_with\(\s*[\"']" + re.escape(prefix) + r"[\"']\s*\)", guard)
+    check(broad_delete is None, f"Presentation guard still contains broad {prefix} prefix deletion")
 check('HWClassIdentity' in guard, "Class identity marker is missing")
 
 # Camera must remain the sole movement/camera owner.
