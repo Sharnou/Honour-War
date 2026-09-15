@@ -101,7 +101,7 @@ func _build()->void:
         var slot := Button.new()
         slot.name = "SkillSlot_%d" % (i + 1)
         slot.custom_minimum_size = Vector2(116, 74)
-        slot.focus_mode = Control.FOCUS_MODE_ALL
+        slot.focus_mode = Control.FOCUS_ALL
         slot.add_theme_font_size_override("font_size", 9)
         slot.add_theme_stylebox_override("normal", _style(Color("#101d2e"), Color("#42536a"), 7))
         slot.add_theme_stylebox_override("hover", _style(Color("#20324a"), BORDER, 7))
