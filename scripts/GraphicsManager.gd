@@ -69,12 +69,13 @@ func apply_preset(preset:Preset)->void:
             env.ssao_enabled = true
             env.ssao_radius = 1.5
             env.ssao_intensity = 1.0
-            env.glow_enabled = true
-            env.glow_intensity = 0.35
-            env.glow_bloom = 0.08
-            env.glow_hdr_threshold = 1.1
+            # Keep bloom off until the lighting baseline is proven stable.
+            env.glow_enabled = false
+            env.glow_intensity = 0.0
+            env.glow_bloom = 0.0
+            env.glow_hdr_threshold = 1.35
             env.tonemap_mode = Environment.TONE_MAPPER_ACES
-            env.tonemap_exposure = -0.70
+            env.tonemap_exposure = -0.80
             env.glow_blend_mode = Environment.GLOW_BLEND_MODE_SCREEN
             if sun_light != null:
                 sun_light.shadow_enabled = true
@@ -84,12 +85,13 @@ func apply_preset(preset:Preset)->void:
             env.ssao_enabled = true
             env.ssao_radius = 2.0
             env.ssao_intensity = 1.15
-            env.glow_enabled = true
-            env.glow_intensity = 0.65
-            env.glow_bloom = 0.12
-            env.glow_hdr_threshold = 1.25
+            # HD must not reintroduce the washed-out white look.
+            env.glow_enabled = false
+            env.glow_intensity = 0.0
+            env.glow_bloom = 0.0
+            env.glow_hdr_threshold = 1.35
             env.tonemap_mode = Environment.TONE_MAPPER_ACES
-            env.tonemap_exposure = -0.65
+            env.tonemap_exposure = -0.85
             env.glow_blend_mode = Environment.GLOW_BLEND_MODE_SCREEN
             if sun_light != null:
                 sun_light.shadow_enabled = true
