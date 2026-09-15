@@ -1,6 +1,7 @@
 [application]
 config/name="Honour War"
 run/main_scene="res://Main3D.tscn"
+; Honour War target engine: Godot 4.7.x; CI/export default: Godot 4.7.2 stable.
 config/features=PackedStringArray("4.7")
 
 [autoload]
