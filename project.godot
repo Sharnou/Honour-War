@@ -29,6 +29,7 @@ GraphicsManager="*res://scripts/GraphicsManager.gd"
 HWHDQualityRuntime="*res://scripts/HWHDQualityRuntime.gd"
 HWFinalVisualDirector="*res://scripts/HWFinalVisualDirector.gd"
 HWFinalQuickbar="*res://scripts/HWFinalQuickbar.gd"
+HWPresentationGuard="*res://scripts/HWPresentationGuard.gd"
 
 [display]
 window/size/viewport_width=1920
@@ -46,8 +47,6 @@ size/mode=0
 renderer/rendering_method="forward_plus"
 renderer/rendering_method.mobile="mobile"
 renderer/rendering_method.driver="vulkan"
-renderer/rendering_method.driver.mobile="opengl3"
-rendering/driver/driver_name="vulkan"
 rendering/driver/fallback_to_angle=true
 rendering/driver/fallback_to_native=true
 rendering/rendering_device/fallback_to_opengl3=true
