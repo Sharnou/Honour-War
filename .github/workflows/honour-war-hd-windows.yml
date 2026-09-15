@@ -14,14 +14,14 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 concurrency:
-  group: honour-war-windows-${{ github.ref }}
-  cancel-in-progress: true
+  group: honour-war-windows-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   build-windows:
     name: Build HonourWarHD.exe with Godot 4.7.2
     runs-on: windows-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -95,14 +95,17 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          Compress-Archive -Path 'build/windows/*' -DestinationPath 'HonourWarHD-Windows.zip' -Force
+          $zip = Join-Path $pwd 'HonourWarHD-Windows.zip'
+          if (Test-Path $zip) { Remove-Item $zip -Force }
+          Compress-Archive -Path 'build/windows/*' -DestinationPath $zip -CompressionLevel Optimal -Force
+          if (-not (Test-Path $zip)) { throw 'Windows ZIP package was not created' }
+          Get-Item $zip | Select-Object FullName,Length
 
       - name: Upload Windows build artifact
         uses: actions/upload-artifact@v7
         with:
           name: HonourWarHD-Windows
           path: |
-            build/windows/HonourWarHD.exe
             HonourWarHD-Windows.zip
             godot-windows-validation.log
             godot-export.log
