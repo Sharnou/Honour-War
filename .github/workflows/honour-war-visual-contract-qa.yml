@@ -1,0 +1,24 @@
+name: Honour War visual contract QA
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: honour-war-visual-contract-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  visual-contract:
+    name: Production asset and presentation contract
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Validate production visual contract
+        run: python3 tools/honour_war_visual_qa.py
