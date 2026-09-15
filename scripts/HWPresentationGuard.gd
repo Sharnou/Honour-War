@@ -29,6 +29,7 @@ func _guard()->void:
     _ensure_single_environment()
     _clean_duplicate_actor_nodes()
     _repair_camera()
+    _ensure_class_identity()
 
 func _bind()->void:
     if scene == null or not is_instance_valid(scene):
@@ -106,7 +107,6 @@ func _ensure_single_environment()->void:
         env.fog_height = 7.0
         env.fog_height_density = 0.012
         environment_ready = true
-
     _purge_world_environments(get_tree().root, keep)
 
 func _purge_world_environments(node:Node,keep:WorldEnvironment)->void:
@@ -130,15 +130,13 @@ func _clean_duplicate_actor_nodes()->void:
     for child:Node in actor_root.get_children().duplicate():
         if child == hero or child == pet:
             continue
-        # Never delete authored HD replacements. The previous prefix-based
-        # cleanup deleted Hero_HDAsset immediately after HDAssetRuntime loaded it.
+        # Never delete authored HD replacements. The old prefix-based cleanup
+        # deleted Hero_HDAsset immediately after HDAssetRuntime loaded it.
         if bool(child.get_meta("hw_production_asset", false)):
             continue
         if child.has_meta("hw_source_path"):
             continue
         var n:String = str(child.name).to_lower()
-        # Only remove exact legacy placeholders, not every node beginning with
-        # hero_/warrior_/knight_, because those prefixes are also used by authored assets.
         if n in ["hero", "warrior", "knight"]:
             child.visible = false
             child.queue_free()
@@ -146,6 +144,40 @@ func _clean_duplicate_actor_nodes()->void:
         hero.visible = true
     if pet != null and is_instance_valid(pet):
         pet.visible = true
+
+func _ensure_class_identity()->void:
+    var hero:Node3D = scene.get("hero_visual") as Node3D
+    var legacy:Node = scene.get_node_or_null("LegacyGame")
+    if hero == null or not is_instance_valid(hero) or legacy == null:
+        return
+    var value:Variant = legacy.get("hero")
+    if not value is Dictionary:
+        return
+    var data:Dictionary = value
+    var class_id:String = str(data.get("class", "Warrior"))
+    var level:int = int(data.get("level", 1))
+    var marker:Label3D = hero.get_node_or_null("HWClassIdentity") as Label3D
+    if marker == null:
+        marker = Label3D.new()
+        marker.name = "HWClassIdentity"
+        marker.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+        marker.no_depth_test = true
+        marker.outline_size = 8
+        marker.font_size = 32
+        marker.pixel_size = 0.0028
+        hero.add_child(marker)
+    marker.text = class_id.to_upper() + "  •  LV " + str(level)
+    marker.modulate = _class_color(class_id)
+    marker.position = Vector3(0.0, 2.45, 0.0)
+
+func _class_color(class_id:String)->Color:
+    match class_id:
+        "Mage": return Color("#8fc7ff")
+        "Archer": return Color("#9fe7a7")
+        "Thief": return Color("#d9a8ff")
+        "Acolyte": return Color("#fff0a6")
+        "Merchant": return Color("#ffbf78")
+        _ : return Color("#ffcf70")
 
 func _repair_camera()->void:
     var camera:Camera3D = scene.get_node_or_null("Camera3D") as Camera3D
