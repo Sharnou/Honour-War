@@ -28,9 +28,9 @@ var target_yaw_radians:float = 0.0
 var _yaw_radians:float = 0.0
 
 func _ready()->void:
-    camera = self as Camera3D
-    if camera == null:
-        camera = get_node_or_null("Camera3D") as Camera3D
+    # This script extends Node3D, so self can never be safely cast to Camera3D.
+    # Always use the authored child camera when present; create one only as a fallback.
+    camera = get_node_or_null("Camera3D") as Camera3D
     if camera == null:
         camera = Camera3D.new()
         camera.name = "Camera3D"
@@ -98,5 +98,3 @@ func _collect_hero_candidates(node:Node, result:Array[Node])->void:
             return
     for child in node.get_children():
         _collect_hero_candidates(child, result)
-        if result.size() > 0:
-            return
