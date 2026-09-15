@@ -2,14 +2,14 @@ class_name OnlineAgeSystem
 extends RefCounted
 
 ## Persistent online-age progression.
-## Each character can have an individual starting age. Existing characters keep
-## the legacy default of 18 unless `age_origin` is explicitly set.
-const DEFAULT_STARTING_AGE:int = 18
+## Honour War characters now begin as experienced older adults and continue
+## aging from their saved online-days progression.
+const DEFAULT_STARTING_AGE:int = 68
 const DAYS_PER_YEAR:float = 3.0
 
 static func starting_age(hero:Dictionary)->int:
 	var origin:int = int(hero.get("age_origin", DEFAULT_STARTING_AGE))
-	return clamp(origin, 1, 9999)
+	return clamp(origin, 60, 75)
 
 static func age_from_online_days(days:float, origin:int=DEFAULT_STARTING_AGE)->int:
 	return starting_age({"age_origin":origin}) + max(0, int(floor(max(0.0, days) / DAYS_PER_YEAR)))
