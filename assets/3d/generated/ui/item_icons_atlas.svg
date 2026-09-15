@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="64" viewBox="0 0 512 64">
+<defs>
+<linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#101c2d"/><stop offset="1" stop-color="#284563"/></linearGradient></defs>
+<g fill="none" stroke-linejoin="round" stroke-linecap="round" stroke-width="3">
+<g transform="translate(0)"><rect width="64" height="64" rx="12" fill="url(#g)" stroke="#d7b75f"/><path d="M16 42 L30 12 L37 12 L23 42 Z M34 42 L48 12 L55 12 L41 42 Z" fill="#f6e6a8" stroke="#fff2c5"/><path d="M17 50 H47" stroke="#cf913a"/></g>
+<g transform="translate(64)"><rect width="64" height="64" rx="12" fill="url(#g)" stroke="#b58f64"/><path d="M17 49 L21 20 H43 L47 49 Z" fill="#9aa9ba" stroke="#eef5ff"/><path d="M25 20 Q32 10 39 20" stroke="#d9e7f5"/></g>
+<g transform="translate(128)"><rect width="64" height="64" rx="12" fill="url(#g)" stroke="#bd77ff"/><rect x="16" y="10" width="32" height="44" rx="4" fill="#48235e" stroke="#f0c7ff"/><circle cx="32" cy="31" r="11" fill="#bc7cff"/><path d="M26 44 H38" stroke="#f0c7ff"/></g>
+<g transform="translate(192)"><rect width="64" height="64" rx="12" fill="url(#g)" stroke="#72c8ff"/><path d="M32 8 L39 23 L55 32 L39 41 L32 56 L25 41 L9 32 L25 23 Z" fill="#7fe2ff" stroke="#eaffff"/></g>
+<g transform="translate(256)"><rect width="64" height="64" rx="12" fill="url(#g)" stroke="#d8a952"/><circle cx="32" cy="32" r="20" fill="#d7a64d" stroke="#ffe6a1"/><text x="32" y="39" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="700" fill="#fff2be">Z</text></g>
+<g transform="translate(320)"><rect width="64" height="64" rx="12" fill="url(#g)" stroke="#a8d8ff"/><path d="M16 44 L25 18 L40 12 L49 26 L42 49 L23 53 Z" fill="#8cc8ff" stroke="#e7f7ff"/><path d="M23 32 L43 24 M22 41 L40 34" stroke="#ffffff"/></g>
+<g transform="translate(384)"><rect width="64" height="64" rx="12" fill="url(#g)" stroke="#a8c4d8"/><path d="M15 48 L25 16 L42 12 L50 29 L43 50 Z" fill="#9bb9ce" stroke="#edf8ff"/><path d="M23 28 L43 22 M20 39 L41 33" stroke="#ffffff"/></g>
+<g transform="translate(448)"><rect width="64" height="64" rx="12" fill="url(#g)" stroke="#63dba1"/><path d="M20 44 Q17 34 22 24 Q27 15 34 15 Q42 18 43 28 Q49 34 43 44 Z" fill="#71d69c" stroke="#e5fff1"/><path d="M28 15 Q32 8 36 15" stroke="#f0fff7"/></g>
+</g></svg>
