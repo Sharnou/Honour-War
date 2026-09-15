@@ -39,6 +39,34 @@ Six core classes must remain immediately distinguishable:
 
 The hero must show face, hair, hands, clothing layers, weapon, legs and feet. Normal gameplay framing must not crop the face or lower body. Character progression must be visible through actual model/equipment/material changes, not only a level number.
 
+### Age-aware character visual direction
+Character age is a real persistent gameplay attribute and must affect the character's visual presentation without being exposed as a floating world label.
+
+The permanent reference profile `data/character_visual_profiles/elder_veteran_adventurer.json` defines an original older-adult character with a canonical display age of **68** and an allowed design range of **60–75**. This character is capable, active, intelligent, warm and respected.
+
+Required dignified aging cues:
+- slight balanced forward lean and gently rounded upper back;
+- subtly lowered/forward shoulders;
+- composed lifted gaze;
+- controlled experienced steps and an appropriate staff/cane/sword/spear/staff/merchant cane/umbrella weight shift;
+- mild forehead, eye-corner and mouth lines;
+- gentle crow's-feet and lightly lowered eyelids;
+- defined cheekbones and jaw;
+- silver/gray/white/salt-and-pepper hair and optional neat gray beard;
+- thick eyebrows with gray strands;
+- visible story details such as rings, prayer beads, old scars, calluses, repaired seams, worn leather, scratched metal, medals, notes, scrolls, tools, pouches or family emblems;
+- no helpless, sickly, grotesque or comic stereotype.
+
+The character must remain readable from 10–25 meters in the elevated semi-isometric camera through a memorable silhouette: staff/cane/weapon/book/lantern/umbrella, layered cloak or mantle, distinctive hair/beard/hat/hood/spectacles/collar, and one asymmetric detail.
+
+The face must be kind, alert, wise and observant with stylized expressive eyes and limited natural facial lines. Avoid pores, excessive wrinkles, extreme drooping or zombie-like features.
+
+Use muted fantasy base colors such as faded navy, burgundy, forest green, dusty purple, warm brown leather, aged bronze, parchment cream, charcoal gray or muted teal with one controlled accent such as amber, emerald, crimson, violet, blue crystal or gold embroidery. Avoid pure-white overexposure and excessive glow.
+
+Technical target: stylized hand-painted PBR, clean GLB/GLTF, Godot 4 Forward+, 1,500–4,000 triangles and 1024x1024 texture for an important NPC, 700–1,500 triangles and 512x512 texture for background NPCs, with LODs for busy towns. Animation set includes idle, walk, talk, greeting, combat, hurt, victory and death. Test at the actual Honour War gameplay camera distance.
+
+This character and all future age-aware characters must be **original Honour War designs** and must not copy Ragnarok Online or any other existing game's character, costume, hairstyle, equipment, art or icon.
+
 ### Pets
 Permanent combat pets need distinct silhouettes and species identity. Reference examples include Dire Wolf, Astral Sprite, Royal Falcon, Night Panther, Blessed Poring and Merchant Companion.
 
@@ -109,6 +137,7 @@ The target HUD contains:
 - Other players see the **real character name**, not a generic class label such as `Swordsman`, positioned **below the character**.
 - Player class and level are not displayed as floating world labels.
 - Other players may reveal another player's class through the player context interaction; the class is not permanently visible in the map/dungeon world label.
+- Character age is never displayed in the floating world identity display.
 - World player nameplates do not expose HP/SP by default.
 - HP/SP bars are reserved for **enemies, party members and PvP players**, with the local owner excluded from floating target bars.
 - Right-clicking another player opens the player context UI and provides an **EQUIP** action for inspecting that player's equipment.
@@ -133,12 +162,13 @@ For every upgrade:
 7. Verify class/pet/monster silhouettes remain distinct.
 8. Verify attack/hit/skill effects visibly communicate combat.
 9. Verify maps contain primary, secondary and tertiary visual detail.
-10. Verify player identity rules: owner-hidden name, remote real-name nameplate below character, no floating player class/level, restricted HP/SP visibility, and right-click Equip.
-11. Verify Character Status and Equipment remain one combined window with working stat points.
-12. Verify ESC exposes exactly Create New Character, Switch Characters and Options, with all three pages functional.
-13. Run static/runtime/CI validation after meaningful changes.
-14. When a rendered frame or Windows build is available, inspect the rendered presentation for visual regressions. Static CI must not be described as proof of visual parity.
-15. Continue automatically to the next highest-impact visual deficiency instead of stopping after a single script-level fix.
+10. Verify age is persisted per character and affects gameplay/visual progression without appearing in the floating world identity display.
+11. Verify player identity rules: owner-hidden name, remote real-name nameplate below character, no floating player class/level/age, restricted HP/SP visibility, and right-click Equip.
+12. Verify Character Status and Equipment remain one combined window with working stat points.
+13. Verify ESC exposes exactly Create New Character, Switch Characters and Options, with all three pages functional.
+14. Run static/runtime/CI validation after meaningful changes.
+15. When a rendered frame or Windows build is available, inspect the rendered presentation for visual regressions. Static CI must not be described as proof of visual parity.
+16. Continue automatically to the next highest-impact visual deficiency instead of stopping after a single script-level fix.
 
 ## Permanent production pipeline
 
@@ -166,6 +196,7 @@ A Daily Upgrade must reject or fix the result when:
 - required visual files are missing or broken;
 - a player's own name is shown as a floating world label;
 - `Swordsman` or another class name is used as the permanent player nameplate;
+- character age is shown in the floating world identity display;
 - player HP/SP is exposed to everyone instead of only the permitted target categories;
 - Status and Equipment are split into competing windows;
 - ESC does not present exactly the three requested character-management choices.
