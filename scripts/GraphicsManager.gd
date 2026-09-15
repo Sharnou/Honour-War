@@ -1,8 +1,7 @@
 extends Node
 
-## Honour War graphics preset manager for Godot 4.2.
-## F1 = Low, F2 = Medium, F3 = HD.
-## Profiles are tuned around the project's overexposure fix.
+## Honour War graphics presets for Godot 4.7.x.
+## F1 = Low, F2 = Medium, F3 = HD. HD uses native-resolution FSR2/TAA mode.
 
 signal preset_changed(preset_name:String)
 
@@ -45,13 +44,12 @@ func apply_preset(preset:Preset)->void:
                 window.scaling_3d_scale = 0.70
             Preset.MEDIUM:
                 window.scaling_3d_mode = 2
-                window.scaling_3d_scale = 0.75
+                window.scaling_3d_scale = 0.85
             Preset.HD:
                 window.scaling_3d_mode = 2
                 window.scaling_3d_scale = 1.0
 
     if world_environment == null or world_environment.environment == null:
-        push_warning("GraphicsManager: WorldEnvironment node missing; resolution profile still applied.")
         preset_changed.emit(_preset_name())
         return
 
@@ -64,35 +62,29 @@ func apply_preset(preset:Preset)->void:
             env.tonemap_exposure = -0.65
             if sun_light != null:
                 sun_light.shadow_enabled = false
-
         Preset.MEDIUM:
             env.ssao_enabled = true
             env.ssao_radius = 1.5
             env.ssao_intensity = 1.0
-            # Keep bloom off until the lighting baseline is proven stable.
             env.glow_enabled = false
             env.glow_intensity = 0.0
             env.glow_bloom = 0.0
             env.glow_hdr_threshold = 1.35
             env.tonemap_mode = Environment.TONE_MAPPER_ACES
             env.tonemap_exposure = -0.80
-            env.glow_blend_mode = Environment.GLOW_BLEND_MODE_SCREEN
             if sun_light != null:
                 sun_light.shadow_enabled = true
                 sun_light.shadow_bias = 0.04
-
         Preset.HD:
             env.ssao_enabled = true
             env.ssao_radius = 2.0
             env.ssao_intensity = 1.15
-            # HD must not reintroduce the washed-out white look.
             env.glow_enabled = false
             env.glow_intensity = 0.0
             env.glow_bloom = 0.0
             env.glow_hdr_threshold = 1.35
             env.tonemap_mode = Environment.TONE_MAPPER_ACES
-            env.tonemap_exposure = -0.85
-            env.glow_blend_mode = Environment.GLOW_BLEND_MODE_SCREEN
+            env.tonemap_exposure = -0.70
             if sun_light != null:
                 sun_light.shadow_enabled = true
                 sun_light.shadow_bias = 0.025
@@ -101,18 +93,10 @@ func apply_preset(preset:Preset)->void:
 
 func _preset_name()->String:
     match current_preset:
-        Preset.LOW:
-            return "LOW"
-        Preset.MEDIUM:
-            return "MEDIUM"
-        _:
-            return "HD"
+        Preset.LOW: return "LOW"
+        Preset.MEDIUM: return "MEDIUM"
+        _: return "HD"
 
-func is_low()->bool:
-    return current_preset == Preset.LOW
-
-func is_medium()->bool:
-    return current_preset == Preset.MEDIUM
-
-func is_hd()->bool:
-    return current_preset == Preset.HD
+func is_low()->bool: return current_preset == Preset.LOW
+func is_medium()->bool: return current_preset == Preset.MEDIUM
+func is_hd()->bool: return current_preset == Preset.HD

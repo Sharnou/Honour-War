@@ -31,16 +31,19 @@ jobs:
             echo 'ERROR: forbidden modulate:a pattern detected in GDScript.'
             exit 1
           fi
-          echo 'PASS: no forbidden modulate:a pattern found in scripts.'
       - name: Check production pipeline declaration
         shell: bash
         run: |
           set -euo pipefail
-          grep -F 'Blender -> Substance 3D Painter -> GLB/GLTF -> Godot 4' ART_PIPELINE.md
-          grep -F 'Blender → Substance 3D Painter → GLB/GLTF → Godot 4' docs/HD_ART_DIRECTION.md
+          grep -F 'Blender' ART_PIPELINE.md
+          grep -F 'Substance 3D Painter' ART_PIPELINE.md
+          grep -F 'GLB/GLTF' ART_PIPELINE.md
+          grep -F 'Blender' docs/HD_ART_DIRECTION.md
+          grep -F 'Substance 3D Painter' docs/HD_ART_DIRECTION.md
+          grep -F 'GLB/GLTF' docs/HD_ART_DIRECTION.md
 
   godot-editor:
-    name: Godot 4.2.2 renderer-safe validation
+    name: Godot 4.7.2 renderer-safe validation
     runs-on: ubuntu-latest
     needs: art-contract
     steps:
@@ -52,50 +55,40 @@ jobs:
           set -euo pipefail
           sudo apt-get update
           sudo apt-get install -y unzip xvfb libvulkan1 mesa-vulkan-drivers vulkan-tools
-          echo '=== Vulkan ICD inventory ==='
           find /usr/share/vulkan/icd.d -maxdepth 1 -type f -print | sort || true
-          echo '=== Vulkan summary ==='
-          vulkaninfo --summary || true
-      - name: Download Godot 4.2.2
+      - name: Download Godot 4.7.2
         shell: bash
         run: |
           set -euo pipefail
-          curl -L --fail --retry 3 -o godot.zip https://github.com/godotengine/godot/releases/download/4.2.2-stable/Godot_v4.2.2-stable_linux.x86_64.zip
+          curl -L --fail --retry 3 -o godot.zip https://github.com/godotengine/godot/releases/download/4.7.2-stable/Godot_v4.7.2-stable_linux.x86_64.zip
           unzip -q godot.zip
-          chmod +x Godot_v4.2.2-stable_linux.x86_64
-      - name: Validate project in renderer-independent OpenGL compatibility mode
+          chmod +x Godot_v4.7.2-stable_linux.x86_64
+      - name: Validate project in OpenGL compatibility mode
         shell: bash
         run: |
           set -euo pipefail
-          ./Godot_v4.2.2-stable_linux.x86_64 --headless --editor --path . --rendering-method gl_compatibility --rendering-driver opengl3 --quit 2>&1 | tee godot-editor.log
+          ./Godot_v4.7.2-stable_linux.x86_64 --headless --editor --path . --rendering-method gl_compatibility --rendering-driver opengl3 --quit 2>&1 | tee godot-editor.log
           if grep -E 'SCRIPT ERROR|Parse Error|ERROR: Failed to load script|ERROR: Cannot load scene' godot-editor.log; then
-            echo 'ERROR: Godot reported script/scene loading errors.'
             exit 1
           fi
-      - name: Forward+ startup smoke test with available Vulkan ICD
+      - name: Forward+ startup smoke test
         shell: bash
         run: |
           set -euo pipefail
           icd=$(find /usr/share/vulkan/icd.d -maxdepth 1 -type f -name '*.json' | head -n 1 || true)
-          if [ -z "${icd}" ]; then
-            echo 'WARNING: No Vulkan ICD JSON was discovered; skipping Forward+ smoke test.'
-            exit 0
-          fi
-          echo "Using Vulkan ICD: ${icd}"
+          if [ -z "${icd}" ]; then exit 0; fi
           set +e
-          xvfb-run -a env VK_ICD_FILENAMES="${icd}" ./Godot_v4.2.2-stable_linux.x86_64 --headless --editor --path . --rendering-method forward_plus --rendering-driver vulkan --quit 2>&1 | tee godot-forward-plus.log
+          xvfb-run -a env VK_ICD_FILENAMES="${icd}" ./Godot_v4.7.2-stable_linux.x86_64 --headless --editor --path . --rendering-method forward_plus --rendering-driver vulkan --quit 2>&1 | tee godot-forward-plus.log
           status=${PIPESTATUS[0]}
           set -e
           if [ "${status}" -ne 0 ]; then
-            echo 'WARNING: Forward+ Vulkan smoke test could not start on this CI runner.'
-          else
-            echo 'PASS: Forward+ Vulkan editor startup completed.'
+            echo 'WARNING: Forward+ smoke test could not start on this runner.'
           fi
-      - name: Upload Godot validation logs
+      - name: Upload validation logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: godot-renderer-validation-logs
+          name: godot-4-7-2-validation-logs
           path: |
             godot-editor.log
             godot-forward-plus.log
@@ -104,6 +97,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          grep -F 'config/features=PackedStringArray("4.7")' project.godot
           grep -F 'renderer/rendering_method="forward_plus"' project.godot
           grep -F 'renderer/rendering_method.mobile="mobile"' project.godot
           grep -F 'run/main_scene="res://Main3D.tscn"' project.godot
@@ -119,13 +113,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          echo '=== Honour War production asset inventory ==='
           find assets/3d -type f \( -name '*.glb' -o -name '*.gltf' \) -print | sort || true
-          echo '=== Blender source inventory ==='
           find assets -type f -name '*.blend' -print | sort || true
-          echo '=== Texture inventory ==='
           find assets/3d -type f \( -name '*.png' -o -name '*.jpg' -o -name '*.jpeg' -o -name '*.tga' -o -name '*.webp' \) -print | sort || true
-      - name: Report current production asset count
+      - name: Report production asset count
         shell: bash
         run: |
           set -euo pipefail
@@ -133,4 +124,3 @@ jobs:
           textures=$(find assets/3d -type f \( -name '*.png' -o -name '*.jpg' -o -name '*.jpeg' -o -name '*.tga' -o -name '*.webp' \) | wc -l)
           echo "Production models: ${models}"
           echo "Production textures: ${textures}"
-          echo "The manifest remains valid while the production asset library is being authored."

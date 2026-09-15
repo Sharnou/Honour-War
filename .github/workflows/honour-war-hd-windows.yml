@@ -1,0 +1,97 @@
+name: Honour War HD Windows EXE
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'docs/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: honour-war-windows-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-windows:
+    name: Build HonourWarHD.exe with Godot 4.7.2
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download Godot 4.7.2
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Invoke-WebRequest -Uri 'https://github.com/godotengine/godot/releases/download/4.7.2-stable/Godot_v4.7.2-stable_win64.exe' -OutFile 'godot.exe'
+          if (-not (Test-Path 'godot.exe')) { throw 'Godot download failed' }
+
+      - name: Download Godot 4.7.2 export templates
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Invoke-WebRequest -Uri 'https://github.com/godotengine/godot/releases/download/4.7.2-stable/Godot_v4.7.2-stable_export_templates.tpz' -OutFile 'templates.tpz'
+          $templatesDir = Join-Path $env:APPDATA 'Godot\export_templates\4.7.2.stable'
+          New-Item -ItemType Directory -Force -Path $templatesDir | Out-Null
+          Expand-Archive -Path 'templates.tpz' -DestinationPath $templatesDir -Force
+          $inner = Join-Path $templatesDir 'templates'
+          if (Test-Path $inner) {
+            Get-ChildItem -Path $inner -Recurse | ForEach-Object {
+              Copy-Item $_.FullName -Destination $templatesDir -Force -ErrorAction SilentlyContinue
+            }
+          }
+          Get-ChildItem -Path $templatesDir | Select-Object Name
+
+      - name: Import project and validate scripts/scenes
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          & .\godot.exe --headless --editor --path . --quit 2>&1 | Tee-Object -FilePath godot-windows-validation.log
+          if ($LASTEXITCODE -ne 0) { throw "Godot editor validation failed with exit code $LASTEXITCODE" }
+          $errors = Select-String -Path godot-windows-validation.log -Pattern 'SCRIPT ERROR|Parse Error|ERROR: Failed to load script|ERROR: Cannot load scene'
+          if ($errors) { $errors | ForEach-Object { $_.Line }; throw 'Godot reported script/scene loading errors' }
+
+      - name: Export Windows release EXE
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          New-Item -ItemType Directory -Force -Path 'build/windows' | Out-Null
+          & .\godot.exe --headless --path . --export-release 'Windows Desktop' 'build/windows/HonourWarHD.exe' 2>&1 | Tee-Object -FilePath godot-export.log
+          if ($LASTEXITCODE -ne 0) { throw "Windows export failed with exit code $LASTEXITCODE" }
+          if (-not (Test-Path 'build/windows/HonourWarHD.exe')) { throw 'EXE was not created' }
+          Get-Item 'build/windows/HonourWarHD.exe' | Select-Object FullName,Length
+
+      - name: Launch exported EXE smoke test
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $proc = Start-Process -FilePath 'build/windows/HonourWarHD.exe' -ArgumentList '--path','.' -PassThru -WindowStyle Hidden
+          Start-Sleep -Seconds 8
+          if ($proc.HasExited) {
+            if ($proc.ExitCode -ne 0) { throw "EXE exited early with code $($proc.ExitCode)" }
+          } else {
+            Stop-Process -Id $proc.Id -Force
+          }
+
+      - name: Package build
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Compress-Archive -Path 'build/windows/*' -DestinationPath 'HonourWarHD-Windows.zip' -Force
+
+      - name: Upload Windows build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: HonourWarHD-Windows
+          path: |
+            build/windows/HonourWarHD.exe
+            HonourWarHD-Windows.zip
+            godot-windows-validation.log
+            godot-export.log
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 0

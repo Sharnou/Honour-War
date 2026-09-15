@@ -1,7 +1,7 @@
 [application]
 config/name="Honour War"
 run/main_scene="res://Main3D.tscn"
-config/features=PackedStringArray("4.2")
+config/features=PackedStringArray("4.7")
 
 [autoload]
 GameplayFormula="*res://scripts/GameplayFormula.gd"
@@ -25,6 +25,7 @@ HWStartupDefaults="*res://scripts/HWStartupDefaults.gd"
 HWSkillBarRuntime="*res://scripts/HWSkillBarRuntime.gd"
 HWClassAutoAdvancement="*res://scripts/HWClassAutoAdvancement.gd"
 GraphicsManager="*res://scripts/GraphicsManager.gd"
+HWHDQualityRuntime="*res://scripts/HWHDQualityRuntime.gd"
 
 [display]
 window/size/viewport_width=1920
@@ -40,7 +41,7 @@ size/mode=0
 
 [rendering]
 renderer/rendering_method="forward_plus"
-renderer/rendering_method.mobile="gl_compatibility"
+renderer/rendering_method.mobile="mobile"
 renderer/rendering_method.driver="vulkan"
 renderer/rendering_method.driver.mobile="opengl3"
 rendering/driver/driver_name="vulkan"
