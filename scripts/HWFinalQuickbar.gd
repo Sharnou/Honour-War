@@ -1,10 +1,11 @@
 extends CanvasLayer
 
-## Final combat quickbar. Always shows the eight class combat skills, including
-## locked skills, so the toolbar never appears empty. Clicks and 1-8 keys use
-## the live SkillSystem state and preserve the existing Main gameplay systems.
+## Final combat quickbar.
+## Always shows eight class skills, including locked/passive entries.
+## Uses authored SVG icon atlas assets instead of text glyph placeholders.
 
 const SKILLS = preload("res://scripts/SkillSystem.gd")
+const ICON_ATLAS_PATH:String = "res://assets/3d/generated/ui/skill_icons_atlas.svg"
 const PANEL_BG:Color = Color("#07111df5")
 const BORDER:Color = Color("#c9ad68")
 const TEXT:Color = Color("#f7f1e4")
@@ -18,10 +19,12 @@ var hero_class:String = "Warrior"
 var last_signature:String = ""
 var flash_index:int = -1
 var flash_time:float = 0.0
+var icon_atlas:Texture2D
 
 func _ready()->void:
     layer = 300
     process_mode = Node.PROCESS_MODE_ALWAYS
+    icon_atlas = load(ICON_ATLAS_PATH) as Texture2D
     call_deferred("_bind_and_build")
 
 func _process(delta:float)->void:
@@ -43,6 +46,8 @@ func _bind_and_build()->void:
         return
     legacy = scene.get_node_or_null("LegacyGame")
     _hide_legacy_skillbars()
+    if icon_atlas == null:
+        icon_atlas = load(ICON_ATLAS_PATH) as Texture2D
     if panel == null or not is_instance_valid(panel):
         _build()
 
@@ -67,13 +72,13 @@ func _build()->void:
     panel = PanelContainer.new()
     panel.name = "HWFinalSkillQuickbar"
     panel.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
-    panel.position = Vector2(-490, -118)
-    panel.size = Vector2(980, 104)
-    panel.add_theme_stylebox_override("panel", _style(PANEL_BG, BORDER, 9))
+    panel.position = Vector2(-560, -128)
+    panel.size = Vector2(1120, 116)
+    panel.add_theme_stylebox_override("panel", _style(PANEL_BG, BORDER, 10))
     add_child(panel)
 
     var outer := VBoxContainer.new()
-    outer.add_theme_constant_override("separation", 2)
+    outer.add_theme_constant_override("separation", 3)
     panel.add_child(outer)
 
     var header := HBoxContainer.new()
@@ -81,11 +86,11 @@ func _build()->void:
     var title := Label.new()
     title.name = "Title"
     title.text = "COMBAT SKILLS"
-    title.add_theme_font_size_override("font_size", 11)
+    title.add_theme_font_size_override("font_size", 12)
     title.add_theme_color_override("font_color", TEXT)
     header.add_child(title)
     var hint := Label.new()
-    hint.text = "1-8 CAST   •   K SKILL TREE   •   locked skills show requirements"
+    hint.text = "1–8 CAST   •   K SKILL TREE   •   PASSIVES ALWAYS ACTIVE"
     hint.add_theme_font_size_override("font_size", 9)
     hint.add_theme_color_override("font_color", MUTED)
     hint.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -94,18 +99,22 @@ func _build()->void:
 
     slots = HBoxContainer.new()
     slots.alignment = BoxContainer.ALIGNMENT_CENTER
-    slots.add_theme_constant_override("separation", 6)
+    slots.add_theme_constant_override("separation", 7)
     outer.add_child(slots)
 
     for i in range(8):
         var slot := Button.new()
         slot.name = "SkillSlot_%d" % (i + 1)
-        slot.custom_minimum_size = Vector2(116, 74)
+        slot.custom_minimum_size = Vector2(132, 82)
+        slot.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+        slot.alignment = HORIZONTAL_ALIGNMENT_CENTER
         slot.focus_mode = Control.FOCUS_ALL
         slot.add_theme_font_size_override("font_size", 9)
-        slot.add_theme_stylebox_override("normal", _style(Color("#101d2e"), Color("#42536a"), 7))
-        slot.add_theme_stylebox_override("hover", _style(Color("#20324a"), BORDER, 7))
-        slot.add_theme_stylebox_override("pressed", _style(Color("#293c58"), Color("#f0d587"), 7))
+        slot.add_theme_color_override("font_color", TEXT)
+        slot.add_theme_color_override("font_hover_color", TEXT)
+        slot.add_theme_stylebox_override("normal", _style(Color("#101d2e"), Color("#42536a"), 8))
+        slot.add_theme_stylebox_override("hover", _style(Color("#20324a"), BORDER, 8))
+        slot.add_theme_stylebox_override("pressed", _style(Color("#293c58"), Color("#f0d587"), 8))
         slot.pressed.connect(_cast_slot.bind(i))
         slots.add_child(slot)
 
@@ -130,6 +139,7 @@ func _refresh(force:bool = false)->void:
             continue
         if i >= data.size():
             slot.text = str(i + 1) + "\n—"
+            slot.icon = null
             slot.disabled = true
             continue
         var skill:Dictionary = data[i]
@@ -140,25 +150,26 @@ func _refresh(force:bool = false)->void:
         for req:Variant in skill.get("requires",[]):
             if int(hero.get("skill_levels",{}).get(str(req),0)) < 1:
                 locked = true
-        var icon:String = _icon_for_skill(hero_class, str(skill.get("id","")), kind)
+        var name:String = str(skill.get("name","Skill"))
+        if name.length() > 18:
+            name = name.substr(0,18)
         var state:String = "Lv.%d" % level
         if locked:
-            state = "LOCK • Lv.%d" % required
+            state = "LOCK • REQ Lv.%d" % required
         elif kind == "ultimate":
             state = "ULTIMATE • Lv.%d" % level
         elif kind == "passive":
             state = "PASSIVE • Lv.%d" % level
-        var name:String = str(skill.get("name","Skill"))
-        if name.length() > 17:
-            name = name.substr(0,17)
         var badge:String = "✓" if level > 0 and not locked else ""
-        slot.text = icon + "\n" + str(i + 1) + "  " + name + "\n" + state + ("  " + badge if not badge.is_empty() else "")
+        slot.text = str(i + 1) + "  " + name + "\n" + state + ("  " + badge if not badge.is_empty() else "")
         slot.tooltip_text = str(skill.get("name","Skill")) + "\n" + str(skill.get("description","")) + "\nSP " + str(skill.get("sp_cost",0)) + " • CD " + str(skill.get("cooldown",0.0)) + "s"
+        slot.icon = _icon_for_skill(hero_class, i)
         slot.disabled = locked or kind == "passive"
+        slot.modulate = Color("#8291a3") if locked else Color.WHITE
         if i == flash_index and flash_time > 0.0:
-            slot.add_theme_stylebox_override("normal", _style(Color("#4b3520"), Color("#ffe28c"), 7))
+            slot.add_theme_stylebox_override("normal", _style(Color("#4b3520"), Color("#ffe28c"), 8))
         else:
-            slot.add_theme_stylebox_override("normal", _style(Color("#101d2e"), Color("#42536a"), 7))
+            slot.add_theme_stylebox_override("normal", _style(Color("#101d2e"), Color("#42536a"), 8))
 
 func _cast_slot(index:int)->void:
     if legacy == null:
@@ -225,33 +236,22 @@ func _log(message:String)->void:
     if legacy != null and legacy.has_method("log_message"):
         legacy.call("log_message",message)
 
-func _icon_for_skill(class_id:String,skill_id:String,kind:String)->String:
-    if kind == "ultimate":
-        return "✦"
-    if class_id == "Warrior":
-        if skill_id.find("whirl") >= 0: return "◈"
-        if skill_id.find("earth") >= 0: return "◆"
-        return "⚔"
-    if class_id == "Mage":
-        if skill_id.find("frost") >= 0: return "❄"
-        if skill_id.find("meteor") >= 0 or skill_id.find("comet") >= 0: return "☄"
-        if skill_id.find("void") >= 0: return "◉"
-        return "✧"
-    if class_id == "Archer":
-        if skill_id.find("trap") >= 0: return "⚡"
-        if skill_id.find("hawk") >= 0: return "➶"
-        return "➳"
-    if class_id == "Thief":
-        if skill_id.find("poison") >= 0: return "☠"
-        if skill_id.find("smoke") >= 0: return "◌"
-        return "✦"
-    if class_id == "Acolyte":
-        if skill_id.find("sanctuary") >= 0 or skill_id.find("seraphic") >= 0: return "✚"
-        return "✥"
-    if class_id == "Merchant":
-        if skill_id.find("forge") >= 0 or skill_id.find("magma") >= 0: return "⚒"
-        return "◆"
-    return "◇"
+func _icon_for_skill(class_id:String,index:int)->Texture2D:
+    if icon_atlas == null:
+        return null
+    var row:int = 0
+    match class_id:
+        "Mage": row = 1
+        "Archer": row = 2
+        "Thief": row = 3
+        "Acolyte": row = 4
+        "Merchant": row = 5
+        _:
+            row = 0
+    var atlas := AtlasTexture.new()
+    atlas.atlas = icon_atlas
+    atlas.region = Rect2(float(index * 64),float(row * 64),64.0,64.0)
+    return atlas
 
 func _style(bg:Color,border:Color,radius:int)->StyleBoxFlat:
     var style := StyleBoxFlat.new()
