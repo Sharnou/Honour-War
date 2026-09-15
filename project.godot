@@ -30,6 +30,7 @@ HWHDQualityRuntime="*res://scripts/HWHDQualityRuntime.gd"
 HWFinalVisualDirector="*res://scripts/HWFinalVisualDirector.gd"
 HWFinalQuickbar="*res://scripts/HWFinalQuickbar.gd"
 HWPresentationGuard="*res://scripts/HWPresentationGuard.gd"
+HWItemIconEnhancer="*res://scripts/HWItemIconEnhancer.gd"
 
 [display]
 window/size/viewport_width=1920
