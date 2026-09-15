@@ -47,7 +47,9 @@ func _sync_hero()->void:
         return
     var hero:Dictionary = value
     var class_id:String = str(hero.get("class", "Warrior"))
-    var tier:int = clamp(int(hero.get("class_tier", _tier_for_level(int(hero.get("level", 1))))), 0, TIERS.size() - 1)
+    var level:int = int(hero.get("level", 1))
+    var tier:int = max(int(hero.get("class_tier", 0)), _tier_for_level(level))
+    tier = clamp(tier, 0, TIERS.size() - 1)
     var tier_name:String = TIERS[tier]
     var class_dir:String = _safe_id(class_id)
     var candidates:Array[String] = [
@@ -119,7 +121,6 @@ func _replace_if_available(key:String, current:Node3D, path:String, monster_id:S
         if old_node != null and is_instance_valid(old_node):
             old_node.queue_free()
         active_assets.erase(key)
-
     if current == null or not is_instance_valid(current) or current.get_parent() == null:
         return false
     var packed:PackedScene = load(path) as PackedScene
@@ -130,7 +131,6 @@ func _replace_if_available(key:String, current:Node3D, path:String, monster_id:S
         if replacement != null:
             replacement.queue_free()
         return false
-
     var parent:Node = current.get_parent()
     parent.add_child(replacement)
     var replacement_3d:Node3D = replacement as Node3D
@@ -138,7 +138,6 @@ func _replace_if_available(key:String, current:Node3D, path:String, monster_id:S
     replacement_3d.name = current.name + "_HDAsset"
     replacement_3d.set_meta("hw_source_path", path)
     active_assets[key] = {"node": replacement_3d, "path": path}
-
     if key == "hero":
         game.set("hero_visual", replacement_3d)
     elif key == "pet":
