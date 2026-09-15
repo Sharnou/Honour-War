@@ -42,9 +42,18 @@ if age_profile.is_file():
     for phrase in ["\"display_age\": 68", "\"age_range\": [60, 75]", "\"age_origin\": 68", "original", "no Ragnarok Online copy", "idle", "walk", "talk", "combat", "hurt", "victory", "death"]:
         check(phrase in age_text, "Elder profile: " + phrase)
 
-age_system = (ROOT / "scripts" / "OnlineAgeSystem.gd").read_text(encoding="utf-8")
-for phrase in ["age_origin", "starting_age", "age_from_online_days", "DAYS_PER_YEAR"]:
+age_system_path = ROOT / "scripts" / "OnlineAgeSystem.gd"
+age_system = age_system_path.read_text(encoding="utf-8")
+for phrase in ["DEFAULT_STARTING_AGE:int = 68", "age_origin", "starting_age", "age_from_online_days", "DAYS_PER_YEAR"]:
     check(phrase in age_system, "Age system: " + phrase)
+check("clamp(origin, 60, 75)" in age_system, "Age origin remains inside requested 60–75 range")
+check("hero[\"age\"]" in age_system, "Age is persisted in hero state")
+
+age_director_path = ROOT / "scripts" / "HeroAgePetDirector.gd"
+age_director = age_director_path.read_text(encoding="utf-8")
+for phrase in ["_apply_aged_character_presentation", "WalkingStaff", "silver", "AgeMaturityDetails", "Age increased", "age_label"]:
+    check(phrase in age_director, "Age presentation: " + phrase)
+check('"age"' in age_director and "floating" in age_director, "Age director explicitly separates status age from floating identity")
 
 runtime = (ROOT / "scripts" / "HDAssetRuntime.gd").read_text(encoding="utf-8")
 for phrase in ["res://assets/3d/generated/characters", "res://assets/3d/generated/monsters", "hw_production_asset", "hw_source_path", "_normalize_actor", "hero_target_height", "process_priority = 100", "_enforce_production_transforms"]:
