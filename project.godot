@@ -27,6 +27,8 @@ HWSkillBarRuntime="*res://scripts/HWSkillBarRuntime.gd"
 HWClassAutoAdvancement="*res://scripts/HWClassAutoAdvancement.gd"
 GraphicsManager="*res://scripts/GraphicsManager.gd"
 HWHDQualityRuntime="*res://scripts/HWHDQualityRuntime.gd"
+HWFinalVisualDirector="*res://scripts/HWFinalVisualDirector.gd"
+HWFinalQuickbar="*res://scripts/HWFinalQuickbar.gd"
 
 [display]
 window/size/viewport_width=1920
