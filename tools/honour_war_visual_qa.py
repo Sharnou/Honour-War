@@ -16,13 +16,11 @@ def check(ok, message):
     if not ok:
         errors.append(message)
 
-# Production character contract: every class has every progression tier.
 for cls in CHARACTERS:
     for tier in TIERS:
         path = ASSET_ROOT / "characters" / cls / f"{tier}.glb"
         check(path.is_file() and path.stat().st_size > 10000, f"Missing/invalid character asset: {path.relative_to(ROOT)}")
 
-# Production monster contract: every named monster has a distinct GLB.
 for monster in MONSTERS:
     path = ASSET_ROOT / "monsters" / f"monster_{monster}.glb"
     check(path.is_file() and path.stat().st_size > 10000, f"Missing/invalid monster asset: {path.relative_to(ROOT)}")
@@ -35,8 +33,6 @@ check('replacement_3d.name = current.name + "_HDAsset"' in runtime, "HD replacem
 check('hero_target_height:float = 3.40' in runtime and 'monster_target_height:float = 2.40' in runtime, "HD actor framing targets are missing")
 check('_normalize_actor(replacement_3d, target_height)' in runtime, "HD actors are not normalized to a visible production frame")
 
-# Guard must not purge production actors. Match only actual broad prefix deletion
-# expressions, not legitimate identifiers such as hero_visual.
 guard = (ROOT / "scripts" / "HWPresentationGuard.gd").read_text(encoding="utf-8")
 check('hw_production_asset' in guard and 'hw_source_path' in guard, "Presentation guard does not protect production assets")
 for prefix in ["hero_", "warrior_", "knight_"]:
@@ -44,23 +40,19 @@ for prefix in ["hero_", "warrior_", "knight_"]:
     check(broad_delete is None, f"Presentation guard still contains broad {prefix} prefix deletion")
 check('HWClassIdentity' in guard, "Class identity marker is missing")
 
-# Camera must remain the sole movement/camera owner.
 movement = (ROOT / "scripts" / "MovementStabilityFix.gd").read_text(encoding="utf-8")
 game3d = (ROOT / "scripts" / "Game3D.gd").read_text(encoding="utf-8")
 check('current=true' in movement or 'current = true' in movement, "MovementStabilityFix does not own the active camera")
-check('Do not follow the hero here' in game3d, "Game3D camera ownership warning is missing")
+check('camera.current = true' not in game3d and 'camera.make_current()' not in game3d, "Game3D attempts to take ownership of the active camera")
 
-# Visual pipeline contract.
 project = (ROOT / "project.godot").read_text(encoding="utf-8")
 check('config/name="Honour War"' in project or 'config/name="Honour-War"' in project, "Honour War project identity is missing")
 check('4.7.2' in project, "Godot 4.7.2 is not declared in project metadata")
 
-# UI asset contract.
 for ui_file in ["item_icons_atlas.svg", "skill_icons_atlas.svg"]:
     path = ASSET_ROOT / "ui" / ui_file
     check(path.is_file() and path.stat().st_size > 1000, f"Missing/invalid UI atlas: {path.relative_to(ROOT)}")
 
-# Detect accidental unresolved Godot merge markers in scripts/scenes.
 for path in ROOT.rglob("*"):
     if path.is_file() and path.suffix in {".gd", ".tscn", ".tres", ".godot"}:
         try:
