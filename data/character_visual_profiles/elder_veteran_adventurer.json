@@ -1,0 +1,62 @@
+{
+  "id": "elder_veteran_adventurer",
+  "display_age": 68,
+  "age_range": [60, 75],
+  "age_origin": 68,
+  "visual_direction": "Original stylized fantasy MMORPG character; charming anime-inspired proportions; elevated semi-isometric readability.",
+  "identity": "Older adult adventurer shown with dignity, experience, warmth, confidence, capability and intelligence.",
+  "silhouette": [
+    "slight balanced forward lean",
+    "subtly rounded upper back",
+    "lower relaxed shoulders",
+    "walking staff, cane, sword, spear, magical staff, merchant cane or travel umbrella",
+    "layered cloak, mantle, shawl, robe, long coat or weathered cape",
+    "distinctive hairstyle, beard, hat, hood, spectacles or large collar",
+    "one asymmetric detail such as shoulder mantle, satchel, old pauldron, bandaged arm, tool belt or ceremonial charm"
+  ],
+  "face": [
+    "kind alert wise observant expression",
+    "focused expressive stylized eyes",
+    "limited forehead and eye-corner lines",
+    "gentle crow's-feet",
+    "defined cheekbones and jaw",
+    "soft smile lines",
+    "silver gray white or salt-and-pepper hair",
+    "optional neat gray beard or tied-back hair"
+  ],
+  "clothing_palette": ["faded navy", "burgundy", "forest green", "dusty purple", "warm brown leather", "aged bronze", "parchment cream", "charcoal gray", "muted teal"],
+  "accent_options": ["amber magic", "emerald gem", "crimson scarf", "violet rune", "blue crystal", "gold embroidery"],
+  "materials": ["Base Color", "Roughness", "Normal", "AO", "optional Emission"],
+  "animation_set": ["idle", "walk", "talk", "greeting", "combat", "hurt", "victory", "death"],
+  "animation_notes": {
+    "idle": "slow breathing, subtle weight shift, adjusts cloak or gloves, rests one hand on staff, calmly observes",
+    "walk": "controlled short experienced steps; staff touches ground just before each step",
+    "talk": "thoughtful hand gestures, small nods, warm expression",
+    "greeting": "briefly straightens and confidently raises hand or staff",
+    "combat": "briefly straightens and moves with surprising precision and speed",
+    "hurt": "small recoil followed by rapid recovery; never helpless",
+    "victory": "calm nod, relaxed posture, weapon or staff lowered"
+  },
+  "technical": {
+    "engine": "Godot 4",
+    "pipeline": "Blender -> Substance 3D Painter -> GLB/GLTF -> Godot 4 Forward+",
+    "important_npc_triangles": "1500-4000",
+    "important_npc_texture": "1024x1024",
+    "background_npc_triangles": "700-1500",
+    "background_npc_texture": "512x512",
+    "lod_required": true,
+    "test_camera": "Honour War elevated semi-isometric gameplay camera"
+  },
+  "negative_constraints": [
+    "no Ragnarok Online copy",
+    "no existing game character or copied costume/hair/icon",
+    "no excessive hunch",
+    "no grotesque age deformation",
+    "no helpless stereotype",
+    "no white overexposure",
+    "no photoreal skin pores",
+    "no random excessive glowing accessories",
+    "no empty generic costume",
+    "no unreadable micro-details"
+  ]
+}
