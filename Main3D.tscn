@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=3]
+[gd_scene load_steps=57 format=3]
 
 [ext_resource path="res://scripts/Game3D.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/Main.gd" type="Script" id="2"]
@@ -55,6 +55,7 @@
 [ext_resource path="res://scripts/EnvironmentCycle.gd" type="Script" id="53"]
 [ext_resource path="res://scenes/OptionsMenu.tscn" type="PackedScene" id="54"]
 [ext_resource path="res://scripts/HWFinalSystemsRuntime.gd" type="Script" id="55"]
+[ext_resource path="res://scripts/HWPlayerIdentityUI.gd" type="Script" id="56"]
 
 [node name="HonourWar3D" type="Node3D"]
 script = ExtResource("1")
@@ -89,6 +90,9 @@ script = ExtResource("55")
 
 [node name="HDMMOTaskbar" type="CanvasLayer" parent="."]
 script = ExtResource("49")
+
+[node name="HWPlayerIdentityUI" type="CanvasLayer" parent="."]
+script = ExtResource("56")
 
 [node name="MonsterVisualEnhancer" type="Node3D" parent="."]
 script = ExtResource("48")
