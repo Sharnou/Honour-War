@@ -27,24 +27,35 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          Invoke-WebRequest -Uri 'https://github.com/godotengine/godot/releases/download/4.7.2-stable/Godot_v4.7.2-stable_win64.exe' -OutFile 'godot.exe'
-          if (-not (Test-Path 'godot.exe')) { throw 'Godot download failed' }
+          $url = 'https://github.com/godotengine/godot-builds/releases/download/4.7.2-stable/Godot_v4.7.2-stable_win64.exe.zip'
+          Invoke-WebRequest -Uri $url -OutFile 'godot.zip'
+          Expand-Archive -Path 'godot.zip' -DestinationPath '.' -Force
+          $exe = Get-ChildItem -Path '.' -Filter 'Godot_v4.7.2-stable_win64.exe' -File -Recurse | Select-Object -First 1
+          if ($null -eq $exe) { throw 'Godot 4.7.2 Windows executable was not found after extraction' }
+          Copy-Item $exe.FullName 'godot.exe' -Force
+          Get-Item 'godot.exe' | Select-Object FullName,Length
 
       - name: Download Godot 4.7.2 export templates
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          Invoke-WebRequest -Uri 'https://github.com/godotengine/godot/releases/download/4.7.2-stable/Godot_v4.7.2-stable_export_templates.tpz' -OutFile 'templates.tpz'
+          $url = 'https://github.com/godotengine/godot-builds/releases/download/4.7.2-stable/Godot_v4.7.2-stable_export_templates.tpz'
+          Invoke-WebRequest -Uri $url -OutFile 'templates.tpz'
           $templatesDir = Join-Path $env:APPDATA 'Godot\export_templates\4.7.2.stable'
           New-Item -ItemType Directory -Force -Path $templatesDir | Out-Null
           Expand-Archive -Path 'templates.tpz' -DestinationPath $templatesDir -Force
           $inner = Join-Path $templatesDir 'templates'
           if (Test-Path $inner) {
-            Get-ChildItem -Path $inner -Recurse | ForEach-Object {
-              Copy-Item $_.FullName -Destination $templatesDir -Force -ErrorAction SilentlyContinue
+            Get-ChildItem -Path $inner -Recurse -File | ForEach-Object {
+              Copy-Item $_.FullName -Destination $templatesDir -Force
             }
           }
-          Get-ChildItem -Path $templatesDir | Select-Object Name
+          $required = Join-Path $templatesDir 'windows_release_x86_64.exe'
+          if (-not (Test-Path $required)) { throw 'Godot Windows 4.7.2 release export template was not installed' }
+          @('version.txt','windows_release_x86_64.exe') | ForEach-Object {
+            $p = Join-Path $templatesDir $_
+            if (Test-Path $p) { Get-Item $p | Select-Object Name,Length }
+          }
 
       - name: Import project and validate scripts/scenes
         shell: pwsh
@@ -69,7 +80,7 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          $proc = Start-Process -FilePath 'build/windows/HonourWarHD.exe' -ArgumentList '--path','.' -PassThru -WindowStyle Hidden
+          $proc = Start-Process -FilePath 'build/windows/HonourWarHD.exe' -PassThru
           Start-Sleep -Seconds 8
           if ($proc.HasExited) {
             if ($proc.ExitCode -ne 0) { throw "EXE exited early with code $($proc.ExitCode)" }
