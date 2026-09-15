@@ -1,12 +1,13 @@
 extends CanvasLayer
 
-## Honour War player identity and character-menu layer.
-## Remote players: real character name only, below the model.
-## Owner: own name hidden. Player class/level never appear over player models.
-## HP/SP bars are shown only for enemies, party members and PvP players.
-## Right-click another player opens a context panel with EQUIP.
-## ESC opens exactly Create New Character / Switch Characters / Options.
-## C or E opens one combined Status + Equipment window.
+## Player identity contract:
+## - Remote players show only their real name below the model.
+## - Local owner does not see their own overhead name.
+## - Player class and level are never shown over player models.
+## - Enemy, party-member and PvP target bars are visible to other players.
+## - Right-click another player opens Equip.
+## - ESC opens Create New Character / Switch Characters / Options.
+## - C or E opens one combined Status + Equipment window.
 
 const CHARACTER = preload("res://scripts/CharacterProgressionSystem.gd")
 const SAVE = preload("res://scripts/SaveSystem.gd")
@@ -22,7 +23,7 @@ var options_window: Panel
 var context_window: Panel
 var selected_player: Node
 var actor_ui: Dictionary = {}
-var last_scan := 0
+var scan_clock := 0
 
 func _ready() -> void:
     layer = 190
@@ -43,12 +44,11 @@ func _bind() -> void:
     _scan()
 
 func _process(_delta: float) -> void:
-    if scene_root == null:
-        return
-    if Time.get_ticks_msec() - last_scan > 400:
-        last_scan = Time.get_ticks_msec()
+    scan_clock += 1
+    if scan_clock >= 25:
+        scan_clock = 0
         _scan()
-    _refresh_actor_ui()
+    _refresh_labels()
 
 func _unhandled_input(event: InputEvent) -> void:
     if event is InputEventKey and event.pressed and not event.echo:
@@ -56,9 +56,8 @@ func _unhandled_input(event: InputEvent) -> void:
             _handle_escape()
             get_viewport().set_input_as_handled()
         elif event.keycode == KEY_C or event.keycode == KEY_E:
-            if create_window == null and switch_window == null and options_window == null:
-                _open_combined()
-                get_viewport().set_input_as_handled()
+            _open_combined()
+            get_viewport().set_input_as_handled()
     elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
         var actor := _pick_player(event.position)
         if actor != null and not _is_local(actor):
@@ -80,7 +79,7 @@ func _scan() -> void:
     if scene_root != null:
         for actor in scene_root.find_children("*", "Node3D", true, false):
             if actor.has_meta("hw_player") or actor.has_meta("hw_remote_player") or actor.has_meta("hw_enemy"):
-                _ensure_actor(actor, actor.has_meta("hw_enemy"))
+                _ensure_actor(actor, bool(actor.get_meta("hw_enemy", false)))
                 seen[actor.get_instance_id()] = true
     for id in actor_ui.keys():
         if not seen.has(id):
@@ -90,7 +89,7 @@ func _scan() -> void:
                 root.queue_free()
             actor_ui.erase(id)
 
-func _ensure_actor(actor: Node, show_combat_bars: bool) -> void:
+func _ensure_actor(actor: Node, bars: bool) -> void:
     var id := actor.get_instance_id()
     var data: Dictionary = actor_ui.get(id, {})
     var root: Node3D = data.get("root")
@@ -107,11 +106,10 @@ func _ensure_actor(actor: Node, show_combat_bars: bool) -> void:
         name_label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
         name_label.font_size = 28
         name_label.outline_size = 7
-        name_label.modulate = Color("#f4f5fa")
         root.add_child(name_label)
         data["name_label"] = name_label
-    name_label.position = Vector3(0, 0, 0)
     name_label.text = _real_name(actor)
+    name_label.position = Vector3(0, 0, 0)
     name_label.visible = not _is_local(actor)
     var hp_label: Label3D = data.get("hp_label")
     if hp_label == null or not is_instance_valid(hp_label):
@@ -123,11 +121,10 @@ func _ensure_actor(actor: Node, show_combat_bars: bool) -> void:
         data["sp_label"] = sp_label
     hp_label.position = Vector3(0, -0.27, 0)
     sp_label.position = Vector3(0, -0.52, 0)
-    var visible := show_combat_bars and not _is_local(actor)
-    hp_label.visible = visible
-    sp_label.visible = visible
+    hp_label.visible = bars and not _is_local(actor)
+    sp_label.visible = hp_label.visible
     data["actor"] = actor
-    data["combat_bars"] = show_combat_bars
+    data["bars"] = bars
     actor_ui[id] = data
     _update_bars(actor, data)
 
@@ -138,11 +135,10 @@ func _make_bar(caption: String, tint: Color, parent: Node3D) -> Label3D:
     label.font_size = 21
     label.outline_size = 6
     label.modulate = tint
-    label.text = caption + " [██████████████]"
     parent.add_child(label)
     return label
 
-func _refresh_actor_ui() -> void:
+func _refresh_labels() -> void:
     for id in actor_ui.keys():
         var data: Dictionary = actor_ui[id]
         var actor: Node = data.get("actor")
@@ -150,15 +146,16 @@ func _refresh_actor_ui() -> void:
             continue
         var local := _is_local(actor)
         var name_label: Label3D = data.get("name_label")
+        var hp_label: Label3D = data.get("hp_label")
+        var sp_label: Label3D = data.get("sp_label")
         if name_label != null:
             name_label.visible = not local
             name_label.text = _real_name(actor)
-        var hp_label: Label3D = data.get("hp_label")
-        var sp_label: Label3D = data.get("sp_label")
-        if hp_label != null and sp_label != null:
-            hp_label.visible = bool(data.get("combat_bars", false)) and not local
-            sp_label.visible = hp_label.visible
-            _update_bars(actor, data)
+        if hp_label != null:
+            hp_label.visible = bool(data.get("bars", false)) and not local
+        if sp_label != null:
+            sp_label.visible = hp_label != null and hp_label.visible
+        _update_bars(actor, data)
 
 func _update_bars(actor: Node, data: Dictionary) -> void:
     var hp := _number(actor, ["hp", "current_hp"], 0.0)
@@ -172,17 +169,17 @@ func _update_bars(actor: Node, data: Dictionary) -> void:
     if sp_label != null:
         sp_label.text = "SP " + _bar(sp, max_sp)
 
-func _bar(value: float, maximum: float) -> String:
-    var width := 14
-    var filled := int(round(clampf(value / maxf(maximum, 1.0), 0.0, 1.0) * width))
-    return "[" + "█".repeat(filled) + "·".repeat(width - filled) + "]"
-
 func _number(actor: Node, keys: Array[String], fallback: float) -> float:
     for key in keys:
         var value: Variant = actor.get(key)
         if value is int or value is float:
             return float(value)
     return fallback
+
+func _bar(value: float, maximum: float) -> String:
+    var width := 14
+    var filled := int(round(clampf(value / maxf(maximum, 1.0), 0.0, 1.0) * width))
+    return "[" + "█".repeat(filled) + "·".repeat(width - filled) + "]"
 
 func _real_name(actor: Node) -> String:
     if actor == null:
@@ -236,7 +233,7 @@ func _open_context(actor: Node, position: Vector2) -> void:
     selected_player = actor
     context_window = Panel.new()
     context_window.position = position + Vector2(8, 8)
-    context_window.size = Vector2(250, 155)
+    context_window.size = Vector2(250, 160)
     context_window.add_theme_stylebox_override("panel", _style(Color("#07101cf7"), Color("#d5b86e")))
     overlay.add_child(context_window)
     var box := VBoxContainer.new()
@@ -246,35 +243,33 @@ func _open_context(actor: Node, position: Vector2) -> void:
     name.text = _real_name(actor)
     name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
     box.add_child(name)
+    var class_value: Variant = actor.get("class")
+    if class_value == null:
+        class_value = actor.get_meta("class", "Unknown")
     var class_label := Label.new()
-    class_label.text = "CLASS: " + str(actor.get("class", actor.get_meta("class", "Unknown")))
+    class_label.text = "CLASS: " + str(class_value)
     class_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
     box.add_child(class_label)
-    var equip := Button.new()
-    equip.text = "EQUIP"
-    equip.pressed.connect(_show_equipment)
-    box.add_child(equip)
-    var close := Button.new()
-    close.text = "CLOSE"
-    close.pressed.connect(_close_context)
-    box.add_child(close)
+    _button(box, "EQUIP", _show_equipment)
+    _button(box, "CLOSE", _close_context)
 
 func _show_equipment() -> void:
     if selected_player == null:
         return
     var dialog := AcceptDialog.new()
     dialog.title = _real_name(selected_player) + " • EQUIP"
-    dialog.dialog_text = _equipment_text(selected_player.get("equipment"))
+    var equipment: Variant = selected_player.get("equipment")
+    dialog.dialog_text = _equipment_text(equipment)
     overlay.add_child(dialog)
     dialog.popup_centered(Vector2i(500, 450))
     dialog.confirmed.connect(dialog.queue_free)
 
-func _equipment_text(equipment: Variant) -> String:
-    if not equipment is Dictionary or equipment.is_empty():
+func _equipment_text(value: Variant) -> String:
+    if not value is Dictionary or value.is_empty():
         return "No equipment data available."
     var text := ""
-    for key in equipment.keys():
-        text += str(key).to_upper() + ": " + str(equipment[key]) + "\n"
+    for key in value.keys():
+        text += str(key).to_upper() + ": " + str(value[key]) + "\n"
     return text
 
 func _close_context() -> void:
@@ -348,14 +343,14 @@ func _open_combined() -> void:
     CHARACTER.ensure_state(hero)
     var stats: Dictionary = CHARACTER.stats(hero)
     var top := Label.new()
-    top.text = "%s   •   Lv.%d   •   Stat Points: %d" % [str(hero.get("class", "Warrior")), int(hero.get("level", 1)), int(hero.get("stat_points", 0))]
+    top.text = "%s   •   Level %d   •   Stat Points %d" % [str(hero.get("class", "Warrior")), int(hero.get("level", 1)), int(hero.get("stat_points", 0))]
     box.add_child(top)
-    var hp := Label.new()
-    hp.text = "HP %d / %d    SP %d / %d    ATK %d    MATK %d    DEF %d    MDEF %d" % [int(hero.get("hp", 0)), int(stats.get("max_hp", 0)), int(hero.get("sp", 0)), int(stats.get("max_sp", 0)), int(stats.get("atk", 0)), int(stats.get("matk", 0)), int(stats.get("def", 0)), int(stats.get("mdef", 0))]
-    box.add_child(hp)
-    var stats_title := Label.new()
-    stats_title.text = "STAT POINTS"
-    box.add_child(stats_title)
+    var vitals := Label.new()
+    vitals.text = "HP %d / %d    SP %d / %d    ATK %d    MATK %d    DEF %d    MDEF %d" % [int(hero.get("hp", 0)), int(stats.get("max_hp", 0)), int(hero.get("sp", 0)), int(stats.get("max_sp", 0)), int(stats.get("atk", 0)), int(stats.get("matk", 0)), int(stats.get("def", 0)), int(stats.get("mdef", 0))]
+    box.add_child(vitals)
+    var stat_title := Label.new()
+    stat_title.text = "STAT POINTS"
+    box.add_child(stat_title)
     var stat_data: Dictionary = hero.get("stats", {})
     for stat in CHARACTER.STAT_NAMES:
         var row := HBoxContainer.new()
@@ -399,7 +394,7 @@ func _open_create() -> void:
     create_window.position = (get_viewport().get_visible_rect().size - create_window.size) / 2.0
     var box := create_window.get_child(0) as VBoxContainer
     var info := Label.new()
-    info.text = "Enter the real character name shown to other players. Choose a class."
+    info.text = "Enter the real character name other players will see, then choose a class."
     info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
     box.add_child(info)
     var name_edit := LineEdit.new()
@@ -418,11 +413,11 @@ func _create_character(name_edit: LineEdit, classes: OptionButton) -> void:
     if character_name.is_empty():
         name_edit.placeholder_text = "Enter a real character name"
         return
-    var hero := {"name": character_name, "character_name": character_name, "class": classes.get_item_text(classes.selected), "level": 1, "hp": 100, "sp": 40, "age": 18, "stat_points": 0, "stats": {"str": 1, "agi": 1, "vit": 1, "int": 1, "dex": 1, "luk": 1}, "inventory": {}, "equipment": {}, "cards": [], "pet": {}}
-    CHARACTER.ensure_state(hero)
+    var new_hero := {"name": character_name, "character_name": character_name, "class": classes.get_item_text(classes.selected), "level": 1, "hp": 100, "sp": 40, "age": 18, "stat_points": 0, "stats": {"str": 1, "agi": 1, "vit": 1, "int": 1, "dex": 1, "luk": 1}, "inventory": {}, "equipment": {}, "cards": [], "pet": {}}
+    CHARACTER.ensure_state(new_hero)
     if legacy != null:
-        legacy.set("hero", hero)
-    SAVE.save_game(hero)
+        legacy.set("hero", new_hero)
+    SAVE.save_game(new_hero)
     _close_subpages()
 
 func _open_switch() -> void:
@@ -432,7 +427,7 @@ func _open_switch() -> void:
     switch_window.position = (get_viewport().get_visible_rect().size - switch_window.size) / 2.0
     var box := switch_window.get_child(0) as VBoxContainer
     var current := Label.new()
-    current.text = "CURRENT CHARACTER: " + _real_name(legacy) if legacy != null else "CURRENT CHARACTER"
+    current.text = "CURRENT CHARACTER: " + _real_name(legacy)
     box.add_child(current)
     _button(box, "LOAD SAVED CHARACTER", _load_saved)
     _button(box, "BACK", _close_subpages)
