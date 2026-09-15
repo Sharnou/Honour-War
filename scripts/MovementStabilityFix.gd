@@ -11,9 +11,9 @@ const ORIGIN_Y:float = 120.0
 const WORLD_SCALE:float = 0.055
 const MOVE_SPEED:float = 210.0
 const STOP_DISTANCE:float = 1.5
-const CAMERA_DISTANCE:float = 11.5
+const CAMERA_DISTANCE:float = 15.5
 const CAMERA_PITCH:float = -30.0
-const CAMERA_FOV:float = 58.0
+const CAMERA_FOV:float = 55.0
 
 var legacy:Node2D
 var camera:Camera3D
@@ -34,7 +34,7 @@ func _setup_camera()->void:
     camera.projection=Camera3D.PROJECTION_PERSPECTIVE
     camera.fov=CAMERA_FOV
     camera.near=0.08
-    camera.far=500.0
+    camera.far=700.0
     camera.current=true
     _apply_camera(1.0)
 
