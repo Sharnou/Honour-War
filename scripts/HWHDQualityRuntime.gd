@@ -26,30 +26,21 @@ func _apply()->void:
     var scene := get_tree().current_scene
     if scene == null:
         return
-    var game := scene as Node
-    if game == null:
-        return
-
     var graphics := get_node_or_null("/root/GraphicsManager")
-    if graphics != null and graphics.has_method("is_hd") and not graphics.is_hd():
-        graphics.call("apply_preset", graphics.get("Preset").HD if graphics.get("Preset") != null else 2)
+    if graphics != null and graphics.has_method("is_hd") and not graphics.call("is_hd"):
+        graphics.call("apply_preset", 2)
 
-    var camera := scene.find_child("Camera3D", true, false) as Camera3D
+    var camera_controller := scene.get_node_or_null("Camera3D") as Node
+    var camera := camera_controller as Camera3D
     if camera != null:
         camera.projection = Camera3D.PROJECTION_ORTHOGONAL
-        camera.size = clampf(camera.size, CAMERA_MIN, CAMERA_MAX)
-        if camera.size < 11.5:
-            camera.size = CAMERA_SIZE
-        if camera is Node3D:
-            var camera_controller := scene.get_node_or_null("Camera3D")
-            if camera_controller != null and "orthographic_size" in camera_controller:
-                camera_controller.set("orthographic_size", CAMERA_SIZE)
-            if camera_controller != null and "min_zoom" in camera_controller:
-                camera_controller.set("min_zoom", CAMERA_MIN)
-            if camera_controller != null and "max_zoom" in camera_controller:
-                camera_controller.set("max_zoom", CAMERA_MAX)
-            if camera_controller != null and "target_offset" in camera_controller:
-                camera_controller.set("target_offset", TARGET_OFFSET)
+        camera.size = CAMERA_SIZE
+    if camera_controller != null:
+        camera_controller.set("orthographic_size", CAMERA_SIZE)
+        camera_controller.set("min_zoom", CAMERA_MIN)
+        camera_controller.set("max_zoom", CAMERA_MAX)
+        camera_controller.set("target_offset", TARGET_OFFSET)
+        camera_controller.set("target_zoom", CAMERA_SIZE)
 
     var authored_world := scene.get_node_or_null("HDEnvironmentDirector")
     if authored_world != null:
