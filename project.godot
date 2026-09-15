@@ -47,6 +47,7 @@ size/mode=0
 renderer/rendering_method="forward_plus"
 renderer/rendering_method.mobile="mobile"
 renderer/rendering_method.driver="vulkan"
+rendering/driver/driver_name="vulkan"
 rendering/driver/fallback_to_angle=true
 rendering/driver/fallback_to_native=true
 rendering/rendering_device/fallback_to_opengl3=true
