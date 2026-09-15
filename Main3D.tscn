@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=3]
+[gd_scene load_steps=56 format=3]
 
 [ext_resource path="res://scripts/Game3D.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/Main.gd" type="Script" id="2"]
@@ -54,6 +54,7 @@
 [ext_resource path="res://scripts/HWIsometricCamera.gd" type="Script" id="52"]
 [ext_resource path="res://scripts/EnvironmentCycle.gd" type="Script" id="53"]
 [ext_resource path="res://scenes/OptionsMenu.tscn" type="PackedScene" id="54"]
+[ext_resource path="res://scripts/HWFinalSystemsRuntime.gd" type="Script" id="55"]
 
 [node name="HonourWar3D" type="Node3D"]
 script = ExtResource("1")
@@ -82,6 +83,9 @@ script = ExtResource("46")
 
 [node name="GameplaySystemsRuntime" type="CanvasLayer" parent="."]
 script = ExtResource("47")
+
+[node name="HWFinalSystemsRuntime" type="CanvasLayer" parent="."]
+script = ExtResource("55")
 
 [node name="HDMMOTaskbar" type="CanvasLayer" parent="."]
 script = ExtResource("49")
@@ -193,7 +197,7 @@ visible = false
 script = ExtResource("2")
 
 [node name="CombatRuntime" type="Node" parent="LegacyGame"]
-script = ExtResource("43")
+script = ExtResource("3")
 
 [node name="Combat3DBridge" type="Node" parent="LegacyGame"]
 script = ExtResource("12")
