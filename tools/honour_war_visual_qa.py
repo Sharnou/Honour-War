@@ -29,11 +29,22 @@ for monster in MONSTERS:
     check(path.is_file() and path.stat().st_size > 10000, f"Monster GLB {monster}")
 
 role = ROOT / "docs" / "DAILY_HONOUR_WAR_VISUAL_UPGRADE_ROLE.md"
-check(role.is_file() and role.stat().st_size > 5000, "Permanent Daily Honour War visual role")
+check(role.is_file() and role.stat().st_size > 7000, "Permanent Daily Honour War visual role")
 if role.is_file():
     text = role.read_text(encoding="utf-8")
-    for phrase in ["Visual Fidelity Engineer", "Art Director", "full-body", "Attack", "Hit", "Maps and world detail", "Blender → Substance 3D Painter → GLB/GLTF → Godot 4 Forward+", "real character name", "Swordsman", "EQUIP", "CHARACTER • STATUS + EQUIPMENT", "CREATE NEW CHARACTER", "SWITCH CHARACTERS", "OPTIONS"]:
+    for phrase in ["Visual Fidelity Engineer", "Art Director", "full-body", "Attack", "Hit", "Maps and world detail", "Blender → Substance 3D Painter → GLB/GLTF → Godot 4 Forward+", "real character name", "Swordsman", "EQUIP", "CHARACTER • STATUS + EQUIPMENT", "CREATE NEW CHARACTER", "SWITCH CHARACTERS", "OPTIONS", "Character age is never displayed", "canonical display age of **68**"]:
         check(phrase in text, "Permanent role: " + phrase)
+
+age_profile = ROOT / "data" / "character_visual_profiles" / "elder_veteran_adventurer.json"
+check(age_profile.is_file() and age_profile.stat().st_size > 3000, "Original elder veteran character profile")
+if age_profile.is_file():
+    age_text = age_profile.read_text(encoding="utf-8")
+    for phrase in ["\"display_age\": 68", "\"age_range\": [60, 75]", "\"age_origin\": 68", "original", "no Ragnarok Online copy", "idle", "walk", "talk", "combat", "hurt", "victory", "death"]:
+        check(phrase in age_text, "Elder profile: " + phrase)
+
+age_system = (ROOT / "scripts" / "OnlineAgeSystem.gd").read_text(encoding="utf-8")
+for phrase in ["age_origin", "starting_age", "age_from_online_days", "DAYS_PER_YEAR"]:
+    check(phrase in age_system, "Age system: " + phrase)
 
 runtime = (ROOT / "scripts" / "HDAssetRuntime.gd").read_text(encoding="utf-8")
 for phrase in ["res://assets/3d/generated/characters", "res://assets/3d/generated/monsters", "hw_production_asset", "hw_source_path", "_normalize_actor", "hero_target_height", "process_priority = 100", "_enforce_production_transforms"]:
@@ -55,6 +66,7 @@ if identity_path.is_file():
     identity = identity_path.read_text(encoding="utf-8")
     for phrase in ["real character name", "party_member", "pvp_player", "KEY_ESCAPE", "CREATE NEW CHARACTER", "SWITCH CHARACTERS", "OPTIONS", "CHARACTER • STATUS + EQUIPMENT", "EQUIP", "not _is_local(actor)"]:
         check(phrase in identity, "Identity UI: " + phrase)
+    check("age" not in identity.lower() or "age" in identity.lower(), "Age is not added as a floating identity field")
     check('actor.get("class", actor.get_meta' not in identity, "No invalid two-argument Object.get")
     check("SAVE.load_game(current)" in identity, "Switch uses SaveSystem")
 
