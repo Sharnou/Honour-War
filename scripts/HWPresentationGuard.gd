@@ -1,8 +1,8 @@
-extends Node
+extends Node3D
 
-## Final presentation guard. Runs after the visual director and enforces one
+## Final presentation guard. Runs after all visual directors and enforces one
 ## authored hero/pet presentation, a single WorldEnvironment, and a readable
-## camera. This is presentation-only and never removes gameplay data.
+## perspective camera. Presentation cleanup never removes gameplay state.
 
 const POLL:float = 0.20
 var elapsed:float = 0.0
@@ -35,11 +35,24 @@ func _bind()->void:
         scene = get_tree().current_scene as Node3D
 
 func _disable_competing_passes()->void:
-    for name:String in ["HWGeneratedAssetRuntime","HWReadableActorDirector","HWPrimitiveBeautyDirector","HWVisualMaxDirector"]:
+    # These systems can legitimately exist for legacy/gameplay integration,
+    # but the final presentation owner must be the only active visual stack.
+    for name:String in [
+        "HDProductionQualityDirector",
+        "HWGeneratedAssetRuntime",
+        "HWReadableActorDirector",
+        "HWPrimitiveBeautyDirector",
+        "HWVisualMaxDirector"
+    ]:
         var node:Node = get_node_or_null("/root/" + name)
         if node != null and node != self:
             node.process_mode = Node.PROCESS_MODE_DISABLED
-    for name:String in ["HDAssetRuntime","HDVisualDirector","HDEnvironmentDirector","HWRoleDrivenUpgradeRuntime"]:
+    for name:String in [
+        "HDAssetRuntime",
+        "HDVisualDirector",
+        "HDEnvironmentDirector",
+        "HWRoleDrivenUpgradeRuntime"
+    ]:
         var node:Node = scene.get_node_or_null(name)
         if node != null:
             node.process_mode = Node.PROCESS_MODE_DISABLED
