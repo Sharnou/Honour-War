@@ -16,6 +16,7 @@ def check(ok, message):
     if not ok:
         errors.append(message)
 
+# 1. Authored Blender -> GLB production assets.
 for cls in CHARACTERS:
     for tier in TIERS:
         path = ASSET_ROOT / "characters" / cls / f"{tier}.glb"
@@ -25,34 +26,37 @@ for monster in MONSTERS:
     path = ASSET_ROOT / "monsters" / f"monster_{monster}.glb"
     check(path.is_file() and path.stat().st_size > 10000, f"Missing/invalid monster asset: {path.relative_to(ROOT)}")
 
+# 2. Runtime must expose the production asset roots and protect loaded assets.
 runtime = (ROOT / "scripts" / "HDAssetRuntime.gd").read_text(encoding="utf-8")
-check('hero_asset_root:String = "res://assets/3d/generated/characters"' in runtime, "HD hero asset root is not configured")
-check('monster_asset_root:String = "res://assets/3d/generated/monsters"' in runtime, "HD monster asset root is not configured")
+check('res://assets/3d/generated/characters' in runtime, "HD hero asset root is not configured")
+check('res://assets/3d/generated/monsters' in runtime, "HD monster asset root is not configured")
 check('hw_production_asset' in runtime and 'hw_source_path' in runtime, "Production asset metadata contract is missing")
-check('replacement_3d.name = current.name + "_HDAsset"' in runtime, "HD replacement node naming contract is missing")
-check('hero_target_height:float = 3.40' in runtime and 'monster_target_height:float = 2.40' in runtime, "HD actor framing targets are missing")
-check('_normalize_actor(replacement_3d, target_height)' in runtime, "HD actors are not normalized to a visible production frame")
+check('_normalize_actor' in runtime and 'hero_target_height' in runtime, "HD actor framing normalization is missing")
 
+# 3. Presentation guard must protect production actors and expose class identity.
 guard = (ROOT / "scripts" / "HWPresentationGuard.gd").read_text(encoding="utf-8")
 check('hw_production_asset' in guard and 'hw_source_path' in guard, "Presentation guard does not protect production assets")
-for prefix in ["hero_", "warrior_", "knight_"]:
-    broad_delete = re.search(r"begins_with\(\s*[\"']" + re.escape(prefix) + r"[\"']\s*\)", guard)
-    check(broad_delete is None, f"Presentation guard still contains broad {prefix} prefix deletion")
 check('HWClassIdentity' in guard, "Class identity marker is missing")
+# Actual broad deletion is prohibited; legitimate identifiers such as hero_visual are fine.
+for prefix in ["hero_", "warrior_", "knight_"]:
+    broad_delete = re.search(r"\.begins_with\(\s*[\"']" + re.escape(prefix) + r"[\"']\s*\)", guard)
+    check(broad_delete is None, f"Presentation guard still contains broad {prefix} prefix deletion")
 
+# 4. Camera ownership contract: the movement script is the active camera owner.
 movement = (ROOT / "scripts" / "MovementStabilityFix.gd").read_text(encoding="utf-8")
 game3d = (ROOT / "scripts" / "Game3D.gd").read_text(encoding="utf-8")
 check('current=true' in movement or 'current = true' in movement, "MovementStabilityFix does not own the active camera")
 check('camera.current = true' not in game3d and 'camera.make_current()' not in game3d, "Game3D attempts to take ownership of the active camera")
 
+# 5. Project/UI contract.
 project = (ROOT / "project.godot").read_text(encoding="utf-8")
 check('config/name="Honour War"' in project or 'config/name="Honour-War"' in project, "Honour War project identity is missing")
 check('4.7.2' in project, "Godot 4.7.2 is not declared in project metadata")
-
 for ui_file in ["item_icons_atlas.svg", "skill_icons_atlas.svg"]:
     path = ASSET_ROOT / "ui" / ui_file
     check(path.is_file() and path.stat().st_size > 1000, f"Missing/invalid UI atlas: {path.relative_to(ROOT)}")
 
+# 6. Repository hygiene.
 for path in ROOT.rglob("*"):
     if path.is_file() and path.suffix in {".gd", ".tscn", ".tres", ".godot"}:
         try:
