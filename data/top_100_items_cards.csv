@@ -1,0 +1,101 @@
+rank,type,slot,name,rarity,status_effects,default_drop_rate_percent,drop_pool,age_rule
+1,equipment,weapon,Astral Edge,Mythic,ATK +10%; skill damage +5%; refinement scaling +1% per refine tier,0.100000,Top-100 pool,Age bonus applied separately
+2,equipment,weapon,Sunforge Blade,Mythic,ATK +10%; skill damage +5%; refinement scaling +1% per refine tier,0.099091,Top-100 pool,Age bonus applied separately
+3,equipment,weapon,Moonveil Saber,Mythic,ATK +10%; skill damage +5%; refinement scaling +1% per refine tier,0.098182,Top-100 pool,Age bonus applied separately
+4,equipment,weapon,Dragonwake Greatsword,Mythic,ATK +10%; skill damage +5%; refinement scaling +1% per refine tier,0.097273,Top-100 pool,Age bonus applied separately
+5,equipment,weapon,Stormcaller Spear,Mythic,ATK +10%; skill damage +5%; refinement scaling +1% per refine tier,0.096364,Top-100 pool,Age bonus applied separately
+6,equipment,weapon,Verdant Halberd,Mythic,ATK +10%; skill damage +5%; refinement scaling +1% per refine tier,0.095455,Top-100 pool,Age bonus applied separately
+7,equipment,weapon,Nightglass Dagger,Mythic,ATK +10%; skill damage +5%; refinement scaling +1% per refine tier,0.094545,Top-100 pool,Age bonus applied separately
+8,equipment,weapon,Emberwind Bow,Mythic,ATK +10%; skill damage +5%; refinement scaling +1% per refine tier,0.093636,Top-100 pool,Age bonus applied separately
+9,equipment,weapon,Starfall Staff,Mythic,ATK +10%; skill damage +5%; refinement scaling +1% per refine tier,0.092727,Top-100 pool,Age bonus applied separately
+10,equipment,weapon,Runebound Tome,Mythic,ATK +10%; skill damage +5%; refinement scaling +1% per refine tier,0.091818,Top-100 pool,Age bonus applied separately
+11,equipment,armor,Aegis of Dawn,Legendary,DEF +10%; HP +8%; damage reduction +2%,0.090909,Top-100 pool,Age bonus applied separately
+12,equipment,armor,Dragonhide Cuirass,Legendary,DEF +10%; HP +8%; damage reduction +2%,0.090000,Top-100 pool,Age bonus applied separately
+13,equipment,armor,Moonlit Robe,Legendary,DEF +10%; HP +8%; damage reduction +2%,0.089091,Top-100 pool,Age bonus applied separately
+14,equipment,armor,Stormguard Plate,Legendary,DEF +10%; HP +8%; damage reduction +2%,0.088182,Top-100 pool,Age bonus applied separately
+15,equipment,armor,Verdant Mantle,Legendary,DEF +10%; HP +8%; damage reduction +2%,0.087273,Top-100 pool,Age bonus applied separately
+16,equipment,armor,Nightwarden Coat,Legendary,DEF +10%; HP +8%; damage reduction +2%,0.086364,Top-100 pool,Age bonus applied separately
+17,equipment,armor,Emberweave Vest,Legendary,DEF +10%; HP +8%; damage reduction +2%,0.085455,Top-100 pool,Age bonus applied separately
+18,equipment,armor,Starcaller Raiment,Legendary,DEF +10%; HP +8%; damage reduction +2%,0.084545,Top-100 pool,Age bonus applied separately
+19,equipment,armor,Ironbark Armor,Legendary,DEF +10%; HP +8%; damage reduction +2%,0.083636,Top-100 pool,Age bonus applied separately
+20,equipment,armor,Sovereign Mail,Legendary,DEF +10%; HP +8%; damage reduction +2%,0.082727,Top-100 pool,Age bonus applied separately
+21,equipment,helmet,Crown of the First Light,Epic,HP +5%; SP +5%; status resistance +4%,0.081818,Top-100 pool,Age bonus applied separately
+22,equipment,helmet,Dragoncrest Helm,Epic,HP +5%; SP +5%; status resistance +4%,0.080909,Top-100 pool,Age bonus applied separately
+23,equipment,helmet,Moonshade Circlet,Epic,HP +5%; SP +5%; status resistance +4%,0.080000,Top-100 pool,Age bonus applied separately
+24,equipment,helmet,Stormwatch Helm,Epic,HP +5%; SP +5%; status resistance +4%,0.079091,Top-100 pool,Age bonus applied separately
+25,equipment,helmet,Verdant Crown,Epic,HP +5%; SP +5%; status resistance +4%,0.078182,Top-100 pool,Age bonus applied separately
+26,equipment,helmet,Nightwarden Hood,Epic,HP +5%; SP +5%; status resistance +4%,0.077273,Top-100 pool,Age bonus applied separately
+27,equipment,helmet,Emberglass Circlet,Epic,HP +5%; SP +5%; status resistance +4%,0.076364,Top-100 pool,Age bonus applied separately
+28,equipment,helmet,Starforged Crown,Epic,HP +5%; SP +5%; status resistance +4%,0.075455,Top-100 pool,Age bonus applied separately
+29,equipment,helmet,Ironbark Helm,Epic,HP +5%; SP +5%; status resistance +4%,0.074545,Top-100 pool,Age bonus applied separately
+30,equipment,helmet,Sovereign Visor,Epic,HP +5%; SP +5%; status resistance +4%,0.073636,Top-100 pool,Age bonus applied separately
+31,equipment,garment,Wings of Dawn,Epic,DEF +6%; elemental resistance +6%; movement speed +2%,0.072727,Top-100 pool,Age bonus applied separately
+32,equipment,garment,Dragonwing Cloak,Epic,DEF +6%; elemental resistance +6%; movement speed +2%,0.071818,Top-100 pool,Age bonus applied separately
+33,equipment,garment,Moonveil Cape,Epic,DEF +6%; elemental resistance +6%; movement speed +2%,0.070909,Top-100 pool,Age bonus applied separately
+34,equipment,garment,Stormrunner Mantle,Epic,DEF +6%; elemental resistance +6%; movement speed +2%,0.070000,Top-100 pool,Age bonus applied separately
+35,equipment,garment,Verdantwind Shawl,Epic,DEF +6%; elemental resistance +6%; movement speed +2%,0.069091,Top-100 pool,Age bonus applied separately
+36,equipment,garment,Nightfall Cloak,Epic,DEF +6%; elemental resistance +6%; movement speed +2%,0.068182,Top-100 pool,Age bonus applied separately
+37,equipment,garment,Embertrail Cape,Epic,DEF +6%; elemental resistance +6%; movement speed +2%,0.067273,Top-100 pool,Age bonus applied separately
+38,equipment,garment,Starpath Mantle,Epic,DEF +6%; elemental resistance +6%; movement speed +2%,0.066364,Top-100 pool,Age bonus applied separately
+39,equipment,garment,Ironbark Cape,Epic,DEF +6%; elemental resistance +6%; movement speed +2%,0.065455,Top-100 pool,Age bonus applied separately
+40,equipment,garment,Sovereign Mantle,Epic,DEF +6%; elemental resistance +6%; movement speed +2%,0.064545,Top-100 pool,Age bonus applied separately
+41,equipment,footwear,Dawnstrider Greaves,Epic,AGI +5; movement speed +4%; HP +3%,0.063636,Top-100 pool,Age bonus applied separately
+42,equipment,footwear,Dragonstep Boots,Epic,AGI +5; movement speed +4%; HP +3%,0.062727,Top-100 pool,Age bonus applied separately
+43,equipment,footwear,Moonwalker Boots,Epic,AGI +5; movement speed +4%; HP +3%,0.061818,Top-100 pool,Age bonus applied separately
+44,equipment,footwear,Stormrunner Boots,Epic,AGI +5; movement speed +4%; HP +3%,0.060909,Top-100 pool,Age bonus applied separately
+45,equipment,footwear,Verdantstride Shoes,Epic,AGI +5; movement speed +4%; HP +3%,0.060000,Top-100 pool,Age bonus applied separately
+46,equipment,footwear,Nightstep Boots,Epic,AGI +5; movement speed +4%; HP +3%,0.059091,Top-100 pool,Age bonus applied separately
+47,equipment,footwear,Embermarch Boots,Epic,AGI +5; movement speed +4%; HP +3%,0.058182,Top-100 pool,Age bonus applied separately
+48,equipment,footwear,Starpath Greaves,Epic,AGI +5; movement speed +4%; HP +3%,0.057273,Top-100 pool,Age bonus applied separately
+49,equipment,footwear,Ironbark Greaves,Epic,AGI +5; movement speed +4%; HP +3%,0.056364,Top-100 pool,Age bonus applied separately
+50,equipment,footwear,Sovereign Sabatons,Epic,AGI +5; movement speed +4%; HP +3%,0.055455,Top-100 pool,Age bonus applied separately
+51,equipment,accessory,Sunheart Ring,Epic,ATK/MATK +5%; critical +3%; refine success +1%,0.054545,Top-100 pool,Age bonus applied separately
+52,equipment,accessory,Dragoncore Ring,Epic,ATK/MATK +5%; critical +3%; refine success +1%,0.053636,Top-100 pool,Age bonus applied separately
+53,equipment,accessory,Moonstone Seal,Epic,ATK/MATK +5%; critical +3%; refine success +1%,0.052727,Top-100 pool,Age bonus applied separately
+54,equipment,accessory,Stormeye Ring,Epic,ATK/MATK +5%; critical +3%; refine success +1%,0.051818,Top-100 pool,Age bonus applied separately
+55,equipment,accessory,Verdant Signet,Epic,ATK/MATK +5%; critical +3%; refine success +1%,0.050909,Top-100 pool,Age bonus applied separately
+56,equipment,accessory,Nightglass Ring,Epic,ATK/MATK +5%; critical +3%; refine success +1%,0.050000,Top-100 pool,Age bonus applied separately
+57,equipment,accessory,Emberheart Pendant,Epic,ATK/MATK +5%; critical +3%; refine success +1%,0.049091,Top-100 pool,Age bonus applied separately
+58,equipment,accessory,Starcall Talisman,Epic,ATK/MATK +5%; critical +3%; refine success +1%,0.048182,Top-100 pool,Age bonus applied separately
+59,equipment,accessory,Ironbark Charm,Epic,ATK/MATK +5%; critical +3%; refine success +1%,0.047273,Top-100 pool,Age bonus applied separately
+60,equipment,accessory,Sovereign Seal,Epic,ATK/MATK +5%; critical +3%; refine success +1%,0.046364,Top-100 pool,Age bonus applied separately
+61,card,card,Dawn Wyrm Card,Legendary,ATK +8%; elemental skill damage +6%; boss damage +3%,0.045455,Top-100 pool,Age bonus applied separately
+62,card,card,Dragon Emperor Card,Legendary,ATK +8%; elemental skill damage +6%; boss damage +3%,0.044545,Top-100 pool,Age bonus applied separately
+63,card,card,Moon Serpent Card,Legendary,HP +5%; ATK +5%; elemental resistance +3%,0.043636,Top-100 pool,Age bonus applied separately
+64,card,card,Storm Titan Card,Legendary,DEF +7%; HP +8%; damage reduction +2%,0.042727,Top-100 pool,Age bonus applied separately
+65,card,card,Verdant Ancient Card,Legendary,HP +5%; ATK +5%; elemental resistance +3%,0.041818,Top-100 pool,Age bonus applied separately
+66,card,card,Night Reaper Card,Legendary,ASPD +5%; critical +4%; movement speed +3%,0.040909,Top-100 pool,Age bonus applied separately
+67,card,card,Ember Phoenix Card,Legendary,ATK +8%; elemental skill damage +6%; boss damage +3%,0.040000,Top-100 pool,Age bonus applied separately
+68,card,card,Star Oracle Card,Legendary,MATK +8%; SP +6%; skill cooldown -3%,0.039091,Top-100 pool,Age bonus applied separately
+69,card,card,Iron Colossus Card,Legendary,DEF +7%; HP +8%; damage reduction +2%,0.038182,Top-100 pool,Age bonus applied separately
+70,card,card,Sovereign Guardian Card,Legendary,DEF +7%; HP +8%; damage reduction +2%,0.037273,Top-100 pool,Age bonus applied separately
+71,card,card,Bloodfang Wolf Card,Legendary,ASPD +5%; critical +4%; movement speed +3%,0.036364,Top-100 pool,Age bonus applied separately
+72,card,card,Arcane Golem Card,Legendary,MATK +8%; SP +6%; skill cooldown -3%,0.035455,Top-100 pool,Age bonus applied separately
+73,card,card,Sky Mantis Card,Legendary,ASPD +5%; critical +4%; movement speed +3%,0.034545,Top-100 pool,Age bonus applied separately
+74,card,card,Grave Knight Card,Legendary,DEF +7%; HP +8%; damage reduction +2%,0.033636,Top-100 pool,Age bonus applied separately
+75,card,card,Plague Zombie Card,Legendary,HP +5%; ATK +5%; elemental resistance +3%,0.032727,Top-100 pool,Age bonus applied separately
+76,card,card,Forest Orc Card,Legendary,DEF +7%; HP +8%; damage reduction +2%,0.031818,Top-100 pool,Age bonus applied separately
+77,card,card,Crimson Goblin Card,Legendary,HP +5%; ATK +5%; elemental resistance +3%,0.030909,Top-100 pool,Age bonus applied separately
+78,card,card,Ancient Druid Card,Legendary,MATK +8%; SP +6%; skill cooldown -3%,0.030000,Top-100 pool,Age bonus applied separately
+79,card,card,Royal Poring Card,Legendary,HP +5%; ATK +5%; elemental resistance +3%,0.029091,Top-100 pool,Age bonus applied separately
+80,card,card,Abyssal Dragon Card,Legendary,ATK +8%; elemental skill damage +6%; boss damage +3%,0.028182,Top-100 pool,Age bonus applied separately
+81,card,card,Celestial Knight Card,Epic,DEF +7%; HP +8%; damage reduction +2%,0.027273,Top-100 pool,Age bonus applied separately
+82,card,card,Void Mage Card,Epic,MATK +8%; SP +6%; skill cooldown -3%,0.026364,Top-100 pool,Age bonus applied separately
+83,card,card,Wild Falcon Card,Epic,ASPD +5%; critical +4%; movement speed +3%,0.025455,Top-100 pool,Age bonus applied separately
+84,card,card,Shadow Thief Card,Epic,ASPD +5%; critical +4%; movement speed +3%,0.024545,Top-100 pool,Age bonus applied separately
+85,card,card,Sacred Acolyte Card,Epic,MATK +8%; SP +6%; skill cooldown -3%,0.023636,Top-100 pool,Age bonus applied separately
+86,card,card,Merchant Prince Card,Epic,refine material cost -2%; Zeny gain +5%; carrying capacity +10%,0.022727,Top-100 pool,Age bonus applied separately
+87,card,card,Warrior Lord Card,Epic,DEF +7%; HP +8%; damage reduction +2%,0.021818,Top-100 pool,Age bonus applied separately
+88,card,card,Arcane Master Card,Epic,MATK +8%; SP +6%; skill cooldown -3%,0.020909,Top-100 pool,Age bonus applied separately
+89,card,card,Ranger Sovereign Card,Epic,ASPD +5%; critical +4%; movement speed +3%,0.020000,Top-100 pool,Age bonus applied separately
+90,card,card,Thief King Card,Epic,ASPD +5%; critical +4%; movement speed +3%,0.019091,Top-100 pool,Age bonus applied separately
+91,card,card,Aegis Saint Card,Epic,DEF +7%; HP +8%; damage reduction +2%,0.018182,Top-100 pool,Age bonus applied separately
+92,card,card,Forge Master Card,Epic,refine material cost -2%; Zeny gain +5%; carrying capacity +10%,0.017273,Top-100 pool,Age bonus applied separately
+93,card,card,World Tree Card,Epic,HP +5%; ATK +5%; elemental resistance +3%,0.016364,Top-100 pool,Age bonus applied separately
+94,card,card,Star Dragon Card,Epic,ATK +8%; elemental skill damage +6%; boss damage +3%,0.015455,Top-100 pool,Age bonus applied separately
+95,card,card,Eternal Guardian Card,Epic,DEF +7%; HP +8%; damage reduction +2%,0.014545,Top-100 pool,Age bonus applied separately
+96,card,card,Inferno Lord Card,Epic,ATK +8%; elemental skill damage +6%; boss damage +3%,0.013636,Top-100 pool,Age bonus applied separately
+97,card,card,Glacial Queen Card,Epic,MATK +8%; SP +6%; skill cooldown -3%,0.012727,Top-100 pool,Age bonus applied separately
+98,card,card,Thunder Roc Card,Epic,ATK +8%; elemental skill damage +6%; boss damage +3%,0.011818,Top-100 pool,Age bonus applied separately
+99,card,card,Ancient Kraken Card,Epic,ATK +8%; elemental skill damage +6%; boss damage +3%,0.010909,Top-100 pool,Age bonus applied separately
+100,card,card,Chronos Beast Card,Epic,HP +5%; ATK +5%; elemental resistance +3%,0.010000,Top-100 pool,Age bonus applied separately
