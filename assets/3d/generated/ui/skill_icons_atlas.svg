@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="384" viewBox="0 0 512 384">
+<defs>
+ <linearGradient id="bgW" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#3b0f16"/><stop offset="1" stop-color="#e2a640"/></linearGradient>
+ <linearGradient id="bgM" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#15285e"/><stop offset="1" stop-color="#70d9ff"/></linearGradient>
+ <linearGradient id="bgA" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#164629"/><stop offset="1" stop-color="#a9e76e"/></linearGradient>
+ <linearGradient id="bgT" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#351441"/><stop offset="1" stop-color="#dc5aa8"/></linearGradient>
+ <linearGradient id="bgC" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#4b3910"/><stop offset="1" stop-color="#ffe58a"/></linearGradient>
+ <linearGradient id="bgR" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#123c50"/><stop offset="1" stop-color="#67c9e8"/></linearGradient>
+ <filter id="glow"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<!-- Warrior row -->
+<g transform="translate(0 0)">
+ <rect width="64" height="64" rx="12" fill="url(#bgW)"/><path d="M16 46 L31 12 L38 12 L23 46 Z M28 46 L43 12 L50 12 L35 46 Z" fill="#fff1c4" filter="url(#glow)"/><circle cx="32" cy="38" r="4" fill="#ffe28b"/>
+</g>
+<g transform="translate(64 0)"><rect width="64" height="64" rx="12" fill="url(#bgW)"/><path d="M13 34 Q32 10 51 34 M20 34 Q32 25 44 34" fill="none" stroke="#ffe28b" stroke-width="5"/><circle cx="32" cy="38" r="9" fill="#fff1c4"/><path d="M32 25V51" stroke="#b63a43" stroke-width="3"/></g>
+<g transform="translate(128 0)"><rect width="64" height="64" rx="12" fill="url(#bgW)"/><path d="M10 31 H54 M32 9 V55 M16 15 L48 49 M48 15 L16 49" stroke="#ffd36a" stroke-width="4" filter="url(#glow)"/><circle cx="32" cy="32" r="9" fill="#fff2c9"/></g>
+<g transform="translate(192 0)"><rect width="64" height="64" rx="12" fill="url(#bgW)"/><path d="M32 8 L39 26 L58 32 L39 38 L32 57 L25 38 L6 32 L25 26 Z" fill="#ffda78" filter="url(#glow)"/></g>
+<g transform="translate(256 0)"><rect width="64" height="64" rx="12" fill="url(#bgW)"/><path d="M12 43 L32 9 L52 43 L42 43 L32 25 L22 43 Z" fill="#fff0b8"/><path d="M18 50 H46" stroke="#e8a24f" stroke-width="5"/></g>
+<g transform="translate(320 0)"><rect width="64" height="64" rx="12" fill="url(#bgW)"/><path d="M16 46 Q20 18 32 13 Q44 18 48 46" fill="none" stroke="#ffe28b" stroke-width="6"/><path d="M22 44 L32 20 L42 44" fill="none" stroke="#fff1c4" stroke-width="4"/></g>
+<g transform="translate(384 0)"><rect width="64" height="64" rx="12" fill="url(#bgW)"/><circle cx="32" cy="32" r="20" fill="none" stroke="#ffe28b" stroke-width="4"/><path d="M32 14 L38 30 L32 49 L26 30 Z" fill="#fff1c4"/></g>
+<g transform="translate(448 0)"><rect width="64" height="64" rx="12" fill="url(#bgW)"/><path d="M32 6 L39 25 L59 32 L39 39 L32 58 L25 39 L5 32 L25 25 Z" fill="#fff3be" filter="url(#glow)"/></g>
+<!-- Mage row -->
+<g transform="translate(0 64)"><rect width="64" height="64" rx="12" fill="url(#bgM)"/><circle cx="32" cy="32" r="13" fill="#e4fbff" filter="url(#glow)"/><path d="M32 7 V57 M7 32 H57" stroke="#70dfff" stroke-width="4"/></g>
+<g transform="translate(64 64)"><rect width="64" height="64" rx="12" fill="url(#bgM)"/><path d="M32 9 L38 25 L54 32 L38 39 L32 55 L26 39 L10 32 L26 25 Z" fill="#d8faff"/></g>
+<g transform="translate(128 64)"><rect width="64" height="64" rx="12" fill="url(#bgM)"/><circle cx="32" cy="32" r="19" fill="none" stroke="#8be9ff" stroke-width="4"/><circle cx="32" cy="32" r="8" fill="#efffff" filter="url(#glow)"/></g>
+<g transform="translate(192 64)"><rect width="64" height="64" rx="12" fill="url(#bgM)"/><path d="M32 8 L41 25 H35 L47 25 L37 36 L40 36 L26 56 L29 39 L21 39 L30 28 L24 28 Z" fill="#eafcff"/></g>
+<g transform="translate(256 64)"><rect width="64" height="64" rx="12" fill="url(#bgM)"/><path d="M14 45 L50 19 M18 49 L45 21" stroke="#ecffff" stroke-width="5"/><path d="M10 50 H54" stroke="#80eaff" stroke-width="3"/></g>
+<g transform="translate(320 64)"><rect width="64" height="64" rx="12" fill="url(#bgM)"/><path d="M7 37 Q32 2 57 37" fill="none" stroke="#dffcff" stroke-width="5"/><circle cx="32" cy="37" r="10" fill="#77dbff"/><path d="M32 16 V58" stroke="#eaffff" stroke-width="3"/></g>
+<g transform="translate(384 64)"><rect width="64" height="64" rx="12" fill="url(#bgM)"/><path d="M32 7 L55 25 L45 53 H19 L9 25 Z" fill="none" stroke="#b8f5ff" stroke-width="4"/><circle cx="32" cy="31" r="8" fill="#f4ffff" filter="url(#glow)"/></g>
+<g transform="translate(448 64)"><rect width="64" height="64" rx="12" fill="url(#bgM)"/><path d="M32 5 L41 23 L59 32 L41 41 L32 59 L23 41 L5 32 L23 23 Z" fill="#c8f8ff" filter="url(#glow)"/></g>
+<!-- Archer row -->
+<g transform="translate(0 128)"><rect width="64" height="64" rx="12" fill="url(#bgA)"/><path d="M10 48 Q32 7 54 48 M16 44 H48" fill="none" stroke="#efffd7" stroke-width="4"/><path d="M32 11 V53" stroke="#d5f08c" stroke-width="3"/></g>
+<g transform="translate(64 128)"><rect width="64" height="64" rx="12" fill="url(#bgA)"/><path d="M32 8 C21 20 21 38 32 55 C43 38 43 20 32 8Z" fill="#f3ffd9"/><circle cx="26" cy="32" r="3"/><circle cx="38" cy="32" r="3"/></g>
+<g transform="translate(128 128)"><rect width="64" height="64" rx="12" fill="url(#bgA)"/><path d="M9 45 L52 19" stroke="#f7ffd9" stroke-width="4"/><path d="M26 53 L39 11" stroke="#d9ef9b" stroke-width="3"/><path d="M18 46 L25 38 L31 44 Z" fill="#f7ffd9"/><path d="M41 24 L49 17 L52 27 Z" fill="#f7ffd9"/></g>
+<g transform="translate(192 128)"><rect width="64" height="64" rx="12" fill="url(#bgA)"/><path d="M32 9 L39 28 L57 32 L39 36 L32 55 L25 36 L7 32 L25 28 Z" fill="#e8ffb9" filter="url(#glow)"/></g>
+<g transform="translate(256 128)"><rect width="64" height="64" rx="12" fill="url(#bgA)"/><path d="M12 45 Q32 10 52 45" fill="none" stroke="#f2ffd8" stroke-width="5"/><path d="M21 48 H43" stroke="#c6e77d" stroke-width="4"/><circle cx="32" cy="33" r="6" fill="#f5ffd9"/></g>
+<g transform="translate(320 128)"><rect width="64" height="64" rx="12" fill="url(#bgA)"/><circle cx="32" cy="32" r="19" fill="none" stroke="#dfffab" stroke-width="4" stroke-dasharray="4 5"/><path d="M21 43 L43 21" stroke="#f4ffd8" stroke-width="4"/><path d="M39 42 L50 31" stroke="#c6e77d" stroke-width="4"/></g>
+<g transform="translate(384 128)"><rect width="64" height="64" rx="12" fill="url(#bgA)"/><path d="M32 8 L42 27 L56 32 L42 37 L32 56 L22 37 L8 32 L22 27 Z" fill="#f3ffd9"/></g>
+<g transform="translate(448 128)"><rect width="64" height="64" rx="12" fill="url(#bgA)"/><path d="M32 5 L40 23 L59 32 L40 41 L32 59 L24 41 L5 32 L24 23 Z" fill="#eeffd2" filter="url(#glow)"/></g>
+<!-- Thief row -->
+<g transform="translate(0 192)"><rect width="64" height="64" rx="12" fill="url(#bgT)"/><path d="M11 48 L31 12 L53 48 L42 48 L31 28 L21 48 Z" fill="#ffe2fa"/></g>
+<g transform="translate(64 192)"><rect width="64" height="64" rx="12" fill="url(#bgT)"/><path d="M13 46 L32 7 L51 46 L40 46 L32 29 L24 46 Z" fill="#ffc8e9"/><path d="M32 11 V56" stroke="#fff0fb" stroke-width="3"/></g>
+<g transform="translate(128 192)"><rect width="64" height="64" rx="12" fill="url(#bgT)"/><circle cx="32" cy="32" r="20" fill="none" stroke="#ffd1ef" stroke-width="4"/><path d="M15 49 L49 15" stroke="#fff0fb" stroke-width="5"/></g>
+<g transform="translate(192 192)"><rect width="64" height="64" rx="12" fill="url(#bgT)"/><circle cx="25" cy="25" r="12" fill="#ead1ff"/><circle cx="43" cy="43" r="12" fill="#f8c2df"/></g>
+<g transform="translate(256 192)"><rect width="64" height="64" rx="12" fill="url(#bgT)"/><path d="M32 8 L39 26 L56 32 L39 38 L32 56 L25 38 L8 32 L25 26 Z" fill="#ffe0f2"/></g>
+<g transform="translate(320 192)"><rect width="64" height="64" rx="12" fill="url(#bgT)"/><path d="M32 9 C18 18 16 37 32 53 C48 37 46 18 32 9Z" fill="none" stroke="#ffe6f5" stroke-width="4"/><circle cx="32" cy="31" r="7" fill="#fff0f8"/></g>
+<g transform="translate(384 192)"><rect width="64" height="64" rx="12" fill="url(#bgT)"/><path d="M14 46 L50 18" stroke="#fff0fb" stroke-width="5"/><path d="M14 18 L50 46" stroke="#f7b8df" stroke-width="5"/></g>
+<g transform="translate(448 192)"><rect width="64" height="64" rx="12" fill="url(#bgT)"/><path d="M32 5 L40 23 L59 32 L40 41 L32 59 L24 41 L5 32 L24 23 Z" fill="#ffe6f4" filter="url(#glow)"/></g>
+<!-- Acolyte row -->
+<g transform="translate(0 256)"><rect width="64" height="64" rx="12" fill="url(#bgC)"/><path d="M28 10 H36 V28 H54 V36 H36 V54 H28 V36 H10 V28 H28 Z" fill="#fff6c6" filter="url(#glow)"/></g>
+<g transform="translate(64 256)"><rect width="64" height="64" rx="12" fill="url(#bgC)"/><path d="M32 8 A24 24 0 1 0 32 56 A24 24 0 1 0 32 8Z" fill="none" stroke="#fff3b0" stroke-width="5"/><path d="M32 18 V46 M18 32 H46" stroke="#fffce2" stroke-width="4"/></g>
+<g transform="translate(128 256)"><rect width="64" height="64" rx="12" fill="url(#bgC)"/><circle cx="32" cy="32" r="20" fill="#fff0a8" filter="url(#glow)"/><path d="M32 12 V52 M12 32 H52" stroke="#c28c2d" stroke-width="4"/></g>
+<g transform="translate(192 256)"><rect width="64" height="64" rx="12" fill="url(#bgC)"/><path d="M32 7 L41 24 L57 32 L41 40 L32 57 L23 40 L7 32 L23 24 Z" fill="#fff6c6"/></g>
+<g transform="translate(256 256)"><rect width="64" height="64" rx="12" fill="url(#bgC)"/><path d="M32 9 Q50 20 50 36 Q50 50 32 55 Q14 50 14 36 Q14 20 32 9Z" fill="none" stroke="#fff4c0" stroke-width="5"/><path d="M20 37 H44" stroke="#fffbe1" stroke-width="4"/></g>
+<g transform="translate(320 256)"><rect width="64" height="64" rx="12" fill="url(#bgC)"/><path d="M32 7 L41 26 L58 32 L41 38 L32 57 L23 38 L6 32 L23 26 Z" fill="#fff8d4" filter="url(#glow)"/></g>
+<g transform="translate(384 256)"><rect width="64" height="64" rx="12" fill="url(#bgC)"/><circle cx="32" cy="32" r="20" fill="none" stroke="#fff2ae" stroke-width="4"/><path d="M22 41 L42 21 M25 21 L43 39" stroke="#fffbe1" stroke-width="4"/></g>
+<g transform="translate(448 256)"><rect width="64" height="64" rx="12" fill="url(#bgC)"/><path d="M32 5 L40 23 L59 32 L40 41 L32 59 L24 41 L5 32 L24 23 Z" fill="#fff8d5" filter="url(#glow)"/></g>
+<!-- Merchant row -->
+<g transform="translate(0 320)"><rect width="64" height="64" rx="12" fill="url(#bgR)"/><path d="M13 43 H51 L46 20 H18 Z" fill="#e6fbff"/><path d="M20 20 Q32 8 44 20" fill="none" stroke="#8de6ff" stroke-width="4"/></g>
+<g transform="translate(64 320)"><rect width="64" height="64" rx="12" fill="url(#bgR)"/><circle cx="32" cy="32" r="20" fill="none" stroke="#d9f8ff" stroke-width="4"/><path d="M18 44 L46 16 M18 20 L46 48" stroke="#e9fbff" stroke-width="4"/></g>
+<g transform="translate(128 320)"><rect width="64" height="64" rx="12" fill="url(#bgR)"/><path d="M12 43 L52 21 M21 52 L43 12" stroke="#e5fbff" stroke-width="5"/><circle cx="32" cy="32" r="6" fill="#ffffff"/></g>
+<g transform="translate(192 320)"><rect width="64" height="64" rx="12" fill="url(#bgR)"/><path d="M12 45 H52 M22 37 H42 M28 29 H36" stroke="#e7fbff" stroke-width="5"/></g>
+<g transform="translate(256 320)"><rect width="64" height="64" rx="12" fill="url(#bgR)"/><circle cx="32" cy="32" r="20" fill="none" stroke="#e9fbff" stroke-width="4"/><path d="M21 32 H43 M32 21 V43" stroke="#9feaff" stroke-width="4"/></g>
+<g transform="translate(320 320)"><rect width="64" height="64" rx="12" fill="url(#bgR)"/><path d="M14 44 L32 8 L50 44 Z" fill="#e8fbff"/><path d="M20 48 H44" stroke="#9feaff" stroke-width="4"/></g>
+<g transform="translate(384 320)"><rect width="64" height="64" rx="12" fill="url(#bgR)"/><path d="M11 43 H53 V18 H11 Z" fill="none" stroke="#e5fbff" stroke-width="4"/><circle cx="21" cy="30" r="4" fill="#e7fbff"/><circle cx="32" cy="30" r="4" fill="#e7fbff"/><circle cx="43" cy="30" r="4" fill="#e7fbff"/></g>
+<g transform="translate(448 320)"><rect width="64" height="64" rx="12" fill="url(#bgR)"/><path d="M32 5 L40 23 L59 32 L40 41 L32 59 L24 41 L5 32 L24 23 Z" fill="#e8fbff" filter="url(#glow)"/></g>
+</svg>
