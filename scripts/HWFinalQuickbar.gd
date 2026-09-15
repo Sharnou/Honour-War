@@ -116,6 +116,7 @@ func _refresh(force:bool = false)->void:
     if not value is Dictionary:
         return
     var hero:Dictionary = value
+    SKILLS.ensure_state(hero)
     hero_class = str(hero.get("class","Warrior"))
     var data:Array = SKILLS.all_skills(hero_class)
     var signature:String = hero_class + ":" + str(hero.get("level",1)) + ":" + str(hero.get("skill_points",0)) + ":" + str(hero.get("skill_cooldowns",{})) + ":" + str(hero.get("skill_levels",{})) + ":" + str(hero.get("hp",0))
@@ -166,6 +167,7 @@ func _cast_slot(index:int)->void:
     if not value is Dictionary:
         return
     var hero:Dictionary = value
+    SKILLS.ensure_state(hero)
     var data:Array = SKILLS.all_skills(str(hero.get("class","Warrior")))
     if index < 0 or index >= data.size():
         return
