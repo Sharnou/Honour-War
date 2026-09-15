@@ -2,6 +2,7 @@ class_name LootProgressionSystem
 extends RefCounted
 
 const Age=preload("res://scripts/OnlineAgeSystem.gd")
+const Top100=preload("res://scripts/Top100Database.gd")
 
 static func rarity_weight(level:int,mvp:bool=false)->Dictionary:
     var l:int=clamp(level,1,300); var scale:float=float(l)/300.0
@@ -35,12 +36,29 @@ static func top_100_drop_bonus(hero:Dictionary)->float:
 static func top_100_drop_bonus_percent(hero:Dictionary)->float:
     return Age.top_100_drop_bonus_percent(hero)
 
+static func top_100_default_drop_rate_percent(rank:int)->float:
+    return Top100.default_drop_rate_percent(rank)
+
+static func top_100_entry(rank:int)->Dictionary:
+    return Top100.get_by_rank(rank)
+
+static func top_100_entries()->Array:
+    return Top100.all()
+
 static func top_100_drop_chance(base_chance:float,hero:Dictionary)->float:
     return clampf(base_chance+top_100_drop_bonus(hero),0.0,1.0)
+
+static func resolve_top_100(rank:int,hero:Dictionary)->Dictionary:
+    var entry:Dictionary=Top100.get_by_rank(rank)
+    if entry.is_empty(): return {}
+    var base_percent:float=float(entry.get("default_drop_rate_percent",0.0))
+    var age_bonus_percent:float=top_100_drop_bonus_percent(hero)
+    var final_percent:float=base_percent+age_bonus_percent
+    return {"rank":rank,"name":entry.get("name",""),"type":entry.get("type",""),"slot":entry.get("slot",""),"rarity":entry.get("rarity",""),"status":entry.get("status",""),"default_drop_rate_percent":base_percent,"age_bonus_percent":age_bonus_percent,"final_drop_rate_percent":final_percent}
 
 static func resolve(monster:Dictionary,hero:Dictionary,roll:float=0.5)->Dictionary:
     var ml:int=int(monster.get("level",1)); var hl:int=int(hero.get("level",1)); var is_mvp:bool=bool(monster.get("mvp",false))
     var base_xp:int=int(monster.get("xp",max(10,ml*12)))
     var rarity:String=roll_rarity(ml,is_mvp,roll)
     var top_bonus:float=top_100_drop_bonus(hero)
-    return {"xp":xp(ml,hl,base_xp),"zeny":money(ml,is_mvp),"rarity":rarity,"mvp":is_mvp,"level":ml,"top_100_drop_bonus":top_bonus,"top_100_drop_bonus_percent":top_bonus*100.0,"top_100_drop_chance":top_100_drop_chance(0.0,hero)}
+    return {"xp":xp(ml,hl,base_xp),"zeny":money(ml,is_mvp),"rarity":rarity,"mvp":is_mvp,"level":ml,"top_100_drop_bonus":top_bonus,"top_100_drop_bonus_percent":top_bonus*100.0,"top_100_count":Top100.count()}
