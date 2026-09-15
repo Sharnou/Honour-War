@@ -1,8 +1,8 @@
 extends Node3D
 
-## Final presentation guard. Runs after all visual directors and enforces one
-## authored hero/pet presentation, a single WorldEnvironment, and a readable
-## perspective camera. Presentation cleanup never removes gameplay state.
+## Final presentation guard.
+## Owns the final camera/environment while deliberately leaving the authored
+## Blender -> GLB/GLTF asset runtime active. Gameplay roots are never removed.
 
 const POLL:float = 0.20
 var elapsed:float = 0.0
@@ -35,8 +35,8 @@ func _bind()->void:
         scene = get_tree().current_scene as Node3D
 
 func _disable_competing_passes()->void:
-    # These systems can legitimately exist for legacy/gameplay integration,
-    # but the final presentation owner must be the only active visual stack.
+    # Keep the final environment owned by this guard. The authored asset bridge
+    # MUST remain enabled; disabling it was the main cause of placeholder actors.
     for name:String in [
         "HDProductionQualityDirector",
         "HWGeneratedAssetRuntime",
@@ -47,15 +47,21 @@ func _disable_competing_passes()->void:
         var node:Node = get_node_or_null("/root/" + name)
         if node != null and node != self:
             node.process_mode = Node.PROCESS_MODE_DISABLED
+
+    # HDAssetRuntime is the authoritative class/monster GLB loader.
+    # HDVisualDirector and HDEnvironmentDirector own competing environments,
+    # so they remain disabled while this guard owns the final environment.
     for name:String in [
-        "HDAssetRuntime",
         "HDVisualDirector",
-        "HDEnvironmentDirector",
-        "HWRoleDrivenUpgradeRuntime"
+        "HDEnvironmentDirector"
     ]:
         var node:Node = scene.get_node_or_null(name)
         if node != null:
             node.process_mode = Node.PROCESS_MODE_DISABLED
+
+    var hd_assets:Node = scene.get_node_or_null("HDAssetRuntime")
+    if hd_assets != null:
+        hd_assets.process_mode = Node.PROCESS_MODE_INHERIT
 
 func _ensure_single_environment()->void:
     var keep:WorldEnvironment = scene.get_node_or_null("HWFinalWorldEnvironment") as WorldEnvironment
@@ -116,17 +122,24 @@ func _purge_world_environments(node:Node,keep:WorldEnvironment)->void:
         _purge_world_environments(child,keep)
 
 func _clean_duplicate_actor_nodes()->void:
-    var game:Node3D = scene
-    var actor_root:Node3D = game.get("actor_root") as Node3D
+    var actor_root:Node3D = scene.get("actor_root") as Node3D
     if actor_root == null:
         return
-    var hero:Node3D = game.get("hero_visual") as Node3D
-    var pet:Node3D = game.get("pet_visual") as Node3D
+    var hero:Node3D = scene.get("hero_visual") as Node3D
+    var pet:Node3D = scene.get("pet_visual") as Node3D
     for child:Node in actor_root.get_children().duplicate():
         if child == hero or child == pet:
             continue
+        # Never delete authored HD replacements. The previous prefix-based
+        # cleanup deleted Hero_HDAsset immediately after HDAssetRuntime loaded it.
+        if bool(child.get_meta("hw_production_asset", false)):
+            continue
+        if child.has_meta("hw_source_path"):
+            continue
         var n:String = str(child.name).to_lower()
-        if n == "hero" or n.begins_with("hero_") or n == "warrior" or n.begins_with("warrior_") or n == "knight" or n.begins_with("knight_"):
+        # Only remove exact legacy placeholders, not every node beginning with
+        # hero_/warrior_/knight_, because those prefixes are also used by authored assets.
+        if n in ["hero", "warrior", "knight"]:
             child.visible = false
             child.queue_free()
     if hero != null and is_instance_valid(hero):
