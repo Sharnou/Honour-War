@@ -29,7 +29,7 @@ func _process(delta:float) -> void:
     _sync()
 
 func _sync() -> void:
-    var runtime:Node = get_node_or_null("/root/HWSSRentRuntime")
+    var runtime:Node = get_node_or_null("/root/HWRentalService")
     var scene:Node = get_tree().current_scene
     if runtime == null or scene == null:
         return
@@ -114,7 +114,7 @@ func _grant_ss_progress(data:Dictionary, enemy:Node3D) -> void:
     _store_ss(data)
 
 func _store_ss(data:Dictionary) -> void:
-    var runtime:Node = get_node_or_null("/root/HWSSRentRuntime")
+    var runtime:Node = get_node_or_null("/root/HWRentalService")
     if runtime != null and bool(runtime.call("is_rented")):
         runtime.set("ss",data.duplicate(true))
 
