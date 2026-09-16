@@ -10,17 +10,33 @@ on:
 permissions:
   contents: read
 
+# Every production validation request must be allowed to finish.  Do not cancel
+# an in-flight validation merely because a newer main request is waiting: the
+# queued run validates a specific commit and cancellation can hide the result
+# of the change being verified.
 concurrency:
   group: honour-war-hd-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   art-contract:
     name: HD art pipeline contract
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Checkout validation commit
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+          ref: ${{ github.sha }}
+      - name: Report validation source
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual="$(git rev-parse HEAD)"
+          expected="${GITHUB_SHA}"
+          echo "Validation HEAD: ${actual}"
+          echo "Workflow SHA:    ${expected}"
+          test "${actual}" = "${expected}"
       - name: Validate production art structure
         run: python3 tools/validate_hd_assets.py
       - name: Validate SS autonomous AI contract
@@ -49,8 +65,20 @@ jobs:
     runs-on: ubuntu-latest
     needs: art-contract
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Checkout validation commit
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+          ref: ${{ github.sha }}
+      - name: Report validation source
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual="$(git rev-parse HEAD)"
+          expected="${GITHUB_SHA}"
+          echo "Validation HEAD: ${actual}"
+          echo "Workflow SHA:    ${expected}"
+          test "${actual}" = "${expected}"
       - name: Install Linux rendering/runtime dependencies
         shell: bash
         run: |
@@ -109,8 +137,20 @@ jobs:
     runs-on: ubuntu-latest
     needs: art-contract
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Checkout validation commit
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+          ref: ${{ github.sha }}
+      - name: Report validation source
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual="$(git rev-parse HEAD)"
+          expected="${GITHUB_SHA}"
+          echo "Validation HEAD: ${actual}"
+          echo "Workflow SHA:    ${expected}"
+          test "${actual}" = "${expected}"
       - name: Inventory production assets
         shell: bash
         run: |
