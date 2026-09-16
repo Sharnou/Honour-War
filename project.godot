@@ -35,6 +35,7 @@ HW3DInteractionDirector="*res://scripts/HW3DInteractionDirector.gd"
 HWSSRentRuntime="*res://scripts/HWSSRentRuntime.gd"
 HWSSRentNPCDirector="*res://scripts/HWSSRentNPCDirector.gd"
 HWSSCompanionDirector="*res://scripts/HWSSCompanionDirector.gd"
+HWAuthoredHeroTransformPolicy="*res://scripts/HWAuthoredHeroTransformPolicy.gd"
 
 [display]
 window/size/viewport_width=1920
