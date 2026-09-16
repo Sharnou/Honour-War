@@ -62,6 +62,13 @@ func _update_visuals(delta:float) -> void:
 			hero_visual.queue_free()
 		hero_visual = _create_hero(hero_class)
 		actor_root.add_child(hero_visual)
+	var hero_name:String = str(hero.get("character_name",hero.get("name","Hero")))
+	hero_visual.set_meta("character_name",hero_name)
+	hero_visual.set_meta("class",hero_class)
+	hero_visual.set_meta("hp",int(hero.get("hp",0)))
+	hero_visual.set_meta("max_hp",int(hero.get("max_hp",1)))
+	hero_visual.set_meta("sp",int(hero.get("sp",0)))
+	hero_visual.set_meta("max_sp",int(hero.get("max_sp",1)))
 	var pet_value:Variant = hero.get("pet",{})
 	var pet_species:String = "Pet"
 	if pet_value is Dictionary:
@@ -92,8 +99,6 @@ func _update_visuals(delta:float) -> void:
 		pet_visual.position.y = 0.45+sin(elapsed*4.5)*0.10
 		pet_visual.rotation.y = lerp_angle(pet_visual.rotation.y,yaw,0.08)
 	_update_monsters(delta)
-	# Camera ownership belongs exclusively to MovementStabilityFix.
-	# Do not follow the hero here; that made A/D move the whole screen.
 	_update_hud(hero)
 	last_hero_position = hero_pos
 
@@ -224,6 +229,16 @@ func _build_environment_objects() -> void:
 func _create_hero(class_id:String)->Node3D:
 	var root:Node3D = Node3D.new()
 	root.name = "Hero"
+	root.add_to_group("player")
+	root.add_to_group("local_player")
+	root.set_meta("hw_player",true)
+	root.set_meta("local_player",true)
+	var hitbox:CollisionShape3D=CollisionShape3D.new()
+	var sphere:SphereShape3D=SphereShape3D.new()
+	sphere.radius=0.85
+	hitbox.shape=sphere
+	hitbox.position.y=1.25
+	root.add_child(hitbox)
 	var accent:Color = _class_color(class_id)
 	var body:MeshInstance3D = _capsule(Color("#252a32"),0.38,1.35)
 	body.position.y = 1.0
@@ -306,6 +321,9 @@ func _update_monsters(delta:float)->void:
 			monster_visuals[id] = visual
 			actor_root.add_child(visual)
 		var visual2:Node3D = monster_visuals[id]
+		visual2.set_meta("character_name",str(monster.get("name","Monster")))
+		visual2.set_meta("hp",int(monster.get("hp",0)))
+		visual2.set_meta("max_hp",int(monster.get("max_hp",max(1,int(monster.get("hp",0))))))
 		var pos_value:Variant = monster.get("pos",Vector2.ZERO)
 		if pos_value is Vector2:
 			var target:Vector3 = _map_to_world(pos_value)
@@ -342,7 +360,6 @@ func _trigger_hit_effect(position:Vector3,boss:bool)->void:
 	tween.chain().tween_callback(root.queue_free)
 
 func _update_camera(_delta:float)->void:
-	# Intentionally disabled. MovementStabilityFix is the single camera owner.
 	return
 
 func _build_hud()->void:
@@ -492,6 +509,14 @@ func _class_color(class_id:String)->Color:
 func _create_monster(monster_name:String,mvp:bool)->Node3D:
 	var root:Node3D=Node3D.new()
 	root.name=monster_name
+	root.add_to_group("enemy")
+	root.set_meta("hw_enemy",true)
+	var hitbox:CollisionShape3D=CollisionShape3D.new()
+	var sphere:SphereShape3D=SphereShape3D.new()
+	sphere.radius=0.72 if not mvp else 1.05
+	hitbox.shape=sphere
+	hitbox.position.y=0.9 if not mvp else 1.2
+	root.add_child(hitbox)
 	var base_color:Color=Color("#8d9aa3")
 	var lower:String=monster_name.to_lower()
 	if lower.contains("poring"): base_color=Color("#f18bb4")
