@@ -32,6 +32,7 @@ HWFinalQuickbar="*res://scripts/HWFinalQuickbar.gd"
 HWPresentationGuard="*res://scripts/HWPresentationGuard.gd"
 HWItemIconEnhancer="*res://scripts/HWItemIconEnhancer.gd"
 HW3DInteractionDirector="*res://scripts/HW3DInteractionDirector.gd"
+HWSSRentRuntime="*res://scripts/HWSSRentRuntime.gd"
 
 [display]
 window/size/viewport_width=1920
