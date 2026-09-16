@@ -22,9 +22,11 @@ on:
 permissions:
   contents: read
 
+# Top-100 validation is commit-specific. Keep queued/in-flight validations alive
+# so a newer main commit cannot cancel the validation of the change that started it.
 concurrency:
   group: honour-war-top100-database-qa-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   validate-top100:
