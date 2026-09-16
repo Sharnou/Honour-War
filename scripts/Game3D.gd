@@ -79,7 +79,11 @@ func _update_visuals(delta:float) -> void:
 			pet_visual.queue_free()
 		pet_visual = _create_pet(pet_species)
 		actor_root.add_child(pet_visual)
+	var production_hero:bool = bool(hero_visual.get_meta("hw_production_asset",false))
 	var target:Vector3 = _map_to_world(hero_pos)
+	if production_hero:
+		# Preserve the GLB-authored root Y while the gameplay transform follows X/Z.
+		target.y = hero_visual.position.y
 	var previous:Vector3 = hero_visual.position
 	var blend:float = 1.0-exp(-16.0*max(delta,0.016))
 	hero_visual.position = hero_visual.position.lerp(target,blend)
@@ -91,14 +95,17 @@ func _update_visuals(delta:float) -> void:
 	hero_visual.rotation.y = lerp_angle(hero_visual.rotation.y,yaw,1.0-exp(-14.0*max(delta,0.016)))
 	var gait:float = sin(elapsed*(8.0+min(move_len,8.0)))
 	var locomotion:float = clamp(move_len/8.0,0.0,1.0)
-	hero_visual.position.y = 0.15+abs(gait)*0.04*locomotion
-	hero_visual.scale = Vector3.ONE*(1.0+abs(gait)*0.025*locomotion)
+	if not production_hero:
+		hero_visual.position.y = 0.15+abs(gait)*0.04*locomotion
+		hero_visual.scale = Vector3.ONE*(1.0+abs(gait)*0.025*locomotion)
 	if pet_visual != null:
 		var pet_target:Vector3 = hero_visual.position-fascinate_offset(hero_class)
 		pet_visual.position = pet_visual.position.lerp(pet_target,1.0-exp(-8.0*max(delta,0.016)))
 		pet_visual.position.y = 0.45+sin(elapsed*4.5)*0.10
 		pet_visual.rotation.y = lerp_angle(pet_visual.rotation.y,yaw,0.08)
 	_update_monsters(delta)
+	# Camera ownership belongs exclusively to MovementStabilityFix.
+	# Do not follow the hero here; that made A/D move the whole screen.
 	_update_hud(hero)
 	last_hero_position = hero_pos
 
