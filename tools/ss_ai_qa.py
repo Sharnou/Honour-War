@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """Static contract checks for the rental-only SS AI companion."""
 from pathlib import Path
+import re
 
 ROOT = Path(__file__).resolve().parents[1]
 script = ROOT / "scripts" / "HWSSCompanionDirector.gd"
 runtime = ROOT / "scripts" / "HWSSRentRuntime.gd"
+city_system = ROOT / "scripts" / "CitySystem.gd"
 
 
 def main() -> None:
@@ -24,17 +26,28 @@ def main() -> None:
     for marker in required:
         if marker not in text:
             raise SystemExit("Missing SS AI contract: " + marker)
+
     if 'class_name HWSSRentRuntime' in runtime_text:
         raise SystemExit("HWSSRentRuntime must remain an autoload singleton without class_name")
     if "HWSSAIController" in (ROOT / "project.godot").read_text(encoding="utf-8"):
         raise SystemExit("Redundant HWSSAIController autoload must not return")
     if (ROOT / "scripts" / "HWSSAIController.gd").exists():
         raise SystemExit("Redundant HWSSAIController.gd must not return")
-    forbidden = ["Barracks", "soldier production", "guarded bank", "tower defense"]
-    city_text = (ROOT / "scripts" / "CitySystem.gd").read_text(encoding="utf-8").lower()
-    for marker in forbidden:
-        if marker.lower() in city_text:
-            raise SystemExit("Obsolete city feature remains: " + marker)
+
+    # Validate the active CitySystem API instead of searching comments/documentation.
+    # CitySystem.gd intentionally documents removed systems, so a raw substring search
+    # incorrectly failed the CI whenever words such as "Barracks" appeared in comments.
+    city_text = city_system.read_text(encoding="utf-8")
+    building_match = re.search(r'const BUILDINGS\s*:=\s*\{(?P<body>.*?)\n\}', city_text, re.DOTALL)
+    if not building_match:
+        raise SystemExit("CitySystem BUILDINGS contract is missing")
+
+    building_names = set(re.findall(r'\"([^\"]+)\"\s*:\s*\{', building_match.group("body")))
+    obsolete_buildings = {"Barracks", "Tower Defense", "Soldier Production", "Guarded Bank"}
+    obsolete_active = sorted(name for name in building_names if name in obsolete_buildings)
+    if obsolete_active:
+        raise SystemExit("Obsolete active city feature remains: " + ", ".join(obsolete_active))
+
     print("SS AI QA passed")
 
 
