@@ -14,7 +14,7 @@ func _ready() -> void:
 func _process(delta:float) -> void:
 	heal_clock += delta
 	attack_clock += delta
-	var runtime:Node = get_node_or_null("/root/HWSSRentRuntime")
+	var runtime:Node = get_node_or_null("/root/HWRentalService")
 	var scene:Node = get_tree().current_scene
 	if runtime == null or scene == null or not bool(runtime.call("is_rented")):
 		return
