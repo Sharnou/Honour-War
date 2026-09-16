@@ -41,6 +41,8 @@ jobs:
         run: python3 tools/validate_hd_assets.py
       - name: Validate SS autonomous AI contract
         run: python3 tools/ss_ai_qa.py
+      - name: Validate Game3D and 3D interaction hitbox contract
+        run: python3 tools/game3d_integrity_qa.py
       - name: Check forbidden prototype VFX alpha tween pattern
         shell: bash
         run: |
