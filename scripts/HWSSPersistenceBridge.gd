@@ -33,7 +33,7 @@ func sync_from_hero() -> void:
 		var state:Variant = saved.get("state",{})
 		if state is Dictionary:
 			runtime.set("ss",state.duplicate(true))
-		 runtime.set("owner_character_age",maxi(18,int(hero.get("age",18))))
+		runtime.set("owner_character_age",maxi(18,int(hero.get("age",18))))
 
 func sync_to_hero() -> void:
 	var runtime:Node = get_node_or_null("/root/HWSSRentRuntime")
