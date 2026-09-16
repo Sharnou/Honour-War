@@ -33,6 +33,7 @@ HWPresentationGuard="*res://scripts/HWPresentationGuard.gd"
 HWItemIconEnhancer="*res://scripts/HWItemIconEnhancer.gd"
 HW3DInteractionDirector="*res://scripts/HW3DInteractionDirector.gd"
 HWSSRentRuntime="*res://scripts/HWSSRentRuntime.gd"
+HWSSRentNPCDirector="*res://scripts/HWSSRentNPCDirector.gd"
 
 [display]
 window/size/viewport_width=1920
@@ -53,7 +54,6 @@ renderer/rendering_method.driver="vulkan"
 rendering/driver/driver_name="vulkan"
 rendering/driver/fallback_to_angle=true
 rendering/driver/fallback_to_native=true
-rendering/rendering_device/fallback_to_opengl3=true
 textures/default_filters/use_nearest_mipmap_filter=false
 textures/canvas_textures/default_texture_filter=1
 2d/snap/snap_2d_transforms_to_pixel=false
