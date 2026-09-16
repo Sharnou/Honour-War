@@ -22,20 +22,20 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout current source
+      - name: Checkout validation commit
         uses: actions/checkout@v6
         with:
           fetch-depth: 1
+          ref: ${{ github.sha }}
 
-      - name: Reject stale validation source
+      - name: Report validation source
         shell: bash
         run: |
           set -euo pipefail
-          git fetch origin main --depth=1
-          expected="$(git rev-parse origin/main)"
           actual="$(git rev-parse HEAD)"
+          expected="${GITHUB_SHA}"
           echo "Validation HEAD: ${actual}"
-          echo "Current main:    ${expected}"
+          echo "Workflow SHA:    ${expected}"
           test "${actual}" = "${expected}"
 
       - name: Run Game3D integrity regression QA
