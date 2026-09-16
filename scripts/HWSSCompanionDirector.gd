@@ -27,9 +27,9 @@ func _process(delta:float) -> void:
 	elapsed += delta
 	combat_clock += delta
 	heal_clock += delta
-	_sync()
+	_sync(delta)
 
-func _sync() -> void:
+func _sync(delta:float = 0.016) -> void:
 	var runtime:Node = get_node_or_null("/root/HWRentalService")
 	var scene:Node = get_tree().current_scene
 	if runtime == null or scene == null:
@@ -57,7 +57,8 @@ func _sync() -> void:
 	var hero_pos:Vector2 = Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0)))
 	var target_pos:Vector3 = _map_to_world(hero_pos) + Vector3(FOLLOW_DISTANCE,0.0,0.8)
 	if bool(behavior.get("follow",true)):
-		ss_visual.position = ss_visual.position.lerp(target_pos,1.0-exp(-8.0*0.016))
+		var follow_weight:float = clampf(1.0-exp(-8.0*maxf(delta,0.0)),0.0,1.0)
+		ss_visual.position = ss_visual.position.lerp(target_pos,follow_weight)
 		last_action = "Follow"
 	ss_visual.set_meta("behavior",behavior)
 	ss_visual.set_meta("skill",ASURA_SKILL)
@@ -143,14 +144,15 @@ func _try_fight(legacy:Node,data:Dictionary) -> void:
 	var damage:int = maxi(25,80+level*6+strength*4+dex*2+refine*5)
 	var defense:int = maxi(0,int(target.get("defense",0)))
 	damage = maxi(1,damage-defense)
-	target["hp"] = maxi(0,int(target.get("hp",0))-damage)
+	var previous_hp:int = maxi(0,int(target.get("hp",0)))
+	target["hp"] = maxi(0,previous_hp-damage)
 	monsters_value[best_index] = target
 	legacy.set("monsters",monsters_value)
 	last_action = ASURA_SKILL
 	if legacy.has_method("log_message"):
 		legacy.call("log_message","SS uses %s for %d damage against Lv.%d %s." % [ASURA_SKILL,damage,int(target.get("level",1)),str(target.get("name","Monster"))])
 	_play_skill_vfx(_map_to_world_variant(target.get("pos",ss_pos)),ASURA_SKILL)
-	if int(target.get("hp",0)) <= 0:
+	if previous_hp > 0 and int(target.get("hp",0)) <= 0:
 		var xp:int = maxi(1,int(target.get("exp",100)))
 		_grant_ss_progress(data,xp)
 		if legacy.has_method("defeat_monster"):
