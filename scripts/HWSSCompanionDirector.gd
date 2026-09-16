@@ -5,7 +5,6 @@ extends Node3D
 ## Combat mutates the same LegacyGame monster state used by the normal game loop.
 
 const FOLLOW_DISTANCE:float = 1.7
-const COMBAT_RANGE:float = 7.5
 const LEGACY_COMBAT_RANGE:float = 180.0
 const HEAL_THRESHOLD:float = 0.72
 const HEAL_INTERVAL:float = 2.25
@@ -103,7 +102,10 @@ func _try_heal(legacy:Node,hero:Dictionary,data:Dictionary) -> void:
 	if hero_healed or self_healed:
 		_store_ss(data)
 		if legacy.has_method("log_message"):
-			legacy.call("log_message","SS automatically healed %s%s." % ["Hero" if hero_healed else "", " + Self" if self_healed else ""])
+			var target_text:String = "Hero" if hero_healed else ""
+			if self_healed:
+				target_text += " + Self" if hero_healed else "Self"
+			legacy.call("log_message","SS automatically healed %s." % target_text)
 
 func _try_fight(legacy:Node,data:Dictionary) -> void:
 	var monsters_value:Variant = legacy.get("monsters")
@@ -137,7 +139,7 @@ func _try_fight(legacy:Node,data:Dictionary) -> void:
 	var stats:Dictionary = data.get("status_points",{}).duplicate(true)
 	var strength:int = maxi(0,int(stats.get("STR",0)))
 	var dex:int = maxi(0,int(stats.get("DEX",0)))
-	var refine:int = maxi(0,int(data.get("equipment",{}).get("refine",0)))
+	var refine:int = maxi(0,int(data.get("refine",0)))
 	var damage:int = maxi(25,80+level*6+strength*4+dex*2+refine*5)
 	var defense:int = maxi(0,int(target.get("defense",0)))
 	damage = maxi(1,damage-defense)
@@ -147,9 +149,9 @@ func _try_fight(legacy:Node,data:Dictionary) -> void:
 	last_action = ASURA_SKILL
 	if legacy.has_method("log_message"):
 		legacy.call("log_message","SS uses %s for %d damage against Lv.%d %s." % [ASURA_SKILL,damage,int(target.get("level",1)),str(target.get("name","Monster"))])
-	_play_skill_vfx(_map_to_world(target.get("pos",ss_pos)),ASURA_SKILL)
+	_play_skill_vfx(_map_to_world_variant(target.get("pos",ss_pos)),ASURA_SKILL)
 	if int(target.get("hp",0)) <= 0:
-		var xp:int = maxi(1,int(target.get("exp",target.get("xp",100))))
+		var xp:int = maxi(1,int(target.get("exp",100)))
 		_grant_ss_progress(data,xp)
 		if legacy.has_method("defeat_monster"):
 			legacy.call("defeat_monster",target)
@@ -225,7 +227,7 @@ func _spawn_development_fallback() -> void:
 func _map_to_world(pos:Vector2) -> Vector3:
 	return Vector3(pos.x*0.055,0.0,pos.y*0.055)
 
-func _map_to_world(pos_value:Variant) -> Vector3:
+func _map_to_world_variant(pos_value:Variant) -> Vector3:
 	if pos_value is Vector2:
 		return _map_to_world(pos_value)
 	return ss_visual.global_position if ss_visual != null else Vector3.ZERO
