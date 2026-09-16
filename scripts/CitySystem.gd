@@ -1,11 +1,13 @@
 class_name CitySystem
 extends RefCounted
 
+# City progression remains available for town/economy state, but soldier,
+# barracks, tower-defense, deployment, reserve, and guarded-bank systems are
+# intentionally excluded from the Honour War design.
 const BUILDINGS := {
 	"Town Hall":{"wood":50,"stone":50,"gold":500},
 	"Blacksmith":{"wood":30,"stone":20,"gold":300},
 	"Market":{"wood":40,"stone":20,"gold":350},
-	"Barracks":{"wood":60,"stone":60,"gold":600},
 	"Magic Tower":{"wood":40,"stone":70,"gold":700}
 }
 
