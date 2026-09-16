@@ -8,12 +8,29 @@ on:
 permissions:
   contents: read
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Checkout current source
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - name: Reject stale validation source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main --depth=1
+          expected="$(git rev-parse origin/main)"
+          actual="$(git rev-parse HEAD)"
+          echo "Validation HEAD: ${actual}"
+          echo "Current main:    ${expected}"
+          test "${actual}" = "${expected}"
+
       - name: Download Godot 4.7.2 stable
         shell: bash
         run: |
@@ -22,9 +39,11 @@ jobs:
           unzip -q godot.zip
           chmod +x Godot_v4.7.2-stable_linux.x86_64
           ./Godot_v4.7.2-stable_linux.x86_64 --version | grep -E '^4\.7\.2\.stable' >/dev/null
+
       - name: Run SS rental regression QA
         shell: bash
         run: python3 tools/ss_rental_qa.py
+
       - name: Validate scripts, scenes, and Godot 4.7 target
         shell: bash
         run: |
