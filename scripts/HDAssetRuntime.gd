@@ -62,13 +62,15 @@ func _sync_hero()->void:
         hero_asset_root + "/" + class_dir + "/" + tier_name + ".glb",
         hero_asset_root + "/" + class_dir + "/" + tier_name + ".gltf"
     ]
-    if _replace_first_available("hero", current, candidates, "", hero_target_height):
+    # Hero scale and grounding are authored in the source GLB. Do not normalize
+    # hero height at runtime; preserve the exact imported root transform.
+    if _replace_first_available("hero", current, candidates, "", 0.0):
         var replacement:Node3D = game.get("hero_visual") as Node3D
         if replacement != null and is_instance_valid(replacement):
             replacement.set_meta("hw_production_asset", true)
             replacement.set_meta("hw_asset_tier", tier_name)
             replacement.set_meta("hw_asset_class", class_id)
-            replacement.set_meta("hw_asset_height", hero_target_height)
+            replacement.set_meta("hw_asset_height", 0.0)
             replacement.set_meta("hw_authored_scale", replacement.scale)
             replacement.set_meta("hw_ground_y", replacement.position.y)
 
