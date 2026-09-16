@@ -34,6 +34,7 @@ const SS_RARE_CARDS:Array[String] = [
 var rented:bool = false
 var owner_character_age:int = 18
 var ss:Dictionary = {}
+var rent_panel:Panel
 
 func rent(hero_age:int, zeny:int) -> Dictionary:
     if rented:
@@ -48,6 +49,9 @@ func rent(hero_age:int, zeny:int) -> Dictionary:
 func stop_renting() -> Dictionary:
     rented = false
     ss = {}
+    if rent_panel != null and is_instance_valid(rent_panel):
+        rent_panel.queue_free()
+        rent_panel = null
     return {"ok":true,"rented":false}
 
 func is_rented() -> bool:
@@ -81,6 +85,74 @@ func can_create_as_character_class(class_id:String) -> bool:
 
 func get_rent_npc_profile(map_id:String) -> Dictionary:
     return {"name":SS_RENT_NPC_NAME,"map":map_id,"level":0,"class":SS_CLASS_NAME,"rental_only":true,"price_zeny":RENT_PRICE_ZENY}
+
+func open_rent_panel() -> void:
+    if rent_panel != null and is_instance_valid(rent_panel):
+        rent_panel.queue_free()
+        rent_panel = null
+    var layer:CanvasLayer = CanvasLayer.new()
+    layer.name = "SSRentPanelLayer"
+    get_tree().current_scene.add_child(layer)
+    rent_panel = Panel.new()
+    rent_panel.name = "SSRentPanel"
+    rent_panel.position = Vector2(620,250)
+    rent_panel.size = Vector2(680,430)
+    layer.add_child(rent_panel)
+    var title:Label = Label.new()
+    title.text = "RENT — SS (SUPER SHAMBION)"
+    title.position = Vector2(28,20)
+    title.add_theme_font_size_override("font_size",28)
+    rent_panel.add_child(title)
+    var details:Label = Label.new()
+    details.text = "Level 0  •  Same age as your hero  •  Asura Strike\nFollow • Heal • Fight\nFull owner control: Equipment + Status Points\nRental price: 1,000,000 Zeny\nSS can only be obtained from Rent NPCs."
+    details.position = Vector2(28,72)
+    details.add_theme_font_size_override("font_size",18)
+    rent_panel.add_child(details)
+    var action:Button = Button.new()
+    action.text = "RENT — 1,000,000 Zeny"
+    action.position = Vector2(28,260)
+    action.size = Vector2(300,60)
+    action.disabled = rented
+    action.pressed.connect(_rent_from_current_hero)
+    rent_panel.add_child(action)
+    var go:Button = Button.new()
+    go.text = "GO"
+    go.position = Vector2(370,260)
+    go.size = Vector2(120,60)
+    go.disabled = not rented
+    go.pressed.connect(stop_renting)
+    rent_panel.add_child(go)
+    var close:Button = Button.new()
+    close.text = "Close"
+    close.position = Vector2(28,350)
+    close.size = Vector2(160,44)
+    close.pressed.connect(func(): rent_panel.queue_free(); rent_panel = null)
+    rent_panel.add_child(close)
+
+func _rent_from_current_hero() -> void:
+    var hero_age:int = 18
+    var zeny:int = 0
+    var scene:Node = get_tree().current_scene
+    var legacy:Node = scene.get_node_or_null("LegacyGame") if scene != null else null
+    if legacy != null:
+        var hero_value:Variant = legacy.get("hero")
+        if hero_value is Dictionary:
+            hero_age = int(hero_value.get("age",18))
+            zeny = int(hero_value.get("zeny",0))
+    var result:Dictionary = rent(hero_age,zeny)
+    if bool(result.get("ok",false)):
+        _set_hero_zeny(zeny-RENT_PRICE_ZENY)
+    open_rent_panel()
+
+func _set_hero_zeny(value:int) -> void:
+    var scene:Node = get_tree().current_scene
+    var legacy:Node = scene.get_node_or_null("LegacyGame") if scene != null else null
+    if legacy == null:
+        return
+    var hero_value:Variant = legacy.get("hero")
+    if hero_value is Dictionary:
+        hero_value["zeny"] = maxi(0,value)
+        legacy.set("hero",hero_value)
 
 func _new_ss() -> Dictionary:
     return {
