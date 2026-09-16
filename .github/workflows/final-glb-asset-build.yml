@@ -35,10 +35,21 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
-      - name: Checkout
+      - name: Checkout current source
         uses: actions/checkout@v6
         with:
-          fetch-depth: 0
+          fetch-depth: 1
+
+      - name: Reject stale validation source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main --depth=1
+          expected="$(git rev-parse origin/main)"
+          actual="$(git rev-parse HEAD)"
+          echo "Validation HEAD: ${actual}"
+          echo "Current main:    ${expected}"
+          test "${actual}" = "${expected}"
 
       - name: Run Visual RAG first
         shell: bash
