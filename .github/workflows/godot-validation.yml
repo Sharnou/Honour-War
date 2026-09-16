@@ -10,6 +10,9 @@ permissions:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  GODOT_VERSION: "4.7.2"
+  GODOT_TAG: "4.7.2-stable"
+  GODOT_BINARY: "Godot_v4.7.2-stable_linux.x86_64"
 
 jobs:
   validate:
@@ -39,10 +42,24 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          curl -L --fail --retry 3 -o godot.zip https://github.com/godotengine/godot-builds/releases/download/4.7.2-stable/Godot_v4.7.2-stable_linux.x86_64.zip
+          rm -f godot.zip "${GODOT_BINARY}"
+          urls=(
+            "https://github.com/godotengine/godot-builds/releases/download/${GODOT_TAG}/${GODOT_BINARY}.zip"
+            "https://github.com/godotengine/godot/releases/download/${GODOT_TAG}/${GODOT_BINARY}.zip"
+          )
+          downloaded=0
+          for url in "${urls[@]}"; do
+            echo "Trying ${url}"
+            if curl --fail --location --retry 5 --retry-delay 2 --retry-all-errors --connect-timeout 20 --max-time 300 -o godot.zip "${url}"; then
+              downloaded=1
+              break
+            fi
+            rm -f godot.zip
+          done
+          test "${downloaded}" = "1"
           unzip -q godot.zip
-          chmod +x Godot_v4.7.2-stable_linux.x86_64
-          ./Godot_v4.7.2-stable_linux.x86_64 --version | grep -E '^4\\.7\\.2\\.stable' >/dev/null
+          chmod +x "${GODOT_BINARY}"
+          "./${GODOT_BINARY}" --version | grep -E '^4\\.7\\.2\\.stable' >/dev/null
 
       - name: Run SS rental regression QA
         shell: bash
@@ -53,7 +70,7 @@ jobs:
         run: |
           set -euo pipefail
           grep -F 'config/features=PackedStringArray("4.7")' project.godot >/dev/null
-          ./Godot_v4.7.2-stable_linux.x86_64 --headless --editor --path . --quit 2>&1 | tee godot-validation.log
+          "./${GODOT_BINARY}" --headless --editor --path . --quit 2>&1 | tee godot-validation.log
           if grep -E 'SCRIPT ERROR|Parse Error|ERROR: Failed to load script|ERROR: Cannot load scene' godot-validation.log; then
             echo 'Godot validation reported errors.'
             exit 1
