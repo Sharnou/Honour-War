@@ -1,101 +1,201 @@
-rank,type,slot,name,rarity,status_effects,default_drop_rate_percent,drop_pool,age_rule
-1,equipment,weapon,Astral Edge,Mythic,ATK +10%; skill damage +5%; refinement scaling +1% per refine tier,0.100000,Top-100 pool,Age bonus applied separately
-2,equipment,weapon,Sunforge Blade,Mythic,ATK +10%; skill damage +5%; refinement scaling +1% per refine tier,0.099091,Top-100 pool,Age bonus applied separately
-3,equipment,weapon,Moonveil Saber,Mythic,ATK +10%; skill damage +5%; refinement scaling +1% per refine tier,0.098182,Top-100 pool,Age bonus applied separately
-4,equipment,weapon,Dragonwake Greatsword,Mythic,ATK +10%; skill damage +5%; refinement scaling +1% per refine tier,0.097273,Top-100 pool,Age bonus applied separately
-5,equipment,weapon,Stormcaller Spear,Mythic,ATK +10%; skill damage +5%; refinement scaling +1% per refine tier,0.096364,Top-100 pool,Age bonus applied separately
-6,equipment,weapon,Verdant Halberd,Mythic,ATK +10%; skill damage +5%; refinement scaling +1% per refine tier,0.095455,Top-100 pool,Age bonus applied separately
-7,equipment,weapon,Nightglass Dagger,Mythic,ATK +10%; skill damage +5%; refinement scaling +1% per refine tier,0.094545,Top-100 pool,Age bonus applied separately
-8,equipment,weapon,Emberwind Bow,Mythic,ATK +10%; skill damage +5%; refinement scaling +1% per refine tier,0.093636,Top-100 pool,Age bonus applied separately
-9,equipment,weapon,Starfall Staff,Mythic,ATK +10%; skill damage +5%; refinement scaling +1% per refine tier,0.092727,Top-100 pool,Age bonus applied separately
-10,equipment,weapon,Runebound Tome,Mythic,ATK +10%; skill damage +5%; refinement scaling +1% per refine tier,0.091818,Top-100 pool,Age bonus applied separately
-11,equipment,armor,Aegis of Dawn,Legendary,DEF +10%; HP +8%; damage reduction +2%,0.090909,Top-100 pool,Age bonus applied separately
-12,equipment,armor,Dragonhide Cuirass,Legendary,DEF +10%; HP +8%; damage reduction +2%,0.090000,Top-100 pool,Age bonus applied separately
-13,equipment,armor,Moonlit Robe,Legendary,DEF +10%; HP +8%; damage reduction +2%,0.089091,Top-100 pool,Age bonus applied separately
-14,equipment,armor,Stormguard Plate,Legendary,DEF +10%; HP +8%; damage reduction +2%,0.088182,Top-100 pool,Age bonus applied separately
-15,equipment,armor,Verdant Mantle,Legendary,DEF +10%; HP +8%; damage reduction +2%,0.087273,Top-100 pool,Age bonus applied separately
-16,equipment,armor,Nightwarden Coat,Legendary,DEF +10%; HP +8%; damage reduction +2%,0.086364,Top-100 pool,Age bonus applied separately
-17,equipment,armor,Emberweave Vest,Legendary,DEF +10%; HP +8%; damage reduction +2%,0.085455,Top-100 pool,Age bonus applied separately
-18,equipment,armor,Starcaller Raiment,Legendary,DEF +10%; HP +8%; damage reduction +2%,0.084545,Top-100 pool,Age bonus applied separately
-19,equipment,armor,Ironbark Armor,Legendary,DEF +10%; HP +8%; damage reduction +2%,0.083636,Top-100 pool,Age bonus applied separately
-20,equipment,armor,Sovereign Mail,Legendary,DEF +10%; HP +8%; damage reduction +2%,0.082727,Top-100 pool,Age bonus applied separately
-21,equipment,helmet,Crown of the First Light,Epic,HP +5%; SP +5%; status resistance +4%,0.081818,Top-100 pool,Age bonus applied separately
-22,equipment,helmet,Dragoncrest Helm,Epic,HP +5%; SP +5%; status resistance +4%,0.080909,Top-100 pool,Age bonus applied separately
-23,equipment,helmet,Moonshade Circlet,Epic,HP +5%; SP +5%; status resistance +4%,0.080000,Top-100 pool,Age bonus applied separately
-24,equipment,helmet,Stormwatch Helm,Epic,HP +5%; SP +5%; status resistance +4%,0.079091,Top-100 pool,Age bonus applied separately
-25,equipment,helmet,Verdant Crown,Epic,HP +5%; SP +5%; status resistance +4%,0.078182,Top-100 pool,Age bonus applied separately
-26,equipment,helmet,Nightwarden Hood,Epic,HP +5%; SP +5%; status resistance +4%,0.077273,Top-100 pool,Age bonus applied separately
-27,equipment,helmet,Emberglass Circlet,Epic,HP +5%; SP +5%; status resistance +4%,0.076364,Top-100 pool,Age bonus applied separately
-28,equipment,helmet,Starforged Crown,Epic,HP +5%; SP +5%; status resistance +4%,0.075455,Top-100 pool,Age bonus applied separately
-29,equipment,helmet,Ironbark Helm,Epic,HP +5%; SP +5%; status resistance +4%,0.074545,Top-100 pool,Age bonus applied separately
-30,equipment,helmet,Sovereign Visor,Epic,HP +5%; SP +5%; status resistance +4%,0.073636,Top-100 pool,Age bonus applied separately
-31,equipment,garment,Wings of Dawn,Epic,DEF +6%; elemental resistance +6%; movement speed +2%,0.072727,Top-100 pool,Age bonus applied separately
-32,equipment,garment,Dragonwing Cloak,Epic,DEF +6%; elemental resistance +6%; movement speed +2%,0.071818,Top-100 pool,Age bonus applied separately
-33,equipment,garment,Moonveil Cape,Epic,DEF +6%; elemental resistance +6%; movement speed +2%,0.070909,Top-100 pool,Age bonus applied separately
-34,equipment,garment,Stormrunner Mantle,Epic,DEF +6%; elemental resistance +6%; movement speed +2%,0.070000,Top-100 pool,Age bonus applied separately
-35,equipment,garment,Verdantwind Shawl,Epic,DEF +6%; elemental resistance +6%; movement speed +2%,0.069091,Top-100 pool,Age bonus applied separately
-36,equipment,garment,Nightfall Cloak,Epic,DEF +6%; elemental resistance +6%; movement speed +2%,0.068182,Top-100 pool,Age bonus applied separately
-37,equipment,garment,Embertrail Cape,Epic,DEF +6%; elemental resistance +6%; movement speed +2%,0.067273,Top-100 pool,Age bonus applied separately
-38,equipment,garment,Starpath Mantle,Epic,DEF +6%; elemental resistance +6%; movement speed +2%,0.066364,Top-100 pool,Age bonus applied separately
-39,equipment,garment,Ironbark Cape,Epic,DEF +6%; elemental resistance +6%; movement speed +2%,0.065455,Top-100 pool,Age bonus applied separately
-40,equipment,garment,Sovereign Mantle,Epic,DEF +6%; elemental resistance +6%; movement speed +2%,0.064545,Top-100 pool,Age bonus applied separately
-41,equipment,footwear,Dawnstrider Greaves,Epic,AGI +5; movement speed +4%; HP +3%,0.063636,Top-100 pool,Age bonus applied separately
-42,equipment,footwear,Dragonstep Boots,Epic,AGI +5; movement speed +4%; HP +3%,0.062727,Top-100 pool,Age bonus applied separately
-43,equipment,footwear,Moonwalker Boots,Epic,AGI +5; movement speed +4%; HP +3%,0.061818,Top-100 pool,Age bonus applied separately
-44,equipment,footwear,Stormrunner Boots,Epic,AGI +5; movement speed +4%; HP +3%,0.060909,Top-100 pool,Age bonus applied separately
-45,equipment,footwear,Verdantstride Shoes,Epic,AGI +5; movement speed +4%; HP +3%,0.060000,Top-100 pool,Age bonus applied separately
-46,equipment,footwear,Nightstep Boots,Epic,AGI +5; movement speed +4%; HP +3%,0.059091,Top-100 pool,Age bonus applied separately
-47,equipment,footwear,Embermarch Boots,Epic,AGI +5; movement speed +4%; HP +3%,0.058182,Top-100 pool,Age bonus applied separately
-48,equipment,footwear,Starpath Greaves,Epic,AGI +5; movement speed +4%; HP +3%,0.057273,Top-100 pool,Age bonus applied separately
-49,equipment,footwear,Ironbark Greaves,Epic,AGI +5; movement speed +4%; HP +3%,0.056364,Top-100 pool,Age bonus applied separately
-50,equipment,footwear,Sovereign Sabatons,Epic,AGI +5; movement speed +4%; HP +3%,0.055455,Top-100 pool,Age bonus applied separately
-51,equipment,accessory,Sunheart Ring,Epic,ATK/MATK +5%; critical +3%; refine success +1%,0.054545,Top-100 pool,Age bonus applied separately
-52,equipment,accessory,Dragoncore Ring,Epic,ATK/MATK +5%; critical +3%; refine success +1%,0.053636,Top-100 pool,Age bonus applied separately
-53,equipment,accessory,Moonstone Seal,Epic,ATK/MATK +5%; critical +3%; refine success +1%,0.052727,Top-100 pool,Age bonus applied separately
-54,equipment,accessory,Stormeye Ring,Epic,ATK/MATK +5%; critical +3%; refine success +1%,0.051818,Top-100 pool,Age bonus applied separately
-55,equipment,accessory,Verdant Signet,Epic,ATK/MATK +5%; critical +3%; refine success +1%,0.050909,Top-100 pool,Age bonus applied separately
-56,equipment,accessory,Nightglass Ring,Epic,ATK/MATK +5%; critical +3%; refine success +1%,0.050000,Top-100 pool,Age bonus applied separately
-57,equipment,accessory,Emberheart Pendant,Epic,ATK/MATK +5%; critical +3%; refine success +1%,0.049091,Top-100 pool,Age bonus applied separately
-58,equipment,accessory,Starcall Talisman,Epic,ATK/MATK +5%; critical +3%; refine success +1%,0.048182,Top-100 pool,Age bonus applied separately
-59,equipment,accessory,Ironbark Charm,Epic,ATK/MATK +5%; critical +3%; refine success +1%,0.047273,Top-100 pool,Age bonus applied separately
-60,equipment,accessory,Sovereign Seal,Epic,ATK/MATK +5%; critical +3%; refine success +1%,0.046364,Top-100 pool,Age bonus applied separately
-61,card,card,Dawn Wyrm Card,Legendary,ATK +8%; elemental skill damage +6%; boss damage +3%,0.045455,Top-100 pool,Age bonus applied separately
-62,card,card,Dragon Emperor Card,Legendary,ATK +8%; elemental skill damage +6%; boss damage +3%,0.044545,Top-100 pool,Age bonus applied separately
-63,card,card,Moon Serpent Card,Legendary,HP +5%; ATK +5%; elemental resistance +3%,0.043636,Top-100 pool,Age bonus applied separately
-64,card,card,Storm Titan Card,Legendary,DEF +7%; HP +8%; damage reduction +2%,0.042727,Top-100 pool,Age bonus applied separately
-65,card,card,Verdant Ancient Card,Legendary,HP +5%; ATK +5%; elemental resistance +3%,0.041818,Top-100 pool,Age bonus applied separately
-66,card,card,Night Reaper Card,Legendary,ASPD +5%; critical +4%; movement speed +3%,0.040909,Top-100 pool,Age bonus applied separately
-67,card,card,Ember Phoenix Card,Legendary,ATK +8%; elemental skill damage +6%; boss damage +3%,0.040000,Top-100 pool,Age bonus applied separately
-68,card,card,Star Oracle Card,Legendary,MATK +8%; SP +6%; skill cooldown -3%,0.039091,Top-100 pool,Age bonus applied separately
-69,card,card,Iron Colossus Card,Legendary,DEF +7%; HP +8%; damage reduction +2%,0.038182,Top-100 pool,Age bonus applied separately
-70,card,card,Sovereign Guardian Card,Legendary,DEF +7%; HP +8%; damage reduction +2%,0.037273,Top-100 pool,Age bonus applied separately
-71,card,card,Bloodfang Wolf Card,Legendary,ASPD +5%; critical +4%; movement speed +3%,0.036364,Top-100 pool,Age bonus applied separately
-72,card,card,Arcane Golem Card,Legendary,MATK +8%; SP +6%; skill cooldown -3%,0.035455,Top-100 pool,Age bonus applied separately
-73,card,card,Sky Mantis Card,Legendary,ASPD +5%; critical +4%; movement speed +3%,0.034545,Top-100 pool,Age bonus applied separately
-74,card,card,Grave Knight Card,Legendary,DEF +7%; HP +8%; damage reduction +2%,0.033636,Top-100 pool,Age bonus applied separately
-75,card,card,Plague Zombie Card,Legendary,HP +5%; ATK +5%; elemental resistance +3%,0.032727,Top-100 pool,Age bonus applied separately
-76,card,card,Forest Orc Card,Legendary,DEF +7%; HP +8%; damage reduction +2%,0.031818,Top-100 pool,Age bonus applied separately
-77,card,card,Crimson Goblin Card,Legendary,HP +5%; ATK +5%; elemental resistance +3%,0.030909,Top-100 pool,Age bonus applied separately
-78,card,card,Ancient Druid Card,Legendary,MATK +8%; SP +6%; skill cooldown -3%,0.030000,Top-100 pool,Age bonus applied separately
-79,card,card,Royal Poring Card,Legendary,HP +5%; ATK +5%; elemental resistance +3%,0.029091,Top-100 pool,Age bonus applied separately
-80,card,card,Abyssal Dragon Card,Legendary,ATK +8%; elemental skill damage +6%; boss damage +3%,0.028182,Top-100 pool,Age bonus applied separately
-81,card,card,Celestial Knight Card,Epic,DEF +7%; HP +8%; damage reduction +2%,0.027273,Top-100 pool,Age bonus applied separately
-82,card,card,Void Mage Card,Epic,MATK +8%; SP +6%; skill cooldown -3%,0.026364,Top-100 pool,Age bonus applied separately
-83,card,card,Wild Falcon Card,Epic,ASPD +5%; critical +4%; movement speed +3%,0.025455,Top-100 pool,Age bonus applied separately
-84,card,card,Shadow Thief Card,Epic,ASPD +5%; critical +4%; movement speed +3%,0.024545,Top-100 pool,Age bonus applied separately
-85,card,card,Sacred Acolyte Card,Epic,MATK +8%; SP +6%; skill cooldown -3%,0.023636,Top-100 pool,Age bonus applied separately
-86,card,card,Merchant Prince Card,Epic,refine material cost -2%; Zeny gain +5%; carrying capacity +10%,0.022727,Top-100 pool,Age bonus applied separately
-87,card,card,Warrior Lord Card,Epic,DEF +7%; HP +8%; damage reduction +2%,0.021818,Top-100 pool,Age bonus applied separately
-88,card,card,Arcane Master Card,Epic,MATK +8%; SP +6%; skill cooldown -3%,0.020909,Top-100 pool,Age bonus applied separately
-89,card,card,Ranger Sovereign Card,Epic,ASPD +5%; critical +4%; movement speed +3%,0.020000,Top-100 pool,Age bonus applied separately
-90,card,card,Thief King Card,Epic,ASPD +5%; critical +4%; movement speed +3%,0.019091,Top-100 pool,Age bonus applied separately
-91,card,card,Aegis Saint Card,Epic,DEF +7%; HP +8%; damage reduction +2%,0.018182,Top-100 pool,Age bonus applied separately
-92,card,card,Forge Master Card,Epic,refine material cost -2%; Zeny gain +5%; carrying capacity +10%,0.017273,Top-100 pool,Age bonus applied separately
-93,card,card,World Tree Card,Epic,HP +5%; ATK +5%; elemental resistance +3%,0.016364,Top-100 pool,Age bonus applied separately
-94,card,card,Star Dragon Card,Epic,ATK +8%; elemental skill damage +6%; boss damage +3%,0.015455,Top-100 pool,Age bonus applied separately
-95,card,card,Eternal Guardian Card,Epic,DEF +7%; HP +8%; damage reduction +2%,0.014545,Top-100 pool,Age bonus applied separately
-96,card,card,Inferno Lord Card,Epic,ATK +8%; elemental skill damage +6%; boss damage +3%,0.013636,Top-100 pool,Age bonus applied separately
-97,card,card,Glacial Queen Card,Epic,MATK +8%; SP +6%; skill cooldown -3%,0.012727,Top-100 pool,Age bonus applied separately
-98,card,card,Thunder Roc Card,Epic,ATK +8%; elemental skill damage +6%; boss damage +3%,0.011818,Top-100 pool,Age bonus applied separately
-99,card,card,Ancient Kraken Card,Epic,ATK +8%; elemental skill damage +6%; boss damage +3%,0.010909,Top-100 pool,Age bonus applied separately
-100,card,card,Chronos Beast Card,Epic,HP +5%; ATK +5%; elemental resistance +3%,0.010000,Top-100 pool,Age bonus applied separately
+rank,pool,type,name,default_drop_rate_percent,age_rule
+1,Top-100 Items,equipment,Astral Edge,0.100000,Age bonus applied separately
+2,Top-100 Items,equipment,Sunforge Blade,0.099091,Age bonus applied separately
+3,Top-100 Items,equipment,Moonveil Saber,0.098182,Age bonus applied separately
+4,Top-100 Items,equipment,Dragonwake Greatsword,0.097273,Age bonus applied separately
+5,Top-100 Items,equipment,Stormcaller Spear,0.096364,Age bonus applied separately
+6,Top-100 Items,equipment,Verdant Halberd,0.095455,Age bonus applied separately
+7,Top-100 Items,equipment,Nightglass Dagger,0.094545,Age bonus applied separately
+8,Top-100 Items,equipment,Emberwind Bow,0.093636,Age bonus applied separately
+9,Top-100 Items,equipment,Starfall Staff,0.092727,Age bonus applied separately
+10,Top-100 Items,equipment,Runebound Tome,0.091818,Age bonus applied separately
+11,Top-100 Items,equipment,Aegis of Dawn,0.090909,Age bonus applied separately
+12,Top-100 Items,equipment,Dragonhide Cuirass,0.090000,Age bonus applied separately
+13,Top-100 Items,equipment,Moonlit Robe,0.089091,Age bonus applied separately
+14,Top-100 Items,equipment,Stormguard Plate,0.088182,Age bonus applied separately
+15,Top-100 Items,equipment,Verdant Mantle,0.087273,Age bonus applied separately
+16,Top-100 Items,equipment,Nightwarden Coat,0.086364,Age bonus applied separately
+17,Top-100 Items,equipment,Emberweave Vest,0.085455,Age bonus applied separately
+18,Top-100 Items,equipment,Starcaller Raiment,0.084545,Age bonus applied separately
+19,Top-100 Items,equipment,Ironbark Armor,0.083636,Age bonus applied separately
+20,Top-100 Items,equipment,Sovereign Mail,0.082727,Age bonus applied separately
+21,Top-100 Items,equipment,Crown of the First Light,0.081818,Age bonus applied separately
+22,Top-100 Items,equipment,Dragoncrest Helm,0.080909,Age bonus applied separately
+23,Top-100 Items,equipment,Moonshade Circlet,0.080000,Age bonus applied separately
+24,Top-100 Items,equipment,Stormwatch Helm,0.079091,Age bonus applied separately
+25,Top-100 Items,equipment,Verdant Crown,0.078182,Age bonus applied separately
+26,Top-100 Items,equipment,Nightwarden Hood,0.077273,Age bonus applied separately
+27,Top-100 Items,equipment,Emberglass Circlet,0.076364,Age bonus applied separately
+28,Top-100 Items,equipment,Starforged Crown,0.075455,Age bonus applied separately
+29,Top-100 Items,equipment,Ironbark Helm,0.074545,Age bonus applied separately
+30,Top-100 Items,equipment,Sovereign Visor,0.073636,Age bonus applied separately
+31,Top-100 Items,equipment,Wings of Dawn,0.072727,Age bonus applied separately
+32,Top-100 Items,equipment,Dragonwing Cloak,0.071818,Age bonus applied separately
+33,Top-100 Items,equipment,Moonveil Cape,0.070909,Age bonus applied separately
+34,Top-100 Items,equipment,Stormrunner Mantle,0.070000,Age bonus applied separately
+35,Top-100 Items,equipment,Verdantwind Shawl,0.069091,Age bonus applied separately
+36,Top-100 Items,equipment,Nightfall Cloak,0.068182,Age bonus applied separately
+37,Top-100 Items,equipment,Embertrail Cape,0.067273,Age bonus applied separately
+38,Top-100 Items,equipment,Starpath Mantle,0.066364,Age bonus applied separately
+39,Top-100 Items,equipment,Ironbark Cape,0.065455,Age bonus applied separately
+40,Top-100 Items,equipment,Sovereign Mantle,0.064545,Age bonus applied separately
+41,Top-100 Items,equipment,Dawnstrider Greaves,0.063636,Age bonus applied separately
+42,Top-100 Items,equipment,Dragonstep Boots,0.062727,Age bonus applied separately
+43,Top-100 Items,equipment,Moonwalker Boots,0.061818,Age bonus applied separately
+44,Top-100 Items,equipment,Stormrunner Boots,0.060909,Age bonus applied separately
+45,Top-100 Items,equipment,Verdantstride Shoes,0.060000,Age bonus applied separately
+46,Top-100 Items,equipment,Nightstep Boots,0.059091,Age bonus applied separately
+47,Top-100 Items,equipment,Embermarch Boots,0.058182,Age bonus applied separately
+48,Top-100 Items,equipment,Starpath Greaves,0.057273,Age bonus applied separately
+49,Top-100 Items,equipment,Ironbark Greaves,0.056364,Age bonus applied separately
+50,Top-100 Items,equipment,Sovereign Sabatons,0.055455,Age bonus applied separately
+51,Top-100 Items,equipment,Sunheart Ring,0.054545,Age bonus applied separately
+52,Top-100 Items,equipment,Dragoncore Ring,0.053636,Age bonus applied separately
+53,Top-100 Items,equipment,Moonstone Seal,0.052727,Age bonus applied separately
+54,Top-100 Items,equipment,Stormeye Ring,0.051818,Age bonus applied separately
+55,Top-100 Items,equipment,Verdant Signet,0.050909,Age bonus applied separately
+56,Top-100 Items,equipment,Nightglass Ring,0.050000,Age bonus applied separately
+57,Top-100 Items,equipment,Emberheart Pendant,0.049091,Age bonus applied separately
+58,Top-100 Items,equipment,Starcall Talisman,0.048182,Age bonus applied separately
+59,Top-100 Items,equipment,Ironbark Charm,0.047273,Age bonus applied separately
+60,Top-100 Items,equipment,Sovereign Seal,0.046364,Age bonus applied separately
+61,Top-100 Items,equipment,Dawnpiercer,0.045455,Age bonus applied separately
+62,Top-100 Items,equipment,Dragonfire Greatblade,0.044545,Age bonus applied separately
+63,Top-100 Items,equipment,Moonshadow Katar,0.043636,Age bonus applied separately
+64,Top-100 Items,equipment,Stormbreak Lance,0.042727,Age bonus applied separately
+65,Top-100 Items,equipment,Verdant Reaper,0.041818,Age bonus applied separately
+66,Top-100 Items,equipment,Nightfall Kris,0.040909,Age bonus applied separately
+67,Top-100 Items,equipment,Emberstorm Crossbow,0.040000,Age bonus applied separately
+68,Top-100 Items,equipment,Starbound Grimoire,0.039091,Age bonus applied separately
+69,Top-100 Items,equipment,Ironroot Hammer,0.038182,Age bonus applied separately
+70,Top-100 Items,equipment,Sovereign Waraxe,0.037273,Age bonus applied separately
+71,Top-100 Items,equipment,Dawnplate Armor,0.036364,Age bonus applied separately
+72,Top-100 Items,equipment,Dragonlord Cuirass,0.035455,Age bonus applied separately
+73,Top-100 Items,equipment,Moonshadow Vestment,0.034545,Age bonus applied separately
+74,Top-100 Items,equipment,Stormbreaker Plate,0.033636,Age bonus applied separately
+75,Top-100 Items,equipment,Verdant Guardian Armor,0.032727,Age bonus applied separately
+76,Top-100 Items,equipment,Nightreaper Mail,0.031818,Age bonus applied separately
+77,Top-100 Items,equipment,Emberlord Armor,0.030909,Age bonus applied separately
+78,Top-100 Items,equipment,Starforged Cuirass,0.030000,Age bonus applied separately
+79,Top-100 Items,equipment,Ironroot Bulwark,0.029091,Age bonus applied separately
+80,Top-100 Items,equipment,Sovereign Aegis,0.028182,Age bonus applied separately
+81,Top-100 Items,equipment,Dawnwatch Crown,0.027273,Age bonus applied separately
+82,Top-100 Items,equipment,Dragonlord Helm,0.026364,Age bonus applied separately
+83,Top-100 Items,equipment,Moonshadow Hood,0.025455,Age bonus applied separately
+84,Top-100 Items,equipment,Stormbreaker Helm,0.024545,Age bonus applied separately
+85,Top-100 Items,equipment,Verdant Guardian Helm,0.023636,Age bonus applied separately
+86,Top-100 Items,equipment,Nightreaper Mask,0.022727,Age bonus applied separately
+87,Top-100 Items,equipment,Emberlord Crown,0.021818,Age bonus applied separately
+88,Top-100 Items,equipment,Starforged Circlet,0.020909,Age bonus applied separately
+89,Top-100 Items,equipment,Ironroot Crown,0.020000,Age bonus applied separately
+90,Top-100 Items,equipment,Sovereign Diadem,0.019091,Age bonus applied separately
+91,Top-100 Items,equipment,Dawnwind Cloak,0.018182,Age bonus applied separately
+92,Top-100 Items,equipment,Dragonlord Mantle,0.017273,Age bonus applied separately
+93,Top-100 Items,equipment,Moonshadow Cape,0.016364,Age bonus applied separately
+94,Top-100 Items,equipment,Stormbreaker Cloak,0.015455,Age bonus applied separately
+95,Top-100 Items,equipment,Verdant Guardian Shawl,0.014545,Age bonus applied separately
+96,Top-100 Items,equipment,Nightreaper Mantle,0.013636,Age bonus applied separately
+97,Top-100 Items,equipment,Emberlord Cape,0.012727,Age bonus applied separately
+98,Top-100 Items,equipment,Starforged Wings,0.011818,Age bonus applied separately
+99,Top-100 Items,equipment,Ironroot Mantle,0.010909,Age bonus applied separately
+100,Top-100 Items,equipment,Sovereign Cloak,0.010000,Age bonus applied separately
+1,Top-100 Cards,card,Dawn Wyrm Card,0.100000,Age bonus applied separately
+2,Top-100 Cards,card,Dragon Emperor Card,0.099091,Age bonus applied separately
+3,Top-100 Cards,card,Moon Serpent Card,0.098182,Age bonus applied separately
+4,Top-100 Cards,card,Storm Titan Card,0.097273,Age bonus applied separately
+5,Top-100 Cards,card,Verdant Ancient Card,0.096364,Age bonus applied separately
+6,Top-100 Cards,card,Night Reaper Card,0.095455,Age bonus applied separately
+7,Top-100 Cards,card,Ember Phoenix Card,0.094545,Age bonus applied separately
+8,Top-100 Cards,card,Star Oracle Card,0.093636,Age bonus applied separately
+9,Top-100 Cards,card,Iron Colossus Card,0.092727,Age bonus applied separately
+10,Top-100 Cards,card,Sovereign Guardian Card,0.091818,Age bonus applied separately
+11,Top-100 Cards,card,Bloodfang Wolf Card,0.090909,Age bonus applied separately
+12,Top-100 Cards,card,Arcane Golem Card,0.090000,Age bonus applied separately
+13,Top-100 Cards,card,Sky Mantis Card,0.089091,Age bonus applied separately
+14,Top-100 Cards,card,Grave Knight Card,0.088182,Age bonus applied separately
+15,Top-100 Cards,card,Plague Zombie Card,0.087273,Age bonus applied separately
+16,Top-100 Cards,card,Forest Orc Card,0.086364,Age bonus applied separately
+17,Top-100 Cards,card,Crimson Goblin Card,0.085455,Age bonus applied separately
+18,Top-100 Cards,card,Ancient Druid Card,0.084545,Age bonus applied separately
+19,Top-100 Cards,card,Royal Poring Card,0.083636,Age bonus applied separately
+20,Top-100 Cards,card,Abyssal Dragon Card,0.082727,Age bonus applied separately
+21,Top-100 Cards,card,Celestial Knight Card,0.081818,Age bonus applied separately
+22,Top-100 Cards,card,Void Mage Card,0.080909,Age bonus applied separately
+23,Top-100 Cards,card,Wild Falcon Card,0.080000,Age bonus applied separately
+24,Top-100 Cards,card,Shadow Thief Card,0.079091,Age bonus applied separately
+25,Top-100 Cards,card,Sacred Acolyte Card,0.078182,Age bonus applied separately
+26,Top-100 Cards,card,Merchant Prince Card,0.077273,Age bonus applied separately
+27,Top-100 Cards,card,Warrior Lord Card,0.076364,Age bonus applied separately
+28,Top-100 Cards,card,Arcane Master Card,0.075455,Age bonus applied separately
+29,Top-100 Cards,card,Ranger Sovereign Card,0.074545,Age bonus applied separately
+30,Top-100 Cards,card,Thief King Card,0.073636,Age bonus applied separately
+31,Top-100 Cards,card,Aegis Saint Card,0.072727,Age bonus applied separately
+32,Top-100 Cards,card,Forge Master Card,0.071818,Age bonus applied separately
+33,Top-100 Cards,card,World Tree Card,0.070909,Age bonus applied separately
+34,Top-100 Cards,card,Star Dragon Card,0.070000,Age bonus applied separately
+35,Top-100 Cards,card,Eternal Guardian Card,0.069091,Age bonus applied separately
+36,Top-100 Cards,card,Inferno Lord Card,0.068182,Age bonus applied separately
+37,Top-100 Cards,card,Glacial Queen Card,0.067273,Age bonus applied separately
+38,Top-100 Cards,card,Thunder Roc Card,0.066364,Age bonus applied separately
+39,Top-100 Cards,card,Ancient Kraken Card,0.065455,Age bonus applied separately
+40,Top-100 Cards,card,Chronos Beast Card,0.064545,Age bonus applied separately
+41,Top-100 Cards,card,Dawn Seraph Card,0.063636,Age bonus applied separately
+42,Top-100 Cards,card,Dragon Tyrant Card,0.062727,Age bonus applied separately
+43,Top-100 Cards,card,Moon Empress Card,0.061818,Age bonus applied separately
+44,Top-100 Cards,card,Storm Leviathan Card,0.060909,Age bonus applied separately
+45,Top-100 Cards,card,Verdant Treant Card,0.060000,Age bonus applied separately
+46,Top-100 Cards,card,Nightmare Reaper Card,0.059091,Age bonus applied separately
+47,Top-100 Cards,card,Ember Phoenix Lord Card,0.058182,Age bonus applied separately
+48,Top-100 Cards,card,Star Seer Card,0.057273,Age bonus applied separately
+49,Top-100 Cards,card,Iron Behemoth Card,0.056364,Age bonus applied separately
+50,Top-100 Cards,card,Sovereign Paladin Card,0.055455,Age bonus applied separately
+51,Top-100 Cards,card,Bloodfang Alpha Card,0.054545,Age bonus applied separately
+52,Top-100 Cards,card,Arcane Titan Card,0.053636,Age bonus applied separately
+53,Top-100 Cards,card,Skybreaker Mantis Card,0.052727,Age bonus applied separately
+54,Top-100 Cards,card,Grave Emperor Card,0.051818,Age bonus applied separately
+55,Top-100 Cards,card,Plague Lord Card,0.050909,Age bonus applied separately
+56,Top-100 Cards,card,Forest Elder Card,0.050000,Age bonus applied separately
+57,Top-100 Cards,card,Crimson Goblin King Card,0.049091,Age bonus applied separately
+58,Top-100 Cards,card,Ancient Archdruid Card,0.048182,Age bonus applied separately
+59,Top-100 Cards,card,Royal Poring King Card,0.047273,Age bonus applied separately
+60,Top-100 Cards,card,Abyssal Wyrm Card,0.046364,Age bonus applied separately
+61,Top-100 Cards,card,Celestial Champion Card,0.045455,Age bonus applied separately
+62,Top-100 Cards,card,Void Archmage Card,0.044545,Age bonus applied separately
+63,Top-100 Cards,card,Wild Falcon Lord Card,0.043636,Age bonus applied separately
+64,Top-100 Cards,card,Shadow Assassin Card,0.042727,Age bonus applied separately
+65,Top-100 Cards,card,Sacred High Priest Card,0.041818,Age bonus applied separately
+66,Top-100 Cards,card,Merchant King Card,0.040909,Age bonus applied separately
+67,Top-100 Cards,card,Warrior Emperor Card,0.040000,Age bonus applied separately
+68,Top-100 Cards,card,Arcane Grandmaster Card,0.039091,Age bonus applied separately
+69,Top-100 Cards,card,Ranger King Card,0.038182,Age bonus applied separately
+70,Top-100 Cards,card,Thief Emperor Card,0.037273,Age bonus applied separately
+71,Top-100 Cards,card,Aegis High Saint Card,0.036364,Age bonus applied separately
+72,Top-100 Cards,card,Forge Grandmaster Card,0.035455,Age bonus applied separately
+73,Top-100 Cards,card,World Tree Guardian Card,0.034545,Age bonus applied separately
+74,Top-100 Cards,card,Starborn Dragon Card,0.033636,Age bonus applied separately
+75,Top-100 Cards,card,Eternal Paladin Card,0.032727,Age bonus applied separately
+76,Top-100 Cards,card,Inferno Emperor Card,0.031818,Age bonus applied separately
+77,Top-100 Cards,card,Glacial Empress Card,0.030909,Age bonus applied separately
+78,Top-100 Cards,card,Thunder Roc King Card,0.030000,Age bonus applied separately
+79,Top-100 Cards,card,Ancient Kraken Lord Card,0.029091,Age bonus applied separately
+80,Top-100 Cards,card,Chronos Dragon Card,0.028182,Age bonus applied separately
+81,Top-100 Cards,card,Dawn Worldboss Card,0.027273,Age bonus applied separately
+82,Top-100 Cards,card,Dragon Eternal Card,0.026364,Age bonus applied separately
+83,Top-100 Cards,card,Moon World Serpent Card,0.025455,Age bonus applied separately
+84,Top-100 Cards,card,Storm World Titan Card,0.024545,Age bonus applied separately
+85,Top-100 Cards,card,Verdant World Ancient Card,0.023636,Age bonus applied separately
+86,Top-100 Cards,card,Night Eternal Reaper Card,0.022727,Age bonus applied separately
+87,Top-100 Cards,card,Ember Eternal Phoenix Card,0.021818,Age bonus applied separately
+88,Top-100 Cards,card,Star Eternal Oracle Card,0.020909,Age bonus applied separately
+89,Top-100 Cards,card,Iron World Colossus Card,0.020000,Age bonus applied separately
+90,Top-100 Cards,card,Sovereign Eternal Guardian Card,0.019091,Age bonus applied separately
+91,Top-100 Cards,card,Bloodfang World Wolf Card,0.018182,Age bonus applied separately
+92,Top-100 Cards,card,Arcane World Golem Card,0.017273,Age bonus applied separately
+93,Top-100 Cards,card,Sky World Mantis Card,0.016364,Age bonus applied separately
+94,Top-100 Cards,card,Grave World Knight Card,0.015455,Age bonus applied separately
+95,Top-100 Cards,card,Plague World Zombie Card,0.014545,Age bonus applied separately
+96,Top-100 Cards,card,Forest World Orc Card,0.013636,Age bonus applied separately
+97,Top-100 Cards,card,Crimson World Goblin Card,0.012727,Age bonus applied separately
+98,Top-100 Cards,card,Ancient World Druid Card,0.011818,Age bonus applied separately
+99,Top-100 Cards,card,Royal World Poring Card,0.010909,Age bonus applied separately
+100,Top-100 Cards,card,Abyss World Dragon Card,0.010000,Age bonus applied separately
