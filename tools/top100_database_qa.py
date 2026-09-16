@@ -4,6 +4,7 @@ import csv
 ROOT = Path(__file__).resolve().parents[1]
 CSV_PATH = ROOT / "data" / "top_100_items_cards.csv"
 GDSCRIPT_PATH = ROOT / "scripts" / "Top100Database.gd"
+LOOT_RESOLVER_PATH = ROOT / "scripts" / "LootProgressionSystem.gd"
 
 with CSV_PATH.open("r", encoding="utf-8", newline="") as handle:
     rows = list(csv.DictReader(handle))
@@ -35,6 +36,22 @@ assert "static func item_count()->int" in source
 assert "static func card_count()->int" in source
 assert "static func validate()->bool" in source
 
+# The canonical database is the single source of truth for the loot resolver.
+# Keep both pools explicitly wired into LootProgressionSystem so future loot
+# changes cannot silently fall back to a second hard-coded catalog.
+loot_source = LOOT_RESOLVER_PATH.read_text(encoding="utf-8")
+assert 'const Top100=preload("res://scripts/Top100Database.gd")' in loot_source
+assert "static func top_100_item_entries()->Array" in loot_source
+assert "static func top_100_card_entries()->Array" in loot_source
+assert "static func top_100_item_entry(rank:int)->Dictionary" in loot_source
+assert "static func top_100_card_entry(rank:int)->Dictionary" in loot_source
+assert "static func resolve_top_100_item(rank:int,hero:Dictionary)->Dictionary" in loot_source
+assert "static func resolve_top_100_card(rank:int,hero:Dictionary)->Dictionary" in loot_source
+assert "Top100.get_item_by_rank(rank)" in loot_source
+assert "Top100.get_card_by_rank(rank)" in loot_source
+assert "top_100_drop_bonus_percent(hero)" in loot_source
+assert "static func _resolve_entry(entry:Dictionary,rank:int,hero:Dictionary,pool_type:String)->Dictionary" in loot_source
+
 print("Honour War Top-100 database QA: PASS")
 print("items=100")
 print("cards=100")
@@ -43,3 +60,4 @@ print("item_base_pool_rate_percent=5.500000")
 print("card_base_pool_rate_percent=5.500000")
 print("combined_base_pool_rate_percent=11.000000")
 print("age_bonus_in_base_rates=false")
+print("loot_resolver_uses_canonical_database=true")
