@@ -1,5 +1,4 @@
 extends Node
-class_name HWSSRentRuntime
 
 ## Rental-only AI hero. Never available from Create New Character.
 const RENT_PRICE_ZENY:int = 1000000
