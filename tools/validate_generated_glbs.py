@@ -99,7 +99,8 @@ def validate_asset(path: Path) -> None:
         parts = Path(rel).parts
         if len(parts) != 3:
             raise ValueError(f"{path}: unexpected hero layout")
-        class_id, tier = parts[0], Path(parts[2]).stem
+        # Layout is characters/<class>/<tier>.glb.
+        class_id, tier = parts[1], Path(parts[2]).stem
         if class_id not in HERO_CLASSES:
             raise ValueError(f"{path}: unknown hero class {class_id}")
         if tier not in HERO_TIERS:
