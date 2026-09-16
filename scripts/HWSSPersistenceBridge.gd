@@ -24,8 +24,16 @@ func sync_from_hero() -> void:
 	if legacy == null:
 		return
 	var hero_value:Variant = legacy.get("hero")
-	if hero_value is Dictionary:
-		runtime.call("sync_from_hero",hero_value)
+	if not hero_value is Dictionary:
+		return
+	var hero:Dictionary = hero_value
+	var saved:Variant = hero.get("ss_rental",{})
+	if saved is Dictionary and bool(saved.get("rented",false)):
+		runtime.set("rented",true)
+		var state:Variant = saved.get("state",{})
+		if state is Dictionary:
+			runtime.set("ss",state.duplicate(true))
+		 runtime.set("owner_character_age",maxi(18,int(hero.get("age",18))))
 
 func sync_to_hero() -> void:
 	var runtime:Node = get_node_or_null("/root/HWSSRentRuntime")
@@ -39,5 +47,11 @@ func sync_to_hero() -> void:
 	if not hero_value is Dictionary:
 		return
 	var hero:Dictionary = hero_value
-	runtime.call("sync_to_hero",hero)
+	var rented:bool = bool(runtime.get("rented"))
+	if rented:
+		hero["ss_rental"] = {"rented":true,"state":runtime.get("ss").duplicate(true)}
+	else:
+		hero["ss_rental"] = {"rented":false}
 	legacy.set("hero",hero)
+	if legacy.has_method("save_game"):
+		legacy.call("save_game")
