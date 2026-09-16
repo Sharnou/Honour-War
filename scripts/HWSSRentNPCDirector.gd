@@ -82,6 +82,6 @@ func _decorate_npc() -> void:
 
 func _on_npc_input(_camera:Node,_event:InputEvent,_position:Vector3,_normal:Vector3,_shape_idx:int) -> void:
     if _event is InputEventMouseButton and _event.button_index == MOUSE_BUTTON_LEFT and _event.pressed:
-        var runtime:Node = get_node_or_null("/root/HWSSRentRuntime")
+        var runtime:Node = get_node_or_null("/root/HWRentalService")
         if runtime != null and runtime.has_method("open_rent_panel"):
             runtime.call("open_rent_panel")
