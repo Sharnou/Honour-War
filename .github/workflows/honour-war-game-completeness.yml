@@ -72,6 +72,12 @@ jobs:
           set -euo pipefail
           ./${GODOT_BINARY} --headless --path . --script res://tests/online_server_smoke_test.gd 2>&1 | tee online-server.log
 
+      - name: Validate account and persistent player services
+        shell: bash
+        run: |
+          set -euo pipefail
+          ./${GODOT_BINARY} --headless --path . --script res://tests/online_persistence_test.gd 2>&1 | tee online-persistence.log
+
       - name: Upload completeness logs
         if: always()
         uses: actions/upload-artifact@v7
@@ -82,5 +88,6 @@ jobs:
             game-completeness.log
             online-authority.log
             online-server.log
+            online-persistence.log
           if-no-files-found: error
           retention-days: 14
