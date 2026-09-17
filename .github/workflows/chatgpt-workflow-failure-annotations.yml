@@ -13,6 +13,7 @@ name: CHATGPT Workflow Failure Annotations
       - godot-validation.yml
       - honour-war-hd-ci.yml
       - honour-war-hd-windows.yml
+      - honour-war-game-completeness.yml
       - honour-war-toolbar-qa.yml
       - honour-war-top100-database-qa.yml
       - honour-war-visual-contract-qa.yml
