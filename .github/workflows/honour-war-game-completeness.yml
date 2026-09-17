@@ -19,7 +19,7 @@ jobs:
   contract:
     name: Godot 4.7.2 end-to-end completeness contract
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - name: Checkout exact validation commit
         uses: actions/checkout@v7
@@ -66,6 +66,12 @@ jobs:
           set -euo pipefail
           ./${GODOT_BINARY} --headless --path . --script res://tests/online_authority_test.gd 2>&1 | tee online-authority.log
 
+      - name: Validate dedicated authoritative server
+        shell: bash
+        run: |
+          set -euo pipefail
+          ./${GODOT_BINARY} --headless --path . --script res://tests/online_server_smoke_test.gd 2>&1 | tee online-server.log
+
       - name: Upload completeness logs
         if: always()
         uses: actions/upload-artifact@v7
@@ -75,5 +81,6 @@ jobs:
             godot-editor-import.log
             game-completeness.log
             online-authority.log
+            online-server.log
           if-no-files-found: error
           retention-days: 14
