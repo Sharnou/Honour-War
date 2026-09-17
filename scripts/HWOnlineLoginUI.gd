@@ -1,8 +1,8 @@
 extends CanvasLayer
 
 ## Optional online account/login layer. Offline play remains the default path.
-## The panel uses the existing authoritative runtime and replaces the active
-## LegacyGame hero only after a verified server authentication response.
+## Authentication is sent only after ENet reaches CONNECTION_CONNECTED.
+## The existing LegacyGame hero is replaced only after a verified server response.
 
 const AUTHORITY_PATH:String = "/root/HWOnlineAuthorityRuntime"
 
@@ -13,12 +13,36 @@ var username_edit:LineEdit
 var password_edit:LineEdit
 var status_label:Label
 var open_button:Button
+var pending_auth_action:String = ""
 
 func _ready() -> void:
     layer = 110
     if DisplayServer.get_name() == "headless":
         return
     call_deferred("_build")
+
+func _process(_delta:float) -> void:
+    if pending_auth_action.is_empty():
+        return
+    var authority:Node = get_node_or_null(AUTHORITY_PATH)
+    if authority == null:
+        return
+    var peer:Variant = authority.multiplayer.multiplayer_peer
+    if peer == null:
+        return
+    var state:int = peer.get_connection_status()
+    if state == MultiplayerPeer.CONNECTION_CONNECTED:
+        var action:String = pending_auth_action
+        pending_auth_action = ""
+        if action == "login":
+            authority.request_login(username_edit.text,password_edit.text)
+            _status("Login request sent. Waiting for server challenge...")
+        elif action == "register":
+            authority.request_register(username_edit.text,password_edit.text)
+            _status("Registration request sent...")
+    elif state == MultiplayerPeer.CONNECTION_DISCONNECTED:
+        pending_auth_action = ""
+        _status("Connection failed or was disconnected.")
 
 func _build() -> void:
     var authority:Node = get_node_or_null(AUTHORITY_PATH)
@@ -116,34 +140,43 @@ func _connect() -> void:
     if authority == null:
         _status("Online runtime is unavailable.")
         return
+    var address:String = address_edit.text.strip_edges()
     var port:int = clampi(int(port_edit.text),1024,65535)
-    if authority.connect_client(address_edit.text.strip_edges(),port):
-        _status("Connecting to %s:%d... then use LOGIN or REGISTER." % [address_edit.text.strip_edges(),port])
+    if address.is_empty():
+        _status("Enter a server address.")
+        return
+    if authority.connect_client(address,port):
+        _status("Connecting to %s:%d..." % [address,port])
     else:
         _status("Connection could not be started.")
 
 func _login() -> void:
-    var authority:Node = get_node_or_null(AUTHORITY_PATH)
-    if authority == null:
-        _status("Online runtime is unavailable.")
+    if not _prepare_auth("login"):
         return
-    _ensure_connection(authority)
-    authority.request_login(username_edit.text,password_edit.text)
-    _status("Login request sent. Waiting for server challenge...")
+    _status("Connecting before login...")
 
 func _register() -> void:
+    if not _prepare_auth("register"):
+        return
+    _status("Connecting before registration...")
+
+func _prepare_auth(action:String) -> bool:
     var authority:Node = get_node_or_null(AUTHORITY_PATH)
     if authority == null:
         _status("Online runtime is unavailable.")
-        return
-    _ensure_connection(authority)
-    authority.request_register(username_edit.text,password_edit.text)
-    _status("Registration request sent...")
-
-func _ensure_connection(authority:Node) -> void:
+        return false
+    if username_edit.text.strip_edges().is_empty() or password_edit.text.length() < 8:
+        _status("Enter a username and a password of at least 8 characters.")
+        return false
     var peer:Variant = authority.multiplayer.multiplayer_peer
     if peer == null or peer.get_connection_status() == MultiplayerPeer.CONNECTION_DISCONNECTED:
-        authority.connect_client(address_edit.text.strip_edges(),clampi(int(port_edit.text),1024,65535))
+        var address:String = address_edit.text.strip_edges()
+        var port:int = clampi(int(port_edit.text),1024,65535)
+        if not authority.connect_client(address,port):
+            _status("Connection could not be started.")
+            return false
+    pending_auth_action = action
+    return true
 
 func _on_authentication_succeeded(_peer_id:int,username:String,player:Dictionary) -> void:
     var scene:Node = get_tree().current_scene
@@ -152,11 +185,13 @@ func _on_authentication_succeeded(_peer_id:int,username:String,player:Dictionary
         legacy.set("hero",player.duplicate(true))
         if legacy.has_method("save_game"):
             legacy.call("save_game")
+    pending_auth_action = ""
     if password_edit != null:
         password_edit.clear()
     _status("Authenticated as %s. Persistent hero restored from server." % username)
 
 func _on_authentication_failed(_peer_id:int,username:String,reason:String) -> void:
+    pending_auth_action = ""
     _status("Authentication failed for %s: %s" % [username,reason])
 
 func _status(text:String) -> void:
