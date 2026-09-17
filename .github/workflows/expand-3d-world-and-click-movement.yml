@@ -12,7 +12,7 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 concurrency:
-  group: honour-war-expand-3d-${{ github.ref }}
+  group: honour-war-main-writer
   cancel-in-progress: false
 
 jobs:
@@ -89,4 +89,6 @@ jobs:
             exit 0
           fi
           git commit -m "Expand maps, roads, city landmarks and mouse movement"
+          git fetch origin main
+          git rebase origin/main
           git push origin HEAD:main
