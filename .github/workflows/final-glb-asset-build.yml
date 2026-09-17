@@ -35,20 +35,20 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
-      - name: Checkout current source
-        uses: actions/checkout@v6
+      - name: Checkout validation commit
+        uses: actions/checkout@v7
         with:
           fetch-depth: 1
+          ref: ${{ github.sha }}
 
-      - name: Reject stale validation source
+      - name: Report validation source
         shell: bash
         run: |
           set -euo pipefail
-          git fetch origin main --depth=1
-          expected="$(git rev-parse origin/main)"
           actual="$(git rev-parse HEAD)"
+          expected="${GITHUB_SHA}"
           echo "Validation HEAD: ${actual}"
-          echo "Current main:    ${expected}"
+          echo "Workflow SHA:    ${expected}"
           test "${actual}" = "${expected}"
 
       - name: Run Visual RAG first
@@ -111,7 +111,7 @@ jobs:
             size=$(stat -c%s "$file")
             echo "$file: $size bytes"
             test "$size" -ge 1024
-            magic=$(dd if="$file" bs=1 count=4 2>/dev/null | od -An -t x1 | tr -d ' \n')
+            magic=$(dd if="$file" bs=1 count=4 2>/dev/null | od -An -t x1 | tr -d ' \\n')
             test "$magic" = "676c5446"
           done < <(find assets/3d/generated -type f -name '*.glb' | sort)
 
@@ -178,4 +178,4 @@ jobs:
             exit 0
           fi
           git commit -m "Generate final Honour War GLB visual assets"
-          git push
+          git push origin HEAD:main
