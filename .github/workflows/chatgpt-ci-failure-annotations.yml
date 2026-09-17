@@ -1,6 +1,6 @@
 name: CHATGPT CI Failure Annotations
 
-on:
+"on":
   workflow_run:
     types: [completed]
 
@@ -9,10 +9,15 @@ permissions:
   contents: read
   issues: write
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   annotate-failure:
-    # Do not notify for successful runs, and never self-trigger recursively.
+    # Only workflow_run payloads can be annotated. The explicit event guard also
+    # prevents an accidental push/manual invocation from becoming a failed run.
     if: >-
+      github.event_name == 'workflow_run' &&
       github.event.workflow_run.name != 'CHATGPT CI Failure Annotations' &&
       github.event.workflow_run.conclusion != 'success'
     runs-on: ubuntu-latest
@@ -38,8 +43,8 @@ jobs:
               'cancelled'
             ]);
 
-            if (!failureConclusions.has(run.conclusion)) {
-              core.info(`Skipping conclusion: ${run.conclusion}`);
+            if (!run || !failureConclusions.has(run.conclusion)) {
+              core.info(`Skipping non-failure or non-workflow-run payload.`);
               return;
             }
 
@@ -159,7 +164,7 @@ jobs:
                 owner,
                 repo,
                 title: issueTitle,
-                body: '# CHATGPT ANNOTATIONS — CI FAILURE CHANNEL\n\nPersistent project-wide diagnostic channel for failed GitHub Actions runs.\n\nThe `CHATGPT CI Failure Annotations` workflow appends one structured annotation for each non-success completed workflow run, excluding itself.'
+                body: '# CHATGPT ANNOTATIONS — CI FAILURE CHANNEL\n\nPersistent project-wide diagnostic channel for failed GitHub Actions runs, with deduplication by workflow run ID.'
               });
               issue = created.data;
             }
