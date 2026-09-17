@@ -21,6 +21,12 @@ func audit() -> Dictionary:
         "monster_families": {},
         "combat_vfx": false,
         "equipment_presentation": false,
+        "map_theme_director": false,
+        "combat_phase_director": false,
+        "online_authority": false,
+        "world_authority": false,
+        "party_service": false,
+        "production_asset_count": 0,
         "mmorpg_only": true,
         "strategy_systems": false
     }
@@ -32,6 +38,12 @@ func audit() -> Dictionary:
             report["zones"][zone] = content.get_node_or_null(zone) != null
     var vfx := scene.get_node_or_null("HWHDCombatVFX") as Node3D
     report["combat_vfx"] = vfx != null
+    report["map_theme_director"] = get_node_or_null("/root/HWMapThemeDirector") != null
+    report["combat_phase_director"] = get_node_or_null("/root/HWCombatPhaseDirector") != null
+    report["online_authority"] = get_node_or_null("/root/HWOnlineAuthorityRuntime") != null
+    report["world_authority"] = get_node_or_null("/root/HWOnlineWorldState") != null
+    report["party_service"] = get_node_or_null("/root/HWPartyService") != null
+    report["production_asset_count"] = _count_generated_assets()
     var hero := _find_hero(scene)
     report["equipment_presentation"] = hero != null and hero.get_node_or_null("HDWeaponSilhouette") != null
     var visuals:Variant = scene.get("monster_visuals")
@@ -44,6 +56,39 @@ func audit() -> Dictionary:
                     break
             report["monster_families"][family] = found
     return report
+
+func _count_generated_assets() -> int:
+    var root:String = "res://assets/3d/generated"
+    var dir:DirAccess = DirAccess.open(root)
+    if dir == null:
+        return 0
+    var count:int = 0
+    dir.list_dir_begin()
+    var name:String = dir.get_next()
+    while not name.is_empty():
+        if dir.current_is_dir():
+            count += _count_generated_assets_recursive(root + "/" + name)
+        elif name.to_lower().ends_with(".glb") or name.to_lower().ends_with(".gltf"):
+            count += 1
+        name = dir.get_next()
+    dir.list_dir_end()
+    return count
+
+func _count_generated_assets_recursive(path:String) -> int:
+    var dir:DirAccess = DirAccess.open(path)
+    if dir == null:
+        return 0
+    var count:int = 0
+    dir.list_dir_begin()
+    var name:String = dir.get_next()
+    while not name.is_empty():
+        if dir.current_is_dir():
+            count += _count_generated_assets_recursive(path + "/" + name)
+        elif name.to_lower().ends_with(".glb") or name.to_lower().ends_with(".gltf"):
+            count += 1
+        name = dir.get_next()
+    dir.list_dir_end()
+    return count
 
 func _find_hero(scene:Node) -> Node3D:
     var direct := scene.get_node_or_null("Hero") as Node3D
