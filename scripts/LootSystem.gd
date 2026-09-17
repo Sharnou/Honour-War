@@ -8,6 +8,24 @@ const MVP_SUPER_CARD_DROP_RATE := 0.10
 const MVP_GLOWING_ITEM_DROP_RATE := 0.10
 const SUPER_CARDS := ["Super Orc Lord Card","Super Baphomet Card","Super Evil Druid Lord Card","Super Fire Dragon Card","Super Thanatos Card","Super Abyss Emperor Card"]
 const GLOWING_MVP_ITEMS := ["Super War Emperor Blade","Super Astral Sovereign Staff","Super Celestial Longbow","Super Eternal Assassin Blade","Super Heaven Gate Mace","Super Arsenal Overlord Hammer","Glowing Aegis of Honour","Glowing War Emperor Armor","Glowing Celestial Wing Mantle","Glowing Celestial Crown"]
+const CLASS_ENDGAME_WEAPONS := {
+    "Warrior":"Super War Emperor Blade",
+    "Mage":"Super Astral Sovereign Staff",
+    "Archer":"Super Celestial Longbow",
+    "Thief":"Super Eternal Assassin Blade",
+    "Acolyte":"Super Heaven Gate Mace",
+    "Merchant":"Super Arsenal Overlord Hammer"
+}
+const CLASS_ENDGAME_CARDS := {
+    "Warrior":"Super Baphomet Card",
+    "Mage":"Super Evil Druid Lord Card",
+    "Archer":"Super Fire Dragon Card",
+    "Thief":"Super Thanatos Card",
+    "Acolyte":"Super Abyss Emperor Card",
+    "Merchant":"Super Orc Lord Card"
+}
+const ENDGAME_ARMOR := "Glowing War Emperor Armor"
+
 const LootProgression=preload("res://scripts/LootProgressionSystem.gd")
 const CharacterProgression=preload("res://scripts/CharacterProgressionSystem.gd")
 const PetProgression=preload("res://scripts/PetProgressionSystem.gd")
@@ -89,6 +107,18 @@ static func collect_ground(hero:Dictionary)->Array[String]:
         else: remaining.append(drop)
     hero["ground_loot"]=remaining; return gained
 
+static func _grant_level_300_rewards(hero:Dictionary,gained:Array[String])->void:
+    # A level-300 monster is the explicit endgame bridge: every such kill
+    # awards a class-matched Super weapon, top-tier glowing armor, and a
+    # Super card when autoloot is enabled. Duplicates are still allowed for
+    # equipment but cards remain unique through add_card().
+    var class_id:String=str(hero.get("class","Warrior"))
+    var weapon:String=str(CLASS_ENDGAME_WEAPONS.get(class_id,CLASS_ENDGAME_WEAPONS["Warrior"]))
+    var card:String=str(CLASS_ENDGAME_CARDS.get(class_id,CLASS_ENDGAME_CARDS["Warrior"]))
+    if add_item(hero,weapon,1): gained.append(weapon)
+    if add_item(hero,ENDGAME_ARMOR,1): gained.append(ENDGAME_ARMOR)
+    if add_card(hero,card): gained.append(card)
+
 static func on_monster_defeated(hero:Dictionary,monster:Dictionary,rng:RandomNumberGenerator)->Array[String]:
     ensure_state(hero)
     if bool(monster.get("loot_processed",false)): return []
@@ -105,4 +135,6 @@ static func on_monster_defeated(hero:Dictionary,monster:Dictionary,rng:RandomNum
     if str(monster.get("name",""))=="Bloody Knight": EventInventory.record_event_progress(hero,"blood_moon",1)
     gained.append("%d XP" % hero_xp); gained.append("%d Zeny" % int(reward.get("zeny",0)))
     if int(xp_result.get("levels",0))>0: gained.append("Level %d" % int(xp_result.get("level",1)))
+    if int(monster.get("level",0))>=300:
+        _grant_level_300_rewards(hero,gained)
     return gained
