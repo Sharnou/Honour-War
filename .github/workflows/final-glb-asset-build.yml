@@ -15,8 +15,10 @@ on:
       - "tools/blender/honour_war_monster_assets.py"
       - "tools/blender/enhance_generated_glbs.py"
       - "tools/auto_repair_generated_glbs.py"
+      - "tools/validate_camera_controls.py"
       - "tools/visual_rag/**"
       - "tools/validate_generated_glbs.py"
+      - "project.godot"
       - "shaders/ToonShader.gdshader"
       - "scripts/HWVisualMaxDirectorFixed.gd"
       - "scripts/HWToonMaterialDirector.gd"
@@ -67,8 +69,10 @@ jobs:
           workflows = Path('.github/workflows')
           final = workflows / 'final-glb-asset-build.yml'
           repair = Path('tools/auto_repair_generated_glbs.py')
+          camera_qa = Path('tools/validate_camera_controls.py')
           text = final.read_text(encoding='utf-8')
           repair_text = repair.read_text(encoding='utf-8')
+          camera_text = camera_qa.read_text(encoding='utf-8')
 
           github_ref_expr = '$' + '{{ github.ref }}'
           github_sha_expr = '$' + '{{ github.sha }}'
@@ -86,9 +90,11 @@ jobs:
               'git rebase origin/main',
               'for attempt in 1 2 3 4 5',
               'tools/auto_repair_generated_glbs.py',
+              'tools/validate_camera_controls.py',
               'BLENDER_EXECUTABLE',
               'PYTHONPATH: /tmp/blender-site',
               'hero_class_and_tier',
+              'project.godot',
           )
           missing = [item for item in required if item not in text]
           if missing:
@@ -96,14 +102,29 @@ jobs:
 
           repair_required = (
               'def check_parser_contract(',
+              'def check_camera_contract(',
               'post-repair semantic/PBR validation',
               'AUTO-REPAIR: PASS',
               '--fix',
+              '--repair-attempts',
               'no gate bypass',
           )
           repair_missing = [item for item in repair_required if item not in repair_text]
           if repair_missing:
               raise SystemExit('Missing self-healing GLB repair contract markers: ' + ', '.join(repr(x) for x in repair_missing))
+
+          camera_required = (
+              'camera_rotate_left=',
+              'camera_rotate_right=',
+              'MOUSE_BUTTON_WHEEL_UP',
+              'MOUSE_BUTTON_WHEEL_DOWN',
+              'rotation_step_degrees:float = 90.0',
+              'camera_distance=lerp(',
+              'camera_yaw=rad_to_deg(lerp_angle',
+          )
+          camera_missing = [item for item in camera_required if item not in camera_text]
+          if camera_missing:
+              raise SystemExit('Missing camera-control QA markers: ' + ', '.join(repr(x) for x in camera_missing))
 
           for path in sorted(workflows.glob('*.yml')):
               if path == final:
@@ -112,10 +133,10 @@ jobs:
               if ('assets/3d/generated' in other and 'schedule:' in other and 'contents: write' in other and 'git add assets/3d/generated' in other):
                   raise SystemExit(f'{path} is another scheduled writable generated-asset pipeline; Final GLB must remain the sole scheduled generated-asset writer')
 
-          print('PASS: Final GLB workflow contract, self-healing gate, parser guard, and single-writer policy are intact.')
+          print('PASS: Final GLB workflow contract, self-healing gate, parser guard, camera-control QA, and single-writer policy are intact.')
           PY
 
-      - name: Preflight Blender and GLB pipeline Python syntax
+      - name: Preflight Blender, GLB, and camera QA Python syntax
         shell: bash
         run: |
           set -euo pipefail
@@ -126,8 +147,15 @@ jobs:
             tools/blender/honour_war_monster_assets.py \
             tools/blender/enhance_generated_glbs.py \
             tools/auto_repair_generated_glbs.py \
+            tools/validate_camera_controls.py \
             tools/validate_generated_glbs.py
-          echo "GLB pipeline Python syntax preflight: PASS"
+          echo "GLB pipeline and camera QA Python syntax preflight: PASS"
+
+      - name: Validate smooth zoom and 90-degree camera controls
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 tools/validate_camera_controls.py
 
       - name: Run Visual RAG first
         shell: bash
@@ -224,6 +252,7 @@ jobs:
           set -euo pipefail
           python3 tools/auto_repair_generated_glbs.py \
             --fix \
+            --repair-attempts 2 \
             --validator tools/validate_generated_glbs.py \
             --repair-script tools/blender/enhance_generated_glbs.py \
             --blender /opt/blender/blender
