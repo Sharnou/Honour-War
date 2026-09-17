@@ -240,7 +240,7 @@ func _build_wall_segment(root:Node3D,pos:Vector3,style:Dictionary) -> void:
 
 func _build_torch(root:Node3D,pos:Vector3,style:Dictionary) -> void:
     _cyl(root,"TorchPost",0.08,1.8,pos+Vector3(0,0.9,0),_mat(Color("#302522"),0.72))
-    var flame := _sphere("TorchFlame",0.18,pos+Vector3(0,1.9,0),_emission(style.accent,2.0))
+    var flame := _sphere(root,"TorchFlame",0.18,pos+Vector3(0,1.9,0),_emission(style.accent,2.0))
     root.add_child(flame)
     var light := OmniLight3D.new()
     light.light_color = style.accent
@@ -284,7 +284,7 @@ func _build_dock(root:Node3D,pos:Vector3,style:Dictionary) -> void:
 
 func _build_lamp(root:Node3D,pos:Vector3,style:Dictionary) -> void:
     _cyl(root,"LampPost",0.08,2.4,pos+Vector3(0,1.2,0),_mat(Color("#3b3130"),0.68))
-    var light_mesh := _sphere("Lamp",0.16,pos+Vector3(0,2.5,0),_emission(style.accent,1.15))
+    var light_mesh := _sphere(root,"Lamp",0.16,pos+Vector3(0,2.5,0),_emission(style.accent,1.15))
     root.add_child(light_mesh)
     var omni := OmniLight3D.new()
     omni.light_color = style.accent
