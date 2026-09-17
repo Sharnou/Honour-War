@@ -1,17 +1,30 @@
 name: Mouse MMO controls and warp gates
+
 on:
   push:
     branches: [main]
   workflow_dispatch:
+
 permissions:
   contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+concurrency:
+  group: honour-war-mouse-warp-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   upgrade:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout current main source
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
+
       - name: Apply mouse and warp integration
         shell: bash
         run: |
@@ -21,30 +34,43 @@ jobs:
           p=Path('scripts/WarpGates3D.gd')
           s=p.read_text()
           start=s.index('func _build_gates()->void:')
-          s=s[:start]+'''func _build_gates()->void:
-\tfor data in GATES:
-\t\tvar gate:WarpGate3D=WarpGate3D.new()
-\t\tgate.name="Warp_"+str(data["map_id"])
-\t\tgate.position=data["pos"]
-\t\tgate.target_map=int(data["map_id"])
-\t\tgate.target_x=int(TeleportSystem.MAPS[gate.target_map].get("spawn_x",180))
-\t\tgate.target_y=int(TeleportSystem.MAPS[gate.target_map].get("spawn_y",150))
-\t\tgate.label_text="WARP GATE • "+str(data["name"])
-\t\tgate_nodes.append(gate)
-\t\troot.add_child(gate)
-'''
+          s=s[:start]+'''func _build_gates()->void:\n\tfor data in GATES:\n\t\tvar gate:WarpGate3D=WarpGate3D.new()\n\t\tgate.name="Warp_"+str(data["map_id"])\n\t\tgate.position=data["pos"]\n\t\tgate.target_map=int(data["map_id"])\n\t\tgate.target_x=int(TeleportSystem.MAPS[gate.target_map].get("spawn_x",180))\n\t\tgate.target_y=int(TeleportSystem.MAPS[gate.target_map].get("spawn_y",150))\n\t\tgate.label_text="WARP GATE • "+str(data["name"])\n\t\tgate_nodes.append(gate)\n\t\troot.add_child(gate)\n'''
           p.write_text(s)
 
           p=Path('Main3D.tscn')
           s=p.read_text()
-          if 'scripts/MouseMMOController.gd' not in s:
-              s=s.replace('[ext_resource path="res://scripts/WarpGates3D.gd" type="Script" id="10"]','[ext_resource path="res://scripts/WarpGates3D.gd" type="Script" id="10"]\n[ext_resource path="res://scripts/MouseMMOController.gd" type="Script" id="11"]')
-              s=s.replace('[node name="HonourWar3D" type="Node3D"]\nscript = ExtResource("1")','[node name="HonourWar3D" type="Node3D"]\nscript = ExtResource("1")\n\n[node name="MouseMMOController" type="Node" parent="."]\nscript = ExtResource("11")')
+          if 'scripts/MouseMMOController.gd' not in s and 'scripts/MouseMMOControllerV2.gd' not in s:
+              ext='[ext_resource path="res://scripts/WarpGates3D.gd" type="Script" id="10"]'
+              s=s.replace(ext,ext+'\n[ext_resource path="res://scripts/MouseMMOController.gd" type="Script" id="11"]')
+              anchor='[node name="HonourWar3D" type="Node3D" parent="."]\nscript = ExtResource("1")'
+              fallback='[node name="HonourWar3D" type="Node3D"]\nscript = ExtResource("1")'
+              if anchor in s:
+                  s=s.replace(anchor,anchor+'\n\n[node name="MouseMMOController" type="Node" parent="."]\nscript = ExtResource("11")')
+              elif fallback in s:
+                  s=s.replace(fallback,fallback+'\n\n[node name="MouseMMOController" type="Node" parent="."]\nscript = ExtResource("11")')
               p.write_text(s)
           PY
-          git config user.name github-actions[bot]
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+
+      - name: Verify mouse/warp source remains structurally valid
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f scripts/WarpGates3D.gd
+          test -f Main3D.tscn
+          grep -F 'func _build_gates()->void:' scripts/WarpGates3D.gd >/dev/null
+          grep -F 'target_map=int(data["map_id"])' scripts/WarpGates3D.gd >/dev/null
+          grep -F 'MouseMMOController' Main3D.tscn >/dev/null || grep -F 'MouseMMOControllerV2' Main3D.tscn >/dev/null
+
+      - name: Commit upgrade
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "honour-war-bot"
+          git config user.email "actions@users.noreply.github.com"
           git add scripts/WarpGates3D.gd Main3D.tscn
-          if git diff --cached --quiet; then exit 0; fi
-          git commit -m 'Enable clickable warp gates and mouse MMORPG controls'
-          git push
+          if git diff --cached --quiet; then
+            echo "No mouse/warp source changes required."
+            exit 0
+          fi
+          git commit -m "Enable clickable warp gates and mouse MMORPG controls"
+          git push origin HEAD:main
