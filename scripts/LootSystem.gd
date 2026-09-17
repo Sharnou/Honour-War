@@ -2,6 +2,7 @@ class_name LootSystem
 extends RefCounted
 
 const EventInventory = preload("res://scripts/EventInventorySystem.gd")
+const QuestSystem = preload("res://scripts/QuestSystem.gd")
 
 const DEFAULT_RULES := {"enabled":true,"auto_pick_items":true,"auto_pick_cards":true,"auto_pick_materials":true,"auto_pick_equipment":true,"auto_sell_junk":false,"auto_use_potions":false,"min_rarity":"Common","mvp_only_bonus_loot":true,"pet_picks_up":true}
 const MVP_SUPER_CARD_DROP_RATE := 0.10
@@ -39,7 +40,7 @@ static func ensure_state(hero:Dictionary)->void:
     else:
         for key in ["items","cards","equipment","materials","zeny","xp","pet_xp","mvp_chests","super_cards","glowing_items"]:
             if not hero["loot_stats"].has(key): hero["loot_stats"][key]=0
-    if not hero.has("ground_loot") or not hero["ground_loot"] is Array: hero["ground_loot"]=[]
+    if not hero.has("ground_loot") or not hero["ground_loot"] is Array: hero["ground_loot"]=[ ]
     if not hero.has("zeny"): hero["zeny"]=0
     if not hero.has("cards") or not hero["cards"] is Array: hero["cards"]=[]
 
@@ -133,6 +134,13 @@ static func on_monster_defeated(hero:Dictionary,monster:Dictionary,rng:RandomNum
         pet["bond_xp"]=int(pet.get("bond_xp",0))+pet_xp; pet["loyalty"]=min(100,int(pet.get("loyalty",100))+1); EventInventory.record_event_progress(hero,"pet_bond",1)
     if bool(monster.get("mvp",false)): EventInventory.record_event_progress(hero,"mvp_hour",1)
     if str(monster.get("name",""))=="Bloody Knight": EventInventory.record_event_progress(hero,"blood_moon",1)
+    var quest_changes:Array[String]=QuestSystem.record_kill(hero,monster)
+    for quest_id:String in quest_changes:
+        var summary:Dictionary=QuestSystem.progress_summary(hero,quest_id)
+        var quest_name:String=str(summary.get("name",quest_id))
+        gained.append("Quest progress: %s" % quest_name)
+        if bool(summary.get("complete",false)):
+            gained.append("Quest complete: %s" % quest_name)
     gained.append("%d XP" % hero_xp); gained.append("%d Zeny" % int(reward.get("zeny",0)))
     if int(xp_result.get("levels",0))>0: gained.append("Level %d" % int(xp_result.get("level",1)))
     if int(monster.get("level",0))>=300:
