@@ -28,8 +28,6 @@ on:
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
-# The Final GLB builder is the sole production writer for assets/3d/generated.
-# A dedicated queue prevents unrelated workflows from replacing pending builds.
 concurrency:
   group: honour-war-final-glb-${{ github.ref }}
   cancel-in-progress: false
@@ -72,8 +70,6 @@ jobs:
           text = final.read_text(encoding='utf-8')
           repair_text = repair.read_text(encoding='utf-8')
 
-          # Build GitHub expression strings from separate Python fragments so
-          # Actions does not evaluate them while rendering this heredoc.
           github_ref_expr = '$' + '{{ github.ref }}'
           github_sha_expr = '$' + '{{ github.sha }}'
 
@@ -91,14 +87,12 @@ jobs:
               'for attempt in 1 2 3 4 5',
               'tools/auto_repair_generated_glbs.py',
               'BLENDER_EXECUTABLE',
+              'PYTHONPATH: /tmp/blender-site',
               'hero_class_and_tier',
           )
           missing = [item for item in required if item not in text]
           if missing:
-              raise SystemExit(
-                  'Missing Final GLB contract markers: '
-                  + ', '.join(repr(x) for x in missing)
-              )
+              raise SystemExit('Missing Final GLB contract markers: ' + ', '.join(repr(x) for x in missing))
 
           repair_required = (
               'def check_parser_contract(',
@@ -109,25 +103,14 @@ jobs:
           )
           repair_missing = [item for item in repair_required if item not in repair_text]
           if repair_missing:
-              raise SystemExit(
-                  'Missing self-healing GLB repair contract markers: '
-                  + ', '.join(repr(x) for x in repair_missing)
-              )
+              raise SystemExit('Missing self-healing GLB repair contract markers: ' + ', '.join(repr(x) for x in repair_missing))
 
           for path in sorted(workflows.glob('*.yml')):
               if path == final:
                   continue
               other = path.read_text(encoding='utf-8')
-              if (
-                  'assets/3d/generated' in other
-                  and 'schedule:' in other
-                  and 'contents: write' in other
-                  and 'git add assets/3d/generated' in other
-              ):
-                  raise SystemExit(
-                      f'{path} is another scheduled writable generated-asset pipeline; '
-                      'Final GLB must remain the sole scheduled generated-asset writer'
-                  )
+              if ('assets/3d/generated' in other and 'schedule:' in other and 'contents: write' in other and 'git add assets/3d/generated' in other):
+                  raise SystemExit(f'{path} is another scheduled writable generated-asset pipeline; Final GLB must remain the sole scheduled generated-asset writer')
 
           print('PASS: Final GLB workflow contract, self-healing gate, parser guard, and single-writer policy are intact.')
           PY
@@ -209,9 +192,12 @@ jobs:
 
       - name: Convert GLBs to embedded PBR texture assets
         shell: bash
+        env:
+          PYTHONPATH: /tmp/blender-site
+          BLENDER_USER_CONFIG: /tmp/blender-config
         run: |
           set -euo pipefail
-          PYTHONPATH=/tmp/blender-site BLENDER_USER_CONFIG=/tmp/blender-config /opt/blender/blender --background --python tools/blender/enhance_generated_glbs.py
+          /opt/blender/blender --background --python tools/blender/enhance_generated_glbs.py
 
       - name: Validate final binary GLB structure
         shell: bash
@@ -232,6 +218,8 @@ jobs:
         shell: bash
         env:
           BLENDER_EXECUTABLE: /opt/blender/blender
+          PYTHONPATH: /tmp/blender-site
+          BLENDER_USER_CONFIG: /tmp/blender-config
         run: |
           set -euo pipefail
           python3 tools/auto_repair_generated_glbs.py \
@@ -254,11 +242,7 @@ jobs:
           brief = Path("assets/3d/visual_rag/LATEST_VISUAL_BRIEF.json")
           files = []
           for path in sorted(root.rglob("*.glb")):
-              files.append({
-                  "path": path.as_posix(),
-                  "bytes": path.stat().st_size,
-                  "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
-              })
+              files.append({"path": path.as_posix(), "bytes": path.stat().st_size, "sha256": hashlib.sha256(path.read_bytes()).hexdigest()})
           manifest = {
               "pipeline": "Visual RAG -> Blender 4.2 -> PBR texture pass -> embedded GLB -> Godot 4",
               "geometry_source": "Blender procedural authored geometry",
@@ -297,9 +281,6 @@ jobs:
             exit 0
           fi
           git commit -m "Generate final Honour War GLB visual assets"
-
-          # Other main writers may commit while this long build is running.
-          # Rebase immediately before writing and retry the push after races.
           for attempt in 1 2 3 4 5; do
             git fetch origin main
             if ! git rebase origin/main; then
