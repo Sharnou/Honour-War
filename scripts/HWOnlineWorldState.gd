@@ -6,7 +6,6 @@ extends Node
 
 const AUTHORITY_PATH:String = "/root/HWOnlineAuthorityRuntime"
 const TELEPORT = preload("res://scripts/TeleportSystem.gd")
-const GameDataClass = preload("res://scripts/GameData.gd")
 
 const MOVE_SPEED_UNITS_PER_SECOND:float = 210.0
 const MOVE_LATENCY_TOLERANCE:float = 42.0
@@ -35,6 +34,8 @@ func _bind_authority() -> void:
         authority.authoritative_action_accepted.connect(_on_server_action_accepted)
     if not authority.authoritative_event_received.is_connected(_on_authoritative_event):
         authority.authoritative_event_received.connect(_on_authoritative_event)
+    if not authority.peer_session_closing.is_connected(_on_peer_session_closing):
+        authority.peer_session_closing.connect(_on_peer_session_closing)
 
 func _process(delta:float) -> void:
     if authority == null or not is_instance_valid(authority):
@@ -55,18 +56,27 @@ func _on_authentication_succeeded(peer_id:int,username:String,player:Dictionary)
     if authority.is_authority():
         authority.set_player_for_peer(peer_id,player)
         last_positions[peer_id] = Vector2(float(player.get("pos_x",595.0)),float(player.get("pos_y",340.0)))
-        last_position_times[peer_id] = Time.get_ticks_msec() / 1000.0
+        last_position_times[peer_id] = Time.get_ticks_msec()/1000.0
         save_timers[peer_id] = 0.0
-    else:
-        if peer_id == multiplayer.get_unique_id():
-            local_authenticated_player = player.duplicate(true)
+    elif peer_id == multiplayer.get_unique_id():
+        local_authenticated_player = player.duplicate(true)
 
 func _on_authentication_failed(_peer_id:int,_username:String,_reason:String) -> void:
-    if not authority.is_authority():
+    if authority != null and not authority.is_authority():
         local_authenticated_player = {}
 
+func _on_peer_session_closing(peer_id:int,_username:String,player:Dictionary) -> void:
+    if authority == null or not authority.is_authority():
+        return
+    if player.is_empty():
+        return
+    authority.save_player_for_peer(peer_id,player)
+    last_positions.erase(peer_id)
+    last_position_times.erase(peer_id)
+    save_timers.erase(peer_id)
+
 func _on_server_action_accepted(event:Dictionary) -> void:
-    if not authority.is_authority():
+    if authority == null or not authority.is_authority():
         return
     _apply_server_action(event)
 
@@ -88,42 +98,68 @@ func _apply_server_action(event:Dictionary) -> void:
             return
     authority.set_player_for_peer(peer_id,data)
 
-func _apply_move(peer_id:int,player:Dictionary,payload:Dictionary) -> void:
+func validate_move_request(peer_id:int,payload:Dictionary) -> bool:
     if not bool(payload.get("absolute",false)):
-        return
+        return false
+    if authority == null or not authority.is_authority() or not authority.is_peer_authenticated(peer_id):
+        return false
+    var player:Dictionary = authority.player_for_peer(peer_id)
+    if player.is_empty():
+        return false
     var x:float = float(payload.get("x",player.get("pos_x",595.0)))
     var y:float = float(payload.get("y",player.get("pos_y",340.0)))
+    if not is_finite(x) or not is_finite(y):
+        return false
     var map_id:int = int(player.get("map_id",0))
     var target:Vector2 = _clamp_to_map(map_id,Vector2(x,y))
+    if absf(target.x-x)>0.001 or absf(target.y-y)>0.001:
+        return false
     var previous:Vector2 = last_positions.get(peer_id,Vector2(float(player.get("pos_x",595.0)),float(player.get("pos_y",340.0))))
-    var now:float = Time.get_ticks_msec() / 1000.0
-    var elapsed:float = max(0.016,now-float(last_position_times.get(peer_id,now)))
+    var now:float = Time.get_ticks_msec()/1000.0
+    var previous_time:float = float(last_position_times.get(peer_id,now))
+    var elapsed:float = max(0.016,now-previous_time)
     var max_distance:float = MOVE_SPEED_UNITS_PER_SECOND*elapsed+MOVE_LATENCY_TOLERANCE
-    if previous.distance_to(target) > max_distance:
-        return
-    player["pos_x"] = target.x
-    player["pos_y"] = target.y
-    last_positions[peer_id] = target
-    last_position_times[peer_id] = now
-    save_timers[peer_id] = float(save_timers.get(peer_id,0.0))
+    return previous.distance_to(target) <= max_distance
 
-func _apply_warp(peer_id:int,player:Dictionary,payload:Dictionary) -> void:
+func validate_warp_request(peer_id:int,payload:Dictionary) -> bool:
+    if authority == null or not authority.is_authority() or not authority.is_peer_authenticated(peer_id):
+        return false
     var map_id:int = int(payload.get("map_id",0))
     if map_id < 0 or map_id > MAX_MAP_ID or not TELEPORT.MAPS.has(map_id):
-        return
+        return false
     var x:float = float(payload.get("x",0.0))
     var y:float = float(payload.get("y",0.0))
     var point:Vector2 = _clamp_to_map(map_id,Vector2(365.0+x,120.0+y))
+    var expected:Vector2 = Vector2(365.0+x,120.0+y)
+    if absf(point.x-expected.x)>0.001 or absf(point.y-expected.y)>0.001:
+        return false
+    return true
+
+func _apply_move(peer_id:int,player:Dictionary,payload:Dictionary) -> void:
+    if not validate_move_request(peer_id,payload):
+        return
+    var target:Vector2 = Vector2(float(payload.get("x",player.get("pos_x",595.0))),float(payload.get("y",player.get("pos_y",340.0))))
+    player["pos_x"] = target.x
+    player["pos_y"] = target.y
+    last_positions[peer_id] = target
+    last_position_times[peer_id] = Time.get_ticks_msec()/1000.0
+
+func _apply_warp(peer_id:int,player:Dictionary,payload:Dictionary) -> void:
+    if not validate_warp_request(peer_id,payload):
+        return
+    var map_id:int = int(payload.get("map_id",0))
+    var point:Vector2 = Vector2(365.0+float(payload.get("x",0.0)),120.0+float(payload.get("y",0.0)))
     player["map_id"] = map_id
     player["pos_x"] = point.x
     player["pos_y"] = point.y
-    player["last_safe_city"] = TELEPORT.map_name(map_id) if not TELEPORT.is_dungeon(map_id) else str(player.get("last_safe_city","Prontera"))
+    if not TELEPORT.is_dungeon(map_id):
+        player["last_safe_city"] = TELEPORT.map_name(map_id)
     last_positions[peer_id] = point
-    last_position_times[peer_id] = Time.get_ticks_msec() / 1000.0
+    last_position_times[peer_id] = Time.get_ticks_msec()/1000.0
     save_timers[peer_id] = 0.0
 
 func _on_authoritative_event(event:Dictionary) -> void:
-    if authority != null and authority.is_authority():
+    if authority == null or authority.is_authority():
         return
     if int(event.get("sender",0)) != multiplayer.get_unique_id():
         return
