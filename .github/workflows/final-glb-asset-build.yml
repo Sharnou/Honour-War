@@ -88,6 +88,8 @@ jobs:
               'tar -tJf /tmp/blender.tar.xz',
               'test "${count}" -eq 53',
               'git reset --hard origin/main',
+              'upstream="$(git rev-parse origin/main)"',
+              'test "${upstream}" = "${GITHUB_SHA}"',
               'git merge-base --is-ancestor',
               'payload_dir=',
               'git push origin HEAD:main',
@@ -331,6 +333,11 @@ jobs:
             upstream="$(git rev-parse origin/main)"
             echo "GLB publish attempt ${attempt}: upstream main ${upstream}"
 
+            if [ "${upstream}" != "${GITHUB_SHA}" ]; then
+              echo "Generated assets were built from stale commit ${GITHUB_SHA}; main is now ${upstream}. Refusing to overwrite newer game changes. The next scheduled or path-triggered build will regenerate from the new head."
+              exit 0
+            fi
+
             if ! git merge-base --is-ancestor "${GITHUB_SHA}" "${upstream}"; then
               echo "ERROR: triggering commit ${GITHUB_SHA} is no longer an ancestor of origin/main; refusing to publish stale generated assets."
               exit 1
@@ -354,7 +361,7 @@ jobs:
               exit 0
             fi
 
-            echo "GLB main push attempt ${attempt} lost a main-branch race; refreshing origin/main and retrying without binary rebase."
+            echo "GLB main push attempt ${attempt} lost a main-branch race; refreshing origin/main."
           done
           echo "Failed to push generated GLB assets after 5 race-safe attempts."
           exit 1
