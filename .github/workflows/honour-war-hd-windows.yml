@@ -16,6 +16,7 @@ env:
 concurrency:
   group: honour-war-windows-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false
+  queue: max
 
 jobs:
   build-windows:
