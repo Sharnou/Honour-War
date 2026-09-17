@@ -9,6 +9,7 @@ const SAVE = preload("res://scripts/SaveSystem.gd")
 const COMBAT = preload("res://scripts/CombatRules.gd")
 const TELEPORT = preload("res://scripts/TeleportSystem.gd")
 const PET = preload("res://scripts/PetSystem.gd")
+const CITY = preload("res://scripts/CitySystem.gd")
 const MAX_GLB_COUNT := 53
 var failures := 0
 
@@ -41,6 +42,11 @@ func _initialize() -> void:
     check("no soldier state", not hero.has("soldiers") and not hero.has("soldier_production"))
     check("no bank state", not hero.has("banks") and not hero.has("bank_territories"))
     check("no tower-defense state", not hero.has("tower_defense") and not hero.has("barracks"))
+    check("city registry", CITY.city_ids().size() == GAME_DATA.cities().size())
+    check("city service registry", CITY.available_services().size() >= 10)
+    var city_snapshot:Dictionary = CITY.city_snapshot("Prontera")
+    check("city service hub state", city_snapshot.has("id") and city_snapshot.has("services") and city_snapshot.has("service_list"))
+    check("no city building API", not FileAccess.get_file_as_string("res://scripts/CitySystem.gd").contains("upgrade_city") and not FileAccess.get_file_as_string("res://scripts/CitySystem.gd").contains("can_build"))
     var materials: Dictionary = hero.get("materials", {})
     check("refine materials", materials.has_all(["Phracon", "Emveretarcon", "Oridecon"]))
     var inventory: Dictionary = hero.get("inventory", {})
@@ -121,6 +127,7 @@ func _initialize() -> void:
     if failures == 0:
         print("HONOUR_WAR_COMPLETENESS: PASS")
         quit(0)
+        return
     print("HONOUR_WAR_COMPLETENESS: FAILURES=%d" % failures)
     quit(1)
 
