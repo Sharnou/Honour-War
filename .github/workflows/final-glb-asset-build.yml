@@ -68,7 +68,9 @@ jobs:
 
           workflows = Path('.github/workflows')
           final = workflows / 'final-glb-asset-build.yml'
+          repair = Path('tools/auto_repair_generated_glbs.py')
           text = final.read_text(encoding='utf-8')
+          repair_text = repair.read_text(encoding='utf-8')
 
           # Build GitHub expression strings from separate Python fragments so
           # Actions does not evaluate them while rendering this heredoc.
@@ -90,13 +92,26 @@ jobs:
               'tools/auto_repair_generated_glbs.py',
               'BLENDER_EXECUTABLE',
               'hero_class_and_tier',
-              'post-repair semantic/PBR validation',
           )
           missing = [item for item in required if item not in text]
           if missing:
               raise SystemExit(
                   'Missing Final GLB contract markers: '
                   + ', '.join(repr(x) for x in missing)
+              )
+
+          repair_required = (
+              'def check_parser_contract(',
+              'post-repair semantic/PBR validation',
+              'AUTO-REPAIR: PASS',
+              '--fix',
+              'no gate bypass',
+          )
+          repair_missing = [item for item in repair_required if item not in repair_text]
+          if repair_missing:
+              raise SystemExit(
+                  'Missing self-healing GLB repair contract markers: '
+                  + ', '.join(repr(x) for x in repair_missing)
               )
 
           for path in sorted(workflows.glob('*.yml')):
@@ -114,7 +129,7 @@ jobs:
                       'Final GLB must remain the sole scheduled generated-asset writer'
                   )
 
-          print('PASS: Final GLB workflow contract, self-healing gate, and single-writer policy are intact.')
+          print('PASS: Final GLB workflow contract, self-healing gate, parser guard, and single-writer policy are intact.')
           PY
 
       - name: Preflight Blender and GLB pipeline Python syntax
