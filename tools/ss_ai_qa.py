@@ -34,15 +34,23 @@ def main() -> None:
     if (ROOT / "scripts" / "HWSSAIController.gd").exists():
         raise SystemExit("Redundant HWSSAIController.gd must not return")
 
-    # Validate the active CitySystem API instead of searching comments/documentation.
-    # CitySystem.gd intentionally documents removed systems, so a raw substring search
-    # incorrectly failed the CI whenever words such as "Barracks" appeared in comments.
+    # CitySystem intentionally exposes BUILDINGS only as an empty compatibility
+    # array. Accept that API shape while rejecting any active legacy strategy
+    # building registry if a future change turns it into a dictionary.
     city_text = city_system.read_text(encoding="utf-8")
-    building_match = re.search(r'const BUILDINGS\s*:=\s*\{(?P<body>.*?)\n\}', city_text, re.DOTALL)
+    building_match = re.search(
+        r'const BUILDINGS\s*:=\s*(?P<value>\[\]|\{(?P<body>.*?)\n\})',
+        city_text,
+        re.DOTALL,
+    )
     if not building_match:
         raise SystemExit("CitySystem BUILDINGS contract is missing")
 
-    building_names = set(re.findall(r'\"([^\"]+)\"\s*:\s*\{', building_match.group("body")))
+    if building_match.group("value") == "[]":
+        building_names = set()
+    else:
+        building_names = set(re.findall(r'\"([^\"]+)\"\s*:\s*\{', building_match.group("body") or ""))
+
     obsolete_buildings = {"Barracks", "Tower Defense", "Soldier Production", "Guarded Bank"}
     obsolete_active = sorted(name for name in building_names if name in obsolete_buildings)
     if obsolete_active:
