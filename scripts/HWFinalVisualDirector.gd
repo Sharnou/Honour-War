@@ -125,21 +125,21 @@ func _force_single_world_environment()->void:
     sky_mat.ground_bottom_color = Color("#18251f")
     sky_mat.ground_horizon_color = Color("#788f80")
     env.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
-    env.ambient_light_energy = 0.62
-    env.ambient_light_sky_contribution = 0.72
+    env.ambient_light_energy = 0.92
+    env.ambient_light_sky_contribution = 0.84
     env.tonemap_mode = Environment.TONE_MAPPER_ACES
-    env.tonemap_exposure = 1.0
+    env.tonemap_exposure = 0.88
     env.glow_enabled = true
-    env.glow_intensity = 0.72
-    env.glow_bloom = 0.18
+    env.glow_intensity = 0.50
+    env.glow_bloom = 0.10
     env.glow_hdr_threshold = 1.0
     env.ssao_enabled = true
-    env.ssao_radius = 1.6
-    env.ssao_intensity = 1.7
+    env.ssao_radius = 2.4
+    env.ssao_intensity = 1.55
     env.fog_enabled = true
     env.fog_light_color = Color("#9eb7c7")
     env.fog_light_energy = 0.22
-    env.fog_density = 0.0025
+    env.fog_density = 0.0012
     env.fog_height = 8.0
     env.fog_height_density = 0.012
 
@@ -160,11 +160,11 @@ func _force_single_world_environment()->void:
         sun.name = "HWFinalSun"
         scene.add_child(sun)
     sun.rotation_degrees = Vector3(-50.0,-32.0,0.0)
-    sun.light_energy = 1.35
+    sun.light_energy = 1.55
     sun.light_color = Color("#ffe6b7")
     sun.shadow_enabled = true
-    sun.directional_shadow_max_distance = 110.0
-    sun.light_angular_distance = 0.18
+    sun.directional_shadow_max_distance = 140.0
+    sun.light_angular_distance = 0.12
     var fill:DirectionalLight3D = scene.get_node_or_null("HWFinalFill") as DirectionalLight3D
     if fill == null:
         fill = DirectionalLight3D.new()
