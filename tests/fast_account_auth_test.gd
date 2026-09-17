@@ -5,6 +5,10 @@ extends SceneTree
 # automatic-login service contract from its source. Runtime automatic-login
 # token rotation remains implemented in HWAutoLoginService and is exercised
 # through the full game/client path.
+#
+# SceneTree startup is asynchronous on some Godot 4.7.2 runners. The suite is
+# therefore scheduled for the first idle/deferred turn, but the CI process
+# remains foreground/synchronous and exits through SceneTree.quit().
 
 const AuthorityScript = preload("res://scripts/HWOnlineAuthorityRuntime.gd")
 const AccountDatabaseClass = preload("res://scripts/HWAccountDatabase.gd")
@@ -13,7 +17,7 @@ const GameDataClass = preload("res://scripts/GameData.gd")
 var failures:int = 0
 
 func _initialize() -> void:
-    _run_suite()
+    call_deferred("_run_suite")
 
 func _run_suite() -> void:
     var authority:Node = AuthorityScript.new()
@@ -71,9 +75,9 @@ func _run_suite() -> void:
     DirAccess.remove_absolute(ProjectSettings.globalize_path(test_path))
 
     if failures == 0:
-        print("PASS: Honour War fast account registration/login/automatic-login contract suite")
+        print("PASS: Honour War fast account registration/login/automatic-login regression suite")
     else:
-        print("FAIL: Honour War fast account registration/login/automatic-login contract suite: ",failures," failure(s)")
+        print("FAIL: Honour War fast account registration/login/automatic-login regression suite: ",failures," failure(s)")
     quit(0 if failures == 0 else 1)
 
 func _check(label:String,condition:bool) -> void:
