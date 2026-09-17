@@ -63,6 +63,7 @@ func _initialize() -> void:
     if failures == 0:
         print("PASS: Honour War online persistence regression suite")
         quit(0)
+        return
     print("FAIL: Honour War online persistence regression suite: %d failure(s)" % failures)
     quit(1)
 
