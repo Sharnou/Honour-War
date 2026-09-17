@@ -70,6 +70,7 @@ func _initialize() -> void:
     var project_text:String = FileAccess.get_file_as_string("res://project.godot")
     _check("online authority autoload present", project_text.contains("HWOnlineAuthorityRuntime="))
     _check("online login UI autoload present", project_text.contains("HWOnlineLoginUI="))
+    _check("party service autoload present", project_text.contains("HWPartyService="))
 
     var camera_script:String = FileAccess.get_file_as_string("res://scripts/MovementStabilityFix.gd")
     _check("A/D camera yaw contract", camera_script.contains("KEY_A") and camera_script.contains("KEY_D"))
@@ -94,6 +95,11 @@ func _initialize() -> void:
     _check("persistent account database present", account_db.contains("honour_war_accounts.json") and account_db.contains("password_verifier") and account_db.contains("save_player"))
     var login_ui:String = FileAccess.get_file_as_string("res://scripts/HWOnlineLoginUI.gd")
     _check("online UI waits for network connection", login_ui.contains("CONNECTION_CONNECTED") and login_ui.contains("pending_auth_action"))
+
+    var party_service:String = FileAccess.get_file_as_string("res://scripts/HWPartyService.gd")
+    _check("party size is four", party_service.contains("MAX_PARTY_SIZE:int = 4"))
+    _check("party requires authenticated peers", party_service.contains("is_peer_authenticated(peer_id)"))
+    _check("party invite and accept flow present", party_service.contains("_server_invite") and party_service.contains("_server_accept_invite"))
 
     var private_glb_workflow:String = FileAccess.get_file_as_string("res://.github/workflows/private-glb-preview-qa.yml")
     _check("private GLB QA pins triggering revision", private_glb_workflow.contains("ref: ${{ github.sha }}"))
