@@ -50,6 +50,8 @@ HWHD3DCharacterEnhancer="*res://scripts/HWHD3DCharacterEnhancer.gd"
 HWHDWorldContentDirector="*res://scripts/HWHDWorldContentDirector.gd"
 HWHDProductionCompleter="*res://scripts/HWHDProductionCompleter.gd"
 HWOpenWorldEncounterDirector="*res://scripts/HWOpenWorldEncounterDirector.gd"
+HWMapThemeDirector="*res://scripts/HWMapThemeDirector.gd"
+HWCombatPhaseDirector="*res://scripts/HWCombatPhaseDirector.gd"
 
 [display]
 window/size/viewport_width=1920
