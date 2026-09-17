@@ -7,9 +7,9 @@ colors with compact, embedded base-color and roughness maps.
 
 Every exported GLB is immediately reopened as a binary glTF document and
 verified to contain embedded image bufferViews plus valid base-color and
-metallic-roughness texture references. A successful process therefore cannot
-silently produce the exact "no embedded texture images found" failure seen in
-older pipeline runs.
+metallic-roughness texture references that resolve to those embedded images.
+A successful process therefore cannot silently produce the old
+"no embedded texture images found" or dangling-texture failures.
 """
 
 from __future__ import annotations
@@ -187,6 +187,15 @@ def verify_exported_pbr(path: Path) -> None:
     textures = doc.get("textures", [])
     if not textures:
         raise RuntimeError(f"{path}: post-export verification found no glTF texture objects")
+    for index, texture in enumerate(textures):
+        if not isinstance(texture, dict):
+            raise RuntimeError(f"{path}: post-export verification found malformed texture {index}")
+        source = texture.get("source")
+        if not isinstance(source, int) or source < 0 or source >= len(images):
+            raise RuntimeError(f"{path}: texture {index} does not resolve to an embedded image")
+        image = images[source]
+        if not isinstance(image, dict) or "uri" in image or "bufferView" not in image:
+            raise RuntimeError(f"{path}: texture {index} resolves to a non-embedded image")
 
     for material in doc.get("materials", []):
         if not isinstance(material, dict):
@@ -204,6 +213,11 @@ def verify_exported_pbr(path: Path) -> None:
             if not isinstance(index, int) or index < 0 or index >= len(textures):
                 raise RuntimeError(
                     f"{path}: material {name!r} lost its {label} texture after export"
+                )
+            source = textures[index].get("source") if isinstance(textures[index], dict) else None
+            if not isinstance(source, int) or source < 0 or source >= len(images):
+                raise RuntimeError(
+                    f"{path}: material {name!r} {label} does not resolve to an embedded image"
                 )
 
 
