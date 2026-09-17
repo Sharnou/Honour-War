@@ -5,6 +5,8 @@ on:
   schedule:
     - cron: "17 2 * * *"
   push:
+    branches:
+      - main
     paths:
       - "tools/blender/final_glb_build_trigger.txt"
       - "tools/blender/honour_war_visual_max_assets.py"
@@ -13,6 +15,7 @@ on:
       - "tools/blender/enhance_generated_glbs.py"
       - "tools/visual_rag/**"
       - "tools/validate_generated_glbs.py"
+      - "tools/validate_final_glb_pipeline.py"
       - "shaders/ToonShader.gdshader"
       - "scripts/HWVisualMaxDirectorFixed.gd"
       - "scripts/HWToonMaterialDirector.gd"
@@ -23,12 +26,12 @@ on:
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
-# Final GLB generation is its own production lane. It still rebases before
-# writing generated assets to main, but unrelated CI writers must not replace
-# this workflow's pending run with a newer request.
+# The Final GLB builder is the sole production writer for assets/3d/generated.
+# A dedicated queue prevents unrelated workflows from replacing pending builds.
 concurrency:
   group: honour-war-final-glb-${{ github.ref }}
   cancel-in-progress: false
+  queue: max
 
 permissions:
   contents: write
@@ -36,7 +39,7 @@ permissions:
 jobs:
   build-final-glb-assets:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 90
     steps:
       - name: Checkout validation commit
         uses: actions/checkout@v7
@@ -54,6 +57,12 @@ jobs:
           echo "Workflow SHA:    ${expected}"
           test "${actual}" = "${expected}"
 
+      - name: Validate Final GLB pipeline contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 tools/validate_final_glb_pipeline.py
+
       - name: Preflight Blender and GLB pipeline Python syntax
         shell: bash
         run: |
@@ -64,7 +73,8 @@ jobs:
             tools/blender/run_visual_max_assets.py \
             tools/blender/honour_war_monster_assets.py \
             tools/blender/enhance_generated_glbs.py \
-            tools/validate_generated_glbs.py
+            tools/validate_generated_glbs.py \
+            tools/validate_final_glb_pipeline.py
           echo "GLB pipeline Python syntax preflight: PASS"
 
       - name: Run Visual RAG first
@@ -80,21 +90,37 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          curl -L --fail --retry 8 --retry-all-errors --retry-delay 3 \
-            --connect-timeout 30 --max-time 600 \
+          curl -L --fail --retry 10 --retry-all-errors --retry-delay 5 \
+            --connect-timeout 30 --max-time 1200 \
             -o /tmp/blender.tar.xz \
             https://download.blender.org/release/Blender4.2/blender-4.2.23-linux-x64.tar.xz
-          rm -rf /opt/blender /tmp/blender-site
-          mkdir -p /opt/blender /tmp/blender-site
+          test -s /tmp/blender.tar.xz
+          tar -tJf /tmp/blender.tar.xz >/dev/null
+          rm -rf /opt/blender /tmp/blender-site /tmp/blender-config
+          mkdir -p /opt/blender /tmp/blender-site /tmp/blender-config
           tar -xJf /tmp/blender.tar.xz -C /opt/blender --strip-components=1
-          /opt/blender/blender --version
+          BLENDER_USER_CONFIG=/tmp/blender-config /opt/blender/blender --version
 
-      - name: Install Blender Python dependency for GLTF exporter
+      - name: Install or verify Blender Python dependency for GLTF exporter
         shell: bash
         run: |
           set -euo pipefail
-          /opt/blender/blender --background --python-expr 'import ensurepip,sys,subprocess; ensurepip.bootstrap(); subprocess.check_call([sys.executable,"-m","pip","install","--no-cache-dir","--target=/tmp/blender-site","numpy"])'
-          PYTHONPATH=/tmp/blender-site /opt/blender/blender --background --python-expr 'import numpy; print("Blender numpy:", numpy.__version__)'
+          if PYTHONPATH=/tmp/blender-site BLENDER_USER_CONFIG=/tmp/blender-config /opt/blender/blender --background --python-expr 'import numpy; print("Bundled Blender numpy:", numpy.__version__)'; then
+            echo "Using Blender bundled numpy."
+          else
+            installed=0
+            for attempt in 1 2 3 4 5; do
+              echo "Blender numpy install attempt ${attempt}"
+              if BLENDER_USER_CONFIG=/tmp/blender-config /opt/blender/blender --background --python-expr 'import ensurepip,sys,subprocess; ensurepip.bootstrap(); subprocess.check_call([sys.executable,"-m","pip","install","--disable-pip-version-check","--no-cache-dir","--retries","8","--timeout","60","--target=/tmp/blender-site","numpy"])'; then
+                installed=1
+                break
+              fi
+              echo "numpy install attempt ${attempt} failed; retrying."
+              sleep 5
+            done
+            test "${installed}" = 1
+          fi
+          PYTHONPATH=/tmp/blender-site BLENDER_USER_CONFIG=/tmp/blender-config /opt/blender/blender --background --python-expr 'import numpy; print("Validated Blender numpy:", numpy.__version__)'
 
       - name: Generate final hero and pet GLB assets in Blender
         shell: bash
@@ -102,7 +128,7 @@ jobs:
           set -euo pipefail
           rm -rf assets/3d/generated/heroes assets/3d/generated/pets assets/3d/generated/characters
           mkdir -p assets/3d/generated/heroes assets/3d/generated/pets assets/3d/generated/characters
-          PYTHONPATH=/tmp/blender-site /opt/blender/blender --background --python tools/blender/run_visual_max_assets.py
+          PYTHONPATH=/tmp/blender-site BLENDER_USER_CONFIG=/tmp/blender-config /opt/blender/blender --background --python tools/blender/run_visual_max_assets.py
 
       - name: Generate final monster GLB assets in Blender
         shell: bash
@@ -110,13 +136,13 @@ jobs:
           set -euo pipefail
           rm -rf assets/3d/generated/monsters
           mkdir -p assets/3d/generated/monsters
-          PYTHONPATH=/tmp/blender-site /opt/blender/blender --background --python tools/blender/honour_war_monster_assets.py
+          PYTHONPATH=/tmp/blender-site BLENDER_USER_CONFIG=/tmp/blender-config /opt/blender/blender --background --python tools/blender/honour_war_monster_assets.py
 
       - name: Convert GLBs to embedded PBR texture assets
         shell: bash
         run: |
           set -euo pipefail
-          PYTHONPATH=/tmp/blender-site /opt/blender/blender --background --python tools/blender/enhance_generated_glbs.py
+          PYTHONPATH=/tmp/blender-site BLENDER_USER_CONFIG=/tmp/blender-config /opt/blender/blender --background --python tools/blender/enhance_generated_glbs.py
 
       - name: Validate final binary GLB structure
         shell: bash
@@ -124,7 +150,7 @@ jobs:
           set -euo pipefail
           count=$(find assets/3d/generated -type f -name '*.glb' | wc -l)
           echo "Generated GLB count: ${count}"
-          test "${count}" -ge 53
+          test "${count}" -eq 53
           while IFS= read -r file; do
             size=$(stat -c%s "$file")
             echo "$file: $size bytes"
@@ -197,9 +223,8 @@ jobs:
           fi
           git commit -m "Generate final Honour War GLB visual assets"
 
-          # This job owns a dedicated GLB lane, but other main writers may still
-          # commit while asset generation is running. Rebase immediately before
-          # the write and retry to avoid non-fast-forward/cannot-lock-ref races.
+          # Other main writers may commit while this long build is running.
+          # Rebase immediately before writing and retry the push after races.
           for attempt in 1 2 3 4 5; do
             git fetch origin main
             if ! git rebase origin/main; then
@@ -211,7 +236,7 @@ jobs:
               fi
             fi
             echo "GLB main push attempt ${attempt} lost a main-branch race; retrying."
-            sleep 3
+            sleep 5
           done
           echo "Failed to push generated GLB assets after 5 race-safe attempts."
           exit 1
