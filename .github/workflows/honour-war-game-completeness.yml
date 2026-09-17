@@ -15,6 +15,12 @@ env:
   GODOT_TAG: "4.7.2-stable"
   GODOT_BINARY: "Godot_v4.7.2-stable_linux.x86_64"
 
+# A newer commit supersedes an older completeness run. Keep only the newest
+# run for each ref so CI does not spend time validating obsolete revisions.
+concurrency:
+  group: honour-war-completeness-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   contract:
     name: Godot 4.7.2 end-to-end completeness contract
