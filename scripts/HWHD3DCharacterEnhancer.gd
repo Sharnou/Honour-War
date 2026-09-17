@@ -12,12 +12,14 @@ var elapsed:float=0.0
 
 func _ready()->void:
 	process_priority=900
-	game=get_parent()
+	game=get_node_or_null("/root/HonourWar3D")
 	call_deferred("_refresh")
 
 func _process(delta:float)->void:
 	elapsed+=delta
-	if game==null: return
+	if game==null or not is_instance_valid(game):
+		game=get_node_or_null("/root/HonourWar3D")
+		return
 	var current:Node3D=game.get("hero_visual") as Node3D
 	if current!=enhanced_hero or (current!=null and str(current.get_meta("class",""))!=last_class):
 		enhanced_hero=current
@@ -59,7 +61,6 @@ func _accent(class_id:String)->Color:
 func _add_face(root:Node3D,class_id:String)->void:
 	var skin:=_mat(Color("#e3ad88"),0.82)
 	var eye:=_mat(Color("#171b24"),0.30)
-	var hair:=_mat(Color("#24222a"),0.72)
 	for x in [-0.14,0.14]:
 		var eye_mesh:=MeshInstance3D.new()
 		var sphere:=SphereMesh.new(); sphere.radius=0.055; sphere.height=0.11
@@ -68,7 +69,7 @@ func _add_face(root:Node3D,class_id:String)->void:
 		root.add_child(eye_mesh)
 	var nose:=MeshInstance3D.new(); var nose_mesh:=SphereMesh.new(); nose_mesh.radius=0.045; nose_mesh.height=0.09
 	nose.mesh=nose_mesh; nose.material_override=skin; nose.position=Vector3(0.0,2.22,-0.36); root.add_child(nose)
-	var hair_band:=MeshInstance3D.new(); var band:=TorusMesh.new(); band.inner_radius=0.34; band.outer_radius=0.39; band.rings=32; band.ring_segments=10
+	var hair_band:=MeshInstance3D.new(); hair_band.name="HDHairBand"; var band:=TorusMesh.new(); band.inner_radius=0.34; band.outer_radius=0.39; band.rings=32; band.ring_segments=10
 	hair_band.mesh=band; hair_band.material_override=_mat(_accent(class_id),0.55,0.05); hair_band.position=Vector3(0,2.40,0); root.add_child(hair_band)
 	var ear_l:=MeshInstance3D.new(); var ear_mesh:=SphereMesh.new(); ear_mesh.radius=0.07; ear_mesh.height=0.14
 	ear_l.mesh=ear_mesh; ear_l.material_override=skin; ear_l.position=Vector3(-0.37,2.28,0); root.add_child(ear_l)
@@ -93,7 +94,7 @@ func _add_legs(root:Node3D,class_id:String)->void:
 		shoe.mesh=shoe_mesh; shoe.material_override=boot; shoe.position=Vector3(side*0.22,0.10,-0.08); shoe.scale=Vector3(1.0,0.60,1.35); root.add_child(shoe)
 
 func _add_belt(root:Node3D,class_id:String)->void:
-	var belt:=MeshInstance3D.new(); var mesh:=TorusMesh.new(); mesh.inner_radius=0.40; mesh.outer_radius=0.47; mesh.rings=32; mesh.ring_segments=10
+	var belt:=MeshInstance3D.new(); belt.name="HDBelt"; var mesh:=TorusMesh.new(); mesh.inner_radius=0.40; mesh.outer_radius=0.47; mesh.rings=32; mesh.ring_segments=10
 	belt.mesh=mesh; belt.material_override=_mat(_accent(class_id),0.48,0.15); belt.position=Vector3(0,1.05,0); belt.rotation_degrees.x=90.0; root.add_child(belt)
 
 func _add_class_details(root:Node3D,class_id:String)->void:
@@ -102,10 +103,10 @@ func _add_class_details(root:Node3D,class_id:String)->void:
 		var quiver:=MeshInstance3D.new(); var q:=CylinderMesh.new(); q.top_radius=0.16; q.bottom_radius=0.20; q.height=0.80; q.radial_segments=16
 		quiver.mesh=q; quiver.material_override=_mat(Color("#70482f"),0.72); quiver.position=Vector3(-0.42,1.25,0.30); quiver.rotation_degrees.z=-14.0; root.add_child(quiver)
 	elif class_id=="Mage":
-		var orb:=MeshInstance3D.new(); var s:=SphereMesh.new(); s.radius=0.13; s.height=0.26
+		var orb:=MeshInstance3D.new(); orb.name="MageOrb"; var s:=SphereMesh.new(); s.radius=0.13; s.height=0.26
 		orb.mesh=s; orb.material_override=_mat(accent,0.35,0.1); orb.position=Vector3(0.0,1.72,0.28); root.add_child(orb)
 	elif class_id=="Acolyte":
-		var halo:=MeshInstance3D.new(); var h:=TorusMesh.new(); h.inner_radius=0.34; h.outer_radius=0.39; h.rings=32; h.ring_segments=10
+		var halo:=MeshInstance3D.new(); halo.name="AcolyteHalo"; var h:=TorusMesh.new(); h.inner_radius=0.34; h.outer_radius=0.39; h.rings=32; h.ring_segments=10
 		halo.mesh=h; halo.material_override=_mat(accent,0.30,0.05); halo.position=Vector3(0,2.88,0); halo.rotation_degrees.x=90.0; root.add_child(halo)
 	else:
 		var gem:=MeshInstance3D.new(); var g:=SphereMesh.new(); g.radius=0.10; g.height=0.20
