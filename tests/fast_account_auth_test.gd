@@ -13,6 +13,9 @@ const GameDataClass = preload("res://scripts/GameData.gd")
 var failures:int = 0
 
 func _initialize() -> void:
+    call_deferred("_run_suite")
+
+func _run_suite() -> void:
     var authority:Node = AuthorityScript.new()
     _check("fast password minimum is 6",authority.MIN_PASSWORD_LENGTH == 6)
     _check("123123 meets fast registration minimum","123123".length() >= authority.MIN_PASSWORD_LENGTH)
@@ -74,10 +77,10 @@ func _initialize() -> void:
 
     if failures == 0:
         print("PASS: Honour War fast account registration/login/automatic-login regression suite")
-        quit(0)
     else:
         print("FAIL: Honour War fast account registration/login/automatic-login regression suite: ",failures," failure(s)")
-        quit(1)
+    get_tree().quit(0 if failures == 0 else 1)
+    return
 
 func _check(label:String,condition:bool) -> void:
     if not condition:
