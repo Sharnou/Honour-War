@@ -123,7 +123,35 @@ func _issue_for_peer(peer_id:int) -> void:
     auto_login_token_issued.emit(peer_id,username,token)
 
 func _auto_login_local(peer_id:int,username:String,token:String) -> void:
-    _server_auto_login(username,token)
+    _authenticate_for_peer(peer_id,username,token)
+
+func _authenticate_for_peer(peer_id:int,username:String,token:String) -> void:
+    var authority:Node = get_node_or_null(AUTHORITY_PATH)
+    if authority == null or not authority.is_authority():
+        return
+    var normalized:String = username.strip_edges().to_lower()
+    if peer_id <= 0 or not HWAccountDatabase.validate_username(normalized) or not authenticate_token(normalized,token):
+        if peer_id > 0 and not authority.is_authority():
+            authority._client_auth_failure.rpc_id(peer_id,normalized,"auto_login_invalid")
+        return
+    var account_database:RefCounted = authority.account_database
+    if account_database == null or not account_database.account_exists(normalized):
+        return
+    var player:Dictionary = account_database.load_player(normalized,GameDataClass.new_hero())
+    player["account_username"] = normalized
+    if not player.has("gender"):
+        player["gender"] = HWOnlineAuthorityRuntime.gender_from_username(normalized)
+    authority._authenticated_peers[peer_id] = normalized
+    authority._peer_players[peer_id] = player.duplicate(true)
+    account_database.mark_login(normalized)
+    if not authority.is_authority():
+        authority._client_auth_success.rpc_id(peer_id,normalized,player.duplicate(true),authority.session_id)
+    authority.authentication_succeeded.emit(peer_id,normalized,player)
+    var rotated:String = issue_token(normalized)
+    if not rotated.is_empty():
+        if not authority.is_authority():
+            _client_auto_login_token.rpc_id(peer_id,normalized,rotated)
+        auto_login_token_issued.emit(peer_id,normalized,rotated)
 
 @rpc("any_peer","reliable")
 func _server_issue_auto_login_token() -> void:
@@ -139,28 +167,7 @@ func _server_auto_login(username:String,token:String) -> void:
     if authority == null or not multiplayer.is_server():
         return
     var sender:int = multiplayer.get_remote_sender_id()
-    var normalized:String = username.strip_edges().to_lower()
-    if sender <= 0 or not HWAccountDatabase.validate_username(normalized) or not authenticate_token(normalized,token):
-        if sender > 0:
-            authority._client_auth_failure.rpc_id(sender,normalized,"auto_login_invalid")
-        return
-    var account_database:RefCounted = authority.account_database
-    if account_database == null or not account_database.account_exists(normalized):
-        authority._client_auth_failure.rpc_id(sender,normalized,"auto_login_invalid")
-        return
-    var player:Dictionary = account_database.load_player(normalized,GameDataClass.new_hero())
-    player["account_username"] = normalized
-    if not player.has("gender"):
-        player["gender"] = HWOnlineAuthorityRuntime.gender_from_username(normalized)
-    authority._authenticated_peers[sender] = normalized
-    authority._peer_players[sender] = player.duplicate(true)
-    account_database.mark_login(normalized)
-    authority._client_auth_success.rpc_id(sender,normalized,player.duplicate(true),authority.session_id)
-    authority.authentication_succeeded.emit(sender,normalized,player)
-    var rotated:String = issue_token(normalized)
-    if not rotated.is_empty():
-        _client_auto_login_token.rpc_id(sender,normalized,rotated)
-        auto_login_token_issued.emit(sender,normalized,rotated)
+    _authenticate_for_peer(sender,username,token)
 
 @rpc("any_peer","reliable")
 func _server_revoke_auto_login_token() -> void:
