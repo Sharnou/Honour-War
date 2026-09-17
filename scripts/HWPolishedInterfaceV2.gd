@@ -23,24 +23,44 @@ var hp_bar:ProgressBar
 var sp_bar:ProgressBar
 var mode:String="character"
 var toolbar:PanelContainer
+var bound:bool=false
+var bind_queued:bool=false
 
 func _ready()->void:
     layer=120
+    _queue_bind()
+
+func _queue_bind()->void:
+    if bound or bind_queued:
+        return
+    bind_queued=true
     call_deferred("_bind")
 
 func _bind()->void:
+    bind_queued=false
+    if bound:
+        return
     scene_root=get_tree().current_scene
     if scene_root==null:
-        call_deferred("_bind")
+        _queue_bind()
+        return
+    if root!=null and is_instance_valid(root):
+        bound=true
         return
     legacy=scene_root.get_node_or_null("LegacyGame")
     _disable_competing_huds()
     _build()
+    bound=true
 
 func _process(_delta:float)->void:
-    if scene_root==null:
+    if not bound:
         return
-    if legacy==null:
+    if scene_root==null or not is_instance_valid(scene_root):
+        bound=false
+        root=null
+        _queue_bind()
+        return
+    if legacy==null or not is_instance_valid(legacy):
         legacy=scene_root.get_node_or_null("LegacyGame")
     _refresh_status()
 
@@ -52,6 +72,8 @@ func _disable_competing_huds()->void:
             n.process_mode=Node.PROCESS_MODE_DISABLED
 
 func _build()->void:
+    if root!=null and is_instance_valid(root):
+        return
     root=Control.new()
     root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
     root.mouse_filter=Control.MOUSE_FILTER_IGNORE
@@ -135,6 +157,8 @@ func _open_mode(next_mode:String)->void:
     _render_mode()
 
 func _build_panel()->void:
+    if root==null or not is_instance_valid(root):
+        return
     var window_root:Control=Control.new()
     window_root.name="HWPolishedWindowV2"
     window_root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -155,10 +179,10 @@ func _build_panel()->void:
     panel.add_child(head)
     var row:HBoxContainer=HBoxContainer.new()
     head.add_child(row)
-    title=Label.new()
-    title.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-    title.add_theme_font_size_override("font_size",18)
-    row.add_child(title)
+    var panel_title:Label=Label.new()
+    panel_title.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+    panel_title.add_theme_font_size_override("font_size",18)
+    row.add_child(panel_title)
     var close:Button=Button.new()
     close.text="CLOSE"
     close.custom_minimum_size=Vector2(96,36)
@@ -179,6 +203,24 @@ func _build_panel()->void:
     footer.add_theme_font_size_override("font_size",10)
     footer.add_theme_color_override("font_color",Color("#93a5b9"))
     panel.add_child(footer)
+    if mode=="character":
+        panel_title.text="HONOUR WAR • CHARACTER"
+    elif mode=="pet":
+        panel_title.text="HONOUR WAR • PET"
+    elif mode=="skills":
+        panel_title.text="HONOUR WAR • SKILLS"
+    elif mode=="inventory":
+        panel_title.text="HONOUR WAR • INVENTORY"
+    elif mode=="equipment":
+        panel_title.text="HONOUR WAR • EQUIPMENT"
+    elif mode=="refine":
+        panel_title.text="HONOUR WAR • REFINE"
+    elif mode=="map":
+        panel_title.text="HONOUR WAR • MAP"
+    elif mode=="objectives":
+        panel_title.text="HONOUR WAR • OBJECTIVES"
+    else:
+        panel_title.text="HONOUR WAR • SYSTEM"
 
 func _close_panel()->void:
     var old:Node=root.get_node_or_null("HWPolishedWindowV2") if root!=null else null
@@ -188,7 +230,7 @@ func _close_panel()->void:
     body=null
 
 func _render_mode()->void:
-    if body==null or legacy==null:
+    if body==null or legacy==null or not is_instance_valid(legacy):
         return
     var value:Variant=legacy.get("hero")
     if not value is Dictionary:
@@ -490,7 +532,7 @@ func _card(head_text:String,sub_text:String)->void:
     vb.add_child(s)
 
 func _refresh_status()->void:
-    if legacy==null or title==null:
+    if legacy==null or not is_instance_valid(legacy) or title==null or status==null:
         return
     var value:Variant=legacy.get("hero")
     if not value is Dictionary:
@@ -521,12 +563,17 @@ func _unhandled_key_input(event:InputEvent)->void:
         KEY_O: _open_mode("objectives")
         KEY_F1: _open_mode("system")
 
-func _style(bg:Color,border:Color)->StyleBoxFlat:
-    var s:StyleBoxFlat=StyleBoxFlat.new()
-    s.bg_color=bg
-    s.border_color=border
-    s.set_border_width_all(1)
-    s.set_corner_radius_all(8)
-    s.shadow_color=Color(0,0,0,0.62)
-    s.shadow_size=8
-    return s
+func _style(fill:Color,border:Color)->StyleBoxFlat:
+    var box=StyleBoxFlat.new()
+    box.bg_color=fill
+    box.border_color=border
+    box.set_border_width_all(1)
+    box.corner_radius_top_left=6
+    box.corner_radius_top_right=6
+    box.corner_radius_bottom_left=6
+    box.corner_radius_bottom_right=6
+    box.content_margin_left=10
+    box.content_margin_right=10
+    box.content_margin_top=7
+    box.content_margin_bottom=7
+    return box
