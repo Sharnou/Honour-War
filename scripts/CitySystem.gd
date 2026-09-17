@@ -61,3 +61,16 @@ static func city_snapshot(city_id:String="Prontera") -> Dictionary:
 		service_list.append(service(str(service_id)))
 	city["service_list"] = service_list
 	return city
+
+# Compatibility shims for the legacy prototype caller in Main.gd.
+# These functions deliberately perform no city progression, spending, building,
+# production, territory, bank or defense action. They exist only until that
+# old UI path is fully removed from the prototype shell.
+static func can_build(_city:Dictionary, _building:String) -> bool:
+	return false
+
+static func build(city:Dictionary, _building:String) -> Dictionary:
+	return city.duplicate(true)
+
+static func upgrade_city(city:Dictionary) -> Dictionary:
+	return city.duplicate(true)
