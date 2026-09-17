@@ -1,36 +1,63 @@
 class_name CitySystem
 extends RefCounted
 
-# City progression remains available for town/economy state, but soldier,
-# barracks, tower-defense, deployment, reserve, and guarded-bank systems are
-# intentionally excluded from the Honour War design.
-const BUILDINGS := {
-	"Town Hall":{"wood":50,"stone":50,"gold":500},
-	"Blacksmith":{"wood":30,"stone":20,"gold":300},
-	"Market":{"wood":40,"stone":20,"gold":350},
-	"Magic Tower":{"wood":40,"stone":70,"gold":700}
+## MMORPG/ARPG city registry.
+## Cities are permanent social/service hubs only. They have no progression,
+## resource inventories, production queues, territory ownership, army, bank,
+## barracks, or tower-defense mechanics.
+
+const CITIES:Array = [
+	"Prontera",
+	"Morroc",
+	"Payon",
+	"Geffen",
+	"Juno",
+	"Alberta",
+	"Izlude"
+]
+
+const SERVICES:Dictionary = {
+	"healing": {"name":"Healing / Inn", "npc":"Innkeeper / Healer", "description":"Restore HP and SP and provide a safe respawn point."},
+	"shop": {"name":"General Shop", "npc":"Merchant", "description":"Buy and sell normal consumables and utility items."},
+	"equipment": {"name":"Equipment Shop", "npc":"Equipment Merchant", "description":"Browse weapons, armor and accessories."},
+	"refinement": {"name":"Blacksmith / Refinement", "npc":"Blacksmith", "description":"Refine equipment using Zeny and Phracon, Emveretarcon or Oridecon."},
+	"cards": {"name":"Card Service", "npc":"Card Expert", "description":"View, manage and apply character card collection services."},
+	"market": {"name":"Player Market", "npc":"Market Clerk", "description":"Access player-to-player buying and selling services."},
+	"magic": {"name":"Magic Tower", "npc":"Mage Guild", "description":"Magic, skill and class-related city services."},
+	"quests": {"name":"Quest Board", "npc":"Quest Master", "description":"Accept and turn in quests and view progression."},
+	"warp": {"name":"Warp Gate", "npc":"Warp Keeper", "description":"Fast travel between unlocked towns, fields and dungeons."},
+	"rent": {"name":"Rent NPC", "npc":"Rent NPC", "description":"Rent the SS (SUPER SHAMBION) companion for 1,000,000 Zeny."},
+	"social": {"name":"Social Hub", "npc":"Town Guide", "description":"Chat, party formation, player interaction and local information."}
 }
 
-static func new_city() -> Dictionary:
-	return {"level":1, "wood":0, "stone":0, "gold":0, "buildings":{}}
+static func city_ids() -> Array:
+	return CITIES.duplicate()
 
-static func upgrade_city(city:Dictionary) -> Dictionary:
-	var result=city.duplicate(true)
-	result["level"]=int(result.get("level", 1))+1
-	return result
+static func is_city(city_id:String) -> bool:
+	return CITIES.has(city_id)
 
-static func can_build(city:Dictionary, building:String) -> bool:
-	if not BUILDINGS.has(building): return false
-	var cost:Dictionary=BUILDINGS[building]
-	return int(city.get("wood",0)) >= int(cost["wood"]) and int(city.get("stone",0)) >= int(cost["stone"]) and int(city.get("gold",0)) >= int(cost["gold"])
+static func new_city(city_id:String="Prontera") -> Dictionary:
+	var normalized:String = city_id if is_city(city_id) else "Prontera"
+	return {
+		"id": normalized,
+		"name": normalized,
+		"services": SERVICES.keys()
+	}
 
-static func build(city:Dictionary, building:String) -> Dictionary:
-	var result=city.duplicate(true)
-	if not can_build(result, building): return result
-	var cost:Dictionary=BUILDINGS[building]
-	result["wood"]=int(result.get("wood",0))-int(cost["wood"])
-	result["stone"]=int(result.get("stone",0))-int(cost["stone"])
-	result["gold"]=int(result.get("gold",0))-int(cost["gold"])
-	if not result.has("buildings"): result["buildings"]={}
-	result["buildings"][building]=int(result["buildings"].get(building,0))+1
-	return result
+static func available_services(_city:Dictionary={}) -> Array:
+	return SERVICES.keys()
+
+static func has_service(_city:Dictionary, service_id:String) -> bool:
+	return SERVICES.has(service_id)
+
+static func service(service_id:String) -> Dictionary:
+	var value:Variant = SERVICES.get(service_id,{})
+	return value.duplicate(true) if value is Dictionary else {}
+
+static func city_snapshot(city_id:String="Prontera") -> Dictionary:
+	var city:Dictionary = new_city(city_id)
+	var service_list:Array = []
+	for service_id in SERVICES.keys():
+		service_list.append(service(str(service_id)))
+	city["service_list"] = service_list
+	return city
