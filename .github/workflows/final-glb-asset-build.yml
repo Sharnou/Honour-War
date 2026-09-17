@@ -111,7 +111,7 @@ jobs:
             size=$(stat -c%s "$file")
             echo "$file: $size bytes"
             test "$size" -ge 1024
-            magic=$(dd if="$file" bs=1 count=4 2>/dev/null | od -An -t x1 | tr -d ' \\n')
+            magic=$(dd if="$file" bs=1 count=4 2>/dev/null | od -An -t x1 | tr -d ' ')
             test "$magic" = "676c5446"
           done < <(find assets/3d/generated -type f -name '*.glb' | sort)
 
