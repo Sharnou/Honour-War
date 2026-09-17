@@ -6,6 +6,12 @@ const TeleportSystem=preload("res://scripts/TeleportSystem.gd")
 
 @export var legacy_path:NodePath = NodePath("../LegacyGame")
 @export var camera_path:NodePath = NodePath("../Camera3D")
+@export var zoom_min_distance:float = 7.0
+@export var zoom_max_distance:float = 26.0
+@export var zoom_step:float = 1.75
+@export var zoom_smoothing:float = 10.0
+@export var rotation_smoothing:float = 10.0
+@export var rotation_step_degrees:float = 90.0
 const ORIGIN_X:float = 365.0
 const ORIGIN_Y:float = 120.0
 const WORLD_SCALE:float = 0.055
@@ -20,12 +26,18 @@ var camera:Camera3D
 var destination:Vector2 = Vector2.INF
 var marker:MeshInstance3D
 var selected_monster:Dictionary = {}
+var camera_distance:float = CAMERA_DISTANCE
+var target_camera_distance:float = CAMERA_DISTANCE
+var camera_yaw:float = 45.0
+var target_camera_yaw:float = 45.0
 
 func _ready()->void:
     process_priority=1000
     legacy=get_node_or_null(legacy_path) as Node2D
     camera=get_node_or_null(camera_path) as Camera3D
     set_process_unhandled_input(true)
+    camera_distance=clamp(CAMERA_DISTANCE,zoom_min_distance,zoom_max_distance)
+    target_camera_distance=camera_distance
     call_deferred("_setup_camera")
     call_deferred("_setup_marker")
 
@@ -44,9 +56,23 @@ func _apply_camera(delta:float=1.0)->void:
     var hero:Dictionary=value if value is Dictionary else {}
     var map_pos:Vector2=Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0)))
     var target:Vector3=_map_to_world(map_pos)+Vector3(0.0,1.15,0.0)
+
+    var zoom_alpha:float=1.0-exp(-zoom_smoothing*max(delta,0.016))
+    var rotation_alpha:float=1.0-exp(-rotation_smoothing*max(delta,0.016))
+    camera_distance=lerp(camera_distance,target_camera_distance,zoom_alpha)
+    camera_yaw=rad_to_deg(lerp_angle(deg_to_rad(camera_yaw),deg_to_rad(target_camera_yaw),rotation_alpha))
+    if abs(camera_yaw-target_camera_yaw)>180.0:
+        camera_yaw=wrapf(camera_yaw,0.0,360.0)
+        target_camera_yaw=wrapf(target_camera_yaw,0.0,360.0)
+
     var pitch:float=deg_to_rad(CAMERA_PITCH)
-    var desired:Vector3=target+Vector3(0.0,-sin(pitch)*CAMERA_DISTANCE,cos(pitch)*CAMERA_DISTANCE)
-    camera.global_position=camera.global_position.lerp(desired,1.0-exp(-7.0*max(delta,0.016)))
+    var yaw:float=deg_to_rad(camera_yaw)
+    var horizontal:float=cos(pitch)*camera_distance
+    var vertical:float=-sin(pitch)*camera_distance
+    var offset:=Vector3(sin(yaw)*horizontal,vertical,cos(yaw)*horizontal)
+    var desired:Vector3=target+offset
+    var camera_alpha:float=1.0-exp(-10.0*max(delta,0.016))
+    camera.global_position=camera.global_position.lerp(desired,camera_alpha)
     camera.look_at(target,Vector3.UP)
     camera.current=true
 
@@ -59,11 +85,23 @@ func _setup_marker()->void:
 
 func _unhandled_input(event:InputEvent)->void:
     if event is InputEventMouseButton:
-        if event.button_index==MOUSE_BUTTON_LEFT and event.pressed and not _ui_has_focus(): _handle_world_click(event.position)
+        if event.button_index==MOUSE_BUTTON_WHEEL_UP and event.pressed:
+            _change_zoom(-zoom_step)
+            get_viewport().set_input_as_handled()
+        elif event.button_index==MOUSE_BUTTON_WHEEL_DOWN and event.pressed:
+            _change_zoom(zoom_step)
+            get_viewport().set_input_as_handled()
+        elif event.button_index==MOUSE_BUTTON_LEFT and event.pressed and not _ui_has_focus(): _handle_world_click(event.position)
         elif event.button_index==MOUSE_BUTTON_RIGHT and event.pressed:
             selected_monster={}; destination=Vector2.INF
     elif event is InputEventKey and event.pressed and not event.echo and event.keycode==KEY_ESCAPE:
         destination=Vector2.INF; selected_monster={}
+
+func _change_zoom(amount:float)->void:
+    target_camera_distance=clamp(target_camera_distance+amount,zoom_min_distance,zoom_max_distance)
+
+func _rotate_camera(step_sign:float)->void:
+    target_camera_yaw=wrapf(target_camera_yaw+rotation_step_degrees*step_sign,0.0,360.0)
 
 func _handle_world_click(screen_position:Vector2)->void:
     var clicked:=_pick_monster(screen_position)
@@ -101,6 +139,11 @@ func _pick_monster(screen_position:Vector2)->Dictionary:
 
 func _process(delta:float)->void:
     if legacy==null or camera==null or not camera.is_inside_tree(): return
+    if Input.is_action_just_pressed("camera_rotate_left"):
+        _rotate_camera(-1.0)
+    if Input.is_action_just_pressed("camera_rotate_right"):
+        _rotate_camera(1.0)
+
     var value:Variant=legacy.get("hero")
     if not value is Dictionary: return
     var hero:Dictionary=value
