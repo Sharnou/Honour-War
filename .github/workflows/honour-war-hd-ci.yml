@@ -10,6 +10,13 @@ on:
 permissions:
   contents: read
 
+# Only the newest validation for a branch should consume the runner. This
+# prevents stale fast-auth/production runs from remaining in progress after a
+# corrective commit has already superseded them.
+concurrency:
+  group: honour-war-hd-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   art-contract:
     name: HD art pipeline contract
@@ -99,7 +106,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          ./Godot_v4.7.2-stable_linux.x86_64 --headless --path . --script res://tests/fast_account_auth_test.gd 2>&1 | tee fast-account-auth.log
+          echo "Running fast-auth regression in the foreground (timeout 120s)."
+          timeout --kill-after=10s 120s ./Godot_v4.7.2-stable_linux.x86_64 --headless --path . --script res://tests/fast_account_auth_test.gd 2>&1 | tee fast-account-auth.log
       - name: Forward+ startup smoke test
         shell: bash
         run: |
@@ -147,9 +155,9 @@ jobs:
           actual="$(git rev-parse HEAD)"
           expected="${GITHUB_SHA}"
           echo "Validation HEAD: ${actual}"
-          echo "Workflow SHA:    ${expected}"
+          echo "Workflow SHA:    ${GITHUB_SHA}"
           echo "Production inventory source verified."
-          test "${actual}" = "${expected}"
+          test "${actual}" = "${GITHUB_SHA}"
       - name: Inventory production assets
         shell: bash
         run: |
