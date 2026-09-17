@@ -72,7 +72,8 @@ func _scan() -> void:
 	for group in ["player", "remote_player", "enemy", "party_member", "pvp_player"]:
 		for actor in get_tree().get_nodes_in_group(group):
 			if is_instance_valid(actor):
-				_ensure_actor(actor, group in ["enemy", "party_member", "pvp_player"])
+				# Player avatars never get permanent HP/SP world bars.
+				_ensure_actor(actor, group == "enemy")
 				seen[actor.get_instance_id()] = true
 	if scene_root != null:
 		for actor in scene_root.find_children("*", "Node3D", true, false):
