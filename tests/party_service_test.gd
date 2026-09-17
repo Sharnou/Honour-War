@@ -90,6 +90,7 @@ func _run_party_test() -> void:
     if failures == 0:
         print("PASS: Honour War party service regression suite")
         quit(0)
+        return
     print("FAIL: Honour War party service regression suite: %d failure(s)" % failures)
     quit(1)
 
