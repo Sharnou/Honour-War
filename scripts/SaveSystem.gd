@@ -2,10 +2,16 @@ class_name SaveSystem
 extends RefCounted
 
 const SAVE_PATH := "user://honour_war_save.json"
-const SAVE_VERSION := 6
+const SAVE_VERSION := 7
 
 static func save_game(hero:Dictionary) -> bool:
 	var data=hero.duplicate(true)
+	# Strategy-city state was retired permanently; never persist it again.
+	data.erase("city_building")
+	data.erase("soldiers")
+	data.erase("banks")
+	data.erase("tower_defense")
+	data.erase("barracks")
 	data["save_version"]=SAVE_VERSION
 	var file=FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	if file == null: return false
@@ -22,6 +28,12 @@ static func load_game(default_hero:Dictionary) -> Dictionary:
 	return migrate(result)
 
 static func migrate(hero:Dictionary) -> Dictionary:
+	# Purge legacy strategy fields from existing saves during migration.
+	hero.erase("city_building")
+	hero.erase("soldiers")
+	hero.erase("banks")
+	hero.erase("tower_defense")
+	hero.erase("barracks")
 	if not hero.has("save_version"): hero["save_version"]=1
 	if not hero.has("class_tier"): hero["class_tier"]=0
 	if not hero.has("class_branch"): hero["class_branch"]=""
@@ -39,7 +51,6 @@ static func migrate(hero:Dictionary) -> Dictionary:
 	if not hero.has("skill_points"): hero["skill_points"]=max(0,int(hero.get("level",1))-1)
 	if not hero.has("skill_cooldowns") or not hero["skill_cooldowns"] is Dictionary: hero["skill_cooldowns"]={}
 	if not hero.has("pet") or not hero["pet"] is Dictionary: hero["pet"]={}
-	if not hero.has("city_building") or not hero["city_building"] is Dictionary: hero["city_building"]={"Prontera":{"level":1,"wood":0,"stone":0,"gold":0}}
 	if not hero.has("last_safe_city"): hero["last_safe_city"]="Prontera"
 	if not hero.has("pos_x"): hero["pos_x"]=270.0
 	if not hero.has("pos_y"): hero["pos_y"]=330.0
