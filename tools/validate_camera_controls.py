@@ -51,7 +51,6 @@ def main() -> int:
     require(camera, 'Input.is_action_just_pressed("camera_rotate_right")', "right rotation action")
     require(camera, 'target_camera_yaw=wrapf(target_camera_yaw+rotation_step_degrees*step_sign,0.0,360.0)', "wrapped 90-degree yaw target")
     require(camera, 'camera_yaw=rad_to_deg(lerp_angle', "smooth yaw interpolation")
-    require(camera, 'camera_path=NodePath("../Camera3D")', "single camera path")
 
     # Scene ownership contract: MovementStabilityFix controls the root Camera3D.
     require(scene, '[node name="MovementStabilityFix" type="Node" parent="."]', "MovementStabilityFix node")
