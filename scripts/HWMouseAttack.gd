@@ -48,16 +48,7 @@ func _process(_delta:float)->void:
 	if int(target.get("hp",0))<=0:
 		target={}
 		return
-	# CombatRuntime owns range checks and attack cadence. Re-assert the selected
-	# target after its nearest-monster acquisition pass so mouse selection remains
-	# authoritative until the target dies or leaves the active monster list.
-	var hero_value:Variant=legacy.get("hero")
-	if hero_value is Dictionary:
-		var hero:Dictionary=hero_value
-		var engagement:float=CombatRules.class_engagement_map(hero)
-		var hero_pos:=Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0)))
-		var mob_pos:Variant=target.get("pos",hero_pos)
-		if mob_pos is Vector2 and hero_pos.distance_to(mob_pos as Vector2)<=engagement:
-			combat.set("target",target)
-	else:
-		target={}
+	# CombatRuntime owns the class-specific engagement range and attack cadence.
+	# Re-assert the mouse-selected target every frame so nearest-monster
+	# acquisition cannot steal the target while the hero is approaching it.
+	combat.set("target",target)
