@@ -12,6 +12,10 @@ permissions:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  GODOT_VERSION: "4.7.2"
+  GODOT_TAG: "4.7.2-stable"
+  GODOT_BINARY: "Godot_v4.7.2-stable_win64.exe"
+  GODOT_TEMPLATE: "Godot_v4.7.2-stable_export_templates.tpz"
 
 concurrency:
   group: honour-war-windows-${{ github.workflow }}-${{ github.ref }}
@@ -44,11 +48,42 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          $url = 'https://github.com/godotengine/godot-builds/releases/download/4.7.2-stable/Godot_v4.7.2-stable_win64.exe.zip'
-          Invoke-WebRequest -Uri $url -OutFile 'godot.zip'
-          Expand-Archive -Path 'godot.zip' -DestinationPath '.' -Force
-          $exe = Get-ChildItem -Path '.' -Filter 'Godot_v4.7.2-stable_win64.exe' -File -Recurse | Select-Object -First 1
-          if ($null -eq $exe) { throw 'Godot 4.7.2 Windows executable was not found after extraction' }
+          $urls = @(
+            "https://github.com/godotengine/godot-builds/releases/download/$env:GODOT_TAG/$env:GODOT_BINARY.zip",
+            "https://github.com/godotengine/godot/releases/download/$env:GODOT_TAG/$env:GODOT_BINARY.zip"
+          )
+
+          $downloaded = $false
+          for ($round = 1; $round -le 8 -and -not $downloaded; $round++) {
+            foreach ($url in $urls) {
+              Write-Host "Godot download attempt $round: $url"
+              Remove-Item -Force -ErrorAction SilentlyContinue godot.zip
+              try {
+                Invoke-WebRequest -Uri $url -OutFile 'godot.zip' -UseBasicParsing -TimeoutSec 600
+                Expand-Archive -Path 'godot.zip' -DestinationPath 'godot-download-check' -Force
+                $exe = Get-ChildItem -Path 'godot-download-check' -Filter $env:GODOT_BINARY -File -Recurse | Select-Object -First 1
+                if ($null -ne $exe) {
+                  $downloaded = $true
+                  Write-Host "Downloaded and validated Godot archive from $url"
+                  break
+                }
+                Write-Warning "Archive from $url did not contain $env:GODOT_BINARY."
+              } catch {
+                Write-Warning "Godot download/validation failed: $($_.Exception.Message)"
+              }
+              Remove-Item -Recurse -Force -ErrorAction SilentlyContinue 'godot-download-check'
+              Start-Sleep -Seconds 3
+            }
+          }
+
+          if (-not $downloaded) {
+            throw "Could not download and validate Godot $env:GODOT_VERSION after retrying both official endpoints."
+          }
+
+          Remove-Item -Recurse -Force -ErrorAction SilentlyContinue 'godot-dist'
+          Expand-Archive -Path 'godot.zip' -DestinationPath 'godot-dist' -Force
+          $exe = Get-ChildItem -Path 'godot-dist' -Filter $env:GODOT_BINARY -File -Recurse | Select-Object -First 1
+          if ($null -eq $exe) { throw "Godot executable $env:GODOT_BINARY was not found after extraction" }
           Copy-Item $exe.FullName 'godot.exe' -Force
           Get-Item 'godot.exe' | Select-Object FullName,Length
 
@@ -56,8 +91,38 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          $url = 'https://github.com/godotengine/godot-builds/releases/download/4.7.2-stable/Godot_v4.7.2-stable_export_templates.tpz'
-          Invoke-WebRequest -Uri $url -OutFile 'templates.tpz'
+          $urls = @(
+            "https://github.com/godotengine/godot-builds/releases/download/$env:GODOT_TAG/$env:GODOT_TEMPLATE",
+            "https://github.com/godotengine/godot/releases/download/$env:GODOT_TAG/$env:GODOT_TEMPLATE"
+          )
+
+          $downloaded = $false
+          for ($round = 1; $round -le 8 -and -not $downloaded; $round++) {
+            foreach ($url in $urls) {
+              Write-Host "Godot export-template download attempt $round: $url"
+              Remove-Item -Force -ErrorAction SilentlyContinue templates.tpz
+              Remove-Item -Recurse -Force -ErrorAction SilentlyContinue templates-check
+              try {
+                Invoke-WebRequest -Uri $url -OutFile 'templates.tpz' -UseBasicParsing -TimeoutSec 600
+                Expand-Archive -Path 'templates.tpz' -DestinationPath 'templates-check' -Force
+                $marker = Get-ChildItem -Path 'templates-check' -Filter 'windows_release_x86_64.exe' -File -Recurse | Select-Object -First 1
+                if ($null -ne $marker) {
+                  $downloaded = $true
+                  Write-Host "Downloaded and validated export-template archive from $url"
+                  break
+                }
+                Write-Warning "Archive from $url did not contain windows_release_x86_64.exe."
+              } catch {
+                Write-Warning "Export-template download/validation failed: $($_.Exception.Message)"
+              }
+              Start-Sleep -Seconds 3
+            }
+          }
+
+          if (-not $downloaded) {
+            throw "Could not download and validate Godot $env:GODOT_VERSION export templates after retrying both official endpoints."
+          }
+
           $templatesDir = Join-Path $env:APPDATA 'Godot\export_templates\4.7.2.stable'
           New-Item -ItemType Directory -Force -Path $templatesDir | Out-Null
           Expand-Archive -Path 'templates.tpz' -DestinationPath $templatesDir -Force
