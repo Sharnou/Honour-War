@@ -1,4 +1,3 @@
-class_name HWHDProductionCompleter
 extends Node
 
 ## Final-pass production coordinator. Keeps gameplay authoritative while making
