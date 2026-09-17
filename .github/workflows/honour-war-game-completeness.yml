@@ -45,6 +45,15 @@ jobs:
           unzip -q godot.zip
           chmod +x "${GODOT_BINARY}"
 
+      - name: Import project and build Godot global class cache
+        shell: bash
+        run: |
+          set -euo pipefail
+          ./${GODOT_BINARY} --headless --editor --path . --quit 2>&1 | tee godot-editor-import.log
+          if grep -E 'SCRIPT ERROR|Parse Error|ERROR: Failed to load script|ERROR: Cannot load scene' godot-editor-import.log; then
+            exit 1
+          fi
+
       - name: Validate game completion contract
         shell: bash
         run: |
@@ -63,6 +72,7 @@ jobs:
         with:
           name: honour-war-game-completeness-logs
           path: |
+            godot-editor-import.log
             game-completeness.log
             online-authority.log
           if-no-files-found: error
