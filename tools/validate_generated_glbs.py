@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Semantic and binary validation for Honour War generated GLB assets."""
+"""Semantic, binary, inventory, and PBR validation for generated GLB assets."""
 
 from __future__ import annotations
 
@@ -21,6 +21,33 @@ HERO_WEAPONS = {
     "Thief": "Dagger",
     "Acolyte": "Mace",
     "Merchant": "Hammer",
+}
+PET_ASSETS = {
+    "Acolyte_pet.glb",
+    "Archer_pet.glb",
+    "Clockwork.glb",
+    "Falcon.glb",
+    "Mage_pet.glb",
+    "Panther.glb",
+    "PoringAngel.glb",
+    "Thief_pet.glb",
+    "Warrior_pet.glb",
+    "Wolf.glb",
+    "ArcaneOrb.glb",
+    "Merchant_pet.glb",
+}
+MONSTER_ASSETS = {
+    "monster_Poring.glb",
+    "monster_Goblin.glb",
+    "monster_Wolf.glb",
+    "monster_Skeleton.glb",
+    "monster_Zombie.glb",
+    "monster_Orc.glb",
+    "monster_Mantis.glb",
+    "monster_Golem.glb",
+    "monster_Evil_Druid.glb",
+    "monster_Dragon.glb",
+    "monster_Bloody_Knight.glb",
 }
 
 
@@ -78,6 +105,36 @@ def validate_embedded_images(path: Path, doc: dict) -> None:
         raise ValueError(f"{path}: texture image without embedded bufferView detected")
 
 
+def validate_pbr_materials(path: Path, doc: dict) -> None:
+    """Require actual embedded base-color and metallic-roughness textures."""
+    textures = doc.get("textures", [])
+    if not textures:
+        raise ValueError(f"{path}: no glTF texture objects found")
+
+    for mat in doc.get("materials", []):
+        if not isinstance(mat, dict):
+            raise ValueError(f"{path}: malformed material entry")
+        name = str(mat.get("name", ""))
+        lower_name = name.lower()
+        if any(token in lower_name for token in ("glow", "emission", "eye", "iris")):
+            continue
+        pbr = mat.get("pbrMetallicRoughness")
+        if not isinstance(pbr, dict):
+            raise ValueError(f"{path}: material {name!r} has no PBR metallic-roughness block")
+        base = pbr.get("baseColorTexture")
+        rough = pbr.get("metallicRoughnessTexture")
+        if not isinstance(base, dict) or not isinstance(rough, dict):
+            raise ValueError(
+                f"{path}: material {name!r} is missing embedded base-color or metallic-roughness texture"
+            )
+        for label, entry in (("base-color", base), ("metallic-roughness", rough)):
+            index = entry.get("index")
+            if not isinstance(index, int) or index < 0 or index >= len(textures):
+                raise ValueError(
+                    f"{path}: material {name!r} has invalid {label} texture index {index!r}"
+                )
+
+
 def hero_class_and_tier(path: Path) -> tuple[str, str]:
     """Return the hero class/tier from characters/<class>/<tier>.glb.
 
@@ -118,6 +175,34 @@ def validate_hero_path_parser() -> None:
             )
 
 
+def validate_inventory(files: list[Path]) -> None:
+    """Ensure the final build contains the complete 53-asset production set."""
+    relative = {p.relative_to(ROOT).as_posix() for p in files}
+    expected_heroes = {
+        f"characters/{class_id}/{tier}.glb"
+        for class_id in sorted(HERO_CLASSES)
+        for tier in sorted(HERO_TIERS)
+    }
+    expected_pets = {f"pets/{name}" for name in PET_ASSETS}
+    expected_monsters = {f"monsters/{name}" for name in MONSTER_ASSETS}
+
+    for label, expected in (
+        ("hero", expected_heroes),
+        ("pet", expected_pets),
+        ("monster", expected_monsters),
+    ):
+        actual = {item for item in relative if item.split("/", 1)[0] == ("characters" if label == "hero" else label + "s")}
+        missing = sorted(expected - actual)
+        extra = sorted(actual - expected)
+        if missing:
+            raise ValueError(f"missing required {label} GLB assets: {', '.join(missing)}")
+        if extra:
+            raise ValueError(f"unexpected {label} GLB assets: {', '.join(extra)}")
+
+    if len(relative) != 53:
+        raise ValueError(f"expected exactly 53 final GLBs, found {len(relative)}")
+
+
 def validate_asset(path: Path) -> None:
     if path.stat().st_size < 1024:
         raise ValueError(f"{path}: suspiciously small GLB")
@@ -131,6 +216,7 @@ def validate_asset(path: Path) -> None:
     if not doc.get("materials"):
         raise ValueError(f"{path}: no materials found")
     validate_embedded_images(path, doc)
+    validate_pbr_materials(path, doc)
 
     names = node_names(doc)
     rel = path.relative_to(ROOT).as_posix()
@@ -164,12 +250,9 @@ def main() -> int:
 
     try:
         validate_hero_path_parser()
+        validate_inventory(files)
     except Exception as exc:
         print(f"ERROR: {exc}")
-        return 1
-
-    if len(files) < 53:
-        print(f"ERROR: expected at least 53 generated GLBs, found {len(files)}")
         return 1
 
     failures = []
@@ -189,7 +272,7 @@ def main() -> int:
     pet_count = sum(1 for p in files if p.relative_to(ROOT).parts[:1] == ("pets",))
     monster_count = sum(1 for p in files if p.relative_to(ROOT).parts[:1] == ("monsters",))
     print(f"Heroes: {hero_count} | Pets: {pet_count} | Monsters: {monster_count}")
-    print("PASS: binary structure, glTF 2.0 JSON, meshes, materials, embedded textures and semantic hero nodes are valid.")
+    print("PASS: binary structure, glTF 2.0 JSON, complete production inventory, meshes, materials, embedded textures, PBR texture links, and semantic hero nodes are valid.")
     return 0
 
 
