@@ -38,12 +38,12 @@ HWSSRentNPCDirector="*res://scripts/HWSSRentNPCDirector.gd"
 HWSSCompanionDirector="*res://scripts/HWSSCompanionDirector.gd"
 HWSSPersistenceBridge="*res://scripts/HWSSPersistenceBridge.gd"
 HWAuthoredHeroTransformPolicy="*res://scripts/HWAuthoredHeroTransformPolicy.gd"
-; Production combat presentation and server-authoritative session foundation.
 HWSkillVFXRuntime="*res://scripts/HWSkillVFXRuntime.gd"
 HWOnlineAuthorityRuntime="*res://scripts/HWOnlineAuthorityRuntime.gd"
 HWOnlineLoginUI="*res://scripts/HWOnlineLoginUI.gd"
 HWPartyService="*res://scripts/HWPartyService.gd"
 HWOnlineWorldState="*res://scripts/HWOnlineWorldState.gd"
+HWHD3DCharacterEnhancer="*res://scripts/HWHD3DCharacterEnhancer.gd"
 
 [display]
 window/size/viewport_width=1920
