@@ -9,10 +9,11 @@ const TEST_PORT:int = 24568
 
 func _initialize() -> void:
     # A standalone SceneTree has no scene-root MultiplayerAPI by default.
-    # Install the default API on /root so the authority Node can bind ENet in
-    # the same way it does when hosted by the normal game scene.
+    # Install the default API at the SceneTree root. Calling root.get_path()
+    # here is invalid because the SceneTree root is not itself a Node in a
+    # parented scene tree; the default root path is the correct binding.
     var network_api:MultiplayerAPI = MultiplayerAPI.create_default_interface()
-    set_multiplayer(network_api,root.get_path())
+    set_multiplayer(network_api)
 
     var authority:Node = AUTHORITY_SCRIPT.new()
     root.add_child(authority)
