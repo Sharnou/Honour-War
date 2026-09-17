@@ -146,8 +146,13 @@ real-time stylized HD game art with scalable performance tiers.
 
 ## Multiplayer scope
 
-The repository now contains an authoritative online-session foundation, but it is
-**not yet a complete live online MMORPG**. Production deployment still requires the
+The repository now contains an authoritative online-session foundation plus live
+world-presence replication for authenticated players. Clients receive server-owned
+player map/position/class/level/vital snapshots at a bounded cadence and render
+remote players with generated HD class assets. The repository is still not a fully
+operated commercial-scale live MMORPG: authoritative combat/economy execution,
+production deployment services, anti-cheat, scalable world hosting, audio and the
+remaining authored art library are still release blockers. Production deployment still requires the
 full server implementation, accounts/authentication, persistent server database,
 world services, party/matchmaking services, anti-cheat, scalable world streaming,
 live operations, production audio and the complete production art library.
