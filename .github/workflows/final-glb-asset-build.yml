@@ -8,6 +8,7 @@ on:
     branches:
       - main
     paths:
+      - ".github/workflows/final-glb-asset-build.yml"
       - "tools/blender/final_glb_build_trigger.txt"
       - "tools/blender/honour_war_visual_max_assets.py"
       - "tools/blender/run_visual_max_assets.py"
