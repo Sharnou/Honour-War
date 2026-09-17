@@ -84,6 +84,12 @@ jobs:
           set -euo pipefail
           ./${GODOT_BINARY} --headless --path . --script res://tests/party_service_test.gd 2>&1 | tee party-service.log
 
+      - name: Validate authoritative world state
+        shell: bash
+        run: |
+          set -euo pipefail
+          ./${GODOT_BINARY} --headless --path . --script res://tests/online_world_state_test.gd 2>&1 | tee online-world-state.log
+
       - name: Upload completeness logs
         if: always()
         uses: actions/upload-artifact@v7
@@ -96,5 +102,6 @@ jobs:
             online-server.log
             online-persistence.log
             party-service.log
+            online-world-state.log
           if-no-files-found: error
           retention-days: 14
