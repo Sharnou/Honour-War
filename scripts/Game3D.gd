@@ -433,7 +433,9 @@ func _create_remote_player(class_id:String,level:int,peer_id:int)->Node3D:
 	if root.is_in_group("local_player"):
 		root.remove_from_group("local_player")
 	root.add_to_group("network_player")
+	root.add_to_group("remote_player")
 	root.set_meta("hw_network_player",true)
+	root.set_meta("hw_remote_player",true)
 	root.set_meta("hw_remote_class",class_id)
 	root.set_meta("hw_remote_level",level)
 	root.set_meta("hw_remote_peer_id",peer_id)
