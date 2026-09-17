@@ -9,9 +9,12 @@ const TEST_PORT:int = 24568
 const AUTHORITY_PATH:NodePath = NodePath("/root/DedicatedAuthority")
 
 func _initialize() -> void:
-    # SceneTree owns MultiplayerAPI routing. Configure the authority branch
-    # before its first frame using its stable absolute path rather than asking
-    # the child for get_path() during SceneTree initialization.
+    # SceneTree._initialize() runs before dynamically-added children are fully
+    # registered as in-tree nodes. Defer the actual smoke test by one frame so
+    # NodePath resolution and SceneTree.set_multiplayer() operate on a live tree.
+    call_deferred("_run_smoke_test")
+
+func _run_smoke_test() -> void:
     var network_api:MultiplayerAPI = MultiplayerAPI.create_default_interface()
     var authority:Node = AUTHORITY_SCRIPT.new()
     authority.name = "DedicatedAuthority"
