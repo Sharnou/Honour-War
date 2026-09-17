@@ -17,11 +17,12 @@ env:
   GODOT_BINARY: "Godot_v4.7.2-stable_win64.exe"
   GODOT_TEMPLATE: "Godot_v4.7.2-stable_export_templates.tpz"
 
-# A Windows build is a release candidate for the current main revision. Do not
-# keep a queue of obsolete EXE builds when newer commits have superseded them.
+# Windows EXE builds are release-candidate builds. Keep the queue intact so a
+# valid EXE is not canceled merely because another main-branch commit arrived.
+# Each queued run validates and packages its exact triggering SHA.
 concurrency:
   group: honour-war-windows-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build-windows:
