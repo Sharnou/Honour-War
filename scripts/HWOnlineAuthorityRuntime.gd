@@ -144,6 +144,33 @@ func is_peer_authenticated(peer_id:int) -> bool:
 func username_for_peer(peer_id:int) -> String:
     return str(_authenticated_peers.get(peer_id,""))
 
+func get_authenticated_player_snapshots() -> Array:
+    var snapshots:Array = []
+    for peer_value:Variant in _authenticated_peers.keys():
+        var peer_id:int = int(peer_value)
+        if peer_id <= 0:
+            continue
+        var username:String = username_for_peer(peer_id)
+        var player:Dictionary = player_for_peer(peer_id)
+        if username.is_empty() or player.is_empty():
+            continue
+        snapshots.append({
+            "peer_id": peer_id,
+            "username": username,
+            "class": str(player.get("class","Warrior")),
+            "level": int(player.get("level",1)),
+            "age": int(player.get("age",18)),
+            "hp": int(player.get("hp",0)),
+            "max_hp": int(player.get("max_hp",1)),
+            "sp": int(player.get("sp",0)),
+            "max_sp": int(player.get("max_sp",1)),
+            "map_id": int(player.get("map_id",0)),
+            "pos_x": float(player.get("pos_x",595.0)),
+            "pos_y": float(player.get("pos_y",340.0)),
+            "gender": str(player.get("gender","U"))
+        })
+    return snapshots
+
 func player_for_peer(peer_id:int) -> Dictionary:
     var value:Variant = _peer_players.get(peer_id,{})
     return value.duplicate(true) if value is Dictionary else {}
