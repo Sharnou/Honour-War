@@ -1,0 +1,91 @@
+name: CHATGPT New Issue Annotations
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: read
+  issues: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  annotate-new-issue:
+    if: github.event.issue.repository.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Publish one-time new issue annotation for ChatGPT
+        uses: actions/github-script@v8
+        env:
+          ANNOTATION_ISSUE_TITLE: CHATGPT Annotations — Honour War CI Failures
+          ANNOTATION_ISSUE_NUMBER: "7"
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const issue = context.payload.issue;
+            const channelNumber = Number(process.env.ANNOTATION_ISSUE_NUMBER);
+
+            if (issue.number === channelNumber) {
+              core.info(`Skipping annotation channel issue #${channelNumber} itself.`);
+              return;
+            }
+
+            const actor = issue.user?.login ?? 'unknown';
+            const labels = (issue.labels || []).map(label => typeof label === 'string' ? label : label.name).filter(Boolean);
+            const body = String(issue.body ?? '').replace(/\r/g, '');
+            const compact = (text, max = 2000) => text.length <= max ? text : text.slice(0, max) + '\n[TRUNCATED]';
+
+            const annotation = [
+              '## CHATGPT ANNOTATION — HONOUR WAR NEW ISSUE',
+              '',
+              `**Issue:** [#${issue.number} — ${issue.title}](${issue.html_url})`,
+              `**Opened by:** @${actor}`,
+              `**Repository:** ${issue.repository?.full_name ?? `${owner}/${repo}`}`,
+              `**Created:** ${issue.created_at}`,
+              `**Labels:** ${labels.length ? labels.map(label => `\`${label}\``).join(', ') : 'None'}`,
+              '',
+              '### Issue body',
+              '',
+              compact(body || '_No issue body provided._'),
+              '',
+              '### ChatGPT handling rule',
+              '',
+              'Treat this annotation as a one-time project notification for the newly opened issue. Inspect the current repository state and related workflows before changing code; keep the issue history auditable and repair root causes rather than bypassing validation.',
+              '',
+              `<!-- CHATGPT_NEW_ISSUE_ID:${issue.id} -->`
+            ].join('\n');
+
+            const channel = await github.rest.issues.get({
+              owner,
+              repo,
+              issue_number: channelNumber
+            });
+
+            const comments = await github.paginate(
+              github.rest.issues.listComments,
+              {
+                owner,
+                repo,
+                issue_number: channelNumber,
+                per_page: 100
+              }
+            );
+
+            const marker = `<!-- CHATGPT_NEW_ISSUE_ID:${issue.id} -->`;
+            if (comments.some(comment => comment.body && comment.body.includes(marker))) {
+              core.info(`Issue #${issue.number} is already annotated in ${channel.data.html_url}.`);
+              return;
+            }
+
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number: channelNumber,
+              body: annotation
+            });
+
+            core.info(`Published one-time ChatGPT new-issue annotation for #${issue.number} to issue #${channelNumber}.`);
