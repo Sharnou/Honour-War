@@ -12,6 +12,10 @@ const TeleportSystem=preload("res://scripts/TeleportSystem.gd")
 @export var zoom_smoothing:float = 10.0
 @export var rotation_smoothing:float = 10.0
 @export var rotation_step_degrees:float = 90.0
+@export var keyboard_yaw_step_degrees:float = 12.0
+@export var keyboard_pitch_step_degrees:float = 4.0
+@export var mouse_orbit_yaw_sensitivity:float = 0.28
+@export var mouse_orbit_pitch_sensitivity:float = 0.18
 const ORIGIN_X:float = 365.0
 const ORIGIN_Y:float = 120.0
 const WORLD_SCALE:float = 0.055
@@ -19,6 +23,8 @@ const MOVE_SPEED:float = 210.0
 const STOP_DISTANCE:float = 1.5
 const CAMERA_DISTANCE:float = 15.5
 const CAMERA_PITCH:float = -30.0
+const MIN_CAMERA_PITCH:float = -56.0
+const MAX_CAMERA_PITCH:float = -28.0
 const CAMERA_FOV:float = 55.0
 
 var legacy:Node2D
@@ -30,6 +36,10 @@ var camera_distance:float = CAMERA_DISTANCE
 var target_camera_distance:float = CAMERA_DISTANCE
 var camera_yaw:float = 45.0
 var target_camera_yaw:float = 45.0
+var camera_pitch:float = CAMERA_PITCH
+var target_camera_pitch:float = CAMERA_PITCH
+var middle_dragging:bool = false
+var last_middle_position:Vector2 = Vector2.ZERO
 
 func _ready()->void:
     process_priority=1000
@@ -38,6 +48,8 @@ func _ready()->void:
     set_process_unhandled_input(true)
     camera_distance=clamp(CAMERA_DISTANCE,zoom_min_distance,zoom_max_distance)
     target_camera_distance=camera_distance
+    camera_pitch=clamp(CAMERA_PITCH,MIN_CAMERA_PITCH,MAX_CAMERA_PITCH)
+    target_camera_pitch=camera_pitch
     call_deferred("_setup_camera")
     call_deferred("_setup_marker")
 
@@ -61,11 +73,12 @@ func _apply_camera(delta:float=1.0)->void:
     var rotation_alpha:float=1.0-exp(-rotation_smoothing*max(delta,0.016))
     camera_distance=lerp(camera_distance,target_camera_distance,zoom_alpha)
     camera_yaw=rad_to_deg(lerp_angle(deg_to_rad(camera_yaw),deg_to_rad(target_camera_yaw),rotation_alpha))
-    if abs(camera_yaw-target_camera_yaw)>180.0:
-        camera_yaw=wrapf(camera_yaw,0.0,360.0)
-        target_camera_yaw=wrapf(target_camera_yaw,0.0,360.0)
+    camera_pitch=rad_to_deg(lerp_angle(deg_to_rad(camera_pitch),deg_to_rad(target_camera_pitch),rotation_alpha))
+    camera_pitch=clamp(camera_pitch,MIN_CAMERA_PITCH,MAX_CAMERA_PITCH)
+    camera_yaw=wrapf(camera_yaw,0.0,360.0)
+    target_camera_yaw=wrapf(target_camera_yaw,0.0,360.0)
 
-    var pitch:float=deg_to_rad(CAMERA_PITCH)
+    var pitch:float=deg_to_rad(camera_pitch)
     var yaw:float=deg_to_rad(camera_yaw)
     var horizontal:float=cos(pitch)*camera_distance
     var vertical:float=-sin(pitch)*camera_distance
@@ -91,17 +104,52 @@ func _unhandled_input(event:InputEvent)->void:
         elif event.button_index==MOUSE_BUTTON_WHEEL_DOWN and event.pressed:
             _change_zoom(zoom_step)
             get_viewport().set_input_as_handled()
-        elif event.button_index==MOUSE_BUTTON_LEFT and event.pressed and not _ui_has_focus(): _handle_world_click(event.position)
+        elif event.button_index==MOUSE_BUTTON_MIDDLE:
+            if event.pressed:
+                middle_dragging=true
+                last_middle_position=event.position
+            else:
+                middle_dragging=false
+            get_viewport().set_input_as_handled()
+        elif event.button_index==MOUSE_BUTTON_LEFT and event.pressed and not _ui_has_focus():
+            _handle_world_click(event.position)
         elif event.button_index==MOUSE_BUTTON_RIGHT and event.pressed:
             selected_monster={}; destination=Vector2.INF
-    elif event is InputEventKey and event.pressed and not event.echo and event.keycode==KEY_ESCAPE:
-        destination=Vector2.INF; selected_monster={}
+    elif event is InputEventMouseMotion and middle_dragging and not _ui_has_focus():
+        var motion:InputEventMouseMotion=event as InputEventMouseMotion
+        target_camera_yaw=wrapf(target_camera_yaw-motion.relative.x*mouse_orbit_yaw_sensitivity,0.0,360.0)
+        target_camera_pitch=clamp(target_camera_pitch+motion.relative.y*mouse_orbit_pitch_sensitivity,MIN_CAMERA_PITCH,MAX_CAMERA_PITCH)
+        last_middle_position=event.position
+        get_viewport().set_input_as_handled()
+    elif event is InputEventKey and event.pressed and not event.echo:
+        match event.keycode:
+            KEY_ESCAPE:
+                destination=Vector2.INF; selected_monster={}; middle_dragging=false
+                get_viewport().set_input_as_handled()
+            KEY_A:
+                _rotate_keyboard_yaw(-1.0)
+                get_viewport().set_input_as_handled()
+            KEY_D:
+                _rotate_keyboard_yaw(1.0)
+                get_viewport().set_input_as_handled()
+            KEY_W:
+                _rotate_keyboard_pitch(-1.0)
+                get_viewport().set_input_as_handled()
+            KEY_S:
+                _rotate_keyboard_pitch(1.0)
+                get_viewport().set_input_as_handled()
 
 func _change_zoom(amount:float)->void:
     target_camera_distance=clamp(target_camera_distance+amount,zoom_min_distance,zoom_max_distance)
 
 func _rotate_camera(step_sign:float)->void:
     target_camera_yaw=wrapf(target_camera_yaw+rotation_step_degrees*step_sign,0.0,360.0)
+
+func _rotate_keyboard_yaw(step_sign:float)->void:
+    target_camera_yaw=wrapf(target_camera_yaw+keyboard_yaw_step_degrees*step_sign,0.0,360.0)
+
+func _rotate_keyboard_pitch(step_sign:float)->void:
+    target_camera_pitch=clamp(target_camera_pitch+keyboard_pitch_step_degrees*step_sign,MIN_CAMERA_PITCH,MAX_CAMERA_PITCH)
 
 func _handle_world_click(screen_position:Vector2)->void:
     var clicked:=_pick_monster(screen_position)
