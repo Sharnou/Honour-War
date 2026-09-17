@@ -91,6 +91,12 @@ jobs:
           fi
           grep -F "HONOUR_WAR_SERVER started" server-bootstrap.log
 
+      - name: Validate live MMORPG world replication
+        shell: bash
+        run: |
+          set -euo pipefail
+          ./${GODOT_BINARY} --headless --path . --script res://tests/live_world_replication_contract_test.gd 2>&1 | tee live-world-replication.log
+
       - name: Validate account and persistent player services
         shell: bash
         run: |
@@ -140,6 +146,7 @@ jobs:
             online-server.log
             server-bootstrap.log
             online-persistence.log
+            live-world-replication.log
             fast-account-auth.log
             quest-system.log
             party-service.log
