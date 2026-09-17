@@ -16,7 +16,7 @@ var open_button:Button
 var pending_auth_action:String = ""
 
 func _ready() -> void:
-    layer = 110
+    layer = 220
     if DisplayServer.get_name() == "headless":
         return
     call_deferred("_build")
