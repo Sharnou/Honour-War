@@ -1,4 +1,3 @@
-class_name HWHD3DCharacterEnhancer
 extends Node3D
 
 ## Non-destructive HD presentation layer for the existing MMORPG prototype.
