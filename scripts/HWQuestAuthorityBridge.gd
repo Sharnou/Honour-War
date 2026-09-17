@@ -2,7 +2,7 @@ extends Node
 
 ## Bridges validated network `quest` actions into the persistent quest system.
 ## The authority emits its action signal synchronously before broadcasting the
-## event, allowing this bridge to attach a result without changing the protocol.
+## event, allowing this bridge to attach a result and player snapshot.
 
 const QUESTS = preload("res://scripts/QuestSystem.gd")
 const AUTHORITY_PATH:String = "/root/HWOnlineAuthorityRuntime"
@@ -58,6 +58,7 @@ func _on_authoritative_action(event:Dictionary) -> void:
     if bool(result.get("ok",false)) and command in ["accept","claim","abandon"]:
         authority.set_player_for_peer(sender,player)
         authority.save_player_for_peer(sender,player)
+        event["payload"]["player_snapshot"]=player.duplicate(true)
 
 func _active_summaries(hero:Dictionary)->Array[Dictionary]:
     var result:Array[Dictionary]=[]
