@@ -66,3 +66,22 @@ Also reject related legacy strategy loops such as soldier armies, soldier spawni
 7. Inspect the result and only then continue to the next upgrade.
 
 This role definition is permanent for future Honour War daily upgrades.
+## 10. Primary visual/UI reference — permanent
+
+The primary Honour War visual/UI reference is the image committed in the repository:
+- ChatGPT Image Sep 16, 2026, 12_22_47 AM.png
+- GitHub reference: https://github.com/Sharnou/Honour-War/blob/main/ChatGPT%20Image%20Sep%2016%2C%202026%2C%2012_22_47%20AM.png
+
+Every future visual/UI upgrade must use this reference as the canonical presentation target for layout, UI density, item/skill presentation, character readability, combat framing and world presentation, while using original Honour War assets and code rather than copying proprietary game assets.
+
+### Permanent player world-identity exception
+The reference is accepted as the target with one explicit Honour War change:
+- Never render the player's own character name above or below the local character.
+- Never render another player's character name continuously in the world.
+- A remote player's real character name is revealed only when the mouse is hovering that player, when the player is relevant to party/PvP context, or through an explicit social/chat reveal.
+- Do not use a class label such as Swordsman as a permanent world nameplate.
+- Do not display player HP/SP bars under player feet in the normal world view.
+- Enemy combat HP bars remain allowed; player health belongs in dedicated party/PvP/target UI rather than permanent world-foot bars.
+- Right-click/context, chat and party/PvP systems may show the player's real character name and relevant social information.
+
+This rule is part of every Daily Honour War Upgrade and must be regression-tested whenever player/world UI changes.
