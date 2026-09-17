@@ -53,6 +53,7 @@ HWOpenWorldEncounterDirector="*res://scripts/HWOpenWorldEncounterDirector.gd"
 HWMapThemeDirector="*res://scripts/HWMapThemeDirector.gd"
 HWCombatPhaseDirector="*res://scripts/HWCombatPhaseDirector.gd"
 HWLiveWorldReplication="*res://scripts/HWLiveWorldReplication.gd"
+HWServerGameplayRuntime="*res://scripts/HWServerGameplayRuntime.gd"
 
 [display]
 window/size/viewport_width=1920
