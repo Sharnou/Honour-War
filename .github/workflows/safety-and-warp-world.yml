@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: honour-war-safety-warp-${{ github.ref }}
+  group: honour-war-main-writer
   cancel-in-progress: false
 
 jobs:
@@ -73,4 +73,6 @@ jobs:
             exit 0
           fi
           git commit -m "Prevent monsters from spawning in towns"
+          git fetch origin main
+          git rebase origin/main
           git push origin HEAD:main
