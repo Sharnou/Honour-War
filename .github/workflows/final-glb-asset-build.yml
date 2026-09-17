@@ -15,7 +15,6 @@ on:
       - "tools/blender/enhance_generated_glbs.py"
       - "tools/visual_rag/**"
       - "tools/validate_generated_glbs.py"
-      - "tools/validate_final_glb_pipeline.py"
       - "shaders/ToonShader.gdshader"
       - "scripts/HWVisualMaxDirectorFixed.gd"
       - "scripts/HWToonMaterialDirector.gd"
@@ -57,11 +56,47 @@ jobs:
           echo "Workflow SHA:    ${expected}"
           test "${actual}" = "${expected}"
 
-      - name: Validate Final GLB pipeline contract
+      - name: Validate Final GLB workflow contract
         shell: bash
         run: |
           set -euo pipefail
-          python3 tools/validate_final_glb_pipeline.py
+          python3 - <<'PY'
+          from pathlib import Path
+          workflows = Path('.github/workflows')
+          final = workflows / 'final-glb-asset-build.yml'
+          text = final.read_text(encoding='utf-8')
+          required = (
+              'group: honour-war-final-glb-${{ github.ref }}',
+              'cancel-in-progress: false',
+              'queue: max',
+              'uses: actions/checkout@v7',
+              'ref: ${{ github.sha }}',
+              'test "${actual}" = "${expected}"',
+              '--retry 10 --retry-all-errors',
+              'tar -tJf /tmp/blender.tar.xz',
+              'test "${count}" -eq 53',
+              'git rebase origin/main',
+              'for attempt in 1 2 3 4 5',
+          )
+          missing = [item for item in required if item not in text]
+          if missing:
+              raise SystemExit('Missing Final GLB contract markers: ' + ', '.join(repr(x) for x in missing))
+          for path in sorted(workflows.glob('*.yml')):
+              if path == final:
+                  continue
+              other = path.read_text(encoding='utf-8')
+              if (
+                  'assets/3d/generated' in other
+                  and 'schedule:' in other
+                  and 'contents: write' in other
+                  and 'git add assets/3d/generated' in other
+              ):
+                  raise SystemExit(
+                      f'{path} is another scheduled writable generated-asset pipeline; '
+                      'Final GLB must remain the sole scheduled generated-asset writer'
+                  )
+          print('PASS: Final GLB workflow contract and single-writer policy are intact.')
+          PY
 
       - name: Preflight Blender and GLB pipeline Python syntax
         shell: bash
@@ -73,8 +108,7 @@ jobs:
             tools/blender/run_visual_max_assets.py \
             tools/blender/honour_war_monster_assets.py \
             tools/blender/enhance_generated_glbs.py \
-            tools/validate_generated_glbs.py \
-            tools/validate_final_glb_pipeline.py
+            tools/validate_generated_glbs.py
           echo "GLB pipeline Python syntax preflight: PASS"
 
       - name: Run Visual RAG first
