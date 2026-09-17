@@ -85,7 +85,7 @@ func request_issue_token() -> void:
     var authority:Node = get_node_or_null(AUTHORITY_PATH)
     if authority == null:
         return
-    if authority.is_authority():
+    if authority.is_server_authority:
         _issue_for_peer(multiplayer.get_unique_id())
         return
     if multiplayer.multiplayer_peer != null:
@@ -95,7 +95,7 @@ func request_auto_login(username:String,token:String) -> void:
     var authority:Node = get_node_or_null(AUTHORITY_PATH)
     if authority == null or username.strip_edges().is_empty() or token.is_empty():
         return
-    if authority.is_authority():
+    if authority.is_server_authority:
         _auto_login_local(multiplayer.get_unique_id(),username,token)
         return
     if multiplayer.multiplayer_peer != null:
@@ -105,7 +105,7 @@ func revoke_current_token(username:String) -> void:
     var authority:Node = get_node_or_null(AUTHORITY_PATH)
     if authority == null:
         return
-    if authority.is_authority():
+    if authority.is_server_authority:
         revoke_token(username)
     elif multiplayer.multiplayer_peer != null:
         _server_revoke_auto_login_token.rpc_id(1,username.strip_edges().to_lower())
@@ -118,7 +118,7 @@ func _issue_for_peer(peer_id:int) -> void:
     var token:String = issue_token(username)
     if token.is_empty():
         return
-    if peer_id > 0 and not authority.is_authority():
+    if not authority.is_server_authority:
         _client_auto_login_token.rpc_id(peer_id,username,token)
     auto_login_token_issued.emit(peer_id,username,token)
 
@@ -127,15 +127,22 @@ func _auto_login_local(peer_id:int,username:String,token:String) -> void:
 
 func _authenticate_for_peer(peer_id:int,username:String,token:String) -> void:
     var authority:Node = get_node_or_null(AUTHORITY_PATH)
-    if authority == null or not authority.is_authority():
+    if authority == null or not authority.is_server_authority:
         return
     var normalized:String = username.strip_edges().to_lower()
     if peer_id <= 0 or not HWAccountDatabase.validate_username(normalized) or not authenticate_token(normalized,token):
-        if peer_id > 0 and not authority.is_authority():
-            authority._client_auth_failure.rpc_id(peer_id,normalized,"auto_login_invalid")
+        if peer_id > 0:
+            if peer_id == multiplayer.get_unique_id():
+                authority.authentication_failed.emit(peer_id,normalized,"auto_login_invalid")
+            else:
+                authority._client_auth_failure.rpc_id(peer_id,normalized,"auto_login_invalid")
         return
     var account_database:RefCounted = authority.account_database
     if account_database == null or not account_database.account_exists(normalized):
+        if peer_id == multiplayer.get_unique_id():
+            authority.authentication_failed.emit(peer_id,normalized,"auto_login_invalid")
+        else:
+            authority._client_auth_failure.rpc_id(peer_id,normalized,"auto_login_invalid")
         return
     var player:Dictionary = account_database.load_player(normalized,GameDataClass.new_hero())
     player["account_username"] = normalized
@@ -144,14 +151,19 @@ func _authenticate_for_peer(peer_id:int,username:String,token:String) -> void:
     authority._authenticated_peers[peer_id] = normalized
     authority._peer_players[peer_id] = player.duplicate(true)
     account_database.mark_login(normalized)
-    if not authority.is_authority():
+    if peer_id == multiplayer.get_unique_id():
+        authority.authentication_succeeded.emit(peer_id,normalized,player)
+        authority._client_auth_success(normalized,player.duplicate(true),authority.session_id)
+    else:
         authority._client_auth_success.rpc_id(peer_id,normalized,player.duplicate(true),authority.session_id)
-    authority.authentication_succeeded.emit(peer_id,normalized,player)
+        authority.authentication_succeeded.emit(peer_id,normalized,player)
     var rotated:String = issue_token(normalized)
     if not rotated.is_empty():
-        if not authority.is_authority():
+        if peer_id == multiplayer.get_unique_id():
+            auto_login_token_issued.emit(peer_id,normalized,rotated)
+        else:
             _client_auto_login_token.rpc_id(peer_id,normalized,rotated)
-        auto_login_token_issued.emit(peer_id,normalized,rotated)
+            auto_login_token_issued.emit(peer_id,normalized,rotated)
 
 @rpc("any_peer","reliable")
 func _server_issue_auto_login_token() -> void:
