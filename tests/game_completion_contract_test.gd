@@ -19,6 +19,7 @@ func _initialize() -> void:
     _check("Main3D is the project main scene", ProjectSettings.get_setting("application/run/main_scene", "") == "res://Main3D.tscn")
     _check("Godot 4.7 feature target", ProjectSettings.get_setting("application/config/features", PackedStringArray()).has("4.7"))
     _check("Forward+ renderer selected", ProjectSettings.get_setting("rendering/renderer/rendering_method", "") == "forward_plus")
+    _check("pet level cap is 250", int(PET.MAX_PET_LEVEL) == 250)
 
     var definitions:Dictionary = GAME_DATA.class_definitions()
     _check("six playable classes", definitions.size() == 6)
@@ -26,6 +27,7 @@ func _initialize() -> void:
         _check("skill tree exists: " + str(class_id), SKILLS.all_skills(str(class_id)).size() >= 8)
         var pet:Dictionary = PET.new_pet(str(class_id))
         _check("automatic bonded pet: " + str(class_id), not pet.is_empty() and str(pet.get("species", "")).strip_edges() != "")
+        _check("pet owner class binding: " + str(class_id), str(pet.get("owner_class", "")) == str(class_id))
 
     for level in [1, 25, 50, 100, 200, 250]:
         var tier:int = GAME_DATA.class_tier_for_level(level)
@@ -37,6 +39,7 @@ func _initialize() -> void:
     _check("hero starts at required age", int(hero.get("age", 0)) == GAME_DATA.STARTING_AGE)
     _check("hero has automatic pet", hero.get("pet", {}) is Dictionary and not (hero.get("pet", {}) as Dictionary).is_empty())
     _check("hero has required refinement materials", hero.get("materials", {}) is Dictionary and (hero.get("materials", {}) as Dictionary).has_all(["Phracon", "Emveretarcon", "Oridecon"]))
+    _check("default pet is bound to hero class", str((hero.get("pet", {}) as Dictionary).get("owner_class", "")) == str(hero.get("class", "Warrior")))
 
     for class_id in definitions.keys():
         hero["class"] = str(class_id)
@@ -72,6 +75,14 @@ func _initialize() -> void:
 
     var input_policy:String = FileAccess.get_file_as_string("res://scripts/HW3DInputPolicy.gd")
     _check("legacy keyboard movement is disabled in 3D", input_policy.contains("InputMap.action_erase_events(action)"))
+
+    var polished_hud:String = FileAccess.get_file_as_string("res://scripts/HWPolishedInterfaceV2.gd")
+    _check("polished HUD binding is guarded", polished_hud.contains("var bound:bool=false") and polished_hud.contains("var bind_queued:bool=false"))
+    _check("polished HUD build is idempotent", polished_hud.contains("if root!=null and is_instance_valid(root):"))
+
+    var private_glb_workflow:String = FileAccess.get_file_as_string("res://.github/workflows/private-glb-preview-qa.yml")
+    _check("private GLB QA pins triggering revision", private_glb_workflow.contains("ref: ${{ github.sha }}"))
+    _check("private GLB QA parser preflight present", private_glb_workflow.contains("Preflight GLB validator parser contract"))
 
     _check("generated GLB inventory is complete", _count_files("assets/3d/generated", ".glb") == MAX_GLB_COUNT)
     _check("forbidden tween alpha pattern absent", not _contains_text("scripts", "modulate:a"))
