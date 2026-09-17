@@ -14,6 +14,8 @@ const MAX_PLAYERS:int = 16
 const MAX_ACTIONS_PER_WINDOW:int = 30
 const ACTION_WINDOW_SECONDS:float = 1.0
 const MAX_PAYLOAD_KEYS:int = 24
+const MAX_PAYLOAD_DEPTH:int = 3
+const MAX_ARRAY_ITEMS:int = 64
 const MAX_STRING_LENGTH:int = 256
 
 const ALLOWED_ACTIONS:Array[String] = [
@@ -80,7 +82,10 @@ func request_action(action:String,payload:Dictionary = {}) -> void:
         authority_action_rejected.emit(multiplayer.get_unique_id(),clean_action,"invalid_payload")
         return
     if is_server_authority:
-        _accept_action(multiplayer.get_unique_id(),clean_action,payload)
+        if _consume_action_budget(multiplayer.get_unique_id()):
+            _accept_action(multiplayer.get_unique_id(),clean_action,payload)
+        else:
+            authority_action_rejected.emit(multiplayer.get_unique_id(),clean_action,"rate_limited")
         return
     if multiplayer.multiplayer_peer == null:
         authority_action_rejected.emit(multiplayer.get_unique_id(),clean_action,"offline")
@@ -124,7 +129,6 @@ func _accept_action(sender:int,action:String,payload:Dictionary) -> void:
         "payload":payload.duplicate(true)
     }
     _broadcast_authoritative_event.rpc(event)
-    _dispatch_event(event)
 
 @rpc("authority","reliable")
 func _broadcast_authoritative_event(event:Dictionary) -> void:
@@ -155,11 +159,8 @@ func _action_is_allowed(action:String) -> bool:
     return action in ALLOWED_ACTIONS
 
 func _validate_payload(action:String,payload:Dictionary) -> bool:
-    if payload.size() > MAX_PAYLOAD_KEYS:
+    if not _payload_within_limits(payload,0):
         return false
-    for key in payload.keys():
-        if str(key).length() > MAX_STRING_LENGTH:
-            return false
     match action:
         "move":
             return _finite_number(payload.get("x",0.0)) and _finite_number(payload.get("y",0.0)) and absf(float(payload.get("x",0.0))) <= 1.0 and absf(float(payload.get("y",0.0))) <= 1.0
@@ -168,7 +169,7 @@ func _validate_payload(action:String,payload:Dictionary) -> bool:
         "cast_skill", "use_skill":
             return _bounded_string(payload.get("skill",""),MAX_STRING_LENGTH)
         "use_item", "equip", "unequip", "refine", "refine_pet", "loot", "interact", "quest", "craft", "buy", "sell":
-            return payload.is_empty() or _bounded_dictionary_strings(payload)
+            return true
         "chat":
             return _bounded_string(payload.get("message",""),MAX_STRING_LENGTH)
         "pet_action":
@@ -180,11 +181,34 @@ func _validate_payload(action:String,payload:Dictionary) -> bool:
         _:
             return false
 
-func _bounded_dictionary_strings(payload:Dictionary) -> bool:
-    for value in payload.values():
-        if value is String and str(value).length() > MAX_STRING_LENGTH:
+func _payload_within_limits(value:Variant,depth:int) -> bool:
+    if depth > MAX_PAYLOAD_DEPTH:
+        return false
+    if value is String:
+        return str(value).length() <= MAX_STRING_LENGTH
+    if value is int or value is float:
+        return _finite_number(value)
+    if value is bool or value == null:
+        return true
+    if value is Dictionary:
+        var dictionary:Dictionary = value
+        if dictionary.size() > MAX_PAYLOAD_KEYS:
             return false
-    return true
+        for key:Variant in dictionary.keys():
+            if str(key).length() > MAX_STRING_LENGTH:
+                return false
+            if not _payload_within_limits(dictionary[key],depth + 1):
+                return false
+        return true
+    if value is Array:
+        var array:Array = value
+        if array.size() > MAX_ARRAY_ITEMS:
+            return false
+        for entry:Variant in array:
+            if not _payload_within_limits(entry,depth + 1):
+                return false
+        return true
+    return false
 
 func _bounded_string(value:Variant,max_length:int) -> bool:
     return value is String and str(value).length() <= max_length and not str(value).strip_edges().is_empty()
