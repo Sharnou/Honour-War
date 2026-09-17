@@ -47,7 +47,9 @@ func _run_quest_test() -> void:
     _check("goblin quest unlocks at level 20",QUESTS.can_accept(hero,"goblin_threat"))
     _check("accept goblin quest",QUESTS.accept_quest(hero,"goblin_threat"))
     hero["level"]=35
-    _check("fourth active quest is blocked",not QUESTS.can_accept(hero,"undead_purge"))
+    _check("accept undead quest as third active",QUESTS.accept_quest(hero,"undead_purge"))
+    hero["level"]=50
+    _check("fourth active quest is blocked",not QUESTS.can_accept(hero,"orc_breakthrough"))
     _check("abandoning an active quest works",QUESTS.abandon_quest(hero,"goblin_threat"))
     _check("abandoned quest is no longer active",not QUESTS.active_quests(hero).has("goblin_threat"))
 
