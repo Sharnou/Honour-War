@@ -12,7 +12,7 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 concurrency:
-  group: honour-war-mouse-warp-${{ github.ref }}
+  group: honour-war-main-writer
   cancel-in-progress: false
 
 jobs:
@@ -73,4 +73,6 @@ jobs:
             exit 0
           fi
           git commit -m "Enable clickable warp gates and mouse MMORPG controls"
+          git fetch origin main
+          git rebase origin/main
           git push origin HEAD:main
