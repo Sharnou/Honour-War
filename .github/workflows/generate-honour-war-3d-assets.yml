@@ -16,7 +16,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: honour-war-daily-3d-assets-${{ github.ref }}
+  group: honour-war-main-writer
   cancel-in-progress: false
 
 env:
@@ -86,4 +86,6 @@ jobs:
             exit 0
           fi
           git commit -m "Build Honour War Visual MAX assets from Visual RAG"
+          git fetch origin main
+          git rebase origin/main
           git push origin HEAD:main
