@@ -17,6 +17,7 @@ env:
 concurrency:
   group: honour-war-godot-validation-${{ github.ref }}
   cancel-in-progress: false
+  queue: max
 
 jobs:
   validate:
