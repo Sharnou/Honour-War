@@ -18,8 +18,20 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Checkout validation commit
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          ref: ${{ github.sha }}
+      - name: Report validation source
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual="$(git rev-parse HEAD)"
+          expected="${GITHUB_SHA}"
+          echo "Validation HEAD: ${actual}"
+          echo "Workflow SHA:    ${expected}"
+          test "${actual}" = "${expected}"
       - name: Run toolbar static QA
         shell: bash
         run: python3 tools/validate_toolbar.py
