@@ -11,6 +11,7 @@ const AUTHORITY_PATH:String = "/root/HWOnlineAuthorityRuntime"
 const DEFAULT_PATH:String = "user://honour_war_auto_login_tokens.json"
 const SCHEMA_VERSION:int = 1
 const TOKEN_LENGTH:int = 64
+const GameDataClass = preload("res://scripts/GameData.gd")
 
 var path:String = DEFAULT_PATH
 var tokens:Dictionary = {}
