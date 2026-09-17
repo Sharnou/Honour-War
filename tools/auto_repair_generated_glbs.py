@@ -7,7 +7,7 @@ semantic/PBR validator again. It also validates the hero-path parser and
 camera-control contracts before accepting a build.
 
 Texture repair is bounded and idempotent. A transient Blender/export problem
-may therefore get a second deterministic repair attempt, but unsupported
+may therefore get additional deterministic repair attempts, but unsupported
 semantic/source failures are never bypassed or hidden.
 """
 
@@ -15,22 +15,31 @@ from __future__ import annotations
 
 import argparse
 import importlib.util
+import os
 import subprocess
 import sys
 from pathlib import Path
 
 
 TEXTURE_FAILURE_MARKERS = (
+    # Current semantic/PBR validator diagnostics.
     "no embedded texture images found",
-    "no gltf texture objects found",
     "external texture uri detected",
     "texture image without embedded bufferview detected",
+    "no gltf texture objects found",
+    "malformed gltf texture entry",
+    "does not resolve to an embedded image bufferview",
     "missing embedded base-color or metallic-roughness texture",
     "invalid base-color texture index",
     "invalid metallic-roughness texture index",
+    "has no pbr metallic-roughness block",
+    "does not resolve to an embedded image",
+    # Blender post-export verification diagnostics.
     "post-export verification found no embedded texture images",
     "post-export verification found an external image uri",
     "post-export verification found a non-embedded image",
+    "post-export verification found no gltf texture objects",
+    "texture 0 does not resolve to an embedded image",
 )
 
 PARSER_CASES = {
@@ -42,11 +51,62 @@ PARSER_CASES = {
     "Warrior": "assets/3d/generated/characters/Warrior/Advanced.glb",
 }
 
+CAMERA_MARKERS = (
+    ("project.godot", "camera_rotate_left=", "Q rotation binding"),
+    ("project.godot", "camera_rotate_right=", "E rotation binding"),
+    ("scripts/MovementStabilityFix.gd", "MOUSE_BUTTON_WHEEL_UP", "wheel-up zoom input"),
+    ("scripts/MovementStabilityFix.gd", "MOUSE_BUTTON_WHEEL_DOWN", "wheel-down zoom input"),
+    (
+        "scripts/MovementStabilityFix.gd",
+        '@export var rotation_step_degrees:float = 90.0',
+        "90-degree rotation step",
+    ),
+    (
+        "scripts/MovementStabilityFix.gd",
+        "camera_distance=lerp(camera_distance,target_camera_distance,zoom_alpha)",
+        "smooth zoom interpolation",
+    ),
+    (
+        "scripts/MovementStabilityFix.gd",
+        "camera_yaw=rad_to_deg(lerp_angle",
+        "smooth yaw interpolation",
+    ),
+    (
+        "Main3D.tscn",
+        'camera_path = NodePath("../Camera3D")',
+        "scene-owned root Camera3D path",
+    ),
+)
 
-def run(cmd: list[str], label: str) -> tuple[int, str]:
+
+def run(cmd: list[str], label: str, timeout_seconds: int = 900) -> tuple[int, str]:
+    """Run a validator/repair command with bounded execution and diagnostics."""
     print(f"AUTO-REPAIR: {label}")
-    completed = subprocess.run(cmd, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    print("AUTO-REPAIR: command: " + " ".join(str(part) for part in cmd))
+    try:
+        completed = subprocess.run(
+            cmd,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            timeout=timeout_seconds,
+        )
+    except subprocess.TimeoutExpired as exc:
+        output = exc.stdout or ""
+        if isinstance(output, bytes):
+            output = output.decode("utf-8", errors="replace")
+        print(output, end="" if output.endswith("\n") else "\n")
+        print(
+            f"AUTO-REPAIR ERROR: {label} exceeded the {timeout_seconds}s timeout; "
+            "the attempt is treated as transient and may be retried."
+        )
+        return 124, output
+    except OSError as exc:
+        print(f"AUTO-REPAIR ERROR: {label} could not be started: {exc}")
+        return 127, str(exc)
+
     print(completed.stdout, end="" if completed.stdout.endswith("\n") else "\n")
+    print(f"AUTO-REPAIR: {label} exit code: {completed.returncode}")
     return completed.returncode, completed.stdout
 
 
@@ -76,33 +136,69 @@ def check_parser_contract(validator_path: Path) -> None:
     print("AUTO-REPAIR: hero path parser contract: PASS")
 
 
+def diagnose_camera_sources(project_path: Path, camera_path: Path, scene_path: Path) -> None:
+    """Print ownership-aware diagnostics without changing the source or bypassing QA."""
+    print("AUTO-REPAIR: camera-control source diagnostics")
+    for raw_path, marker, label in CAMERA_MARKERS:
+        path = Path(raw_path)
+        text = path.read_text(encoding="utf-8") if path.is_file() else ""
+        state = "PASS" if marker in text else "MISSING"
+        print(f"AUTO-REPAIR:   [{state}] {label} -> {path}")
+
+    project_exists = project_path.is_file()
+    camera_exists = camera_path.is_file()
+    scene_exists = scene_path.is_file()
+    print(
+        "AUTO-REPAIR: camera source files: "
+        f"project={'present' if project_exists else 'missing'}, "
+        f"controller={'present' if camera_exists else 'missing'}, "
+        f"scene={'present' if scene_exists else 'missing'}"
+    )
+
+
 def check_camera_contract(project_path: Path, camera_path: Path, scene_path: Path) -> None:
+    """Run the canonical camera QA, then emit source-aware diagnostics on failure."""
     qa_script = Path("tools/validate_camera_controls.py")
     if qa_script.is_file():
         code, output = run(
             [sys.executable, str(qa_script)],
             "camera-control regression contract",
+            timeout_seconds=60,
         )
         if code != 0:
-            raise RuntimeError("camera-control regression detected; source must be fixed rather than bypassed")
+            diagnose_camera_sources(project_path, camera_path, scene_path)
+            lowered = output.lower()
+            if "missing single camera path" in lowered or "camera_path" in lowered:
+                raise RuntimeError(
+                    "camera-control regression detected; scene-owned Camera3D path is "
+                    "missing or mismatched. Source must be fixed rather than bypassed."
+                )
+            raise RuntimeError(
+                "camera-control regression detected; source must be fixed rather than bypassed"
+            )
+        print("AUTO-REPAIR: camera-control regression contract: PASS")
         return
 
+    # Defensive fallback for older checkouts without the canonical QA script.
     project = project_path.read_text(encoding="utf-8")
     camera = camera_path.read_text(encoding="utf-8")
     scene = scene_path.read_text(encoding="utf-8")
-    required = (
-        ('camera_rotate_left=', project),
-        ('camera_rotate_right=', project),
-        ('MOUSE_BUTTON_WHEEL_UP', camera),
-        ('MOUSE_BUTTON_WHEEL_DOWN', camera),
-        ('@export var rotation_step_degrees:float = 90.0', camera),
-        ('camera_distance=lerp(', camera),
-        ('camera_yaw=rad_to_deg(lerp_angle', camera),
-        ('camera_path = NodePath("../Camera3D")', scene),
-    )
-    missing = [marker for marker, text in required if marker not in text]
+    missing = [
+        f"{marker} ({label})"
+        for raw_path, marker, label in CAMERA_MARKERS
+        for text in [
+            project if raw_path == "project.godot" else
+            camera if raw_path == "scripts/MovementStabilityFix.gd" else
+            scene
+        ]
+        if marker not in text
+    ]
     if missing:
-        raise RuntimeError("camera-control regression markers missing: " + ", ".join(missing))
+        diagnose_camera_sources(project_path, camera_path, scene_path)
+        raise RuntimeError(
+            "camera-control regression detected; source must be fixed rather than bypassed: "
+            + ", ".join(missing)
+        )
     print("AUTO-REPAIR: camera-control regression contract: PASS")
 
 
@@ -144,8 +240,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--repair-attempts",
         type=int,
-        default=2,
+        default=3,
         help="maximum deterministic Blender repair passes for texture failures",
+    )
+    parser.add_argument(
+        "--repair-timeout",
+        type=int,
+        default=900,
+        help="maximum seconds allowed for each Blender repair attempt",
     )
     return parser.parse_args()
 
@@ -157,6 +259,9 @@ def main() -> int:
         return 2
     if args.repair_attempts < 1 or args.repair_attempts > 3:
         print("AUTO-REPAIR ERROR: --repair-attempts must be between 1 and 3")
+        return 2
+    if args.repair_timeout < 60 or args.repair_timeout > 3600:
+        print("AUTO-REPAIR ERROR: --repair-timeout must be between 60 and 3600 seconds")
         return 2
 
     validator = args.validator.resolve()
@@ -176,7 +281,11 @@ def main() -> int:
         print(f"AUTO-REPAIR ERROR: {exc}")
         return 1
 
-    code, output = run([sys.executable, str(validator)], "initial semantic/PBR validation")
+    code, output = run(
+        [sys.executable, str(validator)],
+        "initial semantic/PBR validation",
+        timeout_seconds=60,
+    )
     if code == 0:
         print("AUTO-REPAIR: initial GLB quality gate already passes; no mutation required.")
         return 0
@@ -190,13 +299,14 @@ def main() -> int:
         return code
 
     if not is_texture_failure(output):
-        print("AUTO-REPAIR: failure is not a supported texture-repair class; no gate bypass or unsafe mutation will be attempted.")
+        print(
+            "AUTO-REPAIR: failure is not a supported texture-repair class; "
+            "no gate bypass or unsafe mutation will be attempted."
+        )
         return code
 
     blender = args.blender
     if blender is None:
-        import os
-
         env_value = os.environ.get("BLENDER_EXECUTABLE", "")
         blender = Path(env_value) if env_value else None
     if blender is None or not blender.is_file():
@@ -208,6 +318,7 @@ def main() -> int:
         repair_code, repair_output = run(
             [str(blender), "--background", "--python", str(repair_script)],
             f"deterministic embedded-PBR texture repair attempt {attempt}/{args.repair_attempts}",
+            timeout_seconds=args.repair_timeout,
         )
         if repair_code != 0:
             print(f"AUTO-REPAIR: Blender repair attempt {attempt} failed with exit code {repair_code}")
@@ -215,29 +326,43 @@ def main() -> int:
             if attempt == args.repair_attempts:
                 print("AUTO-REPAIR ERROR: all deterministic texture repair attempts failed")
                 return last_code
+            print("AUTO-REPAIR: transient repair failure; retrying without weakening validation.")
             continue
 
         if "verification" not in repair_output.lower() or "pass" not in repair_output.lower():
-            print("AUTO-REPAIR: Blender completed without an explicit serialized verification marker; final validator remains authoritative.")
+            print(
+                "AUTO-REPAIR: Blender completed without an explicit serialized verification marker; "
+                "final validator remains authoritative."
+            )
 
         final_code, final_output = run(
             [sys.executable, str(validator)],
             f"post-repair semantic/PBR validation attempt {attempt}/{args.repair_attempts}",
+            timeout_seconds=60,
         )
         if final_code == 0:
-            print("AUTO-REPAIR: PASS — repaired GLBs satisfy binary, inventory, semantic, embedded-image, and PBR texture gates.")
+            print(
+                "AUTO-REPAIR: PASS — repaired GLBs satisfy binary, inventory, semantic, "
+                "embedded-image, and PBR texture gates."
+            )
             return 0
 
         last_code = final_code
         if not is_texture_failure(final_output):
             if "unknown hero class characters" in final_output.lower():
-                print("AUTO-REPAIR ERROR: hero validator regression detected after repair; generated asset paths were not rewritten to hide the defect.")
+                print(
+                    "AUTO-REPAIR ERROR: hero validator regression detected after repair; "
+                    "generated asset paths were not rewritten to hide the defect."
+                )
             else:
                 print("AUTO-REPAIR ERROR: post-repair failure is outside the supported texture-repair class.")
             return final_code
 
         if attempt < args.repair_attempts:
-            print("AUTO-REPAIR: embedded-PBR failure remains; retrying the deterministic texture/export pass.")
+            print(
+                "AUTO-REPAIR: embedded-PBR serialization failure remains; "
+                "retrying the deterministic texture/export pass."
+            )
 
     print("AUTO-REPAIR ERROR: repaired assets still fail the complete quality gate")
     return last_code
