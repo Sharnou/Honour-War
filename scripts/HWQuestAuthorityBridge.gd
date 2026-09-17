@@ -31,7 +31,7 @@ func _on_authoritative_action(event:Dictionary) -> void:
     var player:Dictionary = authority.player_for_peer(sender)
     var payload:Dictionary = event.get("payload",{})
     var command:String = str(payload.get("command","summary")).strip_edges().to_lower()
-    var quest_id:String = str(payload.get("quest_id","" )).strip_edges()
+    var quest_id:String = str(payload.get("quest_id","")).strip_edges()
     QUESTS.ensure_state(player)
     var result:Dictionary={"ok":false,"reason":"invalid_command"}
 
@@ -42,8 +42,9 @@ func _on_authoritative_action(event:Dictionary) -> void:
             var summary:Dictionary=QUESTS.progress_summary(player,quest_id)
             result={"ok":not summary.is_empty(),"reason":"summary" if not summary.is_empty() else "quest_not_found","quest":summary}
         "accept":
-            result={"ok":QUESTS.accept_quest(player,quest_id),"reason":"accepted" if QUESTS.can_accept(player,quest_id)==false and player["quest_progress"].has(quest_id) else "accept_failed","quest_id":quest_id}
-            if bool(result.get("ok",false)):
+            var accepted:bool=QUESTS.accept_quest(player,quest_id)
+            result={"ok":accepted,"reason":"accepted" if accepted else "accept_failed","quest_id":quest_id}
+            if accepted:
                 result["quest"]=QUESTS.progress_summary(player,quest_id)
         "claim":
             result=QUESTS.claim_quest(player,quest_id)
