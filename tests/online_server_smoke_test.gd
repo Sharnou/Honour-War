@@ -17,14 +17,23 @@ func _initialize() -> void:
     var authority:Node = AUTHORITY_SCRIPT.new()
     root.add_child(authority)
 
+    var propagation_ok:bool = authority.multiplayer == network_api
+    if not propagation_ok:
+        push_error("FAIL: authority node did not inherit the SceneTree MultiplayerAPI")
+        authority.queue_free()
+        quit(1)
+        return
+
     var started:bool = authority.start_server(TEST_PORT)
     if not started:
         push_error("FAIL: authoritative server could not bind test port %d" % TEST_PORT)
+        authority.queue_free()
         quit(1)
         return
 
     var snapshot:Dictionary = authority.get_session_snapshot()
     var failures:int = 0
+    failures += _check("authority inherits root multiplayer API",propagation_ok)
     failures += _check("server authority active",bool(snapshot.get("authority",false)))
     failures += _check("protocol version present",int(snapshot.get("protocol",0)) == int(authority.PROTOCOL_VERSION))
     failures += _check("configured port is valid",TEST_PORT >= 1024 and TEST_PORT <= 65535)
@@ -33,6 +42,7 @@ func _initialize() -> void:
 
     authority.stop_session()
     failures += _check("server stopped cleanly",not authority.is_authority())
+    authority.queue_free()
 
     if failures == 0:
         print("PASS: Honour War dedicated server smoke test")
