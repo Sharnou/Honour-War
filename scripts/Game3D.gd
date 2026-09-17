@@ -13,6 +13,8 @@ var hero_visual:Node3D
 var pet_visual:Node3D
 var monster_visuals:Dictionary = {}
 var monster_hp_cache:Dictionary = {}
+var live_replication:Node
+var remote_visuals:Dictionary = {}
 var hud:CanvasLayer
 var status_label:Label
 var hp_bar:ProgressBar
@@ -38,6 +40,7 @@ func _ready() -> void:
 	actor_root = Node3D.new()
 	actor_root.name = "Actors3D"
 	add_child(actor_root)
+	live_replication = get_node_or_null("/root/HWLiveWorldReplication")
 	_build_lighting()
 	_build_world()
 	_build_hud()
@@ -104,6 +107,7 @@ func _update_visuals(delta:float) -> void:
 		pet_visual.position.y = 0.45+sin(elapsed*4.5)*0.10
 		pet_visual.rotation.y = lerp_angle(pet_visual.rotation.y,yaw,0.08)
 	_update_monsters(delta)
+	_update_remote_players(delta)
 	# Camera ownership belongs exclusively to MovementStabilityFix.
 	# Do not follow the hero here; that made A/D move the whole screen.
 	_update_hud(hero)
@@ -366,6 +370,106 @@ func _trigger_hit_effect(position:Vector3,boss:bool)->void:
 	tween.tween_property(light,"light_energy",0.0,0.20)
 	tween.chain().tween_callback(root.queue_free)
 
+
+func _update_remote_players(delta:float)->void:
+	if live_replication == null or not is_instance_valid(live_replication) or actor_root == null:
+		return
+	var map_id:int = int(hero_data_for_replication().get("map_id",0))
+	var values:Variant = live_replication.get_remote_players(map_id)
+	if not values is Dictionary:
+		return
+	var active:Dictionary = {}
+	for key:Variant in (values as Dictionary).keys():
+		var peer_id:int = int(key)
+		var state:Dictionary = (values as Dictionary)[key]
+		if peer_id <= 0:
+			continue
+		var class_id:String = str(state.get("class","Warrior"))
+		var level:int = clamp(int(state.get("level",1)),1,250)
+		active[peer_id] = true
+		if not remote_visuals.has(peer_id):
+			var remote:Node3D = _create_remote_player(class_id,level,peer_id)
+			remote_visuals[peer_id] = remote
+			actor_root.add_child(remote)
+		else:
+			var existing:Node3D = remote_visuals[peer_id] as Node3D
+			if existing == null or not is_instance_valid(existing) or str(existing.get_meta("hw_remote_class","")) != class_id or int(existing.get_meta("hw_remote_level",0)) != level:
+				if existing != null and is_instance_valid(existing):
+					existing.queue_free()
+				var replacement:Node3D = _create_remote_player(class_id,level,peer_id)
+				remote_visuals[peer_id] = replacement
+				actor_root.add_child(replacement)
+		var visual:Node3D = remote_visuals[peer_id] as Node3D
+		if visual == null or not is_instance_valid(visual):
+			continue
+		visual.visible = true
+		visual.set_meta("character_name",str(state.get("username","Player")))
+		visual.set_meta("class",class_id)
+		visual.set_meta("level",level)
+		visual.set_meta("hp",int(state.get("hp",0)))
+		visual.set_meta("max_hp",max(1,int(state.get("max_hp",1))))
+		var target:Vector3 = _map_to_world(Vector2(float(state.get("pos_x",595.0)),float(state.get("pos_y",340.0))))
+		var blend:float = 1.0-exp(-18.0*max(delta,0.016))
+		visual.position = visual.position.lerp(target,blend)
+		var moving_target:Vector3 = target-visual.position
+		if moving_target.length_squared()>0.0001:
+			visual.rotation.y = atan2(-moving_target.x,-moving_target.z)
+	for key:Variant in remote_visuals.keys():
+		if not active.has(int(key)):
+			var stale:Node = remote_visuals[key] as Node
+			if stale != null and is_instance_valid(stale):
+				stale.queue_free()
+			remote_visuals.erase(key)
+
+func hero_data_for_replication()->Dictionary:
+	if legacy == null:
+		return {}
+	var value:Variant = legacy.get("hero")
+	return value if value is Dictionary else {}
+
+func _create_remote_player(class_id:String,level:int,peer_id:int)->Node3D:
+	var root:Node3D = _create_hero(class_id)
+	root.name = "RemotePlayer_%d" % peer_id
+	if root.is_in_group("local_player"):
+		root.remove_from_group("local_player")
+	root.add_to_group("network_player")
+	root.set_meta("hw_network_player",true)
+	root.set_meta("hw_remote_class",class_id)
+	root.set_meta("hw_remote_level",level)
+	root.set_meta("hw_remote_peer_id",peer_id)
+	_try_attach_remote_production_asset(root,class_id,level)
+	return root
+
+func _try_attach_remote_production_asset(root:Node3D,class_id:String,level:int)->void:
+	var tier:String = "Foundation"
+	if level>=200:
+		tier="Transcendence"
+	elif level>=100:
+		tier="Mastery"
+	elif level>=50:
+		tier="Advanced"
+	elif level>=25:
+		tier="Specialization"
+	var path:String = "res://assets/3d/generated/characters/%s/%s.glb" % [class_id,tier]
+	if not ResourceLoader.exists(path):
+		return
+	var packed:PackedScene = load(path) as PackedScene
+	if packed == null:
+		return
+	var model:Node = packed.instantiate()
+	if model == null or not model is Node3D:
+		if model != null:
+			model.queue_free()
+		return
+	model.name = "HW_RemoteGeneratedGLB"
+	root.add_child(model)
+	for child:Node in root.get_children():
+		if child == model:
+			continue
+		if child is MeshInstance3D:
+			(child as MeshInstance3D).visible = false
+	root.set_meta("hw_remote_production_asset",true)
+
 func _update_camera(_delta:float)->void:
 	return
 
@@ -407,7 +511,7 @@ func _build_hud()->void:
 func _update_hud(hero:Dictionary)->void:
 	if status_label==null:
 		return
-	status_label.text="HONOUR WAR  •  %s  •  Lv.%d  •  %s  •  FPS %d" % [str(hero.get("name","Hero")),int(hero.get("level",1)),TeleportSystem.map_name(int(hero.get("map_id",0))),Engine.get_frames_per_second()]
+	status_label.text="HONOUR WAR  •  %s  •  Lv.%d  •  %s  •  ONLINE:%s  •  REMOTE:%d  •  FPS %d" % [str(hero.get("name","Hero")),int(hero.get("level",1)),TeleportSystem.map_name(int(hero.get("map_id",0))),(live_replication != null and multiplayer.has_multiplayer_peer() ? "CONNECTED" : "OFFLINE"),live_replication.get_remote_players(int(hero.get("map_id",0))).size() if live_replication != null and is_instance_valid(live_replication) else 0,Engine.get_frames_per_second()]
 	hp_bar.max_value=max(1,int(hero.get("max_hp",1)))
 	hp_bar.value=int(hero.get("hp",0))
 	sp_bar.max_value=max(1,int(hero.get("max_sp",1)))
