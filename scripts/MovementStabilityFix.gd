@@ -26,9 +26,11 @@ const CAMERA_PITCH:float = -30.0
 const MIN_CAMERA_PITCH:float = -56.0
 const MAX_CAMERA_PITCH:float = -28.0
 const CAMERA_FOV:float = 55.0
+const ONLINE_SEND_INTERVAL:float = 0.05
 
 var legacy:Node2D
 var camera:Camera3D
+var authority:Node
 var destination:Vector2 = Vector2.INF
 var marker:MeshInstance3D
 var selected_monster:Dictionary = {}
@@ -40,11 +42,14 @@ var camera_pitch:float = CAMERA_PITCH
 var target_camera_pitch:float = CAMERA_PITCH
 var middle_dragging:bool = false
 var last_middle_position:Vector2 = Vector2.ZERO
+var online_send_elapsed:float = 0.0
+var last_online_sent_position:Vector2 = Vector2.INF
 
 func _ready()->void:
     process_priority=1000
     legacy=get_node_or_null(legacy_path) as Node2D
     camera=get_node_or_null(camera_path) as Camera3D
+    authority=get_node_or_null("/root/HWOnlineAuthorityRuntime")
     set_process_unhandled_input(true)
     camera_distance=clamp(CAMERA_DISTANCE,zoom_min_distance,zoom_max_distance)
     target_camera_distance=camera_distance
@@ -187,6 +192,9 @@ func _pick_monster(screen_position:Vector2)->Dictionary:
 
 func _process(delta:float)->void:
     if legacy==null or camera==null or not camera.is_inside_tree(): return
+    if authority==null or not is_instance_valid(authority):
+        authority=get_node_or_null("/root/HWOnlineAuthorityRuntime")
+
     if Input.is_action_just_pressed("camera_rotate_left"):
         _rotate_camera(-1.0)
     if Input.is_action_just_pressed("camera_rotate_right"):
@@ -201,10 +209,23 @@ func _process(delta:float)->void:
         if distance<=STOP_DISTANCE: current=destination; destination=Vector2.INF
         else: current+=current.direction_to(destination)*min(distance,MOVE_SPEED*delta)
         current=_clamp_to_map(current,hero); hero["pos_x"]=current.x; hero["pos_y"]=current.y
+
+    online_send_elapsed+=delta
+    if _online_authenticated() and online_send_elapsed>=ONLINE_SEND_INTERVAL:
+        online_send_elapsed=0.0
+        if last_online_sent_position==Vector2.INF or last_online_sent_position.distance_to(current)>=0.25:
+            authority.request_action("move",{"absolute":true,"x":current.x,"y":current.y})
+            last_online_sent_position=current
+    elif not _online_authenticated():
+        last_online_sent_position=Vector2.INF
+
     _apply_camera(delta)
     if marker!=null:
         marker.visible=destination!=Vector2.INF
         if marker.visible: marker.position=_map_to_world(destination)+Vector3(0.0,0.06,0.0)
+
+func _online_authenticated()->bool:
+    return authority!=null and is_instance_valid(authority) and not authority.is_authority() and authority.is_peer_authenticated(multiplayer.get_unique_id())
 
 func _screen_to_map(screen_position:Vector2)->Vector2:
     var origin:=camera.project_ray_origin(screen_position)
