@@ -49,7 +49,6 @@ func ensure_state()->void:
 	if not hero.has("equipment"): hero["equipment"]={"weapon":"Novice Sword","armor":"Novice Armor"}
 	if not hero.has("cards"): hero["cards"]=[]
 	if not hero.has("quests_completed"): hero["quests_completed"]=[]
-	if not hero.has("city_building"): hero["city_building"]={"Prontera":CitySystem.new_city()}
 	if not hero.has("pet") or not hero["pet"] is Dictionary:
 		hero["pet"]=PetSystem.new_pet(str(hero.get("class","Warrior")))
 	EquipmentSystem.ensure_state(hero)
@@ -141,10 +140,6 @@ func build_ui()->void:
 	rest.text="Rest (+1 simulated day)"
 	rest.pressed.connect(rest_hero)
 	box.add_child(rest)
-	var city:=Button.new()
-	city.text="Build Prontera"
-	city.pressed.connect(build_city)
-	box.add_child(city)
 	var save:=Button.new()
 	save.text="Save Now"
 	save.pressed.connect(save_game)
@@ -210,25 +205,6 @@ func rest_hero()->void:
 
 func update_age()->void:
 	hero["age"]=GameData.STARTING_AGE+int(float(hero["online_days"])/GameData.AGE_DAYS_PER_YEAR)
-
-func build_city()->void:
-	var city:Dictionary=hero["city_building"].get("Prontera",CitySystem.new_city())
-	city["wood"]=int(city.get("wood",0))+60
-	city["stone"]=int(city.get("stone",0))+60
-	city["gold"]=int(city.get("gold",0))+650
-	var built:=false
-	for building in ["Blacksmith","Market","Barracks","Magic Tower"]:
-		if CitySystem.can_build(city,building):
-			city=CitySystem.build(city,building)
-			log_message("Prontera expanded: %s built." % building)
-			built=true
-			break
-	if not built:
-		city=CitySystem.upgrade_city(city)
-		log_message("Prontera advanced to city level %d." % city["level"])
-	hero["city_building"]["Prontera"]=city
-	save_game()
-	update_ui()
 
 func age_bonus()->int:
 	return GameData.age_bonus(int(hero["age"]))
@@ -542,13 +518,12 @@ func update_ui()->void:
 	LootSystem.ensure_state(hero)
 	var materials:Dictionary=hero["materials"]
 	var pet:Dictionary=hero["pet"]
-	var city:Dictionary=hero["city_building"].get("Prontera",CitySystem.new_city())
 	var map_name:=TeleportSystem.map_name(int(hero["map_id"]))
 	var map_x:=int(hero["pos_x"]-365.0)
 	var map_y:=int(hero["pos_y"]-120.0)
 	var equipment:=combat_equipment()
-	profile.text="Name: %s\nClass: %s\nLevel: %d/%d EXP:%d/%d\nAge:%d HP:%d/%d Zeny:%d Refine:+%d\n\nPET: %s (%s)\nPet Level:%d/%d HP:%d/%d Skill:%d Refine:+%d\n\nEquipment:\n%s\n\nCards:%d Inventory:%d\nAutoLoot:%s Ground Drops:%d\nPhracon:%d Emveretarcon:%d Oridecon:%d\nProntera Lv.%d" % [hero["name"],GameData.class_title(hero),hero["level"],GameData.MAX_HERO_LEVEL,hero["exp"],GameData.exp_to_next(int(hero["level"])),hero["age"],hero["hp"],hero["max_hp"],hero["zeny"],hero.get("refine",0),pet["name"],pet["role"],pet["level"],PetSystem.MAX_PET_LEVEL,pet["hp"],pet["max_hp"],pet["skill_level"],pet["refine"],EquipmentSystem.summary(hero),hero["cards"].size(),hero["inventory"].size(),"ON" if LootSystem.is_enabled(hero) else "OFF",hero["ground_loot"].size(),materials["Phracon"],materials["Emveretarcon"],materials["Oridecon"],city.get("level",1)]
-	status.text="%s | MAP %d: %s | X:%d Y:%d | Power:%d | ATK:%d DEF:%d HP+%d | Cards:%d | AutoLoot:%s | Monsters:%d" % ["Dungeon" if TeleportSystem.is_dungeon(int(hero["map_id"])) else "Town",int(hero["map_id"]),map_name,map_x,map_y,skill_power(),equipment.get("attack",0),equipment.get("defense",0),equipment.get("hp",0),hero["cards"].size(),"ON" if LootSystem.is_enabled(hero) else "OFF",monsters.size()]
+	profile.text="Name: %s\nClass: %s\nLevel: %d/%d EXP:%d/%d\nAge:%d HP:%d/%d Zeny:%d Refine:+%d\n\nPET: %s (%s)\nPet Level:%d/%d HP:%d/%d Skill:%d Refine:+%d\n\nEquipment:\n%s\n\nCards:%d Inventory:%d\nAutoLoot:%s Ground Drops:%d\nPhracon:%d Emveretarcon:%d Oridecon:%d" % [hero["name"],GameData.class_title(hero),hero["level"],GameData.MAX_HERO_LEVEL,hero["exp"],GameData.exp_to_next(int(hero["level"])),hero["age"],hero["hp"],hero["max_hp"],hero["zeny"],hero.get("refine",0),pet["name"],pet["role"],pet["level"],PetSystem.MAX_PET_LEVEL,pet["hp"],pet["max_hp"],pet["skill_level"],pet["refine"],EquipmentSystem.summary(hero),hero["cards"].size(),hero["inventory"].size(),"ON" if LootSystem.is_enabled(hero) else "OFF",hero["ground_loot"].size(),materials["Phracon"],materials["Emveretarcon"],materials["Oridecon"]]
+	status.text="%s | MAP %d: %s | X:%d Y:%d | Power:%d | ATK:%d DEF:%d HP+%d | Cards:%d | AutoLoot:%s | Monsters:%d" % ["Dungeon" if TeleportSystem.is_dungeon(int(hero["map_id"])) else "Field/Town","%s" % int(hero["map_id"]),map_name,map_x,map_y,skill_power(),equipment.get("attack",0),equipment.get("defense",0),equipment.get("hp",0),hero["cards"].size(),"ON" if LootSystem.is_enabled(hero) else "OFF",monsters.size()]
 	log_label.text="\n".join(logs)
 
 func log_message(message:String)->void:
