@@ -1,12 +1,10 @@
 extends Node3D
 
-## Screen-readable combat vitals. Player avatars never carry permanent HP/SP bars.
+## Screen-readable combat vitals. Player avatars never carry permanent HP/SP world bars.
 ## Monsters retain combat HP bars; party/PvP health belongs in dedicated social/combat UI.
 var game:Node3D
 var legacy:Node
 var hero_last:Node3D
-var hero_hp_fill:MeshInstance3D
-var hero_sp_fill:MeshInstance3D
 var monster_bars:Dictionary={}
 var timer:float=0.0
 
@@ -35,37 +33,8 @@ func _update_hero()->void:
     if hero==null or not is_instance_valid(hero): return
     if hero!=hero_last:
         hero_last=hero
-        hero_hp_fill=null
-        hero_sp_fill=null
         _remove_old_vitals(hero)
-        _build_hero_bars(hero)
         _add_class_features(hero)
-    var value:Variant=legacy.get("hero")
-    if not value is Dictionary: return
-    var data:Dictionary=value
-    var hp:float=float(data.get("hp",0))
-    var max_hp:float=max(1.0,float(data.get("max_hp",hp)))
-    var sp:float=float(data.get("sp",0))
-    var max_sp:float=max(1.0,float(data.get("max_sp",sp)))
-    _set_fill(hero_hp_fill,hp/max_hp,1.11)
-    _set_fill(hero_sp_fill,sp/max_sp,1.11)
-
-func _build_hero_bars(hero:Node3D)->void:
-    var root:Node3D=Node3D.new()
-    root.name="HWVitals"
-    root.position=Vector3(0,3.25,0)
-    hero.add_child(root)
-    var hp_bg:MeshInstance3D=_bar(Color("#241217"),Vector3(1.15,0.07,0.025))
-    root.add_child(hp_bg)
-    hero_hp_fill=_bar(Color("#d74d59"),Vector3(1.11,0.055,0.028))
-    hero_hp_fill.position.z=-0.02
-    root.add_child(hero_hp_fill)
-    var sp_bg:MeshInstance3D=_bar(Color("#10192b"),Vector3(1.15,0.055,0.025))
-    sp_bg.position.y=-0.13
-    root.add_child(sp_bg)
-    hero_sp_fill=_bar(Color("#4f8de1"),Vector3(1.11,0.045,0.028))
-    hero_sp_fill.position=Vector3(-0.02,-0.13,-0.02)
-    root.add_child(hero_sp_fill)
 
 func _update_monsters()->void:
     var visuals:Variant=game.get("monster_visuals")
