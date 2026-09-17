@@ -8,7 +8,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: honour-war-fix-game3d-redraw-${{ github.ref }}
+  group: honour-war-main-writer
   cancel-in-progress: false
 
 jobs:
@@ -54,4 +54,6 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add scripts/Game3D.gd
           git commit -m "Fix Game3D Node3D redraw API"
+          git fetch origin main
+          git rebase origin/main
           git push origin HEAD:main
