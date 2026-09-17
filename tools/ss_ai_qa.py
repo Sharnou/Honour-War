@@ -35,11 +35,11 @@ def main() -> None:
         raise SystemExit("Redundant HWSSAIController.gd must not return")
 
     # CitySystem intentionally exposes BUILDINGS only as an empty compatibility
-    # array. Accept that API shape while rejecting any active legacy strategy
-    # building registry if a future change turns it into a dictionary.
+    # array. Accept typed/untyped empty-array syntax while rejecting any active
+    # legacy strategy building registry if a future change turns it into a dict.
     city_text = city_system.read_text(encoding="utf-8")
     building_match = re.search(
-        r'const BUILDINGS\s*:=\s*(?P<value>\[\]|\{(?P<body>.*?)\n\})',
+        r'const BUILDINGS(?:\s*:\s*[A-Za-z0-9_]+)?\s*:?=\s*(?P<value>\[\]|\{(?P<body>.*?)\n\})',
         city_text,
         re.DOTALL,
     )
