@@ -1,0 +1,85 @@
+name: Honour War Environment Asset Build
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/blender/honour_war_environment_builder.py'
+      - 'scripts/TeleportSystem.gd'
+      - '.github/workflows/honour-war-environment-assets.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  BLENDER_VERSION: "4.2.23"
+
+jobs:
+  build:
+    name: Build 30 town field dungeon GLBs
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact triggering revision
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          ref: ${{ github.sha }}
+
+      - name: Verify checkout matches triggering revision
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+
+      - name: Install Blender dependencies
+        shell: bash
+        run: sudo apt-get update && sudo apt-get install -y curl xz-utils python3
+
+      - name: Download official Blender 4.2.23
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -L --fail --retry 5 --retry-all-errors -o blender.tar.xz \
+            "https://download.blender.org/release/Blender4.2/blender-4.2.23-linux-x64.tar.xz"
+          tar -xJf blender.tar.xz
+          mv blender-4.2.23-linux-x64 blender
+
+      - name: Build environment GLBs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p tools/blender
+          ./blender/blender --background --python-expr "import bpy; bpy.ops.wm.save_as_mainfile(filepath='tools/blender/environment_seed.blend')"
+          ./blender/blender --background tools/blender/environment_seed.blend --python tools/blender/honour_war_environment_builder.py 2>&1 | tee environment-build.log
+          test "$(find assets/3d/generated/environments -type f -name '*.glb' | wc -l)" -eq 30
+
+      - name: Validate environment inventory
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(find assets/3d/generated/environments -type f -name '*.glb' | wc -l)" -eq 30
+          find assets/3d/generated/environments -type f -name '*.glb' -size +0c -print | tee environment-inventory.txt
+          test "$(wc -l < environment-inventory.txt)" -eq 30
+
+      - name: Upload environment preview package
+        uses: actions/upload-artifact@v7
+        with:
+          name: honour-war-environment-glbs
+          path: |
+            assets/3d/generated/environments/*.glb
+            assets/3d/generated/environments/*.blend
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload build log
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: honour-war-environment-build-log
+          path: |
+            environment-build.log
+            environment-inventory.txt
+          if-no-files-found: warn
+          retention-days: 14
