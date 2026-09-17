@@ -24,7 +24,7 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 concurrency:
-  group: honour-war-final-glb-assets
+  group: honour-war-main-writer
   cancel-in-progress: false
 
 permissions:
@@ -178,4 +178,6 @@ jobs:
             exit 0
           fi
           git commit -m "Generate final Honour War GLB visual assets"
+          git fetch origin main
+          git rebase origin/main
           git push origin HEAD:main
