@@ -78,6 +78,46 @@ def validate_embedded_images(path: Path, doc: dict) -> None:
         raise ValueError(f"{path}: texture image without embedded bufferView detected")
 
 
+def hero_class_and_tier(path: Path) -> tuple[str, str]:
+    """Return the hero class/tier from characters/<class>/<tier>.glb.
+
+    This deliberately uses the directory immediately below ``characters``.
+    Using a fixed negative index (for example ``parts[0]``) misclassified
+    every staged hero as the literal directory name ``characters``.
+    """
+    try:
+        rel = path.relative_to(ROOT)
+    except ValueError as exc:
+        raise ValueError(f"{path}: hero path is outside generated asset root") from exc
+
+    parts = rel.parts
+    if len(parts) != 3 or parts[0] != "characters":
+        raise ValueError(f"{path}: unexpected hero layout")
+
+    class_id = parts[1]
+    tier = Path(parts[2]).stem
+    return class_id, tier
+
+
+def validate_hero_path_parser() -> None:
+    """Regression guard for the staged hero directory layout."""
+    cases = {
+        "Acolyte": Path("assets/3d/generated/characters/Acolyte/Advanced.glb"),
+        "Archer": Path("assets/3d/generated/characters/Archer/Foundation.glb"),
+        "Mage": Path("assets/3d/generated/characters/Mage/Mastery.glb"),
+        "Merchant": Path("assets/3d/generated/characters/Merchant/Specialization.glb"),
+        "Thief": Path("assets/3d/generated/characters/Thief/Transcendence.glb"),
+        "Warrior": Path("assets/3d/generated/characters/Warrior/Advanced.glb"),
+    }
+    for expected_class, path in cases.items():
+        actual_class, _tier = hero_class_and_tier(path)
+        if actual_class != expected_class:
+            raise AssertionError(
+                f"hero path parser regression: {path} resolved to {actual_class!r}, "
+                f"expected {expected_class!r}"
+            )
+
+
 def validate_asset(path: Path) -> None:
     if path.stat().st_size < 1024:
         raise ValueError(f"{path}: suspiciously small GLB")
@@ -96,11 +136,7 @@ def validate_asset(path: Path) -> None:
     rel = path.relative_to(ROOT).as_posix()
 
     if rel.startswith("characters/"):
-        parts = Path(rel).parts
-        if len(parts) != 3:
-            raise ValueError(f"{path}: unexpected hero layout")
-        # Layout is characters/<class>/<tier>.glb.
-        class_id, tier = parts[1], Path(parts[2]).stem
+        class_id, tier = hero_class_and_tier(path)
         if class_id not in HERO_CLASSES:
             raise ValueError(f"{path}: unknown hero class {class_id}")
         if tier not in HERO_TIERS:
@@ -126,6 +162,12 @@ def main() -> int:
     print("HONOUR WAR GENERATED GLB QUALITY GATE")
     print(f"Discovered GLBs: {len(files)}")
 
+    try:
+        validate_hero_path_parser()
+    except Exception as exc:
+        print(f"ERROR: {exc}")
+        return 1
+
     if len(files) < 53:
         print(f"ERROR: expected at least 53 generated GLBs, found {len(files)}")
         return 1
@@ -143,9 +185,9 @@ def main() -> int:
             print(f"- {failure}")
         return 1
 
-    hero_count = sum(1 for p in files if "characters" in p.parts)
-    pet_count = sum(1 for p in files if "pets" in p.parts)
-    monster_count = sum(1 for p in files if "monsters" in p.parts)
+    hero_count = sum(1 for p in files if p.relative_to(ROOT).parts[:1] == ("characters",))
+    pet_count = sum(1 for p in files if p.relative_to(ROOT).parts[:1] == ("pets",))
+    monster_count = sum(1 for p in files if p.relative_to(ROOT).parts[:1] == ("monsters",))
     print(f"Heroes: {hero_count} | Pets: {pet_count} | Monsters: {monster_count}")
     print("PASS: binary structure, glTF 2.0 JSON, meshes, materials, embedded textures and semantic hero nodes are valid.")
     return 0
