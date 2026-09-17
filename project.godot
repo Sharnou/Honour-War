@@ -54,6 +54,7 @@ HWMapThemeDirector="*res://scripts/HWMapThemeDirector.gd"
 HWCombatPhaseDirector="*res://scripts/HWCombatPhaseDirector.gd"
 HWLiveWorldReplication="*res://scripts/HWLiveWorldReplication.gd"
 HWServerGameplayRuntime="*res://scripts/HWServerGameplayRuntime.gd"
+HWHDHighDetailWorld="*res://scripts/HWHDHighDetailWorld.gd"
 
 [display]
 window/size/viewport_width=1920
