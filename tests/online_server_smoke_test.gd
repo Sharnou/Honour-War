@@ -12,7 +12,7 @@ func _initialize() -> void:
     # Install the default API on /root so the authority Node can bind ENet in
     # the same way it does when hosted by the normal game scene.
     var network_api:MultiplayerAPI = MultiplayerAPI.create_default_interface()
-    get_tree().set_multiplayer(network_api,root.get_path())
+    set_multiplayer(network_api,root.get_path())
 
     var authority:Node = AUTHORITY_SCRIPT.new()
     root.add_child(authority)
