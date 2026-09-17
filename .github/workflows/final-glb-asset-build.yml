@@ -95,6 +95,8 @@ jobs:
               'PYTHONPATH: /tmp/blender-site',
               'hero_class_and_tier',
               'project.godot',
+              '--repair-attempts 3',
+              '--repair-timeout 900',
           )
           missing = [item for item in required if item not in text]
           if missing:
@@ -103,15 +105,18 @@ jobs:
           repair_required = (
               'def check_parser_contract(',
               'def check_camera_contract(',
+              'diagnose_camera_sources(',
               'post-repair semantic/PBR validation',
               'AUTO-REPAIR: PASS',
               '--fix',
               '--repair-attempts',
+              '--repair-timeout',
+              'timeout_seconds=',
               'no gate bypass',
           )
           repair_missing = [item for item in repair_required if item not in repair_text]
           if repair_missing:
-              raise SystemExit('Missing self-healing GLB repair contract markers: ' + ', '.join(repr(x) for x in repair_missing))
+              raise SystemExit('Missing hardened self-healing GLB repair markers: ' + ', '.join(repr(x) for x in repair_missing))
 
           camera_required = (
               'camera_rotate_left=',
@@ -133,7 +138,7 @@ jobs:
               if ('assets/3d/generated' in other and 'schedule:' in other and 'contents: write' in other and 'git add assets/3d/generated' in other):
                   raise SystemExit(f'{path} is another scheduled writable generated-asset pipeline; Final GLB must remain the sole scheduled generated-asset writer')
 
-          print('PASS: Final GLB workflow contract, self-healing gate, parser guard, camera-control QA, and single-writer policy are intact.')
+          print('PASS: Final GLB workflow contract, hardened self-healing gate, parser guard, camera-control QA, and single-writer policy are intact.')
           PY
 
       - name: Preflight Blender, GLB, and camera QA Python syntax
@@ -252,7 +257,8 @@ jobs:
           set -euo pipefail
           python3 tools/auto_repair_generated_glbs.py \
             --fix \
-            --repair-attempts 2 \
+            --repair-attempts 3 \
+            --repair-timeout 900 \
             --validator tools/validate_generated_glbs.py \
             --repair-script tools/blender/enhance_generated_glbs.py \
             --blender /opt/blender/blender
