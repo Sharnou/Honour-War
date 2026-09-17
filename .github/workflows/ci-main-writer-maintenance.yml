@@ -1,0 +1,128 @@
+name: Honour War CI main-writer maintenance
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  workflows: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+concurrency:
+  group: honour-war-main-writer-maintenance
+  cancel-in-progress: false
+
+jobs:
+  maintenance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout current main source
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          ref: main
+
+      - name: Normalize main-writing workflow contracts
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          root = Path('.github/workflows')
+          shared_group = 'honour-war-main-writer'
+          changed = []
+          self_name = 'ci-main-writer-maintenance.yml'
+
+          def normalize_concurrency(text: str) -> str:
+              block = f'concurrency:\n  group: {shared_group}\n  cancel-in-progress: false\n\n'
+              match = re.search(r'(?ms)^concurrency:\n(?P<body>(?:^[ \t]+.*\n?)*)', text)
+              if not match:
+                  insert_at = re.search(r'(?m)^(?:env:|permissions:|jobs:)', text)
+                  if insert_at:
+                      return text[:insert_at.start()] + block + text[insert_at.start():]
+                  return text + '\n' + block
+              return text[:match.start()] + block + text[match.end():]
+
+          for path in sorted(list(root.glob('*.yml')) + list(root.glob('*.yaml'))):
+              if path.name == self_name:
+                  continue
+              text = path.read_text(encoding='utf-8')
+              original = text
+
+              text = text.replace('actions/checkout@v4', 'actions/checkout@v7')
+              text = text.replace('actions/upload-artifact@v4', 'actions/upload-artifact@v7')
+
+              is_writer = 'contents: write' in text and 'git push' in text
+              if is_writer:
+                  text = normalize_concurrency(text)
+                  # Writer workflows must operate on the current main after they
+                  # enter the shared serialized lane, not a stale fixed commit.
+                  text = re.sub(r'(?m)^([ \t]+)ref: [0-9a-f]{40}\s*\n', '', text)
+                  # Rebase immediately before the write to protect against a
+                  # manual/out-of-band main push that occurs while a writer runs.
+                  text = re.sub(
+                      r'(?m)^(?P<indent>[ \t]*)git push(?: origin HEAD:main)?\s*$',
+                      lambda m: (
+                          f'{m.group("indent")}git fetch origin main\n'
+                          f'{m.group("indent")}git rebase origin/main\n'
+                          f'{m.group("indent")}git push origin HEAD:main'
+                      ),
+                      text,
+                  )
+
+              if text != original:
+                  path.write_text(text, encoding='utf-8')
+                  changed.append(path.as_posix())
+
+          if changed:
+              print('Normalized writer workflows:')
+              for item in changed:
+                  print(' -', item)
+          else:
+              print('All main-writing workflows are already normalized.')
+
+      - name: Verify main-writer contracts
+        shell: python
+        run: |
+          from pathlib import Path
+
+          root = Path('.github/workflows')
+          failures = []
+          for path in sorted(list(root.glob('*.yml')) + list(root.glob('*.yaml'))):
+              if path.name == 'ci-main-writer-maintenance.yml':
+                  continue
+              text = path.read_text(encoding='utf-8')
+              if 'contents: write' in text and 'git push' in text:
+                  if 'group: honour-war-main-writer' not in text:
+                      failures.append(f'{path}: missing shared main-writer concurrency group')
+                  if 'cancel-in-progress: false' not in text:
+                      failures.append(f'{path}: writer cancellation must remain disabled')
+                  if 'git fetch origin main' not in text or 'git rebase origin/main' not in text:
+                      failures.append(f'{path}: writer push is not protected by fetch/rebase')
+          if failures:
+              print('MAIN-WRITER CONTRACT: FAIL')
+              for item in failures:
+                  print(' -', item)
+              raise SystemExit(1)
+          print('MAIN-WRITER CONTRACT: PASS')
+
+      - name: Commit normalized workflow configuration
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/workflows
+          if git diff --cached --quiet; then
+            echo "No workflow normalization changes required."
+            exit 0
+          fi
+          git commit -m "Normalize serialized main-writer workflows"
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
