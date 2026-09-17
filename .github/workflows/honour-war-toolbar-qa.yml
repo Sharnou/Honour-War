@@ -13,6 +13,11 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: honour-war-toolbar-qa
+  cancel-in-progress: false
+  queue: max
+
 jobs:
   toolbar-static-qa:
     runs-on: ubuntu-latest
