@@ -9,15 +9,13 @@ const TEST_PORT:int = 24568
 
 func _initialize() -> void:
     # A standalone SceneTree has no scene-root MultiplayerAPI by default.
-    # Install the default API on the root and explicitly inject the same API
-    # into the authority node because this test hosts the node outside the
-    # normal Main3D scene hierarchy.
+    # Register the default API at the root path before creating the authority
+    # node so Node.multiplayer resolves the same API through the scene tree.
     var network_api:MultiplayerAPI = MultiplayerAPI.create_default_interface()
-    set_multiplayer(network_api,root.get_path())
+    set_multiplayer(network_api,NodePath("/"))
 
     var authority:Node = AUTHORITY_SCRIPT.new()
     root.add_child(authority)
-    authority.set_multiplayer(network_api)
 
     var started:bool = authority.start_server(TEST_PORT)
     if not started:
