@@ -3,169 +3,169 @@
   "geometry_source": "Blender procedural authored geometry",
   "texture_source": "Blender deterministic PBR texture pass",
   "substance_painter_status": "handoff-compatible; Substance 3D Painter is not executed in CI",
-  "generated_at_utc": "2026-09-17T10:30:18.670494+00:00",
+  "generated_at_utc": "2026-09-17T10:39:53.505770+00:00",
   "visual_brief_sha256": "147d14744f4d1005311be3420e11ef4c7b94f847e24aafaf0718266e1fc3fded",
   "asset_count": 53,
   "assets": [
     {
       "path": "assets/3d/generated/characters/Acolyte/Advanced.glb",
       "bytes": 2066148,
-      "sha256": "8ed06c662c11bd5cb7ffc23261ae707d328ff2c3d1cf35a861828f4bd9896fd8"
+      "sha256": "d657ac6772fdafcbd57861a4dc5e60cf3175886fd26532f6bf8ca06d8e59e121"
     },
     {
       "path": "assets/3d/generated/characters/Acolyte/Foundation.glb",
       "bytes": 1919052,
-      "sha256": "124889fda60a7235accc048ad33b6b817e4c411033a086db791604de67532c65"
+      "sha256": "28650bb67670e2b1b1144579fd35c178d5bebc23b107841a3bfeee571b9ef9d0"
     },
     {
       "path": "assets/3d/generated/characters/Acolyte/Mastery.glb",
-      "bytes": 2086076,
-      "sha256": "63604f9b23f94ef05962f265120e847840e36ea51db4d7c70e7e41b049b48b7e"
+      "bytes": 2104072,
+      "sha256": "d82f73781083efcd3eb56b45bdd712b294bf2706cda18215730457686c336360"
     },
     {
       "path": "assets/3d/generated/characters/Acolyte/Specialization.glb",
       "bytes": 2061832,
-      "sha256": "d29b2837d8d940ac9a5d2fb71f7769e34145a84b0bf253df7ae329d76815f0b4"
+      "sha256": "0f126458446087796a365931d449ed441e0af1966b264e9eb6385ccfd5b54fb1"
     },
     {
       "path": "assets/3d/generated/characters/Acolyte/Transcendence.glb",
       "bytes": 2684824,
-      "sha256": "a54cea300bd468a742d5ad41b5e341675ec7f3d99c8b3e05a04ad3cfd5d2a632"
+      "sha256": "aa983ffbfb048cce6cff1249c6ba8e01845c87f09098d737f4d0b37ef9eb8006"
     },
     {
       "path": "assets/3d/generated/characters/Archer/Advanced.glb",
       "bytes": 1972340,
-      "sha256": "0aaeab7a74ba5e448826f4757faf66093bc035ea245dbc3f4f9fa5e295ab7281"
+      "sha256": "8f57d55760aec228d32ce3cbee1c322a516d2862b8fc008aa90d9f8fa820fa2d"
     },
     {
       "path": "assets/3d/generated/characters/Archer/Foundation.glb",
       "bytes": 1825120,
-      "sha256": "f0bca2f34a3f9a22c02b3d21c4eea373a3649b8e003f92878376f23743d24809"
+      "sha256": "f6ef99131ddb842fe72625a0ad91bdec98d6dbf0a95bd0052f6b1a5b60aa775d"
     },
     {
       "path": "assets/3d/generated/characters/Archer/Mastery.glb",
       "bytes": 2009232,
-      "sha256": "43c205b613995b86ce02260dc8dda0f5aff0ce6f67bbc41ac8e17833a7f80544"
+      "sha256": "70ebc75f73d3d63bd150f7bf64e5df48a2aa3c94753edcd109c051e161f71a2a"
     },
     {
       "path": "assets/3d/generated/characters/Archer/Specialization.glb",
       "bytes": 1967020,
-      "sha256": "8c7c5005abf103597679165c7297fd4cd013100fe6405af69671b51aec61aa1f"
+      "sha256": "edbc7fd8da57a61da04b2ea2f555412639ef685be969ba2f3aa9708ab46d1211"
     },
     {
       "path": "assets/3d/generated/characters/Archer/Transcendence.glb",
-      "bytes": 2569028,
-      "sha256": "f2584df57836cd0992c3242fec4313b3142bb29fdcc176eb2e62332656842827"
+      "bytes": 2587020,
+      "sha256": "657f19c9efbaf5e305d3d1b90952785187137e67885f3882f2d885813eaa26ff"
     },
     {
       "path": "assets/3d/generated/characters/Mage/Advanced.glb",
       "bytes": 2060244,
-      "sha256": "1a4f475c8f9d1daf08d11fc20874ccc372a3a3662b570cf64975d5c894b42a4a"
+      "sha256": "0702d04097caef3122fb00eb0ad89b2916e35dd9e73925838e18c5fc7a571bdf"
     },
     {
       "path": "assets/3d/generated/characters/Mage/Foundation.glb",
-      "bytes": 1894824,
-      "sha256": "44c8dd366ac5b3ff37e4907d16f710f8ea64974b2c7c44cc18eaef2ef702b85f"
+      "bytes": 1912820,
+      "sha256": "4413c001bb8397a642c47af24a5d07780c345fff1451e7d573ad7b947f56cd6e"
     },
     {
       "path": "assets/3d/generated/characters/Mage/Mastery.glb",
       "bytes": 2097048,
-      "sha256": "5b3b4925387bff99f6ab5c8314f4b55692f6978b35be20d4293064d3c0fd6047"
+      "sha256": "ec131dc17334ecdfa65da0a3877e900e5cdd245f1d92aea87fd7b061f25e1575"
     },
     {
       "path": "assets/3d/generated/characters/Mage/Specialization.glb",
       "bytes": 2055652,
-      "sha256": "eccae88c0c8b5073a8635f9dc76d3f23365883238728b6f6014e142b33d08474"
+      "sha256": "53fcc697b08945bfc3f16e8792f2abf700aa9b23b18e16a67fa7cf574f313c6e"
     },
     {
       "path": "assets/3d/generated/characters/Mage/Transcendence.glb",
       "bytes": 2677644,
-      "sha256": "41ec76fbfb62f493caa15c3defeff23029aff4909726173f7b16c63839c8d8cc"
+      "sha256": "3cb5610530e9de8642dc0d2e7f583d6e8cd4491c6d61c57efa964afe2eda60d8"
     },
     {
       "path": "assets/3d/generated/characters/Merchant/Advanced.glb",
       "bytes": 1949348,
-      "sha256": "8e68c39ddd619eba1d5f18193816cbc88eaaa54778a58b2b3d426f95a1334c50"
+      "sha256": "4e022c4d71a27b0ffa4b72e85fd9f96a4be2fa073050546b729a2ec7d1cfda0c"
     },
     {
       "path": "assets/3d/generated/characters/Merchant/Foundation.glb",
       "bytes": 1800920,
-      "sha256": "33384b6887afb8571c2e76cbdc1aeec55caa5f6dc5116fe2e51e795c1bf9e9fc"
+      "sha256": "d29f8486c3c927388847cc767ff861e0241853735cadfe3d1ace3598513e1892"
     },
     {
       "path": "assets/3d/generated/characters/Merchant/Mastery.glb",
-      "bytes": 1986032,
-      "sha256": "026f623071507a319f53b84e89906ad8c7e036a5442c800e3305082efa016094"
+      "bytes": 1968036,
+      "sha256": "ad349c0fa0f6b52354872d25568a81dc72b5600393ac27d9e82f6ecc70b0ebae"
     },
     {
       "path": "assets/3d/generated/characters/Merchant/Specialization.glb",
       "bytes": 1943220,
-      "sha256": "231ec7e068fd7c7aed224578d5dc7ecdb22871635038cc1507a26f9651339cde"
+      "sha256": "2dbf070aa4da14732869a0d5237dbc433d98a41844d574afce702828397ac6f3"
     },
     {
       "path": "assets/3d/generated/characters/Merchant/Transcendence.glb",
       "bytes": 2566640,
-      "sha256": "dd28cbeaa9e2dfb7462deb69b04d318ff15b60ebec12a8e281db5b34b87afd1f"
+      "sha256": "d7036194dc06196503c23cd7b279b47c2900883666e29640d07948a1244a3599"
     },
     {
       "path": "assets/3d/generated/characters/Thief/Advanced.glb",
       "bytes": 1946148,
-      "sha256": "5d6536b9bc88038b76e2a620a5141f0c35ee7d8c2c21b7d1ce6e98313888b492"
+      "sha256": "8f0d5c6e48ecf805fd47a1aeef365646aaa1fc231b95dfe81aee5276f79a800d"
     },
     {
       "path": "assets/3d/generated/characters/Thief/Foundation.glb",
       "bytes": 1798872,
-      "sha256": "f143a1fdd2e9d3ec9b804675a749908e601a97b7be163a032ab046e5ea114019"
+      "sha256": "211dae257c706b867561b83ba8540a13fe78b8e99391c28bc288aaa58e0c77b1"
     },
     {
       "path": "assets/3d/generated/characters/Thief/Mastery.glb",
       "bytes": 1983112,
-      "sha256": "bd9947f019e57de45d36b8d80b636521ddcd29b70f57e93e5116ab4c14de9e6a"
+      "sha256": "763d88748616e1cad2d64e7c14cb5392adead047e29ca24ac7d23bc72b6dcc38"
     },
     {
       "path": "assets/3d/generated/characters/Thief/Specialization.glb",
       "bytes": 1942148,
-      "sha256": "ad75bd84ac667168ce02e76b5ab1ecfff3c9a7da6540f290d552acd30a92a35b"
+      "sha256": "e1d54ee072d610ab66d606cf271ee528f64194d8dbfec0a12fa8e0e5e8d1aaf2"
     },
     {
       "path": "assets/3d/generated/characters/Thief/Transcendence.glb",
       "bytes": 2564500,
-      "sha256": "d97aba421d6b5f8e465a9fdc215c323eb96c3e13d07411c227e45c7d326ee6a0"
+      "sha256": "d3111ab94891db639976c64797a6e6d51ea2e32def5a73efa0e0a5bdf55b64f9"
     },
     {
       "path": "assets/3d/generated/characters/Warrior/Advanced.glb",
       "bytes": 1937912,
-      "sha256": "72922ce7b0dc9e2f2729624d2c356e7153c3f84af44db5fa9bdecd8f75592c6f"
+      "sha256": "8f2754421dec45a9797ae2cd4115217a0867de58e459642792360fa6034b7d40"
     },
     {
       "path": "assets/3d/generated/characters/Warrior/Foundation.glb",
       "bytes": 1790804,
-      "sha256": "37a2797fa64dc77d051dd0688a8308928e6bee058e964f236b578e4e33001dd9"
+      "sha256": "78e8a37b63ab7db22d22a0ce5a1aab70bdf36dd37b45e40895bd894badb64491"
     },
     {
       "path": "assets/3d/generated/characters/Warrior/Mastery.glb",
       "bytes": 1976064,
-      "sha256": "6a2078d141a9024ef3e0bf49d87e6d0aa40fc12e2be62c8184bfa5131a150fbb"
+      "sha256": "ec14f9735463e04beb86bb204885e0a2880f87c68a32baba301eccae629b720f"
     },
     {
       "path": "assets/3d/generated/characters/Warrior/Specialization.glb",
       "bytes": 1933436,
-      "sha256": "773e93fc5222677508058437db1658a83def5278ee64c869d6d4e2cf5b371c73"
+      "sha256": "9bc1e4a7581af25b01300126cba0b146379d6294ade8a8db83e37016ecc69e54"
     },
     {
       "path": "assets/3d/generated/characters/Warrior/Transcendence.glb",
-      "bytes": 2555532,
-      "sha256": "96124a678a1a2ff569b81fd2f7a953974957c3c4f4b90bbc3dc1251549c0011e"
+      "bytes": 2537536,
+      "sha256": "6db13e1a72ea914d3193933dd97d8354e2950d04dc4c62e534b8206ea1a96f27"
     },
     {
       "path": "assets/3d/generated/monsters/monster_Bloody_Knight.glb",
       "bytes": 393248,
-      "sha256": "0603bb54e0a24dc44ee84d9f4805e908abdf8993aec115819215a56dcf0f8c7a"
+      "sha256": "384dd6fa764b165ebe05ac9487ddb086359f82204c6639f3f0b5ce572a3484f6"
     },
     {
       "path": "assets/3d/generated/monsters/monster_Dragon.glb",
       "bytes": 419448,
-      "sha256": "3f17fe50f45a48e7ebddc370ae10e61fdd096a1b7c4c60c7671c75fcfdbde27a"
+      "sha256": "3062ddb41b86b6e39836b81e73271556363b2b12965615ec0cdbc29ad835bbc5"
     },
     {
       "path": "assets/3d/generated/monsters/monster_Evil_Druid.glb",
@@ -175,102 +175,102 @@
     {
       "path": "assets/3d/generated/monsters/monster_Goblin.glb",
       "bytes": 536468,
-      "sha256": "45ac238e5b3aa2768634e8a68e86d532b5067164f0a5a5b299806073e057c333"
+      "sha256": "d1fed79897fcb2e7c88725430dfe3009a712ce927abb161d602b744f3e72ad7e"
     },
     {
       "path": "assets/3d/generated/monsters/monster_Golem.glb",
       "bytes": 317572,
-      "sha256": "fb614c278fed07e8aab7d2cd5a0140eeab3ffbba48922228db5ed487d2125d36"
+      "sha256": "4a963974c2c75702b23598360134bdb5e891bd62bfe74525f64a628e9849d033"
     },
     {
       "path": "assets/3d/generated/monsters/monster_Mantis.glb",
       "bytes": 288636,
-      "sha256": "f53ef3556ec9e54854c3acaad494984a7a1eaaee7f2efde219ca74336658c0d5"
+      "sha256": "45c2dde68d5776c90b32a6ed2448930a01339c4e7a0a86eb4a3cb1cb70ffd739"
     },
     {
       "path": "assets/3d/generated/monsters/monster_Orc.glb",
       "bytes": 542600,
-      "sha256": "c65d9e4f377781dc90eef1c0cc98e0592bf95228ad384e8c3bcd440690ea05f9"
+      "sha256": "550f53f39167e3e0944768dcb73c4e675477504bd5ef81304af9e43067d52011"
     },
     {
       "path": "assets/3d/generated/monsters/monster_Poring.glb",
       "bytes": 208284,
-      "sha256": "ba99e3f3cafc4bbfc394df399a573d691f9c8f673fe1fe8b1a35eb8dced0b0d7"
+      "sha256": "0c8bc7ff8a176018de0cc6aee62cdf0cdb518ee9da1e09b8c48cd4d9d09b99fb"
     },
     {
       "path": "assets/3d/generated/monsters/monster_Skeleton.glb",
       "bytes": 215068,
-      "sha256": "11e997713f8876411b67bd09199b97b295ae0f9d7df77faa855018ac908eb829"
+      "sha256": "6c5f50d94707645ed5209399029195c63ddd763fa97a31a63d0db57e85520f40"
     },
     {
       "path": "assets/3d/generated/monsters/monster_Wolf.glb",
       "bytes": 546112,
-      "sha256": "2479d65b183c0a6e97d3a67ebd6e93479d3b7d295fc58e29ea8e87eeaa6c561b"
+      "sha256": "5f5dcb55646a62746f58ef39f7f1cf9f0937575630b48fbb082bb81954f29577"
     },
     {
       "path": "assets/3d/generated/monsters/monster_Zombie.glb",
       "bytes": 539640,
-      "sha256": "cc39d17375fb93a47f572f84b76f735a5cae54e7eb85f8eed801143c866b455b"
+      "sha256": "9e985b0dfa36b8cbb8f325b1a7d0aaa695e6d031f91bd349f10dcd970bc31287"
     },
     {
       "path": "assets/3d/generated/pets/Acolyte_pet.glb",
       "bytes": 452916,
-      "sha256": "f4d619b4762da8470ba2b14930815b5d4405c50001d113e49f039896066f5e7e"
+      "sha256": "fbbc13177540ac23517d0dab3babfd7dac13ab1be280572129d846ce44bbd344"
     },
     {
       "path": "assets/3d/generated/pets/ArcaneOrb.glb",
       "bytes": 227476,
-      "sha256": "28aed42cdf69db5f51ba9fb6305f1aca399ab44452c71195af124eb0dbfb106b"
+      "sha256": "ef335e52b6ace8a98d5dfd3bc7ee6012e5ce4c6d3c5cc04f0b53de2f857fb145"
     },
     {
       "path": "assets/3d/generated/pets/Archer_pet.glb",
       "bytes": 498504,
-      "sha256": "57bfe7f78bab2054127d3d8ec86281381f1640ca8336d55756bfb185350623a8"
+      "sha256": "ce1ef5da238233f166d4b5cbcde7dc9cc5a42707402438daa36e43fa06b2febd"
     },
     {
       "path": "assets/3d/generated/pets/Clockwork.glb",
       "bytes": 227764,
-      "sha256": "e0c1ef0c996be33a7d249cad6297fa3b9ee32479d30b5f7a7ffdf9df93063f69"
+      "sha256": "5c8f9bac687aeed26e8f4ad1f2ac42bee85efece9b1fdd1b0d4bc2dcdce19882"
     },
     {
       "path": "assets/3d/generated/pets/Falcon.glb",
       "bytes": 496152,
-      "sha256": "3e3009b6e3686951eae012603884e5f3f476440c50a450716a28f83888417f45"
+      "sha256": "3dbc0d3371ff691e7aec3fdfc60b1681c2c1359b9e649cdfad37d350809fdcef"
     },
     {
       "path": "assets/3d/generated/pets/Mage_pet.glb",
       "bytes": 227584,
-      "sha256": "2377fcbcae8248e1557a698d84c2d8aa04ad5650191e94a53c84596268eba00d"
+      "sha256": "2e6cb4e7ff895dc17575a110d950d1e64d232cc1f07d669b79d565a56eb52a82"
     },
     {
       "path": "assets/3d/generated/pets/Merchant_pet.glb",
       "bytes": 227652,
-      "sha256": "8a2be6860b6c30b733f8c356b309110e90e4cad7f4b34a8e96893799e2f875b9"
+      "sha256": "d0b467ff7e3d3875af3255ebbbb8920d75bb61f955039f70ac03c2a9505b23b8"
     },
     {
       "path": "assets/3d/generated/pets/Panther.glb",
       "bytes": 409720,
-      "sha256": "762bbf0b82fd5607eac5acdcdf85105698b77685e6022d2db8a99a35262d2b00"
+      "sha256": "2985a4a983392df0021e7a0d7f0494fac524c1fc2f0279a38cb7e8b9f04b1df6"
     },
     {
       "path": "assets/3d/generated/pets/PoringAngel.glb",
       "bytes": 443288,
-      "sha256": "6fcd16ce85c9083ca4aaf53ecc746218d4b8c2659b98821dd75cff4cf19afde4"
+      "sha256": "ff82c61b7abc15f892955f8e3e121310bc6c8e9671ad7da2c39ece28086942fc"
     },
     {
       "path": "assets/3d/generated/pets/Thief_pet.glb",
       "bytes": 415356,
-      "sha256": "acbdb77fe6d30b62ccb559d07e354838ed536bd4ee30acbe1f608d887e2f9ccf"
+      "sha256": "f2d7b386da5c4acec65f16c52ecaae2cd2b838b3e847bcb3ce17aca9503f1bcd"
     },
     {
       "path": "assets/3d/generated/pets/Warrior_pet.glb",
       "bytes": 409660,
-      "sha256": "79ca890cfb093c2a9ef62e199ab435dd0e088e99877f79df30aa373b497584a1"
+      "sha256": "d49fc56c16b4fbf188659cb2b6d8250040588465b59438cc5126556d1439bfd2"
     },
     {
       "path": "assets/3d/generated/pets/Wolf.glb",
       "bytes": 409968,
-      "sha256": "97fb98eb0d74a7c9adb2cd3ad7beab6175cca16269890d69fc1dff6f188e506d"
+      "sha256": "4fc64d4248a95626db607aa81d14a877827906344d45439106d2b7c83da2f968"
     }
   ]
 }
