@@ -1,0 +1,190 @@
+name: CHATGPT CI Failure Annotations
+
+on:
+  workflow_run:
+    types: [completed]
+
+permissions:
+  actions: read
+  contents: read
+  issues: write
+
+jobs:
+  annotate-failure:
+    # Do not notify for successful runs, and never self-trigger recursively.
+    if: >-
+      github.event.workflow_run.name != 'CHATGPT CI Failure Annotations' &&
+      github.event.workflow_run.conclusion != 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Publish failure annotation for ChatGPT
+        uses: actions/github-script@v8
+        env:
+          ANNOTATION_ISSUE_TITLE: CHATGPT Annotations — Honour War CI Failures
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const run = context.payload.workflow_run;
+            const issueTitle = process.env.ANNOTATION_ISSUE_TITLE;
+
+            const failureConclusions = new Set([
+              'failure',
+              'timed_out',
+              'startup_failure',
+              'action_required',
+              'stale',
+              'cancelled'
+            ]);
+
+            if (!failureConclusions.has(run.conclusion)) {
+              core.info(`Skipping conclusion: ${run.conclusion}`);
+              return;
+            }
+
+            const jobs = await github.paginate(
+              github.rest.actions.listJobsForWorkflowRun,
+              {
+                owner,
+                repo,
+                run_id: run.id,
+                per_page: 100
+              }
+            );
+
+            const failedJobs = jobs.filter(job =>
+              ['failure', 'timed_out', 'startup_failure', 'action_required', 'cancelled'].includes(job.conclusion)
+              || (job.steps || []).some(step =>
+                ['failure', 'timed_out', 'startup_failure', 'action_required', 'cancelled'].includes(step.conclusion)
+              )
+            );
+
+            const compact = (value, max = 1200) => {
+              const text = String(value ?? '').replace(/\r/g, '');
+              return text.length <= max ? text : text.slice(-max);
+            };
+
+            const redact = (text) => compact(text
+              .replace(/https:\/\/[^\s]+/g, '[URL]')
+              .replace(/::(add-mask|set-output|group|endgroup)::[^\n]*/g, '[ACTIONS-METADATA]'));
+
+            const diagnostics = [];
+
+            for (const job of failedJobs.slice(0, 20)) {
+              const badSteps = (job.steps || []).filter(step =>
+                ['failure', 'timed_out', 'startup_failure', 'action_required', 'cancelled'].includes(step.conclusion)
+              );
+
+              diagnostics.push({
+                job: job.name,
+                job_id: job.id,
+                conclusion: job.conclusion,
+                failed_steps: badSteps.map(step => `${step.name} [${step.conclusion}]`)
+              });
+
+              if (job.conclusion === 'failure' || job.conclusion === 'timed_out' || job.conclusion === 'startup_failure') {
+                try {
+                  const response = await github.rest.actions.downloadJobLogsForCompletedJob({
+                    owner,
+                    repo,
+                    job_id: job.id
+                  });
+
+                  let logText = typeof response.data === 'string'
+                    ? response.data
+                    : Buffer.from(response.data).toString('utf8');
+
+                  const lines = logText.split('\n');
+                  const matches = lines.filter(line =>
+                    /##\[error\]|(^|\s)(ERROR|Error|error|FATAL|Fatal|fatal|Exception|Traceback|failed|FAIL)([:\s]|$)|exit code [1-9]/.test(line)
+                  );
+
+                  if (matches.length) {
+                    diagnostics[diagnostics.length - 1].log_excerpt = redact(matches.slice(-12).join('\n'));
+                  }
+                } catch (error) {
+                  diagnostics[diagnostics.length - 1].log_fetch = `Unable to fetch job log: ${compact(error.message, 300)}`;
+                }
+              }
+            }
+
+            const failedJobMarkdown = diagnostics.length
+              ? diagnostics.map(item => {
+                  const steps = item.failed_steps.length
+                    ? item.failed_steps.map(step => `- ${step}`).join('\n')
+                    : '- No failed step metadata reported';
+                  const excerpt = item.log_excerpt
+                    ? `\n\n**Diagnostic excerpt**\n\n\\`\\`\\`text\n${item.log_excerpt}\n\\`\\`\\``
+                    : '';
+                  const fetchError = item.log_fetch
+                    ? `\n\n**Log retrieval note:** ${item.log_fetch}`
+                    : '';
+                  return `### Job: ${item.job}\nConclusion: \`${item.conclusion}\`\n\n**Failed steps**\n${steps}${excerpt}${fetchError}`;
+                }).join('\n\n')
+              : 'No failed job metadata was returned by the Actions API.';
+
+            const annotation = [
+              '## CHATGPT ANNOTATION — HONOUR WAR WORKFLOW FAILURE',
+              '',
+              `**Workflow:** ${run.name}`,
+              `**Conclusion:** \`${run.conclusion}\``,
+              `**Run:** [#${run.run_number}](${run.html_url})`,
+              `**Event:** \`${run.event}\``,
+              `**Branch:** \`${run.head_branch}\``,
+              `**Commit:** \`${run.head_sha}\``,
+              `**Started:** ${run.run_started_at ?? run.created_at}`,
+              `**Completed:** ${run.updated_at}`,
+              '',
+              '### Failed jobs and diagnostic context',
+              '',
+              failedJobMarkdown,
+              '',
+              '### ChatGPT handling rule',
+              '',
+              'Use this annotation as the authoritative starting point for the failed run. Inspect the exact failing workflow/job and current repository revision before changing code. Do not bypass the failing gate; repair the root cause and re-run the affected workflow.',
+              '',
+              `<!-- CHATGPT_CI_RUN_ID:${run.id} -->`
+            ].join('\n');
+
+            const search = await github.rest.search.issuesAndPullRequests({
+              q: `repo:${owner}/${repo} in:title "${issueTitle}" state:open`,
+              per_page: 10
+            });
+
+            let issue = search.data.items.find(item => item.title === issueTitle);
+
+            if (!issue) {
+              const created = await github.rest.issues.create({
+                owner,
+                repo,
+                title: issueTitle,
+                body: '# CHATGPT ANNOTATIONS — CI FAILURE CHANNEL\n\nPersistent project-wide diagnostic channel for failed GitHub Actions runs.\n\nThe `CHATGPT CI Failure Annotations` workflow appends one structured annotation for each non-success completed workflow run, excluding itself.'
+              });
+              issue = created.data;
+            }
+
+            const previousComments = await github.paginate(
+              github.rest.issues.listComments,
+              {
+                owner,
+                repo,
+                issue_number: issue.number,
+                per_page: 100
+              }
+            );
+
+            const marker = `<!-- CHATGPT_CI_RUN_ID:${run.id} -->`;
+            if (previousComments.some(comment => comment.body && comment.body.includes(marker))) {
+              core.info(`Run ${run.id} is already annotated.`);
+              return;
+            }
+
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number: issue.number,
+              body: annotation
+            });
+
+            core.info(`Published ChatGPT failure annotation for ${run.name} run #${run.run_number} to issue #${issue.number}.`);
