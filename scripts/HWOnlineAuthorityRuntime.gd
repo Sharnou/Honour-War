@@ -2,13 +2,19 @@ extends Node
 
 ## Honour War authoritative-session runtime.
 ## The server owns accepted gameplay events. Clients may request actions, but
-## malformed, unsupported, oversized, or rate-limited requests never enter the
-## authoritative event stream.
+## malformed, unsupported, oversized, unauthenticated, or rate-limited requests
+## never enter the authoritative event stream.
 
 signal authoritative_event_received(event:Dictionary)
 signal authority_action_rejected(peer_id:int, action:String, reason:String)
+signal authentication_succeeded(peer_id:int, username:String, player:Dictionary)
+signal authentication_failed(peer_id:int, username:String, reason:String)
+signal player_persistence_failed(peer_id:int, username:String, reason:String)
 
-const PROTOCOL_VERSION:int = 2
+const GameDataClass = preload("res://scripts/GameData.gd")
+const AccountDatabaseClass = preload("res://scripts/HWAccountDatabase.gd")
+
+const PROTOCOL_VERSION:int = 3
 const DEFAULT_PORT:int = 24567
 const MAX_PLAYERS:int = 16
 const MAX_ACTIONS_PER_WINDOW:int = 30
@@ -17,6 +23,8 @@ const MAX_PAYLOAD_KEYS:int = 24
 const MAX_PAYLOAD_DEPTH:int = 3
 const MAX_ARRAY_ITEMS:int = 64
 const MAX_STRING_LENGTH:int = 256
+const MIN_PASSWORD_LENGTH:int = 8
+const ACCOUNT_CHALLENGE_TTL_SECONDS:float = 30.0
 
 const ALLOWED_ACTIONS:Array[String] = [
     "move", "attack", "cast_skill", "use_skill", "use_item", "equip", "unequip",
@@ -30,11 +38,21 @@ var connected_peers:Array[int] = []
 var last_sequence:int = 0
 var state_revision:int = 0
 var _action_windows:Dictionary = {}
+var account_database:RefCounted
+var _login_nonces:Dictionary = {}
+var _authenticated_peers:Dictionary = {}
+var _peer_players:Dictionary = {}
 
 func _ready() -> void:
     process_mode = Node.PROCESS_MODE_ALWAYS
+    account_database = AccountDatabaseClass.new()
 
 func start_server(port:int = DEFAULT_PORT) -> bool:
+    if account_database == null:
+        account_database = AccountDatabaseClass.new()
+    if not account_database.load_database():
+        push_error("Honour War account database could not be loaded")
+        return false
     var peer:ENetMultiplayerPeer = ENetMultiplayerPeer.new()
     var error:int = peer.create_server(port,MAX_PLAYERS)
     if error != OK:
@@ -44,6 +62,9 @@ func start_server(port:int = DEFAULT_PORT) -> bool:
     session_id = "%s-%s" % [Time.get_datetime_string_from_system(true),PROTOCOL_VERSION]
     connected_peers.clear()
     _action_windows.clear()
+    _login_nonces.clear()
+    _authenticated_peers.clear()
+    _peer_players.clear()
     last_sequence = 0
     state_revision = 0
     _wire_peer_signals()
@@ -57,6 +78,7 @@ func connect_client(address:String,port:int = DEFAULT_PORT) -> bool:
     multiplayer.multiplayer_peer = peer
     is_server_authority = false
     connected_peers.clear()
+    _action_windows.clear()
     _wire_peer_signals()
     return true
 
@@ -66,10 +88,210 @@ func stop_session() -> void:
     multiplayer.multiplayer_peer = null
     connected_peers.clear()
     _action_windows.clear()
+    _login_nonces.clear()
+    _authenticated_peers.clear()
+    _peer_players.clear()
     is_server_authority = false
     session_id = "offline"
     last_sequence = 0
     state_revision = 0
+
+func request_register(username:String,password:String) -> void:
+    if is_server_authority:
+        _register_local(multiplayer.get_unique_id(),username,password)
+        return
+    if multiplayer.multiplayer_peer == null:
+        authentication_failed.emit(multiplayer.get_unique_id(),username,"offline")
+        return
+    if not AccountDatabaseClass.validate_username(username):
+        authentication_failed.emit(multiplayer.get_unique_id(),username,"invalid_username")
+        return
+    if password.length() < MIN_PASSWORD_LENGTH:
+        authentication_failed.emit(multiplayer.get_unique_id(),username,"password_too_short")
+        return
+    var salt:String = _new_salt()
+    var verifier:String = AccountDatabaseClass.password_verifier(password,salt)
+    _server_register.rpc_id(1,username.strip_edges(),salt,verifier)
+
+func request_login(username:String,password:String) -> void:
+    if is_server_authority:
+        authentication_failed.emit(multiplayer.get_unique_id(),username,"server_use_local_login")
+        return
+    if multiplayer.multiplayer_peer == null:
+        authentication_failed.emit(multiplayer.get_unique_id(),username,"offline")
+        return
+    if not AccountDatabaseClass.validate_username(username):
+        authentication_failed.emit(multiplayer.get_unique_id(),username,"invalid_username")
+        return
+    if password.length() < MIN_PASSWORD_LENGTH:
+        authentication_failed.emit(multiplayer.get_unique_id(),username,"password_too_short")
+        return
+    set_meta("pending_login_password",password)
+    _server_begin_login.rpc_id(1,username.strip_edges().to_lower())
+
+func request_logout() -> void:
+    if is_server_authority:
+        _logout_peer(multiplayer.get_unique_id())
+    elif multiplayer.multiplayer_peer != null:
+        _server_logout.rpc_id(1)
+
+func is_peer_authenticated(peer_id:int) -> bool:
+    return _authenticated_peers.has(peer_id)
+
+func username_for_peer(peer_id:int) -> String:
+    return str(_authenticated_peers.get(peer_id,""))
+
+func player_for_peer(peer_id:int) -> Dictionary:
+    var value:Variant = _peer_players.get(peer_id,{})
+    return value.duplicate(true) if value is Dictionary else {}
+
+func save_player_for_peer(peer_id:int,player:Dictionary) -> bool:
+    if not is_server_authority or not is_peer_authenticated(peer_id):
+        return false
+    var username:String = username_for_peer(peer_id)
+    if username.is_empty():
+        return false
+    var ok:bool = account_database.save_player(username,player)
+    if ok:
+        _peer_players[peer_id] = player.duplicate(true)
+    else:
+        player_persistence_failed.emit(peer_id,username,"database_write_failed")
+    return ok
+
+func set_player_for_peer(peer_id:int,player:Dictionary) -> bool:
+    if not is_server_authority or not is_peer_authenticated(peer_id) or not player is Dictionary:
+        return false
+    _peer_players[peer_id] = player.duplicate(true)
+    return true
+
+func _register_local(peer_id:int,username:String,password:String) -> void:
+    var normalized:String = username.strip_edges().to_lower()
+    if not AccountDatabaseClass.validate_username(normalized):
+        authentication_failed.emit(peer_id,normalized,"invalid_username")
+        return
+    if password.length() < MIN_PASSWORD_LENGTH:
+        authentication_failed.emit(peer_id,normalized,"password_too_short")
+        return
+    if account_database.account_exists(normalized):
+        authentication_failed.emit(peer_id,normalized,"account_exists")
+        return
+    var salt:String = _new_salt()
+    var verifier:String = AccountDatabaseClass.password_verifier(password,salt)
+    var player:Dictionary = GameDataClass.new_hero()
+    player["account_username"] = normalized
+    if not account_database.create_account(normalized,salt,verifier,player):
+        authentication_failed.emit(peer_id,normalized,"account_create_failed")
+        return
+    authentication_succeeded.emit(peer_id,normalized,player)
+
+@rpc("any_peer","reliable")
+func _server_register(username:String,salt:String,verifier:String) -> void:
+    if not multiplayer.is_server():
+        return
+    var sender:int = multiplayer.get_remote_sender_id()
+    var normalized:String = username.strip_edges().to_lower()
+    if sender <= 0 or not AccountDatabaseClass.validate_username(normalized):
+        _send_auth_failure(sender,normalized,"invalid_username")
+        return
+    if salt.length() < 16 or verifier.length() != 64:
+        _send_auth_failure(sender,normalized,"invalid_credentials")
+        return
+    if account_database.account_exists(normalized):
+        _send_auth_failure(sender,normalized,"account_exists")
+        return
+    var player:Dictionary = GameDataClass.new_hero()
+    player["account_username"] = normalized
+    if not account_database.create_account(normalized,salt,verifier,player):
+        _send_auth_failure(sender,normalized,"account_create_failed")
+        return
+    _authenticated_peers[sender] = normalized
+    _peer_players[sender] = player.duplicate(true)
+    _client_auth_success.rpc_id(sender,normalized,player.duplicate(true),session_id)
+    authentication_succeeded.emit(sender,normalized,player)
+
+@rpc("any_peer","reliable")
+func _server_begin_login(username:String) -> void:
+    if not multiplayer.is_server():
+        return
+    var sender:int = multiplayer.get_remote_sender_id()
+    var normalized:String = username.strip_edges().to_lower()
+    if sender <= 0 or not account_database.account_exists(normalized):
+        _send_auth_failure(sender,normalized,"invalid_credentials")
+        return
+    var nonce:String = _new_nonce(sender,normalized)
+    _login_nonces[sender] = {"username":normalized,"nonce":nonce,"expires":Time.get_unix_time_from_system()+ACCOUNT_CHALLENGE_TTL_SECONDS}
+    var record:Dictionary = account_database.get_auth_record(normalized)
+    _client_auth_challenge.rpc_id(sender,normalized,str(record.get("salt","")),nonce)
+
+@rpc("any_peer","reliable")
+func _server_finish_login(username:String,response:String) -> void:
+    if not multiplayer.is_server():
+        return
+    var sender:int = multiplayer.get_remote_sender_id()
+    var pending:Variant = _login_nonces.get(sender,{})
+    if not pending is Dictionary:
+        _send_auth_failure(sender,username,"challenge_missing")
+        return
+    var challenge:Dictionary = pending
+    _login_nonces.erase(sender)
+    if float(challenge.get("expires",0.0)) < Time.get_unix_time_from_system():
+        _send_auth_failure(sender,username,"challenge_expired")
+        return
+    var normalized:String = str(challenge.get("username",""))
+    if normalized != username.strip_edges().to_lower():
+        _send_auth_failure(sender,normalized,"challenge_mismatch")
+        return
+    var nonce:String = str(challenge.get("nonce",""))
+    if not account_database.authenticate_challenge(normalized,response,nonce):
+        _send_auth_failure(sender,normalized,"invalid_credentials")
+        return
+    account_database.mark_login(normalized)
+    var player:Dictionary = account_database.load_player(normalized,GameDataClass.new_hero())
+    player["account_username"] = normalized
+    _authenticated_peers[sender] = normalized
+    _peer_players[sender] = player.duplicate(true)
+    _client_auth_success.rpc_id(sender,normalized,player.duplicate(true),session_id)
+    authentication_succeeded.emit(sender,normalized,player)
+
+@rpc("authority","reliable")
+func _client_auth_challenge(username:String,salt:String,nonce:String) -> void:
+    var password:String = str(get_meta("pending_login_password",""))
+    if password.is_empty():
+        authentication_failed.emit(multiplayer.get_unique_id(),username,"password_unavailable")
+        return
+    var verifier:String = AccountDatabaseClass.password_verifier(password,salt)
+    var response:String = AccountDatabaseClass.challenge_digest(verifier,nonce)
+    set_meta("pending_login_password","")
+    _server_finish_login.rpc_id(1,username,response)
+
+@rpc("authority","reliable")
+func _client_auth_success(username:String,player:Dictionary,server_session:String) -> void:
+    set_meta("account_username",username)
+    set_meta("server_session",server_session)
+    authentication_succeeded.emit(multiplayer.get_unique_id(),username,player)
+
+@rpc("authority","reliable")
+func _client_auth_failure(username:String,reason:String) -> void:
+    authentication_failed.emit(multiplayer.get_unique_id(),username,reason)
+
+@rpc("any_peer","reliable")
+func _server_logout() -> void:
+    if not multiplayer.is_server():
+        return
+    _logout_peer(multiplayer.get_remote_sender_id())
+
+func _logout_peer(peer_id:int) -> void:
+    var username:String = username_for_peer(peer_id)
+    _authenticated_peers.erase(peer_id)
+    _peer_players.erase(peer_id)
+    _login_nonces.erase(peer_id)
+    if peer_id > 0 and not username.is_empty() and not is_server_authority:
+        _client_auth_failure.rpc_id(peer_id,username,"logged_out")
+
+func _send_auth_failure(peer_id:int,username:String,reason:String) -> void:
+    if peer_id > 0:
+        _client_auth_failure.rpc_id(peer_id,username,reason)
+    authentication_failed.emit(peer_id,username,reason)
 
 func request_action(action:String,payload:Dictionary = {}) -> void:
     var clean_action:String = _normalize_action(action)
@@ -101,6 +323,9 @@ func _server_receive_action(action:String,payload:Dictionary) -> void:
     if sender <= 0:
         _reject_remote(sender,clean_action,"invalid_sender")
         return
+    if not is_peer_authenticated(sender):
+        _reject_remote(sender,clean_action,"authentication_required")
+        return
     if not _action_is_allowed(clean_action):
         _reject_remote(sender,clean_action,"unsupported_action")
         return
@@ -113,7 +338,6 @@ func _server_receive_action(action:String,payload:Dictionary) -> void:
     _accept_action(sender,clean_action,payload)
 
 func _accept_action(sender:int,action:String,payload:Dictionary) -> void:
-    # All gameplay mutations must pass through this server-side boundary.
     if not _action_is_allowed(action) or not _validate_payload(action,payload):
         _reject_remote(sender,action,"validation_failed")
         return
@@ -125,6 +349,7 @@ func _accept_action(sender:int,action:String,payload:Dictionary) -> void:
         "sequence":last_sequence,
         "revision":state_revision,
         "sender":sender,
+        "account":username_for_peer(sender),
         "action":action,
         "payload":payload.duplicate(true)
     }
@@ -253,6 +478,19 @@ func _on_peer_connected(peer_id:int) -> void:
 func _on_peer_disconnected(peer_id:int) -> void:
     connected_peers.erase(peer_id)
     _action_windows.erase(peer_id)
+    _login_nonces.erase(peer_id)
+    _authenticated_peers.erase(peer_id)
+    _peer_players.erase(peer_id)
+
+func _new_salt() -> String:
+    var rng:RandomNumberGenerator = RandomNumberGenerator.new()
+    rng.randomize()
+    return (str(Time.get_unix_time_from_system()) + ":" + str(Time.get_ticks_usec()) + ":" + str(rng.randi())).sha256_text()
+
+func _new_nonce(peer_id:int,username:String) -> String:
+    var rng:RandomNumberGenerator = RandomNumberGenerator.new()
+    rng.randomize()
+    return (session_id + ":" + str(peer_id) + ":" + username + ":" + str(Time.get_ticks_usec()) + ":" + str(rng.randi())).sha256_text()
 
 func is_authority() -> bool:
     return is_server_authority
@@ -265,6 +503,7 @@ func get_session_snapshot() -> Dictionary:
         "revision":state_revision,
         "sequence":last_sequence,
         "peers":connected_peers.duplicate(),
+        "authenticated_players":_authenticated_peers.size(),
         "max_players":MAX_PLAYERS,
         "rate_limit":MAX_ACTIONS_PER_WINDOW
     }
