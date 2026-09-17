@@ -77,6 +77,19 @@ jobs:
         run: |
           set -euo pipefail
           ./${GODOT_BINARY} --headless --path . --script res://tests/online_server_smoke_test.gd 2>&1 | tee online-server.log
+      - name: Validate dedicated server bootstrap
+        shell: bash
+        run: |
+          set -euo pipefail
+          set +e
+          timeout --kill-after=5s 8s ./${GODOT_BINARY} --headless --path . --script res://scripts/HWServerBootstrap.gd -- --server-port=24568 2>&1 | tee server-bootstrap.log
+          status=$?
+          set -e
+          if [ "$status" -ne 124 ] && [ "$status" -ne 0 ]; then
+            echo "Dedicated server bootstrap failed with status $status"
+            exit "$status"
+          fi
+          grep -F "HONOUR_WAR_SERVER started" server-bootstrap.log
 
       - name: Validate account and persistent player services
         shell: bash
@@ -125,6 +138,7 @@ jobs:
             game-completeness.log
             online-authority.log
             online-server.log
+            server-bootstrap.log
             online-persistence.log
             fast-account-auth.log
             quest-system.log
