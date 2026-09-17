@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: honour-war-fix-validation-${{ github.ref }}
+  group: honour-war-main-writer
   cancel-in-progress: false
 
 jobs:
@@ -51,4 +51,6 @@ jobs:
             exit 0
           fi
           git commit -m "Fix known Godot validation compatibility issues"
+          git fetch origin main
+          git rebase origin/main
           git push origin HEAD:main
