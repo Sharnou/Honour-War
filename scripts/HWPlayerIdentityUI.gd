@@ -1,10 +1,11 @@
 extends CanvasLayer
 
 ## Persistent player/social presentation contract.
-## Local hero: no overhead name or HP/SP bars.
-## Other players: real character name below model.
-## Enemies/party/PvP: HP/SP bars below model.
-## Player class is never part of normal overhead UI; it is shown only after right-click -> Equip.
+## Local hero: no overhead name or player HP/SP bars.
+## Other players: name is hidden by default and revealed only on hover,
+## chat/social context, party membership or active PvP.
+## Player HP/SP is never rendered as a permanent world bar under player feet.
+## Player class is never part of normal world UI; it is shown only after right-click -> Equip.
 ## ESC has exactly three primary actions: Create New Character, Switch Characters, Options.
 ## C/E opens one combined Status + Equipment window.
 
@@ -22,6 +23,8 @@ var options_window: Panel
 var context_window: Panel
 var selected_player: Node
 var actor_ui: Dictionary = {}
+var name_reveal_until: Dictionary = {}
+var hovered_actor: Node = null
 var scan_clock := 0
 
 func _ready() -> void:
@@ -47,6 +50,7 @@ func _process(_delta: float) -> void:
 	if scan_clock >= 20:
 		scan_clock = 0
 		_scan()
+	hovered_actor = _pick_player(get_viewport().get_mouse_position())
 	_refresh_labels()
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -148,7 +152,7 @@ func _refresh_labels() -> void:
 		var hp_label: Label3D = data.get("hp_label")
 		var sp_label: Label3D = data.get("sp_label")
 		if name_label != null:
-			name_label.visible = not local
+			name_label.visible = _world_name_visible(actor)
 			name_label.text = _real_name(actor)
 		if hp_label != null:
 			hp_label.visible = bool(data.get("bars", false)) and not local
@@ -167,6 +171,28 @@ func _update_bars(actor: Node, data: Dictionary) -> void:
 		hp_label.text = "HP " + _bar(hp, max_hp)
 	if sp_label != null:
 		sp_label.text = "SP " + _bar(sp, max_sp)
+
+func reveal_player_name(actor: Node, seconds: float = 4.0) -> void:
+	if actor == null or _is_local(actor):
+		return
+	name_reveal_until[actor.get_instance_id()] = Time.get_ticks_msec() / 1000.0 + maxf(seconds, 0.1)
+
+func reveal_player_name_for_social(actor: Node, seconds: float = 8.0) -> void:
+	reveal_player_name(actor, seconds)
+
+func _world_name_visible(actor: Node) -> bool:
+	if actor == null or _is_local(actor):
+		return false
+	if actor == hovered_actor:
+		return true
+	if actor.is_in_group("party_member") or actor.is_in_group("pvp_player"):
+		return true
+	if actor.has_meta("chat_reveal_until"):
+		var until_value := float(actor.get_meta("chat_reveal_until"))
+		if until_value > Time.get_ticks_msec() / 1000.0:
+			return true
+	var until := float(name_reveal_until.get(actor.get_instance_id(), 0.0))
+	return until > Time.get_ticks_msec() / 1000.0
 
 func _number(actor: Node, keys: Array[String], fallback: float) -> float:
 	for key in keys:
