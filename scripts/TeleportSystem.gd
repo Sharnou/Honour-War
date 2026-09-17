@@ -52,23 +52,45 @@ static func resolve_map(value:String)->int:
         return numeric if MAPS.has(numeric) else -1
     return int(ALIASES.get(token,-1))
 
+static func parse_coordinates(token:String)->Dictionary:
+    var text:String=token.strip_edges()
+    if text.begins_with("(") and text.ends_with(")"):
+        text=text.substr(1,text.length()-2).strip_edges()
+    var pieces:PackedStringArray=text.split(":",false)
+    if pieces.size()!=2 or not pieces[0].is_valid_float() or not pieces[1].is_valid_float():
+        return {"ok":false}
+    var x:float=float(pieces[0]); var y:float=float(pieces[1])
+    if not is_finite(x) or not is_finite(y): return {"ok":false}
+    return {"ok":true,"x":x,"y":y}
+
 static func parse_go(command:String)->Dictionary:
     var text:String=command.strip_edges()
     if text.begins_with("@"): text=text.substr(1).strip_edges()
     var parts:PackedStringArray=text.split(" ",false)
     if parts.is_empty() or parts[0].to_lower()!="go":
-        return {"ok":false,"error":"Usage: @go <town|field|dungeon>. Example: @go Morroc."}
+        return {"ok":false,"error":"Usage: @go <town|field|dungeon> [x:y]. Example: @go Morroc or @go 0 230:220."}
     if parts.size()<2:
         return {"ok":false,"error":"Choose a destination. Use @go list to see towns, fields and dungeons."}
     if parts[1].to_lower()=="list":
         return {"ok":false,"error":"Destinations: %s" % destination_list()}
-    var destination:String=" ".join(parts.slice(1,parts.size()))
-    var map_id:int=resolve_map(destination)
+
+    var map_id:int=resolve_map(parts[1])
     if map_id<0:
-        return {"ok":false,"error":"Unknown destination '%s'. Use @go list to see destinations." % destination}
+        return {"ok":false,"error":"Unknown destination '%s'. Use @go list to see destinations." % parts[1]}
+
     var point:Vector2=default_point(map_id)
+    if parts.size()>2:
+        var coordinate_text:String=" ".join(parts.slice(2,parts.size())).strip_edges()
+        var coordinate:Dictionary=parse_coordinates(coordinate_text)
+        if not bool(coordinate.get("ok",false)):
+            return {"ok":false,"error":"Invalid coordinates '%s'. Use x:y, for example 230:220." % coordinate_text}
+        point=Vector2(float(coordinate["x"]),float(coordinate["y"]))
+        var data:Dictionary=MAPS[map_id]
+        point.x=clamp(point.x,0.0,float(data.get("width",1200))-1.0)
+        point.y=clamp(point.y,0.0,float(data.get("height",700))-1.0)
+
     var map_data:Dictionary=MAPS[map_id]
-    return {"ok":true,"map_id":map_id,"x":int(point.x),"y":int(point.y),"name":map_data["name"],"type":map_data["type"],"shortcut":true}
+    return {"ok":true,"map_id":map_id,"x":int(point.x),"y":int(point.y),"name":map_data["name"],"type":map_data["type"],"shortcut":true,"coordinate_specified":parts.size()>2}
 
 static func destination_list()->String:
     var names:PackedStringArray=[]
@@ -88,5 +110,5 @@ static func town_for_dungeon(map_id:int)->int:
 static func town_for_field(map_id:int)->int:
     return int(MAPS.get(map_id,{"town":-1}).get("town",-1))
 
-static func coordinate(map_id:int,_x:float=0.0,_y:float=0.0)->String:
-    return "@go "+str(map_id)
+static func coordinate(map_id:int,x:float=0.0,y:float=0.0)->String:
+    return "@go "+str(map_id)+" "+str(int(x))+":"+str(int(y))
