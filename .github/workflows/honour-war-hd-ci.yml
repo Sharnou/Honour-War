@@ -10,7 +10,7 @@ on:
 permissions:
   contents: read
 
-# Every production validation request must be allowed to finish.  Do not cancel
+# Every production validation request must be allowed to finish. Do not cancel
 # an in-flight validation merely because a newer main request is waiting: the
 # queued run validates a specific commit and cancellation can hide the result
 # of the change being verified.
@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout validation commit
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 1
           ref: ${{ github.sha }}
@@ -41,6 +41,8 @@ jobs:
         run: python3 tools/validate_hd_assets.py
       - name: Validate SS autonomous AI contract
         run: python3 tools/ss_ai_qa.py
+      - name: Validate SS rental contract
+        run: python3 tools/ss_rental_qa.py
       - name: Validate Game3D and 3D interaction hitbox contract
         run: python3 tools/game3d_integrity_qa.py
       - name: Check forbidden prototype VFX alpha tween pattern
@@ -68,7 +70,7 @@ jobs:
     needs: art-contract
     steps:
       - name: Checkout validation commit
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 1
           ref: ${{ github.sha }}
@@ -118,7 +120,7 @@ jobs:
           fi
       - name: Upload validation logs
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: godot-4-7-2-validation-logs
           path: |
@@ -140,7 +142,7 @@ jobs:
     needs: art-contract
     steps:
       - name: Checkout validation commit
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 1
           ref: ${{ github.sha }}
