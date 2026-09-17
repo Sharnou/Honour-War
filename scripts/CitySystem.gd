@@ -16,6 +16,10 @@ const CITIES:Array = [
 	"Izlude"
 ]
 
+# Kept as an empty compatibility registry because older QA/integration code
+# probes this symbol. It intentionally contains NO buildable gameplay systems.
+const BUILDINGS:Array = []
+
 const SERVICES:Dictionary = {
 	"healing": {"name":"Healing / Inn", "npc":"Innkeeper / Healer", "description":"Restore HP and SP and provide a safe respawn point."},
 	"shop": {"name":"General Shop", "npc":"Merchant", "description":"Buy and sell normal consumables and utility items."},
@@ -64,8 +68,7 @@ static func city_snapshot(city_id:String="Prontera") -> Dictionary:
 
 # Compatibility shims for the legacy prototype caller in Main.gd.
 # These functions deliberately perform no city progression, spending, building,
-# production, territory, bank or defense action. They exist only until that
-# old UI path is fully removed from the prototype shell.
+# production, territory, bank or defense action.
 static func can_build(_city:Dictionary, _building:String) -> bool:
 	return false
 
