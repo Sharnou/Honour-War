@@ -87,7 +87,10 @@ jobs:
               '--retry 10 --retry-all-errors',
               'tar -tJf /tmp/blender.tar.xz',
               'test "${count}" -eq 53',
-              'git rebase origin/main',
+              'git reset --hard origin/main',
+              'git merge-base --is-ancestor',
+              'payload_dir=',
+              'git push origin HEAD:main',
               'for attempt in 1 2 3 4 5',
               'tools/auto_repair_generated_glbs.py',
               'tools/validate_camera_controls.py',
@@ -310,24 +313,48 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          payload_dir="$(mktemp -d)"
+          trap 'rm -rf "${payload_dir}"' EXIT
+          cp -a assets/3d/generated "${payload_dir}/generated"
+          cp -a assets/3d/visual_rag "${payload_dir}/visual_rag"
+
           git add assets/3d/generated assets/3d/visual_rag
           if git diff --cached --quiet; then
             echo "No new generated assets to commit."
             exit 0
           fi
           git commit -m "Generate final Honour War GLB visual assets"
+
           for attempt in 1 2 3 4 5; do
             git fetch origin main
-            if ! git rebase origin/main; then
-              git rebase --abort || true
-            else
-              if git push origin HEAD:main; then
-                echo "Generated GLB commit pushed successfully on attempt ${attempt}."
-                exit 0
-              fi
+            upstream="$(git rev-parse origin/main)"
+            echo "GLB publish attempt ${attempt}: upstream main ${upstream}"
+
+            if ! git merge-base --is-ancestor "${GITHUB_SHA}" "${upstream}"; then
+              echo "ERROR: triggering commit ${GITHUB_SHA} is no longer an ancestor of origin/main; refusing to publish stale generated assets."
+              exit 1
             fi
-            echo "GLB main push attempt ${attempt} lost a main-branch race; retrying."
-            sleep 5
+
+            git reset --hard "${upstream}"
+            rm -rf assets/3d/generated assets/3d/visual_rag
+            mkdir -p assets/3d
+            cp -a "${payload_dir}/generated" assets/3d/generated
+            cp -a "${payload_dir}/visual_rag" assets/3d/visual_rag
+            git add assets/3d/generated assets/3d/visual_rag
+
+            if git diff --cached --quiet; then
+              echo "Generated payload is already identical to origin/main; no commit is required."
+              exit 0
+            fi
+
+            git commit -m "Generate final Honour War GLB visual assets"
+            if git push origin HEAD:main; then
+              echo "Generated GLB commit pushed successfully on attempt ${attempt}."
+              exit 0
+            fi
+
+            echo "GLB main push attempt ${attempt} lost a main-branch race; refreshing origin/main and retrying without binary rebase."
           done
           echo "Failed to push generated GLB assets after 5 race-safe attempts."
           exit 1
