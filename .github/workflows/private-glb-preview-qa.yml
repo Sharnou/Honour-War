@@ -4,6 +4,10 @@ on:
   push:
     paths:
       - ".github/workflows/private-glb-preview-qa.yml"
+      - "tools/validate_generated_glbs.py"
+      - "tools/blender/**"
+      - "tools/visual_rag/**"
+      - "assets/3d/visual_rag/**"
   workflow_dispatch:
 
 permissions:
@@ -18,10 +22,17 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
-      - name: Checkout
+      - name: Checkout exact triggering revision
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1
+          ref: ${{ github.sha }}
+
+      - name: Verify checkout matches triggering revision
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
 
       - name: Run Visual RAG first
         shell: bash
@@ -30,6 +41,33 @@ jobs:
           python3 tools/visual_rag/honour_war_visual_rag.py
           test -s assets/3d/visual_rag/LATEST_VISUAL_BRIEF.json
           test -s assets/3d/visual_rag/LATEST_VISUAL_BRIEF.md
+
+      - name: Preflight GLB validator parser contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile tools/validate_generated_glbs.py
+          python3 - <<'PY'
+          from pathlib import Path
+          import sys
+          sys.path.insert(0, ".")
+          from tools.validate_generated_glbs import hero_class_and_tier, validate_hero_path_parser
+
+          cases = {
+              "Warrior": Path("assets/3d/generated/characters/Warrior/Advanced.glb"),
+              "Mage": Path("assets/3d/generated/characters/Mage/Foundation.glb"),
+              "Archer": Path("assets/3d/generated/characters/Archer/Mastery.glb"),
+              "Thief": Path("assets/3d/generated/characters/Thief/Transcendence.glb"),
+              "Acolyte": Path("assets/3d/generated/characters/Acolyte/Specialization.glb"),
+              "Merchant": Path("assets/3d/generated/characters/Merchant/Advanced.glb"),
+          }
+          validate_hero_path_parser()
+          for expected, path in cases.items():
+              actual, _tier = hero_class_and_tier(path)
+              if actual != expected:
+                  raise SystemExit(f"GLB validator parser regression: {path} -> {actual!r}, expected {expected!r}")
+          print("PASS: hero GLB path parser resolves characters/<class>/<tier>.glb correctly")
+          PY
 
       - name: Download official Blender 4.2.23
         shell: bash
