@@ -112,13 +112,9 @@ func _try_fight(legacy:Node,data:Dictionary) -> void:
 	var monsters_value:Variant = legacy.get("monsters")
 	if not monsters_value is Array:
 		return
-	var hero_value:Variant = legacy.get("hero")
-	if not hero_value is Dictionary:
-		return
-	var hero:Dictionary = hero_value
-	var ss_pos:Vector2 = Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0)))
 	var best_index:int = -1
 	var best_distance:float = INF
+	var ss_map_pos:Vector2 = _world_to_map(ss_visual.global_position)
 	for i in monsters_value.size():
 		var value:Variant = monsters_value[i]
 		if not value is Dictionary:
@@ -129,7 +125,7 @@ func _try_fight(legacy:Node,data:Dictionary) -> void:
 		var pos_value:Variant = monster.get("pos",Vector2.ZERO)
 		if not pos_value is Vector2:
 			continue
-		var distance:float = ss_pos.distance_to(pos_value)
+		var distance:float = ss_map_pos.distance_to(pos_value)
 		if distance <= LEGACY_COMBAT_RANGE and distance < best_distance:
 			best_distance = distance
 			best_index = i
@@ -151,7 +147,7 @@ func _try_fight(legacy:Node,data:Dictionary) -> void:
 	last_action = ASURA_SKILL
 	if legacy.has_method("log_message"):
 		legacy.call("log_message","SS uses %s for %d damage against Lv.%d %s." % [ASURA_SKILL,damage,int(target.get("level",1)),str(target.get("name","Monster"))])
-	_play_skill_vfx(_map_to_world_variant(target.get("pos",ss_pos)),ASURA_SKILL)
+	_play_skill_vfx(_map_to_world_variant(target.get("pos",ss_map_pos)),ASURA_SKILL)
 	if previous_hp > 0 and int(target.get("hp",0)) <= 0:
 		var xp:int = maxi(1,int(target.get("exp",100)))
 		_grant_ss_progress(data,xp)
@@ -228,6 +224,9 @@ func _spawn_development_fallback() -> void:
 
 func _map_to_world(pos:Vector2) -> Vector3:
 	return Vector3(pos.x*0.055,0.0,pos.y*0.055)
+
+func _world_to_map(pos:Vector3) -> Vector2:
+	return Vector2(pos.x/0.055,pos.z/0.055)
 
 func _map_to_world_variant(pos_value:Variant) -> Vector3:
 	if pos_value is Vector2:
