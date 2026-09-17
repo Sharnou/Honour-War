@@ -1,91 +1,43 @@
-name: Honour War — Daily 3D Asset Build
+name: Honour War — Legacy 3D Asset Compatibility QA
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - "tools/visual_rag/**"
-      - "tools/blender/**"
-      - ".github/workflows/generate-honour-war-3d-assets.yml"
-    branches:
-      - main
-  schedule:
-    - cron: "17 2 * * *"
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
-  group: honour-war-main-writer
+  group: honour-war-3d-compat-qa-${{ github.ref }}
   cancel-in-progress: false
+  queue: max
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
-  build-3d-assets:
+  validate-existing-3d-assets:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 20
     steps:
-      - name: Checkout current main source
+      - name: Checkout validation commit
         uses: actions/checkout@v7
         with:
-          fetch-depth: 0
+          fetch-depth: 1
+          ref: ${{ github.sha }}
 
-      - name: Install Visual RAG dependencies
-        shell: bash
-        run: |
-          python3 -m pip install --upgrade pip
-          python3 -m pip install pillow
-
-      - name: REQUIRED FIRST — Visual RAG reference analysis
-        shell: bash
-        run: |
-          python3 tools/visual_rag/honour_war_visual_rag.py
-          test -f assets/3d/visual_rag/LATEST_VISUAL_BRIEF.json
-          test -f assets/3d/visual_rag/LATEST_VISUAL_BRIEF.md
-          echo "Visual RAG completed before Blender."
-          cat assets/3d/visual_rag/LATEST_VISUAL_BRIEF.md
-
-      - name: Install Blender 4.x
-        shell: bash
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y blender
-          blender --version
-
-      - name: Build Visual MAX hero and pet GLBs
-        shell: bash
-        run: |
-          blender --background --python tools/blender/run_visual_max_assets.py
-
-      - name: Build production monster GLBs
-        shell: bash
-        run: |
-          blender --background --python tools/blender/honour_war_monster_assets.py
-
-      - name: Validate generated assets
-        shell: bash
-        run: |
-          test -d assets/3d/generated
-          find assets/3d/generated -type f \( -name '*.glb' -o -name '*.gltf' \) | sort | tee /tmp/generated-assets.txt
-          count=$(wc -l < /tmp/generated-assets.txt)
-          echo "Asset count: $count"
-          test "$count" -ge 20
-          echo "Total asset size: $(du -sh assets/3d/generated | cut -f1)"
-
-      - name: Commit Visual RAG brief and generated assets
+      - name: Report validation source
         shell: bash
         run: |
           set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/3d/visual_rag assets/3d/generated
-          if git diff --cached --quiet; then
-            echo "No Visual RAG or generated asset changes to commit."
-            exit 0
-          fi
-          git commit -m "Build Honour War Visual MAX assets from Visual RAG"
-          git fetch origin main
-          git rebase origin/main
-          git push origin HEAD:main
+          actual="$(git rev-parse HEAD)"
+          expected="${GITHUB_SHA}"
+          echo "Validation HEAD: ${actual}"
+          echo "Workflow SHA:    ${expected}"
+          test "${actual}" = "${expected}"
+
+      - name: Validate canonical production GLB inventory and PBR contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 tools/validate_generated_glbs.py
+          echo "Legacy compatibility QA is read-only; generation belongs exclusively to Honour War Final GLB Asset Build."
