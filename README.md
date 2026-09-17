@@ -29,6 +29,8 @@
 2. Open `project.godot`.
 3. Press F6 or F5 to run.
 4. For the Windows production pipeline, use the repository GitHub Actions workflow.
+5. Start the authoritative headless server with Godot 4.7.2:
+   `Godot_v4.7.2-stable_linux.x86_64 --headless --path . --script res://scripts/HWServerBootstrap.gd -- --server-port=24567`
 
 ## Core controls
 - WASD / Arrow Keys: move
