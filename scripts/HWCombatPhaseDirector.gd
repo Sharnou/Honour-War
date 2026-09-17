@@ -23,14 +23,12 @@ func _ready() -> void:
 func _bind() -> void:
     scene_root = get_tree().current_scene
     if scene_root == null:
-        call_deferred("_bind")
         return
     var legacy:Node = scene_root.get_node_or_null("LegacyGame")
     runtime = legacy.get_node_or_null("CombatRuntime") if legacy != null else null
     if runtime == null:
         runtime = scene_root.get_node_or_null("CombatRuntime")
     if runtime == null:
-        call_deferred("_bind")
         return
     if runtime.has_signal("hero_attack_landed") and not runtime.hero_attack_landed.is_connected(_on_hero_attack):
         runtime.hero_attack_landed.connect(_on_hero_attack)
@@ -42,7 +40,8 @@ func _bind() -> void:
 func _process(_delta:float) -> void:
     if scene_root == null or not is_instance_valid(scene_root):
         _bind()
-        return
+        if scene_root == null:
+            return
     var now:float = Time.get_ticks_msec()/1000.0
     for i in range(sequences.size()-1,-1,-1):
         var seq:Dictionary = sequences[i]
