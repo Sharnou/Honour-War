@@ -20,7 +20,8 @@ func _process(delta:float) -> void:
     timer = 0.0
     if scene_root == null or not is_instance_valid(scene_root):
         _bind()
-        return
+        if scene_root == null:
+            return
     var hero_value:Variant = scene_root.get("hero")
     if not hero_value is Dictionary:
         var legacy:Node = scene_root.get_node_or_null("LegacyGame")
@@ -34,7 +35,6 @@ func _process(delta:float) -> void:
 func _bind() -> void:
     scene_root = get_tree().current_scene
     if scene_root == null:
-        call_deferred("_bind")
         return
     var hero_value:Variant = scene_root.get("hero")
     if not hero_value is Dictionary:
