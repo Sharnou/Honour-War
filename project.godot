@@ -44,6 +44,7 @@ HWOnlineLoginUI="*res://scripts/HWOnlineLoginUI.gd"
 HWPartyService="*res://scripts/HWPartyService.gd"
 HWOnlineWorldState="*res://scripts/HWOnlineWorldState.gd"
 HWHD3DCharacterEnhancer="*res://scripts/HWHD3DCharacterEnhancer.gd"
+HWHDWorldContentDirector="*res://scripts/HWHDWorldContentDirector.gd"
 
 [display]
 window/size/viewport_width=1920
