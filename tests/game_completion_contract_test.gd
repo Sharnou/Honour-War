@@ -109,7 +109,7 @@ func _initialize() -> void:
 
     var world := FileAccess.get_file_as_string("res://scripts/HWOnlineWorldState.gd")
     check("world movement validation", world.contains("validate_move_request(peer_id:int,payload:Dictionary)") and world.contains("MOVE_SPEED_UNITS_PER_SECOND"))
-    check("world warp validation", world.contains("validate_warp_request(peer_id:int,payload:Dictionary)") and world.contains("Teleport.MAPS.has(map_id)"))
+    check("world warp validation", world.contains("validate_warp_request(peer_id:int,payload:Dictionary)") and world.contains("TELEPORT.MAPS.has(map_id)"))
     check("world disconnect save", world.contains("_on_peer_session_closing") and world.contains("save_player_for_peer"))
 
     var glb_workflow := FileAccess.get_file_as_string("res://.github/workflows/private-glb-preview-qa.yml")
@@ -139,7 +139,9 @@ func count_files(root_path: String, extension: String) -> int:
     dir.list_dir_begin()
     var name := dir.get_next()
     while name != "":
-        if not dir.current_is_dir() and name.to_lower().ends_with(extension.to_lower()):
+        if dir.current_is_dir():
+            count += count_files(root_path + "/" + name, extension)
+        elif name.to_lower().ends_with(extension.to_lower()):
             count += 1
         name = dir.get_next()
     dir.list_dir_end()
