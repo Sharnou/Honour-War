@@ -47,7 +47,6 @@ static func new_hero() -> Dictionary:
 		"inventory":{"Novice Sword":1,"Novice Armor":1}, "materials":{"Phracon":5, "Emveretarcon":2, "Oridecon":0},
 		"equipment":{"weapon":"Novice Sword", "armor":"Novice Armor"},
 		"cards":[], "skills":[], "pet":PetSystemClass.new_pet(hero_class),
-		"city_building":{"Prontera":{"level":1,"wood":0,"stone":0,"gold":0}},
 		"last_safe_city":"Prontera", "pos_x":595.0, "pos_y":340.0, "map_id":0,
 		"event_inventory":{}, "event_progress":{}, "monster_codex":{}
 	}
