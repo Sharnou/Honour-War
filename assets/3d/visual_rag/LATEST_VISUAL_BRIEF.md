@@ -16,3 +16,13 @@ REMOVE / AVOID:
 - floating equipment text over hero
 - unbounded saturation
 - unlit flat meshes
+PRIMARY PROJECT REFERENCE:
+- `ChatGPT Image Sep 16, 2026, 12_22_47 AM.png`
+- https://github.com/Sharnou/Honour-War/blob/main/ChatGPT%20Image%20Sep%2016%2C%202026%2C%2012_22_47%20AM.png
+Use this reference for UI, item/skill iconography, character framing, combat presentation and world density in every visual pass.
+
+PERMANENT WORLD-IDENTITY EXCEPTION:
+- Local player name hidden in the 3D world.
+- Remote player names hidden by default; reveal only on hover, party/PvP context or explicit social/chat reveal.
+- No permanent player HP/SP foot bars.
+- Enemy combat HP bars may remain visible.
