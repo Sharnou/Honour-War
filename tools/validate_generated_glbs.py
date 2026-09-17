@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Semantic, binary, inventory, and PBR validation for generated GLB assets."""
+"""Semantic, binary, inventory, and embedded PBR validation for generated GLB assets."""
 
 from __future__ import annotations
 
@@ -100,9 +100,26 @@ def validate_embedded_images(path: Path, doc: dict) -> None:
     external = [i for i in images if isinstance(i, dict) and "uri" in i]
     if external:
         raise ValueError(f"{path}: external texture URI detected; GLB must embed textures")
-    missing_buffer_view = [i for i in images if isinstance(i, dict) and "bufferView" not in i]
+    missing_buffer_view = [i for i in images if not isinstance(i, dict) or "bufferView" not in i]
     if missing_buffer_view:
         raise ValueError(f"{path}: texture image without embedded bufferView detected")
+
+
+def validate_texture_sources(path: Path, doc: dict) -> None:
+    """Require every glTF texture object to resolve to an embedded image."""
+    textures = doc.get("textures", [])
+    images = doc.get("images", [])
+    if not textures:
+        raise ValueError(f"{path}: no glTF texture objects found")
+    for index, texture in enumerate(textures):
+        if not isinstance(texture, dict):
+            raise ValueError(f"{path}: malformed glTF texture entry {index}")
+        source = texture.get("source")
+        if not isinstance(source, int) or source < 0 or source >= len(images):
+            raise ValueError(f"{path}: texture {index} has invalid embedded image source {source!r}")
+        image = images[source]
+        if not isinstance(image, dict) or "uri" in image or "bufferView" not in image:
+            raise ValueError(f"{path}: texture {index} does not resolve to an embedded image bufferView")
 
 
 def validate_pbr_materials(path: Path, doc: dict) -> None:
@@ -132,6 +149,11 @@ def validate_pbr_materials(path: Path, doc: dict) -> None:
             if not isinstance(index, int) or index < 0 or index >= len(textures):
                 raise ValueError(
                     f"{path}: material {name!r} has invalid {label} texture index {index!r}"
+                )
+            source = textures[index].get("source") if isinstance(textures[index], dict) else None
+            if not isinstance(source, int) or source < 0 or source >= len(doc.get("images", [])):
+                raise ValueError(
+                    f"{path}: material {name!r} {label} texture index {index} does not resolve to an embedded image"
                 )
 
 
@@ -191,7 +213,11 @@ def validate_inventory(files: list[Path]) -> None:
         ("pet", expected_pets),
         ("monster", expected_monsters),
     ):
-        actual = {item for item in relative if item.split("/", 1)[0] == ("characters" if label == "hero" else label + "s")}
+        actual = {
+            item
+            for item in relative
+            if item.split("/", 1)[0] == ("characters" if label == "hero" else label + "s")
+        }
         missing = sorted(expected - actual)
         extra = sorted(actual - expected)
         if missing:
@@ -216,6 +242,7 @@ def validate_asset(path: Path) -> None:
     if not doc.get("materials"):
         raise ValueError(f"{path}: no materials found")
     validate_embedded_images(path, doc)
+    validate_texture_sources(path, doc)
     validate_pbr_materials(path, doc)
 
     names = node_names(doc)
@@ -272,7 +299,7 @@ def main() -> int:
     pet_count = sum(1 for p in files if p.relative_to(ROOT).parts[:1] == ("pets",))
     monster_count = sum(1 for p in files if p.relative_to(ROOT).parts[:1] == ("monsters",))
     print(f"Heroes: {hero_count} | Pets: {pet_count} | Monsters: {monster_count}")
-    print("PASS: binary structure, glTF 2.0 JSON, complete production inventory, meshes, materials, embedded textures, PBR texture links, and semantic hero nodes are valid.")
+    print("PASS: binary structure, glTF 2.0 JSON, complete production inventory, meshes, materials, embedded images, texture-to-image sources, PBR texture links, and semantic hero nodes are valid.")
     return 0
 
 
