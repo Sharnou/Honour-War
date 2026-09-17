@@ -9,12 +9,20 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: honour-war-fix-mouse-camera-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   fix:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Checkout current main source
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -28,8 +36,6 @@ jobs:
           text = mouse.read_text(encoding='utf-8')
 
           text = text.replace('''func _ready()->void:\n\tgame=get_parent()\n\tlegacy=game.get_node_or_null("LegacyGame") as Node2D\n\tcamera=game.get_node_or_null("Camera3D") as Camera3D\n\t_build_cursor_marker()''', '''func _ready()->void:\n\tgame=get_parent()\n\tlegacy=game.get_node_or_null("LegacyGame") as Node2D\n\tcamera=game.get_node_or_null("Camera3D") as Camera3D\n\tcall_deferred("_build_cursor_marker")''')
-
-          text = text.replace('''func _process(delta:float)->void:\n\tif legacy==null or camera==null: return\n\tattack_timer=max(0.0,attack_timer-delta)''', '''func _process(delta:float)->void:\n\tif legacy==null or camera==null: return\n\tattack_timer=max(0.0,attack_timer-delta)''')
 
           old_pick = '''\tfor item in get_tree().get_nodes_in_group("warp_gate"):\n\t\tvar gate:Node=item as Node\n\t\tif gate==null or not gate.visible: continue\n\t\tvar gate_3d:Node3D=gate as Node3D\n\t\tif gate_3d==null: continue'''
           new_pick = '''\tfor item in get_tree().get_nodes_in_group("warp_gate"):\n\t\tvar gate:Node3D=item as Node3D\n\t\tif gate==null or not gate.is_visible_in_tree(): continue\n\t\tvar gate_3d:Node3D=gate'''
@@ -78,7 +84,6 @@ jobs:
               raise SystemExit('Monster detail insertion marker not found')
           text=text.replace(marker,detail_fn+marker,1)
 
-          # Ensure details are created once per monster visual.
           old='''        if not visuals.has(id):\n            continue\n        var visual:Node3D=visuals[id] as Node3D\n        if visual==null:\n            continue'''
           new='''        if not visuals.has(id):\n            continue\n        var visual:Node3D=visuals[id] as Node3D\n        if visual==null:\n            continue\n        _add_monster_details(visual,str(monster.get("name","Monster")),bool(monster.get("mvp",false)))'''
           if old not in text:
@@ -86,7 +91,6 @@ jobs:
           text=text.replace(old,new,1)
           anim.write_text(text,encoding='utf-8')
 
-          # Remove the always-on hero root transform conflict by making Game3D camera follow the logical map position.
           game = Path('scripts/Game3D.gd')
           text = game.read_text(encoding='utf-8')
           old='''func _update_camera(delta:float)->void:\n\tif camera == null or hero_visual == null:\n\t\treturn\n\tvar desired:Vector3 = hero_visual.position+Vector3(0.0,10.5,13.5)\n\tcamera.position = camera.position.lerp(desired,1.0-exp(-7.0*max(delta,0.016)))\n\tcamera.look_at(hero_visual.position+Vector3(0.0,0.8,0.0),Vector3.UP)'''
@@ -96,13 +100,10 @@ jobs:
           text=text.replace(old,new,1)
           game.write_text(text,encoding='utf-8')
 
-      - name: Validate Godot scripts
-        uses: actions/checkout@v4
-        if: false
-
       - name: Commit fixes
         shell: bash
         run: |
+          set -euo pipefail
           git config user.name "Honour War Bot"
           git config user.email "actions@users.noreply.github.com"
           git add scripts/MouseMMOController.gd scripts/CombatAnimationController.gd scripts/Game3D.gd
@@ -111,4 +112,4 @@ jobs:
             exit 0
           fi
           git commit -m "Fix mouse movement camera jitter and monster details"
-          git push
+          git push origin HEAD:main
