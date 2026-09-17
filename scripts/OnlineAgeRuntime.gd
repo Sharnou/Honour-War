@@ -4,29 +4,50 @@ const Save = preload("res://scripts/SaveSystem.gd")
 const Age = preload("res://scripts/OnlineAgeSystem.gd")
 const Character = preload("res://scripts/CharacterProgressionSystem.gd")
 const AUTOSAVE_SECONDS:float = 15.0
+const BIND_RETRY_SECONDS:float = 0.50
 
 var legacy:Node
 var autosave_timer:float = 0.0
 var age_check_timer:float = 0.0
+var bind_retry_timer:float = 0.0
 var dirty:bool = false
 var last_age:int = -1
 var last_age_multiplier:float = 1.0
+var bind_queued:bool = false
 
 func _ready()->void:
     process_mode = Node.PROCESS_MODE_ALWAYS
-    call_deferred("_bind")
+    _queue_bind()
 
-func _bind()->void:
+func _queue_bind()->void:
+    if bind_queued:
+        return
+    bind_queued = true
+    call_deferred("_attempt_bind")
+
+func _attempt_bind()->void:
+    bind_queued = false
     var scene:Node = get_tree().current_scene
     if scene == null:
-        call_deferred("_bind")
+        bind_retry_timer = 0.0
         return
-    legacy = scene.get_node_or_null("LegacyGame")
-    if legacy == null: legacy = scene.get_node_or_null("LegacyGame/CombatRuntime")
+    var candidate:Node = scene.get_node_or_null("LegacyGame")
+    if candidate == null:
+        candidate = scene.get_node_or_null("LegacyGame/CombatRuntime")
+    if candidate == null or not is_instance_valid(candidate):
+        bind_retry_timer = 0.0
+        return
+    legacy = candidate
+    bind_retry_timer = 0.0
     _sync_age(true)
 
 func _process(delta:float)->void:
-    if legacy == null or not is_instance_valid(legacy): _bind(); return
+    if legacy == null or not is_instance_valid(legacy):
+        bind_retry_timer += max(0.0,delta)
+        if bind_retry_timer >= BIND_RETRY_SECONDS:
+            bind_retry_timer = 0.0
+            _queue_bind()
+        return
     var value:Variant = legacy.get("hero")
     if not value is Dictionary: return
     var hero:Dictionary = value
@@ -35,11 +56,11 @@ func _process(delta:float)->void:
     if new_days != old_days:
         hero["online_days"] = new_days
         dirty = true
-    age_check_timer += delta
+    age_check_timer += max(0.0,delta)
     if age_check_timer >= 1.0:
         age_check_timer = 0.0
         _sync_age(false)
-    autosave_timer += delta
+    autosave_timer += max(0.0,delta)
     if dirty and autosave_timer >= AUTOSAVE_SECONDS:
         autosave_timer = 0.0
         if Save.save_game(hero): dirty = false
@@ -84,8 +105,8 @@ func _sync_age(force:bool)->void:
         hero["hp"] = clamp(int(hero.get("hp",computed["max_hp"])),1,int(computed["max_hp"]))
         hero["sp"] = clamp(int(hero.get("sp",computed["max_sp"])),0,int(computed["max_sp"]))
         dirty = true
-        Save.save_game(hero)
-        dirty = false
+        if Save.save_game(hero):
+            dirty = false
 
 func _notification(what:int)->void:
     if what == NOTIFICATION_WM_CLOSE_REQUEST or what == NOTIFICATION_EXIT_TREE: _save_now()
