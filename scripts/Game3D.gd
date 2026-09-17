@@ -511,7 +511,7 @@ func _build_hud()->void:
 func _update_hud(hero:Dictionary)->void:
 	if status_label==null:
 		return
-	status_label.text="HONOUR WAR  •  %s  •  Lv.%d  •  %s  •  ONLINE:%s  •  REMOTE:%d  •  FPS %d" % [str(hero.get("name","Hero")),int(hero.get("level",1)),TeleportSystem.map_name(int(hero.get("map_id",0))),(live_replication != null and multiplayer.has_multiplayer_peer() ? "CONNECTED" : "OFFLINE"),live_replication.get_remote_players(int(hero.get("map_id",0))).size() if live_replication != null and is_instance_valid(live_replication) else 0,Engine.get_frames_per_second()]
+	status_label.text="HONOUR WAR  •  %s  •  Lv.%d  •  %s  •  ONLINE:%s  •  REMOTE:%d  •  FPS %d" % [str(hero.get("name","Hero")),int(hero.get("level",1)),TeleportSystem.map_name(int(hero.get("map_id",0))),("CONNECTED" if live_replication != null and multiplayer.has_multiplayer_peer() else "OFFLINE"),(live_replication.get_remote_players(int(hero.get("map_id",0))).size() if live_replication != null and is_instance_valid(live_replication) else 0),Engine.get_frames_per_second()]
 	hp_bar.max_value=max(1,int(hero.get("max_hp",1)))
 	hp_bar.value=int(hero.get("hp",0))
 	sp_bar.max_value=max(1,int(hero.get("max_sp",1)))
