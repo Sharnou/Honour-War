@@ -193,7 +193,7 @@ func _send_snapshot(party_id:String) -> void:
 
 func _reject(peer_id:int,reason:String) -> void:
     party_action_rejected.emit(reason)
-    if peer_id > 0 and not _is_server():
+    if peer_id > 0 and _is_server():
         _client_party_rejection.rpc_id(peer_id,reason)
 
 @rpc("any_peer","reliable")
