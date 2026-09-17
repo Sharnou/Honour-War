@@ -12,14 +12,21 @@ const TEST_PATH:String = "user://honour_war_world_state_regression.json"
 var failures:int = 0
 
 func _initialize() -> void:
+    call_deferred("_run_world_test")
+
+func _run_world_test() -> void:
     if FileAccess.file_exists(TEST_PATH):
         DirAccess.remove_absolute(TEST_PATH)
+
+    var network_api:MultiplayerAPI = MultiplayerAPI.create_default_interface()
+    set_multiplayer(network_api,NodePath("/root"))
 
     var authority:Node = root.get_node_or_null("HWOnlineAuthorityRuntime")
     if authority == null:
         authority = AUTHORITY.new()
         authority.name = "HWOnlineAuthorityRuntime"
         root.add_child(authority)
+    _check("authority receives world-test multiplayer API",authority.multiplayer == network_api)
     authority.stop_session()
     authority.account_database = DATABASE.new(TEST_PATH)
 
@@ -85,6 +92,7 @@ func _initialize() -> void:
     if failures == 0:
         print("PASS: Honour War authoritative world state regression suite")
         quit(0)
+        return
     print("FAIL: Honour War authoritative world state regression suite: %d failure(s)" % failures)
     quit(1)
 
