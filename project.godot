@@ -43,6 +43,7 @@ HWSkillVFXRuntime="*res://scripts/HWSkillVFXRuntime.gd"
 HWOnlineAuthorityRuntime="*res://scripts/HWOnlineAuthorityRuntime.gd"
 HWOnlineLoginUI="*res://scripts/HWOnlineLoginUI.gd"
 HWPartyService="*res://scripts/HWPartyService.gd"
+HWOnlineWorldState="*res://scripts/HWOnlineWorldState.gd"
 
 [display]
 window/size/viewport_width=1920
