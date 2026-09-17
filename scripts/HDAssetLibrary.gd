@@ -1,9 +1,10 @@
 class_name HDAssetLibrary
 extends RefCounted
 
-const CHARACTER_ROOT:String = "res://assets/3d/characters/"
-const PET_ROOT:String = "res://assets/3d/pets/"
-const MONSTER_ROOT:String = "res://assets/3d/monsters/"
+const GENERATED_ROOT:String = "res://assets/3d/generated/"
+const CHARACTER_ROOT:String = GENERATED_ROOT + "characters/"
+const PET_ROOT:String = GENERATED_ROOT + "pets/"
+const MONSTER_ROOT:String = GENERATED_ROOT + "monsters/"
 const MAP_ROOT:String = "res://assets/3d/maps/"
 
 static func find_scene(root:String,name:String)->PackedScene:
@@ -20,7 +21,10 @@ static func find_scene(root:String,name:String)->PackedScene:
 	return null
 
 static func character_scene(class_id:String)->PackedScene:
-	return find_scene(CHARACTER_ROOT,class_id.to_lower())
+	var scene:PackedScene = find_scene(CHARACTER_ROOT,class_id.to_lower())
+	if scene != null:
+		return scene
+	return find_scene("res://assets/3d/characters/",class_id.to_lower())
 
 static func pet_scene(species:String)->PackedScene:
 	return find_scene(PET_ROOT,species.to_lower().replace(" ","_"))
