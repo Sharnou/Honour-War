@@ -20,7 +20,7 @@ The reference is accepted with this explicit player-world identity behavior:
 2. Remote character names: hidden by default; never permanently floating above or below players.
 3. A remote player's real character name becomes visible only when the mouse hovers the player, when the player is relevant to party/PvP context, or when an explicit social/chat reveal is active.
 4. Never use a class name such as `Swordsman` as a permanent player nameplate.
-5. Player HP/SP bars are hidden from normal world-foot presentation; player health can be represented in dedicated party/PvP/target UI.
+5. No permanent player HP/SP world-foot bars are shown under player characters; player health can be represented in dedicated party/PvP/target UI.
 6. Enemy combat HP bars remain permitted where they communicate a combat target.
 7. The real character name remains authoritative in chat, party, PvP, right-click player context, and equipment/status inspection UI.
 
