@@ -1,22 +1,32 @@
 #!/usr/bin/env python3
-"""Embed deterministic PBR-friendly texture maps into generated Honour War GLBs.
+"""Embed and verify deterministic PBR texture maps in generated Honour War GLBs.
 
 This is a Blender texture-authoring pass, not a claim that Substance 3D Painter
 was executed. It preserves the existing geometry while replacing flat material
 colors with compact, embedded base-color and roughness maps.
+
+Every exported GLB is immediately reopened as a binary glTF document and
+verified to contain embedded image bufferViews plus valid base-color and
+metallic-roughness texture references. A successful process therefore cannot
+silently produce the exact "no embedded texture images found" failure seen in
+older pipeline runs.
 """
 
 from __future__ import annotations
 
 import hashlib
+import json
 import math
 import os
+import struct
 from pathlib import Path
 
 import bpy
 
 ROOT = Path(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../assets/3d/generated")))
 TEXTURE_SIZE = 256
+MAGIC = b"glTF"
+JSON_CHUNK = 0x4E4F534A
 
 
 def clamp(value: float) -> float:
@@ -86,6 +96,18 @@ def original_color(bsdf):
     return tuple(value.default_value)
 
 
+def _has_image_link(bsdf, socket_name: str) -> bool:
+    socket = bsdf.inputs.get(socket_name)
+    if socket is None or not socket.is_linked:
+        return False
+    for link in socket.links:
+        node = link.from_node
+        if node.type == "TEX_IMAGE" and node.image is not None:
+            if node.image.packed_file is not None:
+                return True
+    return False
+
+
 def enhance_material(mat, asset_key: str):
     if mat is None:
         return
@@ -100,14 +122,19 @@ def enhance_material(mat, asset_key: str):
     if any(token in name_lower for token in ("glow", "emission", "eye", "iris")):
         return
 
-    # Avoid repeatedly adding the same image nodes on reruns.
-    if any(node.type == "TEX_IMAGE" for node in nodes):
+    # Idempotent: preserve valid packed texture links on subsequent repair runs.
+    if _has_image_link(bsdf, "Base Color") and _has_image_link(bsdf, "Roughness"):
         return
 
     color = original_color(bsdf)
-    rough_value = bsdf.inputs.get("Roughness").default_value if bsdf.inputs.get("Roughness") else 0.5
+    rough_socket = bsdf.inputs.get("Roughness")
+    rough_value = rough_socket.default_value if rough_socket else 0.5
     texture_key = asset_key + ":" + mat.name
-    base, rough = make_pixels("HW_BC_" + hashlib.sha256(texture_key.encode()).hexdigest()[:12], color, float(rough_value))
+    base, rough = make_pixels(
+        "HW_BC_" + hashlib.sha256(texture_key.encode()).hexdigest()[:12],
+        color,
+        float(rough_value),
+    )
     base.pack()
     rough.pack()
 
@@ -125,14 +152,71 @@ def enhance_material(mat, asset_key: str):
     rough_tex.extension = "REPEAT"
 
     links.new(tex.outputs["Color"], bsdf.inputs["Base Color"])
-    if bsdf.inputs.get("Roughness"):
-        links.new(rough_tex.outputs["Color"], bsdf.inputs["Roughness"])
+    if rough_socket is not None:
+        links.new(rough_tex.outputs["Color"], rough_socket)
+
+
+def read_glb_json(path: Path) -> dict:
+    data = path.read_bytes()
+    if len(data) < 20 or data[:4] != MAGIC:
+        raise RuntimeError(f"{path}: exported file is not a valid GLB2 header")
+    version, total_length = struct.unpack_from("<II", data, 4)
+    if version != 2 or total_length != len(data):
+        raise RuntimeError(f"{path}: invalid GLB2 header/version/length after export")
+    chunk_length, chunk_type = struct.unpack_from("<II", data, 12)
+    if chunk_type != JSON_CHUNK:
+        raise RuntimeError(f"{path}: first GLB chunk is not JSON")
+    raw = data[20:20 + chunk_length].rstrip(b" \t\r\n\x00")
+    return json.loads(raw.decode("utf-8"))
+
+
+def verify_exported_pbr(path: Path) -> None:
+    """Verify the serialized GLB, not only the in-memory Blender scene."""
+    doc = read_glb_json(path)
+    images = doc.get("images", [])
+    if not images:
+        raise RuntimeError(f"{path}: post-export verification found no embedded texture images")
+    if any(isinstance(image, dict) and "uri" in image for image in images):
+        raise RuntimeError(f"{path}: post-export verification found an external image URI")
+    if any(
+        not isinstance(image, dict) or "bufferView" not in image
+        for image in images
+    ):
+        raise RuntimeError(f"{path}: post-export verification found a non-embedded image")
+
+    textures = doc.get("textures", [])
+    if not textures:
+        raise RuntimeError(f"{path}: post-export verification found no glTF texture objects")
+
+    for material in doc.get("materials", []):
+        if not isinstance(material, dict):
+            raise RuntimeError(f"{path}: malformed material in exported GLB")
+        name = str(material.get("name", ""))
+        lower_name = name.lower()
+        if any(token in lower_name for token in ("glow", "emission", "eye", "iris")):
+            continue
+        pbr = material.get("pbrMetallicRoughness")
+        if not isinstance(pbr, dict):
+            raise RuntimeError(f"{path}: material {name!r} has no PBR block after export")
+        for label in ("baseColorTexture", "metallicRoughnessTexture"):
+            entry = pbr.get(label)
+            index = entry.get("index") if isinstance(entry, dict) else None
+            if not isinstance(index, int) or index < 0 or index >= len(textures):
+                raise RuntimeError(
+                    f"{path}: material {name!r} lost its {label} texture after export"
+                )
 
 
 def enhance_file(path: Path):
     bpy.ops.object.select_all(action="SELECT")
     bpy.ops.object.delete(use_global=False)
-    for block in (bpy.data.meshes, bpy.data.curves, bpy.data.materials, bpy.data.images, bpy.data.armatures):
+    for block in (
+        bpy.data.meshes,
+        bpy.data.curves,
+        bpy.data.materials,
+        bpy.data.images,
+        bpy.data.armatures,
+    ):
         for item in list(block):
             if item.users == 0:
                 block.remove(item)
@@ -140,7 +224,8 @@ def enhance_file(path: Path):
     bpy.ops.import_scene.gltf(filepath=str(path))
     for obj in list(bpy.context.scene.objects):
         ensure_uv(obj)
-    for mat in list(bpy.data.materials):
+    imported_materials = list(bpy.data.materials)
+    for mat in imported_materials:
         enhance_material(mat, path.relative_to(ROOT).as_posix())
 
     # Preserve the exact GLB location and embed generated images inside GLB.
@@ -151,15 +236,18 @@ def enhance_file(path: Path):
         export_keep_originals=False,
         use_selection=False,
     )
-    print("PBR texture pass:", path)
+    verify_exported_pbr(path)
+    print("PBR texture pass + serialized verification: PASS:", path)
 
 
 def main():
     files = sorted(ROOT.rglob("*.glb"))
     print("Honour War embedded PBR texture pass: {} GLBs".format(len(files)))
+    if len(files) != 53:
+        raise SystemExit(f"Expected exactly 53 generated GLBs, found {len(files)}")
     for path in files:
         enhance_file(path)
-    print("Honour War PBR texture pass complete")
+    print("Honour War PBR texture pass complete: all 53 GLBs verified with embedded PBR textures")
 
 
 if __name__ == "__main__":
