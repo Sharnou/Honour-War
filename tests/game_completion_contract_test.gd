@@ -71,12 +71,14 @@ func _initialize() -> void:
     _check("online authority autoload present", project_text.contains("HWOnlineAuthorityRuntime="))
     _check("online login UI autoload present", project_text.contains("HWOnlineLoginUI="))
     _check("party service autoload present", project_text.contains("HWPartyService="))
+    _check("online world state autoload present", project_text.contains("HWOnlineWorldState="))
 
     var camera_script:String = FileAccess.get_file_as_string("res://scripts/MovementStabilityFix.gd")
     _check("A/D camera yaw contract", camera_script.contains("KEY_A") and camera_script.contains("KEY_D"))
     _check("W/S camera pitch contract", camera_script.contains("KEY_W") and camera_script.contains("KEY_S"))
     _check("middle mouse orbit contract", camera_script.contains("MOUSE_BUTTON_MIDDLE") and camera_script.contains("target_camera_pitch"))
     _check("camera pitch is clamped", camera_script.contains("MIN_CAMERA_PITCH") and camera_script.contains("MAX_CAMERA_PITCH"))
+    _check("mouse movement sends authority positions", camera_script.contains("request_action(\"move\"", camera_script.contains("absolute\":true"))
 
     var input_policy:String = FileAccess.get_file_as_string("res://scripts/HW3DInputPolicy.gd")
     _check("legacy keyboard movement is disabled in 3D", input_policy.contains("InputMap.action_erase_events(action)"))
@@ -90,6 +92,8 @@ func _initialize() -> void:
     _check("account registration entrypoint present", auth_runtime.contains("request_register(username:String,password:String)"))
     _check("account login entrypoint present", auth_runtime.contains("request_login(username:String,password:String)"))
     _check("player persistence entrypoint present", auth_runtime.contains("save_player_for_peer(peer_id:int,player:Dictionary)") and auth_runtime.contains("player_for_peer(peer_id:int)"))
+    _check("accepted action validation occurs before broadcast", auth_runtime.contains("validate_move_request") and auth_runtime.contains("invalid_world_movement") and auth_runtime.contains("authoritative_action_accepted.emit(event)"))
+    _check("disconnect persistence signal present", auth_runtime.contains("peer_session_closing") and auth_runtime.contains("account_database.save_player(username,player)"))
 
     var account_db:String = FileAccess.get_file_as_string("res://scripts/HWAccountDatabase.gd")
     _check("persistent account database present", account_db.contains("honour_war_accounts.json") and account_db.contains("password_verifier") and account_db.contains("save_player"))
@@ -100,6 +104,11 @@ func _initialize() -> void:
     _check("party size is four", party_service.contains("MAX_PARTY_SIZE:int = 4"))
     _check("party requires authenticated peers", party_service.contains("is_peer_authenticated(peer_id)"))
     _check("party invite and accept flow present", party_service.contains("_server_invite") and party_service.contains("_server_accept_invite"))
+
+    var world_state:String = FileAccess.get_file_as_string("res://scripts/HWOnlineWorldState.gd")
+    _check("world state validates movement", world_state.contains("validate_move_request(peer_id:int,payload:Dictionary)") and world_state.contains("MOVE_SPEED_UNITS_PER_SECOND"))
+    _check("world state validates warps", world_state.contains("validate_warp_request(peer_id:int,payload:Dictionary)") and world_state.contains("Teleport.MAPS.has(map_id)"))
+    _check("world state persists disconnect state", world_state.contains("_on_peer_session_closing") and world_state.contains("save_player_for_peer"))
 
     var private_glb_workflow:String = FileAccess.get_file_as_string("res://.github/workflows/private-glb-preview-qa.yml")
     _check("private GLB QA pins triggering revision", private_glb_workflow.contains("ref: ${{ github.sha }}"))
