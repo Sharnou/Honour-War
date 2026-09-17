@@ -44,12 +44,12 @@ func _process(delta:float)->void:
 
 func _build_gates()->void:
 	for data in GATES:
-		var gate:Node3D=WARP_GATE_SCRIPT.new() as Node3D
+		var gate:WarpGate3D=WarpGate3D.new()
 		gate.name="Warp_"+str(data["map_id"])
 		gate.position=data["pos"]
-		gate.set("target_map",int(data["map_id"]))
-		gate.set("target_x",int(data["x"]))
-		gate.set("target_y",int(data["y"]))
-		gate.set("label_text","WARP GATE\n"+str(data["name"]))
-		root.add_child(gate)
+		gate.target_map=int(data["map_id"])
+		gate.target_x=int(TeleportSystem.MAPS[gate.target_map].get("spawn_x",180))
+		gate.target_y=int(TeleportSystem.MAPS[gate.target_map].get("spawn_y",150))
+		gate.label_text="WARP GATE • "+str(data["name"])
 		gate_nodes.append(gate)
+		root.add_child(gate)
