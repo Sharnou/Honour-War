@@ -133,11 +133,21 @@ func _animate()->void:
 
 func use_warp(target_map:int)->bool:
     if legacy==null or not Teleport.MAPS.has(target_map): return false
+    var authority:Node=get_node_or_null("/root/HWOnlineAuthorityRuntime")
+    if authority!=null and not authority.is_authority() and authority.is_peer_authenticated(multiplayer.get_unique_id()):
+        var point:Vector2=Teleport.default_point(target_map)
+        return _request_online_warp(authority,target_map,int(point.x),int(point.y))
     var command:String="@go "+str(target_map)
     if legacy.has_method("handle_command"):
         legacy.call("handle_command",command)
         return true
     return false
+
+func _request_online_warp(authority:Node,target_map:int,x:int,y:int)->bool:
+    if not authority.has_method("request_action"):
+        return false
+    authority.request_action("warp",{"map_id":target_map,"x":x,"y":y})
+    return true
 
 func _target_color(map_id:int)->Color:
     var type:String=str(Teleport.MAPS.get(map_id,{}).get("type","town"))
