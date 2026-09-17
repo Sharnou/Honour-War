@@ -23,8 +23,11 @@ on:
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
+# Final GLB generation is its own production lane. It still rebases before
+# writing generated assets to main, but unrelated CI writers must not replace
+# this workflow's pending run with a newer request.
 concurrency:
-  group: honour-war-main-writer
+  group: honour-war-final-glb-${{ github.ref }}
   cancel-in-progress: false
 
 permissions:
@@ -51,6 +54,19 @@ jobs:
           echo "Workflow SHA:    ${expected}"
           test "${actual}" = "${expected}"
 
+      - name: Preflight Blender and GLB pipeline Python syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile \
+            tools/visual_rag/honour_war_visual_rag.py \
+            tools/blender/honour_war_visual_max_assets.py \
+            tools/blender/run_visual_max_assets.py \
+            tools/blender/honour_war_monster_assets.py \
+            tools/blender/enhance_generated_glbs.py \
+            tools/validate_generated_glbs.py
+          echo "GLB pipeline Python syntax preflight: PASS"
+
       - name: Run Visual RAG first
         shell: bash
         run: |
@@ -64,7 +80,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          curl -L --fail --retry 3 -o /tmp/blender.tar.xz \
+          curl -L --fail --retry 8 --retry-all-errors --retry-delay 3 \
+            --connect-timeout 30 --max-time 600 \
+            -o /tmp/blender.tar.xz \
             https://download.blender.org/release/Blender4.2/blender-4.2.23-linux-x64.tar.xz
           rm -rf /opt/blender /tmp/blender-site
           mkdir -p /opt/blender /tmp/blender-site
@@ -178,6 +196,22 @@ jobs:
             exit 0
           fi
           git commit -m "Generate final Honour War GLB visual assets"
-          git fetch origin main
-          git rebase origin/main
-          git push origin HEAD:main
+
+          # This job owns a dedicated GLB lane, but other main writers may still
+          # commit while asset generation is running. Rebase immediately before
+          # the write and retry to avoid non-fast-forward/cannot-lock-ref races.
+          for attempt in 1 2 3 4 5; do
+            git fetch origin main
+            if ! git rebase origin/main; then
+              git rebase --abort || true
+            else
+              if git push origin HEAD:main; then
+                echo "Generated GLB commit pushed successfully on attempt ${attempt}."
+                exit 0
+              fi
+            fi
+            echo "GLB main push attempt ${attempt} lost a main-branch race; retrying."
+            sleep 3
+          done
+          echo "Failed to push generated GLB assets after 5 race-safe attempts."
+          exit 1
