@@ -13,7 +13,7 @@ const GameDataClass = preload("res://scripts/GameData.gd")
 var failures:int = 0
 
 func _initialize() -> void:
-    call_deferred("_run_suite")
+    _run_suite()
 
 func _run_suite() -> void:
     var authority:Node = AuthorityScript.new()
