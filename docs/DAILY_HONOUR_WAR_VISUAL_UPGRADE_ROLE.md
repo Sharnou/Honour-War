@@ -133,13 +133,14 @@ The target HUD contains:
 - right-side functional menu.
 
 ### Player identity and social UI — permanent rule
-- The **owner's character name is never rendered above/below their own character**.
-- Other players see the **real character name**, not a generic class label such as `Swordsman`, positioned **below the character**.
-- Player class and level are not displayed as floating world labels.
-- Other players may reveal another player's class through the player context interaction; the class is not permanently visible in the map/dungeon world label.
+- The **owner's character name is never rendered above or below their own character**.
+- Other players do **not** display a permanent floating nameplate.
+- A remote player's **real character name** is revealed only while the mouse is over that player, when the player is relevant to party/PvP context, or through an explicit social/chat reveal.
+- Never substitute a class label such as `Swordsman` for the real player name.
+- Player class and level are not displayed as permanent floating world labels.
 - Character age is never displayed in the floating world identity display.
-- World player nameplates do not expose HP/SP by default.
-- HP/SP bars are reserved for **enemies, party members and PvP players**, with the local owner excluded from floating target bars.
+- Player HP/SP bars are never rendered as permanent world-foot bars for local or remote player avatars.
+- Enemy combat HP bars remain allowed. Party/PvP player health may appear only in dedicated target/social/combat UI rather than as permanent world-foot bars.
 - Right-clicking another player opens the player context UI and provides an **EQUIP** action for inspecting that player's equipment.
 - Character Status and Equipment are one combined window; stat-point allocation is available in the same window as equipment.
 - ESC opens exactly three top-level character choices: **Create New Character**, **Switch Characters**, and **Options**.
@@ -163,7 +164,7 @@ For every upgrade:
 8. Verify attack/hit/skill effects visibly communicate combat.
 9. Verify maps contain primary, secondary and tertiary visual detail.
 10. Verify age is persisted per character and affects gameplay/visual progression without appearing in the floating world identity display.
-11. Verify player identity rules: owner-hidden name, remote real-name nameplate below character, no floating player class/level/age, restricted HP/SP visibility, and right-click Equip.
+11. Verify player identity rules: owner-hidden name, remote names hidden by default, real-name reveal only on hover/social party-PvP context/chat reveal, no floating player class/level/age, no permanent player HP/SP foot bars, and right-click Equip.
 12. Verify Character Status and Equipment remain one combined window with working stat points.
 13. Verify ESC exposes exactly Create New Character, Switch Characters and Options, with all three pages functional.
 14. Run static/runtime/CI validation after meaningful changes.
@@ -195,9 +196,10 @@ A Daily Upgrade must reject or fix the result when:
 - lighting destroys silhouette/readability;
 - required visual files are missing or broken;
 - a player's own name is shown as a floating world label;
+- another player's real name is permanently shown without hover/social context;
 - `Swordsman` or another class name is used as the permanent player nameplate;
 - character age is shown in the floating world identity display;
-- player HP/SP is exposed to everyone instead of only the permitted target categories;
+- a permanent player HP/SP foot bar is shown;
 - Status and Equipment are split into competing windows;
 - ESC does not present exactly the three requested character-management choices.
 
