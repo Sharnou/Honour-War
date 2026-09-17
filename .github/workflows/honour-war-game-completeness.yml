@@ -88,7 +88,14 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          ./${GODOT_BINARY} --headless --path . --script res://tests/fast_account_auth_test.gd 2>&1 | tee fast-account-auth.log
+          echo "Running fast-auth regression in the foreground (timeout 120s)."
+          timeout --kill-after=10s 120s ./${GODOT_BINARY} --headless --path . --script res://tests/fast_account_auth_test.gd 2>&1 | tee fast-account-auth.log
+
+      - name: Validate four-point production completion
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout --kill-after=10s 120s ./${GODOT_BINARY} --headless --path . --script res://tests/four_point_production_contract_test.gd 2>&1 | tee four-point-production.log
 
       - name: Validate quest progression and rewards
         shell: bash
@@ -123,5 +130,6 @@ jobs:
             quest-system.log
             party-service.log
             online-world-state.log
+            four-point-production.log
           if-no-files-found: error
           retention-days: 14
