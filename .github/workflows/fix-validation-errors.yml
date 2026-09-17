@@ -11,6 +11,7 @@ permissions:
 concurrency:
   group: honour-war-main-writer
   cancel-in-progress: false
+  queue: max
 
 jobs:
   fix:
