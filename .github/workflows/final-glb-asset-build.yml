@@ -63,15 +63,22 @@ jobs:
           set -euo pipefail
           python3 - <<'PY'
           from pathlib import Path
+
           workflows = Path('.github/workflows')
           final = workflows / 'final-glb-asset-build.yml'
           text = final.read_text(encoding='utf-8')
+
+          # Build GitHub expression strings from separate Python fragments so
+          # Actions does not evaluate them while rendering this heredoc.
+          github_ref_expr = '$' + '{{ github.ref }}'
+          github_sha_expr = '$' + '{{ github.sha }}'
+
           required = (
-              'group: honour-war-final-glb-${{ github.ref }}',
+              'group: honour-war-final-glb-' + github_ref_expr,
               'cancel-in-progress: false',
               'queue: max',
               'uses: actions/checkout@v7',
-              'ref: ${{ github.sha }}',
+              'ref: ' + github_sha_expr,
               'test "${actual}" = "${expected}"',
               '--retry 10 --retry-all-errors',
               'tar -tJf /tmp/blender.tar.xz',
@@ -81,7 +88,11 @@ jobs:
           )
           missing = [item for item in required if item not in text]
           if missing:
-              raise SystemExit('Missing Final GLB contract markers: ' + ', '.join(repr(x) for x in missing))
+              raise SystemExit(
+                  'Missing Final GLB contract markers: '
+                  + ', '.join(repr(x) for x in missing)
+              )
+
           for path in sorted(workflows.glob('*.yml')):
               if path == final:
                   continue
@@ -96,6 +107,7 @@ jobs:
                       f'{path} is another scheduled writable generated-asset pipeline; '
                       'Final GLB must remain the sole scheduled generated-asset writer'
                   )
+
           print('PASS: Final GLB workflow contract and single-writer policy are intact.')
           PY
 
