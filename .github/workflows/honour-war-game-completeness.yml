@@ -91,6 +91,12 @@ jobs:
           fi
           grep -F "HONOUR_WAR_SERVER started" server-bootstrap.log
 
+      - name: Validate server-authoritative MMORPG gameplay
+        shell: bash
+        run: |
+          set -euo pipefail
+          ./${GODOT_BINARY} --headless --path . --script res://tests/server_gameplay_authority_contract_test.gd 2>&1 | tee server-gameplay-authority.log
+
       - name: Validate live MMORPG world replication
         shell: bash
         run: |
@@ -147,6 +153,7 @@ jobs:
             server-bootstrap.log
             online-persistence.log
             live-world-replication.log
+            server-gameplay-authority.log
             fast-account-auth.log
             quest-system.log
             party-service.log
