@@ -18,10 +18,12 @@ assert '"behavior":{"follow":true,"heal":true,"fight":true}' in runtime
 assert '"go_button":"GO"' in runtime
 assert 'func can_create_as_character_class' in runtime
 assert 'normalized != "SS"' in runtime
-# An autoload singleton must not also declare a global class with the same name.
+# The rental runtime is intentionally exposed through the HWRentalService autoload.
+# Keep the script path and the singleton name aligned with runtime callers.
 assert 'class_name HWSSRentRuntime' not in runtime
-assert 'HWSSRentRuntime="*res://scripts/HWSSRentRuntime.gd"' in project
-assert project.count('HWSSRentRuntime="*res://scripts/HWSSRentRuntime.gd"') == 1
+assert 'HWRentalService="*res://scripts/HWSSRentRuntime.gd"' in project
+assert project.count('HWRentalService="*res://scripts/HWSSRentRuntime.gd"') == 1
+assert 'get_node_or_null("/root/HWRentalService")' in npc
 assert 'Rent' in npc
 assert 'PRICE_ZENY:int = 1000000' in npc
 assert 'rental_price_zeny' in npc
