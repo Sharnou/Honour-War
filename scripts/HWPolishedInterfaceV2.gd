@@ -11,6 +11,7 @@ const TELEPORT=preload("res://scripts/TeleportSystem.gd")
 const ICON=preload("res://scripts/HWIconButton.gd")
 
 const MODES:Array[String]=["character","pet","skills","inventory","equipment","refine","map","objectives","system"]
+const BIND_RETRY_SECONDS:float=0.50
 
 var scene_root:Node
 var legacy:Node
@@ -25,6 +26,7 @@ var mode:String="character"
 var toolbar:PanelContainer
 var bound:bool=false
 var bind_queued:bool=false
+var bind_retry_timer:float=0.0
 
 func _ready()->void:
     layer=120
@@ -41,27 +43,40 @@ func _bind()->void:
     if bound:
         return
     scene_root=get_tree().current_scene
-    if scene_root==null:
-        _queue_bind()
+    # Autoloads are initialized before the main scene in headless scripts. Do
+    # not recursively queue deferred work while current_scene is unavailable.
+    # _process() retries at a bounded cadence once a real scene exists.
+    if scene_root==null or not is_instance_valid(scene_root):
         return
     if root!=null and is_instance_valid(root):
         bound=true
         return
     legacy=scene_root.get_node_or_null("LegacyGame")
+    if legacy==null or not is_instance_valid(legacy):
+        return
     _disable_competing_huds()
     _build()
     bound=true
+    bind_retry_timer=0.0
 
-func _process(_delta:float)->void:
+func _process(delta:float)->void:
+    var safe_delta:float=max(0.0,delta)
     if not bound:
+        bind_retry_timer+=safe_delta
+        if bind_retry_timer>=BIND_RETRY_SECONDS:
+            bind_retry_timer=0.0
+            _queue_bind()
         return
     if scene_root==null or not is_instance_valid(scene_root):
         bound=false
         root=null
-        _queue_bind()
+        bind_retry_timer=0.0
         return
     if legacy==null or not is_instance_valid(legacy):
         legacy=scene_root.get_node_or_null("LegacyGame")
+        if legacy==null:
+            bound=false
+            return
     _refresh_status()
 
 func _disable_competing_huds()->void:
