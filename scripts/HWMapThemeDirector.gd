@@ -200,7 +200,7 @@ func _build_waterfront(root:Node3D,style:Dictionary) -> void:
 
 func _build_dunes(root:Node3D,style:Dictionary) -> void:
     for x in [-24.0,-12.0,0.0,12.0,24.0]:
-        var dune := _sphere("Dune",2.2,Vector3(x,0.65,18),_mat(style.ground,0.95))
+        var dune := _sphere(root,"Dune",2.2,Vector3(x,0.65,18),_mat(style.ground,0.95))
         dune.scale = Vector3(2.0,0.45,1.1)
         root.add_child(dune)
 
@@ -223,7 +223,7 @@ func _build_rock_or_crystal(root:Node3D,pos:Vector3,style:Dictionary,index:int) 
     if index % 4 == 0:
         _build_crystal(root,pos,style.accent)
     else:
-        var rock := _sphere("FieldRock",0.75,pos+Vector3(0,0.45,0),_mat(style.wall,0.92))
+        var rock := _sphere(root,"FieldRock",0.75,pos+Vector3(0,0.45,0),_mat(style.wall,0.92))
         rock.scale = Vector3(1.4,0.75,1.05)
         root.add_child(rock)
 
@@ -271,7 +271,7 @@ func _build_pillar(root:Node3D,pos:Vector3,style:Dictionary) -> void:
     _cyl(root,"Pillar",0.22,2.4,pos+Vector3(0,1.2,0),_mat(style.roof,0.65))
 
 func _build_snowbank(root:Node3D,pos:Vector3,style:Dictionary) -> void:
-    var bank := _sphere("Snowbank",1.6,pos+Vector3(0,0.55,0),_mat(style.ground,0.96))
+    var bank := _sphere(root,"Snowbank",1.6,pos+Vector3(0,0.55,0),_mat(style.ground,0.96))
     bank.scale = Vector3(1.9,0.65,1.1)
     root.add_child(bank)
 
