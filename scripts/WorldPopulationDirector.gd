@@ -10,6 +10,42 @@ var spawn_serial:int=0
 const MIN_MONSTERS:=6
 const MAX_MONSTERS:=10
 
+# Map-aware monster ecology. The player level still controls the zone level,
+# while each region chooses a coherent family roster rather than mixing every
+# monster type on every map.
+const ZONE_FAMILIES:= {
+	0:["Poring","Goblin","Wolf"],
+	1:["Poring","Wolf","Mantis"],
+	2:["Poring","Goblin","Golem"],
+	3:["Poring","Goblin","Wolf"],
+	4:["Poring","Wolf","Mantis"],
+	5:["Poring","Goblin","Wolf"],
+	6:["Poring","Wolf","Mantis"],
+	7:["Poring","Golem","Mantis"],
+	8:["Poring","Wolf","Goblin"],
+	9:["Poring","Mantis","Evil Druid"],
+	10:["Skeleton","Zombie","Evil Druid"],
+	11:["Skeleton","Zombie","Wolf"],
+	12:["Golem","Evil Druid","Dragon"],
+	13:["Skeleton","Zombie","Bloody Knight"],
+	14:["Orc","Golem","Bloody Knight"],
+	15:["Wolf","Golem","Dragon"],
+	16:["Golem","Evil Druid","Bloody Knight"],
+	17:["Skeleton","Zombie","Mantis"],
+	18:["Mantis","Evil Druid","Dragon"],
+	19:["Skeleton","Zombie","Bloody Knight"],
+	20:["Poring","Goblin","Wolf"],
+	21:["Wolf","Mantis","Evil Druid"],
+	22:["Goblin","Golem","Orc"],
+	23:["Goblin","Wolf","Bloody Knight"],
+	24:["Wolf","Mantis","Dragon"],
+	25:["Wolf","Orc","Golem"],
+	26:["Mantis","Evil Druid","Golem"],
+	27:["Golem","Orc","Bloody Knight"],
+	28:["Wolf","Golem","Dragon"],
+	29:["Mantis","Evil Druid","Dragon"]
+}
+
 func _ready()->void:
 	rng.randomize()
 	legacy=get_parent().get_node_or_null("LegacyGame") as Node2D
@@ -49,12 +85,16 @@ func _spawn_one(near_hero:bool)->void:
 	var hero:Dictionary=hero_value
 	var monsters:Array=legacy.get("monsters") as Array
 	if monsters==null or monsters.size()>=MAX_MONSTERS: return
-	var families:Array=GameData.monster_families()
+	var map_id:int=int(hero.get("map_id",0))
+	var families:Array=ZONE_FAMILIES.get(map_id,GameData.monster_families())
 	if families.is_empty(): return
 	var family:String=str(families[rng.randi_range(0,families.size()-1)])
 	var hero_level:int=int(hero.get("level",1))
 	var zone:int=max(1,int(hero_level/10)+1)
-	var level:int=WorldSystem.monster_level_for_zone(zone,rng.randi_range(0,families.size()-1))
+	var family_index:int=rng.randi_range(0,max(0,families.size()-1))
+	var level:int=WorldSystem.monster_level_for_zone(zone,family_index)
+	if family in ["Dragon","Bloody Knight"]:
+		level=clamp(level+20,1,GameData.MAX_MONSTER_LEVEL)
 	var stats:Dictionary=WorldSystem.monster_stats(level)
 	if family=="Bloody Knight":
 		level=clamp(level+25,1,300)
@@ -62,7 +102,6 @@ func _spawn_one(near_hero:bool)->void:
 		stats["max_hp"]=int(float(stats["max_hp"])*1.35)
 		stats["attack"]=int(float(stats["attack"])*1.30)
 		stats["defense"]=int(float(stats["defense"])*1.25)
-	var map_id:int=int(hero.get("map_id",0))
 	var map_data:Dictionary=TeleportSystem.MAPS.get(map_id,{})
 	var width:float=float(map_data.get("width",1200))
 	var height:float=float(map_data.get("height",700))
@@ -78,4 +117,4 @@ func _spawn_one(near_hero:bool)->void:
 	pos.y=clamp(pos.y,180.0,120.0+max(61.0,height-60.0))
 	spawn_serial+=1
 	var detail:Dictionary=MonsterDetails.details({"name":family,"level":level})
-	monsters.append({"visual_id":family+"_"+str(spawn_serial),"name":family,"level":level,"pos":pos,"hp":stats["max_hp"],"max":stats["max_hp"],"attack":stats["attack"],"defense":stats["defense"],"exp":stats["exp"],"xp":stats["exp"],"zmin":stats["zeny_min"],"zmax":stats["zeny_max"],"attack_type":"Ranged" if detail["role"]=="Caster" else "Melee","element":detail["element"],"status":detail["status"],"poison_resist":detail["poison_resist"],"danger":detail["danger"]})
+	monsters.append({"visual_id":family+"_"+str(spawn_serial),"name":family,"map_id":map_id,"region":str(map_data.get("name","Unknown")),"level":level,"pos":pos,"hp":stats["max_hp"],"max":stats["max_hp"],"attack":stats["attack"],"defense":stats["defense"],"exp":stats["exp"],"xp":stats["exp"],"zmin":stats["zeny_min"],"zmax":stats["zeny_max"],"attack_type":"Ranged" if detail["role"]=="Caster" else "Melee","element":detail["element"],"status":detail["status"],"poison_resist":detail["poison_resist"],"danger":detail["danger"]})
