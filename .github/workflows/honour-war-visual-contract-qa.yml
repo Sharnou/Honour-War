@@ -10,6 +10,7 @@ on:
 concurrency:
   group: honour-war-visual-contract-${{ github.ref }}
   cancel-in-progress: false
+  queue: max
 
 jobs:
   visual-contract:
