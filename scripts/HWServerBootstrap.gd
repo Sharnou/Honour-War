@@ -20,9 +20,9 @@ func _initialize() -> void:
     port = _parse_port()
     call_deferred("_start")
 
-func _process(delta:float) -> void:
+func _process(delta:float) -> bool:
     if not started:
-        return
+        return false
     heartbeat_timer += delta
     if heartbeat_timer >= 10.0:
         heartbeat_timer = 0.0
@@ -31,6 +31,7 @@ func _process(delta:float) -> void:
             print("HONOUR_WAR_SERVER heartbeat: ", JSON.stringify(snapshot))
         else:
             quit(1)
+    return false
 
 func _start() -> void:
     authority = get_root().get_node_or_null("HWOnlineAuthorityRuntime")
@@ -52,11 +53,6 @@ func _start() -> void:
         int(authority.PROTOCOL_VERSION),
         int(authority.MAX_PLAYERS)
     ])
-
-func _notification(what:int) -> void:
-    if what == NOTIFICATION_WM_CLOSE_REQUEST or what == NOTIFICATION_EXIT_TREE:
-        if authority != null and is_instance_valid(authority):
-            authority.stop_session()
 
 func _parse_port() -> int:
     for arg in OS.get_cmdline_user_args():
