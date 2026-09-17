@@ -14,12 +14,14 @@ on:
       - "tools/blender/run_visual_max_assets.py"
       - "tools/blender/honour_war_monster_assets.py"
       - "tools/blender/enhance_generated_glbs.py"
+      - "tools/auto_repair_generated_glbs.py"
       - "tools/visual_rag/**"
       - "tools/validate_generated_glbs.py"
       - "shaders/ToonShader.gdshader"
       - "scripts/HWVisualMaxDirectorFixed.gd"
       - "scripts/HWToonMaterialDirector.gd"
       - "scripts/HWIsometricCamera.gd"
+      - "scripts/MovementStabilityFix.gd"
       - "scripts/EnvironmentCycle.gd"
       - "Main3D.tscn"
 
@@ -85,6 +87,10 @@ jobs:
               'test "${count}" -eq 53',
               'git rebase origin/main',
               'for attempt in 1 2 3 4 5',
+              'tools/auto_repair_generated_glbs.py',
+              'BLENDER_EXECUTABLE',
+              'hero_class_and_tier',
+              'post-repair semantic/PBR validation',
           )
           missing = [item for item in required if item not in text]
           if missing:
@@ -108,7 +114,7 @@ jobs:
                       'Final GLB must remain the sole scheduled generated-asset writer'
                   )
 
-          print('PASS: Final GLB workflow contract and single-writer policy are intact.')
+          print('PASS: Final GLB workflow contract, self-healing gate, and single-writer policy are intact.')
           PY
 
       - name: Preflight Blender and GLB pipeline Python syntax
@@ -121,6 +127,7 @@ jobs:
             tools/blender/run_visual_max_assets.py \
             tools/blender/honour_war_monster_assets.py \
             tools/blender/enhance_generated_glbs.py \
+            tools/auto_repair_generated_glbs.py \
             tools/validate_generated_glbs.py
           echo "GLB pipeline Python syntax preflight: PASS"
 
@@ -206,11 +213,17 @@ jobs:
             test "$magic" = "676c5446"
           done < <(find assets/3d/generated -type f -name '*.glb' | sort)
 
-      - name: Run semantic and PBR GLB quality gate
+      - name: Automatically repair and run semantic and PBR GLB quality gate
         shell: bash
+        env:
+          BLENDER_EXECUTABLE: /opt/blender/blender
         run: |
           set -euo pipefail
-          python3 tools/validate_generated_glbs.py
+          python3 tools/auto_repair_generated_glbs.py \
+            --fix \
+            --validator tools/validate_generated_glbs.py \
+            --repair-script tools/blender/enhance_generated_glbs.py \
+            --blender /opt/blender/blender
 
       - name: Create generated asset manifest
         shell: bash
