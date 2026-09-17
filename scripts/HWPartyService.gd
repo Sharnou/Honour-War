@@ -71,6 +71,13 @@ func _username(peer_id:int) -> String:
     var authority:Node = _authority()
     return authority.username_for_peer(peer_id) if authority != null else ""
 
+func _peer_connected(peer_id:int) -> bool:
+    if peer_id <= 0 or multiplayer == null or not multiplayer.has_multiplayer_peer():
+        return false
+    if peer_id == multiplayer.get_unique_id():
+        return false
+    return multiplayer.get_peers().has(peer_id)
+
 func _create_party_for_peer(peer_id:int) -> void:
     if not _authenticated(peer_id):
         _reject(peer_id,"authentication_required")
@@ -107,7 +114,7 @@ func _invite_peer(sender:int,target:int) -> void:
     if not pending.has(party_id):
         pending.append(party_id)
     invitations[target] = pending
-    if target > 0:
+    if _peer_connected(target):
         _client_party_invite.rpc_id(target,party_id,sender)
 
 func _accept_invite(peer_id:int,party_id:String) -> void:
@@ -187,13 +194,14 @@ func _send_snapshot(party_id:String) -> void:
         return
     var members:Array = party.get("members",[])
     for peer_id in members:
-        if int(peer_id) > 0:
-            _client_party_snapshot.rpc_id(int(peer_id),party)
+        var target:int = int(peer_id)
+        if _peer_connected(target):
+            _client_party_snapshot.rpc_id(target,party)
     party_updated.emit(party)
 
 func _reject(peer_id:int,reason:String) -> void:
     party_action_rejected.emit(reason)
-    if peer_id > 0 and _is_server():
+    if _peer_connected(peer_id):
         _client_party_rejection.rpc_id(peer_id,reason)
 
 @rpc("any_peer","reliable")
