@@ -1,7 +1,7 @@
 extends Node3D
 
-## Screen-readable combat vitals. Uses billboarded 3D bars so health stays visible
-## without nameplates. Hero gets HP/SP; monsters get HP; bosses get wider HP bars.
+## Screen-readable combat vitals. Player avatars never carry permanent HP/SP bars.
+## Monsters retain combat HP bars; party/PvP health belongs in dedicated social/combat UI.
 var game:Node3D
 var legacy:Node
 var hero_last:Node3D
