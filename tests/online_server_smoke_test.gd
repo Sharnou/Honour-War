@@ -8,18 +8,20 @@ const AUTHORITY_SCRIPT = preload("res://scripts/HWOnlineAuthorityRuntime.gd")
 const TEST_PORT:int = 24568
 
 func _initialize() -> void:
-    # A standalone SceneTree has no scene-root MultiplayerAPI by default.
-    # Register the default API at the root path before creating the authority
-    # node so Node.multiplayer resolves the same API through the scene tree.
+    # Bind the custom MultiplayerAPI directly to the authority subtree. A
+    # standalone SceneTree does not automatically propagate a root override to
+    # nodes created afterward, while SceneTree.set_multiplayer(path) provides
+    # the supported way to scope the API to a particular branch.
     var network_api:MultiplayerAPI = MultiplayerAPI.create_default_interface()
-    set_multiplayer(network_api,NodePath("/"))
-
     var authority:Node = AUTHORITY_SCRIPT.new()
+    authority.name = "DedicatedAuthority"
     root.add_child(authority)
+
+    set_multiplayer(network_api,authority.get_path())
 
     var propagation_ok:bool = authority.multiplayer == network_api
     if not propagation_ok:
-        push_error("FAIL: authority node did not inherit the SceneTree MultiplayerAPI")
+        push_error("FAIL: authority node did not receive its SceneTree MultiplayerAPI")
         authority.queue_free()
         quit(1)
         return
@@ -33,7 +35,7 @@ func _initialize() -> void:
 
     var snapshot:Dictionary = authority.get_session_snapshot()
     var failures:int = 0
-    failures += _check("authority inherits root multiplayer API",propagation_ok)
+    failures += _check("authority receives dedicated multiplayer API",propagation_ok)
     failures += _check("server authority active",bool(snapshot.get("authority",false)))
     failures += _check("protocol version present",int(snapshot.get("protocol",0)) == int(authority.PROTOCOL_VERSION))
     failures += _check("configured port is valid",TEST_PORT >= 1024 and TEST_PORT <= 65535)
