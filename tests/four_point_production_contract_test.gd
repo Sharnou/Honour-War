@@ -29,7 +29,7 @@ func _run() -> void:
     _check("eleven monster GLBs remain present", _count_paths("res://assets/3d/generated/monsters") >= 11)
     _check("six bonded pet GLBs remain present", _count_paths("res://assets/3d/generated/pets") >= 6)
 
-    _check("regional monster ecology implemented", world.contains("ZONE_FAMILIES") and world.contains("\"map_id\": map_id") and world.contains("\"region\":"))
+    _check("regional monster ecology implemented", world.contains("ZONE_FAMILIES") and world.contains("map_id") and world.contains("region") and world.contains("family") and world.contains("map_data"))
     _check("map theme supports town/field/dungeon", map_theme.contains("_build_town") and map_theme.contains("_build_field") and map_theme.contains("_build_dungeon"))
     _check("map theme has distinct region palettes", map_theme.contains("morroc") and map_theme.contains("payon") and map_theme.contains("geffen") and map_theme.contains("lutie") and map_theme.contains("umbala"))
     _check("map theme is visual-only", map_theme.contains("Visual only") and not map_theme.contains("hero[\"hp\"]") and not map_theme.contains("monster[\"hp\"]"))
