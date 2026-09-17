@@ -1,5 +1,11 @@
-FINAL GLB BUILD TRIGGER — 2026-09-14 21:00 UTC
+FINAL GLB BUILD TRIGGER — 2026-09-17 10:00 UTC
 
 Run the real Honour War release build now.
 Required order: Visual RAG first -> Blender 4.2 -> embedded PBR GLB pass -> binary validation -> semantic/PBR quality gate -> manifest -> commit generated assets.
 Do not substitute Godot primitives for generated assets.
+
+QA focus for this run:
+- verify the complete 30-hero / 12-pet / 11-monster production inventory;
+- verify embedded base-color and metallic-roughness PBR texture links;
+- verify semantic hero class/tier parsing for all six classes;
+- preserve all generated geometry, materials, and current asset options.
