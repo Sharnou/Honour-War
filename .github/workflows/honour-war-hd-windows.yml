@@ -17,10 +17,11 @@ env:
   GODOT_BINARY: "Godot_v4.7.2-stable_win64.exe"
   GODOT_TEMPLATE: "Godot_v4.7.2-stable_export_templates.tpz"
 
+# A Windows build is a release candidate for the current main revision. Do not
+# keep a queue of obsolete EXE builds when newer commits have superseded them.
 concurrency:
   group: honour-war-windows-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: false
-  queue: max
+  cancel-in-progress: true
 
 jobs:
   build-windows:
@@ -52,7 +53,6 @@ jobs:
             "https://github.com/godotengine/godot-builds/releases/download/$env:GODOT_TAG/$env:GODOT_BINARY.zip",
             "https://github.com/godotengine/godot/releases/download/$env:GODOT_TAG/$env:GODOT_BINARY.zip"
           )
-
           $downloaded = $false
           for ($round = 1; $round -le 8 -and -not $downloaded; $round++) {
             foreach ($url in $urls) {
@@ -67,7 +67,6 @@ jobs:
                   Write-Host "Downloaded and validated Godot archive from $url"
                   break
                 }
-                Write-Warning "Archive from $url did not contain $env:GODOT_BINARY."
               } catch {
                 Write-Warning "Godot download/validation failed: $($_.Exception.Message)"
               }
@@ -75,11 +74,7 @@ jobs:
               Start-Sleep -Seconds 3
             }
           }
-
-          if (-not $downloaded) {
-            throw "Could not download and validate Godot $env:GODOT_VERSION after retrying both official endpoints."
-          }
-
+          if (-not $downloaded) { throw "Could not download and validate Godot $env:GODOT_VERSION" }
           Remove-Item -Recurse -Force -ErrorAction SilentlyContinue 'godot-dist'
           Expand-Archive -Path 'godot.zip' -DestinationPath 'godot-dist' -Force
           $exe = Get-ChildItem -Path 'godot-dist' -Filter $env:GODOT_BINARY -File -Recurse | Select-Object -First 1
@@ -95,7 +90,6 @@ jobs:
             "https://github.com/godotengine/godot-builds/releases/download/$env:GODOT_TAG/$env:GODOT_TEMPLATE",
             "https://github.com/godotengine/godot/releases/download/$env:GODOT_TAG/$env:GODOT_TEMPLATE"
           )
-
           $downloaded = $false
           for ($round = 1; $round -le 8 -and -not $downloaded; $round++) {
             foreach ($url in $urls) {
@@ -111,33 +105,22 @@ jobs:
                   Write-Host "Downloaded and validated export-template archive from $url"
                   break
                 }
-                Write-Warning "Archive from $url did not contain windows_release_x86_64.exe."
               } catch {
                 Write-Warning "Export-template download/validation failed: $($_.Exception.Message)"
               }
               Start-Sleep -Seconds 3
             }
           }
-
-          if (-not $downloaded) {
-            throw "Could not download and validate Godot $env:GODOT_VERSION export templates after retrying both official endpoints."
-          }
-
+          if (-not $downloaded) { throw "Could not download and validate Godot $env:GODOT_VERSION export templates" }
           $templatesDir = Join-Path $env:APPDATA 'Godot\export_templates\4.7.2.stable'
           New-Item -ItemType Directory -Force -Path $templatesDir | Out-Null
           Expand-Archive -Path 'templates.tpz' -DestinationPath $templatesDir -Force
           $inner = Join-Path $templatesDir 'templates'
           if (Test-Path $inner) {
-            Get-ChildItem -Path $inner -Recurse -File | ForEach-Object {
-              Copy-Item $_.FullName -Destination $templatesDir -Force
-            }
+            Get-ChildItem -Path $inner -Recurse -File | ForEach-Object { Copy-Item $_.FullName -Destination $templatesDir -Force }
           }
           $required = Join-Path $templatesDir 'windows_release_x86_64.exe'
           if (-not (Test-Path $required)) { throw 'Godot Windows 4.7.2 release export template was not installed' }
-          @('version.txt','windows_release_x86_64.exe') | ForEach-Object {
-            $p = Join-Path $templatesDir $_
-            if (Test-Path $p) { Get-Item $p | Select-Object Name,Length }
-          }
 
       - name: Import project and validate scripts/scenes
         shell: pwsh
