@@ -40,6 +40,9 @@ func _initialize() -> void:
     _check("hero has automatic pet", hero.get("pet", {}) is Dictionary and not (hero.get("pet", {}) as Dictionary).is_empty())
     _check("hero has required refinement materials", hero.get("materials", {}) is Dictionary and (hero.get("materials", {}) as Dictionary).has_all(["Phracon", "Emveretarcon", "Oridecon"]))
     _check("default pet is bound to hero class", str((hero.get("pet", {}) as Dictionary).get("owner_class", "")) == str(hero.get("class", "Warrior")))
+    _check("starter weapon is catalogued", hero.get("inventory", {}) is Dictionary and (hero.get("inventory", {}) as Dictionary).has("Novice Sword"))
+    _check("starter armor is catalogued", hero.get("inventory", {}) is Dictionary and (hero.get("inventory", {}) as Dictionary).has("Novice Armor"))
+    _check("starter weapon is equipped", str((hero.get("equipment", {}) as Dictionary).get("weapon", "")) == "Novice Sword")
 
     for class_id in definitions.keys():
         hero["class"] = str(class_id)
@@ -66,6 +69,7 @@ func _initialize() -> void:
 
     var project_text:String = FileAccess.get_file_as_string("res://project.godot")
     _check("online authority autoload present", project_text.contains("HWOnlineAuthorityRuntime="))
+    _check("online login UI autoload present", project_text.contains("HWOnlineLoginUI="))
 
     var camera_script:String = FileAccess.get_file_as_string("res://scripts/MovementStabilityFix.gd")
     _check("A/D camera yaw contract", camera_script.contains("KEY_A") and camera_script.contains("KEY_D"))
@@ -79,6 +83,17 @@ func _initialize() -> void:
     var polished_hud:String = FileAccess.get_file_as_string("res://scripts/HWPolishedInterfaceV2.gd")
     _check("polished HUD binding is guarded", polished_hud.contains("var bound:bool=false") and polished_hud.contains("var bind_queued:bool=false"))
     _check("polished HUD build is idempotent", polished_hud.contains("if root!=null and is_instance_valid(root):"))
+
+    var auth_runtime:String = FileAccess.get_file_as_string("res://scripts/HWOnlineAuthorityRuntime.gd")
+    _check("authenticated peer gate present", auth_runtime.contains("is_peer_authenticated(sender)") and auth_runtime.contains("authentication_required"))
+    _check("account registration entrypoint present", auth_runtime.contains("request_register(username:String,password:String)"))
+    _check("account login entrypoint present", auth_runtime.contains("request_login(username:String,password:String)"))
+    _check("player persistence entrypoint present", auth_runtime.contains("save_player_for_peer(peer_id:int,player:Dictionary)") and auth_runtime.contains("player_for_peer(peer_id:int)"))
+
+    var account_db:String = FileAccess.get_file_as_string("res://scripts/HWAccountDatabase.gd")
+    _check("persistent account database present", account_db.contains("honour_war_accounts.json") and account_db.contains("password_verifier") and account_db.contains("save_player"))
+    var login_ui:String = FileAccess.get_file_as_string("res://scripts/HWOnlineLoginUI.gd")
+    _check("online UI waits for network connection", login_ui.contains("CONNECTION_CONNECTED") and login_ui.contains("pending_auth_action"))
 
     var private_glb_workflow:String = FileAccess.get_file_as_string("res://.github/workflows/private-glb-preview-qa.yml")
     _check("private GLB QA pins triggering revision", private_glb_workflow.contains("ref: ${{ github.sha }}"))
