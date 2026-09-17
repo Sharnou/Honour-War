@@ -10,12 +10,6 @@ on:
 permissions:
   contents: read
 
-# Production validation follows the same latest-commit policy as the other
-# release gates. A newer revision supersedes an older validation run.
-concurrency:
-  group: honour-war-hd-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   art-contract:
     name: HD art pipeline contract
@@ -101,6 +95,11 @@ jobs:
           set -euo pipefail
           ./Godot_v4.7.2-stable_linux.x86_64 --headless --editor --path . --rendering-method gl_compatibility --rendering-driver opengl3 --quit 2>&1 | tee godot-editor.log
           if grep -E 'SCRIPT ERROR|Parse Error|ERROR: Failed to load script|ERROR: Cannot load scene' godot-editor.log; then exit 1; fi
+      - name: Validate fast username/password registration
+        shell: bash
+        run: |
+          set -euo pipefail
+          ./Godot_v4.7.2-stable_linux.x86_64 --headless --path . --script res://tests/fast_account_auth_test.gd 2>&1 | tee fast-account-auth.log
       - name: Forward+ startup smoke test
         shell: bash
         run: |
@@ -119,6 +118,7 @@ jobs:
           name: godot-4-7-2-validation-logs
           path: |
             godot-editor.log
+            fast-account-auth.log
             godot-forward-plus.log
           if-no-files-found: ignore
       - name: Validate final renderer contract

@@ -10,6 +10,7 @@ signal authoritative_action_accepted(event:Dictionary)
 signal authority_action_rejected(peer_id:int, action:String, reason:String)
 signal authentication_succeeded(peer_id:int, username:String, player:Dictionary)
 signal authentication_failed(peer_id:int, username:String, reason:String)
+signal registration_succeeded(peer_id:int, username:String, gender:String)
 signal player_persistence_failed(peer_id:int, username:String, reason:String)
 signal peer_session_closing(peer_id:int, username:String, player:Dictionary)
 
@@ -25,7 +26,7 @@ const MAX_PAYLOAD_KEYS:int = 24
 const MAX_PAYLOAD_DEPTH:int = 3
 const MAX_ARRAY_ITEMS:int = 64
 const MAX_STRING_LENGTH:int = 256
-const MIN_PASSWORD_LENGTH:int = 8
+const MIN_PASSWORD_LENGTH:int = 6
 const ACCOUNT_CHALLENGE_TTL_SECONDS:float = 30.0
 
 const ALLOWED_ACTIONS:Array[String] = [
@@ -180,11 +181,13 @@ func _register_local(peer_id:int,username:String,password:String) -> void:
     var salt:String = _new_salt()
     var verifier:String = AccountDatabaseClass.password_verifier(password,salt)
     var player:Dictionary = GameDataClass.new_hero()
+    var gender:String = gender_from_username(normalized)
     player["account_username"] = normalized
+    player["gender"] = gender
     if not account_database.create_account(normalized,salt,verifier,player):
         authentication_failed.emit(peer_id,normalized,"account_create_failed")
         return
-    authentication_succeeded.emit(peer_id,normalized,player)
+    registration_succeeded.emit(peer_id,normalized,gender)
 
 @rpc("any_peer","reliable")
 func _server_register(username:String,salt:String,verifier:String) -> void:
@@ -202,23 +205,24 @@ func _server_register(username:String,salt:String,verifier:String) -> void:
         _send_auth_failure(sender,normalized,"account_exists")
         return
     var player:Dictionary = GameDataClass.new_hero()
+    var gender:String = gender_from_username(normalized)
     player["account_username"] = normalized
+    player["gender"] = gender
     if not account_database.create_account(normalized,salt,verifier,player):
         _send_auth_failure(sender,normalized,"account_create_failed")
         return
-    _authenticated_peers[sender] = normalized
-    _peer_players[sender] = player.duplicate(true)
-    _client_auth_success.rpc_id(sender,normalized,player.duplicate(true),session_id)
-    authentication_succeeded.emit(sender,normalized,player)
+    _client_registration_success.rpc_id(sender,normalized,gender,session_id)
+    registration_succeeded.emit(sender,normalized,gender)
 
 @rpc("any_peer","reliable")
 func _server_begin_login(username:String) -> void:
     if not multiplayer.is_server():
         return
     var sender:int = multiplayer.get_remote_sender_id()
-    var normalized:String = username.strip_edges().to_lower()
-    if sender <= 0 or not account_database.account_exists(normalized):
-        _send_auth_failure(sender,normalized,"invalid_credentials")
+    var requested:String = username.strip_edges().to_lower()
+    var normalized:String = resolve_login_username(account_database,requested)
+    if sender <= 0 or normalized.is_empty():
+        _send_auth_failure(sender,requested,"invalid_credentials")
         return
     var nonce:String = _new_nonce(sender,normalized)
     _login_nonces[sender] = {"username":normalized,"nonce":nonce,"expires":Time.get_unix_time_from_system()+ACCOUNT_CHALLENGE_TTL_SECONDS}
@@ -250,6 +254,8 @@ func _server_finish_login(username:String,response:String) -> void:
     account_database.mark_login(normalized)
     var player:Dictionary = account_database.load_player(normalized,GameDataClass.new_hero())
     player["account_username"] = normalized
+    if not player.has("gender"):
+        player["gender"] = gender_from_username(normalized)
     _authenticated_peers[sender] = normalized
     _peer_players[sender] = player.duplicate(true)
     _client_auth_success.rpc_id(sender,normalized,player.duplicate(true),session_id)
@@ -265,6 +271,10 @@ func _client_auth_challenge(username:String,salt:String,nonce:String) -> void:
     var response:String = AccountDatabaseClass.challenge_digest(verifier,nonce)
     set_meta("pending_login_password","")
     _server_finish_login.rpc_id(1,username,response)
+
+@rpc("authority","reliable")
+func _client_registration_success(username:String,gender:String,_server_session:String) -> void:
+    registration_succeeded.emit(multiplayer.get_unique_id(),username,gender)
 
 @rpc("authority","reliable")
 func _client_auth_success(username:String,player:Dictionary,server_session:String) -> void:
@@ -309,16 +319,15 @@ func request_action(action:String,payload:Dictionary = {}) -> void:
     if not _validate_payload(clean_action,payload):
         authority_action_rejected.emit(multiplayer.get_unique_id(),clean_action,"invalid_payload")
         return
-    if is_server_authority:
-        if _consume_action_budget(multiplayer.get_unique_id()):
+    if _consume_action_budget(multiplayer.get_unique_id()):
+        if is_server_authority:
             _accept_action(multiplayer.get_unique_id(),clean_action,payload)
+        elif multiplayer.multiplayer_peer != null:
+            _server_receive_action.rpc_id(1,clean_action,payload.duplicate(true))
         else:
-            authority_action_rejected.emit(multiplayer.get_unique_id(),clean_action,"rate_limited")
-        return
-    if multiplayer.multiplayer_peer == null:
-        authority_action_rejected.emit(multiplayer.get_unique_id(),clean_action,"offline")
-        return
-    _server_receive_action.rpc_id(1,clean_action,payload.duplicate(true))
+            authority_action_rejected.emit(multiplayer.get_unique_id(),clean_action,"offline")
+    else:
+        authority_action_rejected.emit(multiplayer.get_unique_id(),clean_action,"rate_limited")
 
 @rpc("any_peer","reliable")
 func _server_receive_action(action:String,payload:Dictionary) -> void:
@@ -515,6 +524,30 @@ func _new_nonce(peer_id:int,username:String) -> String:
     var rng:RandomNumberGenerator = RandomNumberGenerator.new()
     rng.randomize()
     return (session_id + ":" + str(peer_id) + ":" + username + ":" + str(Time.get_ticks_usec()) + ":" + str(rng.randi())).sha256_text()
+
+static func gender_from_username(username:String) -> String:
+    var normalized:String = username.strip_edges().to_lower()
+    if normalized.ends_with("_m"):
+        return "male"
+    if normalized.ends_with("_f"):
+        return "female"
+    return "unspecified"
+
+static func resolve_login_username(database:RefCounted,username:String) -> String:
+    var requested:String = username.strip_edges().to_lower()
+    if requested.is_empty():
+        return ""
+    if database.account_exists(requested):
+        return requested
+    if requested.ends_with("_m") or requested.ends_with("_f"):
+        return ""
+    var male:String = requested + "_m"
+    var female:String = requested + "_f"
+    var male_exists:bool = database.account_exists(male)
+    var female_exists:bool = database.account_exists(female)
+    if male_exists == female_exists:
+        return ""
+    return male if male_exists else female
 
 func is_authority() -> bool:
     return is_server_authority

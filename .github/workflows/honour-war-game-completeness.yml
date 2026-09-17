@@ -84,6 +84,12 @@ jobs:
           set -euo pipefail
           ./${GODOT_BINARY} --headless --path . --script res://tests/online_persistence_test.gd 2>&1 | tee online-persistence.log
 
+      - name: Validate fast username/password registration
+        shell: bash
+        run: |
+          set -euo pipefail
+          ./${GODOT_BINARY} --headless --path . --script res://tests/fast_account_auth_test.gd 2>&1 | tee fast-account-auth.log
+
       - name: Validate quest progression and rewards
         shell: bash
         run: |
@@ -113,6 +119,7 @@ jobs:
             online-authority.log
             online-server.log
             online-persistence.log
+            fast-account-auth.log
             quest-system.log
             party-service.log
             online-world-state.log

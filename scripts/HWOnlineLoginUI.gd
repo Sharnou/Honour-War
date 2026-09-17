@@ -1,6 +1,8 @@
 extends CanvasLayer
 
 ## Optional online account/login layer. Offline play remains the default path.
+## Fast Register uses username + password only; no email or verification step is required.
+## Login accepts the exact username or a unique base name when it has one _M/_F account.
 ## Authentication is sent only after ENet reaches CONNECTION_CONNECTED.
 ## The existing LegacyGame hero is replaced only after a verified server response.
 
@@ -12,6 +14,7 @@ var port_edit:LineEdit
 var username_edit:LineEdit
 var password_edit:LineEdit
 var status_label:Label
+var identity_hint:Label
 var open_button:Button
 var pending_auth_action:String = ""
 
@@ -39,7 +42,7 @@ func _process(_delta:float) -> void:
             _status("Login request sent. Waiting for server challenge...")
         elif action == "register":
             authority.request_register(username_edit.text,password_edit.text)
-            _status("Registration request sent...")
+            _status("Fast registration sent. Creating account...")
     elif state == MultiplayerPeer.CONNECTION_DISCONNECTED:
         pending_auth_action = ""
         _status("Connection failed or was disconnected.")
@@ -51,6 +54,8 @@ func _build() -> void:
             authority.authentication_succeeded.connect(_on_authentication_succeeded)
         if not authority.authentication_failed.is_connected(_on_authentication_failed):
             authority.authentication_failed.connect(_on_authentication_failed)
+        if not authority.registration_succeeded.is_connected(_on_registration_succeeded):
+            authority.registration_succeeded.connect(_on_registration_succeeded)
     open_button = Button.new()
     open_button.name = "OnlineButton"
     open_button.text = "ONLINE"
@@ -78,11 +83,20 @@ func _build_panel() -> void:
     address_edit = panel.get_node("ServerAddress") as LineEdit
     _field("Port",Vector2(300,70),"24567")
     port_edit = panel.get_node("ServerPort") as LineEdit
-    _field("Username",Vector2(22,150),"your_account")
+    _field("Username",Vector2(22,150),"Sharnou_M or Sharnou_F")
     username_edit = panel.get_node("Username") as LineEdit
-    _field("Password",Vector2(22,230),"8+ characters")
+    username_edit.text_changed.connect(_on_username_changed)
+    _field("Password",Vector2(22,230),"6+ characters")
     password_edit = panel.get_node("Password") as LineEdit
     password_edit.secret = true
+
+    identity_hint = Label.new()
+    identity_hint.text = "Fast Register: username + password only • no email verification"
+    identity_hint.position = Vector2(300,150)
+    identity_hint.size = Vector2(255,82)
+    identity_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+    panel.add_child(identity_hint)
+    _on_username_changed(username_edit.text)
 
     var connect_button:Button = Button.new()
     connect_button.text = "CONNECT"
@@ -106,7 +120,7 @@ func _build_panel() -> void:
     panel.add_child(register_button)
 
     status_label = Label.new()
-    status_label.text = "Offline mode remains active until you connect."
+    status_label.text = "Offline mode remains active until you connect. Fast Register needs only a username and password."
     status_label.position = Vector2(22,382)
     status_label.size = Vector2(540,66)
     status_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -158,25 +172,50 @@ func _login() -> void:
 func _register() -> void:
     if not _prepare_auth("register"):
         return
-    _status("Connecting before registration...")
+    _status("Connecting before fast registration...")
 
 func _prepare_auth(action:String) -> bool:
     var authority:Node = get_node_or_null(AUTHORITY_PATH)
     if authority == null:
         _status("Online runtime is unavailable.")
         return false
-    if username_edit.text.strip_edges().is_empty() or password_edit.text.length() < 8:
-        _status("Enter a username and a password of at least 8 characters.")
+    var username:String = username_edit.text.strip_edges()
+    var password:String = password_edit.text
+    if not HWAccountDatabase.validate_username(username):
+        _status("Username: 3-24 characters using A-Z, 0-9, _ or -. For gender, finish with _M or _F.")
+        return false
+    if password.length() < 6:
+        _status("Enter a password of at least 6 characters. Example: 123123")
         return false
     var peer:Variant = authority.multiplayer.multiplayer_peer
     if peer == null or peer.get_connection_status() == MultiplayerPeer.CONNECTION_DISCONNECTED:
         var address:String = address_edit.text.strip_edges()
         var port:int = clampi(int(port_edit.text),1024,65535)
+        if address.is_empty():
+            _status("Enter a server address.")
+            return false
         if not authority.connect_client(address,port):
             _status("Connection could not be started.")
             return false
     pending_auth_action = action
     return true
+
+func _on_username_changed(value:String) -> void:
+    if identity_hint == null:
+        return
+    var normalized:String = value.strip_edges().to_lower()
+    if normalized.ends_with("_m"):
+        identity_hint.text = "Gender: Male\nFast Register: username + password only\nNo email verification"
+    elif normalized.ends_with("_f"):
+        identity_hint.text = "Gender: Female\nFast Register: username + password only\nNo email verification"
+    else:
+        identity_hint.text = "Gender: not specified\nUse _M for Male or _F for Female\nNo email verification"
+
+func _on_registration_succeeded(_peer_id:int,username:String,gender:String) -> void:
+    pending_auth_action = ""
+    if password_edit != null:
+        password_edit.clear()
+    _status("REGISTERED %s (%s). No email verification required. Press LOGIN and enter the password again." % [username,gender])
 
 func _on_authentication_succeeded(_peer_id:int,username:String,player:Dictionary) -> void:
     var scene:Node = get_tree().current_scene
