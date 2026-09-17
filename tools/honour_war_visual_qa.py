@@ -75,6 +75,16 @@ if identity_path.is_file():
     check("OPTIONS" in identity or "Options" in identity,"Identity UI: options")
     check("STATUS + EQUIPMENT" in identity or "Status + Equipment" in identity,"Identity UI: combined status/equipment")
     check("SAVE.load_game(current)" in identity,"Switch uses SaveSystem")
+    check("hovered_actor" in identity and "_world_name_visible" in identity,"Identity UI: conditional hover/social name reveal")
+    check('group == "enemy"' in identity,"Identity UI: player groups do not receive permanent HP/SP world bars")
+    check("reveal_player_name_for_social" in identity,"Identity UI: explicit social/chat reveal hook")
+
+reference=ROOT/"docs"/"HONOUR_WAR_PRIMARY_VISUAL_REFERENCE.md"
+check(reference.is_file() and reference.stat().st_size>1500,"Primary visual/UI reference note")
+if reference.is_file():
+    reference_text=reference.read_text(encoding="utf-8")
+    for phrase in ["ChatGPT Image Sep 16, 2026, 12_22_47 AM.png","github.com/Sharnou/Honour-War/blob/main/ChatGPT%20Image","Local character name: completely hidden","Remote character names: hidden by default","mouse hovers","party/PvP context","No permanent player HP/SP"]:
+        check(phrase in reference_text,"Primary reference: "+phrase)
 
 runtime=(ROOT/"scripts/HDAssetRuntime.gd").read_text(encoding="utf-8")
 for phrase in ["res://assets/3d/generated/characters","res://assets/3d/generated/monsters","hw_production_asset","hw_source_path","_normalize_actor","hero_target_height","process_priority = 100","_enforce_production_transforms"]:
@@ -82,6 +92,12 @@ for phrase in ["res://assets/3d/generated/characters","res://assets/3d/generated
 
 guard=(ROOT/"scripts/HWPresentationGuard.gd").read_text(encoding="utf-8")
 check("hw_production_asset" in guard and "hw_source_path" in guard,"Presentation guard protects production actors")
+
+vitals_path=ROOT/"scripts"/"HWActorVitals.gd"
+if vitals_path.is_file():
+    vitals_text=vitals_path.read_text(encoding="utf-8")
+    check("Player avatars never carry permanent HP/SP world bars." in vitals_text,"Vitals: permanent player bars disabled")
+    check("_build_hero_bars(hero)" not in vitals_text,"Vitals: local hero no longer builds world HP/SP bars")
 for prefix in ["hero_","warrior_","knight_"]:
     check(re.search(r"\.begins_with\(\s*[\"']"+re.escape(prefix)+r"[\"']\s*\)",guard) is None,"No broad "+prefix+" deletion")
 
