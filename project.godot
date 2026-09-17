@@ -41,6 +41,7 @@ HWAuthoredHeroTransformPolicy="*res://scripts/HWAuthoredHeroTransformPolicy.gd"
 ; Production combat presentation and server-authoritative session foundation.
 HWSkillVFXRuntime="*res://scripts/HWSkillVFXRuntime.gd"
 HWOnlineAuthorityRuntime="*res://scripts/HWOnlineAuthorityRuntime.gd"
+HWOnlineLoginUI="*res://scripts/HWOnlineLoginUI.gd"
 
 [display]
 window/size/viewport_width=1920
