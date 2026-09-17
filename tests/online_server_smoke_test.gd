@@ -8,6 +8,12 @@ const AUTHORITY_SCRIPT = preload("res://scripts/HWOnlineAuthorityRuntime.gd")
 const TEST_PORT:int = 24568
 
 func _initialize() -> void:
+    # A standalone SceneTree has no scene-root MultiplayerAPI by default.
+    # Install the default API on /root so the authority Node can bind ENet in
+    # the same way it does when hosted by the normal game scene.
+    var network_api:MultiplayerAPI = MultiplayerAPI.create_default_interface()
+    get_tree().set_multiplayer(network_api,root.get_path())
+
     var authority:Node = AUTHORITY_SCRIPT.new()
     root.add_child(authority)
     var started:bool = authority.start_server(TEST_PORT)
@@ -18,14 +24,14 @@ func _initialize() -> void:
 
     var snapshot:Dictionary = authority.get_session_snapshot()
     var failures:int = 0
-    failures += _check("server authority active", bool(snapshot.get("authority",false)))
-    failures += _check("protocol version present", int(snapshot.get("protocol",0)) == int(authority.PROTOCOL_VERSION))
-    failures += _check("configured port is valid", TEST_PORT >= 1024 and TEST_PORT <= 65535)
-    failures += _check("max players is positive", int(snapshot.get("max_players",0)) > 0)
-    failures += _check("rate limit is positive", int(snapshot.get("rate_limit",0)) > 0)
+    failures += _check("server authority active",bool(snapshot.get("authority",false)))
+    failures += _check("protocol version present",int(snapshot.get("protocol",0)) == int(authority.PROTOCOL_VERSION))
+    failures += _check("configured port is valid",TEST_PORT >= 1024 and TEST_PORT <= 65535)
+    failures += _check("max players is positive",int(snapshot.get("max_players",0)) > 0)
+    failures += _check("rate limit is positive",int(snapshot.get("rate_limit",0)) > 0)
 
     authority.stop_session()
-    failures += _check("server stopped cleanly", not authority.is_authority())
+    failures += _check("server stopped cleanly",not authority.is_authority())
 
     if failures == 0:
         print("PASS: Honour War dedicated server smoke test")
@@ -34,9 +40,9 @@ func _initialize() -> void:
         print("FAIL: Honour War dedicated server smoke test: %d failure(s)" % failures)
         quit(1)
 
-func _check(label:String, condition:bool) -> int:
+func _check(label:String,condition:bool) -> int:
     if condition:
-        print("PASS: ", label)
+        print("PASS: ",label)
         return 0
-    print("FAIL: ", label)
+    print("FAIL: ",label)
     return 1
