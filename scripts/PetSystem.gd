@@ -1,7 +1,7 @@
 class_name PetSystem
 extends RefCounted
 
-const MAX_PET_LEVEL := 100
+const MAX_PET_LEVEL := 250
 const PETS := {
 	"Warrior": {"name":"War Wolf", "role":"Tank", "species":"Dire Wolf", "base_power":14, "skill":"Howl of Courage", "skill_power":22, "color":"#c8a27a"},
 	"Mage": {"name":"Arcane Sprite", "role":"Support Caster", "species":"Astral Sprite", "base_power":12, "skill":"Mana Burst", "skill_power":28, "color":"#c29cff"},
@@ -15,9 +15,10 @@ static func definition(class_id:String) -> Dictionary:
 	return PETS.get(class_id, PETS["Warrior"])
 
 static func new_pet(class_id:String) -> Dictionary:
-	var d:Dictionary=definition(class_id)
+	var normalized:String = class_id if PETS.has(class_id) else "Warrior"
+	var d:Dictionary=definition(normalized)
 	return {
-		"name":d["name"], "role":d["role"], "species":d["species"], "level":1, "exp":0,
+		"owner_class":normalized, "name":d["name"], "role":d["role"], "species":d["species"], "level":1, "exp":0,
 		"hp":60, "max_hp":60, "sp":30, "max_sp":30, "skills":[d["skill"]], "skill_points":0,
 		"skill_level":1, "skill_uses":0, "refine":0, "inventory":{},
 		"materials":{"Phracon":3,"Emveretarcon":1,"Oridecon":0},
@@ -25,36 +26,59 @@ static func new_pet(class_id:String) -> Dictionary:
 		"kills":0
 	}
 
+static func _infer_owner_class(pet:Dictionary)->String:
+	var existing:String=str(pet.get("owner_class",""))
+	if PETS.has(existing):
+		return existing
+	var species:String=str(pet.get("species",""))
+	var name:String=str(pet.get("name",""))
+	for class_id in PETS.keys():
+		var d:Dictionary=PETS[class_id]
+		if species==str(d["species"]) or name==str(d["name"]):
+			return str(class_id)
+	return "Warrior"
+
+static func ensure_state(pet:Dictionary)->void:
+	pet["owner_class"]=_infer_owner_class(pet)
+	pet["level"]=clamp(int(pet.get("level",1)),1,MAX_PET_LEVEL)
+	pet["exp"]=max(0,int(pet.get("exp",0)))
+	pet["skill_level"]=max(1,int(pet.get("skill_level",1)))
+	pet["skill_points"]=max(0,int(pet.get("skill_points",0)))
+	pet["refine"]=clamp(int(pet.get("refine",0)),0,15)
+	pet["kills"]=max(0,int(pet.get("kills",0)))
+
 static func exp_to_next(level:int) -> int:
 	return max(80, level * 90)
 
 static func power(pet:Dictionary)->int:
+	ensure_state(pet)
 	var d:Dictionary=definition(str(pet.get("owner_class","Warrior")))
 	return int(d["base_power"])+int(pet.get("level",1))*2+int(pet.get("refine",0))*2
 
 static func skill_power(pet:Dictionary)->int:
+	ensure_state(pet)
 	var d:Dictionary=definition(str(pet.get("owner_class","Warrior")))
 	return int(d["skill_power"])+int(pet.get("level",1))*2+int(pet.get("skill_level",1))*5+int(pet.get("refine",0))*2
 
 static func heal_power(pet:Dictionary)->int:
+	ensure_state(pet)
 	return 10+int(pet.get("level",1))*2+int(pet.get("skill_level",1))*4
 
 static func add_exp(pet:Dictionary, amount:int)->bool:
+	ensure_state(pet)
 	var leveled:bool=false
 	if int(pet.get("level",1))>=MAX_PET_LEVEL:
 		pet["exp"]=0
 		return false
-	pet["exp"]=int(pet.get("exp",0))+amount
+	pet["exp"]=int(pet.get("exp",0))+max(0,amount)
 	while int(pet["level"])<MAX_PET_LEVEL and int(pet["exp"])>=exp_to_next(int(pet["level"])):
 		pet["exp"]=int(pet["exp"])-exp_to_next(int(pet["level"]))
 		pet["level"]=int(pet["level"])+1
-		pet["max_hp"]=int(pet["max_hp"])+7
+		pet["max_hp"]=int(pet.get("max_hp",60))+7
 		pet["hp"]=int(pet["max_hp"])
-		pet["max_sp"]=int(pet["max_sp"])+3
+		pet["max_sp"]=int(pet.get("max_sp",30))+3
 		pet["sp"]=int(pet["max_sp"])
 		pet["skill_points"]=int(pet.get("skill_points",0))+1
-		if int(pet["level"])%10==0:
-			pet["skill_level"]=int(pet.get("skill_level",1))+1
 		leveled=true
 	return leveled
 
