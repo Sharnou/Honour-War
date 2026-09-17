@@ -1,23 +1,42 @@
 extends SceneTree
 
 ## Headless regression suite for the four-player party service.
+## Uses the same SceneTree MultiplayerAPI setup as the dedicated-server smoke
+## test so the authority runtime can safely access multiplayer.peer.
 
+const AUTHORITY_SCRIPT = preload("res://scripts/HWOnlineAuthorityRuntime.gd")
+const TEST_PORT:int = 24569
 var failures:int = 0
 
 func _initialize() -> void:
+    call_deferred("_run_party_test")
+
+func _run_party_test() -> void:
+    var network_api:MultiplayerAPI = MultiplayerAPI.create_default_interface()
+    set_multiplayer(network_api,NodePath("/root"))
+
     var authority:Node = root.get_node_or_null("HWOnlineAuthorityRuntime")
     var created_authority:bool = false
     if authority == null:
-        authority = preload("res://scripts/HWOnlineAuthorityRuntime.gd").new()
+        authority = AUTHORITY_SCRIPT.new()
         authority.name = "HWOnlineAuthorityRuntime"
         root.add_child(authority)
         created_authority = true
+    var propagation_ok:bool = authority.multiplayer == network_api
+    _check("authority receives party-test multiplayer API",propagation_ok)
+    if not propagation_ok:
+        push_error("FAIL: party test authority did not inherit the SceneTree MultiplayerAPI")
+        if created_authority:
+            authority.queue_free()
+        quit(1)
+        return
+
     authority.stop_session()
-    var started:bool = authority.start_server(24569)
+    var started:bool = authority.start_server(TEST_PORT)
     _check("authority server starts",started)
     if not started:
         if created_authority:
-            authority.free()
+            authority.queue_free()
         quit(1)
         return
 
@@ -63,10 +82,10 @@ func _initialize() -> void:
     _check("leader removed from member list",not after_leave.get("members",[]).has(1))
 
     if created_party:
-        party.free()
+        party.queue_free()
     authority.stop_session()
     if created_authority:
-        authority.free()
+        authority.queue_free()
 
     if failures == 0:
         print("PASS: Honour War party service regression suite")
