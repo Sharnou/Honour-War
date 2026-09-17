@@ -6,18 +6,18 @@ extends SceneTree
 
 const AUTHORITY_SCRIPT = preload("res://scripts/HWOnlineAuthorityRuntime.gd")
 const TEST_PORT:int = 24568
+const AUTHORITY_PATH:NodePath = NodePath("/root/DedicatedAuthority")
 
 func _initialize() -> void:
-    # Bind the custom MultiplayerAPI directly to the authority subtree. A
-    # standalone SceneTree does not automatically propagate a root override to
-    # nodes created afterward, while SceneTree.set_multiplayer(path) provides
-    # the supported way to scope the API to a particular branch.
+    # SceneTree owns MultiplayerAPI routing. Configure the authority branch
+    # before its first frame using its stable absolute path rather than asking
+    # the child for get_path() during SceneTree initialization.
     var network_api:MultiplayerAPI = MultiplayerAPI.create_default_interface()
     var authority:Node = AUTHORITY_SCRIPT.new()
     authority.name = "DedicatedAuthority"
     root.add_child(authority)
 
-    set_multiplayer(network_api,authority.get_path())
+    set_multiplayer(network_api,AUTHORITY_PATH)
 
     var propagation_ok:bool = authority.multiplayer == network_api
     if not propagation_ok:
