@@ -4,28 +4,6 @@ extends Node
 # while the visual/class rank advances automatically at Honour War milestones.
 const TIER_NAMES:Dictionary={0:"Foundation",1:"Specialization",2:"Advanced",3:"Mastery",4:"Transcendence"}
 const CHECK_INTERVAL:float=0.5
-const BRANCHES:Dictionary={
-    "Warrior":["Knight","Berserker"],
-    "Mage":["Wizard","Warlock"],
-    "Archer":["Ranger","Sniper"],
-    "Thief":["Assassin","Rogue"],
-    "Acolyte":["Priest","Monk"],
-    "Merchant":["Blacksmith","Alchemist"]
-}
-const BRANCH_DESCRIPTIONS:Dictionary={
-    "Knight":"Heavy defense, shield mastery and frontline control.",
-    "Berserker":"High physical damage, critical pressure and rage scaling.",
-    "Wizard":"Area magic, elemental power and burst casting.",
-    "Warlock":"Curses, dark magic and sustained damage.",
-    "Ranger":"Bow range, traps and precision damage.",
-    "Sniper":"Critical shots, weak-point damage and long-range burst.",
-    "Assassin":"Stealth, poison and fast single-target elimination.",
-    "Rogue":"Evasion, utility, debuffs and opportunistic strikes.",
-    "Priest":"Healing, holy magic and party support.",
-    "Monk":"Close-range combat, holy strikes and resource conversion.",
-    "Blacksmith":"Weapon refinement, armor durability and crafting bonuses.",
-    "Alchemist":"Potions, elemental concoctions and economy bonuses."
-}
 
 var timer:float=0.0
 var last_tier:int=-1
@@ -66,18 +44,20 @@ func _sync(force:bool)->void:
         hero=candidate
     else:
         return
-    _ensure_state(hero)
+    ClassTreeSystem.ensure_state(hero)
     var level:int=int(hero.get("level",1))
     var class_id:String=str(hero.get("class","Warrior"))
-    var tier:int=_available_tier(hero)
+    var tier:int=ClassTreeSystem.available_tier(hero)-1
     var rank:String=_class_rank_for_level(level,class_id)
     var old_rank:String=str(hero.get("class_rank",""))
-    var changed:bool=force or tier!=last_tier or old_rank!=rank
+    var old_branch:String=str(hero.get("class_branch",""))
+    var old_mastery:int=int(hero.get("class_mastery",0))
+    var changed:bool=force or tier!=last_tier or old_rank!=rank or old_branch!=str(hero.get("class_branch","")) or old_mastery!=int(hero.get("class_mastery",0))
     if changed:
         last_tier=tier
         hero["class_tier"]=_class_tier_for_level(level)
         hero["class_rank"]=rank
-        hero["class_rank_tier"]=tier
+        hero["class_rank_tier"]=ClassTreeSystem.available_tier(hero)
         if has_node("/root/SaveSystem"):
             get_node("/root/SaveSystem").call("save_game",hero)
         _update_hud()
@@ -87,7 +67,7 @@ func _sync(force:bool)->void:
     if str(hero.get("class_branch",""))=="" and level>=25:
         if panel!=null: panel.visible=true
     elif panel!=null:
-        panel.visible=tier>=2
+        panel.visible=tier>=1
 
 func _build_hud()->void:
     if panel!=null: return
@@ -96,11 +76,11 @@ func _build_hud()->void:
     get_tree().current_scene.add_child(layer)
     panel=Panel.new()
     panel.position=Vector2(1450,38)
-    panel.size=Vector2(425,230)
+    panel.size=Vector2(425,258)
     layer.add_child(panel)
     var box:VBoxContainer=VBoxContainer.new()
     box.position=Vector2(16,12)
-    box.size=Vector2(393,206)
+    box.size=Vector2(393,234)
     panel.add_child(box)
     title_label=Label.new()
     title_label.text="CLASS ADVANCEMENT"
@@ -108,25 +88,28 @@ func _build_hud()->void:
     box.add_child(title_label)
     detail_label=Label.new()
     detail_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-    detail_label.custom_minimum_size=Vector2(390,54)
+    detail_label.custom_minimum_size=Vector2(390,62)
     box.add_child(detail_label)
     var prompt:Label=Label.new()
     prompt.text="Choose your specialization"
     prompt.add_theme_font_size_override("font_size",16)
     box.add_child(prompt)
     branch_box=VBoxContainer.new()
-    branch_box.custom_minimum_size=Vector2(390,96)
+    branch_box.custom_minimum_size=Vector2(390,126)
     box.add_child(branch_box)
 
 func _update_hud()->void:
     if detail_label==null: return
     var class_id:String=str(hero.get("class","Warrior"))
     var level:int=int(hero.get("level",1))
-    var tier:int=_class_tier_for_level(level)
+    var tier:int=ClassTreeSystem.available_tier(hero)
     var rank:String=_class_rank_for_level(level,class_id)
     var branch:String=str(hero.get("class_branch",""))
+    var mastery:int=int(hero.get("class_mastery",0))
+    var profile:Dictionary=ClassTreeSystem.class_profile(class_id)
+    var branch_text:String=branch if branch!="" else "Not selected"
     title_label.text="%s  •  Lv.%d" % [rank,level]
-    detail_label.text="%s\nTier: %s\nSpecialization: %s" % [class_id,TIER_NAMES.get(tier,"Foundation"),branch if branch!="" else "Not selected"]
+    detail_label.text="%s\nTier: %s\nSpecialization: %s\nMastery: %d%%" % [str(profile.get("title",class_id)),TIER_NAMES.get(tier,"Foundation"),branch_text,mastery]
     for child:Node in branch_box.get_children():
         child.queue_free()
     branch_buttons.clear()
@@ -135,9 +118,9 @@ func _update_hud()->void:
         status.text="Next promotion: Lv.%d" % _next_threshold(level)
         branch_box.add_child(status)
         return
-    var profile:Array=_class_profile(class_id)
-    var descriptions:Dictionary=_branch_descriptions(class_id)
-    for branch_name:String in profile:
+    var branches:Array=ClassTreeSystem.class_profile(class_id).get("branches",[])
+    var descriptions:Dictionary=ClassTreeSystem.branch_descriptions(class_id)
+    for branch_name:String in branches:
         var button:Button=Button.new()
         button.text="%s — %s" % [branch_name,str(descriptions.get(branch_name,""))]
         button.custom_minimum_size=Vector2(390,30)
@@ -152,22 +135,11 @@ func _next_threshold(level:int)->int:
 
 func _select_branch(branch_name:String)->void:
     if str(hero.get("class_branch",""))!="": return
-    if not _select_branch_state(hero,branch_name): return
+    if not ClassTreeSystem.select_branch(hero,branch_name): return
     if has_node("/root/SaveSystem"):
         get_node("/root/SaveSystem").call("save_game",hero)
     _update_hud()
     _update_visuals()
-
-func _ensure_state(profile:Dictionary)->void:
-    if not profile.has("class_branch"):
-        profile["class_branch"]=""
-    if not profile.has("class_tier"):
-        profile["class_tier"]=0
-    if not profile.has("class_rank"):
-        profile["class_rank"]=""
-
-func _available_tier(profile:Dictionary)->int:
-    return _class_tier_for_level(int(profile.get("level",1)))
 
 func _class_tier_for_level(level:int)->int:
     if level>=250: return 4
@@ -183,25 +155,6 @@ func _class_rank_for_level(level:int,class_id:String)->String:
     if level>=25: return "%s Specialist" % class_id
     return "%s Novice" % class_id
 
-func _class_profile(class_id:String)->Array:
-    var raw:Variant=BRANCHES.get(class_id,BRANCHES["Warrior"])
-    return raw as Array
-
-func _branch_descriptions(class_id:String)->Dictionary:
-    var result:Dictionary={}
-    var branches:Array=_class_profile(class_id)
-    for branch_name:String in branches:
-        result[branch_name]=BRANCH_DESCRIPTIONS.get(branch_name,"")
-    return result
-
-func _select_branch_state(profile:Dictionary,branch_name:String)->bool:
-    var class_id:String=str(profile.get("class","Warrior"))
-    var branches:Array=_class_profile(class_id)
-    if not branches.has(branch_name): return false
-    profile["class_branch"]=branch_name
-    profile["class_rank"]="%s %s" % [branch_name,"Advanced"]
-    return true
-
 func _update_visuals()->void:
     if scene_root==null: return
     var actors:Node=scene_root.get_node_or_null("Actors3D")
@@ -209,9 +162,9 @@ func _update_visuals()->void:
     var hero_node:Node3D=actors.get_node_or_null("Hero") as Node3D
     if hero_node==null: return
     var class_id:String=str(hero.get("class","Warrior"))
-    var tier:int=_class_tier_for_level(int(hero.get("level",1)))
+    var tier:int=ClassTreeSystem.available_tier(hero)
     var branch:String=str(hero.get("class_branch",""))
-    var signature:String="%s:%d:%s" % [class_id,tier,branch]
+    var signature:String="%s:%d:%s:%d" % [class_id,tier,branch,int(hero.get("class_mastery",0))]
     if signature==visual_signature and hero_node.get_node_or_null("HWClassRankVisual")!=null: return
     visual_signature=signature
     var old:Node=hero_node.get_node_or_null("HWClassRankVisual")
@@ -223,17 +176,17 @@ func _update_visuals()->void:
     var dark:StandardMaterial3D=_mat(Color("#161B22"),0.48,0.35)
     var metal:StandardMaterial3D=_mat(accent.lightened(0.16),0.26,0.78)
     var glow:StandardMaterial3D=_mat(accent,0.22,0.25)
-    if tier>=1:
+    if tier>=2:
         _add_box(root,Vector3(0.22,0.18,0.56),Vector3(-0.57,1.84,0.0),metal)
         _add_box(root,Vector3(0.22,0.18,0.56),Vector3(0.57,1.84,0.0),metal)
-    if tier>=2:
+    if tier>=3:
         _add_box(root,Vector3(0.12,0.70,0.10),Vector3(-0.72,1.56,0.05),dark)
         _add_box(root,Vector3(0.12,0.70,0.10),Vector3(0.72,1.56,0.05),dark)
         _add_box(root,Vector3(0.10,0.62,0.14),Vector3(0,1.60,0.34),metal)
-    if tier>=3:
+    if tier>=4:
         _add_box(root,Vector3(0.16,0.42,0.16),Vector3(0,2.70,0),glow)
         _add_box(root,Vector3(0.70,0.08,0.08),Vector3(0,2.61,0.02),metal)
-    if tier>=4:
+    if tier>=5:
         _add_box(root,Vector3(1.14,0.08,0.08),Vector3(0,2.03,0.05),glow)
         _add_box(root,Vector3(0.08,0.82,0.08),Vector3(0.0,1.55,0.48),metal)
 
