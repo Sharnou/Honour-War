@@ -79,8 +79,7 @@ func _run_suite() -> void:
         print("PASS: Honour War fast account registration/login/automatic-login regression suite")
     else:
         print("FAIL: Honour War fast account registration/login/automatic-login regression suite: ",failures," failure(s)")
-    get_tree().quit(0 if failures == 0 else 1)
-    return
+    quit(0 if failures == 0 else 1)
 
 func _check(label:String,condition:bool) -> void:
     if not condition:
