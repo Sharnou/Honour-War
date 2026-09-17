@@ -10,14 +10,11 @@ on:
 permissions:
   contents: read
 
-# Every production validation request must be allowed to finish. Do not cancel
-# an in-flight validation merely because a newer main request is waiting: the
-# queued run validates a specific commit and cancellation can hide the result
-# of the change being verified.
+# Production validation follows the same latest-commit policy as the other
+# release gates. A newer revision supersedes an older validation run.
 concurrency:
-  group: honour-war-hd-${{ github.ref }}
-  cancel-in-progress: false
-  queue: max
+  group: honour-war-hd-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   art-contract:
@@ -103,9 +100,7 @@ jobs:
         run: |
           set -euo pipefail
           ./Godot_v4.7.2-stable_linux.x86_64 --headless --editor --path . --rendering-method gl_compatibility --rendering-driver opengl3 --quit 2>&1 | tee godot-editor.log
-          if grep -E 'SCRIPT ERROR|Parse Error|ERROR: Failed to load script|ERROR: Cannot load scene' godot-editor.log; then
-            exit 1
-          fi
+          if grep -E 'SCRIPT ERROR|Parse Error|ERROR: Failed to load script|ERROR: Cannot load scene' godot-editor.log; then exit 1; fi
       - name: Forward+ startup smoke test
         shell: bash
         run: |
@@ -116,9 +111,7 @@ jobs:
           xvfb-run -a env VK_ICD_FILENAMES="${icd}" ./Godot_v4.7.2-stable_linux.x86_64 --headless --editor --path . --rendering-method forward_plus --rendering-driver vulkan --quit 2>&1 | tee godot-forward-plus.log
           status=${PIPESTATUS[0]}
           set -e
-          if [ "${status}" -ne 0 ]; then
-            echo 'WARNING: Forward+ smoke test could not start on this runner.'
-          fi
+          if [ "${status}" -ne 0 ]; then echo 'WARNING: Forward+ smoke test could not start on this runner.'; fi
       - name: Upload validation logs
         if: always()
         uses: actions/upload-artifact@v7
@@ -155,6 +148,7 @@ jobs:
           expected="${GITHUB_SHA}"
           echo "Validation HEAD: ${actual}"
           echo "Workflow SHA:    ${expected}"
+          echo "Production inventory source verified."
           test "${actual}" = "${expected}"
       - name: Inventory production assets
         shell: bash
