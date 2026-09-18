@@ -1,7 +1,7 @@
 extends Node
 
 ## Honour War graphics presets for Godot 4.7.x.
-## F1 = Low, F2 = Medium, F3 = HD. HD uses native-resolution FSR2/TAA mode.
+## F1 = Low, F2 = Medium, F3 = HD. HD keeps native-resolution temporal upscaling and full shadow/AO presentation.
 
 signal preset_changed(preset_name:String)
 
@@ -77,14 +77,14 @@ func apply_preset(preset:Preset)->void:
                 sun_light.shadow_bias = 0.04
         Preset.HD:
             env.ssao_enabled = true
-            env.ssao_radius = 2.0
-            env.ssao_intensity = 1.15
-            env.glow_enabled = false
-            env.glow_intensity = 0.0
-            env.glow_bloom = 0.0
-            env.glow_hdr_threshold = 1.35
+            env.ssao_radius = 2.8
+            env.ssao_intensity = 1.35
+            env.glow_enabled = true
+            env.glow_intensity = 0.45
+            env.glow_bloom = 0.10
+            env.glow_hdr_threshold = 1.10
             env.tonemap_mode = Environment.TONE_MAPPER_ACES
-            env.tonemap_exposure = -0.70
+            env.tonemap_exposure = -0.35
             if sun_light != null:
                 sun_light.shadow_enabled = true
                 sun_light.shadow_bias = 0.025
