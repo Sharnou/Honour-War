@@ -19,6 +19,7 @@ const TELEPORT = preload("res://scripts/TeleportSystem.gd")
 const FIFTH = preload("res://scripts/FifthJobDatabase.gd")
 const RENT = preload("res://scripts/HWSSRentRuntime.gd")
 const ONLINE_AGE = preload("res://scripts/OnlineAgeSystem.gd")
+const CICCI_REWARDS = preload("res://scripts/CicciRewardDatabase.gd")
 
 var failures:int = 0
 
@@ -80,6 +81,24 @@ func _initialize() -> void:
     var age_bonus:Dictionary = DATA.age_strength_bonus(22)
     check("age combat scaling", int(age_bonus.get("atk",0)) > 0 and int(age_bonus.get("hp",0)) > 0)
     check("hero persistence baseline", hero.has("age") and hero.has("online_days") and hero.has("pet"))
+
+    var cicci_equipment:Array = CICCI_REWARDS.equipment()
+    var cicci_cards:Array = CICCI_REWARDS.cards()
+    check("Cicci has exactly 50 GAME MASTER equipment", cicci_equipment.size() == 50)
+    check("Cicci has exactly 50 GAME MASTER cards", cicci_cards.size() == 50)
+    check("Cicci equipment stats are unique", cicci_equipment[0].get("power",0) != cicci_equipment[49].get("power",0))
+    check("Cicci card stats are unique", cicci_cards[0].get("power",0) != cicci_cards[49].get("power",0))
+    check("Cicci equipment max two per kill", LOOT.clamp_equipment_drop_count(50) == 2)
+    check("Cicci cards max two per kill", LOOT.clamp_card_drop_count(50) == 2)
+    var no_bonus_hero:Dictionary = {"age_origin":18,"age":18,"online_days":0.0,"equipment":[],"cards":[]}
+    var zero_roll:Dictionary = LOOT.roll_drop(0.0,no_bonus_hero,0.5)
+    check("zero-rate loot can drop nothing", not bool(zero_roll.get("dropped",true)))
+    var guaranteed_roll:Dictionary = LOOT.roll_drop(100.0,no_bonus_hero,0.0)
+    check("100 percent base rate can drop", bool(guaranteed_roll.get("dropped",false)))
+    var bonus_hero:Dictionary = {"age_origin":18,"age":19,"online_days":3.0,
+        "equipment":[{"rewards_percent":5.0}],"cards":[{"rewards_percent":3.0}]}
+    var bonus_roll:Dictionary = LOOT.roll_drop(1.0,bonus_hero,0.08)
+    check("age/equipment/card bonuses affect loot chance", float(bonus_roll.get("final_rate_percent",0.0)) > 1.0)
 
     var refine_at_18:float = WORLD.refinement_chance(18,1,0)
     var refine_at_60:float = WORLD.refinement_chance(60,1,0)
