@@ -60,6 +60,8 @@ func _process(delta:float)->void:
     update_status_effects(hero)
     update_hero_status_effects(hero)
     var hero_interval:float=CombatRules.class_attack_interval(hero)
+    if float(hero.get("slow_until",0.0))>now_seconds():
+        hero_interval*=1.35
     if target!=null and hero_attack_timer>=hero_interval and _hero_in_attack_range(hero,target) and _hero_can_attack(hero):
         hero_attack_timer=0.0
         hero_strike(hero,target)
@@ -220,6 +222,8 @@ func hero_strike(hero:Dictionary,monster:Dictionary)->void:
     var combo_bonus:float=float(hero.get("combo_power_bonus",0.0))
     if combo_bonus>0.0: power=int(float(power)*(1.0+min(0.35,combo_bonus)))
     var critical_chance:int=int(passive["crit_bonus"])+int(hero.get("age_crit_bonus",0))+int(round(float(branch_bonus.get("crit",0.0))))
+    if float(hero.get("fear_until",0.0))>now_seconds():
+        critical_chance=int(round(float(critical_chance)*0.55))
     if class_id=="Thief": critical_chance+=10
     if class_id=="Archer" or class_id=="Ranger": critical_chance+=6
     var critical:bool=rng.randi_range(1,100)<=min(75,critical_chance)
