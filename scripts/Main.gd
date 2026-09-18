@@ -445,7 +445,7 @@ func use_skill(skill_id:String)->void:
 		if skill_id=="mage_frost_prison" or skill_id=="mage_comet":
 			affected_monster["slow_until"]=now+4.0
 		if class_id=="Thief" and skill_id in ["thief_shadow_strike","thief_blade_flurry","thief_shadow_requiem","thief_eternal_assassin"]:
-			MonsterDetails.apply_poison(affected_monster,dealt,6.0)
+			MonsterDetailsSystem.apply_poison(affected_monster,dealt,6.0)
 		if int(affected_monster["hp"])<=0:
 			defeat_monster(affected_monster)
 
