@@ -74,6 +74,13 @@ func _initialize() -> void:
                     break
             check("specialization has combat effect %s / %s" % [str(class_id),branch_name], has_effect)
 
+    var combat_runtime_text:String = FileAccess.get_file_as_string("res://scripts/CombatRuntime.gd")
+    check("3D combat uses canonical progression stats", combat_runtime_text.contains("CharacterProgression.stats(hero)"))
+    var high_level_hero:Dictionary = DATA.new_hero()
+    high_level_hero["level"] = 250
+    high_level_hero["stats"] = {"str":99,"agi":99,"vit":99,"int":99,"dex":99,"luk":99}
+    var high_level_stats:Dictionary = preload("res://scripts/CharacterProgressionSystem.gd").stats(high_level_hero)
+    check("level 250 has scaled live HP", int(high_level_stats.get("max_hp",0)) > 7000)
     var skill_bar_text:String = FileAccess.get_file_as_string("res://scripts/HWSkillBarRuntime.gd")
     check("skill hotkeys 1-8", skill_bar_text.contains("KEY_1") and skill_bar_text.contains("KEY_8") and skill_bar_text.contains("func _use_slot"))
     var main_runtime_text:String = FileAccess.get_file_as_string("res://scripts/Main.gd")
