@@ -88,7 +88,8 @@ func _scan() -> void:
 	for id in actor_ui.keys():
 		if not seen.has(id):
 			var data: Dictionary = actor_ui[id]
-			var root: Node = data.get("root")
+			var root_value: Variant = data.get("root", null)
+			var root: Node = root_value as Node if is_instance_valid(root_value) and root_value is Node else null
 			if root != null and is_instance_valid(root):
 				root.queue_free()
 			actor_ui.erase(id)
@@ -96,14 +97,16 @@ func _scan() -> void:
 func _ensure_actor(actor: Node, bars: bool) -> void:
 	var id := actor.get_instance_id()
 	var data: Dictionary = actor_ui.get(id, {})
-	var root: Node3D = data.get("root")
+	var root_value: Variant = data.get("root", null)
+	var root: Node3D = root_value as Node3D if is_instance_valid(root_value) and root_value is Node3D else null
 	if root == null or not is_instance_valid(root):
 		root = Node3D.new()
 		root.name = "HWPlayerIdentity"
 		actor.add_child(root)
 		root.position = Vector3(0, -1.35, 0)
 		data["root"] = root
-	var name_label: Label3D = data.get("name_label")
+	var name_label_value: Variant = data.get("name_label", null)
+	var name_label: Label3D = name_label_value as Label3D if is_instance_valid(name_label_value) and name_label_value is Label3D else null
 	if name_label == null or not is_instance_valid(name_label):
 		name_label = Label3D.new()
 		name_label.name = "CharacterRealName"
@@ -115,11 +118,13 @@ func _ensure_actor(actor: Node, bars: bool) -> void:
 	name_label.text = _real_name(actor)
 	name_label.position = Vector3(0, 0.0, 0)
 	name_label.visible = not _is_local(actor)
-	var hp_label: Label3D = data.get("hp_label")
+	var hp_label_value: Variant = data.get("hp_label", null)
+	var hp_label: Label3D = hp_label_value as Label3D if is_instance_valid(hp_label_value) and hp_label_value is Label3D else null
 	if hp_label == null or not is_instance_valid(hp_label):
 		hp_label = _make_bar("HP", Color("#e45b68"), root)
 		data["hp_label"] = hp_label
-	var sp_label: Label3D = data.get("sp_label")
+	var sp_label_value: Variant = data.get("sp_label", null)
+	var sp_label: Label3D = sp_label_value as Label3D if is_instance_valid(sp_label_value) and sp_label_value is Label3D else null
 	if sp_label == null or not is_instance_valid(sp_label):
 		sp_label = _make_bar("SP", Color("#59a6ee"), root)
 		data["sp_label"] = sp_label
@@ -149,9 +154,12 @@ func _refresh_labels() -> void:
 		if actor == null or not is_instance_valid(actor):
 			continue
 		var local := _is_local(actor)
-		var name_label: Label3D = data.get("name_label")
-		var hp_label: Label3D = data.get("hp_label")
-		var sp_label: Label3D = data.get("sp_label")
+		var name_label_value: Variant = data.get("name_label", null)
+		var hp_label_value: Variant = data.get("hp_label", null)
+		var sp_label_value: Variant = data.get("sp_label", null)
+		var name_label: Label3D = name_label_value as Label3D if is_instance_valid(name_label_value) and name_label_value is Label3D else null
+		var hp_label: Label3D = hp_label_value as Label3D if is_instance_valid(hp_label_value) and hp_label_value is Label3D else null
+		var sp_label: Label3D = sp_label_value as Label3D if is_instance_valid(sp_label_value) and sp_label_value is Label3D else null
 		if name_label != null and is_instance_valid(name_label):
 			name_label.visible = _world_name_visible(actor)
 			name_label.text = _real_name(actor)
