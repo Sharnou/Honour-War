@@ -85,7 +85,7 @@ static func class_rank_for_hero(hero:Dictionary)->String:
 	var class_id:String = str(hero.get("class","Warrior"))
 	var branch:String = str(hero.get("class_branch",""))
 	var level:int = int(hero.get("level",1))
-	if level >= 100 and SPECIAL_FOURTH_JOB_CLASSES.has(class_id + ":" + branch):
+	if level >= 100 and level < 200 and SPECIAL_FOURTH_JOB_CLASSES.has(class_id + ":" + branch):
 		return fourth_job_class(class_id,branch)
 	return class_rank_for_level(level,class_id)
 
