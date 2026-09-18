@@ -62,6 +62,33 @@ static func age_strength_bonus(age:int)->Dictionary:
 	var years:int=max(0,age-STARTING_AGE)
 	return {"atk":years*2,"matk":years*2,"def":years,"mdef":years,"hp":years*18,"sp":years*4,"crit":years/10,"hit":years/8,"flee":years/8,"healing":years/5}
 
+const FOURTH_JOB_CLASSES:Dictionary = {
+	"Warrior":"Transcendent Knight",
+	"Mage":"Transcendent Wizard",
+	"Archer":"Transcendent Ranger",
+	"Thief":"Transcendent Assassin",
+	"Acolyte":"Transcendent Saint",
+	"Merchant":"Transcendent Forge Master"
+}
+
+const SPECIAL_FOURTH_JOB_CLASSES:Dictionary = {
+	"Acolyte:Saint":"Super Champion"
+}
+
+static func fourth_job_class(class_id:String, branch:String="")->String:
+	var special_key:String = class_id + ":" + branch
+	if SPECIAL_FOURTH_JOB_CLASSES.has(special_key):
+		return str(SPECIAL_FOURTH_JOB_CLASSES[special_key])
+	return str(FOURTH_JOB_CLASSES.get(class_id, FOURTH_JOB_CLASSES["Warrior"]))
+
+static func class_rank_for_hero(hero:Dictionary)->String:
+	var class_id:String = str(hero.get("class","Warrior"))
+	var branch:String = str(hero.get("class_branch",""))
+	var level:int = int(hero.get("level",1))
+	if level >= 100 and SPECIAL_FOURTH_JOB_CLASSES.has(class_id + ":" + branch):
+		return fourth_job_class(class_id,branch)
+	return class_rank_for_level(level,class_id)
+
 static func class_tier_for_level(level:int) -> int:
 	if level >= 200: return 4
 	if level >= 100: return 3
