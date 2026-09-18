@@ -53,15 +53,20 @@ func _update_monsters()->void:
         if entry.is_empty():
             entry=_build_monster_bar(visual,bool(monster.get("mvp",false)))
             monster_bars[id]=entry
-        var fill:MeshInstance3D=entry.get("hp",null) as MeshInstance3D
+        var fill_value:Variant=entry.get("hp",null)
+        if not is_instance_valid(fill_value) or not fill_value is MeshInstance3D:
+            continue
+        var fill:MeshInstance3D=fill_value as MeshInstance3D
         var width:float=float(entry.get("width",0.88))
         var hp:float=float(monster.get("hp",0))
         var max_hp:float=max(1.0,float(monster.get("max",hp)))
         _set_fill(fill,hp/max_hp,width)
     for id in monster_bars.keys():
         if not active.has(id):
-            var old:Node=monster_bars[id].get("root",null) as Node
-            if old!=null and is_instance_valid(old): old.queue_free()
+            var old_value:Variant=monster_bars[id].get("root",null)
+            if is_instance_valid(old_value) and old_value is Node:
+                var old:Node=old_value as Node
+                old.queue_free()
             monster_bars.erase(id)
 
 func _build_monster_bar(monster:Node3D,boss:bool)->Dictionary:
