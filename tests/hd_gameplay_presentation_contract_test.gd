@@ -70,6 +70,18 @@ func _initialize() -> void:
                     break
             check("specialization has combat effect %s / %s" % [str(class_id),branch_name], has_effect)
 
+    var main_runtime_text:String = FileAccess.get_file_as_string("res://scripts/Main.gd")
+    check("player skill action runtime", main_runtime_text.contains("func use_skill(skill_id:String)->void:"))
+    var skill_test_hero:Dictionary = DATA.new_hero()
+    SKILLS.ensure_state(skill_test_hero)
+    skill_test_hero["sp"] = 100
+    skill_test_hero["skill_cooldowns"] = {}
+    var first_skill:String = str(SKILLS.all_skills(str(skill_test_hero.get("class","Warrior")))[0].get("id",""))
+    var skill_result:Dictionary = SKILLS.use(skill_test_hero,first_skill,100.0)
+    check("learned skill executes", bool(skill_result.get("ok",false)))
+    check("skill consumes SP", int(skill_test_hero.get("sp",100)) < 100)
+    check("skill starts cooldown", float(skill_test_hero.get("skill_cooldowns",{}).get(first_skill,0.0)) > 100.0)
+
     var item_catalog:Dictionary = ITEMS.all()
     for class_id:Variant in definitions.keys():
         var id:String = str(class_id)
