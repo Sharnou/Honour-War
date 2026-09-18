@@ -41,6 +41,8 @@ static func ensure_state(hero:Dictionary)->void:
         for key in ["items","cards","equipment","materials","zeny","xp","pet_xp","mvp_chests","super_cards","glowing_items"]:
             if not hero["loot_stats"].has(key): hero["loot_stats"][key]=0
     if not hero.has("ground_loot") or not hero["ground_loot"] is Array: hero["ground_loot"]=[ ]
+    if not hero.has("generated_equipment") or not hero["generated_equipment"] is Array: hero["generated_equipment"]=[]
+    if not hero.has("generated_cards") or not hero["generated_cards"] is Array: hero["generated_cards"]=[]
     if not hero.has("zeny"): hero["zeny"]=0
     if not hero.has("cards") or not hero["cards"] is Array: hero["cards"]=[]
 
@@ -108,6 +110,136 @@ static func collect_ground(hero:Dictionary)->Array[String]:
         else: remaining.append(drop)
     hero["ground_loot"]=remaining; return gained
 
+static func _drop_rate_for_rarity(rarity:String, mvp:bool, equipment:bool)->float:
+    match rarity:
+        "Common": return 0.080 if equipment else 0.050
+        "Uncommon": return 0.040 if equipment else 0.025
+        "Rare": return 0.020 if equipment else 0.012
+        "Epic": return 0.010 if equipment else 0.006
+        "Legendary": return 0.004 if equipment else 0.002
+        "MVP": return 0.001 if equipment else 0.0008
+    return 0.0
+
+static func _catalog_names_for_rarity(catalog:Dictionary, rarity:String, equipment:bool)->Array[String]:
+    var names:Array[String]=[]
+    for key:Variant in catalog.keys():
+        var data:Dictionary=catalog[key]
+        if str(data.get("rarity","Common")) != rarity:
+            continue
+        var item_type:String=str(data.get("type",""))
+        var is_equipment:bool=item_type in ["Weapon","Armor","Accessory"]
+        if is_equipment == equipment:
+            names.append(str(key))
+    return names
+
+static func _random_catalog_name(catalog:Dictionary, rarity:String, equipment:bool, rng:RandomNumberGenerator)->String:
+    var names:Array[String]=_catalog_names_for_rarity(catalog,rarity,equipment)
+    if names.is_empty():
+        return ""
+    return names[rng.randi_range(0,names.size()-1)]
+
+static func _add_generated_entry(hero:Dictionary, entry:Dictionary, kind:String)->bool:
+    ensure_state(hero)
+    if entry.is_empty():
+        return false
+    var name:String=str(entry.get("name",""))
+    var rarity:String=str(entry.get("rarity","Rare"))
+    if name.is_empty() or not accept(hero,rarity):
+        return false
+    if kind=="equipment":
+        if not bool(hero["loot_rules"].get("auto_pick_equipment",true)):
+            queue_ground(hero,name,"equipment",str(entry.get("source","Monster")))
+            return false
+        if not hero.has("generated_equipment") or not hero["generated_equipment"] is Array:
+            hero["generated_equipment"]=[]
+        hero["generated_equipment"].append(entry.duplicate(true))
+        hero["loot_stats"]["items"]+=1
+        hero["loot_stats"]["equipment"]+=1
+        return true
+    if not bool(hero["loot_rules"].get("auto_pick_cards",true)):
+        queue_ground(hero,name,"card",str(entry.get("source","Monster")))
+        return false
+    if not hero.has("generated_cards") or not hero["generated_cards"] is Array:
+        hero["generated_cards"]=[]
+    hero["generated_cards"].append(entry.duplicate(true))
+    hero["loot_stats"]["cards"]+=1
+    return true
+
+static func _roll_standard_drops(hero:Dictionary, monster:Dictionary, rng:RandomNumberGenerator, gained:Array[String])->void:
+    var rarity:String=LootProgression.roll_rarity(int(monster.get("level",1)),bool(monster.get("mvp",false)),rng.randf())
+    var equipment_catalog:Dictionary=ItemDatabase.all()
+    var card_catalog:Dictionary=CardDatabase.all()
+    var equipment_count:int=0
+    var card_count:int=0
+    var rate:float=LootProgression.effective_drop_rate_percent(_drop_rate_for_rarity(rarity,bool(monster.get("mvp",false)),true),hero)
+    if rng.randf() < min(rate/100.0,1.0):
+        var item_name:String=_random_catalog_name(equipment_catalog,rarity,true,rng)
+        if not item_name.is_empty() and add_item(hero,item_name,1):
+            gained.append(item_name)
+            equipment_count+=1
+    if equipment_count < LootProgression.MAX_EQUIPMENT_DROPS_PER_KILL and rng.randf() < min(rate/100.0,1.0):
+        var second_name:String=_random_catalog_name(equipment_catalog,rarity,true,rng)
+        if not second_name.is_empty() and add_item(hero,second_name,1):
+            gained.append(second_name)
+    var card_rate:float=LootProgression.effective_drop_rate_percent(_drop_rate_for_rarity(rarity,bool(monster.get("mvp",false)),false),hero)
+    if rng.randf() < min(card_rate/100.0,1.0):
+        var card_name:String=_random_catalog_name(card_catalog,rarity,false,rng)
+        if not card_name.is_empty() and add_card(hero,card_name):
+            gained.append(card_name)
+            card_count+=1
+    if card_count < LootProgression.MAX_CARD_DROPS_PER_KILL and rng.randf() < min(card_rate/100.0,1.0):
+        var second_card:String=_random_catalog_name(card_catalog,rarity,false,rng)
+        if not second_card.is_empty() and add_card(hero,second_card):
+            gained.append(second_card)
+
+static func _roll_top100_and_fifth_job(hero:Dictionary, monster:Dictionary, rng:RandomNumberGenerator, gained:Array[String])->void:
+    var eligible:bool=bool(monster.get("level",0))>=200 or bool(monster.get("mvp",false))
+    if not eligible:
+        return
+    if rng.randf() < min(LootProgression.effective_drop_rate_percent(0.05,hero)/100.0,1.0):
+        var rank:int=rng.randi_range(1,100)
+        var entry:Dictionary=LootProgression.top_100_item_entry(rank)
+        if _add_generated_entry(hero,entry,"equipment"):
+            gained.append(str(entry.get("name","")))
+    if rng.randf() < min(LootProgression.effective_drop_rate_percent(0.03,hero)/100.0,1.0):
+        var rank_card:int=rng.randi_range(1,100)
+        var card:Dictionary=LootProgression.top_100_card_entry(rank_card)
+        if _add_generated_entry(hero,card,"card"):
+            gained.append(str(card.get("name","")))
+    var class_id:String=str(hero.get("class","Warrior"))
+    var fifth:Dictionary=LootProgression.fifth_job_drop_table(monster,class_id)
+    if bool(fifth.get("eligible",false)):
+        for item:Dictionary in fifth.get("items",[]):
+            if rng.randf() < min(LootProgression.effective_drop_rate_percent(float(item.get("drop_rate_percent",0.0)),hero)/100.0,1.0):
+                if _add_generated_entry(hero,item,"equipment"):
+                    gained.append(str(item.get("name","")))
+                    break
+        for card:Dictionary in fifth.get("cards",[]):
+            if rng.randf() < min(LootProgression.effective_drop_rate_percent(float(card.get("drop_rate_percent",0.0)),hero)/100.0,1.0):
+                if _add_generated_entry(hero,card,"card"):
+                    gained.append(str(card.get("name","")))
+                    break
+
+static func _roll_cicci_rewards(hero:Dictionary, monster:Dictionary, rng:RandomNumberGenerator, gained:Array[String])->void:
+    if str(monster.get("name","")) != "Cicci":
+        return
+    var equipment_drops:int=0
+    for rank:int in range(1,51):
+        if equipment_drops >= LootProgression.MAX_EQUIPMENT_DROPS_PER_KILL:
+            break
+        var roll:Dictionary=LootProgression.roll_cicci_equipment(rank,hero,rng.randf())
+        if bool(roll.get("dropped",false)) and _add_generated_entry(hero,roll.get("entry",{}),"equipment"):
+            gained.append(str(roll.get("entry",{}).get("name","")))
+            equipment_drops+=1
+    var card_drops:int=0
+    for rank:int in range(1,51):
+        if card_drops >= LootProgression.MAX_CARD_DROPS_PER_KILL:
+            break
+        var roll:Dictionary=LootProgression.roll_cicci_card(rank,hero,rng.randf())
+        if bool(roll.get("dropped",false)) and _add_generated_entry(hero,roll.get("entry",{}),"card"):
+            gained.append(str(roll.get("entry",{}).get("name","")))
+            card_drops+=1
+
 static func _grant_level_300_rewards(hero:Dictionary,gained:Array[String],rng:RandomNumberGenerator)->void:
     # A level-300 monster is the explicit endgame bridge: every such kill
     # awards a class-matched Super weapon, top-tier glowing armor, and a
@@ -146,6 +278,9 @@ static func on_monster_defeated(hero:Dictionary,monster:Dictionary,rng:RandomNum
             gained.append("Quest complete: %s" % quest_name)
     gained.append("%d XP" % hero_xp); gained.append("%d Zeny" % int(reward.get("zeny",0)))
     if int(xp_result.get("levels",0))>0: gained.append("Level %d" % int(xp_result.get("level",1)))
+    _roll_standard_drops(hero,monster,rng,gained)
+    _roll_top100_and_fifth_job(hero,monster,rng,gained)
+    _roll_cicci_rewards(hero,monster,rng,gained)
     if int(monster.get("level",0))>=300:
         _grant_level_300_rewards(hero,gained,rng)
     return gained
