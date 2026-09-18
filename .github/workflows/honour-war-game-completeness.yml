@@ -127,6 +127,12 @@ jobs:
           echo "Running fast-auth regression in the foreground (timeout 120s)."
           timeout --kill-after=10s 120s ./${GODOT_BINARY} --headless --path . --script res://tests/fast_account_auth_test.gd 2>&1 | tee fast-account-auth.log
 
+      - name: Validate character progression and stat scaling
+        shell: bash
+        run: |
+          set -euo pipefail
+          ./${GODOT_BINARY} --headless --path . --script res://tests/character_progression_visual_contract_test.gd 2>&1 | tee character-progression-visual.log
+
       - name: Validate login registration and Create New Character UI
         shell: bash
         run: |
