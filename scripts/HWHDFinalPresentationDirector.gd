@@ -98,9 +98,16 @@ func _on_pet_attack(target: Dictionary, damage: int, special: bool) -> void:
     _hit_target(target, special, damage)
 
 func _on_monster_attack(target_kind: String, _damage: int) -> void:
-    if target_kind == "hero":
-        _start_attack(hero, "monster", {}, false)
-        _react_actor(hero, false)
+    if target_kind != "hero":
+        return
+    # The hero visual can be replaced during respawn/rebuild between combat
+    # ticks. Resolve it again before calling a typed Node3D function.
+    var live_hero: Node3D = _live_hero()
+    if live_hero == null:
+        return
+    hero = live_hero
+    _start_attack(live_hero, "monster", {}, false)
+    _react_actor(live_hero, false)
 
 func _start_attack(actor: Node3D, kind: String, target: Dictionary, critical: bool) -> void:
     if actor == null or not is_instance_valid(actor):
