@@ -198,6 +198,61 @@ def hero(class_id, tier_name, tier):
         cube("HammerHead", (0.87, 0, 1.76), (0.27, 0.15, 0.16), steel, 0.04)
         cube("HammerGem", (0.87, -0.16, 1.76), (0.07, 0.02, 0.07), glow, 0.01)
 
+    # Canonical class clothing/profile pass. Each progression tier keeps the
+    # class identity while adding more recognizable equipment and silhouette detail.
+    if class_id == "Merchant":
+        cube("MerchantVest", (0, -0.31, 1.48), (0.40, 0.045, 0.52), accent, 0.04)
+        for x in (-0.28, 0.28):
+            cube("Suspender", (x, -0.36, 1.52), (0.035, 0.025, 0.46), gold, 0.01)
+        cube("CoinPouch", (0.48, -0.30, 1.03), (0.14, 0.10, 0.13), gold, 0.035)
+        cyl("TradeScale", (-0.70, -0.05, 1.35), 0.055, 0.62, gold, 20)
+        for x in (-0.70, -0.48):
+            cyl("ScalePan", (x, -0.05, 1.63), 0.11, 0.025, gold, 24)
+        cube("CartHandle", (-0.72, 0.12, 0.85), (0.045, 0.045, 0.55), steel_dark, 0.015)
+        for x in (-0.68, -0.42):
+            torus("CartWheel", (x, 0.18, 0.46), 0.19, 0.035, darkwood if 'darkwood' in globals() else steel_dark)
+        for x in (-0.18, 0.02, 0.22):
+            uv("Potion", (x, -0.34, 1.12), (0.07, 0.07, 0.11), glow)
+    elif class_id == "Acolyte":
+        cube("WhiteRobe", (0, 0.05, 1.40), (0.46, 0.31, 0.64), material("Acolyte_Robe", (0.92,0.94,0.96,1),0.0,0.62), 0.08)
+        cube("BlueStole", (0, -0.35, 1.45), (0.12, 0.025, 0.62), material("Acolyte_Stole", (0.10,0.28,0.72,1),0.05,0.48), 0.015)
+        cube("GoldCrossV", (0, -0.385, 1.46), (0.035,0.015,0.18), gold, 0.008)
+        cube("GoldCrossH", (0, -0.40, 1.49), (0.13,0.015,0.035), gold, 0.008)
+        torus("DivineHalo", (0, 0, 2.92), 0.46, 0.035, gold)
+    elif class_id == "Thief":
+        cube("ShadowMask", (0, -0.34, 2.30), (0.34, 0.035, 0.13), steel_dark, 0.025)
+        cube("TacticalHarness", (0, -0.34, 1.52), (0.38, 0.035, 0.07), accent_dark, 0.02)
+        for x in (-0.34,0.34):
+            cube("Sheath", (x, 0.02, 1.00), (0.055,0.09,0.36), steel_dark, 0.018)
+        cube("Wrap", (-0.48, -0.12, 1.34), (0.12,0.13,0.16), cloth, 0.02)
+        cube("Wrap", (0.48, -0.12, 1.34), (0.12,0.13,0.16), cloth, 0.02)
+        for x in (-0.78,0.78):
+            cube("DualDagger", (x, -0.10, 1.05), (0.045,0.045,0.38), steel, 0.012)
+    elif class_id == "Archer":
+        cube("ArcherTunic", (0, -0.29, 1.43), (0.42,0.04,0.56), accent, 0.045)
+        cube("LeatherChestGuard", (0, -0.34, 1.57), (0.31,0.035,0.31), accent_dark, 0.03)
+        for x in (-0.60,0.60):
+            torus("Bracer", (x,-0.05,1.27), 0.15, 0.035, gold)
+        cube("Quiver", (-0.48, 0.25, 1.43), (0.10,0.10,0.42), dark if 'dark' in globals() else steel_dark, 0.025)
+        for i in range(6):
+            cyl("QuiverArrow", (-0.48 + (i%2)*0.045, 0.25, 1.72 + (i//2)*0.06), 0.012, 0.42, gold, 12)
+    elif class_id == "Mage":
+        cone("WizardHat", (0, 0, 2.95), 0.50, 0.72, accent, 48)
+        torus("HatBand", (0,0,2.72), 0.44, 0.035, gold)
+        cube("LayeredRobe", (0,0.08,1.34), (0.48,0.32,0.62), accent_dark, 0.08)
+        cube("MageSash", (0,-0.35,1.18), (0.50,0.035,0.07), gold, 0.015)
+        uv("ArcaneOrb", (0.88,-0.02,2.36), (0.17,0.17,0.17), glow)
+        torus("MagicCircle", (0,-0.02,0.38), 0.72, 0.025, glow)
+    elif class_id == "Warrior":
+        for x in (-0.62,0.62):
+            cube("SegmentedPauldron", (x,0,1.82), (0.27,0.29,0.18), steel, 0.045)
+            for i in range(3):
+                cube("PauldronSegment", (x, -0.10, 1.68+i*0.12), (0.25,0.08,0.035), gold, 0.01)
+        for x in (-0.33,0.33):
+            cube("Tasset", (x,-0.10,0.82), (0.16,0.08,0.28), steel, 0.03)
+        cube("Greatsword", (0.92,0.02,1.62), (0.07,0.07,0.82), steel, 0.025)
+        cube("GreatswordEdge", (1.01,0.02,1.62), (0.015,0.08,0.76), glow, 0.006)
+
     # Cape and shoulder crest create a stronger silhouette than the prototype.
     cube("Cape", (0, 0.38, 1.35), (0.50, 0.05, 0.90), cape, 0.08)
     torus("ShoulderCrest", (0, -0.01, 1.83), 0.56, 0.025, gold)
