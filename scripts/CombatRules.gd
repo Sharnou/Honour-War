@@ -7,6 +7,7 @@ extends RefCounted
 const WORLD_SCALE:float = 0.055
 const GRID_SIZE:float = 1.0
 const ClassFormula=preload("res://scripts/ClassCombatFormula.gd")
+const ClassTreeSystem=preload("res://scripts/ClassTreeSystem.gd")
 
 const CLASS_RULES:Dictionary = {
     "Warrior": {"label":"Swordsman / Warrior", "engagement_m":2.4, "engagement_map":43.636, "attack_interval":0.72, "target_acquire_m":18.0},
@@ -37,10 +38,14 @@ static func class_rule(hero:Dictionary)->Dictionary:
     return CLASS_RULES.get(id,CLASS_RULES["Warrior"])
 
 static func class_engagement_map(hero:Dictionary)->float:
-    return float(class_rule(hero).get("engagement_map",43.636))
+    var base:float=float(class_rule(hero).get("engagement_map",43.636))
+    var branch:Dictionary=ClassTreeSystem.branch_bonus(hero)
+    return base*(1.0+float(branch.get("range",0.0))/100.0)
 
 static func class_engagement_m(hero:Dictionary)->float:
-    return float(class_rule(hero).get("engagement_m",2.4))
+    var base:float=float(class_rule(hero).get("engagement_m",2.4))
+    var branch:Dictionary=ClassTreeSystem.branch_bonus(hero)
+    return base*(1.0+float(branch.get("range",0.0))/100.0)
 
 static func class_attack_interval(hero:Dictionary)->float:
     var base:float=float(class_rule(hero).get("attack_interval",0.72))
