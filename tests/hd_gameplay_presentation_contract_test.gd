@@ -101,7 +101,7 @@ func _initialize() -> void:
     for map_id:Variant in TELEPORT.MAPS.keys():
         var map_data:Dictionary = TELEPORT.MAPS[map_id]
         check("map entry " + str(map_id), not str(map_data.get("name","")).is_empty())
-        check("map coordinates " + str(map_id), int(map_data.get("x",0)) >= 0 and int(map_data.get("y",0)) >= 0)
+        check("map coordinates " + str(map_id), int(map_data.get("spawn_x",-1)) >= 0 and int(map_data.get("spawn_y",-1)) >= 0)
 
     var scene:Node = get_tree().current_scene
     var scene_text:String = FileAccess.get_file_as_string("res://Main3D.tscn")
