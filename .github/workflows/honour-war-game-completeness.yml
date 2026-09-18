@@ -66,6 +66,12 @@ jobs:
           set -euo pipefail
           ./${GODOT_BINARY} --headless --path . --script res://tests/game_completion_contract_test.gd 2>&1 | tee game-completeness.log
 
+      - name: Validate HD gameplay presentation contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          ./${GODOT_BINARY} --headless --path . --script res://tests/hd_gameplay_presentation_contract_test.gd 2>&1 | tee hd-gameplay-presentation.log
+
       - name: Validate online authority contract
         shell: bash
         run: |
@@ -149,6 +155,7 @@ jobs:
             godot-editor-import.log
             game-completeness.log
             online-authority.log
+            hd-gameplay-presentation.log
             online-server.log
             server-bootstrap.log
             online-persistence.log
