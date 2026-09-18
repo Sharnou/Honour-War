@@ -76,10 +76,21 @@ static func capstone(class_id:String)->String:
         "Merchant": return "Arsenal Overlord"
         _: return "Immortal Arsenal"
 static func can_select_branch(hero:Dictionary,branch:String)->bool:
-    ensure_state(hero); var profile:=class_profile(str(hero.get("class","Warrior"))); if str(hero.get("class_branch",""))!="": return false; return int(hero.get("level",1))>=25 and profile["branches"].has(branch)
+    ensure_state(hero)
+    var profile:Dictionary = class_profile(str(hero.get("class","Warrior")))
+    if str(hero.get("class_branch","")) != "":
+        return false
+    var level:int = int(hero.get("level",1))
+    if level < 25:
+        return false
+    return bool(profile.get("branches",[]).has(branch))
+
 static func select_branch(hero:Dictionary,branch:String)->bool:
-    if not can_select_branch(hero,branch): return false
-    hero["class_branch"]=branch; hero["class_mastery"]=0; return true
+    if not can_select_branch(hero,branch):
+        return false
+    hero["class_branch"]=branch
+    hero["class_mastery"]=0
+    return true
 static func add_mastery(hero:Dictionary,amount:int)->void:
     ensure_state(hero)
     if str(hero.get("class_branch",""))=="": return
