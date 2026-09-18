@@ -39,29 +39,32 @@ static func branch_descriptions(class_id:String)->Dictionary:
     return descriptions.get(class_id,descriptions["Warrior"])
 
 static func ensure_state(hero:Dictionary)->void:
-    var class_id:=str(hero.get("class","Warrior"))
-    var profile:=class_profile(class_id)
+    var class_id:=str(hero.get("class","Warrior")); var profile:=class_profile(class_id)
     if not hero.has("class_branch"): hero["class_branch"]=""
     if not hero.has("class_mastery"): hero["class_mastery"]=0
-    if str(hero.get("class_branch",""))!="" and not profile["branches"].has(str(hero.get("class_branch"))):
-        hero["class_branch"]=""
-        hero["class_mastery"]=0
+    if str(hero.get("class_branch",""))!="" and not profile["branches"].has(str(hero.get("class_branch"))): hero["class_branch"]=""; hero["class_mastery"]=0
 
-static func tier_unlocked(hero:Dictionary,tier:int)->bool:
-    return int(hero.get("level",1))>=int(TIER_LEVELS.get(tier,999))
-
+static func tier_unlocked(hero:Dictionary,tier:int)->bool: return int(hero.get("level",1))>=int(TIER_LEVELS.get(tier,999))
 static func tier_progress(hero:Dictionary,tier:int)->Dictionary:
-    var required:int=int(TIER_LEVELS.get(tier,999))
-    var level:int=int(hero.get("level",1))
-    var previous:int=1 if tier==1 else int(TIER_LEVELS.get(tier-1,1))
-    var ratio:float=clamp(float(level-previous)/max(1,required-previous),0.0,1.0)
+    var required:int=int(TIER_LEVELS.get(tier,999)); var level:int=int(hero.get("level",1)); var previous:int=1 if tier==1 else int(TIER_LEVELS.get(tier-1,1)); var ratio:float=clamp(float(level-previous)/max(1,required-previous),0.0,1.0)
     return {"required":required,"level":level,"ratio":ratio,"unlocked":level>=required}
-
 static func available_tier(hero:Dictionary)->int:
     var result:=1
     for tier in range(1,6):
         if tier_unlocked(hero,tier): result=tier
     return result
+
+## Compatibility API used by ClassAdvancementRuntime and daily CI. The fourth
+## progression is Level 150 and the fifth progression is Level 200.
+static func class_rank_for_level(level:int)->int:
+    var value:int=clampi(level,1,250)
+    if value>=200: return 5
+    if value>=150: return 4
+    if value>=50: return 3
+    if value>=25: return 2
+    return 1
+static func class_tier_for_level(level:int)->int: return class_rank_for_level(level)
+static func class_tier_name_for_level(level:int)->String: return str(TIER_NAMES.get(class_rank_for_level(level),"Foundation"))
 
 static func capstone(class_id:String)->String:
     match class_id:
@@ -72,30 +75,17 @@ static func capstone(class_id:String)->String:
         "Acolyte": return "Heaven's Gate"
         "Merchant": return "Arsenal Overlord"
         _: return "Immortal Arsenal"
-
 static func can_select_branch(hero:Dictionary,branch:String)->bool:
-    ensure_state(hero)
-    var profile:=class_profile(str(hero.get("class","Warrior")))
-    if str(hero.get("class_branch",""))!="": return false
-    return int(hero.get("level",1))>=25 and profile["branches"].has(branch)
-
+    ensure_state(hero); var profile:=class_profile(str(hero.get("class","Warrior"))); if str(hero.get("class_branch",""))!="": return false; return int(hero.get("level",1))>=25 and profile["branches"].has(branch)
 static func select_branch(hero:Dictionary,branch:String)->bool:
     if not can_select_branch(hero,branch): return false
-    hero["class_branch"]=branch
-    hero["class_mastery"]=0
-    return true
-
+    hero["class_branch"]=branch; hero["class_mastery"]=0; return true
 static func add_mastery(hero:Dictionary,amount:int)->void:
     ensure_state(hero)
     if str(hero.get("class_branch",""))=="": return
     hero["class_mastery"]=clamp(int(hero.get("class_mastery",0))+max(0,amount),0,100)
-
 static func branch_bonus(hero:Dictionary)->Dictionary:
-    ensure_state(hero)
-    var class_id:=str(hero.get("class","Warrior"))
-    var branch:=str(hero.get("class_branch",""))
-    var mastery:float=float(hero.get("class_mastery",0))/100.0
-    var bonus:Dictionary={"damage":0.0,"defense":0.0,"crit":0.0,"healing":0.0,"sp_efficiency":0.0,"pet_power":0.0,"range":0.0,"control":0.0}
+    ensure_state(hero); var class_id:=str(hero.get("class","Warrior")); var branch:=str(hero.get("class_branch","")); var mastery:float=float(hero.get("class_mastery",0))/100.0; var bonus:Dictionary={"damage":0.0,"defense":0.0,"crit":0.0,"healing":0.0,"sp_efficiency":0.0,"pet_power":0.0,"range":0.0,"control":0.0}
     if branch=="": return bonus
     match class_id:
         "Warrior":
@@ -129,16 +119,8 @@ static func branch_bonus(hero:Dictionary)->Dictionary:
             elif branch=="Arsenal Lord": bonus["pet_power"]=0.14+0.20*mastery; bonus["damage"]=0.08+0.12*mastery
             elif branch=="Tactician": bonus["damage"]=0.08+0.12*mastery; bonus["defense"]=0.08+0.12*mastery; bonus["control"]=0.12+0.13*mastery; bonus["sp_efficiency"]=0.06+0.09*mastery
     return bonus
-
 static func summary(hero:Dictionary)->Dictionary:
-    ensure_state(hero)
-    var class_id:=str(hero.get("class","Warrior"))
-    var profile:=class_profile(class_id)
-    var skills:Array=SkillSystem.all_skills(class_id)
-    var learned:=0
-    var total:=0
+    ensure_state(hero); var class_id:=str(hero.get("class","Warrior")); var profile:=class_profile(class_id); var skills:Array=SkillSystem.all_skills(class_id); var learned:=0; var total:=0
     for skill in skills:
-        var level:=SkillSystem.skill_level(hero,str(skill["id"]))
-        learned+=level
-        total+=int(skill["max_level"])
+        var level:=SkillSystem.skill_level(hero,str(skill["id"])); learned+=level; total+=int(skill["max_level"])
     return {"class":class_id,"profile":profile,"available_tier":available_tier(hero),"capstone":capstone(class_id),"learned":learned,"total":total,"branch":str(hero.get("class_branch","")),"mastery":int(hero.get("class_mastery",0)),"branch_bonus":branch_bonus(hero)}
