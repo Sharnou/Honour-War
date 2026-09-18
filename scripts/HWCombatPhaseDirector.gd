@@ -45,7 +45,11 @@ func _process(_delta:float) -> void:
     var now:float = Time.get_ticks_msec()/1000.0
     for i in range(sequences.size()-1,-1,-1):
         var seq:Dictionary = sequences[i]
-        var actor:Node3D = seq.get("actor") as Node3D
+        var actor_value:Variant = seq.get("actor",null)
+        if not is_instance_valid(actor_value) or not actor_value is Node3D:
+            sequences.remove_at(i)
+            continue
+        var actor:Node3D = actor_value as Node3D
         if actor == null or not is_instance_valid(actor):
             sequences.remove_at(i)
             continue
@@ -104,14 +108,16 @@ func _emit_contact(seq:Dictionary) -> void:
         root = Node3D.new()
         root.name = "HWHDCombatVFX"
         scene_root.add_child(root)
-    var actor:Node3D = seq.get("actor") as Node3D
+    var actor_value:Variant = seq.get("actor",null)
+    var actor:Node3D = actor_value as Node3D if is_instance_valid(actor_value) and actor_value is Node3D else null
     var pos:Vector3 = actor.global_position if actor != null else Vector3.ZERO
     var target:Dictionary = seq.get("target",{})
     if target is Dictionary and target.has("id"):
         var visuals:Variant = scene_root.get("monster_visuals")
         if visuals is Dictionary and visuals.has(str(target["id"])):
-            var target_node:Node3D = visuals[str(target["id"])] as Node3D
-            if target_node != null and is_instance_valid(target_node):
+            var target_value:Variant = visuals[str(target["id"])]
+            if is_instance_valid(target_value) and target_value is Node3D:
+                var target_node:Node3D = target_value as Node3D
                 pos = target_node.global_position
     var color:Color = CLASS_COLORS.get(str(_hero_class()),Color("#ffffff"))
     if str(seq.get("kind","")) == "pet":
