@@ -1,0 +1,111 @@
+name: Honour War Windows EXE Release QA
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "project.godot"
+      - "export_presets.cfg"
+      - "Main3D.tscn"
+      - "scripts/**"
+      - "assets/**"
+      - ".github/workflows/honour-war-windows-exe-qa.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: honour-war-windows-exe-qa-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  GODOT_VERSION: "4.7.2"
+  GODOT_ZIP: "Godot_v4.7.2-stable_win64.exe"
+
+jobs:
+  windows-release-qa:
+    name: Export + 30-second Windows runtime smoke test
+    runs-on: windows-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout exact triggering revision
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          ref: ${{ github.sha }}
+
+      - name: Verify checkout matches triggering revision
+        shell: pwsh
+        run: |
+          $actual = (git rev-parse HEAD).Trim()
+          if ($actual -ne $env:GITHUB_SHA) { throw "Checkout SHA $actual does not match $env:GITHUB_SHA" }
+
+      - name: Download Godot 4.7.2
+        shell: pwsh
+        run: |
+          Invoke-WebRequest -Uri "https://github.com/godotengine/godot/releases/download/4.7.2-stable/Godot_v4.7.2-stable_win64.exe" -OutFile "$pwd\godot.exe"
+          if (-not (Test-Path "$pwd\godot.exe")) { throw "Godot executable was not downloaded" }
+
+      - name: Validate project before export
+        shell: pwsh
+        run: |
+          & "$pwd\godot.exe" --headless --editor --path . --rendering-method gl_compatibility --rendering-driver opengl3 --quit 2>&1 | Tee-Object godot-export-validation.log
+          if ($LASTEXITCODE -ne 0) { throw "Godot editor validation failed" }
+          if (Select-String -Path godot-export-validation.log -Pattern "SCRIPT ERROR|Parse Error|ERROR: Failed to load script|ERROR: Cannot load scene") {
+            throw "Godot reported script/scene errors before export"
+          }
+
+      - name: Export HonourWarHD.exe
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path build\windows | Out-Null
+          & "$pwd\godot.exe" --headless --path . --export-release "Windows Desktop" "build\windows\HonourWarHD.exe" 2>&1 | Tee-Object godot-export.log
+          if ($LASTEXITCODE -ne 0) { throw "Windows export failed" }
+          if (-not (Test-Path "build\windows\HonourWarHD.exe")) { throw "HonourWarHD.exe was not produced" }
+
+      - name: Test exported EXE for 30 seconds
+        shell: pwsh
+        run: |
+          $exe = (Resolve-Path "build\windows\HonourWarHD.exe").Path
+          $log = (Resolve-Path ".").Path + "\honour-war-runtime.log"
+          $p = Start-Process -FilePath $exe -ArgumentList "--rendering-method","gl_compatibility","--rendering-driver","opengl3" -WorkingDirectory (Split-Path $exe) -RedirectStandardOutput $log -RedirectStandardError ($log + ".err") -PassThru
+          Start-Sleep -Seconds 5
+          if ($p.HasExited) {
+            Get-Content $log -ErrorAction SilentlyContinue
+            Get-Content ($log + ".err") -ErrorAction SilentlyContinue
+            throw "HonourWarHD.exe exited during startup with code $($p.ExitCode)"
+          }
+          Start-Sleep -Seconds 25
+          if ($p.HasExited) {
+            throw "HonourWarHD.exe crashed/exited before the 30-second smoke test completed; exit code $($p.ExitCode)"
+          }
+          Stop-Process -Id $p.Id -Force
+          Write-Host "PASS: HonourWarHD.exe remained running for the full 30-second smoke test."
+
+      - name: Package only after EXE test passes
+        shell: pwsh
+        run: |
+          Compress-Archive -Path build\windows\* -DestinationPath HonourWar-Windows-Release-QA.zip -Force
+          if (-not (Test-Path HonourWar-Windows-Release-QA.zip)) { throw "ZIP package was not created" }
+
+      - name: Upload verified Windows release artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: honour-war-windows-release-qa
+          path: HonourWar-Windows-Release-QA.zip
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Upload runtime/export logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: honour-war-windows-release-qa-logs
+          path: |
+            godot-export-validation.log
+            godot-export.log
+            honour-war-runtime.log
+            honour-war-runtime.log.err
+          if-no-files-found: ignore
