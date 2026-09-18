@@ -7,6 +7,7 @@ extends Node
 
 const GENERATED_ROOT:String = "res://assets/3d/generated"
 const CHARACTER_PROFILES = preload("res://scripts/HWCharacterVisualProfiles.gd")
+const WORLD_ACTOR_PROFILES = preload("res://scripts/HWWorldActorVisualProfiles.gd")
 const POLL_INTERVAL:float = 0.08
 const BASE_CLASS_BY_RANK:Dictionary = {
     "Knight":"Warrior", "Lord Knight":"Warrior", "Transcendent Knight":"Warrior", "War Emperor":"Warrior", "Berserker":"Warrior",
@@ -61,6 +62,7 @@ func _process(delta:float)->void:
     _sync_hero()
     _sync_pet()
     _sync_monsters()
+    _sync_world_npcs()
     _sanitize_actor_root()
     _fit_camera()
 
@@ -296,7 +298,7 @@ func _sync_pet()->void:
     var current:Node3D = game.get("pet_visual") as Node3D
     if current != null and is_instance_valid(current) and str(current.get_meta("hw_final_asset_path","")) == path:
         current.visible = true
-        _play_idle(current)
+        _apply_pet_visual_motion(current,pet_value as Dictionary)
         return
     var replacement:Node3D = _instantiate_asset(path,"Pet",current)
     if replacement == null:
@@ -305,11 +307,17 @@ func _sync_pet()->void:
     replacement.set_meta("hw_final_asset_path",path)
     replacement.set_meta("hw_final_pet_species",species)
     replacement.set_meta("hw_final_role_owner",true)
+    var pet_profile:Dictionary=WORLD_ACTOR_PROFILES.pet_profile(pet_value as Dictionary)
+    replacement.set_meta("hw_world_actor_profile",pet_profile)
+    replacement.set_meta("hw_emotion",str(pet_profile.get("emotion","")))
+    replacement.set_meta("hw_motion_language",str(pet_profile.get("motion","")))
+    replacement.set_meta("hw_clothing",pet_profile.get("clothing",[]))
     replacement.scale = Vector3.ONE * 1.0
     game.set("pet_visual",replacement)
     pet_path = path
     _remove_other_actor_children(actor_root,replacement,"Pet")
     _play_idle(replacement)
+    _apply_pet_visual_motion(replacement,pet_value as Dictionary)
 
 func _sync_monsters()->void:
     var visuals_value:Variant = game.get("monster_visuals")
@@ -339,7 +347,7 @@ func _sync_monsters()->void:
             continue
         if str(current.get_meta("hw_final_asset_path","")) == path:
             current.visible = true
-            _play_idle(current)
+            _apply_monster_visual_motion(current,monster)
             continue
         var replacement:Node3D = _instantiate_asset(path,current.name,current)
         if replacement == null:
@@ -348,14 +356,70 @@ func _sync_monsters()->void:
         replacement.set_meta("hw_final_asset_path",path)
         replacement.set_meta("hw_monster_key",key)
         replacement.set_meta("hw_final_role_owner",true)
+        var monster_profile:Dictionary=WORLD_ACTOR_PROFILES.monster_profile(monster)
+        replacement.set_meta("hw_world_actor_profile",monster_profile)
+        replacement.set_meta("hw_emotion",str(monster_profile.get("emotion","")))
+        replacement.set_meta("hw_motion_language",str(monster_profile.get("motion","")))
+        replacement.set_meta("hw_clothing",monster_profile.get("clothing",[]))
         var mvp:bool = bool(monster.get("mvp",false))
         replacement.scale = Vector3.ONE * (1.25 if mvp else 1.0)
         visuals[key] = replacement
         monster_paths[key] = path
         _play_idle(replacement)
+        _apply_monster_visual_motion(replacement,monster)
     for stale_key:Variant in monster_paths.keys():
         if not current_ids.has(str(stale_key)):
             monster_paths.erase(stale_key)
+
+func _apply_pet_visual_motion(actor:Node3D,pet:Dictionary)->void:
+    if actor==null or not is_instance_valid(actor):
+        return
+    var profile:Dictionary=WORLD_ACTOR_PROFILES.pet_profile(pet)
+    actor.set_meta("hw_world_actor_profile",profile)
+    actor.set_meta("hw_emotion",str(profile.get("emotion","")))
+    actor.set_meta("hw_motion_language",str(profile.get("motion","")))
+    var t:float=hero_motion_time
+    actor.rotation.y=sin(t*2.0)*0.035
+    if str(pet.get("species",""))=="Royal Falcon":
+        actor.rotation.z=sin(t*5.0)*0.035
+    elif str(pet.get("species",""))=="Night Panther":
+        actor.rotation.y=sin(t*2.8)*0.05
+    elif str(pet.get("species",""))=="Astral Sprite":
+        actor.position.y+=sin(t*2.2)*0.025
+    elif str(pet.get("species",""))=="Blessed Poring":
+        actor.scale=Vector3.ONE*(1.0+sin(t*3.5)*0.018)
+
+func _apply_monster_visual_motion(actor:Node3D,monster:Dictionary)->void:
+    if actor==null or not is_instance_valid(actor):
+        return
+    var profile:Dictionary=WORLD_ACTOR_PROFILES.monster_profile(monster)
+    actor.set_meta("hw_world_actor_profile",profile)
+    actor.set_meta("hw_emotion",str(profile.get("emotion","")))
+    actor.set_meta("hw_motion_language",str(profile.get("motion","")))
+    var t:float=hero_motion_time
+    var mvp:bool=bool(monster.get("mvp",false))
+    var rate:float=1.15 if mvp else 2.0
+    var amp:float=0.018 if mvp else 0.012
+    actor.rotation.y=sin(t*rate)*amp
+    if mvp:
+        actor.rotation.x=sin(t*0.65)*0.006
+
+func _sync_world_npcs()->void:
+    if scene==null:
+        return
+    var nodes:Array[Node]=get_tree().get_nodes_in_group("rent_npc")
+    for npc:Node in nodes:
+        if not npc is Node3D:
+            continue
+        var actor:Node3D=npc as Node3D
+        var name_value:String=str(actor.get_meta("npc_name","Rent"))
+        var job_value:String=str(actor.get_meta("class","Rental"))
+        var profile:Dictionary=WORLD_ACTOR_PROFILES.npc_profile(name_value,job_value)
+        actor.set_meta("hw_world_actor_profile",profile)
+        actor.set_meta("hw_emotion",str(profile.get("emotion","")))
+        actor.set_meta("hw_motion_language",str(profile.get("motion","")))
+        actor.set_meta("hw_clothing",profile.get("clothing",[]))
+        actor.rotation.y=sin(hero_motion_time*1.15)*0.025
 
 func _instantiate_asset(path:String,node_name:String,current:Node3D)->Node3D:
     if game == null or path.is_empty() or not ResourceLoader.exists(path):
