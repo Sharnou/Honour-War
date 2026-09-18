@@ -39,7 +39,7 @@ func _ensure_rent_npc() -> void:
     npc.set_meta("level",0)
     npc.set_meta("class","SS (SUPER SHAMBION)")
     npc.set_meta("rental_price_zeny",PRICE_ZENY)
-    npc.position = Vector3(0.0,0.0,0.0)
+    npc.position = Vector3(6.0,0.0,-7.0)
     scene.add_child.call_deferred(npc)
     call_deferred("_decorate_npc")
 
@@ -51,6 +51,7 @@ func _decorate_npc() -> void:
     mesh.radius = 0.48
     mesh.height = 1.8
     body.mesh = mesh
+    body.name = "Body"
     body.position.y = 0.9
     var mat:StandardMaterial3D = StandardMaterial3D.new()
     mat.albedo_color = Color("#27344d")
@@ -58,6 +59,58 @@ func _decorate_npc() -> void:
     mat.roughness = 0.65
     body.material_override = mat
     npc.add_child(body)
+    var skin:StandardMaterial3D=StandardMaterial3D.new()
+    skin.albedo_color=Color("#d2a07d")
+    skin.roughness=0.82
+    var coat:MeshInstance3D=MeshInstance3D.new()
+    coat.name="ChampionCoat"
+    var coat_mesh=BoxMesh.new()
+    coat_mesh.size=Vector3(0.82,1.05,0.34)
+    coat.mesh=coat_mesh
+    coat.position=Vector3(0,0.82,0.03)
+    var coat_mat=StandardMaterial3D.new()
+    coat_mat.albedo_color=Color("#244a72")
+    coat_mat.roughness=0.62
+    coat.material_override=coat_mat
+    npc.add_child(coat)
+    var head:MeshInstance3D=MeshInstance3D.new()
+    head.name="Head"
+    var head_mesh=SphereMesh.new()
+    head_mesh.radius=0.30
+    head_mesh.height=0.60
+    head.mesh=head_mesh
+    head.position=Vector3(0,1.62,0)
+    head.material_override=skin
+    npc.add_child(head)
+    var mantle:MeshInstance3D=MeshInstance3D.new()
+    mantle.name="ChampionMantle"
+    var mantle_mesh=BoxMesh.new()
+    mantle_mesh.size=Vector3(1.05,0.12,0.55)
+    mantle.mesh=mantle_mesh
+    mantle.position=Vector3(0,1.27,0)
+    var mantle_mat=StandardMaterial3D.new()
+    mantle_mat.albedo_color=Color("#d5b35a")
+    mantle_mat.metallic=0.18
+    mantle_mat.roughness=0.42
+    mantle.material_override=mantle_mat
+    npc.add_child(mantle)
+    var pouch:MeshInstance3D=MeshInstance3D.new()
+    pouch.name="ContractPouch"
+    var pouch_mesh=BoxMesh.new()
+    pouch_mesh.size=Vector3(0.22,0.28,0.16)
+    pouch.mesh=pouch_mesh
+    pouch.position=Vector3(0.48,0.65,0.04)
+    pouch.material_override=mantle_mat
+    npc.add_child(pouch)
+    var book:MeshInstance3D=MeshInstance3D.new()
+    book.name="RentalContractBook"
+    var book_mesh=BoxMesh.new()
+    book_mesh.size=Vector3(0.28,0.34,0.05)
+    book.mesh=book_mesh
+    book.position=Vector3(-0.43,1.0,0.22)
+    book.material_override=mantle_mat
+    npc.add_child(book)
+    npc.set_meta("hw_world_actor_profile",{"role":"Rental Shop","emotion":"professional / trustworthy","motion":"upright idle, contract gesture, confident greeting and service turn","clothing":["formal merchant coat","blue-gold trim","rental insignia","document pouch"]})
     var label:Label3D = Label3D.new()
     label.text = "Rent\n1,000,000 Zeny"
     label.position = Vector3(0.0,2.4,0.0)
