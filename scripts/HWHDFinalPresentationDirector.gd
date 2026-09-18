@@ -114,7 +114,11 @@ func _process_sequences() -> void:
     var now := Time.get_ticks_msec() / 1000.0
     for i in range(sequences.size() - 1, -1, -1):
         var seq: Dictionary = sequences[i]
-        var actor := seq.get("actor") as Node3D
+        var actor_value: Variant = seq.get("actor", null)
+        if not is_instance_valid(actor_value) or not actor_value is Node3D:
+            sequences.remove_at(i)
+            continue
+        var actor: Node3D = actor_value as Node3D
         if actor == null or not is_instance_valid(actor):
             sequences.remove_at(i)
             continue
@@ -165,8 +169,10 @@ func _react_actor(actor: Node3D, critical: bool) -> void:
     reaction_tweens.append(tween)
 
 func _spawn_contact_fx(seq: Dictionary) -> void:
-    var actor := seq.get("actor") as Node3D
-    var target := seq.get("target", {}) as Dictionary
+    var actor_value: Variant = seq.get("actor", null)
+    var actor: Node3D = actor_value as Node3D if is_instance_valid(actor_value) and actor_value is Node3D else null
+    var target_value: Variant = seq.get("target", {})
+    var target: Dictionary = target_value if target_value is Dictionary else {}
     var pos := actor.global_position if actor != null else Vector3.ZERO
     var target_node := _target_node(target)
     if target_node != null:
@@ -252,7 +258,10 @@ func _sync_bosses() -> void:
         return
     for key in (visuals as Dictionary).keys():
         var id := str(key)
-        var actor := (visuals as Dictionary)[key] as Node3D
+        var actor_value: Variant = (visuals as Dictionary)[key]
+        if not is_instance_valid(actor_value) or not actor_value is Node3D:
+            continue
+        var actor: Node3D = actor_value as Node3D
         if actor == null or not is_instance_valid(actor):
             continue
         var monster := _monster_data(id)
@@ -372,13 +381,19 @@ func _target_node(target: Dictionary) -> Node3D:
         return null
     var visuals: Variant = scene_root.get("monster_visuals")
     if visuals is Dictionary and visuals.has(id):
-        return (visuals as Dictionary)[id] as Node3D
+        var target_value: Variant = (visuals as Dictionary)[id]
+        if not is_instance_valid(target_value) or not target_value is Node3D:
+            return null
+        return target_value as Node3D
     return null
 
 func _monster_data(id: String) -> Dictionary:
     var visuals: Variant = scene_root.get("monster_visuals")
     if visuals is Dictionary and visuals.has(id):
-        var actor := visuals[id] as Node
+        var actor_value: Variant = visuals[id]
+        if not is_instance_valid(actor_value) or not actor_value is Node:
+            return {"id": id, "name": id, "level": 1}
+        var actor: Node = actor_value as Node
         var value: Variant = actor.get_meta("monster_data", {})
         if value is Dictionary:
             return value
