@@ -13,8 +13,8 @@ func _initialize() -> void:
     call_deferred("_run")
 
 func _run() -> void:
-    var login_source := _read("res://scripts/HWOnlineLoginUI.gd")
-    var identity_source := _read("res://scripts/HWPlayerIdentityUI.gd")
+    var login_source:String = _read("res://scripts/HWOnlineLoginUI.gd")
+    var identity_source:String = _read("res://scripts/HWPlayerIdentityUI.gd")
 
     _check("login UI exists", not login_source.is_empty())
     _check("registration button exists", login_source.contains('register_button.text = "REGISTER"'))
@@ -43,13 +43,13 @@ func _run() -> void:
 
     var authority:Node = AUTH.new()
     _check("registration password minimum is six", authority.MIN_PASSWORD_LENGTH == 6)
-    var path := "user://honour_war_ui_auth_character_%d.json" % Time.get_ticks_usec()
+    var path:String = "user://honour_war_ui_auth_character_%d.json" % Time.get_ticks_usec()
     var db:RefCounted = DB.new(path)
     var hero:Dictionary = GAME_DATA.new_hero()
     hero["account_username"] = "ui_qa_m"
     hero["gender"] = "male"
-    var salt := "0123456789abcdef0123456789abcdef"
-    var verifier := DB.password_verifier("123123",salt)
+    var salt:String = "0123456789abcdef0123456789abcdef"
+    var verifier:String = DB.password_verifier("123123",salt)
     _check("QA account registration succeeds", db.create_account("ui_qa_m",salt,verifier,hero))
     _check("registered account can authenticate", db.authenticate_challenge("ui_qa_m",DB.challenge_digest(verifier,"ui-nonce"),"ui-nonce"))
     var created:Dictionary = GAME_DATA.new_hero()
@@ -64,7 +64,7 @@ func _run() -> void:
     _check("new character starts age 18", int(created.get("age",0)) == 18)
     _check("new character has name", not str(created.get("character_name","")).is_empty())
     _check("new character saves", db.save_player("ui_qa_m",created))
-    var restored := db.load_player("ui_qa_m",GAME_DATA.new_hero())
+    var restored:Dictionary = db.load_player("ui_qa_m",GAME_DATA.new_hero())
     _check("saved character restores", str(restored.get("character_name","")) == "UI_Test_Hero" and str(restored.get("class","")) == "Archer")
 
     authority.free()
@@ -78,10 +78,10 @@ func _run() -> void:
         quit(1)
 
 func _read(path:String) -> String:
-    var file := FileAccess.open(path,FileAccess.READ)
+    var file:FileAccess = FileAccess.open(path,FileAccess.READ)
     if file == null:
         return ""
-    var value := file.get_as_text()
+    var value:String = file.get_as_text()
     file.close()
     return value
 
