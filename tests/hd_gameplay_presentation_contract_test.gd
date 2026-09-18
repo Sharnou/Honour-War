@@ -89,6 +89,11 @@ func _initialize() -> void:
     check("3D auto-attacks use canonical class formulas", combat_runtime_text.contains("ClassFormula.physical_power(hero)") and combat_runtime_text.contains("ClassFormula.magic_power(hero)"))
     check("3D incoming damage uses canonical defense", combat_runtime_text.contains("ClassFormula.defense(hero)"))
 
+    var reset_hero:Dictionary = DATA.new_hero()
+    reset_hero["stats"] = {"str":10,"agi":11,"vit":12,"int":13,"dex":14,"luk":15}
+    reset_hero["stat_points"] = 7
+    var reset_refund:int = preload("res://scripts/CharacterProgressionSystem.gd").reset_stats(reset_hero)
+    check("stat reset returns exact allocated points", reset_refund == 69 and int(reset_hero.get("stat_points",0)) == 76)
     var high_level_hero:Dictionary = DATA.new_hero()
     high_level_hero["level"] = 250
     high_level_hero["stats"] = {"str":99,"agi":99,"vit":99,"int":99,"dex":99,"luk":99}
