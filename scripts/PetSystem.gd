@@ -8,7 +8,7 @@ const PETS := {
 	"Archer": {"name":"Falcon", "role":"Ranged Striker", "species":"Royal Falcon", "base_power":16, "skill":"Falcon Assault", "skill_power":30, "color":"#d8c48b"},
 	"Thief": {"name":"Shadow Cat", "role":"Assassin", "species":"Night Panther", "base_power":17, "skill":"Shadow Pounce", "skill_power":32, "color":"#9b7abf"},
 	"Acolyte": {"name":"Holy Poring", "role":"Healer", "species":"Blessed Poring", "base_power":10, "skill":"Holy Mend", "skill_power":20, "color":"#f6e7a4"},
-	"Merchant": {"name":"Iron Beetle", "role":"Guardian", "species":"Iron Beetle", "base_power":15, "skill":"Iron Charge", "skill_power":27, "color":"#82b7c9"}
+	"Merchant": {"name":"Iron Beetle", "role":"Guardian", "species":"Merchant Companion", "base_power":15, "skill":"Iron Charge", "skill_power":27, "color":"#82b7c9"}
 }
 
 static func definition(class_id:String) -> Dictionary:
