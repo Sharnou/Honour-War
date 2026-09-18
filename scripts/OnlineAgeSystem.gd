@@ -22,8 +22,11 @@ static func normalize(hero:Dictionary)->void:
 	hero["online_days"] = days
 	if not hero.has("age_origin"):
 		hero["age_origin"] = DEFAULT_STARTING_AGE
-	hero["age_origin"] = starting_age(hero)
-	hero["age"] = max(starting_age(hero), age_from_online_days(days, starting_age(hero)))
+	var origin:int = starting_age(hero)
+	hero["age_origin"] = origin
+	# Recalculate on every call so persistent characters age as their online
+	# time advances, not only during first-time save migration.
+	hero["age"] = max(origin, age_from_online_days(days, origin))
 
 static func years_earned(hero:Dictionary)->int:
 	normalize(hero)
