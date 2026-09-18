@@ -199,6 +199,8 @@ func hero_strike(hero:Dictionary,monster:Dictionary)->void:
     damage=max(1,damage-effective_monster_defense(monster))
     if float(hero.get("fear_until",0.0))>now_seconds():
         damage=max(1,int(round(float(damage)*0.55)))
+    if float(hero.get("curse_until",0.0))>now_seconds():
+        damage=max(1,int(round(float(damage)*0.80)))
     monster["hp"]=int(monster.get("hp",0))-damage
     if class_id=="Thief" and rng.randf()<0.35: MonsterDetails.apply_poison(monster,damage,6.0)
     if class_id=="Mage" and rng.randf()<0.20: monster["slow_until"]=now_seconds()+3.0
