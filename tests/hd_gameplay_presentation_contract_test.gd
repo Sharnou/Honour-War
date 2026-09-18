@@ -103,7 +103,6 @@ func _initialize() -> void:
         check("map entry " + str(map_id), not str(map_data.get("name","")).is_empty())
         check("map coordinates " + str(map_id), int(map_data.get("spawn_x",-1)) >= 0 and int(map_data.get("spawn_y",-1)) >= 0)
 
-    var scene:Node = get_tree().current_scene
     var scene_text:String = FileAccess.get_file_as_string("res://Main3D.tscn")
     check("HD camera", scene_text.contains('Camera3D'))
     check("HD environment director", scene_text.contains('HDEnvironmentDirector'))
