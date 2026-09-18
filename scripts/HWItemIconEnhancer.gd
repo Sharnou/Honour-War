@@ -52,7 +52,6 @@ func _decorate(button:Button)->void:
     icon.region = Rect2(float(atlas_index * 64),0.0,64.0,64.0)
     button.icon = icon
     button.expand_icon = true
-    button.icon_max_width = 46
     button.alignment = HORIZONTAL_ALIGNMENT_LEFT
     button.add_theme_font_size_override("font_size", max(9,int(button.get_theme_font_size("font_size"))))
     seen[key] = true
