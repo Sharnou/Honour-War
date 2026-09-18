@@ -3,6 +3,7 @@ extends RefCounted
 
 const Age=preload("res://scripts/OnlineAgeSystem.gd")
 const Top100=preload("res://scripts/Top100Database.gd")
+const FifthJobs=preload("res://scripts/FifthJobDatabase.gd")
 
 static func rarity_weight(level:int,mvp:bool=false)->Dictionary:
     var l:int=clamp(level,1,300); var scale:float=float(l)/300.0
@@ -90,6 +91,18 @@ static func _resolve_entry(entry:Dictionary,rank:int,hero:Dictionary,pool_type:S
 
 static func resolve_top_100(rank:int,hero:Dictionary)->Dictionary:
     return resolve_top_100_item(rank,hero)
+
+static func fifth_job_drop_table(monster:Dictionary,class_id:String)->Dictionary:
+    return FifthJobs.drop_table(monster,class_id)
+
+static func fifth_job_drop_rate_percent(monster:Dictionary,class_id:String,item_name:String)->float:
+    var table:Dictionary=FifthJobs.drop_table(monster,class_id)
+    if not bool(table.get("eligible",false)): return 0.0
+    for item in table.get("items",[]):
+        if str(item.get("name",""))==item_name: return float(item.get("drop_rate_percent",0.0))
+    for card in table.get("cards",[]):
+        if str(card.get("name",""))==item_name: return float(card.get("drop_rate_percent",0.0))
+    return 0.0
 
 static func resolve(monster:Dictionary,hero:Dictionary,roll:float=0.5)->Dictionary:
     var ml:int=int(monster.get("level",1)); var hl:int=int(hero.get("level",1)); var is_mvp:bool=bool(monster.get("mvp",false))
