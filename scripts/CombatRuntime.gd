@@ -186,7 +186,7 @@ func hero_strike(hero:Dictionary,monster:Dictionary)->void:
     var passive:Dictionary=SkillSystem.combat_stats(hero)
     var branch_bonus:Dictionary=ClassTreeSystem.branch_bonus(hero)
     var power:int=base+int(hero.get("level",1))*2+int(hero.get("refine",0))*2+int(passive["power_bonus"])+int(hero.get("age_power_bonus",0))
-    power=int(round(float(power)*(1.0+float(branch_bonus.get("damage",0.0))))
+    power=int(round(float(power)*(1.0+float(branch_bonus.get("damage",0.0)))))
     if float(hero.get("temporary_power_until",0.0))>now_seconds(): power=int(float(power)*1.30)
     var combo_bonus:float=float(hero.get("combo_power_bonus",0.0))
     if combo_bonus>0.0: power=int(float(power)*(1.0+min(0.35,combo_bonus)))
