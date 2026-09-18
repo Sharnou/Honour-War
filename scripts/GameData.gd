@@ -12,8 +12,8 @@ const AGE_DAYS_PER_YEAR:float = 3.0
 # Lv 1  = Foundation
 # Lv 25 = Specialization
 # Lv 50 = Advanced
-# Lv 100 = Mastery
-# Lv 200 = Transcendence
+# Lv 150 = Fourth Job / Mastery
+# Lv 200 = Fifth Job / Transcendence
 # Lv 250 = level cap
 static func class_definitions() -> Dictionary:
 	return {
@@ -71,27 +71,24 @@ const FOURTH_JOB_CLASSES:Dictionary = {
 	"Merchant":"Transcendent Forge Master"
 }
 
-const SPECIAL_FOURTH_JOB_CLASSES:Dictionary = {
-	"Acolyte:Saint":"Super Champion"
-}
-
 static func fourth_job_class(class_id:String, branch:String="")->String:
-	var special_key:String = class_id + ":" + branch
-	if SPECIAL_FOURTH_JOB_CLASSES.has(special_key):
-		return str(SPECIAL_FOURTH_JOB_CLASSES[special_key])
 	return str(FOURTH_JOB_CLASSES.get(class_id, FOURTH_JOB_CLASSES["Warrior"]))
 
+static func fifth_job_class(class_id:String)->String:
+	var defs:Dictionary=class_definitions()
+	var profile:Dictionary=defs.get(class_id,defs["Warrior"])
+	return str(profile["tree"][4])
+
 static func class_rank_for_hero(hero:Dictionary)->String:
-	var class_id:String = str(hero.get("class","Warrior"))
-	var branch:String = str(hero.get("class_branch",""))
-	var level:int = int(hero.get("level",1))
-	if level >= 100 and level < 200 and SPECIAL_FOURTH_JOB_CLASSES.has(class_id + ":" + branch):
-		return fourth_job_class(class_id,branch)
+	var class_id:String=str(hero.get("class","Warrior"))
+	var level:int=int(hero.get("level",1))
+	if level>=200: return fifth_job_class(class_id)
+	if level>=150: return fourth_job_class(class_id)
 	return class_rank_for_level(level,class_id)
 
 static func class_tier_for_level(level:int) -> int:
 	if level >= 200: return 4
-	if level >= 100: return 3
+	if level >= 150: return 3
 	if level >= 50: return 2
 	if level >= 25: return 1
 	return 0
@@ -107,4 +104,4 @@ static func class_rank_title(hero:Dictionary)->String:
 	return class_rank_for_level(int(hero.get("level",1)),str(hero.get("class","Warrior")))
 
 static func class_title(hero:Dictionary) -> String:
-	return class_rank_title(hero)
+	return class_rank_for_hero(hero)
