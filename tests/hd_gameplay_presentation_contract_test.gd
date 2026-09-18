@@ -52,6 +52,8 @@ func _initialize() -> void:
     check("Acolyte Saint Fourth Job is Super Champion", DATA.class_rank_for_hero(super_champion) == "Super Champion")
     var super_champion_locked:Dictionary = {"class":"Acolyte","level":99,"class_branch":"Saint"}
     check("Super Champion requires Fourth Job level", DATA.class_rank_for_hero(super_champion_locked) == "High Priest")
+    var super_champion_final:Dictionary = {"class":"Acolyte","level":200,"class_branch":"Saint"}
+    check("Super Champion advances at Transcendence", DATA.class_rank_for_hero(super_champion_final) == "Divine Saint")
 
     for level:int in [1,25,50,100,200,250]:
         var tier:int = DATA.class_tier_for_level(level)
