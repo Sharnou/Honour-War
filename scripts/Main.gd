@@ -367,103 +367,103 @@ func attack()->void:
 	update_ui()
 
 func use_skill(skill_id:String)->void:
-    SkillSystem.ensure_state(hero)
-    var now:float=Time.get_ticks_msec()/1000.0
-    var result:Dictionary=SkillSystem.use(hero,skill_id,now)
-    if not bool(result.get("ok",false)):
-        var reason:String=str(result.get("reason","unavailable"))
-        log_message("Skill unavailable: %s." % reason)
-        return
-    var skill:Dictionary=result.get("skill",{})
-    var skill_name:String=str(skill.get("name",skill_id))
-    var kind:String=str(skill.get("kind","active"))
-    if kind=="passive":
-        return
+	SkillSystem.ensure_state(hero)
+	var now:float=Time.get_ticks_msec()/1000.0
+	var result:Dictionary=SkillSystem.use(hero,skill_id,now)
+	if not bool(result.get("ok",false)):
+		var reason:String=str(result.get("reason","unavailable"))
+		log_message("Skill unavailable: %s." % reason)
+		return
+	var skill:Dictionary=result.get("skill",{})
+	var skill_name:String=str(skill.get("name",skill_id))
+	var kind:String=str(skill.get("kind","active"))
+	if kind=="passive":
+		return
 
-    var target=nearest_monster()
-    var class_id:String=str(hero.get("class","Warrior"))
-    var skill_power_value:int=int(result.get("power",0))
-    var equipment:Dictionary=combat_equipment()
+	var target=nearest_monster()
+	var class_id:String=str(hero.get("class","Warrior"))
+	var skill_power_value:int=int(result.get("power",0))
+	var equipment:Dictionary=combat_equipment()
 
-    # Support/healing skills can be used without a monster target.
-    if class_id=="Acolyte" and skill_id in ["aco_sanctuary","aco_seraphic_light","aco_heaven_gate"]:
-        var heal_ratio:float=0.10
-        if skill_id=="aco_seraphic_light": heal_ratio=0.16
-        elif skill_id=="aco_heaven_gate": heal_ratio=0.24
-        var heal:int=max(1,int(float(hero.get("max_hp",100))*heal_ratio)+int(SkillSystem.combat_stats(hero).get("healing_bonus",0)))
-        hero["hp"]=min(int(hero.get("max_hp",100)),int(hero.get("hp",0))+heal)
-        hero["pet"]["hp"]=min(int(hero["pet"].get("max_hp",60)),int(hero["pet"].get("hp",0))+int(float(heal)*0.55))
-        log_message("%s restores %d HP to hero and strengthens the bonded pet." % [skill_name,heal])
-        if has_method("play_combat_effect"):
-            call("play_combat_effect","heal",Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0))),str(heal),false)
-        save_game()
-        update_ui()
-        return
+	# Support/healing skills can be used without a monster target.
+	if class_id=="Acolyte" and skill_id in ["aco_sanctuary","aco_seraphic_light","aco_heaven_gate"]:
+		var heal_ratio:float=0.10
+		if skill_id=="aco_seraphic_light": heal_ratio=0.16
+		elif skill_id=="aco_heaven_gate": heal_ratio=0.24
+		var heal:int=max(1,int(float(hero.get("max_hp",100))*heal_ratio)+int(SkillSystem.combat_stats(hero).get("healing_bonus",0)))
+		hero["hp"]=min(int(hero.get("max_hp",100)),int(hero.get("hp",0))+heal)
+		hero["pet"]["hp"]=min(int(hero["pet"].get("max_hp",60)),int(hero["pet"].get("hp",0))+int(float(heal)*0.55))
+		log_message("%s restores %d HP to hero and strengthens the bonded pet." % [skill_name,heal])
+		if has_method("play_combat_effect"):
+			call("play_combat_effect","heal",Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0))),str(heal),false)
+		save_game()
+		update_ui()
+		return
 
-    if target==null:
-        hero["sp"]=min(int(hero.get("max_sp",100)),int(hero.get("sp",0))+int(result.get("sp_cost",0)))
-        hero["skill_cooldowns"][skill_id]=now
-        log_message("%s needs a target." % skill_name)
-        return
+	if target==null:
+		hero["sp"]=min(int(hero.get("max_sp",100)),int(hero.get("sp",0))+int(result.get("sp_cost",0)))
+		hero["skill_cooldowns"][skill_id]=now
+		log_message("%s needs a target." % skill_name)
+		return
 
-    var skill_stats:Dictionary=SkillSystem.combat_stats(hero)
-    var branch_bonus:Dictionary=ClassTreeSystem.branch_bonus(hero)
-    var raw:int=skill_power_value+int(hero.get("level",1))
-    raw=int(round(float(raw)*(1.0+float(branch_bonus.get("damage",0.0)))))
-    raw=int(round(float(raw)*float(skill_stats.get("damage_multiplier",1.0))))
-    raw=int(round(float(raw)*(1.0+float(equipment.get("damage_percent",0.0))/100.0)))
+	var skill_stats:Dictionary=SkillSystem.combat_stats(hero)
+	var branch_bonus:Dictionary=ClassTreeSystem.branch_bonus(hero)
+	var raw:int=skill_power_value+int(hero.get("level",1))
+	raw=int(round(float(raw)*(1.0+float(branch_bonus.get("damage",0.0)))))
+	raw=int(round(float(raw)*float(skill_stats.get("damage_multiplier",1.0))))
+	raw=int(round(float(raw)*(1.0+float(equipment.get("damage_percent",0.0))/100.0)))
 
-    var affected:Array=[]
-    affected.append(target)
-    if int(skill.get("tier",1))>=2 or kind=="ultimate":
-        var radius:float=95.0 if kind=="ultimate" else 62.0
-        for candidate in monsters:
-            if candidate==target or not candidate is Dictionary or int(candidate.get("hp",0))<=0:
-                continue
-            if target.get("pos",Vector2.ZERO).distance_to(candidate.get("pos",Vector2.ZERO))<=radius:
-                affected.append(candidate)
+	var affected:Array=[]
+	affected.append(target)
+	if int(skill.get("tier",1))>=2 or kind=="ultimate":
+		var radius:float=95.0 if kind=="ultimate" else 62.0
+		for candidate in monsters:
+			if candidate==target or not candidate is Dictionary or int(candidate.get("hp",0))<=0:
+				continue
+			if target.get("pos",Vector2.ZERO).distance_to(candidate.get("pos",Vector2.ZERO))<=radius:
+				affected.append(candidate)
 
-    var total_damage:int=0
-    for affected_monster in affected:
-        var dealt:int=raw
-        if affected_monster!=target:
-            dealt=int(round(float(dealt)*0.72))
-        if bool(affected_monster.get("mvp",false)):
-            dealt=int(round(float(dealt)*(1.0+float(equipment.get("boss_damage_percent",0.0))/100.0)))
-        if class_id=="Thief" and skill_id=="thief_execution":
-            var ratio:float=float(affected_monster.get("hp",0))/float(max(1,int(affected_monster.get("max",affected_monster.get("hp",1)))))
-            if ratio<=0.45:
-                dealt=int(round(float(dealt)*1.75))
-        if class_id=="Thief" and skill_id=="thief_eternal_assassin":
-            dealt=int(round(float(dealt)*1.30))
-        dealt=max(1,dealt-int(affected_monster.get("defense",0))/2)
-        affected_monster["hp"]=int(affected_monster.get("hp",0))-dealt
-        affected_monster["hit_flash"]=0.30
-        total_damage+=dealt
-        if skill_id=="mage_frost_prison" or skill_id=="mage_comet":
-            affected_monster["slow_until"]=now+4.0
-        if class_id=="Thief" and skill_id in ["thief_shadow_strike","thief_blade_flurry","thief_shadow_requiem","thief_eternal_assassin"]:
-            MonsterDetails.apply_poison(affected_monster,dealt,6.0)
-        if int(affected_monster["hp"])<=0:
-            defeat_monster(affected_monster)
+	var total_damage:int=0
+	for affected_monster in affected:
+		var dealt:int=raw
+		if affected_monster!=target:
+			dealt=int(round(float(dealt)*0.72))
+		if bool(affected_monster.get("mvp",false)):
+			dealt=int(round(float(dealt)*(1.0+float(equipment.get("boss_damage_percent",0.0))/100.0)))
+		if class_id=="Thief" and skill_id=="thief_execution":
+			var ratio:float=float(affected_monster.get("hp",0))/float(max(1,int(affected_monster.get("max",affected_monster.get("hp",1)))))
+			if ratio<=0.45:
+				dealt=int(round(float(dealt)*1.75))
+		if class_id=="Thief" and skill_id=="thief_eternal_assassin":
+			dealt=int(round(float(dealt)*1.30))
+		dealt=max(1,dealt-int(affected_monster.get("defense",0))/2)
+		affected_monster["hp"]=int(affected_monster.get("hp",0))-dealt
+		affected_monster["hit_flash"]=0.30
+		total_damage+=dealt
+		if skill_id=="mage_frost_prison" or skill_id=="mage_comet":
+			affected_monster["slow_until"]=now+4.0
+		if class_id=="Thief" and skill_id in ["thief_shadow_strike","thief_blade_flurry","thief_shadow_requiem","thief_eternal_assassin"]:
+			MonsterDetails.apply_poison(affected_monster,dealt,6.0)
+		if int(affected_monster["hp"])<=0:
+			defeat_monster(affected_monster)
 
-    if skill_id=="war_guardian_roar":
-        hero["temporary_defense_until"]=now+6.0
-        if hero.get("pet",{}) is Dictionary:
-            hero["pet"]["guard_until"]=now+6.0
-    elif skill_id=="thief_smoke":
-        hero["temporary_evasion_until"]=now+6.0
-    elif skill_id=="mer_fortify":
-        hero["temporary_defense_until"]=now+7.0
-    elif skill_id=="mer_arsenal_overlord":
-        hero["temporary_power_until"]=now+8.0
-        hero["pet"]["combo_power_bonus"]=min(0.35,float(hero["pet"].get("combo_power_bonus",0.0))+0.08)
+	if skill_id=="war_guardian_roar":
+		hero["temporary_defense_until"]=now+6.0
+		if hero.get("pet",{}) is Dictionary:
+			hero["pet"]["guard_until"]=now+6.0
+	elif skill_id=="thief_smoke":
+		hero["temporary_evasion_until"]=now+6.0
+	elif skill_id=="mer_fortify":
+		hero["temporary_defense_until"]=now+7.0
+	elif skill_id=="mer_arsenal_overlord":
+		hero["temporary_power_until"]=now+8.0
+		hero["pet"]["combo_power_bonus"]=min(0.35,float(hero["pet"].get("combo_power_bonus",0.0))+0.08)
 
-    log_message("%s hits %d target(s) for %d total damage. SP -%d." % [skill_name,affected.size(),total_damage,int(result.get("sp_cost",0))])
-    if has_method("play_combat_effect"):
-        call("play_combat_effect","skill",target["pos"],skill_name,false)
-    save_game()
-    update_ui()
+	log_message("%s hits %d target(s) for %d total damage. SP -%d." % [skill_name,affected.size(),total_damage,int(result.get("sp_cost",0))])
+	if has_method("play_combat_effect"):
+		call("play_combat_effect","skill",target["pos"],skill_name,false)
+	save_game()
+	update_ui()
 
 func pet_auto_attack()->void:
 	if monsters.is_empty():
