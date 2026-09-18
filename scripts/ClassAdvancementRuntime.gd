@@ -112,7 +112,7 @@ func _update_hud()->void:
     var profile:Dictionary=ClassTreeSystem.class_profile(class_id)
     var branch_text:String=branch if branch!="" else "Not selected"
     title_label.text="%s  •  Lv.%d" % [rank,level]
-    detail_label.text="%s\nTier: %s\nSpecialization: %s\nMastery: %d%%" % [str(profile.get("title",class_id)),TIER_NAMES.get(tier-1,"Foundation"),branch_text,mastery]
+    detail_label.text="%s\nTier: %s\nSpecialization: %s\nMastery: %d%%" % [str(profile.get("title",class_id)),TIER_NAMES.get(tier,"Foundation"),branch_text,mastery]
     for child:Node in branch_box.get_children():
         child.queue_free()
     branch_buttons.clear()
