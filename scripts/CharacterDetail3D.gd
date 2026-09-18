@@ -30,15 +30,18 @@ func _decorate_hero(hero:Node3D,game:Node)->void:
 	if legacy!=null:
 		var hero_value:Variant=legacy.get("hero")
 		if hero_value is Dictionary: class_id=str(hero_value.get("class","Warrior"))
-	if class_id=="Warrior": _add_armor(hero,Color("#b83d32"),Color("#e3b766"),true)
+	if class_id in ["Warrior","Swordsman","Swordsman / Warrior"]: _add_armor(hero,Color("#b83d32"),Color("#e3b766"),true)
 	elif class_id=="Mage": _add_robe(hero,Color("#6253d8"),Color("#8fe7ff"))
 	elif class_id=="Archer": _add_armor(hero,Color("#3d7c52"),Color("#d8c17b"),false)
 	elif class_id=="Thief": _add_cloak(hero,Color("#45264e"),Color("#b56af0"))
 	elif class_id=="Acolyte": _add_robe(hero,Color("#f0efe6"),Color("#ffd873"))
+	elif class_id=="Merchant": _add_armor(hero,Color("#a86b3b"),Color("#d7a84e"),false)
 	else: _add_armor(hero,Color("#236d8d"),Color("#d5a84b"),false)
 	_add_face(hero)
 	_add_belt_boots(hero)
 	_add_class_mark(hero,class_id)
+	# Add the full class blueprint once the base body exists.
+	HWClassVisualBlueprints.apply(hero,class_id,elapsed)
 
 func _sync_equipment(hero:Node3D,game:Node)->void:
 	var legacy:Node=game.get_node_or_null("LegacyGame")
