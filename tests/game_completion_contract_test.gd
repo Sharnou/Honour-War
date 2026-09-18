@@ -129,7 +129,11 @@ func _initialize() -> void:
     check("GLB QA revision pin", glb_workflow.contains("ref: ${{ github.sha }}"))
     check("GLB parser preflight", glb_workflow.contains("Preflight GLB validator parser contract"))
     check("53 generated GLBs", count_files("assets/3d/generated", ".glb") == MAX_GLB_COUNT)
-    check("no forbidden tween alpha", not contains_text("scripts", "modulate:a"))
+    # Build the forbidden token at runtime so this contract cannot fail because
+    # it contains its own literal search string. This still rejects the exact
+    # forbidden property in every production GDScript under res://scripts.
+    var forbidden_tween_alpha := "modulate" + ":" + "a"
+    check("no forbidden tween alpha", not contains_text("scripts", forbidden_tween_alpha))
 
     if failures == 0:
         print("HONOUR_WAR_COMPLETENESS: PASS")
