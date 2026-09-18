@@ -171,6 +171,6 @@ Every future upgrade pass must:
 7. After three failed attempts at the same approach, stop repeating it and use a fresh diagnostic/implementation path.
 8. Never claim an asset, feature, build or test is complete unless it has been verified.
 
-## Copyright
+## Daily HD visual acceptance rule\n\nEvery Daily Honour War Upgrade permanently includes a real-HD presentation pass covering: characters, maps, cities, monsters/MVPs, animation, attack anticipation/contact/impact/recovery, hit reactions, skill VFX, equipment appearance, boss presentation, camera framing and UI polish. The pass follows Visual RAG → Blender → Substance 3D Painter → GLB/GLTF → Godot 4.7 → validation/build regression, while preserving the MMORPG/ARPG-only design and all working gameplay.\n\n## Copyright
 
 © Sharnou — Honour War
