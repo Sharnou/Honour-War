@@ -14,9 +14,10 @@ var time:float=0.0
 var forward_plus:bool=false
 
 func _ready()->void:
-	# Godot 4.2 does not expose RenderingServer.get_current_rendering_method().
-	# Read the renderer setting directly so the project remains compatible with 4.2.2.
-	var method:String=str(ProjectSettings.get_setting("rendering/renderer/rendering_method","forward_plus"))
+	# Detect the renderer actually active at runtime. This honors QA command-line
+	# overrides such as --rendering-method gl_compatibility instead of reading the
+	# production project setting and incorrectly enabling Forward+ features.
+	var method:String=RenderingServer.get_current_rendering_method()
 	forward_plus=method=="forward_plus"
 	call_deferred("_build_hd_presentation")
 
