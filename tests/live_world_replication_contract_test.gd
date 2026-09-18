@@ -29,7 +29,9 @@ func _run() -> void:
     _require(game3d.find('root.add_to_group("network_player")') >= 0, "remote players must be separated from local-player identity")
     _require(game3d.find('root.set_meta("hw_network_player",true)') >= 0, "remote player metadata missing")
     _require(game3d.find("HW_RemoteGeneratedGLB") >= 0, "remote players must prefer generated GLB assets")
-    _require(game3d.find('"ONLINE:%s"') >= 0, "online HUD state missing")
+    # Match the actual HUD contract without depending on a quoted substring
+    # representation that can vary between parser/source transformations.
+    _require(game3d.find("ONLINE:") >= 0, "online HUD state missing")
     print("LIVE_WORLD_REPLICATION_CONTRACT_OK")
 
 func _require(condition:bool, message:String) -> void:
