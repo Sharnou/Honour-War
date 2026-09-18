@@ -102,6 +102,13 @@ func _initialize() -> void:
         check("MVP has card " + str(name), not str(mvp_def.get("card","")).is_empty())
         check("MVP has loot " + str(name), (mvp_def.get("loot",[]) as Array).size() >= 2)
 
+    for name:Variant in MVP.definitions().keys():
+        var boss_name:String = str(name)
+        var boss_details:Dictionary = MONSTERS.details({"name":boss_name,"level":int(MVP.definitions()[name].get("level",1)),"mvp":true})
+        check("MVP combat identity " + boss_name, str(boss_details.get("element","Neutral")) != "Neutral" and str(boss_details.get("role","Melee")) != "Melee")
+        check("MVP weakness " + boss_name, str(boss_details.get("weakness","Neutral")) != "Neutral")
+        check("MVP status profile " + boss_name, str(boss_details.get("status","None")) != "None")
+
     var level_300:int = WORLD.monster_level_for_zone(30,10)
     check("monster reaches level 300", level_300 == 300)
     var mvp_details:Dictionary = MONSTERS.details({"name":"Thanatos","level":300,"mvp":true})
