@@ -146,7 +146,7 @@ func _select_branch(branch_name:String)->void:
 func _class_rank_for_level(level:int,class_id:String)->String:
     # Use the authoritative class tree so the HUD/visual promotion name matches
     # GameData and saved progression exactly (e.g. Lord Knight, High Wizard).
-    return ClassTreeSystem.class_rank_for_level(level,class_id)
+    return GameData.class_rank_for_level(level,class_id)
 
 func _update_visuals()->void:
     if scene_root==null: return
