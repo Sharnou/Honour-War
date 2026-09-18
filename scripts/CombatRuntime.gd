@@ -23,6 +23,7 @@ const OnlineAge=preload("res://scripts/OnlineAgeSystem.gd")
 const MonsterDetails=preload("res://scripts/MonsterDetailsSystem.gd")
 const EventInventory=preload("res://scripts/EventInventorySystem.gd")
 const ClassTreeSystem=preload("res://scripts/ClassTreeSystem.gd")
+const CharacterProgression=preload("res://scripts/CharacterProgressionSystem.gd")
 
 var game:Node
 var hero_attack_timer:=0.0
@@ -77,10 +78,13 @@ func _apply_age_power(hero:Dictionary)->void:
     hero["age_defense_bonus"]=int(growth["def"])
     hero["age_hp_bonus"]=int(growth["hp"])
     hero["age_sp_bonus"]=int(growth["sp"])
-    hero["max_hp"]=max(1,int(hero.get("base_max_hp",100))+int(growth["hp"]))
-    hero["max_sp"]=max(1,int(hero.get("base_max_sp",50))+int(growth["sp"]))
-    hero["hp"]=min(int(hero.get("hp",hero["max_hp"])),int(hero["max_hp"]))
-    hero["sp"]=min(int(hero.get("sp",hero["max_sp"])),int(hero["max_sp"]))
+    # Use the canonical progression calculation so level, allocated stats,
+    # equipment and age all reach the live 3D combat actor.
+    var live_stats:Dictionary=CharacterProgression.stats(hero)
+    hero["max_hp"]=max(1,int(live_stats.get("max_hp",100)))
+    hero["max_sp"]=max(1,int(live_stats.get("max_sp",50)))
+    hero["hp"]=clampi(int(hero.get("hp",hero["max_hp"])),0,int(hero["max_hp"]))
+    hero["sp"]=clampi(int(hero.get("sp",hero["max_sp"])),0,int(hero["max_sp"]))
 
 func _hero_in_attack_range(hero:Dictionary,monster:Dictionary)->bool:
     var hero_pos:=Vector2(float(hero.get("pos_x",0.0)),float(hero.get("pos_y",0.0)))
