@@ -146,6 +146,7 @@ func move_monsters(delta:float,hero:Dictionary)->void:
         var distance:float=hero_pos.distance_to(monster_pos)
         var attack_range:float=CombatRules.monster_attack_distance(monster)
         if distance>CHASE_RANGE or distance<=attack_range: continue
+        if float(monster.get("root_until",0.0))>now_seconds(): continue
         var direction:Vector2=monster_pos.direction_to(hero_pos)
         var speed:float=MONSTER_SPEED
         if float(monster.get("slow_until",0.0))>now_seconds(): speed*=0.45
@@ -201,7 +202,17 @@ func update_status_effects(hero:Dictionary)->void:
             var poison_damage:int=max(1,int(monster.get("poison_damage",int(hero.get("level",1))/2+3)))
             monster["hp"]=int(monster.get("hp",0))-poison_damage
             call_vfx("hit",monster["pos"],str(poison_damage),false)
-            if int(monster["hp"])<=0: finish_monster(monster)
+            if int(monster["hp"])<=0:
+                finish_monster(monster)
+                continue
+
+func effective_monster_defense(monster:Dictionary)->int:
+    var defense:int=max(0,int(monster.get("defense",0)))
+    var now:float=now_seconds()
+    if float(monster.get("defense_break_until",0.0))>now:
+        var break_percent:float=clamp(float(monster.get("defense_break_percent",0.0)),0.0,0.80)
+        defense=int(round(float(defense)*(1.0-break_percent)))
+    return defense
 
 func hero_strike(hero:Dictionary,monster:Dictionary)->void:
     if int(hero.get("hp",0))<=0: return
@@ -233,7 +244,7 @@ func hero_strike(hero:Dictionary,monster:Dictionary)->void:
     if float(hero.get("curse_until",0.0))>now_seconds():
         damage=int(round(float(damage)*0.80))
     if critical: damage=int(float(damage)*1.75)
-    damage=max(1,damage-int(monster.get("defense",0)))
+    damage=max(1,damage-effective_monster_defense(monster))
     monster["hp"]=int(monster.get("hp",0))-damage
     monster["hit_flash"]=0.16
     if class_id=="Thief" and rng.randf()<0.35: MonsterDetails.apply_poison(monster,damage,6.0)
@@ -262,7 +273,7 @@ func pet_strike(hero:Dictionary,monster:Dictionary)->void:
             call_vfx("heal",hero_pos,str(heal),false)
         if role=="Guardian" or role=="Tank": pet["guard_until"]=now_seconds()+2.5
         if role=="Assassin" and rng.randf()<0.30: MonsterDetails.apply_poison(monster,damage,5.0)
-    var dealt:int=max(1,damage-int(monster.get("defense",0)))
+    var dealt:int=max(1,damage-effective_monster_defense(monster))
     monster["hp"]=int(monster.get("hp",0))-dealt
     monster["hit_flash"]=0.20
     pet_attack_landed.emit(monster,dealt,special)
