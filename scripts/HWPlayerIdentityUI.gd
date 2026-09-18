@@ -89,7 +89,7 @@ func _scan() -> void:
 		if not seen.has(id):
 			var data: Dictionary = actor_ui[id]
 			var root: Node = data.get("root")
-			if is_instance_valid(root):
+			if root != null and is_instance_valid(root):
 				root.queue_free()
 			actor_ui.erase(id)
 
@@ -152,12 +152,12 @@ func _refresh_labels() -> void:
 		var name_label: Label3D = data.get("name_label")
 		var hp_label: Label3D = data.get("hp_label")
 		var sp_label: Label3D = data.get("sp_label")
-		if name_label != null:
+		if name_label != null and is_instance_valid(name_label):
 			name_label.visible = _world_name_visible(actor)
 			name_label.text = _real_name(actor)
-		if hp_label != null:
+		if hp_label != null and is_instance_valid(hp_label):
 			hp_label.visible = bool(data.get("bars", false)) and not local
-		if sp_label != null:
+		if sp_label != null and is_instance_valid(sp_label):
 			sp_label.visible = hp_label != null and hp_label.visible
 		_update_bars(actor, data)
 
@@ -168,9 +168,9 @@ func _update_bars(actor: Node, data: Dictionary) -> void:
 	var max_sp := _number(actor, ["max_sp", "sp_max"], maxf(sp, 1.0))
 	var hp_label: Label3D = data.get("hp_label")
 	var sp_label: Label3D = data.get("sp_label")
-	if hp_label != null:
+	if hp_label != null and is_instance_valid(hp_label):
 		hp_label.text = "HP " + _bar(hp, max_hp)
-	if sp_label != null:
+	if sp_label != null and is_instance_valid(sp_label):
 		sp_label.text = "SP " + _bar(sp, max_sp)
 
 func reveal_player_name(actor: Node, seconds: float = 4.0) -> void:
