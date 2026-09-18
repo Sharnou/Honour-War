@@ -37,6 +37,22 @@ func _initialize() -> void:
         check("pet has combat skill " + id, (pet.get("skills",[]) as Array).size() >= 1)
         check("pet has equipment " + id, not (pet.get("equipment",{}) as Dictionary).is_empty())
 
+    var fourth_job_expected:Dictionary = {
+        "Warrior":"Transcendent Knight",
+        "Mage":"Transcendent Wizard",
+        "Archer":"Transcendent Ranger",
+        "Thief":"Transcendent Assassin",
+        "Acolyte":"Transcendent Saint",
+        "Merchant":"Transcendent Forge Master"
+    }
+    for class_id:Variant in fourth_job_expected.keys():
+        var fourth_hero:Dictionary = {"class":str(class_id),"level":100,"class_branch":""}
+        check("Fourth Job class " + str(class_id), DATA.class_rank_for_hero(fourth_hero) == str(fourth_job_expected[class_id]))
+    var super_champion:Dictionary = {"class":"Acolyte","level":100,"class_branch":"Saint"}
+    check("Acolyte Saint Fourth Job is Super Champion", DATA.class_rank_for_hero(super_champion) == "Super Champion")
+    var super_champion_locked:Dictionary = {"class":"Acolyte","level":99,"class_branch":"Saint"}
+    check("Super Champion requires Fourth Job level", DATA.class_rank_for_hero(super_champion_locked) == "High Priest")
+
     for level:int in [1,25,50,100,200,250]:
         var tier:int = DATA.class_tier_for_level(level)
         check("class tier boundary %d" % level, tier >= 0 and tier <= 4)
