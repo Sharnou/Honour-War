@@ -385,7 +385,8 @@ func use_skill(skill_id:String)->void:
 	var skill_power_value:int=int(result.get("power",0))
 	var equipment:Dictionary=combat_equipment()
 
-	# Support/healing skills can be used without a monster target.
+	# Support/healing skills restore the hero/pet. Seraphic Light and Heaven's Gate
+	# also continue into the offensive path when a target is available.
 	if class_id=="Acolyte" and skill_id in ["aco_sanctuary","aco_seraphic_light","aco_heaven_gate"]:
 		var heal_ratio:float=0.10
 		if skill_id=="aco_seraphic_light": heal_ratio=0.16
@@ -396,9 +397,10 @@ func use_skill(skill_id:String)->void:
 		log_message("%s restores %d HP to hero and strengthens the bonded pet." % [skill_name,heal])
 		if has_method("play_combat_effect"):
 			call("play_combat_effect","heal",Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0))),str(heal),false)
-		save_game()
-		update_ui()
-		return
+		if skill_id=="aco_sanctuary" or target==null:
+			save_game()
+			update_ui()
+			return
 
 	if target==null:
 		hero["sp"]=min(int(hero.get("max_sp",100)),int(hero.get("sp",0))+int(result.get("sp_cost",0)))
@@ -442,8 +444,36 @@ func use_skill(skill_id:String)->void:
 		affected_monster["hp"]=int(affected_monster.get("hp",0))-dealt
 		affected_monster["hit_flash"]=0.30
 		total_damage+=dealt
-		if skill_id=="mage_frost_prison" or skill_id=="mage_comet":
-			affected_monster["slow_until"]=now+4.0
+		if skill_id=="mage_frost_prison":
+			affected_monster["slow_until"]=max(float(affected_monster.get("slow_until",0.0)),now+4.0)
+			affected_monster["root_until"]=max(float(affected_monster.get("root_until",0.0)),now+1.6)
+		if skill_id=="mage_comet" or skill_id=="mage_meteor_surge" or skill_id=="mer_magma_forge":
+			affected_monster["burn_until"]=max(float(affected_monster.get("burn_until",0.0)),now+5.0)
+			affected_monster["burn_damage"]=max(int(affected_monster.get("burn_damage",0)),int(float(dealt)*0.18))
+			affected_monster["burn_tick"]=now+1.0
+		if skill_id=="arch_trap":
+			affected_monster["root_until"]=max(float(affected_monster.get("root_until",0.0)),now+3.0)
+			affected_monster["slow_until"]=max(float(affected_monster.get("slow_until",0.0)),now+5.0)
+		if skill_id in ["war_earthbreaker","war_emperors_judgment","war_immortal_arsenal","mage_void_lance","mage_arcane_overload","arch_skybreaker"]:
+			var break_percent:float=0.25
+			var break_duration:float=5.0
+			if skill_id=="war_emperors_judgment":
+				break_percent=0.35
+				break_duration=7.0
+			elif skill_id=="war_immortal_arsenal":
+				break_percent=0.50
+				break_duration=10.0
+			elif skill_id=="mage_void_lance":
+				break_percent=0.45
+				break_duration=6.0
+			elif skill_id=="mage_arcane_overload":
+				break_percent=0.30
+				break_duration=7.0
+			elif skill_id=="arch_skybreaker":
+				break_percent=0.40
+				break_duration=6.0
+			affected_monster["defense_break_until"]=max(float(affected_monster.get("defense_break_until",0.0)),now+break_duration)
+			affected_monster["defense_break_percent"]=max(float(affected_monster.get("defense_break_percent",0.0)),break_percent)
 		if class_id=="Thief" and skill_id in ["thief_shadow_strike","thief_blade_flurry","thief_shadow_requiem","thief_eternal_assassin"]:
 			MonsterDetailsSystem.apply_poison(affected_monster,dealt,6.0)
 		if int(affected_monster["hp"])<=0:
