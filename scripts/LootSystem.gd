@@ -144,7 +144,9 @@ static func _add_generated_entry(hero:Dictionary, entry:Dictionary, kind:String)
         return false
     var name:String=str(entry.get("name",""))
     var rarity:String=str(entry.get("rarity","Rare"))
-    if name.is_empty() or not accept(hero,rarity):
+    if name.is_empty():
+        return false
+    if rarity != "GAME MASTER" and not accept(hero,rarity):
         return false
     if kind=="equipment":
         if not bool(hero["loot_rules"].get("auto_pick_equipment",true)):
