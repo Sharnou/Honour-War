@@ -87,16 +87,29 @@ static func cicci_card_entry(rank:int)->Dictionary: return CicciRewards.get_card
 ## modify the item's base chance; a successful roll is still capped at 100%.
 static func hero_reward_bonus_percent(hero:Dictionary)->float:
     var bonus:float=float(hero.get("loot_bonus_percent",0.0))
-    var equipped:Array=hero.get("equipment",[])
-    for item in equipped:
-        if item is Dictionary:
-            bonus += float(item.get("rewards_percent",0.0))
-            bonus += float(item.get("drop_bonus_percent",0.0))
-    var cards:Array=hero.get("cards",[])
-    for card in cards:
-        if card is Dictionary:
-            bonus += float(card.get("rewards_percent",0.0))
-            bonus += float(card.get("drop_bonus_percent",0.0))
+    var equipped:Variant=hero.get("equipment",{})
+    if equipped is Dictionary:
+        for value:Variant in (equipped as Dictionary).values():
+            if value is Dictionary:
+                bonus += float(value.get("rewards_percent",0.0))
+                bonus += float(value.get("drop_bonus_percent",0.0))
+    elif equipped is Array:
+        for item:Variant in equipped:
+            if item is Dictionary:
+                bonus += float(item.get("rewards_percent",0.0))
+                bonus += float(item.get("drop_bonus_percent",0.0))
+    var cards:Variant=hero.get("cards",[])
+    if cards is Array:
+        for card:Variant in cards:
+            if card is Dictionary:
+                bonus += float(card.get("rewards_percent",0.0))
+                bonus += float(card.get("drop_bonus_percent",0.0))
+    var generated_cards:Variant=hero.get("generated_cards",[])
+    if generated_cards is Array:
+        for generated:Variant in generated_cards:
+            if generated is Dictionary:
+                bonus += float(generated.get("rewards_percent",0.0))
+                bonus += float(generated.get("drop_bonus_percent",0.0))
     return max(0.0,bonus)
 
 static func effective_drop_rate_percent(base_rate_percent:float,hero:Dictionary)->float:
