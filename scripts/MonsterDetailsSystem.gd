@@ -8,6 +8,28 @@ static func details(monster:Dictionary)->Dictionary:
 	var lower:String=name.to_lower()
 	var mvp:bool=bool(monster.get("mvp",false))
 	var data:Dictionary={"name":name,"level":int(monster.get("level",1)),"role":"Melee","element":"Neutral","status":"None","status_chance":0.0,"poison_resist":0.0,"danger":2,"weakness":"Neutral","description":"Hostile creature.","bleed_resist":0.0}
+	if lower.contains("poring"):
+		data["element"]="Water"; data["danger"]=1; data["description"]="Small roaming creature with quick recovery."
+	elif lower.contains("goblin"):
+		data["element"]="Earth"; data["status"]="Bleed"; data["status_chance"]=0.10; data["danger"]=2
+	elif lower.contains("wolf"):
+		data["role"]="Assassin"; data["element"]="Wind"; data["status"]="Bleed"; data["status_chance"]=0.18; data["danger"]=3
+	elif lower.contains("skeleton"):
+		data["element"]="Undead"; data["status"]="Bleed"; data["status_chance"]=0.08; data["poison_resist"]=1.0; data["danger"]=3
+	elif lower.contains("zombie"):
+		data["element"]="Undead"; data["status"]="Poison"; data["status_chance"]=0.22; data["poison_resist"]=0.65; data["danger"]=4
+	elif lower.contains("orc"):
+		data["role"]="Brute"; data["element"]="Earth"; data["status"]="Stagger"; data["status_chance"]=0.14; data["danger"]=5
+	elif lower.contains("mantis"):
+		data["role"]="Assassin"; data["element"]="Wind"; data["status"]="Poison"; data["status_chance"]=0.30; data["poison_resist"]=0.25; data["danger"]=5
+	elif lower.contains("golem"):
+		data["role"]="Tank"; data["element"]="Earth"; data["poison_resist"]=0.90; data["danger"]=6
+	elif lower.contains("druid"):
+		data["role"]="Caster"; data["element"]="Dark"; data["status"]="Curse"; data["status_chance"]=0.25; data["poison_resist"]=0.35; data["danger"]=7
+	elif lower.contains("dragon"):
+		data["role"]="Caster"; data["element"]="Fire"; data["status"]="Burn"; data["status_chance"]=0.30; data["poison_resist"]=0.50; data["danger"]=9
+	elif lower.contains("bloody knight"):
+		data["role"]="Executioner"; data["element"]="Dark"; data["status"]="Bleed + Fear + Poison"; data["status_chance"]=0.45; data["poison_resist"]=0.20; data["bleed_resist"]=0.50; data["danger"]=12; data["weakness"]="Holy"; data["description"]="A cursed executioner in blood-blackened plate. Its greatblade tears armor while a toxic blood mist hangs around the battlefield."
 	if mvp:
 		match name:
 			"Orc Lord":
@@ -32,28 +54,6 @@ static func details(monster:Dictionary)->Dictionary:
 				data["role"]="Executioner"; data["element"]="Dark"; data["status"]="Curse + Fear + Stagger"; data["status_chance"]=0.52; data["poison_resist"]=1.0; data["bleed_resist"]=0.90; data["danger"]=16; data["weakness"]="Holy"; data["description"]="The final abyssal emperor, combining overwhelming physical force with reality-tearing judgment."
 		else:
 			pass
-	if lower.contains("poring"):
-		data["element"]="Water"; data["danger"]=1; data["description"]="Small roaming creature with quick recovery."
-	elif lower.contains("goblin"):
-		data["element"]="Earth"; data["status"]="Bleed"; data["status_chance"]=0.10; data["danger"]=2
-	elif lower.contains("wolf"):
-		data["role"]="Assassin"; data["element"]="Wind"; data["status"]="Bleed"; data["status_chance"]=0.18; data["danger"]=3
-	elif lower.contains("skeleton"):
-		data["element"]="Undead"; data["status"]="Bleed"; data["status_chance"]=0.08; data["poison_resist"]=1.0; data["danger"]=3
-	elif lower.contains("zombie"):
-		data["element"]="Undead"; data["status"]="Poison"; data["status_chance"]=0.22; data["poison_resist"]=0.65; data["danger"]=4
-	elif lower.contains("orc"):
-		data["role"]="Brute"; data["element"]="Earth"; data["status"]="Stagger"; data["status_chance"]=0.14; data["danger"]=5
-	elif lower.contains("mantis"):
-		data["role"]="Assassin"; data["element"]="Wind"; data["status"]="Poison"; data["status_chance"]=0.30; data["poison_resist"]=0.25; data["danger"]=5
-	elif lower.contains("golem"):
-		data["role"]="Tank"; data["element"]="Earth"; data["poison_resist"]=0.90; data["danger"]=6
-	elif lower.contains("druid"):
-		data["role"]="Caster"; data["element"]="Dark"; data["status"]="Curse"; data["status_chance"]=0.25; data["poison_resist"]=0.35; data["danger"]=7
-	elif lower.contains("dragon"):
-		data["role"]="Caster"; data["element"]="Fire"; data["status"]="Burn"; data["status_chance"]=0.30; data["poison_resist"]=0.50; data["danger"]=9
-	elif lower.contains("bloody knight"):
-		data["role"]="Executioner"; data["element"]="Dark"; data["status"]="Bleed + Fear + Poison"; data["status_chance"]=0.45; data["poison_resist"]=0.20; data["bleed_resist"]=0.50; data["danger"]=12; data["weakness"]="Holy"; data["description"]="A cursed executioner in blood-blackened plate. Its greatblade tears armor while a toxic blood mist hangs around the battlefield."
 	if mvp:
 		data["danger"]=max(int(data["danger"]),15); data["description"]=str(data["description"])+" MVP-class threat."
 	return data
