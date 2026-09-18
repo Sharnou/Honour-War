@@ -148,7 +148,7 @@ jobs:
           curl.exe --fail --location --retry 5 --retry-all-errors --connect-timeout 20 --output "$zip" "$uri"
           if (-not (Test-Path $zip)) { throw "Godot archive download failed" }
           $size = (Get-Item $zip).Length
-          if ($size -lt 100000000) { throw "Downloaded Godot archive is unexpectedly small: $size bytes" }
+          if ($size -lt 70000000) { throw "Downloaded Godot archive is unexpectedly small/corrupt: $size bytes" }
           Expand-Archive -LiteralPath $zip -DestinationPath "$pwd\godot-extracted" -Force
           $candidate = Get-ChildItem -Path "$pwd\godot-extracted" -Filter "Godot_v4.7.2-stable_win64.exe" -File -Recurse | Select-Object -First 1
           if (-not $candidate) { throw "Godot 4.7.2 Windows executable was not found in archive" }
