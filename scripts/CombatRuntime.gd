@@ -27,6 +27,9 @@ const MONSTER_ATTACK_INTERVAL:=1.10
 const SP_REGEN_INTERVAL:=1.0
 const CHASE_RANGE:=260.0
 const MONSTER_SPEED:=42.0
+const MVP_FEAR_DAMAGE_MULTIPLIER:=0.55
+const MVP_CURSE_DAMAGE_MULTIPLIER:=0.80
+const SPECIALIZATION_COMBAT_SOURCE:String="ClassTreeSystem.branch_bonus"
 
 var game:Node
 var hero_attack_timer:=0.0
@@ -198,9 +201,9 @@ func hero_strike(hero:Dictionary,monster:Dictionary)->void:
     if critical: damage=int(float(damage)*1.75)
     damage=max(1,damage-effective_monster_defense(monster))
     if float(hero.get("fear_until",0.0))>now_seconds():
-        damage=max(1,int(round(float(damage)*0.55)))
+        damage=max(1,int(round(float(damage)*MVP_FEAR_DAMAGE_MULTIPLIER)))
     if float(hero.get("curse_until",0.0))>now_seconds():
-        damage=max(1,int(round(float(damage)*0.80)))
+        damage=max(1,int(round(float(damage)*MVP_CURSE_DAMAGE_MULTIPLIER)))
     monster["hp"]=int(monster.get("hp",0))-damage
     if class_id=="Thief" and rng.randf()<0.35: MonsterDetails.apply_poison(monster,damage,6.0)
     if class_id=="Mage" and rng.randf()<0.20: monster["slow_until"]=now_seconds()+3.0
