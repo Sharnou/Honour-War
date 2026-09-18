@@ -175,6 +175,8 @@ def hero_class_and_tier(path: Path) -> tuple[str, str]:
 
     class_id = parts[1]
     tier = Path(parts[2]).stem
+    if class_id == "characters" or tier == "characters":
+        raise ValueError(f"{path}: parser resolved the literal directory name 'characters'; expected characters/<class>/<tier>.glb")
     return class_id, tier
 
 
