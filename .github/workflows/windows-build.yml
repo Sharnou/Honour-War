@@ -108,17 +108,21 @@ jobs:
       - name: Runtime smoke test
         shell: pwsh
         run: |
-          $log = Join-Path $PWD 'windows-runtime-smoke.log'
-          $proc = Start-Process -FilePath (Resolve-Path build/windows/HonourWarHD.exe) -ArgumentList '--rendering-method','gl_compatibility','--rendering-driver','opengl3','--path','.' -PassThru -RedirectStandardOutput $log -RedirectStandardError $log
+          $stdout = Join-Path $PWD 'windows-runtime-smoke.stdout.log'
+          $stderr = Join-Path $PWD 'windows-runtime-smoke.stderr.log'
+          $exe = (Resolve-Path build/windows/HonourWarHD.exe).Path
+          $proc = Start-Process -FilePath $exe -ArgumentList @('--rendering-method','gl_compatibility','--rendering-driver','opengl3','--path','.') -PassThru -RedirectStandardOutput $stdout -RedirectStandardError $stderr
           Start-Sleep -Seconds 15
           if ($proc.HasExited) {
             Write-Host "HonourWarHD.exe exited during the 15-second startup smoke test with code $($proc.ExitCode)."
-            Get-Content $log -ErrorAction SilentlyContinue
+            Get-Content $stdout -ErrorAction SilentlyContinue
+            Get-Content $stderr -ErrorAction SilentlyContinue
             throw 'Windows game exited before the startup smoke test completed.'
           }
           Stop-Process -Id $proc.Id -Force
           Write-Host 'HonourWarHD.exe survived the 15-second Windows startup smoke test.'
-          if (Test-Path $log) { Get-Content $log -ErrorAction SilentlyContinue }
+          Get-Content $stdout -ErrorAction SilentlyContinue
+          Get-Content $stderr -ErrorAction SilentlyContinue
 
       - name: Package final Windows ZIP
         shell: pwsh
@@ -158,6 +162,7 @@ jobs:
             login-registration-character-ui.log
             game-completeness.log
             windows-export.log
-            windows-runtime-smoke.log
+            windows-runtime-smoke.stdout.log
+            windows-runtime-smoke.stderr.log
           if-no-files-found: ignore
           retention-days: 14
