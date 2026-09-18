@@ -195,7 +195,8 @@ static func _roll_standard_drops(hero:Dictionary, monster:Dictionary, rng:Random
             gained.append(second_card)
 
 static func _roll_top100_and_fifth_job(hero:Dictionary, monster:Dictionary, rng:RandomNumberGenerator, gained:Array[String])->void:
-    var eligible:bool=int(monster.get("level",0))>=200 or bool(monster.get("mvp",false))
+    var monster_level:int=int(monster.get("level",0))
+    var eligible:bool=(monster_level >= 200) or bool(monster.get("mvp",false))
     if not eligible:
         return
     if rng.randf() < min(LootProgression.effective_drop_rate_percent(0.05,hero)/100.0,1.0):
