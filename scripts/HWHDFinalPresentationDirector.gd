@@ -80,11 +80,20 @@ func _bind_combat() -> void:
         combat.monster_attack_landed.connect(_on_monster_attack)
 
 func _on_hero_attack(target: Dictionary, damage: int, critical: bool) -> void:
-    _start_attack(hero, "hero", target, critical)
+    # CombatRuntime can emit an attack after the previous hero visual was freed.
+    # Resolve a live actor at signal time; never pass a stale Object into a typed
+    # Node3D parameter.
+    var live_hero: Node3D = _live_hero()
+    if live_hero == null:
+        return
+    hero = live_hero
+    _start_attack(live_hero, "hero", target, critical)
     _hit_target(target, critical, damage)
 
 func _on_pet_attack(target: Dictionary, damage: int, special: bool) -> void:
-    var pet := _find_pet()
+    var pet: Node3D = _live_pet()
+    if pet == null:
+        return
     _start_attack(pet, "pet", target, special)
     _hit_target(target, special, damage)
 
@@ -414,21 +423,29 @@ func _hero_data() -> Dictionary:
 func _hero_class() -> String:
     return str(_hero_data().get("class", "Warrior"))
 
-func _find_hero() -> Node3D:
-    if scene_root == null:
+func _live_hero() -> Node3D:
+    if scene_root == null or not is_instance_valid(scene_root):
         return null
     var value: Variant = scene_root.get("hero_visual")
-    if value is Node3D:
+    if is_instance_valid(value) and value is Node3D:
         return value as Node3D
-    return scene_root.get_node_or_null("Actors3D/Hero") as Node3D
+    var fallback: Node3D = scene_root.get_node_or_null("Actors3D/Hero") as Node3D
+    return fallback if is_instance_valid(fallback) else null
 
-func _find_pet() -> Node3D:
-    if scene_root == null:
+func _live_pet() -> Node3D:
+    if scene_root == null or not is_instance_valid(scene_root):
         return null
     var value: Variant = scene_root.get("pet_visual")
-    if value is Node3D:
+    if is_instance_valid(value) and value is Node3D:
         return value as Node3D
-    return scene_root.get_node_or_null("Actors3D/Pet") as Node3D
+    var fallback: Node3D = scene_root.get_node_or_null("Actors3D/Pet") as Node3D
+    return fallback if is_instance_valid(fallback) else null
+
+func _find_hero() -> Node3D:
+    return _live_hero()
+
+func _find_pet() -> Node3D:
+    return _live_pet()
 
 func _find_camera() -> Camera3D:
     if scene_root == null:
