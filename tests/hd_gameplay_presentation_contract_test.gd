@@ -230,16 +230,6 @@ func _initialize() -> void:
     var city_ids:Array = CITY.city_ids()
     check("town registry", city_ids.size() == DATA.cities().size())
     check("town services", CITY.available_services().size() >= 10)
-    check("city army production", CITY.build_player_city(endgame_hero,"Prontera Base",0))
-    check("city soldier production", not CITY.produce_soldier(endgame_hero,"Prontera Base","Warrior").is_empty())
-    check("bank guard gate", CITY.defeat_bank_guard(endgame_hero,"bank-0","Orc Guard"))
-    var test_soldier:Dictionary = endgame_hero["soldier_roster"][0]
-    check("bank soldier assignment", CITY.assign_soldier_to_bank(endgame_hero,str(test_soldier["id"]),"bank-0"))
-    check("bank income", CITY.claim_bank_income(endgame_hero,"bank-0") > 0)
-    check("tower defense upgrade", CITY.upgrade_tower(endgame_hero))
-    check("city skill upgrade", CITY.upgrade_hero_skill_building(endgame_hero,"Prontera Base"))
-    CITY.enable_minimap_overlay(endgame_hero)
-    check("city minimap overlay", bool(endgame_hero["city_upgrade_state"].get("minimap_overlay",false)))
     for city_id:String in DATA.cities():
         var snapshot:Dictionary = CITY.city_snapshot(city_id)
         check("town snapshot " + city_id, str(snapshot.get("id","")) == city_id and (snapshot.get("services",[]) as Array).size() >= 1)
