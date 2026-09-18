@@ -359,7 +359,7 @@ func _fit_camera()->void:
 
 func _tier_for_level(level:int)->String:
     if level >= 200: return "Transcendence"
-    if level >= 100: return "Mastery"
+    if level >= 150: return "Mastery"
     if level >= 50: return "Advanced"
     if level >= 25: return "Specialization"
     return "Foundation"
