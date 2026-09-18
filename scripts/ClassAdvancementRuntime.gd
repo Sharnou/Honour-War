@@ -144,11 +144,9 @@ func _select_branch(branch_name:String)->void:
     _update_visuals()
 
 func _class_rank_for_level(level:int,class_id:String)->String:
-    if level>=200: return "Transcendent %s" % class_id
-    if level>=100: return "Master %s" % class_id
-    if level>=50: return "Advanced %s" % class_id
-    if level>=25: return "%s Specialist" % class_id
-    return "%s Novice" % class_id
+    # Use the authoritative class tree so the HUD/visual promotion name matches
+    # GameData and saved progression exactly (e.g. Lord Knight, High Wizard).
+    return ClassTreeSystem.class_rank_for_level(level,class_id)
 
 func _update_visuals()->void:
     if scene_root==null: return
