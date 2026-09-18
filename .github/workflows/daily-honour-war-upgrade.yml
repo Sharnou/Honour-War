@@ -1,0 +1,79 @@
+name: Daily Honour War Upgrade
+
+on:
+  schedule:
+    - cron: "37 2 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/HWCharacterVisualProfiles.gd"
+      - "scripts/HWFinalVisualDirector.gd"
+      - "scripts/CombatRuntime.gd"
+      - "scripts/Main.gd"
+      - "scripts/SkillSystem.gd"
+      - "scripts/PetSystem.gd"
+      - "scripts/GameData.gd"
+      - "tests/character_visual_profile_contract_test.gd"
+      - "tests/hd_gameplay_presentation_contract_test.gd"
+
+concurrency:
+  group: daily-honour-war-upgrade-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  GODOT_VERSION: "4.7.2"
+  GODOT_BINARY: "Godot_v4.7.2-stable_linux.x86_64"
+
+jobs:
+  daily-upgrade:
+    name: Visual + Gameplay Daily Upgrade Gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact upgrade commit
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          ref: ${{ github.sha }}
+
+      - name: Install runtime dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y unzip
+          curl -L --fail --retry 3 -o godot.zip "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/${GODOT_BINARY}.zip"
+          unzip -q godot.zip
+          chmod +x "${GODOT_BINARY}"
+
+      - name: Run Visual RAG before daily visual upgrade
+        run: |
+          python3 tools/visual_rag/honour_war_visual_rag.py
+          test -s assets/3d/visual_rag/LATEST_VISUAL_BRIEF.json
+          test -s assets/3d/visual_rag/LATEST_VISUAL_BRIEF.md
+
+      - name: Validate six-class clothing, emotion and progression visuals
+        run: |
+          ./"${GODOT_BINARY}" --headless --path . --script res://tests/character_visual_profile_contract_test.gd 2>&1 | tee character-visual-profile.log
+
+      - name: Validate gameplay systems during the daily upgrade
+        run: |
+          ./"${GODOT_BINARY}" --headless --path . --script res://tests/hd_gameplay_presentation_contract_test.gd 2>&1 | tee gameplay-daily-upgrade.log
+
+      - name: Validate combat, skills, pets and progression source wiring
+        run: |
+          grep -F 'ClassTreeSystem.branch_bonus' scripts/CombatRuntime.gd
+          grep -F 'func use_skill' scripts/Main.gd
+          grep -F 'max_level' scripts/PetSystem.gd
+          grep -F 'fifth_job_class' scripts/GameData.gd
+
+      - name: Upload daily upgrade QA logs
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: daily-honour-war-upgrade-logs
+          path: |
+            character-visual-profile.log
+            gameplay-daily-upgrade.log
+          if-no-files-found: ignore
