@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=3]
+[gd_scene load_steps=59 format=3]
 
 [ext_resource path="res://scripts/Game3D.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/Main.gd" type="Script" id="2"]
@@ -57,12 +57,16 @@
 [ext_resource path="res://scripts/HWFinalSystemsRuntime.gd" type="Script" id="55"]
 [ext_resource path="res://scripts/HWPlayerIdentityUI.gd" type="Script" id="56"]
 [ext_resource path="res://scripts/HWProductionContentGenerator.gd" type="Script" id="57"]
+[ext_resource path="res://scripts/HWServiceNPCVisualDirector.gd" type="Script" id="58"]
 
 [node name="HonourWar3D" type="Node3D"]
 script = ExtResource("1")
 
 [node name="HWProductionContentGenerator" type="Node3D" parent="."]
 script = ExtResource("57")
+
+[node name="HWServiceNPCVisualDirector" type="Node3D" parent="."]
+script = ExtResource("58")
 
 [node name="HWRoleDrivenUpgradeRuntime" type="Node3D" parent="."]
 script = ExtResource("50")
