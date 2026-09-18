@@ -132,7 +132,7 @@ func _update_hud()->void:
         branch_buttons[branch_name]=button
 
 func _next_threshold(level:int)->int:
-    for threshold:int in [25,50,100,200,250]:
+    for threshold:int in [25,50,150,200,250]:
         if level<threshold: return threshold
     return 250
 
@@ -144,8 +144,7 @@ func _select_branch(branch_name:String)->void:
     _update_visuals()
 
 func _class_rank_for_level(level:int,class_id:String)->String:
-    # Use the authoritative hero-aware rank so branch-specific Fourth Jobs,
-    # including the Acolyte Saint -> Super Champion path, display correctly.
+    # Use the authoritative hero-aware rank for the Lv150 Fourth Job and Lv200 Fifth Job.
     var display_hero:Dictionary = {"level":level,"class":class_id,"class_branch":str(hero.get("class_branch",""))}
     return GameData.class_rank_for_hero(display_hero)
 
