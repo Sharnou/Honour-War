@@ -2,10 +2,10 @@ extends Node
 
 ## Rental-only AI hero. Never available from Create New Character.
 const RENT_PRICE_ZENY:int = 1000000
-const SS_CLASS_NAME:String = "SS (SUPER SHAMBION)"
+const SS_CLASS_NAME:String = "Super Champion (Rental Only)"
 const SS_LEVEL:int = 0
 const SS_MAX_LEVEL:int = 250
-const SS_DEFAULT_SKILL:String = "Asura Strike"
+const SS_DEFAULT_SKILL:String = "Champion's Asura"
 const SS_RENT_NPC_NAME:String = "Rent"
 const COLLECTION_ITEM_LIMIT:int = 50
 const COLLECTION_CARD_LIMIT:int = 20
@@ -121,7 +121,7 @@ func open_rent_panel() -> void:
     title.add_theme_font_size_override("font_size",28)
     rent_panel.add_child(title)
     var details:Label = Label.new()
-    details.text = "Level 0  •  Age " + str(int(ss.get("age",owner_character_age))) + "  •  Asura Strike\nFollow • Heal • Fight  •  Rental only\nCollection: 50 rare items + 20 rare cards  •  Price: 1,000,000 Zeny"
+    details.text = "Level 250  •  Age " + str(int(ss.get("age",owner_character_age))) + "  •  Asura Strike\nFollow • Heal • Fight  •  Rental only\nCollection: 50 rare items + 20 rare cards  •  Price: 1,000,000 Zeny"
     details.position = Vector2(28,62)
     details.add_theme_font_size_override("font_size",17)
     rent_panel.add_child(details)
@@ -243,4 +243,15 @@ func _set_hero_zeny(value:int) -> void:
         legacy.set("hero",hero_value)
 
 func _new_ss() -> Dictionary:
-    return {"name":"SS","class":SS_CLASS_NAME,"level":SS_LEVEL,"max_level":SS_MAX_LEVEL,"age":owner_character_age,"skill":SS_DEFAULT_SKILL,"behavior":{"follow":true,"heal":true,"fight":true},"equipment":{},"status_points":{"STR":0,"AGI":0,"VIT":0,"INT":0,"DEX":0,"LUK":0},"rare_items_total":SS_RARE_ITEMS.size(),"rare_cards_total":SS_RARE_CARDS.size(),"rent_npc":SS_RENT_NPC_NAME,"go_button":"GO"}
+    var all_skill_ids:Array=[]
+    for class_id in ["Warrior","Mage","Archer","Thief","Acolyte","Merchant"]:
+        for skill in SkillSystem.all_skills(class_id):
+            all_skill_ids.append(str(skill["id"]))
+    var champion_pet:Dictionary=PetSystem.new_pet("Acolyte")
+    champion_pet["name"]="Super Champion Pet"
+    champion_pet["species"]="Champion Celestial Guardian"
+    champion_pet["role"]="Champion Companion"
+    champion_pet["skills"]=["Champion Guardian Aura","Champion Celestial Strike","Champion Recovery"]
+    champion_pet["level"]=250
+    champion_pet["max_level"]=250
+    return {"name":"Super Champion","class":SS_CLASS_NAME,"level":250,"max_level":250,"age":owner_character_age,"skill":SS_DEFAULT_SKILL,"skills":all_skill_ids,"all_fifth_job_skills":true,"behavior":{"follow":true,"heal":true,"fight":true},"equipment":{},"cards":[],"pet":champion_pet,"status_points":{"STR":250,"AGI":250,"VIT":250,"INT":250,"DEX":250,"LUK":250},"fifth_job_equipment_classes":["Warrior","Mage","Archer","Thief","Acolyte","Merchant"],"rare_items_total":SS_RARE_ITEMS.size(),"rare_cards_total":SS_RARE_CARDS.size(),"rent_npc":SS_RENT_NPC_NAME,"go_button":"GO","rental_only":true}
