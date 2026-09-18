@@ -9,12 +9,12 @@ const GENERATED_ROOT:String = "res://assets/3d/generated"
 const CHARACTER_PROFILES = preload("res://scripts/HWCharacterVisualProfiles.gd")
 const POLL_INTERVAL:float = 0.08
 const BASE_CLASS_BY_RANK:Dictionary = {
-    "Knight":"Warrior", "Berserker":"Warrior",
-    "Wizard":"Mage", "Warlock":"Mage",
-    "Ranger":"Archer", "Sniper":"Archer",
-    "Assassin":"Thief", "Rogue":"Thief",
-    "Priest":"Acolyte", "Monk":"Acolyte",
-    "Blacksmith":"Merchant", "Alchemist":"Merchant"
+    "Knight":"Warrior", "Lord Knight":"Warrior", "Transcendent Knight":"Warrior", "War Emperor":"Warrior", "Berserker":"Warrior",
+    "Wizard":"Mage", "High Wizard":"Mage", "Transcendent Wizard":"Mage", "Arcane Sovereign":"Mage", "Warlock":"Mage",
+    "Ranger":"Archer", "Hunter":"Archer", "Sniper":"Archer", "Transcendent Ranger":"Archer", "Celestial Ranger":"Archer",
+    "Assassin":"Thief", "Assassin Cross":"Thief", "Transcendent Assassin":"Thief", "Shadow Emperor":"Thief", "Rogue":"Thief",
+    "Priest":"Acolyte", "High Priest":"Acolyte", "Transcendent Saint":"Acolyte", "Divine Saint":"Acolyte", "Monk":"Acolyte",
+    "Blacksmith":"Merchant", "Mastersmith":"Merchant", "Transcendent Forge Master":"Merchant", "Forge Overlord":"Merchant", "Alchemist":"Merchant"
 }
 const PET_ASSET_BY_SPECIES:Dictionary = {
     "Royal Falcon":"Falcon.glb",
@@ -219,6 +219,7 @@ func _sync_hero()->void:
     hero_path = path
     _remove_other_actor_children(actor_root,replacement,"Hero")
     _play_idle(replacement)
+    _apply_emotion_motion(replacement,hero)
 
 func _apply_emotion_motion(actor:Node3D, hero:Dictionary)->void:
     if actor == null or not is_instance_valid(actor):
