@@ -4,6 +4,7 @@ extends RefCounted
 const Age=preload("res://scripts/OnlineAgeSystem.gd")
 const Top100=preload("res://scripts/Top100Database.gd")
 const FifthJobs=preload("res://scripts/FifthJobDatabase.gd")
+const CicciRewards=preload("res://scripts/CicciRewardDatabase.gd")
 
 const MAX_EQUIPMENT_DROPS_PER_KILL:int=2
 const MAX_CARD_DROPS_PER_KILL:int=2
@@ -76,6 +77,50 @@ static func clamp_loot_counts(equipment_count:int,card_count:int)->Dictionary:
     return {"equipment":clamp_equipment_drop_count(equipment_count),"cards":clamp_card_drop_count(card_count)}
 static func cicci_reward_pool()->Dictionary:
     return {"equipment_pool_size":50,"card_pool_size":50,"max_equipment_per_kill":MAX_EQUIPMENT_DROPS_PER_KILL,"max_cards_per_kill":MAX_CARD_DROPS_PER_KILL}
+
+static func cicci_equipment_entries()->Array: return CicciRewards.equipment()
+static func cicci_card_entries()->Array: return CicciRewards.cards()
+static func cicci_equipment_entry(rank:int)->Dictionary: return CicciRewards.get_equipment(rank)
+static func cicci_card_entry(rank:int)->Dictionary: return CicciRewards.get_card(rank)
+
+## A loot roll can award nothing. Age and explicit equipment/card reward bonuses
+## modify the item's base chance; a successful roll is still capped at 100%.
+static func hero_reward_bonus_percent(hero:Dictionary)->float:
+    var bonus:float=float(hero.get("loot_bonus_percent",0.0))
+    var equipped:Array=hero.get("equipment",[])
+    for item in equipped:
+        if item is Dictionary:
+            bonus += float(item.get("rewards_percent",0.0))
+            bonus += float(item.get("drop_bonus_percent",0.0))
+    var cards:Array=hero.get("cards",[])
+    for card in cards:
+        if card is Dictionary:
+            bonus += float(card.get("rewards_percent",0.0))
+            bonus += float(card.get("drop_bonus_percent",0.0))
+    return max(0.0,bonus)
+
+static func effective_drop_rate_percent(base_rate_percent:float,hero:Dictionary)->float:
+    var age_bonus:float=top_100_drop_bonus_percent(hero)
+    return max(0.0,base_rate_percent+age_bonus+hero_reward_bonus_percent(hero))
+
+static func roll_drop(base_rate_percent:float,hero:Dictionary,roll:float)->Dictionary:
+    var final_rate:float=effective_drop_rate_percent(base_rate_percent,hero)
+    var success:bool=clampf(roll,0.0,0.999999) < min(final_rate/100.0,1.0)
+    return {"dropped":success,"base_rate_percent":base_rate_percent,"age_bonus_percent":top_100_drop_bonus_percent(hero),"equipment_card_bonus_percent":hero_reward_bonus_percent(hero),"final_rate_percent":final_rate}
+
+static func roll_cicci_equipment(rank:int,hero:Dictionary,roll:float)->Dictionary:
+    var entry:Dictionary=CicciRewards.get_equipment(rank)
+    if entry.is_empty(): return {"dropped":false}
+    var result:Dictionary=roll_drop(float(entry.get("drop_rate_percent",0.0)),hero,roll)
+    result["entry"]=entry
+    return result
+
+static func roll_cicci_card(rank:int,hero:Dictionary,roll:float)->Dictionary:
+    var entry:Dictionary=CicciRewards.get_card(rank)
+    if entry.is_empty(): return {"dropped":false}
+    var result:Dictionary=roll_drop(float(entry.get("drop_rate_percent",0.0)),hero,roll)
+    result["entry"]=entry
+    return result
 
 static func resolve(monster:Dictionary,hero:Dictionary,roll:float=0.5)->Dictionary:
     var ml:int=int(monster.get("level",1)); var hl:int=int(hero.get("level",1)); var is_mvp:bool=bool(monster.get("mvp",false)); var base_xp:int=int(monster.get("xp",max(10,ml*12)))
