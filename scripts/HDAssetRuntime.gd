@@ -171,9 +171,10 @@ func _enforce_production_transforms()->void:
         var active:Variant = active_assets.get(key, null)
         if not active is Dictionary:
             continue
-        var node:Node3D = active.get("node") as Node3D
-        if node == null or not is_instance_valid(node):
+        var node_value:Variant = active.get("node", null)
+        if not node_value is Node3D or not is_instance_valid(node_value):
             continue
+        var node:Node3D = node_value
         var authored_scale:Variant = node.get_meta("hw_authored_scale", null)
         if authored_scale is Vector3:
             node.scale = authored_scale
