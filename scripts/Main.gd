@@ -420,7 +420,7 @@ func use_skill(skill_id:String)->void:
         for candidate in monsters:
             if candidate==target or not candidate is Dictionary or int(candidate.get("hp",0))<=0:
                 continue
-            if Vector2(float(target["pos"].x),float(target["pos"].y)).distance_to(candidate.get("pos",Vector2.ZERO))<=radius:
+            if target.get("pos",Vector2.ZERO).distance_to(candidate.get("pos",Vector2.ZERO))<=radius:
                 affected.append(candidate)
 
     var total_damage:int=0
