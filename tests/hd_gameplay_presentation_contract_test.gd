@@ -54,6 +54,22 @@ func _initialize() -> void:
     check("online age recalculates for saved heroes", int(aging_hero.get("age",0)) == 19)
     check("online age grants refine bonus", is_equal_approx(ONLINE_AGE.refine_success_bonus(aging_hero),0.01))
 
+    var combat_runtime_text:String = FileAccess.get_file_as_string("res://scripts/CombatRuntime.gd")
+    var combat_rules_text:String = FileAccess.get_file_as_string("res://scripts/CombatRules.gd")
+    check("specialization combat wiring", combat_runtime_text.contains("ClassTreeSystem.branch_bonus"))
+    check("specialization range wiring", combat_rules_text.contains("ClassTreeSystem.branch_bonus"))
+    for class_id:Variant in definitions.keys():
+        var profile:Dictionary = TREE.class_profile(str(class_id))
+        for branch_name:String in profile.get("branches",[]):
+            var branch_hero:Dictionary = {"class":str(class_id),"level":25,"class_branch":branch_name,"class_mastery":0}
+            var branch_bonus:Dictionary = TREE.branch_bonus(branch_hero)
+            var has_effect:bool = false
+            for bonus_value:Variant in branch_bonus.values():
+                if abs(float(bonus_value)) > 0.0:
+                    has_effect = true
+                    break
+            check("specialization has combat effect %s / %s" % [str(class_id),branch_name], has_effect)
+
     var item_catalog:Dictionary = ITEMS.all()
     for class_id:Variant in definitions.keys():
         var id:String = str(class_id)
