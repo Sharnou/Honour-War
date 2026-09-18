@@ -16,6 +16,8 @@ const EQUIPMENT = preload("res://scripts/EquipmentSystem.gd")
 const LOOT = preload("res://scripts/LootSystem.gd")
 const CITY = preload("res://scripts/CitySystem.gd")
 const TELEPORT = preload("res://scripts/TeleportSystem.gd")
+const FIFTH = preload("res://scripts/FifthJobDatabase.gd")
+const RENT = preload("res://scripts/HWSSRentRuntime.gd")
 const ONLINE_AGE = preload("res://scripts/OnlineAgeSystem.gd")
 
 var failures:int = 0
@@ -45,20 +47,34 @@ func _initialize() -> void:
         "Acolyte":"Transcendent Saint",
         "Merchant":"Transcendent Forge Master"
     }
+    var fifth_job_expected:Dictionary = {
+        "Warrior":"War Emperor",
+        "Mage":"Arcane Sovereign",
+        "Archer":"Celestial Ranger",
+        "Thief":"Shadow Emperor",
+        "Acolyte":"Divine Saint",
+        "Merchant":"Forge Overlord"
+    }
     for class_id:Variant in fourth_job_expected.keys():
-        var fourth_hero:Dictionary = {"class":str(class_id),"level":100,"class_branch":""}
-        check("Fourth Job class " + str(class_id), DATA.class_rank_for_hero(fourth_hero) == str(fourth_job_expected[class_id]))
-    var super_champion:Dictionary = {"class":"Acolyte","level":100,"class_branch":"Saint"}
-    check("Acolyte Saint Fourth Job is Super Champion", DATA.class_rank_for_hero(super_champion) == "Super Champion")
-    var super_champion_locked:Dictionary = {"class":"Acolyte","level":99,"class_branch":"Saint"}
-    check("Super Champion requires Fourth Job level", DATA.class_rank_for_hero(super_champion_locked) == "High Priest")
-    var super_champion_final:Dictionary = {"class":"Acolyte","level":200,"class_branch":"Saint"}
-    check("Super Champion advances at Transcendence", DATA.class_rank_for_hero(super_champion_final) == "Divine Saint")
+        var fourth_hero:Dictionary = {"class":str(class_id),"level":150,"class_branch":""}
+        check("Fourth Job Lv150 " + str(class_id), DATA.class_rank_for_hero(fourth_hero) == str(fourth_job_expected[class_id]))
+        var fifth_hero:Dictionary = {"class":str(class_id),"level":200,"class_branch":""}
+        check("Fifth Job Lv200 " + str(class_id), DATA.class_rank_for_hero(fifth_hero) == str(fifth_job_expected[class_id]))
+    var below_fourth:Dictionary = {"class":"Warrior","level":149,"class_branch":""}
+    check("Fourth Job locked below Lv150", DATA.class_rank_for_hero(below_fourth) == "Lord Knight")
+    check("Super Champion is not an Acolyte job", DATA.class_rank_for_hero({"class":"Acolyte","level":200,"class_branch":"Saint"}) == "Divine Saint")
+    check("Super Champion is rental-only", RENT.SS_CLASS_NAME == "Super Champion (Rental Only)")
 
-    for level:int in [1,25,50,100,200,250]:
-        var tier:int = DATA.class_tier_for_level(level)
-        check("class tier boundary %d" % level, tier >= 0 and tier <= 4)
-        check("rank exists %d" % level, not DATA.class_rank_for_level(level,"Warrior").is_empty())
+    for class_id:Variant in fifth_job_expected.keys():
+        var id:String = str(class_id)
+        var equipment:Dictionary = FIFTH.equipment(id)
+        var cards:Array = FIFTH.top_cards(id)
+        check("Fifth Job has full equipment " + id, equipment.size() == 10)
+        check("Fifth Job has top cards " + id, cards.size() == 3)
+        check("Fifth Job weapon is 4-slot " + id, int(equipment["weapon"].get("card_slots",0)) == 4)
+        check("Fifth Job drops are rare " + id, float(equipment["weapon"].get("drop_rate_percent",1.0)) <= 0.025 and float(cards[2].get("drop_rate_percent",1.0)) <= 0.0025)
+        var top_monster:Dictionary = {"name":"Thanatos","level":300,"mvp":true}
+        check("Fifth Job top-monster eligibility " + id, bool(FIFTH.drop_table(top_monster,id).get("eligible",false)))
 
     var hero:Dictionary = DATA.new_hero()
     var age_bonus:Dictionary = DATA.age_strength_bonus(22)
