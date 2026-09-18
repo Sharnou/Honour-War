@@ -23,6 +23,7 @@ env:
   GODOT_VERSION: '4.7.2'
   GODOT_TAG: '4.7.2-stable'
   GODOT_BINARY: 'Godot_v4.7.2-stable_win64.exe'
+  GODOT_TEMPLATES: 'Godot_v4.7.2-stable_export_templates.tpz'
 
 concurrency:
   group: honour-war-windows-build-${{ github.ref }}
@@ -31,7 +32,7 @@ concurrency:
 jobs:
   build-windows:
     runs-on: windows-latest
-    timeout-minutes: 20
+    timeout-minutes: 35
     steps:
       - name: Checkout exact build commit
         uses: actions/checkout@v7
@@ -66,6 +67,38 @@ jobs:
           if ($null -eq $godot) { throw 'Godot executable not found after extraction.' }
           & $godot.FullName --version
           "GODOT_EXE=$($godot.FullName)" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      - name: Install Godot 4.7.2 Windows export templates
+        shell: pwsh
+        run: |
+          $tpz = Join-Path $env:RUNNER_TEMP $env:GODOT_TEMPLATES
+          $url = "https://github.com/godotengine/godot-builds/releases/download/$env:GODOT_TAG/$env:GODOT_TEMPLATES"
+          Write-Host "Downloading export templates from $url"
+          Invoke-WebRequest -Uri $url -OutFile $tpz -UseBasicParsing
+          if (-not (Test-Path $tpz) -or (Get-Item $tpz).Length -lt 100000000) {
+            throw 'Godot 4.7.2 export templates download is missing or unexpectedly small.'
+          }
+          $zip = Join-Path $env:RUNNER_TEMP 'godot-export-templates.zip'
+          Copy-Item $tpz $zip -Force
+          $extract = Join-Path $env:RUNNER_TEMP 'godot-export-templates'
+          if (Test-Path $extract) { Remove-Item $extract -Recurse -Force }
+          Expand-Archive -Path $zip -DestinationPath $extract -Force
+          $templatesSource = Join-Path $extract 'templates'
+          if (-not (Test-Path $templatesSource)) { throw 'The Godot export template archive did not contain the expected templates directory.' }
+          $templatesRoot = Join-Path $env:APPDATA 'Godot/export_templates'
+          $templatesTarget = Join-Path $templatesRoot '4.7.2.stable'
+          New-Item -ItemType Directory -Force -Path $templatesRoot | Out-Null
+          if (Test-Path $templatesTarget) { Remove-Item $templatesTarget -Recurse -Force }
+          Move-Item -Path $templatesSource -Destination $templatesTarget
+          $required = @(
+            'windows_debug_x86_64.exe',
+            'windows_release_x86_64.exe'
+          )
+          foreach ($name in $required) {
+            $path = Join-Path $templatesTarget $name
+            if (-not (Test-Path $path)) { throw "Required Windows export template missing: $name" }
+          }
+          Write-Host "Installed Godot 4.7.2 export templates to $templatesTarget"
 
       - name: Import project and reject script errors
         shell: pwsh
@@ -112,15 +145,15 @@ jobs:
           $stderr = Join-Path $PWD 'windows-runtime-smoke.stderr.log'
           $exe = (Resolve-Path build/windows/HonourWarHD.exe).Path
           $proc = Start-Process -FilePath $exe -ArgumentList @('--rendering-method','gl_compatibility','--rendering-driver','opengl3','--path','.') -PassThru -RedirectStandardOutput $stdout -RedirectStandardError $stderr
-          Start-Sleep -Seconds 15
+          Start-Sleep -Seconds 30
           if ($proc.HasExited) {
-            Write-Host "HonourWarHD.exe exited during the 15-second startup smoke test with code $($proc.ExitCode)."
+            Write-Host "HonourWarHD.exe exited during the 30-second startup smoke test with code $($proc.ExitCode)."
             Get-Content $stdout -ErrorAction SilentlyContinue
             Get-Content $stderr -ErrorAction SilentlyContinue
             throw 'Windows game exited before the startup smoke test completed.'
           }
           Stop-Process -Id $proc.Id -Force
-          Write-Host 'HonourWarHD.exe survived the 15-second Windows startup smoke test.'
+          Write-Host 'HonourWarHD.exe survived the 30-second Windows startup smoke test.'
           Get-Content $stdout -ErrorAction SilentlyContinue
           Get-Content $stderr -ErrorAction SilentlyContinue
 
