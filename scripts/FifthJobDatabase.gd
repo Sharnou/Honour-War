@@ -24,8 +24,16 @@ static func equipment(class_id:String)->Dictionary:
 	var job:String=str(p["job"])
 	var weapon:String=str(p["weapon"])
 	var root:String=job.replace(" ","")
+	var weapon_stats:Dictionary={"attack":420,"magic":0,"crit":18,"healing":0,"defense":0,"boss_damage_percent":20.0,"damage_percent":12.0}
+	match class_id:
+		"Warrior": weapon_stats={"attack":480,"magic":0,"crit":20,"healing":0,"defense":20,"boss_damage_percent":24.0,"damage_percent":16.0}
+		"Mage": weapon_stats={"attack":300,"magic":520,"crit":12,"healing":0,"defense":0,"boss_damage_percent":24.0,"damage_percent":14.0}
+		"Archer": weapon_stats={"attack":450,"magic":0,"crit":38,"healing":0,"defense":0,"boss_damage_percent":26.0,"damage_percent":15.0}
+		"Thief": weapon_stats={"attack":500,"magic":0,"crit":48,"healing":0,"defense":0,"boss_damage_percent":28.0,"damage_percent":20.0}
+		"Acolyte": weapon_stats={"attack":340,"magic":300,"crit":10,"healing":150,"defense":20,"boss_damage_percent":24.0,"damage_percent":14.0}
+		"Merchant": weapon_stats={"attack":430,"magic":0,"crit":16,"healing":0,"defense":70,"boss_damage_percent":25.0,"damage_percent":15.0}
 	return {
-		"weapon":{"name":weapon,"slot":"weapon","rarity":"Mythic","attack":420,"magic":0,"crit":18,"card_slots":4,"refine_cap":15,"drop_rate_percent":0.025},
+		"weapon":{"name":weapon,"slot":"weapon","rarity":"Mythic","attack":int(weapon_stats["attack"]),"magic":int(weapon_stats["magic"]),"crit":int(weapon_stats["crit"]),"healing":int(weapon_stats["healing"]),"defense":int(weapon_stats["defense"]),"boss_damage_percent":float(weapon_stats["boss_damage_percent"]),"damage_percent":float(weapon_stats["damage_percent"]),"card_slots":4,"refine_cap":15,"drop_rate_percent":0.025},
 		"shield":{"name":root+" Aegis","slot":"shield","rarity":"Mythic","defense":260,"hp":1200,"card_slots":4,"refine_cap":15,"drop_rate_percent":0.020},
 		"head_upper":{"name":root+" Crown","slot":"head_upper","rarity":"Mythic","defense":120,"hp":700,"card_slots":4,"refine_cap":15,"drop_rate_percent":0.018},
 		"head_middle":{"name":root+" Vision","slot":"head_middle","rarity":"Mythic","defense":55,"crit":12,"card_slots":4,"refine_cap":15,"drop_rate_percent":0.016},
