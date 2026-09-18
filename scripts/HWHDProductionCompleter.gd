@@ -23,6 +23,11 @@ func audit() -> Dictionary:
         "equipment_presentation": false,
         "map_theme_director": false,
         "combat_phase_director": false,
+        "final_hd_presentation": false,
+        "camera_framing": false,
+        "hit_reactions": false,
+        "boss_presentation": false,
+        "skill_vfx_runtime": false,
         "online_authority": false,
         "world_authority": false,
         "party_service": false,
@@ -40,6 +45,12 @@ func audit() -> Dictionary:
     report["combat_vfx"] = vfx != null
     report["map_theme_director"] = get_node_or_null("/root/HWMapThemeDirector") != null
     report["combat_phase_director"] = get_node_or_null("/root/HWCombatPhaseDirector") != null
+    var final_presentation := get_node_or_null("/root/HWHDFinalPresentationDirector")
+    report["final_hd_presentation"] = final_presentation != null
+    report["camera_framing"] = final_presentation != null
+    report["hit_reactions"] = final_presentation != null
+    report["boss_presentation"] = final_presentation != null
+    report["skill_vfx_runtime"] = get_node_or_null("/root/HWSkillVFXRuntime") != null
     report["online_authority"] = get_node_or_null("/root/HWOnlineAuthorityRuntime") != null
     report["world_authority"] = get_node_or_null("/root/HWOnlineWorldState") != null
     report["party_service"] = get_node_or_null("/root/HWPartyService") != null
