@@ -1,0 +1,183 @@
+name: Honour War Full Gameplay + Windows EXE QA
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "project.godot"
+      - "export_presets.cfg"
+      - "Main3D.tscn"
+      - "scripts/**"
+      - "tests/**"
+      - "assets/**"
+      - "tools/**"
+      - ".github/workflows/honour-war-full-gameplay-qa.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: honour-war-full-gameplay-qa-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  GODOT_VERSION: "4.7.2"
+
+jobs:
+  gameplay-contract:
+    name: Full gameplay system integration QA
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout exact revision
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          ref: ${{ github.sha }}
+
+      - name: Download Godot 4.7.2
+        shell: pwsh
+        run: |
+          Invoke-WebRequest -Uri "https://github.com/godotengine/godot/releases/download/4.7.2-stable/Godot_v4.7.2-stable_win64.exe" -OutFile "$pwd\godot.exe"
+
+      - name: Validate editor and scripts
+        shell: pwsh
+        run: |
+          & "$pwd\godot.exe" --headless --editor --path . --rendering-method gl_compatibility --rendering-driver opengl3 --quit 2>&1 | Tee-Object godot-full-qa-editor.log
+          if ($LASTEXITCODE -ne 0) { throw "Godot editor validation failed" }
+          if (Select-String -Path godot-full-qa-editor.log -Pattern "SCRIPT ERROR|Parse Error|ERROR: Failed to load script|ERROR: Cannot load scene") {
+            throw "Godot reported script or scene errors"
+          }
+
+      - name: Run full gameplay runtime QA
+        shell: pwsh
+        run: |
+          & "$pwd\godot.exe" --headless --path . --rendering-method gl_compatibility --rendering-driver opengl3 --script res://tests/full_gameplay_runtime_qa.gd 2>&1 | Tee-Object full-gameplay-runtime-qa.log
+          if ($LASTEXITCODE -ne 0) { throw "Full gameplay runtime QA failed" }
+          if (-not (Select-String -Path full-gameplay-runtime-qa.log -Pattern "FULL_GAMEPLAY_QA: PASS")) { throw "Gameplay QA PASS marker missing" }
+
+      - name: Run authoritative HD gameplay/presentation contract
+        shell: pwsh
+        run: |
+          & "$pwd\godot.exe" --headless --path . --script res://tests/hd_gameplay_presentation_contract_test.gd 2>&1 | Tee-Object hd-gameplay-contract.log
+          if ($LASTEXITCODE -ne 0) { throw "HD gameplay/presentation contract failed" }
+
+      - name: Run game completion contract
+        shell: pwsh
+        run: |
+          & "$pwd\godot.exe" --headless --path . --script res://tests/game_completion_contract_test.gd 2>&1 | Tee-Object game-completion-contract.log
+          if ($LASTEXITCODE -ne 0) { throw "Game completion contract failed" }
+
+      - name: Run visual asset QA
+        shell: pwsh
+        run: |
+          python tools/honour_war_visual_qa.py 2>&1 | Tee-Object visual-qa.log
+          if ($LASTEXITCODE -ne 0) { throw "Visual asset QA failed" }
+
+      - name: Capture real game frame
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path visual-captures | Out-Null
+          & "$pwd\godot.exe" --headless --path . --rendering-method gl_compatibility --rendering-driver opengl3 --script res://tools/capture_real_game_screenshot.gd 2>&1 | Tee-Object real-game-capture.log
+          if ($LASTEXITCODE -ne 0) { throw "Real game screenshot capture failed" }
+          if (-not (Test-Path "visual-captures\honour-war-real-game.png")) { throw "Real game screenshot was not produced" }
+          $img = [System.Drawing.Image]::FromFile((Resolve-Path "visual-captures\honour-war-real-game.png"))
+          try {
+            if ($img.Width -lt 640 -or $img.Height -lt 360) { throw "Captured game frame is below 640x360" }
+            Write-Host "PASS: captured real-game frame is $($img.Width)x$($img.Height)"
+          } finally { $img.Dispose() }
+
+      - name: Upload gameplay QA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: honour-war-full-gameplay-qa-evidence
+          path: |
+            godot-full-qa-editor.log
+            full-gameplay-runtime-qa.log
+            hd-gameplay-contract.log
+            game-completion-contract.log
+            visual-qa.log
+            real-game-capture.log
+            visual-captures/honour-war-real-game.png
+          if-no-files-found: ignore
+          retention-days: 7
+
+  windows-exe:
+    name: Windows EXE export + runtime smoke
+    runs-on: windows-latest
+    needs: gameplay-contract
+    timeout-minutes: 30
+    steps:
+      - name: Checkout exact revision
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          ref: ${{ github.sha }}
+
+      - name: Download Godot 4.7.2
+        shell: pwsh
+        run: |
+          Invoke-WebRequest -Uri "https://github.com/godotengine/godot/releases/download/4.7.2-stable/Godot_v4.7.2-stable_win64.exe" -OutFile "$pwd\godot.exe"
+
+      - name: Export HonourWarHD.exe
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path build\windows | Out-Null
+          & "$pwd\godot.exe" --headless --path . --export-release "Windows Desktop" "build\windows\HonourWarHD.exe" 2>&1 | Tee-Object godot-export.log
+          if ($LASTEXITCODE -ne 0) { throw "Windows export failed" }
+          if (-not (Test-Path "build\windows\HonourWarHD.exe")) { throw "HonourWarHD.exe was not produced" }
+
+      - name: Launch and test exported EXE
+        shell: pwsh
+        run: |
+          $exe = (Resolve-Path "build\windows\HonourWarHD.exe").Path
+          $log = (Resolve-Path ".").Path + "\honour-war-exe-runtime.log"
+          $err = (Resolve-Path ".").Path + "\honour-war-exe-runtime.err"
+          $p = Start-Process -FilePath $exe -ArgumentList "--rendering-method","gl_compatibility","--rendering-driver","opengl3" -WorkingDirectory (Split-Path $exe) -RedirectStandardOutput $log -RedirectStandardError $err -PassThru
+          Start-Sleep -Seconds 10
+          if ($p.HasExited) {
+            Get-Content $log -ErrorAction SilentlyContinue
+            Get-Content $err -ErrorAction SilentlyContinue
+            throw "HonourWarHD.exe exited during startup with code $($p.ExitCode)"
+          }
+          Start-Sleep -Seconds 50
+          if ($p.HasExited) {
+            throw "HonourWarHD.exe crashed/exited during the 60-second runtime test; exit code $($p.ExitCode)"
+          }
+          Stop-Process -Id $p.Id -Force
+          Write-Host "PASS: exported HonourWarHD.exe stayed alive for 60 seconds."
+
+      - name: Scan EXE runtime logs for fatal errors
+        shell: pwsh
+        run: |
+          if (Test-Path honour-war-exe-runtime.err) {
+            $fatal = Select-String -Path honour-war-exe-runtime.err -Pattern "SCRIPT ERROR|Parse Error|ERROR: Failed to load script|ERROR: Cannot load scene|FATAL"
+            if ($fatal) { $fatal | ForEach-Object { Write-Host $_ }; throw "Fatal runtime errors found in EXE stderr" }
+          }
+
+      - name: Package only after full QA passes
+        shell: pwsh
+        run: |
+          Compress-Archive -Path build\windows\* -DestinationPath HonourWar-Windows-Full-QA.zip -Force
+          if (-not (Test-Path HonourWar-Windows-Full-QA.zip)) { throw "Verified ZIP was not created" }
+
+      - name: Upload verified EXE ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: honour-war-windows-full-qa
+          path: HonourWar-Windows-Full-QA.zip
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Upload EXE logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: honour-war-windows-full-qa-logs
+          path: |
+            godot-export.log
+            honour-war-exe-runtime.log
+            honour-war-exe-runtime.err
+          if-no-files-found: ignore
