@@ -154,7 +154,6 @@ func _refresh_labels() -> void:
 		if not is_instance_valid(actor_value) or not actor_value is Node:
 			continue
 		var actor: Node = actor_value as Node
-			continue
 		var local := _is_local(actor)
 		var name_label_value: Variant = data.get("name_label", null)
 		var hp_label_value: Variant = data.get("hp_label", null)
