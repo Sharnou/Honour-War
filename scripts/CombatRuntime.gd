@@ -22,6 +22,7 @@ const MONSTER_SPEED:=42.0
 const OnlineAge=preload("res://scripts/OnlineAgeSystem.gd")
 const MonsterDetails=preload("res://scripts/MonsterDetailsSystem.gd")
 const EventInventory=preload("res://scripts/EventInventorySystem.gd")
+const ClassTreeSystem=preload("res://scripts/ClassTreeSystem.gd")
 
 var game:Node
 var hero_attack_timer:=0.0
@@ -183,11 +184,13 @@ func hero_strike(hero:Dictionary,monster:Dictionary)->void:
         "Acolyte": base=15
         "Merchant": base=17
     var passive:Dictionary=SkillSystem.combat_stats(hero)
+    var branch_bonus:Dictionary=ClassTreeSystem.branch_bonus(hero)
     var power:int=base+int(hero.get("level",1))*2+int(hero.get("refine",0))*2+int(passive["power_bonus"])+int(hero.get("age_power_bonus",0))
+    power=int(round(float(power)*(1.0+float(branch_bonus.get("damage",0.0))))
     if float(hero.get("temporary_power_until",0.0))>now_seconds(): power=int(float(power)*1.30)
     var combo_bonus:float=float(hero.get("combo_power_bonus",0.0))
     if combo_bonus>0.0: power=int(float(power)*(1.0+min(0.35,combo_bonus)))
-    var critical_chance:int=int(passive["crit_bonus"])+int(hero.get("age_crit_bonus",0))
+    var critical_chance:int=int(passive["crit_bonus"])+int(hero.get("age_crit_bonus",0))+int(round(float(branch_bonus.get("crit",0.0))))
     if class_id=="Thief": critical_chance+=10
     if class_id=="Archer" or class_id=="Ranger": critical_chance+=6
     var critical:bool=rng.randi_range(1,100)<=min(75,critical_chance)
@@ -209,7 +212,8 @@ func pet_strike(hero:Dictionary,monster:Dictionary)->void:
     if int(pet.get("hp",0))<=0: return
     var hero_pos:=Vector2(float(hero.get("pos_x",0.0)),float(hero.get("pos_y",0.0)))
     if hero_pos.distance_to(monster["pos"])>CombatRules.pet_attack_distance_map(pet): return
-    var damage:int=PetSystem.power(pet)+rng.randi_range(0,7)
+    var branch_bonus:Dictionary=ClassTreeSystem.branch_bonus(hero)
+    var damage:int=int(round(float(PetSystem.power(pet))*(1.0+float(branch_bonus.get("pet_power",0.0)))))+rng.randi_range(0,7)
     pet["skill_uses"]=int(pet.get("skill_uses",0))+1
     var special:bool=int(pet["skill_uses"])%5==0
     if special:
@@ -255,7 +259,8 @@ func monster_phase(hero:Dictionary)->void:
             if int(pet["hp"])<=0: revive_pet(hero)
         else:
             var stats:Dictionary=SkillSystem.combat_stats(hero)
-            var defense:int=int(stats["defense_bonus"])+int(hero.get("refine",0))+int(hero.get("age_defense_bonus",0))
+            var branch_defense:Dictionary=ClassTreeSystem.branch_bonus(hero)
+            var defense:int=int(stats["defense_bonus"])+int(hero.get("refine",0))+int(hero.get("age_defense_bonus",0))+int(round(float(branch_defense.get("defense",0.0))*100.0))
             if float(hero.get("temporary_defense_until",0.0))>now: defense+=20
             var hero_damage:int=max(1,attack-defense)
             hero["hp"]=max(0,int(hero.get("hp",0))-hero_damage)
