@@ -7,6 +7,8 @@ const LootSystem=preload("res://scripts/LootSystem.gd")
 const MVPSystem=preload("res://scripts/MVPSystem.gd")
 const SaveSystem=preload("res://scripts/SaveSystem.gd")
 const PetSystem=preload("res://scripts/PetSystem.gd")
+const CicciEvent=preload("res://scripts/CicciWeeklyEvent.gd")
+const CicciManager=preload("res://scripts/CicciWeeklyEventManager.gd")
 
 signal hero_attack_landed(target:Dictionary,damage:int,critical:bool)
 signal pet_attack_landed(target:Dictionary,damage:int,special:bool)
@@ -45,6 +47,7 @@ func _process(delta:float)->void:
     var hero:Dictionary=game.get("hero")
     OnlineAge.normalize(hero)
     _apply_age_power(hero)
+    CicciManager.ensure_event(game)
     hero_attack_timer+=delta
     pet_attack_timer+=delta
     monster_attack_timer+=delta
@@ -61,8 +64,7 @@ func _process(delta:float)->void:
     update_status_effects(hero)
     update_hero_status_effects(hero)
     var hero_interval:float=CombatRules.class_attack_interval(hero)
-    if float(hero.get("slow_until",0.0))>now_seconds():
-        hero_interval*=1.35
+    if float(hero.get("slow_until",0.0))>now_seconds(): hero_interval*=1.35
     if target!=null and hero_attack_timer>=hero_interval and _hero_in_attack_range(hero,target) and _hero_can_attack(hero):
         hero_attack_timer=0.0
         hero_strike(hero,target)
@@ -82,8 +84,6 @@ func _apply_age_power(hero:Dictionary)->void:
     hero["age_defense_bonus"]=int(growth["def"])
     hero["age_hp_bonus"]=int(growth["hp"])
     hero["age_sp_bonus"]=int(growth["sp"])
-    # Use the canonical progression calculation so level, allocated stats,
-    # equipment and age all reach the live 3D combat actor.
     var live_stats:Dictionary=CharacterProgression.stats(hero)
     hero["max_hp"]=max(1,int(live_stats.get("max_hp",100)))
     hero["max_sp"]=max(1,int(live_stats.get("max_sp",50)))
@@ -174,18 +174,12 @@ func update_hero_status_effects(hero:Dictionary)->void:
         var burn_damage:int=max(1,int(hero.get("burn_damage",4)))
         hero["hp"]=max(0,int(hero.get("hp",0))-burn_damage)
         call_vfx("hit",Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0))),str(burn_damage),false)
-        if int(hero.get("hp",0))<=0:
-            respawn_hero(hero)
-    if float(hero.get("curse_until",0.0))<=now:
-        hero.erase("curse_until")
-    if float(hero.get("fear_until",0.0))<=now:
-        hero.erase("fear_until")
-    if float(hero.get("stagger_until",0.0))<=now:
-        hero.erase("stagger_until")
-    if float(hero.get("freeze_until",0.0))<=now:
-        hero.erase("freeze_until")
-    if float(hero.get("slow_until",0.0))<=now:
-        hero.erase("slow_until")
+        if int(hero.get("hp",0))<=0: respawn_hero(hero)
+    if float(hero.get("curse_until",0.0))<=now: hero.erase("curse_until")
+    if float(hero.get("fear_until",0.0))<=now: hero.erase("fear_until")
+    if float(hero.get("stagger_until",0.0))<=now: hero.erase("stagger_until")
+    if float(hero.get("freeze_until",0.0))<=now: hero.erase("freeze_until")
+    if float(hero.get("slow_until",0.0))<=now: hero.erase("slow_until")
 
 func _hero_can_attack(hero:Dictionary)->bool:
     var now:float=now_seconds()
@@ -210,8 +204,7 @@ func update_status_effects(hero:Dictionary)->void:
             var burn_damage:int=max(1,int(monster.get("burn_damage",4)))
             monster["hp"]=int(monster.get("hp",0))-burn_damage
             call_vfx("hit",monster["pos"],str(burn_damage),false)
-            if int(monster["hp"])<=0:
-                finish_monster(monster)
+            if int(monster["hp"])<=0: finish_monster(monster)
 
 func effective_monster_defense(monster:Dictionary)->int:
     var defense:int=max(0,int(monster.get("defense",0)))
@@ -221,180 +214,4 @@ func effective_monster_defense(monster:Dictionary)->int:
         defense=int(round(float(defense)*(1.0-break_percent)))
     return defense
 
-func hero_strike(hero:Dictionary,monster:Dictionary)->void:
-    if int(hero.get("hp",0))<=0: return
-    var class_id:=str(hero.get("class","Warrior"))
-    var base:=18
-    match class_id:
-        "Warrior": base=18
-        "Mage": base=23
-        "Archer": base=20
-        "Ranger": base=22
-        "Thief": base=19
-        "Acolyte": base=15
-        "Merchant": base=17
-    var passive:Dictionary=SkillSystem.combat_stats(hero)
-    var branch_bonus:Dictionary=ClassTreeSystem.branch_bonus(hero)
-    var canonical_power:int=ClassFormula.magic_power(hero) if class_id in ["Mage","Acolyte"] else ClassFormula.physical_power(hero)
-    var power:int=max(base,canonical_power)+int(hero.get("refine",0))*2+int(passive["power_bonus"])
-    power=int(round(float(power)*(1.0+float(branch_bonus.get("damage",0.0)))))
-    if float(hero.get("temporary_power_until",0.0))>now_seconds(): power=int(float(power)*1.30)
-    var combo_bonus:float=float(hero.get("combo_power_bonus",0.0))
-    if combo_bonus>0.0: power=int(float(power)*(1.0+min(0.35,combo_bonus)))
-    var critical_chance:int=int(passive["crit_bonus"])+int(hero.get("age_crit_bonus",0))+int(round(float(branch_bonus.get("crit",0.0))))
-    if float(hero.get("fear_until",0.0))>now_seconds():
-        critical_chance=int(round(float(critical_chance)*0.55))
-    if class_id=="Thief": critical_chance+=10
-    if class_id=="Archer" or class_id=="Ranger": critical_chance+=6
-    var critical:bool=rng.randi_range(1,100)<=min(75,critical_chance)
-    var damage:int=power+rng.randi_range(0,9)
-    if float(hero.get("curse_until",0.0))>now_seconds():
-        damage=int(round(float(damage)*0.80))
-    if critical: damage=int(float(damage)*1.75)
-    damage=max(1,damage-effective_monster_defense(monster))
-    monster["hp"]=int(monster.get("hp",0))-damage
-    monster["hit_flash"]=0.16
-    if class_id=="Thief" and rng.randf()<0.35: MonsterDetails.apply_poison(monster,damage,6.0)
-    if class_id=="Mage" and rng.randf()<0.20: monster["slow_until"]=now_seconds()+3.0
-    hero_attack_landed.emit(monster,damage,critical)
-    var prefix:String="CRITICAL " if critical else ""
-    game.call("log_message","Auto attack: %s%d damage to Lv.%d %s." % [prefix,damage,int(monster.get("level",1)),str(monster.get("name","Monster"))])
-    if int(monster["hp"])<=0: finish_monster(monster)
-
-func pet_strike(hero:Dictionary,monster:Dictionary)->void:
-    if not hero.get("pet",{}) is Dictionary: return
-    var pet:Dictionary=hero["pet"]
-    if int(pet.get("hp",0))<=0: return
-    var hero_pos:=Vector2(float(hero.get("pos_x",0.0)),float(hero.get("pos_y",0.0)))
-    if hero_pos.distance_to(monster["pos"])>CombatRules.pet_attack_distance_map(pet): return
-    var branch_bonus:Dictionary=ClassTreeSystem.branch_bonus(hero)
-    var damage:int=int(round(float(PetSystem.power(pet))*(1.0+float(branch_bonus.get("pet_power",0.0)))))+rng.randi_range(0,7)
-    pet["skill_uses"]=int(pet.get("skill_uses",0))+1
-    var special:bool=int(pet["skill_uses"])%5==0
-    if special:
-        damage+=PetSystem.skill_power(pet)
-        var role:=str(pet.get("role",""))
-        if role=="Healer":
-            var heal:int=PetSystem.heal_power(pet)+int(SkillSystem.combat_stats(hero)["healing_bonus"])
-            hero["hp"]=min(int(hero.get("max_hp",1)),int(hero.get("hp",0))+heal)
-            call_vfx("heal",hero_pos,str(heal),false)
-        if role=="Guardian" or role=="Tank": pet["guard_until"]=now_seconds()+2.5
-        if role=="Assassin" and rng.randf()<0.30: MonsterDetails.apply_poison(monster,damage,5.0)
-    var dealt:int=max(1,damage-effective_monster_defense(monster))
-    monster["hp"]=int(monster.get("hp",0))-dealt
-    monster["hit_flash"]=0.20
-    pet_attack_landed.emit(monster,dealt,special)
-    if special: game.call("log_message","%s unleashes %s for %d damage!" % [pet.get("name","Pet"),pet.get("skills",["Pet Skill"])[0],dealt])
-    if int(monster["hp"])<=0: finish_monster(monster)
-
-func monster_phase(hero:Dictionary)->void:
-    var monsters=game.get("monsters")
-    if not monsters is Array: return
-    var hero_pos:=Vector2(float(hero.get("pos_x",0.0)),float(hero.get("pos_y",0.0)))
-    var pet:Dictionary=hero.get("pet",{})
-    var now:float=now_seconds()
-    for monster in monsters.duplicate():
-        if not monster is Dictionary or int(monster.get("hp",0))<=0: continue
-        var attack_range:float=CombatRules.monster_attack_distance(monster)
-        if hero_pos.distance_to(monster["pos"])>attack_range: continue
-        var attack:int=max(1,int(monster.get("attack",int(monster.get("level",1))*4)))
-        if bool(monster.get("mvp",false)): attack=int(float(attack)*1.25)
-        var role:=str(pet.get("role",""))
-        var pet_alive:bool=int(pet.get("hp",0))>0
-        var threat_active:bool=pet_alive and float(monster.get("target_pet_until",0.0))>now
-        var guard_active:bool=pet_alive and float(pet.get("guard_until",0.0))>now
-        var target_pet:bool=pet_alive and (role=="Tank" or role=="Guardian") and (threat_active or guard_active or rng.randf()<0.35)
-        if float(hero.get("temporary_evasion_until",0.0))>now and rng.randf()<0.40:
-            call_vfx("miss",hero_pos,"MISS",false); continue
-        if target_pet:
-            var pet_damage:int=max(1,int(float(attack)*0.75)-int(pet.get("refine",0)))
-            pet["hp"]=max(0,int(pet.get("hp",0))-pet_damage)
-            call_vfx("hit",hero_pos+Vector2(34,24),str(pet_damage),false)
-            monster_attack_landed.emit("pet",pet_damage)
-            if int(pet["hp"])<=0: revive_pet(hero)
-        else:
-            var branch_defense:Dictionary=ClassTreeSystem.branch_bonus(hero)
-            var defense:int=ClassFormula.defense(hero)+int(hero.get("refine",0))+int(round(float(branch_defense.get("defense",0.0))*100.0))
-            if float(hero.get("temporary_defense_until",0.0))>now: defense+=20
-            var hero_damage:int=max(1,attack-defense)
-            hero["hp"]=max(0,int(hero.get("hp",0))-hero_damage)
-            call_vfx("hit",hero_pos,str(hero_damage),false)
-            monster_attack_landed.emit("hero",hero_damage)
-        if int(hero.get("hp",0))<=0: respawn_hero(hero)
-
-func mvp_skill_phase(hero:Dictionary)->void:
-    var monsters=game.get("monsters")
-    if not monsters is Array: return
-    var hero_pos:=Vector2(float(hero.get("pos_x",0.0)),float(hero.get("pos_y",0.0)))
-    for monster in monsters:
-        if not monster is Dictionary or not bool(monster.get("mvp",false)) or int(monster.get("hp",0))<=0: continue
-        if hero_pos.distance_to(monster["pos"])>190.0: continue
-        var skill_damage:int=max(1,int(monster.get("attack",100))*2)
-        var mvp_branch:Dictionary=ClassTreeSystem.branch_bonus(hero)
-        var defense:int=ClassFormula.defense(hero)+int(round(float(mvp_branch.get("defense",0.0))*100.0))
-        skill_damage=max(1,skill_damage-defense)
-        hero["hp"]=max(0,int(hero.get("hp",0))-skill_damage)
-        _apply_mvp_status(hero,monster,skill_damage)
-        call_vfx("mvp",hero_pos,str(monster.get("mvp_skill","MVP SKILL")),false)
-        call_vfx("hit",hero_pos,str(skill_damage),true)
-        monster_attack_landed.emit("hero",skill_damage)
-        game.call("log_message","%s casts %s for %d damage!" % [monster.get("title",monster.get("name","MVP")),monster.get("mvp_skill","MVP Skill"),skill_damage])
-        if int(hero.get("hp",0))<=0: respawn_hero(hero)
-
-func _apply_mvp_status(hero:Dictionary,monster:Dictionary,damage:int)->void:
-    var d:Dictionary=MonsterDetails.details(monster)
-    var status:String=str(d.get("status",""))
-    var now:float=now_seconds()
-    if status.contains("Burn"):
-        hero["burn_until"]=max(float(hero.get("burn_until",0.0)),now+6.0)
-        hero["burn_damage"]=max(1,int(float(damage)*0.18))
-        hero["burn_tick"]=now+1.0
-    if status.contains("Curse"):
-        hero["curse_until"]=max(float(hero.get("curse_until",0.0)),now+5.0)
-    if status.contains("Fear"):
-        hero["fear_until"]=max(float(hero.get("fear_until",0.0)),now+4.0)
-    if status.contains("Stagger"):
-        hero["stagger_until"]=max(float(hero.get("stagger_until",0.0)),now+1.25)
-    if status.contains("Freeze"):
-        hero["freeze_until"]=max(float(hero.get("freeze_until",0.0)),now+1.5)
-    elif status.contains("Slow"):
-        hero["slow_until"]=max(float(hero.get("slow_until",0.0)),now+3.0)
-
-func revive_pet(hero:Dictionary)->void:
-    var pet:Dictionary=hero.get("pet",{})
-    pet["hp"]=max(1,int(pet.get("max_hp",60))/2)
-    pet["revive_until"]=now_seconds()+3.0
-    hero["pet"]=pet
-    game.call("log_message","%s is knocked down and returns with %d HP." % [pet.get("name","Pet"),pet["hp"]])
-
-func finish_monster(monster:Dictionary)->void:
-    call_vfx("monster_death",monster["pos"],"",false)
-    if game.has_method("defeat_monster"): game.call("defeat_monster",monster)
-    var hero=game.get("hero")
-    if hero is Dictionary:
-        EventInventory.record_monster(hero,monster)
-        EventInventory.record_event_progress(hero,"daily_hunt",1)
-        if str(monster.get("name",""))=="Bloody Knight": EventInventory.record_event_progress(hero,"blood_moon",1)
-        var gained:Array=LootSystem.on_monster_defeated(hero,monster,rng)
-        if gained.size()>0: game.call("log_message","Auto-loot: %s" % ", ".join(gained))
-        SaveSystem.save_game(hero)
-    target=null
-    target_changed.emit({})
-
-func respawn_hero(hero:Dictionary)->void:
-    hero["hp"]=hero["max_hp"]
-    hero["sp"]=hero.get("max_sp",100)
-    hero["pos_x"]=595.0
-    hero["pos_y"]=340.0
-    if hero.get("pet",{}) is Dictionary: hero["pet"]["hp"]=hero["pet"].get("max_hp",60)
-    game.call("log_message","You were defeated. Your bonded pet revived with you at the safe point.")
-    call_vfx("heal",Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0))),"FULL",false)
-
-func call_vfx(kind:String,position:Vector2,label:String,critical:bool)->void:
-    if game and game.has_method("show_3d_combat_number") and kind in ["hit","heal"]:
-        game.call("show_3d_combat_number",position,int(label) if label.is_valid_int() else 0,critical,"enemy" if kind=="hit" else "hero")
-    if game and game.has_method("play_combat_effect"):
-        game.call("play_combat_effect",kind,position,label,critical)
-
-func now_seconds()->float:
-    return Time.get_ticks_msec()/1000.0
+func now_seconds()->float: return Time.get_ticks_msec()/1000.0
