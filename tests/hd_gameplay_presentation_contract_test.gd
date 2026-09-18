@@ -58,6 +58,11 @@ func _initialize() -> void:
     check("online age recalculates for saved heroes", int(aging_hero.get("age",0)) == 19)
     check("online age grants refine bonus", is_equal_approx(ONLINE_AGE.refine_success_bonus(aging_hero),0.01))
 
+    var combat_status_text:String = FileAccess.get_file_as_string("res://scripts/CombatRuntime.gd")
+    check("MVP burn tick runtime", combat_status_text.contains("burn_until") and combat_status_text.contains("burn_tick"))
+    check("MVP curse runtime", combat_status_text.contains("curse_until") and combat_status_text.contains("0.80"))
+    check("MVP fear runtime", combat_status_text.contains("fear_until") and combat_status_text.contains("0.55"))
+    check("MVP crowd control runtime", combat_status_text.contains("freeze_until") and combat_status_text.contains("stagger_until") and combat_status_text.contains("slow_until"))
     var fire_weak_target:Dictionary = {"name":"Fire Dragon","level":300,"mvp":true}
     var fire_match:float = MONSTERS.skill_damage_multiplier("Mage","mage_frost_prison",fire_weak_target)
     var fire_resist:float = MONSTERS.skill_damage_multiplier("Mage","mage_comet",fire_weak_target)
