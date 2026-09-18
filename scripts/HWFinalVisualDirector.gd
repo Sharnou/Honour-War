@@ -154,11 +154,9 @@ func _force_single_world_environment()->void:
             continue
         if child is WorldEnvironment or child is DirectionalLight3D:
             child.process_mode = Node.PROCESS_MODE_DISABLED
-            child.visible = false
             child.queue_free()
         elif child is OmniLight3D and str(child.name) != "HDFill":
             child.process_mode = Node.PROCESS_MODE_DISABLED
-            child.visible = false
             child.queue_free()
     var sun:DirectionalLight3D = scene.get_node_or_null("HWFinalSun") as DirectionalLight3D
     if sun == null:
@@ -455,7 +453,6 @@ func _remove_other_actor_children(actor_root:Node3D,keep:Node3D,prefix:String)->
             continue
         var n:String = str(child.name)
         if n == prefix or n.begins_with(prefix + "_"):
-            child.visible = false
             child.queue_free()
 
 func _sanitize_actor_root()->void:
@@ -481,7 +478,6 @@ func _sanitize_actor_root()->void:
         # Do not delete monsters; delete only unowned actor leftovers.
         var child_name:String = str(child.name)
         if child_name == "Hero" or child_name.begins_with("Hero_") or child_name == "Pet" or child_name.begins_with("Pet_"):
-            child.visible = false
             child.queue_free()
     visual_cleanup_done = true
 
