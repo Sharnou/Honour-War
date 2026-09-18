@@ -116,6 +116,7 @@ func _build_town() -> void:
     _build_city_center(town,plaster,roof,trim,glass,door)
     _build_city_streets(town,stone_material(),trim)
     _build_city_props(town,timber,trim)
+    _build_micro_architecture(town)
 
 func _build_building(parent:Node,pos:Vector3,wall:Material,timber:Material,roof:Material,trim:Material,glass:Material,door:Material,index:int)->void:
     var b:=Node3D.new()
@@ -214,6 +215,49 @@ func _build_city_props(parent:Node,timber:Material,trim:Material) -> void:
     for x in [-21.0,21.0]:
         _box(props,"GuildBannerPole",Vector3(0.12,6.0,0.12),Vector3(x,3.0,1),timber)
         _box(props,"GuildBanner",Vector3(2.0,2.8,0.08),Vector3(x,4.2,1.05),cloth)
+
+
+func _build_micro_architecture(parent:Node) -> void:
+    var detail:=Node3D.new()
+    detail.name="HDMicroArchitecture"
+    parent.add_child(detail)
+    var dark:=_mat(Color("#342a25"),0.72)
+    var stone:=_mat(Color("#aaa18e"),0.82)
+    var metal:=_mat(Color("#4b4f50"),0.36,0.72)
+    var glass:=_mat(Color("#8ac9df"),0.18,0.22,Color("#66bfe4"),0.10)
+    var wood:=_mat(Color("#5a3d2b"),0.78)
+    var gold:=_mat(Color("#d7b35c"),0.35,0.32)
+    # Add roof geometry, gutters, chimneys and facade trim so buildings read
+    # as constructed architecture instead of large primitive boxes.
+    var roofs=[Vector3(-10,0,-2),Vector3(10,0,-2),Vector3(-10,0,10),Vector3(10,0,10)]
+    for i in range(roofs.size()):
+        var p:Vector3=roofs[i]
+        _box(detail,"RoofTrim",Vector3(7.9,0.14,0.16),p+Vector3(0,4.98,2.78),gold)
+        _box(detail,"Gutter",Vector3(7.7,0.10,0.18),p+Vector3(0,4.55,3.05),metal)
+        _cylinder(detail,"Chimney",0.32,1.25,p+Vector3(2.25,5.45,0.55),stone,20)
+        _box(detail,"ChimneyCap",Vector3(0.78,0.10,0.78),p+Vector3(2.25,6.08,0.55),dark)
+        for side in [-1.0,1.0]:
+            _box(detail,"FacadeTrim",Vector3(0.10,3.9,0.12),p+Vector3(side*3.48,2.35,2.82),gold)
+    # Market/service objects get shelves, sign brackets and visible goods.
+    for x in [-6.0,6.0]:
+        for z in [-7.0,18.0]:
+            var p:=Vector3(x,0,z)
+            _box(detail,"Shelf",Vector3(2.9,0.08,0.45),p+Vector3(0,1.45,-0.68),wood)
+            _box(detail,"SignBracket",Vector3(0.10,1.0,0.10),p+Vector3(-1.15,2.05,0.95),metal)
+            for j in range(5):
+                _sphere(detail,"Goods",0.12,p+Vector3(-1.0+float(j)*0.48,1.63,-0.55),glass if j%2==0 else gold)
+    # Street drainage and paving seams provide close-camera scale.
+    for z in range(-10,25,2):
+        _box(detail,"DrainStone",Vector3(0.30,0.08,0.85),Vector3(-16.35,0.16,float(z)),stone)
+        _box(detail,"DrainStone",Vector3(0.30,0.08,0.85),Vector3(16.35,0.16,float(z)),stone)
+    # Small planted beds break up repeated terrain silhouettes.
+    var plant:=_mat(Color("#4d8a52"),0.90)
+    var soil:=_mat(Color("#4b3526"),0.98)
+    for x in [-20.0,-12.0,12.0,20.0]:
+        for z in [ -8.0, 16.0 ]:
+            _box(detail,"FlowerBed",Vector3(2.2,0.10,1.1),Vector3(x,0.05,z),soil)
+            for j in range(5):
+                _sphere(detail,"Plant",0.16,Vector3(x-0.75+float(j)*0.38,0.28,z),plant)
 
 func _build_field() -> void:
     var field:=Node3D.new()
