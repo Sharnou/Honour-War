@@ -15,8 +15,6 @@ env:
   GODOT_TAG: "4.7.2-stable"
   GODOT_BINARY: "Godot_v4.7.2-stable_linux.x86_64"
 
-# A newer commit supersedes an older completeness run. Keep only the newest
-# run for each ref so CI does not spend time validating obsolete revisions.
 concurrency:
   group: honour-war-completeness-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -72,6 +70,12 @@ jobs:
           set -euo pipefail
           ./${GODOT_BINARY} --headless --path . --script res://tests/hd_gameplay_presentation_contract_test.gd 2>&1 | tee hd-gameplay-presentation.log
 
+      - name: Validate Cicci weekly event contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          ./${GODOT_BINARY} --headless --path . --script res://tests/cicci_weekly_event_contract_test.gd 2>&1 | tee cicci-weekly-event.log
+
       - name: Validate online authority contract
         shell: bash
         run: |
@@ -83,6 +87,7 @@ jobs:
         run: |
           set -euo pipefail
           ./${GODOT_BINARY} --headless --path . --script res://tests/online_server_smoke_test.gd 2>&1 | tee online-server.log
+
       - name: Validate dedicated server bootstrap
         shell: bash
         run: |
@@ -156,6 +161,7 @@ jobs:
             game-completeness.log
             online-authority.log
             hd-gameplay-presentation.log
+            cicci-weekly-event.log
             online-server.log
             server-bootstrap.log
             online-persistence.log
