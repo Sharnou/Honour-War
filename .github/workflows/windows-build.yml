@@ -163,7 +163,7 @@ jobs:
           $stdout = Join-Path $PWD 'windows-runtime-smoke.stdout.log'
           $stderr = Join-Path $PWD 'windows-runtime-smoke.stderr.log'
           $exe = (Resolve-Path build/windows/HonourWarHD.exe).Path
-          $proc = Start-Process -FilePath $exe -ArgumentList @('--rendering-method','gl_compatibility','--rendering-driver','opengl3','--path','.') -PassThru -RedirectStandardOutput $stdout -RedirectStandardError $stderr
+          $proc = Start-Process -FilePath $exe -WorkingDirectory $PWD -ArgumentList @('--rendering-method','gl_compatibility','--rendering-driver','opengl3') -PassThru -RedirectStandardOutput $stdout -RedirectStandardError $stderr
           Start-Sleep -Seconds 30
           if ($proc.HasExited) {
             Write-Host "HonourWarHD.exe exited during the 30-second startup smoke test with code $($proc.ExitCode)."
