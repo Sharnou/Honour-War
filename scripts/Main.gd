@@ -430,6 +430,8 @@ func use_skill(skill_id:String)->void:
 			dealt=int(round(float(dealt)*0.72))
 		if bool(affected_monster.get("mvp",false)):
 			dealt=int(round(float(dealt)*(1.0+float(equipment.get("boss_damage_percent",0.0))/100.0)))
+		var elemental_multiplier:float=MonsterDetailsSystem.skill_damage_multiplier(class_id,skill_id,affected_monster)
+		dealt=int(round(float(dealt)*elemental_multiplier))
 		if class_id=="Thief" and skill_id=="thief_execution":
 			var ratio:float=float(affected_monster.get("hp",0))/float(max(1,int(affected_monster.get("max",affected_monster.get("hp",1)))))
 			if ratio<=0.45:
