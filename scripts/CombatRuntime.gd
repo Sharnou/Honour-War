@@ -191,7 +191,9 @@ func hero_strike(hero:Dictionary,monster:Dictionary)->void:
     var class_id:=str(hero.get("class","Warrior"))
     var power:int=ClassFormula.magic_power(hero) if class_id in ["Mage","Acolyte"] else ClassFormula.physical_power(hero)
     power=max(1,power+int(stats.get("power_bonus",0)))
-    var critical:bool=rng.randi_range(1,100)<=min(75,int(stats.get("crit_bonus",0))+int(hero.get("age_crit_bonus",0)))
+    var branch_bonus:Dictionary=ClassTreeSystem.branch_bonus(hero)
+    power=int(round(float(power)*(1.0+float(branch_bonus.get("damage",0.0)))))
+    var critical:bool=rng.randi_range(1,100)<=min(75,int(stats.get("crit_bonus",0))+int(hero.get("age_crit_bonus",0))+int(branch_bonus.get("crit",0.0)))
     var damage:=power+rng.randi_range(0,9)
     if critical: damage=int(float(damage)*1.75)
     damage=max(1,damage-effective_monster_defense(monster))
@@ -222,8 +224,24 @@ func monster_phase(hero:Dictionary)->void:
         if hero_pos.distance_to(monster.get("pos",hero_pos))>CombatRules.monster_attack_distance(monster): continue
         var attack:int=max(1,int(monster.get("attack",int(monster.get("level",1))*4)))
         if bool(monster.get("mvp",false)): attack=int(float(attack)*1.25)
-        var defense:=ClassFormula.defense(hero)+int(hero.get("refine",0))
+        var branch_bonus:Dictionary=ClassTreeSystem.branch_bonus(hero)
+        var defense:=int(round(float(ClassFormula.defense(hero)+int(hero.get("refine",0)))*(1.0+float(branch_bonus.get("defense",0.0)))))
         var damage:=max(1,attack-defense)
+        var mvp_details:Dictionary=MonsterDetails.details(monster)
+        var status_name:String=str(mvp_details.get("status",""))
+        var status_chance:float=float(mvp_details.get("status_chance",0.0))
+        if bool(monster.get("mvp",false)) and status_name!="" and status_name!="None" and rng.randf()<status_chance:
+            if status_name.contains("Fear"):
+                hero["fear_until"]=max(float(hero.get("fear_until",0.0)),now_seconds()+3.0)
+                hero["fear_duration"]=3.0
+            if status_name.contains("Curse"):
+                hero["curse_until"]=max(float(hero.get("curse_until",0.0)),now_seconds()+3.0)
+            if status_name.contains("Stagger"):
+                hero["stagger_until"]=max(float(hero.get("stagger_until",0.0)),now_seconds()+1.5)
+            if status_name.contains("Freeze"):
+                hero["freeze_until"]=max(float(hero.get("freeze_until",0.0)),now_seconds()+2.0)
+            if status_name.contains("Slow"):
+                hero["slow_until"]=max(float(hero.get("slow_until",0.0)),now_seconds()+3.0)
         hero["hp"]=max(0,int(hero.get("hp",0))-damage)
         monster_attack_landed.emit("hero",damage)
         if int(hero["hp"])<=0: respawn_hero(hero)
