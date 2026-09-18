@@ -117,6 +117,7 @@ func _build_town() -> void:
     _build_city_streets(town,stone_material(),trim)
     _build_city_props(town,timber,trim)
     _build_micro_architecture(town)
+    _build_close_camera_detail(town)
 
 func _build_building(parent:Node,pos:Vector3,wall:Material,timber:Material,roof:Material,trim:Material,glass:Material,door:Material,index:int)->void:
     var b:=Node3D.new()
@@ -361,3 +362,44 @@ func _upgrade_environment() -> void:
     fill.light_energy=0.48
     fill.light_color=Color("#a7c9ff")
     fill.shadow_enabled=false
+
+
+func _build_close_camera_detail(parent:Node) -> void:
+    var detail:=Node3D.new()
+    detail.name="HDCloseCameraDetail"
+    parent.add_child(detail)
+    var wood:=_mat(Color("#60432f"),0.78)
+    var darkwood:=_mat(Color("#3a2b24"),0.70)
+    var stone:=_mat(Color("#8f897c"),0.84)
+    var metal:=_mat(Color("#50565a"),0.34,0.70)
+    var cloth:=_mat(Color("#c17a52"),0.76)
+    var green:=_mat(Color("#4f8752"),0.90)
+    var flower:=_mat(Color("#e6b86f"),0.58)
+    # Close-camera benches, crates and sign supports add readable human scale.
+    for p in [Vector3(-5.0,0,1.5),Vector3(5.0,0,1.5),Vector3(-5.0,0,13.5),Vector3(5.0,0,13.5)]:
+        _box(detail,"BenchSeat",Vector3(2.2,0.16,0.55),p+Vector3(0,0.72,0),wood)
+        _box(detail,"BenchBack",Vector3(2.2,0.70,0.14),p+Vector3(0,1.05,0.22),wood)
+        _box(detail,"BenchLeg",Vector3(0.16,0.72,0.16),p+Vector3(-0.78,0.36,-0.10),metal)
+        _box(detail,"BenchLeg",Vector3(0.16,0.72,0.16),p+Vector3(0.78,0.36,-0.10),metal)
+    for p in [Vector3(-13.0,0,5.0),Vector3(13.0,0,5.0),Vector3(-13.0,0,15.0),Vector3(13.0,0,15.0)]:
+        _box(detail,"Crate",Vector3(0.9,0.9,0.9),p+Vector3(0,0.45,0),wood)
+        _box(detail,"CrateBand",Vector3(0.94,0.10,0.10),p+Vector3(0,0.45,0.46),metal)
+        _box(detail,"CrateBand",Vector3(0.10,0.94,0.10),p+Vector3(0,0.45,0.46),metal)
+    # Small roof awnings and masonry blocks reduce the repeated-box look.
+    for p in [Vector3(-10.0,0,-2.0),Vector3(10.0,0,-2.0),Vector3(-10.0,0,10.0),Vector3(10.0,0,10.0)]:
+        _box(detail,"DoorAwning",Vector3(1.65,0.12,0.85),p+Vector3(0,2.18,3.05),cloth)
+        _box(detail,"DoorLintel",Vector3(1.35,0.18,0.18),p+Vector3(0,2.08,2.88),stone)
+        for side in [-1.0,1.0]:
+            _box(detail,"MasonryBlock",Vector3(0.22,0.42,0.34),p+Vector3(side*3.55,1.1+float(side+1.0)*0.22,2.88),stone)
+    # Paving seams and grass clumps are intentionally low-profile for the camera.
+    for x in range(-20,21,4):
+        for z in range(-5,22,4):
+            if abs(x) < 7 and z < 17:
+                continue
+            _box(detail,"PavingSeam",Vector3(2.8,0.025,0.035),Vector3(float(x),0.14,float(z)),darkwood)
+            _sphere(detail,"GrassClump",0.11,Vector3(float(x)+0.65,0.20,float(z)+0.35),green)
+            _sphere(detail,"FlowerAccent",0.07,Vector3(float(x)+0.78,0.27,float(z)+0.34),flower)
+    # Handrails and small metal posts give service areas more depth.
+    for p in [Vector3(-7.9,0,-7.0),Vector3(7.9,0,-7.0),Vector3(-7.9,0,18.0),Vector3(7.9,0,18.0)]:
+        _cylinder(detail,"ServicePost",0.07,1.05,p+Vector3(0,0.52,0),metal,16)
+        _box(detail,"ServiceRail",Vector3(1.0,0.07,0.07),p+Vector3(0.35,0.90,0),metal)
