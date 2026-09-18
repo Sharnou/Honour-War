@@ -131,6 +131,12 @@ func _build_lights()->void:
 
 func _build_atmosphere()->void:
 	if world_environment==null: return
+	# Compatibility/headless QA uses the dummy renderer. Do not create GPU particle
+	# resources there: Godot can query instance shader parameters against a null
+	# material in that renderer even when the production material is valid.
+	# Forward+ production keeps the full atmospheric particle presentation.
+	if not forward_plus:
+		return
 	var volume:GPUParticles3D=get_node_or_null("AtmosphericParticles") as GPUParticles3D
 	if volume!=null: return
 	volume=GPUParticles3D.new()
