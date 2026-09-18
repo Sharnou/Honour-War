@@ -9,6 +9,16 @@ TIERS=["Foundation","Specialization","Advanced","Mastery","Transcendence"]
 MONSTERS=["Bloody_Knight","Dragon","Evil_Druid","Goblin","Golem","Mantis","Orc","Poring","Skeleton","Wolf","Zombie"]
 errors=[]; checks=0
 
+# GitHub Actions Windows runners can default stdout to cp1252. Keep QA output
+# Unicode-safe so visual-pipeline phrases such as Blender → Substance do not
+# crash validation before the actual checks complete.
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+except (AttributeError, ValueError):
+    pass
+
+
 def check(ok:bool,message:str)->None:
     global checks
     checks+=1
