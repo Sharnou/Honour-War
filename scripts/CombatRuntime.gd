@@ -24,6 +24,7 @@ const MonsterDetails=preload("res://scripts/MonsterDetailsSystem.gd")
 const EventInventory=preload("res://scripts/EventInventorySystem.gd")
 const ClassTreeSystem=preload("res://scripts/ClassTreeSystem.gd")
 const CharacterProgression=preload("res://scripts/CharacterProgressionSystem.gd")
+const ClassFormula=preload("res://scripts/ClassCombatFormula.gd")
 
 var game:Node
 var hero_attack_timer:=0.0
@@ -216,7 +217,8 @@ func hero_strike(hero:Dictionary,monster:Dictionary)->void:
         "Merchant": base=17
     var passive:Dictionary=SkillSystem.combat_stats(hero)
     var branch_bonus:Dictionary=ClassTreeSystem.branch_bonus(hero)
-    var power:int=base+int(hero.get("level",1))*2+int(hero.get("refine",0))*2+int(passive["power_bonus"])+int(hero.get("age_power_bonus",0))
+    var canonical_power:int=ClassFormula.magic_power(hero) if class_id in ["Mage","Acolyte"] else ClassFormula.physical_power(hero)
+    var power:int=max(base,canonical_power)+int(hero.get("refine",0))*2+int(passive["power_bonus"])
     power=int(round(float(power)*(1.0+float(branch_bonus.get("damage",0.0)))))
     if float(hero.get("temporary_power_until",0.0))>now_seconds(): power=int(float(power)*1.30)
     var combo_bonus:float=float(hero.get("combo_power_bonus",0.0))
@@ -293,9 +295,8 @@ func monster_phase(hero:Dictionary)->void:
             monster_attack_landed.emit("pet",pet_damage)
             if int(pet["hp"])<=0: revive_pet(hero)
         else:
-            var stats:Dictionary=SkillSystem.combat_stats(hero)
             var branch_defense:Dictionary=ClassTreeSystem.branch_bonus(hero)
-            var defense:int=int(stats["defense_bonus"])+int(hero.get("refine",0))+int(hero.get("age_defense_bonus",0))+int(round(float(branch_defense.get("defense",0.0))*100.0))
+            var defense:int=ClassFormula.defense(hero)+int(hero.get("refine",0))+int(round(float(branch_defense.get("defense",0.0))*100.0))
             if float(hero.get("temporary_defense_until",0.0))>now: defense+=20
             var hero_damage:int=max(1,attack-defense)
             hero["hp"]=max(0,int(hero.get("hp",0))-hero_damage)
@@ -311,7 +312,8 @@ func mvp_skill_phase(hero:Dictionary)->void:
         if not monster is Dictionary or not bool(monster.get("mvp",false)) or int(monster.get("hp",0))<=0: continue
         if hero_pos.distance_to(monster["pos"])>190.0: continue
         var skill_damage:int=max(1,int(monster.get("attack",100))*2)
-        var defense:int=int(SkillSystem.combat_stats(hero)["defense_bonus"])+int(hero.get("age_defense_bonus",0))
+        var mvp_branch:Dictionary=ClassTreeSystem.branch_bonus(hero)
+        var defense:int=ClassFormula.defense(hero)+int(round(float(mvp_branch.get("defense",0.0))*100.0))
         skill_damage=max(1,skill_damage-defense)
         hero["hp"]=max(0,int(hero.get("hp",0))-skill_damage)
         _apply_mvp_status(hero,monster,skill_damage)
