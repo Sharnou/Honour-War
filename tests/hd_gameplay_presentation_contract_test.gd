@@ -86,6 +86,9 @@ func _initialize() -> void:
 
     var combat_runtime_text:String = FileAccess.get_file_as_string("res://scripts/CombatRuntime.gd")
     check("3D combat uses canonical progression stats", combat_runtime_text.contains("CharacterProgression.stats(hero)"))
+    check("3D auto-attacks use canonical class formulas", combat_runtime_text.contains("ClassFormula.physical_power(hero)") and combat_runtime_text.contains("ClassFormula.magic_power(hero)"))
+    check("3D incoming damage uses canonical defense", combat_runtime_text.contains("ClassFormula.defense(hero)"))
+
     var high_level_hero:Dictionary = DATA.new_hero()
     high_level_hero["level"] = 250
     high_level_hero["stats"] = {"str":99,"agi":99,"vit":99,"int":99,"dex":99,"luk":99}
