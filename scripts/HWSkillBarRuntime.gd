@@ -111,6 +111,9 @@ func _refresh_bar()->void:
         index+=1
 
 func _use_skill(slot:int)->void:
+    _use_slot(slot)
+
+func _use_slot(slot:int)->void:
     if slot<1 or slot>active_ids.size() or legacy==null:
         return
     var skill_id:String=active_ids[slot-1]
@@ -120,6 +123,25 @@ func _use_skill(slot:int)->void:
         legacy.call("cast_skill",skill_id)
 
 func _unhandled_key_input(event:InputEvent)->void:
+    if not event is InputEventKey or not event.pressed or event.echo:
+        return
+    var slot:int = -1
+    match event.keycode:
+        KEY_1: slot=1
+        KEY_2: slot=2
+        KEY_3: slot=3
+        KEY_4: slot=4
+        KEY_5: slot=5
+        KEY_6: slot=6
+        KEY_7: slot=7
+        KEY_8: slot=8
+        KEY_F12:
+            toggle()
+            return
+    if slot>0:
+        _use_slot(slot)
+        get_viewport().set_input_as_handled()
+
     if not event is InputEventKey or not event.pressed or event.echo:
         return
     if event.keycode==KEY_F12:
