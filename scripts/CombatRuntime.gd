@@ -161,7 +161,7 @@ func regenerate_sp(hero:Dictionary)->void:
     sp_regen_timer=0.0
     var stats:Dictionary=SkillSystem.combat_stats(hero)
     var max_sp:int=int(stats["max_sp"])
-    hero["max_sp"]=max_sp+int(hero.get("age_sp_bonus",0))
+    hero["max_sp"]=max_sp
     hero["sp"]=min(int(hero["max_sp"]),int(hero.get("sp",hero["max_sp"]))+max(1,int(max_sp/20)))
     if hero.get("pet",{}) is Dictionary:
         var pet:Dictionary=hero["pet"]
@@ -205,6 +205,13 @@ func update_status_effects(hero:Dictionary)->void:
             if int(monster["hp"])<=0:
                 finish_monster(monster)
                 continue
+        if float(monster.get("burn_until",0.0))>now and float(monster.get("burn_tick",0.0))<=now:
+            monster["burn_tick"]=now+1.0
+            var burn_damage:int=max(1,int(monster.get("burn_damage",4)))
+            monster["hp"]=int(monster.get("hp",0))-burn_damage
+            call_vfx("hit",monster["pos"],str(burn_damage),false)
+            if int(monster["hp"])<=0:
+                finish_monster(monster)
 
 func effective_monster_defense(monster:Dictionary)->int:
     var defense:int=max(0,int(monster.get("defense",0)))
