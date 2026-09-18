@@ -47,6 +47,10 @@ func _initialize() -> void:
     check("age combat scaling", int(age_bonus.get("atk",0)) > 0 and int(age_bonus.get("hp",0)) > 0)
     check("hero persistence baseline", hero.has("age") and hero.has("online_days") and hero.has("pet"))
 
+    var refine_at_18:float = WORLD.refinement_chance(18,1,0)
+    var refine_at_60:float = WORLD.refinement_chance(60,1,0)
+    check("age refinement bonus is one percent per year", is_equal_approx(refine_at_60-refine_at_18,0.42))
+
     var aging_hero:Dictionary = {"age_origin":18,"age":18,"online_days":0.0}
     ONLINE_AGE.normalize(aging_hero)
     aging_hero["online_days"] = 3.0
