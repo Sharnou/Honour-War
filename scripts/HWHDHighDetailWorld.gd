@@ -113,6 +113,9 @@ func _build_town() -> void:
     var positions=[Vector3(-10,0,-2),Vector3(10,0,-2),Vector3(-10,0,10),Vector3(10,0,10)]
     for i in range(positions.size()):
         _build_building(town,positions[i],plaster,timber,roof,trim,glass,door,i)
+    _build_city_center(town,plaster,roof,trim,glass,door)
+    _build_city_streets(town,stone_material(),trim)
+    _build_city_props(town,timber,trim)
 
 func _build_building(parent:Node,pos:Vector3,wall:Material,timber:Material,roof:Material,trim:Material,glass:Material,door:Material,index:int)->void:
     var b:=Node3D.new()
@@ -136,6 +139,81 @@ func _build_building(parent:Node,pos:Vector3,wall:Material,timber:Material,roof:
     lamp.omni_range=5.0
     lamp.position=pos+Vector3(0,2.0,2.4)
     b.add_child(lamp)
+
+
+func stone_material() -> Material:
+    return _mat(Color("#77736a"),0.82,0.02)
+
+func _build_city_center(parent:Node,wall:Material,roof:Material,trim:Material,glass:Material,door:Material) -> void:
+    var plaza:=Node3D.new()
+    plaza.name="HDGrandCityPlaza"
+    parent.add_child(plaza)
+    var stone:=_mat(Color("#8b877d"),0.86,0.02)
+    var gold:=_mat(Color("#e4bd5f"),0.38,0.25)
+    for x in range(-4,5):
+        for z in range(-1,4):
+            _box(plaza,"PlazaTile",Vector3(2.7,0.10,2.7),Vector3(x*2.75,0.05,z*2.75+5.0),stone)
+    _cylinder(plaza,"GrandFountain",3.0,0.32,Vector3(0,0.22,5),stone,48)
+    _cylinder(plaza,"GrandFountainWater",2.45,0.10,Vector3(0,0.42,5),_mat(Color("#55b9d9"),0.18,0.05,Color("#55b9d9"),0.35),48)
+    _cylinder(plaza,"GrandFountainColumn",0.42,2.8,Vector3(0,1.82,5),stone,32)
+    _sphere(plaza,"GrandFountainCrown",0.78,Vector3(0,3.35,5),gold)
+    for side in [-1.0,1.0]:
+        var hall:=Node3D.new()
+        hall.name="CityHall_%s"%("L" if side<0 else "R")
+        parent.add_child(hall)
+        var p:=Vector3(side*17.0,0,6.0)
+        _box(hall,"HallWall",Vector3(8.0,6.2,6.5),p+Vector3(0,3.1,0),wall)
+        _box(hall,"HallRoof",Vector3(8.7,0.55,7.2),p+Vector3(0,6.35,0),roof)
+        _box(hall,"HallDoor",Vector3(1.4,2.8,0.16),p+Vector3(0,1.4,3.32),door)
+        _box(hall,"HallSign",Vector3(3.6,0.55,0.14),p+Vector3(0,4.25,3.30),gold)
+        for side2 in [-1.0,1.0]:
+            _box(hall,"HallWindow",Vector3(1.8,1.55,0.10),p+Vector3(side2*2.25,3.25,3.30),glass)
+
+func _build_city_streets(parent:Node,stone:Material,trim:Material) -> void:
+    var street:=Node3D.new()
+    street.name="HDStreetArchitecture"
+    parent.add_child(street)
+    var dark:=_mat(Color("#3f352f"),0.74,0.02)
+    for x in [-16.0,-8.0,8.0,16.0]:
+        _box(street,"Curb",Vector3(0.34,0.22,48.0),Vector3(x,0.10,7),stone)
+    for z in [-10.0,0.0,10.0,20.0]:
+        _box(street,"CrossStreet",Vector3(42.0,0.08,3.0),Vector3(0,0.03,z),dark)
+    for x in [-14.0,14.0]:
+        for z in [-8.0,2.0,12.0,22.0]:
+            _city_lamp(street,Vector3(x,0,z),trim)
+
+func _city_lamp(parent:Node,pos:Vector3,trim:Material) -> void:
+    var polemat:=_mat(Color("#4b4b4a"),0.38,0.72)
+    _cylinder(parent,"StreetLampPole",0.10,3.4,pos+Vector3(0,1.7,0),polemat,18)
+    _box(parent,"StreetLampArm",Vector3(0.65,0.08,0.08),pos+Vector3(0.28,3.15,0),polemat)
+    _sphere(parent,"StreetLampGlow",0.16,pos+Vector3(0.55,3.05,0),_mat(Color("#ffd98a"),0.28,0.05,Color("#ffd98a"),2.2))
+    var light:=OmniLight3D.new()
+    light.name="StreetLampLight"
+    light.light_color=Color("#ffd18a")
+    light.light_energy=0.55
+    light.omni_range=4.5
+    light.position=pos+Vector3(0.55,3.05,0)
+    parent.add_child(light)
+
+func _build_city_props(parent:Node,timber:Material,trim:Material) -> void:
+    var props:=Node3D.new()
+    props.name="HDMarketAndServiceProps"
+    parent.add_child(props)
+    var wood:=_mat(Color("#654735"),0.82)
+    var cloth:=_mat(Color("#b85d5d"),0.78)
+    var green:=_mat(Color("#5b8c5a"),0.84)
+    var gold:=_mat(Color("#d8b65d"),0.38,0.25)
+    var spots=[Vector3(-6,0,-7),Vector3(6,0,-7),Vector3(-6,0,18),Vector3(6,0,18)]
+    for i in range(spots.size()):
+        var p:Vector3=spots[i]
+        _box(props,"ServiceCounter",Vector3(3.8,1.1,1.3),p+Vector3(0,0.55,0),wood)
+        _box(props,"ServiceCanopy",Vector3(4.3,0.12,2.4),p+Vector3(0,2.75,0),cloth if i%2==0 else green)
+        _box(props,"ServiceSign",Vector3(1.8,0.55,0.10),p+Vector3(0,2.25,1.15),gold)
+        for j in range(3):
+            _cylinder(props,"Barrel",0.34,0.75,p+Vector3(-1.1+float(j)*1.1,0.38,-0.92),wood,18)
+    for x in [-21.0,21.0]:
+        _box(props,"GuildBannerPole",Vector3(0.12,6.0,0.12),Vector3(x,3.0,1),timber)
+        _box(props,"GuildBanner",Vector3(2.0,2.8,0.08),Vector3(x,4.2,1.05),cloth)
 
 func _build_field() -> void:
     var field:=Node3D.new()
