@@ -8,6 +8,8 @@ on:
     branches: [main]
     paths:
       - "scripts/HWCharacterVisualProfiles.gd"
+      - "scripts/HWWorldActorVisualProfiles.gd"
+      - "scripts/HWSSRentNPCDirector.gd"
       - "scripts/HWFinalVisualDirector.gd"
       - "scripts/CombatRuntime.gd"
       - "scripts/Main.gd"
