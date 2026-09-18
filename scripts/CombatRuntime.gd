@@ -196,7 +196,7 @@ func hero_strike(hero:Dictionary,monster:Dictionary)->void:
     var critical:bool=rng.randi_range(1,100)<=min(75,int(stats.get("crit_bonus",0))+int(hero.get("age_crit_bonus",0))+int(branch_bonus.get("crit",0.0)))
     var damage:=power+rng.randi_range(0,9)
     if critical: damage=int(float(damage)*1.75)
-    var damage:=max(1,damage-effective_monster_defense(monster))
+    damage=max(1,damage-effective_monster_defense(monster))
     if float(hero.get("fear_until",0.0))>now_seconds():
         damage=max(1,int(round(float(damage)*0.55)))
     monster["hp"]=int(monster.get("hp",0))-damage
