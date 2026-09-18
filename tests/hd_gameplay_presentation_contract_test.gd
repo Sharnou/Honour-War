@@ -16,6 +16,7 @@ const EQUIPMENT = preload("res://scripts/EquipmentSystem.gd")
 const LOOT = preload("res://scripts/LootSystem.gd")
 const CITY = preload("res://scripts/CitySystem.gd")
 const TELEPORT = preload("res://scripts/TeleportSystem.gd")
+const ONLINE_AGE = preload("res://scripts/OnlineAgeSystem.gd")
 
 var failures:int = 0
 
@@ -45,6 +46,13 @@ func _initialize() -> void:
     var age_bonus:Dictionary = DATA.age_strength_bonus(22)
     check("age combat scaling", int(age_bonus.get("atk",0)) > 0 and int(age_bonus.get("hp",0)) > 0)
     check("hero persistence baseline", hero.has("age") and hero.has("online_days") and hero.has("pet"))
+
+    var aging_hero:Dictionary = {"age_origin":18,"age":18,"online_days":0.0}
+    ONLINE_AGE.normalize(aging_hero)
+    aging_hero["online_days"] = 3.0
+    ONLINE_AGE.normalize(aging_hero)
+    check("online age recalculates for saved heroes", int(aging_hero.get("age",0)) == 19)
+    check("online age grants refine bonus", is_equal_approx(ONLINE_AGE.refine_success_bonus(aging_hero),0.01))
 
     var item_catalog:Dictionary = ITEMS.all()
     for class_id:Variant in definitions.keys():
