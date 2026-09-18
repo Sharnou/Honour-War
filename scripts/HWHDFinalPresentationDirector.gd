@@ -47,7 +47,7 @@ func _initialize() -> void:
     _frame_camera()
     _sync_equipment()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
     if scene_root == null or not is_instance_valid(scene_root):
         _initialize()
         return
@@ -58,7 +58,7 @@ func _process(delta: float) -> void:
     _frame_camera()
     _sync_equipment()
     _sync_bosses()
-    _process_sequences(delta)
+    _process_sequences()
 
 func _build_root() -> Node3D:
     var root := scene_root.get_node_or_null(ROOT_NAME) as Node3D
@@ -88,7 +88,7 @@ func _on_pet_attack(target: Dictionary, damage: int, special: bool) -> void:
     _start_attack(pet, "pet", target, special)
     _hit_target(target, special, damage)
 
-func _on_monster_attack(target_kind: String, damage: int) -> void:
+func _on_monster_attack(target_kind: String, _damage: int) -> void:
     if target_kind == "hero":
         _start_attack(hero, "monster", {}, false)
         _react_actor(hero, false)
@@ -96,7 +96,7 @@ func _on_monster_attack(target_kind: String, damage: int) -> void:
 func _start_attack(actor: Node3D, kind: String, target: Dictionary, critical: bool) -> void:
     if actor == null or not is_instance_valid(actor):
         return
-    var phase := {
+    sequences.append({
         "actor": actor,
         "kind": kind,
         "target": target,
@@ -108,10 +108,9 @@ func _start_attack(actor: Node3D, kind: String, target: Dictionary, critical: bo
         "contact_done": false,
         "base_scale": actor.scale,
         "base_rotation": actor.rotation
-    }
-    sequences.append(phase)
+    })
 
-func _process_sequences(_delta: float) -> void:
+func _process_sequences() -> void:
     var now := Time.get_ticks_msec() / 1000.0
     for i in range(sequences.size() - 1, -1, -1):
         var seq: Dictionary = sequences[i]
@@ -150,7 +149,7 @@ func _hit_target(target: Dictionary, critical: bool, damage: int) -> void:
     if target_node == null:
         return
     _react_actor(target_node, critical)
-    if _is_boss(target):
+    if _is_boss(_monster_data(str(target.get("id", "")))):
         _boss_impact(target_node, critical)
     _spawn_damage_fx(target_node.global_position + Vector3(0, 0.85, 0), critical, damage)
 
@@ -221,10 +220,7 @@ func _spawn_burst(pos: Vector3, color: Color, critical: bool) -> void:
     ring.material_override = _emissive(color, 2.8 if critical else 1.8)
     fx.add_child(ring)
     var tween := create_tween()
-    tween.set_parallel(true)
     tween.tween_property(fx, "scale", Vector3.ONE * (1.8 if critical else 1.35), 0.22)
-    tween.tween_property(fx, "modulate:a", 0.0, 0.22)
-    tween.set_parallel(false)
     tween.tween_callback(fx.queue_free)
 
 func _boss_impact(actor: Node3D, critical: bool) -> void:
@@ -282,8 +278,8 @@ func _stage_boss(actor: Node3D, id: String) -> void:
     aura.light_color = Color("#9a7cff")
     aura.light_energy = 0.55
     aura.omni_range = 4.5
-    aura.position = actor.global_position + Vector3(0, 1.3, 0)
     root.add_child(aura)
+    aura.global_position = actor.global_position + Vector3(0, 1.3, 0)
     var label := Label3D.new()
     label.name = "BossTitle_" + id
     label.text = "MVP  •  " + id.replace("_", " ").to_upper()
