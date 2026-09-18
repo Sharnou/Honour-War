@@ -2,7 +2,7 @@ class_name SaveSystem
 extends RefCounted
 
 const SAVE_PATH := "user://honour_war_save.json"
-const SAVE_VERSION := 8
+const SAVE_VERSION := 9
 
 static func save_game(hero:Dictionary) -> bool:
     var data:Dictionary = hero.duplicate(true)
@@ -94,16 +94,4 @@ static func migrate(hero:Dictionary) -> Dictionary:
         hero["loot_rules"] = {"enabled":true,"auto_pick_items":true,"auto_pick_cards":true,"auto_pick_materials":true,"auto_pick_equipment":true}
     if not hero.has("loot_stats") or not hero["loot_stats"] is Dictionary:
         hero["loot_stats"] = {"items":0,"cards":0,"equipment":0,"materials":0,"zeny":0,"xp":0,"pet_xp":0}
-    if not hero.has("cities") or not hero["cities"] is Dictionary:
-        hero["cities"] = {}
-    if not hero.has("soldier_roster") or not hero["soldier_roster"] is Array:
-        hero["soldier_roster"] = []
-    if not hero.has("soldier_deaths"):
-        hero["soldier_deaths"] = 0
-    if not hero.has("bank_state") or not hero["bank_state"] is Dictionary:
-        hero["bank_state"] = {}
-    if not hero.has("tower_defense") or not hero["tower_defense"] is Dictionary:
-        hero["tower_defense"] = {"level":0,"waves_cleared":0}
-    if not hero.has("city_upgrade_state") or not hero["city_upgrade_state"] is Dictionary:
-        hero["city_upgrade_state"] = {"card_mix":0,"weapon_upgrade":0,"skill_upgrade":0,"minimap_overlay":false}
     return hero
