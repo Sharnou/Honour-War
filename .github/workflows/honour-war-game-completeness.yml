@@ -127,6 +127,12 @@ jobs:
           echo "Running fast-auth regression in the foreground (timeout 120s)."
           timeout --kill-after=10s 120s ./${GODOT_BINARY} --headless --path . --script res://tests/fast_account_auth_test.gd 2>&1 | tee fast-account-auth.log
 
+      - name: Validate login registration and Create New Character UI
+        shell: bash
+        run: |
+          set -euo pipefail
+          ./${GODOT_BINARY} --headless --path . --script res://tests/login_registration_character_ui_test.gd 2>&1 | tee login-registration-character-ui.log
+
       - name: Validate four-point production completion
         shell: bash
         run: |
@@ -168,6 +174,7 @@ jobs:
             live-world-replication.log
             server-gameplay-authority.log
             fast-account-auth.log
+            login-registration-character-ui.log
             quest-system.log
             party-service.log
             online-world-state.log
