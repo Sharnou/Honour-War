@@ -46,8 +46,9 @@ func _update_monsters()->void:
         var monster:Dictionary=item
         var id:String=str(monster.get("visual_id",monster.get("name","monster")))
         active[id]=true
-        var visual:Node3D=visuals.get(id) as Node3D
-        if visual==null or not is_instance_valid(visual): continue
+        var visual_value:Variant=visuals.get(id,null)
+        if not is_instance_valid(visual_value) or not visual_value is Node3D: continue
+        var visual:Node3D=visual_value as Node3D
         var entry:Dictionary=monster_bars.get(id,{})
         if entry.is_empty():
             entry=_build_monster_bar(visual,bool(monster.get("mvp",false)))
