@@ -1,8 +1,6 @@
 class_name CitySystem
 extends RefCounted
 
-const STRATEGY = preload("res://scripts/StrategyCitySystem.gd")
-
 ## MMORPG/ARPG city registry.
 ## Cities are permanent social/service hubs only. They have no progression,
 ## resource inventories, production queues, territory ownership, army, bank,
