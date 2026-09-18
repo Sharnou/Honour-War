@@ -58,6 +58,11 @@ func _initialize() -> void:
     check("online age recalculates for saved heroes", int(aging_hero.get("age",0)) == 19)
     check("online age grants refine bonus", is_equal_approx(ONLINE_AGE.refine_success_bonus(aging_hero),0.01))
 
+    var fire_weak_target:Dictionary = {"name":"Fire Dragon","level":300,"mvp":true}
+    var fire_match:float = MONSTERS.skill_damage_multiplier("Mage","mage_frost_prison",fire_weak_target)
+    var fire_resist:float = MONSTERS.skill_damage_multiplier("Mage","mage_comet",fire_weak_target)
+    check("elemental weakness bonus", is_equal_approx(fire_match,1.25))
+    check("elemental resistance penalty", is_equal_approx(fire_resist,0.88))
     var combat_runtime_text:String = FileAccess.get_file_as_string("res://scripts/CombatRuntime.gd")
     var combat_rules_text:String = FileAccess.get_file_as_string("res://scripts/CombatRules.gd")
     check("specialization combat wiring", combat_runtime_text.contains("ClassTreeSystem.branch_bonus"))
