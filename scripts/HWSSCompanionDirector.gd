@@ -7,7 +7,8 @@ const HEAL_THRESHOLD:float = 0.72
 const HEAL_INTERVAL:float = 2.25
 const COMBAT_INTERVAL:float = 1.15
 const MAX_LEVEL:int = 250
-const ASURA_SKILL:String = "Champion's Asura"
+const ASURA_SKILL:String = "Asura Strike"
+const RENTAL_IDENTITY:String = "Champion's Asura"
 const CLASS_NAME:String = "Super Champion (Rental Only)"
 const PRODUCTION_ASSET:String = "res://assets/3d/generated/ss/SS_SuperShambion.glb"
 var ss_visual:Node3D
@@ -36,7 +37,7 @@ func _sync(delta:float = 0.016) -> void:
     var hero_pos:Vector2=Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0)))
     var target_pos:Vector3=_map_to_world(hero_pos)+Vector3(FOLLOW_DISTANCE,0,0.8)
     if bool(behavior.get("follow",true)): ss_visual.position=ss_visual.position.lerp(target_pos,clampf(1.0-exp(-8.0*maxf(delta,0)),0,1)); last_action="Follow"
-    ss_visual.set_meta("behavior",behavior); ss_visual.set_meta("skill",ASURA_SKILL); ss_visual.set_meta("class",CLASS_NAME); ss_visual.set_meta("level",int(data.get("level",250))); ss_visual.set_meta("age",int(data.get("age",18))); ss_visual.set_meta("ai_action",last_action)
+    ss_visual.set_meta("behavior",behavior); ss_visual.set_meta("skill",ASURA_SKILL); ss_visual.set_meta("rental_skill",RENTAL_IDENTITY); ss_visual.set_meta("class",CLASS_NAME); ss_visual.set_meta("level",int(data.get("level",250))); ss_visual.set_meta("age",int(data.get("age",18))); ss_visual.set_meta("ai_action",last_action)
     if bool(behavior.get("heal",true)) and heal_clock>=HEAL_INTERVAL: heal_clock=0; _try_heal(legacy,hero,data)
     if bool(behavior.get("fight",true)) and combat_clock>=COMBAT_INTERVAL: combat_clock=0; _try_fight(legacy,data)
 func _try_heal(legacy:Node,hero:Dictionary,data:Dictionary)->void:
@@ -55,8 +56,12 @@ func _try_fight(legacy:Node,data:Dictionary)->void:
         var distance:float=ss_map_pos.distance_to(pos_value); if distance<=LEGACY_COMBAT_RANGE and distance<best_distance: best_distance=distance; best_index=i
     if best_index<0: return
     var target:Dictionary=monsters_value[best_index]; var level:int=clampi(int(data.get("level",250)),0,MAX_LEVEL); var stats:Dictionary=data.get("status_points",{}).duplicate(true); var strength:int=maxi(0,int(stats.get("STR",0))); var dex:int=maxi(0,int(stats.get("DEX",0))); var refine:int=maxi(0,int(data.get("refine",0)))
-    var damage:int=maxi(25,80+level*6+strength*4+dex*2+refine*5); damage=maxi(1,damage-maxi(0,int(target.get("defense",0)))); var previous_hp:int=maxi(0,int(target.get("hp",0))); target["hp"]=maxi(0,previous_hp-damage); monsters_value[best_index]=target; legacy.set("monsters",monsters_value); last_action=ASURA_SKILL
+    var damage:int=maxi(25,80+level*6+strength*4+dex*2+refine*5); damage=maxi(1,damage-maxi(0,int(target.get("defense",0)))); var previous_hp:int=maxi(0,int(target.get("hp",0))); target["hp"]=maxi(0,previous_hp-damage); monsters_value[best_index]=target; legacy.set("monsters",monsters_value); last_action=ASURA_SKILL; _play_skill_vfx()
     if previous_hp>0 and int(target.get("hp",0))<=0 and legacy.has_method("defeat_monster"): legacy.call("defeat_monster",target)
+func _play_skill_vfx() -> void:
+    if ss_visual==null: return
+    ss_visual.set_meta("skill_vfx",ASURA_SKILL)
+    ss_visual.set_meta("skill_vfx_time",Time.get_ticks_msec())
 func _store_ss(data:Dictionary)->void:
     var runtime:Node=get_node_or_null("/root/HWRentalService"); if runtime!=null and bool(runtime.call("is_rented")): runtime.set("ss",data.duplicate(true))
 func _spawn_ss(scene:Node)->void:
