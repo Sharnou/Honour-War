@@ -58,6 +58,40 @@ static func details(monster:Dictionary)->Dictionary:
 		data["danger"]=max(int(data["danger"]),15); data["description"]=str(data["description"])+" MVP-class threat."
 	return data
 
+static func skill_element(class_id:String,skill_id:String)->String:
+	match class_id:
+		"Mage":
+			if skill_id.find("frost")>=0: return "Ice"
+			if skill_id.find("meteor")>=0 or skill_id.find("comet")>=0: return "Fire"
+			if skill_id.find("void")>=0: return "Dark"
+			return "Magic"
+		"Archer":
+			if skill_id.find("trap")>=0: return "Lightning"
+			return "Wind"
+		"Thief":
+			return "Dark"
+		"Acolyte":
+			return "Holy"
+		"Merchant":
+			if skill_id.find("magma")>=0: return "Fire"
+			return "Neutral"
+		"Warrior":
+			return "Neutral"
+	return "Neutral"
+
+static func skill_damage_multiplier(class_id:String,skill_id:String,monster:Dictionary)->float:
+	var details_value:Dictionary=details(monster)
+	var attack_element:String=skill_element(class_id,skill_id)
+	var weakness:String=str(details_value.get("weakness","Neutral"))
+	var defense_element:String=str(details_value.get("element","Neutral"))
+	if weakness=="Magic" and attack_element=="Magic":
+		return 1.25
+	if weakness==attack_element and weakness!="Neutral":
+		return 1.25
+	if attack_element==defense_element and attack_element!="Neutral":
+		return 0.88
+	return 1.0
+
 static func apply_poison(monster:Dictionary,source_damage:int,duration:float=6.0)->bool:
 	var d:Dictionary=details(monster)
 	var resistance:float=float(d.get("poison_resist",0.0))
