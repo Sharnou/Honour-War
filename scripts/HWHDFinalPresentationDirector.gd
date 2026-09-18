@@ -203,8 +203,8 @@ func _spawn_burst(pos: Vector3, color: Color, critical: bool) -> void:
     var root := _vfx_root()
     var fx := Node3D.new()
     fx.name = "HDImpactBurst"
-    fx.global_position = pos
     root.add_child(fx)
+    fx.global_position = pos
     for i in range(6 if critical else 4):
         var shard := MeshInstance3D.new()
         var mesh := SphereMesh.new()
@@ -280,8 +280,8 @@ func _stage_boss(actor: Node3D, id: String) -> void:
     mesh.radial_segments = 48
     marker.mesh = mesh
     marker.material_override = _emissive(Color("#8c72ff"), 1.8)
-    marker.global_position = actor.global_position + Vector3(0, 0.035, 0)
     root.add_child(marker)
+    marker.global_position = actor.global_position + Vector3(0, 0.035, 0)
     var aura := OmniLight3D.new()
     aura.name = "BossAura_" + id
     aura.light_color = Color("#9a7cff")
@@ -295,8 +295,8 @@ func _stage_boss(actor: Node3D, id: String) -> void:
     label.font_size = 40
     label.outline_size = 9
     label.modulate = Color("#ffe29a")
-    label.global_position = actor.global_position + Vector3(0, 2.7, 0)
     root.add_child(label)
+    label.global_position = actor.global_position + Vector3(0, 2.7, 0)
 
 func _sync_equipment() -> void:
     if hero == null or not is_instance_valid(hero):
