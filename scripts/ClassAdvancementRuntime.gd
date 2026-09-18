@@ -144,9 +144,10 @@ func _select_branch(branch_name:String)->void:
     _update_visuals()
 
 func _class_rank_for_level(level:int,class_id:String)->String:
-    # Use the authoritative class tree so the HUD/visual promotion name matches
-    # GameData and saved progression exactly (e.g. Lord Knight, High Wizard).
-    return GameData.class_rank_for_level(level,class_id)
+    # Use the authoritative hero-aware rank so branch-specific Fourth Jobs,
+    # including the Acolyte Saint -> Super Champion path, display correctly.
+    var display_hero:Dictionary = {"level":level,"class":class_id,"class_branch":str(hero.get("class_branch",""))}
+    return GameData.class_rank_for_hero(display_hero)
 
 func _update_visuals()->void:
     if scene_root==null: return
