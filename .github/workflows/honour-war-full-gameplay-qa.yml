@@ -36,10 +36,17 @@ jobs:
           fetch-depth: 1
           ref: ${{ github.sha }}
 
-      - name: Download Godot 4.7.2
+      - name: Download Godot 4.7.2 from official release asset
         shell: pwsh
         run: |
-          Invoke-WebRequest -Uri "https://github.com/godotengine/godot/releases/download/4.7.2-stable/Godot_v4.7.2-stable_win64.exe" -OutFile "$pwd\godot.exe"
+          $ErrorActionPreference = "Stop"
+          $asset = "Godot_v4.7.2-stable_win64.exe"
+          $uri = "https://github.com/godotengine/godot/releases/download/4.7.2-stable/$asset"
+          $out = Join-Path $pwd "godot.exe"
+          curl.exe --fail --location --retry 5 --retry-all-errors --connect-timeout 20 --output "$out" "$uri"
+          if (-not (Test-Path $out)) { throw "Godot download failed" }
+          $size = (Get-Item $out).Length
+          if ($size -lt 100000000) { throw "Downloaded Godot executable is unexpectedly small: $size bytes" }
 
       - name: Validate editor and scripts
         shell: pwsh
@@ -116,10 +123,17 @@ jobs:
           fetch-depth: 1
           ref: ${{ github.sha }}
 
-      - name: Download Godot 4.7.2
+      - name: Download Godot 4.7.2 from official release asset
         shell: pwsh
         run: |
-          Invoke-WebRequest -Uri "https://github.com/godotengine/godot/releases/download/4.7.2-stable/Godot_v4.7.2-stable_win64.exe" -OutFile "$pwd\godot.exe"
+          $ErrorActionPreference = "Stop"
+          $asset = "Godot_v4.7.2-stable_win64.exe"
+          $uri = "https://github.com/godotengine/godot/releases/download/4.7.2-stable/$asset"
+          $out = Join-Path $pwd "godot.exe"
+          curl.exe --fail --location --retry 5 --retry-all-errors --connect-timeout 20 --output "$out" "$uri"
+          if (-not (Test-Path $out)) { throw "Godot download failed" }
+          $size = (Get-Item $out).Length
+          if ($size -lt 100000000) { throw "Downloaded Godot executable is unexpectedly small: $size bytes" }
 
       - name: Export HonourWarHD.exe
         shell: pwsh
