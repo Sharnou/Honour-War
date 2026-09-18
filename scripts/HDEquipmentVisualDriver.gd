@@ -24,7 +24,7 @@ func _process(_delta:float)->void:
     if not equipment_value is Dictionary: return
     var equipment:Dictionary=equipment_value
     var signature:String=""
-    for slot in ["weapon","head","armor","garment","shoes","offhand"]:
+    for slot in ["weapon","shield","head_upper","head_middle","head_lower","armor","garment","shoes","accessory_1","accessory_2"]:
         var item:Variant=equipment.get(slot,null)
         signature+=slot+":"+_item_name(item)+";"
     if signature==current_signature: return
@@ -38,11 +38,13 @@ func _rebuild(hero:Node3D,equipment:Dictionary)->void:
     visual_root.name="HW_EquipmentVisuals"
     hero.add_child(visual_root)
     _add_weapon(visual_root,_item_name(equipment.get("weapon",null)))
-    _add_headgear(visual_root,_item_name(equipment.get("head",null)))
+    _add_headgear(visual_root,_item_name(equipment.get("head_upper",null)))
+    _add_headgear(visual_root,_item_name(equipment.get("head_middle",null)))
+    _add_headgear(visual_root,_item_name(equipment.get("head_lower",null)))
     _add_armor(visual_root,_item_name(equipment.get("armor",null)))
     _add_garment(visual_root,_item_name(equipment.get("garment",null)))
     _add_shoes(visual_root,_item_name(equipment.get("shoes",null)))
-    _add_offhand(visual_root,_item_name(equipment.get("offhand",null)))
+    _add_offhand(visual_root,_item_name(equipment.get("shield",null)))
 
 func _item_name(value:Variant)->String:
     if value is Dictionary:
