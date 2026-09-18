@@ -150,8 +150,10 @@ func _make_bar(caption: String, tint: Color, parent: Node3D) -> Label3D:
 func _refresh_labels() -> void:
 	for id in actor_ui.keys():
 		var data: Dictionary = actor_ui[id]
-		var actor: Node = data.get("actor")
-		if actor == null or not is_instance_valid(actor):
+		var actor_value: Variant = data.get("actor", null)
+		if not is_instance_valid(actor_value) or not actor_value is Node:
+			continue
+		var actor: Node = actor_value as Node
 			continue
 		var local := _is_local(actor)
 		var name_label_value: Variant = data.get("name_label", null)
@@ -174,8 +176,10 @@ func _update_bars(actor: Node, data: Dictionary) -> void:
 	var max_hp := _number(actor, ["max_hp", "hp_max"], maxf(hp, 1.0))
 	var sp := _number(actor, ["sp", "current_sp"], 0.0)
 	var max_sp := _number(actor, ["max_sp", "sp_max"], maxf(sp, 1.0))
-	var hp_label: Label3D = data.get("hp_label")
-	var sp_label: Label3D = data.get("sp_label")
+	var hp_label_value: Variant = data.get("hp_label", null)
+	var sp_label_value: Variant = data.get("sp_label", null)
+	var hp_label: Label3D = hp_label_value as Label3D if is_instance_valid(hp_label_value) and hp_label_value is Label3D else null
+	var sp_label: Label3D = sp_label_value as Label3D if is_instance_valid(sp_label_value) and sp_label_value is Label3D else null
 	if hp_label != null and is_instance_valid(hp_label):
 		hp_label.text = "HP " + _bar(hp, max_hp)
 	if sp_label != null and is_instance_valid(sp_label):
