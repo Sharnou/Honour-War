@@ -16,6 +16,8 @@ on:
       - "scripts/GameData.gd"
       - "tests/character_visual_profile_contract_test.gd"
       - "tests/hd_gameplay_presentation_contract_test.gd"
+      - "tests/world_actor_visual_profile_contract_test.gd"
+      - "tools/capture_real_game_screenshot.gd"
 
 concurrency:
   group: daily-honour-war-upgrade-${{ github.ref }}
@@ -57,9 +59,19 @@ jobs:
         run: |
           ./"${GODOT_BINARY}" --headless --path . --script res://tests/character_visual_profile_contract_test.gd 2>&1 | tee character-visual-profile.log
 
+      - name: Validate monster pet MVP and NPC visual roles
+        run: |
+          ./"${GODOT_BINARY}" --headless --path . --script res://tests/world_actor_visual_profile_contract_test.gd 2>&1 | tee world-actor-visual-profile.log
+
       - name: Validate gameplay systems during the daily upgrade
         run: |
           ./"${GODOT_BINARY}" --headless --path . --script res://tests/hd_gameplay_presentation_contract_test.gd 2>&1 | tee gameplay-daily-upgrade.log
+
+      - name: Capture real running-game screenshot
+        run: |
+          sudo apt-get install -y xvfb
+          timeout 35s xvfb-run -a ./"${GODOT_BINARY}" --path . --rendering-method gl_compatibility --rendering-driver opengl3 --script res://tools/capture_real_game_screenshot.gd 2>&1 | tee real-game-screenshot.log
+          test -s visual-captures/honour-war-real-game.png
 
       - name: Validate combat, skills, pets and progression source wiring
         run: |
@@ -76,4 +88,7 @@ jobs:
           path: |
             character-visual-profile.log
             gameplay-daily-upgrade.log
+            world-actor-visual-profile.log
+            real-game-screenshot.log
+            visual-captures/honour-war-real-game.png
           if-no-files-found: ignore
