@@ -379,13 +379,16 @@ func _apply_pet_visual_motion(actor:Node3D,pet:Dictionary)->void:
     actor.set_meta("hw_emotion",str(profile.get("emotion","")))
     actor.set_meta("hw_motion_language",str(profile.get("motion","")))
     var t:float=hero_motion_time
+    if not actor.has_meta("hw_pet_base_y"):
+        actor.set_meta("hw_pet_base_y",actor.position.y)
+    actor.position.y=float(actor.get_meta("hw_pet_base_y",actor.position.y))
     actor.rotation.y=sin(t*2.0)*0.035
     if str(pet.get("species",""))=="Royal Falcon":
         actor.rotation.z=sin(t*5.0)*0.035
     elif str(pet.get("species",""))=="Night Panther":
         actor.rotation.y=sin(t*2.8)*0.05
     elif str(pet.get("species",""))=="Astral Sprite":
-        actor.position.y+=sin(t*2.2)*0.025
+        actor.position.y=float(actor.get_meta("hw_pet_base_y",actor.position.y))+sin(t*2.2)*0.025
     elif str(pet.get("species",""))=="Blessed Poring":
         actor.scale=Vector3.ONE*(1.0+sin(t*3.5)*0.018)
 
