@@ -58,8 +58,9 @@ func _process(delta:float)->void:
     move_monsters(delta,hero)
     regenerate_sp(hero)
     update_status_effects(hero)
+    update_hero_status_effects(hero)
     var hero_interval:float=CombatRules.class_attack_interval(hero)
-    if target!=null and hero_attack_timer>=hero_interval and _hero_in_attack_range(hero,target):
+    if target!=null and hero_attack_timer>=hero_interval and _hero_in_attack_range(hero,target) and _hero_can_attack(hero):
         hero_attack_timer=0.0
         hero_strike(hero,target)
     if target!=null and pet_attack_timer>=CombatRules.pet_attack_interval(hero.get("pet",{})) and _pet_in_attack_range(hero,target):
@@ -162,6 +163,30 @@ func regenerate_sp(hero:Dictionary)->void:
         var pet:Dictionary=hero["pet"]
         pet["sp"]=min(int(pet.get("max_sp",30)),int(pet.get("sp",30))+1)
 
+func update_hero_status_effects(hero:Dictionary)->void:
+    var now:float=now_seconds()
+    if float(hero.get("burn_until",0.0))>now and float(hero.get("burn_tick",0.0))<=now:
+        hero["burn_tick"]=now+1.0
+        var burn_damage:int=max(1,int(hero.get("burn_damage",4)))
+        hero["hp"]=max(0,int(hero.get("hp",0))-burn_damage)
+        call_vfx("hit",Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0))),str(burn_damage),false)
+        if int(hero.get("hp",0))<=0:
+            respawn_hero(hero)
+    if float(hero.get("curse_until",0.0))<=now:
+        hero.erase("curse_until")
+    if float(hero.get("fear_until",0.0))<=now:
+        hero.erase("fear_until")
+    if float(hero.get("stagger_until",0.0))<=now:
+        hero.erase("stagger_until")
+    if float(hero.get("freeze_until",0.0))<=now:
+        hero.erase("freeze_until")
+    if float(hero.get("slow_until",0.0))<=now:
+        hero.erase("slow_until")
+
+func _hero_can_attack(hero:Dictionary)->bool:
+    var now:float=now_seconds()
+    return float(hero.get("freeze_until",0.0))<=now and float(hero.get("stagger_until",0.0))<=now
+
 func update_status_effects(hero:Dictionary)->void:
     var monsters=game.get("monsters")
     if not monsters is Array: return
@@ -199,6 +224,8 @@ func hero_strike(hero:Dictionary,monster:Dictionary)->void:
     if class_id=="Archer" or class_id=="Ranger": critical_chance+=6
     var critical:bool=rng.randi_range(1,100)<=min(75,critical_chance)
     var damage:int=power+rng.randi_range(0,9)
+    if float(hero.get("curse_until",0.0))>now_seconds():
+        damage=int(round(float(damage)*0.80))
     if critical: damage=int(float(damage)*1.75)
     damage=max(1,damage-int(monster.get("defense",0)))
     monster["hp"]=int(monster.get("hp",0))-damage
@@ -283,11 +310,31 @@ func mvp_skill_phase(hero:Dictionary)->void:
         var defense:int=int(SkillSystem.combat_stats(hero)["defense_bonus"])+int(hero.get("age_defense_bonus",0))
         skill_damage=max(1,skill_damage-defense)
         hero["hp"]=max(0,int(hero.get("hp",0))-skill_damage)
+        _apply_mvp_status(hero,monster,skill_damage)
         call_vfx("mvp",hero_pos,str(monster.get("mvp_skill","MVP SKILL")),false)
         call_vfx("hit",hero_pos,str(skill_damage),true)
         monster_attack_landed.emit("hero",skill_damage)
         game.call("log_message","%s casts %s for %d damage!" % [monster.get("title",monster.get("name","MVP")),monster.get("mvp_skill","MVP Skill"),skill_damage])
         if int(hero.get("hp",0))<=0: respawn_hero(hero)
+
+func _apply_mvp_status(hero:Dictionary,monster:Dictionary,damage:int)->void:
+    var d:Dictionary=MonsterDetails.details(monster)
+    var status:String=str(d.get("status",""))
+    var now:float=now_seconds()
+    if status.contains("Burn"):
+        hero["burn_until"]=max(float(hero.get("burn_until",0.0)),now+6.0)
+        hero["burn_damage"]=max(1,int(float(damage)*0.18))
+        hero["burn_tick"]=now+1.0
+    if status.contains("Curse"):
+        hero["curse_until"]=max(float(hero.get("curse_until",0.0)),now+5.0)
+    if status.contains("Fear"):
+        hero["fear_until"]=max(float(hero.get("fear_until",0.0)),now+4.0)
+    if status.contains("Stagger"):
+        hero["stagger_until"]=max(float(hero.get("stagger_until",0.0)),now+1.25)
+    if status.contains("Freeze"):
+        hero["freeze_until"]=max(float(hero.get("freeze_until",0.0)),now+1.5)
+    elif status.contains("Slow"):
+        hero["slow_until"]=max(float(hero.get("slow_until",0.0)),now+3.0)
 
 func revive_pet(hero:Dictionary)->void:
     var pet:Dictionary=hero.get("pet",{})
