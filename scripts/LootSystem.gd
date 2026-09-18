@@ -108,7 +108,7 @@ static func collect_ground(hero:Dictionary)->Array[String]:
         else: remaining.append(drop)
     hero["ground_loot"]=remaining; return gained
 
-static func _grant_level_300_rewards(hero:Dictionary,gained:Array[String])->void:
+static func _grant_level_300_rewards(hero:Dictionary,gained:Array[String],rng:RandomNumberGenerator)->void:
     # A level-300 monster is the explicit endgame bridge: every such kill
     # awards a class-matched Super weapon, top-tier glowing armor, and a
     # Super card when autoloot is enabled. Duplicates are still allowed for
@@ -116,9 +116,12 @@ static func _grant_level_300_rewards(hero:Dictionary,gained:Array[String])->void
     var class_id:String=str(hero.get("class","Warrior"))
     var weapon:String=str(CLASS_ENDGAME_WEAPONS.get(class_id,CLASS_ENDGAME_WEAPONS["Warrior"]))
     var card:String=str(CLASS_ENDGAME_CARDS.get(class_id,CLASS_ENDGAME_CARDS["Warrior"]))
-    if add_item(hero,weapon,1): gained.append(weapon)
-    if add_item(hero,ENDGAME_ARMOR,1): gained.append(ENDGAME_ARMOR)
-    if add_card(hero,card): gained.append(card)
+    var weapon_roll:Dictionary=LootProgression.roll_drop(0.10,hero,rng.randf())
+    if bool(weapon_roll.get("dropped",false)) and add_item(hero,weapon,1): gained.append(weapon)
+    var armor_roll:Dictionary=LootProgression.roll_drop(0.10,hero,rng.randf())
+    if bool(armor_roll.get("dropped",false)) and add_item(hero,ENDGAME_ARMOR,1): gained.append(ENDGAME_ARMOR)
+    var card_roll:Dictionary=LootProgression.roll_drop(0.10,hero,rng.randf())
+    if bool(card_roll.get("dropped",false)) and add_card(hero,card): gained.append(card)
 
 static func on_monster_defeated(hero:Dictionary,monster:Dictionary,rng:RandomNumberGenerator)->Array[String]:
     ensure_state(hero)
@@ -144,5 +147,5 @@ static func on_monster_defeated(hero:Dictionary,monster:Dictionary,rng:RandomNum
     gained.append("%d XP" % hero_xp); gained.append("%d Zeny" % int(reward.get("zeny",0)))
     if int(xp_result.get("levels",0))>0: gained.append("Level %d" % int(xp_result.get("level",1)))
     if int(monster.get("level",0))>=300:
-        _grant_level_300_rewards(hero,gained)
+        _grant_level_300_rewards(hero,gained,rng)
     return gained
