@@ -81,8 +81,8 @@ func _build()->void:
     panel = PanelContainer.new()
     panel.name = "HWFinalSkillQuickbar"
     panel.set_anchors_preset(Control.PRESET_TOP_LEFT)
-    panel.size=Vector2(760,68)
-    panel.position=Vector2(260,640)
+    panel.size=Vector2(640,64)
+    panel.position=Vector2(320,640)
     panel.add_theme_stylebox_override("panel", _style(PANEL_BG, BORDER, 10))
     panel.mouse_filter = Control.MOUSE_FILTER_STOP
     add_child(panel)
@@ -135,7 +135,7 @@ func _build()->void:
     for i in range(8):
         var slot := Button.new()
         slot.name = "SkillSlot_%d" % (i + 1)
-        slot.custom_minimum_size = Vector2(88, 44)
+        slot.custom_minimum_size = Vector2(72, 40)
         slot.size_flags_horizontal = Control.SIZE_EXPAND_FILL
         slot.size_flags_vertical = Control.SIZE_EXPAND_FILL
         slot.alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -152,7 +152,7 @@ func _build()->void:
 func _toggle_collapsed()->void:
     collapsed=not collapsed
     slots.visible=not collapsed
-    panel.size.y=36.0 if collapsed else 68.0
+    panel.size.y=34.0 if collapsed else 64.0
     close_button.text="+" if collapsed else "×"
     restore_button.visible=collapsed
     panel.offset_bottom=-12
@@ -172,7 +172,7 @@ func _on_panel_gui_input(event:InputEvent)->void:
 
 func _layout_screen_safe()->void:
     var viewport_size:=get_viewport().get_visible_rect().size
-    panel.size=Vector2(min(760.0,viewport_size.x-24.0),68.0 if not collapsed else 36.0)
+    panel.size=Vector2(min(640.0,viewport_size.x-24.0),64.0 if not collapsed else 34.0)
     panel.position=Vector2((viewport_size.x-panel.size.x)*0.5,viewport_size.y-panel.size.y-10.0)
     restore_button.position=Vector2(viewport_size.x-96.0,viewport_size.y-46.0)
 
