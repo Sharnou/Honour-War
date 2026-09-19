@@ -3,7 +3,7 @@ extends SceneTree
 const CAPTURE_DIR:String="res://visual-captures"
 const CAPTURE_FILE:String=CAPTURE_DIR+"/honour-war-real-game.png"
 const STARTUP_TIMEOUT:float=45.0
-const MIN_RENDER_FRAMES:int=20
+const MIN_RENDER_FRAMES:int=8
 
 var elapsed:float=0.0
 var captured:bool=false
@@ -114,14 +114,9 @@ func _process(delta:float)->bool:
 
     elapsed+=delta
     render_frames+=1
-    if not seal_done and elapsed >= 2.0:
-        # One bounded post-startup seal; never rescan the full scene every frame.
-        var frame_seal_scene:Node=get_current_scene()
-        if frame_seal_scene!=null:
-            var repaired:int=_sanitize_mesh_materials(frame_seal_scene)
-            if repaired>0:
-                print("FRAME_MATERIAL_SEAL repaired=",repaired)
-        seal_done=true
+    # Pre-attachment and post-attachment seals are authoritative. Avoid a third
+    # full-scene material walk here because the production world contains many
+    # native mesh instances and CI uses a software D3D12 renderer.
     if elapsed>STARTUP_TIMEOUT:
         push_error("Real game screenshot timed out after %.1f seconds" % STARTUP_TIMEOUT)
         quit(2)
@@ -139,7 +134,7 @@ func _process(delta:float)->bool:
     # Do not make the evidence capture depend on one recovery node path. The
     # screenshot must capture the real Main3D scene as soon as its camera and
     # renderable world are alive.
-    if elapsed<8.0 or render_frames<MIN_RENDER_FRAMES or camera==null or not camera.current or not world_ready:
+    if elapsed<1.5 or render_frames<MIN_RENDER_FRAMES or camera==null or not camera.current or not world_ready:
         return false
 
     var viewport:Viewport=get_root().get_viewport()
