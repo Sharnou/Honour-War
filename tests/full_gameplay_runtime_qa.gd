@@ -4,6 +4,7 @@ extends SceneTree
 ## This is deterministic CI coverage of the live gameplay APIs plus runtime wiring.
 ## It deliberately exercises the same systems used by Main3D rather than mock-only
 ## replacement systems.
+## Production visuals are native Godot resources only; HD generated GLBs are retired.
 
 const DATA = preload("res://scripts/GameData.gd")
 const MOVE = preload("res://scripts/PlayerMovementController3D.gd")
@@ -12,7 +13,6 @@ const SKILLS = preload("res://scripts/SkillSystem.gd")
 const PET = preload("res://scripts/PetSystem.gd")
 const TELEPORT = preload("res://scripts/TeleportSystem.gd")
 const WORLD = preload("res://scripts/WorldSystem.gd")
-const LOOT = preload("res://scripts/LootSystem.gd")
 
 var failures:int = 0
 
@@ -131,16 +131,22 @@ func _test_save_load() -> void:
 func _test_graphics_wiring() -> void:
     var scene:String = FileAccess.get_file_as_string("res://Main3D.tscn")
     var project:String = FileAccess.get_file_as_string("res://project.godot")
+    var asset_runtime:String = FileAccess.get_file_as_string("res://scripts/HDAssetRuntime.gd")
+    var visual_qa:String = FileAccess.get_file_as_string("res://tools/honour_war_visual_qa.py")
+    var no_glb_policy:String = FileAccess.get_file_as_string("res://docs/DAILY_HONOUR_WAR_NO_GLB_POLICY.md")
     check("Forward+ renderer configured", project.contains('renderer/rendering_method="forward_plus"'))
     check("Godot 4.7 configured", project.contains('config/features=PackedStringArray("4.7")'))
     check("Main3D is main scene", project.contains('run/main_scene="res://Main3D.tscn"'))
-    check("HD asset runtime wired", scene.contains("HDAssetRuntime"))
+    check("native visual runtime wired", scene.contains("HDAssetRuntime"))
     check("HD environment wired", scene.contains("HDEnvironmentDirector"))
     check("HD visual director wired", scene.contains("HDVisualDirector"))
     check("HD combat VFX wired", scene.contains("HDCombatVFX"))
     check("HD skill presentation wired", scene.contains("HDSkillPresentation"))
     check("pet visual/combat wiring", scene.contains("PetSkillRuntime") and scene.contains("HeroPetComboVFX"))
     check("camera stability wired", FileAccess.file_exists("res://scripts/MovementStabilityFix.gd"))
-    check("production character assets exist", FileAccess.file_exists("res://assets/3d/generated/characters/Warrior/Transcendence.glb"))
-    check("production monster assets exist", FileAccess.file_exists("res://assets/3d/generated/monsters/monster_Dragon.glb"))
-    check("production pet assets exist", FileAccess.file_exists("res://assets/3d/generated/pets/Falcon.glb"))
+    check("native visual runtime declares GLB retirement", asset_runtime.contains("HD generated GLB assets were permanently retired"))
+    check("native visual runtime forbids GLB loading", asset_runtime.contains("must NOT regenerate, download, import, or attach GLB assets"))
+    check("visual QA enforces no GLBs", visual_qa.contains("No generated HD GLB assets may remain"))
+    check("daily no-GLB policy exists", FileAccess.file_exists("res://docs/DAILY_HONOUR_WAR_NO_GLB_POLICY.md"))
+    check("daily no-GLB policy is permanent", no_glb_policy.contains("Status: **PERMANENT**"))
+    check("native Godot visual pipeline is documented", no_glb_policy.contains("native Godot scenes/resources"))
