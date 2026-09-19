@@ -1,7 +1,7 @@
 class_name ClassTreeSystem
 extends RefCounted
 
-const SkillSystemClass = preload("res://scripts/SkillSystem.gd")
+const SkillSystemClass = preload("res://scripts/SkillSystemClass.gd")
 
 const TIER_LEVELS:Dictionary={1:1,2:25,3:50,4:150,5:200}
 const TIER_NAMES:Dictionary={1:"Foundation",2:"Specialization",3:"Advanced",4:"Mastery",5:"Transcendence"}
@@ -133,7 +133,7 @@ static func branch_bonus(hero:Dictionary)->Dictionary:
             elif branch=="Tactician": bonus["damage"]=0.08+0.12*mastery; bonus["defense"]=0.08+0.12*mastery; bonus["control"]=0.12+0.13*mastery; bonus["sp_efficiency"]=0.06+0.09*mastery
     return bonus
 static func summary(hero:Dictionary)->Dictionary:
-    ensure_state(hero); var class_id:=str(hero.get("class","Warrior")); var profile:=class_profile(class_id); var skills:Array=SkillSystem.all_skills(class_id); var learned:=0; var total:=0
+    ensure_state(hero); var class_id:=str(hero.get("class","Warrior")); var profile:=class_profile(class_id); var skills:Array=SkillSystemClass.all_skills(class_id); var learned:=0; var total:=0
     for skill in skills:
-        var level:=SkillSystem.skill_level(hero,str(skill["id"])); learned+=level; total+=int(skill["max_level"])
+        var level:=SkillSystemClass.skill_level(hero,str(skill["id"])); learned+=level; total+=int(skill["max_level"])
     return {"class":class_id,"profile":profile,"available_tier":available_tier(hero),"capstone":capstone(class_id),"learned":learned,"total":total,"branch":str(hero.get("class_branch","")),"mastery":int(hero.get("class_mastery",0)),"branch_bonus":branch_bonus(hero)}
