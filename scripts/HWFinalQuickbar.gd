@@ -25,7 +25,7 @@ var icon_atlas:Texture2D
 func _ready()->void:
     layer = 300
     process_mode = Node.PROCESS_MODE_ALWAYS
-    if not OS.has_feature("headless"):
+    if DisplayServer.get_name() != "headless":
         icon_atlas = load(ICON_ATLAS_PATH) as Texture2D
     call_deferred("_bind_and_build")
 
@@ -48,7 +48,7 @@ func _bind_and_build()->void:
         return
     legacy = scene.get_node_or_null("LegacyGame")
     _hide_legacy_skillbars()
-    if icon_atlas == null and not OS.has_feature("headless"):
+    if icon_atlas == null and DisplayServer.get_name() != "headless":
         icon_atlas = load(ICON_ATLAS_PATH) as Texture2D
     if panel == null or not is_instance_valid(panel):
         _build()
