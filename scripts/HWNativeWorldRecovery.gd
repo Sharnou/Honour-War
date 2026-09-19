@@ -103,7 +103,9 @@ func _ensure_hero_proxy()->void:
     var camera:=scene.get_node_or_null("Camera3D") as Camera3D
     if camera!=null:
         if hero_proxy.get_parent()!=camera:
-            hero_proxy.get_parent().remove_child(hero_proxy) if hero_proxy.get_parent()!=null else null
+            var old_parent:=hero_proxy.get_parent()
+            if old_parent!=null:
+                old_parent.remove_child(hero_proxy)
             camera.add_child(hero_proxy)
         hero_proxy.position=Vector3(0.0,-1.45,-8.0)
         hero_proxy.rotation=Vector3.ZERO
