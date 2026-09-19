@@ -49,24 +49,95 @@ func _disable_competing_passes()->void:
         if node!=null: node.process_mode=Node.PROCESS_MODE_DISABLED
 
 func _force_environment()->void:
-    if scene==null: return
-    var env_node:WorldEnvironment=scene.get_node_or_null("HWFinalWorldEnvironment") as WorldEnvironment
+    if scene==null:
+        return
+
+    # HDVisualDirector is the single owner of production lighting. Do not add a
+    # second WorldEnvironment or sun: stacked environments/lights were causing
+    # washed-out HDR frames and reducing authored GLB material contrast.
+    var hd:Node=scene.get_node_or_null("HDVisualDirector")
+    var env_node:WorldEnvironment=null
+    if hd!=null:
+        env_node=hd.get_node_or_null("WorldEnvironment") as WorldEnvironment
     if env_node==null:
-        env_node=WorldEnvironment.new(); env_node.name="HWFinalWorldEnvironment"; scene.add_child(env_node)
+        env_node=scene.get_node_or_null("WorldEnvironment") as WorldEnvironment
+    if env_node==null:
+        env_node=scene.get_node_or_null("HWFinalWorldEnvironment") as WorldEnvironment
+    if env_node==null:
+        env_node=WorldEnvironment.new()
+        env_node.name="HWFinalWorldEnvironment"
+        scene.add_child(env_node)
+
     var env:Environment=env_node.environment
-    if env==null: env=Environment.new(); env_node.environment=env
+    if env==null:
+        env=Environment.new()
+        env_node.environment=env
+
     env.background_mode=Environment.BG_COLOR
-    env.background_color=Color("#8fb6cf")
+    env.background_color=Color("#6f9bb5")
     env.ambient_light_source=Environment.AMBIENT_SOURCE_COLOR
-    env.ambient_light_color=Color("#d7e7f2")
-    env.ambient_light_energy=0.85
+    env.ambient_light_color=Color("#c5d8e2")
+    env.ambient_light_energy=0.44
     env.tonemap_mode=Environment.TONE_MAPPER_ACES
-    var sun:DirectionalLight3D=scene.get_node_or_null("HWFinalSun") as DirectionalLight3D
+    env.tonemap_exposure=-0.45
+    env.tonemap_white=1.15
+    env.fog_enabled=true
+    env.fog_light_color=Color("#8ca9bd")
+    env.fog_light_energy=0.10
+    env.fog_density=0.0018
+    env.fog_height=1.5
+    env.fog_height_density=0.006
+
+    # Forward+ post effects remain authored by HDVisualDirector. Tighten them
+    # here so bright materials retain detail without a white bloom wash.
+    if RenderingServer.get_current_rendering_method()=="forward_plus":
+        env.ssao_enabled=true
+        env.ssao_radius=1.6
+        env.ssao_intensity=1.05
+        env.ssil_enabled=true
+        env.ssil_radius=3.0
+        env.ssil_intensity=0.50
+        env.glow_enabled=true
+        env.glow_intensity=0.20
+        env.glow_bloom=0.035
+        env.glow_hdr_threshold=1.55
+        env.sdfgi_enabled=true
+        env.sdfgi_energy=0.58
+    else:
+        env.ssao_enabled=false
+        env.ssil_enabled=false
+        env.glow_enabled=false
+        env.sdfgi_enabled=false
+        env.volumetric_fog_enabled=false
+
+    var sun:DirectionalLight3D=null
+    if hd!=null:
+        sun=hd.get_node_or_null("HDSun") as DirectionalLight3D
     if sun==null:
-        sun=DirectionalLight3D.new(); sun.name="HWFinalSun"; scene.add_child(sun)
-    sun.rotation_degrees=Vector3(-50,-32,0)
-    sun.light_energy=1.35
+        sun=scene.get_node_or_null("HWFinalSun") as DirectionalLight3D
+    if sun==null:
+        sun=scene.get_node_or_null("HWSunKey") as DirectionalLight3D
+    if sun==null:
+        sun=DirectionalLight3D.new()
+        sun.name="HWFinalSun"
+        scene.add_child(sun)
+    sun.rotation_degrees=Vector3(-50.0,-35.0,0.0)
+    sun.light_energy=0.88
+    sun.light_color=Color("#ffe8c2")
     sun.shadow_enabled=true
+    sun.directional_shadow_max_distance=90.0
+    sun.directional_shadow_fade_start=0.80
+    sun.light_angular_distance=0.18
+    sun.shadow_bias=0.035
+    sun.shadow_normal_bias=0.85
+
+    var rim:DirectionalLight3D=null
+    if hd!=null:
+        rim=hd.get_node_or_null("HDRim") as DirectionalLight3D
+    if rim!=null:
+        rim.light_energy=0.10
+        rim.light_color=Color("#79b9e4")
+        rim.shadow_enabled=false
 
 func _sync_hero()->void:
     var value:Variant=legacy.get("hero")
