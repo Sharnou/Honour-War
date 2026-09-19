@@ -3,7 +3,7 @@ extends Node3D
 
 const HWClassVisualBlueprintsClass=preload("res://scripts/HWClassVisualBlueprints.gd")
 const EquipmentSystemClass=preload("res://scripts/EquipmentSystem.gd")
-const ItemDatabaseClass=preload("res://scripts/ItemDatabaseClass.gd")
+const ItemDatabaseClass=preload("res://scripts/ItemDatabase.gd")
 var last_hero:Node3D
 var decorated:Dictionary={}
 var elapsed:float=0.0
