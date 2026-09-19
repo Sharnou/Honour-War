@@ -115,6 +115,12 @@ jobs:
           Write-Host "Installed Godot 4.7.2 x86_64 Windows export templates."
 
 
+      - name: Validate autoload class conflicts before Godot startup
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          python tools/validate_autoload_class_conflicts.py
+
       - name: Validate editor and scripts
         shell: pwsh
         run: |
