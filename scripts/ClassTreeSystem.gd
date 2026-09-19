@@ -1,7 +1,7 @@
 class_name ClassTreeSystem
 extends RefCounted
 
-const SkillSystemClass = preload("res://scripts/SkillSystemClass.gd")
+const SkillSystemClass = preload("res://scripts/SkillSystem.gd")
 
 const TIER_LEVELS:Dictionary={1:1,2:25,3:50,4:150,5:200}
 const TIER_NAMES:Dictionary={1:"Foundation",2:"Specialization",3:"Advanced",4:"Mastery",5:"Transcendence"}
