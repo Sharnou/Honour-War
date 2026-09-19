@@ -8,6 +8,7 @@ on:
     branches: [main]
     paths:
       - "scripts/HWCharacterVisualProfiles.gd"
+      - "scripts/ClassTreeSystem.gd"
       - "scripts/HWWorldActorVisualProfiles.gd"
       - "scripts/HWSSRentNPCDirector.gd"
       - "scripts/HWServiceNPCVisualDirector.gd"
@@ -83,6 +84,11 @@ jobs:
         run: |
           ./"${GODOT_BINARY}" --headless --path . --script res://tests/character_visual_profile_contract_test.gd 2>&1 | tee character-visual-profile.log
 
+      - name: Validate class-branch clothing style and emotion identity
+        run: |
+          ./"\${GODOT_BINARY}" --headless --path . --script res://tests/character_visual_profile_contract_test.gd 2>&1 | tee branch-clothing-emotion.log
+          grep -F "PASS: six-class clothing, emotion, motion, and progression visual profiles" branch-clothing-emotion.log
+
       - name: Validate monster pet MVP and NPC visual roles
         run: |
           ./"${GODOT_BINARY}" --headless --path . --script res://tests/world_actor_visual_profile_contract_test.gd 2>&1 | tee world-actor-visual-profile.log
@@ -151,6 +157,7 @@ jobs:
           name: daily-honour-war-upgrade-logs
           path: |
             character-visual-profile.log
+            branch-clothing-emotion.log
             gameplay-daily-upgrade.log
             full-gameplay-runtime-qa.log
             game-completion-contract.log
