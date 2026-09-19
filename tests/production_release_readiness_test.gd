@@ -38,7 +38,7 @@ func _run()->void:
     check(FileAccess.file_exists("res://scripts/HWRoleDrivenUpgradeRuntime.gd"),"native role-driven visual runtime")
     check(FileAccess.file_exists("res://docs/NEURAL4D_REGENERATION_MANIFEST.md"),"Neural4D FBX/OBJ regeneration manifest")
     check(FileAccess.file_exists("res://docs/DAILY_HONOUR_WAR_NO_GLB_POLICY.md"),"permanent no-GLB policy")
-    check(not DirAccess.dir_exists_absolute("res://assets/3d/generated"),"retired generated-asset tree absent")
+    check(DirAccess.open("res://assets/3d/generated") == null,"retired generated-asset tree absent")
 
     check(FileAccess.file_exists("res://scripts/HWOnlineAuthorityRuntime.gd"),"online authority runtime")
     check(FileAccess.file_exists("res://scripts/HWServerGameplayRuntime.gd"),"server gameplay runtime")
