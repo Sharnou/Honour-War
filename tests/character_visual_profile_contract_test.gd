@@ -1,6 +1,7 @@
 extends SceneTree
 
 const PROFILE=preload("res://scripts/HWCharacterVisualProfiles.gd")
+const GAME_DATA=preload("res://scripts/GameData.gd")
 
 func _init()->void:
     var expected={
@@ -21,13 +22,13 @@ func _init()->void:
                 push_error("FAIL: missing clothing profile "+str(class_id)+" / "+str(item))
     for class_id in expected.keys():
         for level in [1,25,50,150,200,250]:
-            var hero:Dictionary=GameData.new_hero()
+            var hero:Dictionary=GAME_DATA.new_hero()
             hero["class"]=str(class_id)
             hero["level"]=level
             var snap:Dictionary=PROFILE.snapshot(hero)
-            if str(snap.get("rank",""))!=GameData.class_rank_for_hero(hero):
+            if str(snap.get("rank",""))!=GAME_DATA.class_rank_for_hero(hero):
                 push_error("FAIL: progression rank mismatch "+str(class_id)+" Lv"+str(level))
-            if int(snap.get("tier",-1))!=GameData.class_tier_for_level(level):
+            if int(snap.get("tier",-1))!=GAME_DATA.class_tier_for_level(level):
                 push_error("FAIL: progression tier mismatch "+str(class_id)+" Lv"+str(level))
     print("PASS: six-class clothing, emotion, motion, and progression visual profiles")
     quit()
