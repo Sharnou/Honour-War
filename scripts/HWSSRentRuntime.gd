@@ -245,7 +245,7 @@ func _set_hero_zeny(value:int) -> void:
 func _new_ss() -> Dictionary:
     var all_skill_ids:Array=[]
     for class_id in ["Warrior","Mage","Archer","Thief","Acolyte","Merchant"]:
-        for skill in SkillSystem.all_skills(class_id):
+        for skill in SkillSystemClass.all_skills(class_id):
             all_skill_ids.append(str(skill["id"]))
     var champion_pet:Dictionary=PetSystem.new_pet("Acolyte")
     champion_pet["name"]="Super Champion Pet"
