@@ -44,6 +44,7 @@ func _remove_legacy_root_lighting()->void:
 			child.queue_free()
 
 func _build_environment()->void:
+	var scene_root:Node=get_parent()
 	world_environment=get_node_or_null("WorldEnvironment") as WorldEnvironment
 	if world_environment==null:
 		world_environment=WorldEnvironment.new()
