@@ -19,11 +19,13 @@ var game:Node3D
 var legacy:Node
 var poll_elapsed:float = 0.0
 var active_assets:Dictionary = {}
+var material_audit_elapsed:float = 0.0
 
 func _ready()->void:
     game = get_parent() as Node3D
     process_priority = 100
     set_process(true)
+    call_deferred("_repair_scene_materials")
 
 func _process(delta:float)->void:
     poll_elapsed += delta
@@ -40,6 +42,10 @@ func _process(delta:float)->void:
         _sync_pet()
         _sync_monsters()
     _enforce_production_transforms()
+    material_audit_elapsed += delta
+    if material_audit_elapsed >= 0.25:
+        material_audit_elapsed = 0.0
+        _repair_scene_materials()
 
 func _sync_hero()->void:
     var current:Node3D = game.get("hero_visual") as Node3D
@@ -161,6 +167,40 @@ func _replace_if_available(key:String, current:Node3D, path:String, monster_id:S
             visuals_value[monster_id] = replacement_3d
     current.queue_free()
     return true
+
+func _repair_scene_materials()->void:
+    # Forward+ can touch every MeshInstance3D in the frame, including authored
+    # scene meshes and runtime-created meshes that are not production GLBs.
+    # Audit the complete scene before/while the renderer builds dependencies so
+    # a null surface material can never reach RenderingDevice material storage.
+    var scene_root:Node = get_tree().current_scene
+    if scene_root == null:
+        return
+    var repaired:int = 0
+    for node:Node in scene_root.find_children("*", "MeshInstance3D", true, false):
+        var mesh_instance:MeshInstance3D = node as MeshInstance3D
+        if mesh_instance == null or mesh_instance.mesh == null:
+            continue
+        var surface_count:int = mesh_instance.mesh.get_surface_count()
+        for surface:int in surface_count:
+            var material:Material = mesh_instance.get_surface_override_material(surface)
+            if material == null:
+                material = mesh_instance.mesh.surface_get_material(surface)
+            if material == null:
+                var fallback := StandardMaterial3D.new()
+                fallback.albedo_color = Color("#9aa1aa")
+                fallback.metallic = 0.15
+                fallback.roughness = 0.58
+                mesh_instance.set_surface_override_material(surface, fallback)
+                repaired += 1
+        if surface_count == 0 and mesh_instance.material_override == null:
+            # A MeshInstance3D without a mesh surface has nothing to render;
+            # do not manufacture geometry. This branch only guards a future
+            # mesh assignment that may occur immediately after the audit.
+            continue
+    if repaired > 0:
+        scene_root.set_meta("hw_scene_null_materials_repaired", repaired)
+
 
 func _repair_null_materials(root:Node3D)->void:
     # Some imported GLBs can contain a mesh surface without a resolved Godot
