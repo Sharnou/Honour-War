@@ -44,7 +44,7 @@ func _bind()->void:
         legacy=scene.get_node_or_null("LegacyGame")
 
 func _disable_competing_passes()->void:
-    for node_name:String in ["HWGeneratedAssetRuntime","HWReadableActorDirector","HWPrimitiveBeautyDirector"]:
+    for node_name:String in ["HWGeneratedAssetRuntime","HDAssetRuntime","HWReadableActorDirector","HWPrimitiveBeautyDirector"]:
         var node:Node=get_node_or_null("/root/"+node_name)
         if node!=null: node.process_mode=Node.PROCESS_MODE_DISABLED
 
