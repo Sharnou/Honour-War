@@ -49,6 +49,19 @@ func _run()->void:
     check(FileAccess.file_exists("res://tests/full_gameplay_runtime_qa.gd"),"full gameplay runtime regression")
     check(FileAccess.file_exists("res://tools/validate_autoload_class_conflicts.py"),"autoload/class conflict gate")
     check(FileAccess.file_exists("res://tools/validate_monster_visual_distinctness.py"),"monster visual uniqueness gate")
+    check(FileAccess.file_exists("res://tools/validate_visual_reference_source.py"),"direct Screenshot visual source validator")
+    check(FileAccess.file_exists("res://docs/HONOUR_WAR_PRIMARY_VISUAL_REFERENCE.md"),"authoritative Screenshot visual source contract")
+    var visual_source_files:=PackedStringArray([
+        "ChatGPT Image Sep 7, 2026, 03_54_35 PM.png",
+        "ChatGPT Image Sep 8, 2026, 12_13_55 AM.png",
+        "ChatGPT Image Sep 8, 2026, 12_30_08 AM.png",
+        "ChatGPT Image Sep 14, 2026, 02_17_52 PM.png",
+        "ChatGPT Image Sep 15, 2026, 11_17_00 PM.png",
+        "ChatGPT Image Sep 16, 2026, 12_22_47 AM.png",
+        "ChatGPT Image Sep 18, 2026, 11_57_21 PM.png"
+    ])
+    for visual_source_file in visual_source_files:
+        check(FileAccess.file_exists("res://Screenshot/"+visual_source_file),"direct visual source "+visual_source_file)
 
     for workflow in REQUIRED_WORKFLOWS:
         check(FileAccess.file_exists("res://"+workflow),"required release workflow "+workflow)
