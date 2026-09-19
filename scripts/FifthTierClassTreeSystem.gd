@@ -155,6 +155,39 @@ const CLASS_AFFINITY := {
     },
 }
 
+const PROFESSION_SKILLS := {
+    "Warrior": [
+        {"id":"ft_war_gravity_breaker","name":"Gravity Breaker","weapon":"Transcendent Greatsword","kind":"active","description":"A greatsword impact that compresses enemy movement around the Warrior."},
+        {"id":"ft_war_singularity_guard","name":"Singularity Guard","weapon":"Singularity Shield","kind":"passive","description":"Shield stance converts incoming force into Structural Integrity."},
+        {"id":"ft_war_coordinate_lock","name":"Warrior Coordinate Lock","weapon":"Transcendent Greatsword","kind":"ultimate","description":"Locks the Warrior's designated combat cells."}
+    ],
+    "Mage": [
+        {"id":"ft_mage_time_lance","name":"Chrono Lance","weapon":"Chrono Arcane Staff","kind":"active","description":"Staff magic accelerates through a compressed temporal frame."},
+        {"id":"ft_mage_aether_frequency","name":"Aetherial Frequency","weapon":"Aether Focus","kind":"passive","description":"Mage casting state is synchronized with temporal frames."},
+        {"id":"ft_mage_stasis_dome","name":"Arcane Stasis Dome","weapon":"Chrono Arcane Staff","kind":"ultimate","description":"Freezes hostile combat timing inside the Mage's temporal dome."}
+    ],
+    "Archer": [
+        {"id":"ft_arch_causality_arrow","name":"Causality Arrow","weapon":"Doomsday Longbow","kind":"active","description":"A profession-rooted arrow that applies Causality Rupture."},
+        {"id":"ft_arch_deadeye_vector","name":"Vector Deadeye","weapon":"Causality Quiver","kind":"passive","description":"Bow trajectory calculation amplifies Causality Precision."},
+        {"id":"ft_arch_doomsday_barrage","name":"Doomsday Barrage","weapon":"Doomsday Longbow","kind":"ultimate","description":"A screen-spanning rain of profession-authentic absolute arrows."}
+    ],
+    "Thief": [
+        {"id":"ft_thief_voidstep_cut","name":"Voidstep Cut","weapon":"Causality Twin Daggers","kind":"active","description":"Twin-dagger displacement followed by a causality rupture."},
+        {"id":"ft_thief_shadow_precision","name":"Shadow Precision","weapon":"Voidstep Blade","kind":"passive","description":"Stealth movement sharpens Causality Precision."},
+        {"id":"ft_thief_absolute_assassination","name":"Absolute Assassination","weapon":"Causality Twin Daggers","kind":"ultimate","description":"A dual-dagger execution that ignores conventional defense layers."}
+    ],
+    "Acolyte": [
+        {"id":"ft_aco_temporal_benediction","name":"Temporal Benediction","weapon":"Chrono Sanctified Mace","kind":"active","description":"Mace and scripture synchronize healing and damage through time."},
+        {"id":"ft_aco_seraphic_anchor","name":"Seraphic Anchor","weapon":"Seraphic Scripture","kind":"passive","description":"Holy support effects persist through temporal snapshots."},
+        {"id":"ft_aco_eternal_sanctuary","name":"Eternal Sanctuary","weapon":"Chrono Sanctified Mace","kind":"ultimate","description":"Creates a temporal sanctuary that protects and restores allies."}
+    ],
+    "Merchant": [
+        {"id":"ft_mer_matrix_forge","name":"Matrix Forge Smash","weapon":"Matrix Forged Axe","kind":"active","description":"An axe strike that projects equipment-grade structural rules."},
+        {"id":"ft_mer_algorithmic_trade","name":"Algorithmic Trade","weapon":"Fabricator Ledger","kind":"passive","description":"Merchant utility converts Network Resonance into party efficiency."},
+        {"id":"ft_mer_fabricator_overlord","name":"Fabricator Overlord","weapon":"Matrix Forged Axe","kind":"ultimate","description":"Deploys profession-authentic fabricators and autonomous support nodes."}
+    ]
+}
+
 const RESOURCE_RULES := {
     "simulation_paradox": {"cap": PARADOX_MAX, "acquire": "combat cell occupation", "risk": "At 100, Paradox Collapse deals 25% max HP and resets Paradox to 35."},
     "entropy_shards": {"cap": ENTROPY_MAX, "acquire": "high-tier MVP/boss defeats", "risk": "Consumed permanently during the current combat instance; no automatic regeneration."},
