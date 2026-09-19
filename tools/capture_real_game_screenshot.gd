@@ -140,8 +140,6 @@ func _process(delta:float)->bool:
     if viewport==null:
         return false
 
-    var scene_root:Node=get_current_scene()
-    var camera:Camera3D=scene_root.get_node_or_null("Camera3D") as Camera3D
     var world_root:Node=scene_root.get_node_or_null("World3D")
     var actor_root:Node=scene_root.get_node_or_null("Actors3D")
     var mesh_count:int=0
