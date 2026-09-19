@@ -122,7 +122,22 @@ func _run_smoke_test() -> void:
         return
     _pass("@go coordinate transmission")
 
+    # Verify the live scene did not accumulate duplicate map-theme roots during teleport.
+    var theme_count:int = 0
+    var hd_content:Node = get_node_or_null("../HWHDContent")
+    if hd_content != null:
+        for child in hd_content.get_children():
+            if child.name == "HWMapTheme":
+                theme_count += 1
+    if theme_count > 1:
+        _fail("duplicate HWMapTheme roots remain after @go")
+        return
+    _pass("map theme uniqueness")
+
     # Verify the save path remains callable after live gameplay mutations.
+    if not legacy.has_method("save_game"):
+        _fail("runtime save entry point is unavailable")
+        return
     legacy.call("save_game")
     _pass("runtime save")
 
