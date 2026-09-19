@@ -1,7 +1,7 @@
 class_name EquipmentOverlay3D
 extends CanvasLayer
 
-const EquipmentSystemClass = preload("res://scripts/EquipmentSystemClass.gd")
+const EquipmentSystemClass = preload("res://scripts/EquipmentSystem.gd")
 const ItemDatabaseClass = preload("res://scripts/ItemDatabaseClass.gd")
 var legacy:Node
 var panel:Panel
