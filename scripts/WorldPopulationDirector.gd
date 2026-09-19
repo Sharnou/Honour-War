@@ -1,6 +1,9 @@
 class_name WorldPopulationDirector
 extends Node
 
+const GameDataClass = preload("res://scripts/GameDataClass.gd")
+const WorldSystemClass = preload("res://scripts/WorldSystemClass.gd")
+const TeleportSystemClass = preload("res://scripts/TeleportSystemClass.gd")
 const MonsterDetails = preload("res://scripts/MonsterDetailsSystem.gd")
 var legacy:Node2D
 var last_map:int=-1
@@ -86,23 +89,23 @@ func _spawn_one(near_hero:bool)->void:
 	var monsters:Array=legacy.get("monsters") as Array
 	if monsters==null or monsters.size()>=MAX_MONSTERS: return
 	var map_id:int=int(hero.get("map_id",0))
-	var families:Array=ZONE_FAMILIES.get(map_id,GameData.monster_families())
+	var families:Array=ZONE_FAMILIES.get(map_id,GameDataClass.monster_families())
 	if families.is_empty(): return
 	var family:String=str(families[rng.randi_range(0,families.size()-1)])
 	var hero_level:int=int(hero.get("level",1))
 	var zone:int=max(1,int(hero_level/10)+1)
 	var family_index:int=rng.randi_range(0,max(0,families.size()-1))
-	var level:int=WorldSystem.monster_level_for_zone(zone,family_index)
+	var level:int=WorldSystemClass.monster_level_for_zone(zone,family_index)
 	if family in ["Dragon","Bloody Knight"]:
-		level=clamp(level+20,1,GameData.MAX_MONSTER_LEVEL)
-	var stats:Dictionary=WorldSystem.monster_stats(level)
+		level=clamp(level+20,1,GameDataClass.MAX_MONSTER_LEVEL)
+	var stats:Dictionary=WorldSystemClass.monster_stats(level)
 	if family=="Bloody Knight":
 		level=clamp(level+25,1,300)
-		stats=WorldSystem.monster_stats(level)
+		stats=WorldSystemClass.monster_stats(level)
 		stats["max_hp"]=int(float(stats["max_hp"])*1.35)
 		stats["attack"]=int(float(stats["attack"])*1.30)
 		stats["defense"]=int(float(stats["defense"])*1.25)
-	var map_data:Dictionary=TeleportSystem.MAPS.get(map_id,{})
+	var map_data:Dictionary=TeleportSystemClass.MAPS.get(map_id,{})
 	var width:float=float(map_data.get("width",1200))
 	var height:float=float(map_data.get("height",700))
 	var hero_pos:=Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0)))
