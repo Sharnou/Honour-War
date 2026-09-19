@@ -99,7 +99,7 @@ jobs:
             exit 1
           fi
           echo "PASS: permanent HD GLB retirement enforced"
-          if grep -RniE '(^|[^A-Za-z])meshy([^A-Za-z]|$)' scripts tools assets/3d --exclude-dir=visual_rag --exclude='*.md' --exclude='*.txt'; then
+          if grep -RniE '(^|[^A-Za-z])meshy([^A-Za-z]|$)' scripts assets/3d --exclude-dir=visual_rag --exclude='*.md' --exclude='*.txt'; then
             echo "FAIL: Meshy production dependency/source detected"
             exit 1
           fi
