@@ -2,8 +2,8 @@ extends SceneTree
 
 const CAPTURE_DIR:String="res://visual-captures"
 const CAPTURE_FILE:String=CAPTURE_DIR+"/honour-war-real-game.png"
-const STARTUP_TIMEOUT:float=90.0
-const MIN_RENDER_FRAMES:int=45
+const STARTUP_TIMEOUT:float=45.0
+const MIN_RENDER_FRAMES:int=20
 
 var elapsed:float=0.0
 var captured:bool=false
@@ -101,10 +101,10 @@ func _sanitize_mesh(mesh:Mesh, owner:MeshInstance3D)->int:
     return repaired
 
 func _postattach_material_seal()->void:
-    var scene_root:Node=get_current_scene()
-    if scene_root==null:
+    var seal_scene:Node=get_current_scene()
+    if seal_scene==null:
         return
-    var repaired:int=_sanitize_mesh_materials(scene_root)
+    var repaired:int=_sanitize_mesh_materials(seal_scene)
     if repaired>0:
         print("POSTATTACH_MATERIAL_SEAL repaired=",repaired)
 
@@ -129,10 +129,16 @@ func _process(delta:float)->bool:
 
     # Do not wait on RenderingServer.frame_post_draw. In headless/dummy CI
     # rendering that signal can never arrive, which previously left QA stuck.
-    var scene_root:Node=get_current_scene()
-    var camera:=scene_root.get_node_or_null("Camera3D") as Camera3D if scene_root!=null else null
-    var recovery:=scene_root.get_node_or_null("HWNativeWorldRecovery") if scene_root!=null else null
-    var world_ready:=recovery!=null and scene_root.get_node_or_null("World3D/HWRecoveryGround")!=null
+    var capture_scene:Node=get_current_scene()
+    var camera:=capture_scene.get_node_or_null("Camera3D") as Camera3D if capture_scene!=null else null
+    var world_root:Node=capture_scene.get_node_or_null("World3D") if capture_scene!=null else null
+    var mesh_nodes:Array[Node]=capture_scene.find_children("*","MeshInstance3D",true,false) if capture_scene!=null else []
+    var world_ready:=world_root!=null and world_root.get_child_count()>0
+    if render_frames==20 or (render_frames%120)==0:
+        print("CAPTURE_WAIT elapsed=",elapsed," camera=",camera!=null," current=",camera.current if camera!=null else false," world=",world_ready," world_children=",world_root.get_child_count() if world_root!=null else -1," meshes=",mesh_nodes.size())
+    # Do not make the evidence capture depend on one recovery node path. The
+    # screenshot must capture the real Main3D scene as soon as its camera and
+    # renderable world are alive.
     if elapsed<8.0 or render_frames<MIN_RENDER_FRAMES or camera==null or not camera.current or not world_ready:
         return false
 
@@ -140,16 +146,13 @@ func _process(delta:float)->bool:
     if viewport==null:
         return false
 
-    var world_root:Node=scene_root.get_node_or_null("World3D")
-    var actor_root:Node=scene_root.get_node_or_null("Actors3D")
-    var mesh_count:int=0
-    var mesh_nodes:Array[Node]=scene_root.find_children("*","MeshInstance3D",true,false)
-    mesh_count=mesh_nodes.size()
+    var actor_root:Node=capture_scene.get_node_or_null("Actors3D")
+    var mesh_count:int=mesh_nodes.size()
     print("VISUAL_DIAGNOSTIC camera=",camera," current=",camera.current if camera!=null else false," pos=",camera.global_position if camera!=null else Vector3.ZERO)
     print("VISUAL_DIAGNOSTIC world3d=",world_root," children=",world_root.get_child_count() if world_root!=null else -1," actors=",actor_root.get_child_count() if actor_root!=null else -1," meshes=",mesh_count)
     if camera!=null and camera.environment!=null:
         print("VISUAL_DIAGNOSTIC camera_env_mode=",camera.environment.background_mode," bg=",camera.environment.background_color," ambient=",camera.environment.ambient_light_energy)
-    var world:World3D=(scene_root as Node3D).get_world_3d()
+    var world:World3D=(capture_scene as Node3D).get_world_3d()
     if world!=null and world.environment!=null:
         print("VISUAL_DIAGNOSTIC world_env_mode=",world.environment.background_mode," bg=",world.environment.background_color)
     var texture:ViewportTexture=viewport.get_texture()
