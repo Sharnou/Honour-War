@@ -87,7 +87,7 @@ func _update_visuals(delta:float) -> void:
 	var production_hero:bool = bool(hero_visual.get_meta("hw_production_asset",false))
 	var target:Vector3 = _map_to_world(hero_pos)
 	if production_hero:
-		# Preserve the GLB-authored root Y while the gameplay transform follows X/Z.
+		# Preserve authored native actor root Y while gameplay transform follows X/Z.
 		target.y = hero_visual.position.y
 	var previous:Vector3 = hero_visual.position
 	var blend:float = 1.0-exp(-16.0*max(delta,0.016))
@@ -565,54 +565,12 @@ func _create_remote_player(class_id:String,level:int,peer_id:int)->Node3D:
 	return root
 
 func _try_attach_remote_production_asset(root:Node3D,class_id:String,level:int)->void:
-	var tier:String = "Foundation"
-	if level>=200:
-		tier="Transcendence"
-	elif level>=100:
-		tier="Mastery"
-	elif level>=50:
-		tier="Advanced"
-	elif level>=25:
-		tier="Specialization"
-	var path:String = "res://assets/3d/generated/characters/%s/%s.glb" % [class_id,tier]
-	if not ResourceLoader.exists(path):
-		return
-	var packed:PackedScene = load(path) as PackedScene
-	if packed == null:
-		return
-	var model:Node = packed.instantiate()
-	if model == null or not model is Node3D:
-		if model != null:
-			model.queue_free()
-		return
-	model.name = "HW_RemoteGeneratedGLB"
-	var model_3d := model as Node3D
-	_repair_generated_materials(model_3d)
-	root.add_child(model)
-	for child:Node in root.get_children():
-		if child == model:
-			continue
-		if child is MeshInstance3D:
-			(child as MeshInstance3D).visible = false
-	root.set_meta("hw_remote_production_asset",true)
+    # Retired compatibility hook. Remote players use the same native Godot actor
+    # construction as local players; no generated binary model is attached.
+    if root == null:
+        return
+    root.set_meta("hw_remote_native_actor",true)
 
-func _repair_generated_materials(root:Node3D)->void:
-	if root == null:
-		return
-	for node:Node in root.find_children("*","MeshInstance3D",true,false):
-		var mesh_instance := node as MeshInstance3D
-		if mesh_instance == null or mesh_instance.mesh == null:
-			continue
-		for surface:int in mesh_instance.mesh.get_surface_count():
-			var material:Material = mesh_instance.get_surface_override_material(surface)
-			if material == null:
-				material = mesh_instance.mesh.surface_get_material(surface)
-			if material == null:
-				var fallback := StandardMaterial3D.new()
-				fallback.albedo_color = Color("#9aa1aa")
-				fallback.metallic = 0.15
-				fallback.roughness = 0.58
-				mesh_instance.set_surface_override_material(surface,fallback)
 
 func _update_camera(_delta:float)->void:
 	return
