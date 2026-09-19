@@ -107,44 +107,77 @@ jobs:
 
       - name: Capture real game frame
         shell: pwsh
+        timeout-minutes: 3
         run: |
           $ErrorActionPreference = "Stop"
           New-Item -ItemType Directory -Force -Path visual-captures | Out-Null
           $log = Join-Path $pwd "real-game-capture.log"
+          $err = Join-Path $pwd "real-game-capture.err"
           $godot = Join-Path $pwd "godot.exe"
-          # IMPORTANT: do not use --headless here. Headless mode selects the
-          # dummy rendering backend and can block while reading a ViewportTexture.
-          # The Windows runner provides a desktop session, so capture with the
-          # real Windows display driver instead.
+          $movie = Join-Path $pwd "visual-captures\honour-war-real-game.png"
+
+          # Use Godot's built-in Movie Maker PNG renderer. This captures the
+          # actual rendered game frames without calling ViewportTexture.get_image()
+          # or waiting on RenderingServer.frame_post_draw.
           $args = @(
             "--path", ".",
             "--display-driver", "windows",
+            "--audio-driver", "Dummy",
             "--rendering-method", "gl_compatibility",
             "--rendering-driver", "opengl3",
-            "--script", "res://tools/capture_real_game_screenshot.gd"
+            "--windowed",
+            "--resolution", "1280x720",
+            "--position", "0,0",
+            "--write-movie", $movie,
+            "--fixed-fps", "30",
+            "--quit-after", "30"
           )
-          $p = Start-Process -FilePath $godot -ArgumentList $args -WorkingDirectory $pwd -RedirectStandardOutput $log -RedirectStandardError "$pwd\real-game-capture.err" -PassThru
-          $deadline = (Get-Date).AddSeconds(25)
+
+          Write-Host "Starting bounded Godot Movie Maker capture..."
+          $p = Start-Process -FilePath $godot -ArgumentList $args -WorkingDirectory $pwd -RedirectStandardOutput $log -RedirectStandardError $err -PassThru
+          $deadline = (Get-Date).AddSeconds(120)
           while (-not $p.HasExited -and (Get-Date) -lt $deadline) {
-            Start-Sleep -Milliseconds 250
+            Start-Sleep -Milliseconds 500
           }
+
           if (-not $p.HasExited) {
-            Write-Host "Real-game capture exceeded 25 seconds; terminating it instead of hanging the QA job."
+            Write-Host "Real-game Movie Maker capture exceeded 120 seconds; terminating it."
             Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue
             Get-Content $log -ErrorAction SilentlyContinue
-            Get-Content "$pwd\real-game-capture.err" -ErrorAction SilentlyContinue
-            throw "Real game screenshot capture timed out after 25 seconds"
+            Get-Content $err -ErrorAction SilentlyContinue
+            throw "Real game Movie Maker capture timed out after 120 seconds"
           }
+
           Get-Content $log -ErrorAction SilentlyContinue
-          Get-Content "$pwd\real-game-capture.err" -ErrorAction SilentlyContinue
-          if ($p.ExitCode -ne 0) { throw "Real game screenshot capture failed with exit code $($p.ExitCode)" }
-          if (-not (Test-Path "visual-captures\honour-war-real-game.png")) { throw "Real game screenshot was not produced" }
+          Get-Content $err -ErrorAction SilentlyContinue
+
+          if ($p.ExitCode -ne 0) {
+            throw "Real game Movie Maker capture failed with exit code $($p.ExitCode)"
+          }
+
+          # Godot's PNG Movie Writer emits an indexed PNG frame file. Normalize
+          # the newest rendered frame to the stable QA filename.
+          $frames = @(Get-ChildItem -Path "visual-captures" -Filter "honour-war-real-game*.png" -File | Sort-Object LastWriteTimeUtc)
+          if ($frames.Count -eq 0) {
+            throw "Godot completed without producing a PNG game frame"
+          }
+          $frame = $frames[-1]
+          if ($frame.FullName -ne (Resolve-Path $movie).Path) {
+            Copy-Item -LiteralPath $frame.FullName -Destination $movie -Force
+          }
+
+          if (-not (Test-Path $movie)) { throw "Normalized real game screenshot was not produced" }
+
           Add-Type -AssemblyName System.Drawing
-          $img = [System.Drawing.Image]::FromFile((Resolve-Path "visual-captures\honour-war-real-game.png"))
+          $img = [System.Drawing.Image]::FromFile((Resolve-Path $movie))
           try {
-            if ($img.Width -lt 640 -or $img.Height -lt 360) { throw "Captured game frame is below 640x360" }
+            if ($img.Width -lt 640 -or $img.Height -lt 360) {
+              throw "Captured game frame is below 640x360"
+            }
             Write-Host "PASS: captured real-game frame is $($img.Width)x$($img.Height)"
-          } finally { $img.Dispose() }
+          } finally {
+            $img.Dispose()
+          }
 
       - name: Upload gameplay QA evidence
         if: always()
