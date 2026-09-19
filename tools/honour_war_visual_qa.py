@@ -112,7 +112,7 @@ if reference.is_file():
         check(phrase in reference_text,"Primary reference: "+phrase)
 
 runtime=(ROOT/"scripts/HDAssetRuntime.gd").read_text(encoding="utf-8")
-for phrase in ["HD generated GLB assets were permanently retired","Daily upgrades must NOT regenerate","Daily upgrades must NOT download","Daily upgrades must NOT import","native Godot runtime"]:
+for phrase in ["HD generated GLB assets were permanently retired","Daily upgrades must NOT regenerate, download, import, or attach GLB assets","native Godot runtime scene/visual systems"]:
     check(phrase in runtime,"HD runtime retirement policy: "+phrase)
 
 character_visual_spec = role if role.is_file() else None
