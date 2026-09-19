@@ -74,6 +74,10 @@ jobs:
         run: |
           python3 tools/validate_autoload_class_conflicts.py
 
+      - name: Validate direct Screenshot visual source
+        run: |
+          python3 tools/validate_visual_reference_source.py
+
       - name: Run Visual RAG before daily visual upgrade
         run: |
           python3 tools/visual_rag/honour_war_visual_rag.py
