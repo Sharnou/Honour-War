@@ -91,10 +91,11 @@ func _protect_hero_spawn()->void:
 func _ensure_hero_proxy()->void:
     var value:Variant=scene.get("hero_visual")
     var actual:=value as Node3D if is_instance_valid(value) and value is Node3D else null
-    if actual!=null and actual.visible:
-        if hero_proxy!=null and is_instance_valid(hero_proxy):
-            hero_proxy.visible=false
-        return
+    # The proxy is a native full-body fallback while Neural4D FBX/OBJ actors are
+    # being regenerated. It prevents a missing/occluded actor from producing an
+    # apparently empty game frame.
+    if actual!=null:
+        actual.visible=false
     if hero_proxy==null or not is_instance_valid(hero_proxy):
         hero_proxy=Node3D.new()
         hero_proxy.name="HWHeroVisibilityProxy"
