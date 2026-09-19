@@ -2,7 +2,7 @@ extends Node
 
 const ClassTreeSystemClass = preload("res://scripts/ClassTreeSystemClass.gd")
 const SaveSystemClass = preload("res://scripts/SaveSystemClass.gd")
-const GameDataClass = preload("res://scripts/GameData.gd")
+const GameDataClass = preload("res://scripts/GameDataClass.gd")
 
 # Runtime class advancement controller. Base archetype remains stable for formulas,
 # while the visual/class rank advances automatically at Honour War milestones.
@@ -150,7 +150,7 @@ func _select_branch(branch_name:String)->void:
 func _class_rank_for_level(level:int,class_id:String)->String:
     # Use the authoritative hero-aware rank for the Lv150 Fourth Job and Lv200 Fifth Job.
     var display_hero:Dictionary = {"level":level,"class":class_id,"class_branch":str(hero.get("class_branch",""))}
-    return GameData.class_rank_for_hero(display_hero)
+    return GameDataClass.class_rank_for_hero(display_hero)
 
 func _update_visuals()->void:
     if scene_root==null: return
