@@ -250,7 +250,7 @@ func _apply_emotion_motion(actor:Node3D, hero:Dictionary)->void:
     actor.rotation.y=lean
     var visual_profile:Dictionary=actor.get_meta("hw_character_profile",profile)
     actor.set_meta("hw_character_profile",visual_profile)
-    actor.set_meta("hw_progression_rank",GameData.class_rank_for_hero(hero))
+    actor.set_meta("hw_progression_rank",GameDataClass.class_rank_for_hero(hero))
     actor.set_meta("hw_emotion",str(profile.get("emotion","")))
     actor.set_meta("hw_motion_language",str(profile.get("motion","")))
     var cape:Node=actor.find_child("Cape",true,false)
