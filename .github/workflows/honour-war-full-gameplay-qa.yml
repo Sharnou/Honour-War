@@ -162,8 +162,10 @@ jobs:
             throw "Godot completed without producing a PNG game frame"
           }
           $frame = $frames[-1]
-          if ($frame.FullName -ne (Resolve-Path $movie).Path) {
-            Copy-Item -LiteralPath $frame.FullName -Destination $movie -Force
+          $movieFullPath = [System.IO.Path]::GetFullPath($movie)
+          $frameFullPath = [System.IO.Path]::GetFullPath($frame.FullName)
+          if ($frameFullPath -ne $movieFullPath) {
+            Copy-Item -LiteralPath $frameFullPath -Destination $movie -Force
           }
 
           if (-not (Test-Path $movie)) { throw "Normalized real game screenshot was not produced" }
