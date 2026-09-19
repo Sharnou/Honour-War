@@ -77,6 +77,7 @@ total=width*height
 sum_luma=0.0
 clipped=0
 center_clipped=0
+center_lit=0
 center_x0=width//5
 center_x1=width-width//5
 center_y0=height//5
@@ -85,6 +86,8 @@ for y,row in enumerate(rows):
     for x in range(width):
         value=luminance(row,x*channels)
         sum_luma+=value
+        if value>12.0 and center_x0<=x<center_x1 and center_y0<=y<center_y1:
+            center_lit+=1
         if value>=245.0:
             clipped+=1
             if center_x0<=x<center_x1 and center_y0<=y<center_y1:
@@ -94,12 +97,14 @@ mean_luma=sum_luma/max(1,total)
 clipped_ratio=clipped/max(1,total)
 center_area=(center_x1-center_x0)*(center_y1-center_y0)
 center_ratio=center_clipped/max(1,center_area)
+center_lit_ratio=center_lit/max(1,center_area)
 
 checks=[
     (width>=1280 and height>=720,f"frame resolution {width}x{height}"),
     (mean_luma<=180.0,f"mean luminance {mean_luma:.1f} <= 180"),
     (clipped_ratio<=0.28,f"global clipped-white ratio {clipped_ratio:.3f} <= 0.280"),
     (center_ratio<=0.25,f"center clipped-white ratio {center_ratio:.3f} <= 0.250"),
+    (center_lit_ratio>=0.015,f"center rendered-world ratio {center_lit_ratio:.3f} >= 0.015"),
 ]
 failed=0
 for ok,message in checks:
