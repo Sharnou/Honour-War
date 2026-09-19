@@ -78,7 +78,8 @@ func _audit_runtime_geometry()->void:
         var particles:GPUParticles3D = node as GPUParticles3D
         if particles == null:
             continue
-        for pass_index:int in 4:
+        var pass_count:int = particles.get_draw_passes()
+        for pass_index:int in range(pass_count):
             var draw_mesh:Mesh = particles.get_draw_pass_mesh(pass_index)
             if draw_mesh == null:
                 continue
