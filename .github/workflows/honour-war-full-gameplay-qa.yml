@@ -399,4 +399,6 @@ jobs:
             godot-export.log
             honour-war-exe-runtime.log
             honour-war-exe-runtime.err
+            honour-war-exe-smoke.log
+            honour-war-exe-smoke.err
           if-no-files-found: ignore
