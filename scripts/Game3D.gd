@@ -135,6 +135,10 @@ func _build_lighting() -> void:
 	env.tonemap_white = 1.15
 	env_node.environment = env
 	add_child(env_node)
+	# Give the active camera an explicit environment override so multiple legacy
+	# WorldEnvironment nodes cannot leave the actual game frame black.
+	camera.environment = env
+	camera.current = true
 	var sun:DirectionalLight3D = DirectionalLight3D.new()
 	sun.rotation_degrees = Vector3(-52.0,-32.0,0.0)
 	sun.light_energy = 0.82
