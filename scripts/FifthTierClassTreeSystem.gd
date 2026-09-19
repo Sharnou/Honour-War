@@ -2,8 +2,9 @@ class_name FifthTierClassTreeSystem
 extends RefCounted
 
 ## Honour War Fifth Tier: Transcendence.
-## This is an endgame specialization layer above the existing four class branches.
-## It is intentionally self-contained so headless CI can load it without autoload order.
+## Fifth-tier identity is derived from the hero's FIRST-TIER profession.
+## Weapon, silhouette, materials, aura and VFX remain profession-authentic while
+## the transcendent mechanics come from the mapped apex paradigm.
 
 const FIFTH_TIER := 5
 const REQUIRED_LEVEL := 200
@@ -58,13 +59,100 @@ const PARADIGMS := {
     },
 }
 
+# Every Fifth Tier is permanently rooted in the hero's original profession.
+# A profession may share an apex paradigm with another profession, but never
+# shares its weapon identity, materials, silhouette or visual language.
 const CLASS_AFFINITY := {
-    "Warrior": "singularity_arch",
-    "Mage": "chrono_architect",
-    "Archer": "doomsday_vector",
-    "Thief": "doomsday_vector",
-    "Acolyte": "chrono_architect",
-    "Merchant": "matrix_sovereign",
+    "Warrior": {
+        "paradigm": "singularity_arch",
+        "name": "Warrior: Singularity Warlord",
+        "title": "The Gravitational Vanguard",
+        "weapon_family": "sword_and_shield",
+        "primary_weapon": "Transcendent Greatsword",
+        "secondary_weapon": "Singularity Shield",
+        "weapon_material": "void-tempered steel",
+        "armor_material": "blackened warplate",
+        "accent_material": "crimson gravity crystal",
+        "silhouette": "armored vanguard with broad shoulders, grounded shield profile and floating blade shards",
+        "aura": "crimson gravitational rings with compressed steel fragments",
+        "vfx": "gravity arcs, impact compression and red spatial distortion",
+        "visual_rule": "retain Warrior armor mass, shield stance and sword-first combat silhouette",
+    },
+    "Mage": {
+        "paradigm": "chrono_architect",
+        "name": "Mage: Chrono Arcanist",
+        "title": "The Eternal Spellwright",
+        "weapon_family": "staff",
+        "primary_weapon": "Chrono Arcane Staff",
+        "secondary_weapon": "Aether Focus",
+        "weapon_material": "astral crystal and elderwood",
+        "armor_material": "layered arcane silk and crystal filaments",
+        "accent_material": "prismatic timeglass",
+        "silhouette": "robed caster with tall staff, floating spell rings and luminous headpiece",
+        "aura": "violet-blue clockwork sigils and suspended crystal motes",
+        "vfx": "time trails, glyph recursion and frozen spell frames",
+        "visual_rule": "retain Mage robe, staff, caster posture and spell-circle language",
+    },
+    "Archer": {
+        "paradigm": "doomsday_vector",
+        "name": "Archer: Doomsday Ranger",
+        "title": "The Causality Marksman",
+        "weapon_family": "bow",
+        "primary_weapon": "Doomsday Longbow",
+        "secondary_weapon": "Causality Quiver",
+        "weapon_material": "starwood and vacuum-fiber",
+        "armor_material": "layered ranger leather and lightweight alloy",
+        "accent_material": "golden aether crystal",
+        "silhouette": "light-footed ranger with longbow, quiver and elevated aiming posture",
+        "aura": "thin golden targeting lines and geometric arrow trajectories",
+        "vfx": "vacuum arrows, causality trails and persistent ground scars",
+        "visual_rule": "retain Archer bow, quiver, agile stance and ranged-combat silhouette",
+    },
+    "Thief": {
+        "paradigm": "doomsday_vector",
+        "name": "Thief: Causality Assassin",
+        "title": "The Absolute Shadow",
+        "weapon_family": "dual_daggers",
+        "primary_weapon": "Causality Twin Daggers",
+        "secondary_weapon": "Voidstep Blade",
+        "weapon_material": "phase-forged voidsteel",
+        "armor_material": "shadowweave leather and flexible void mesh",
+        "accent_material": "black-violet null crystal",
+        "silhouette": "low-profile rogue with paired blades, asymmetric cloak and forward-leaning stance",
+        "aura": "black-violet fracture lines and short-range afterimages",
+        "vfx": "blink cuts, vacuum crescents and causality rupture marks",
+        "visual_rule": "retain Thief dual-blade, stealth posture and lightweight silhouette",
+    },
+    "Acolyte": {
+        "paradigm": "chrono_architect",
+        "name": "Acolyte: Chrono Seraph",
+        "title": "The Eternal Benediction",
+        "weapon_family": "mace_and_holy_focus",
+        "primary_weapon": "Chrono Sanctified Mace",
+        "secondary_weapon": "Seraphic Scripture",
+        "weapon_material": "consecrated silver and timeglass",
+        "armor_material": "white sanctified vestment with luminous plate",
+        "accent_material": "radiant gold crystal",
+        "silhouette": "support cleric with mace, holy focus and layered halo geometry",
+        "aura": "golden concentric halos with white temporal particles",
+        "vfx": "time-locked blessings, restorative frames and stasis geometry",
+        "visual_rule": "retain Acolyte holy vestment, mace/focus language and support-caster posture",
+    },
+    "Merchant": {
+        "paradigm": "matrix_sovereign",
+        "name": "Merchant: Matrix Artificer",
+        "title": "The Infinite Quartermaster",
+        "weapon_family": "axe",
+        "primary_weapon": "Matrix Forged Axe",
+        "secondary_weapon": "Fabricator Ledger",
+        "weapon_material": "runic brass and hardened industrial steel",
+        "armor_material": "reinforced trader coat, plated harness and utility belts",
+        "accent_material": "emerald data-crystal",
+        "silhouette": "heavy utility merchant with broad axe, pack frame and mechanical modules",
+        "aura": "green data grids, rotating inventory glyphs and fabrication sparks",
+        "vfx": "repair beams, item-grid projections and autonomous fabricator drones",
+        "visual_rule": "retain Merchant axe, equipment-heavy silhouette and industrial-trader identity",
+    },
 }
 
 const RESOURCE_RULES := {
@@ -78,6 +166,7 @@ static func ensure_state(hero: Dictionary) -> void:
     var state: Dictionary = hero["fifth_tier"]
     if not state.has("unlocked"): state["unlocked"] = false
     if not state.has("paradigm"): state["paradigm"] = ""
+    if not state.has("profession_id"): state["profession_id"] = str(hero.get("class_id", hero.get("class", "")))
     if not state.has("composite_attributes"): state["composite_attributes"] = {"Spatial Mass": 0.0, "Aetherial Frequency": 0.0, "Causality Precision": 0.0}
     if not state.has("simulation_paradox"): state["simulation_paradox"] = 0.0
     if not state.has("entropy_shards"): state["entropy_shards"] = 0
@@ -133,21 +222,51 @@ static func available_paradigms(hero: Dictionary) -> Array[String]:
     if not bool(hero["fifth_tier"].get("attribute_fusion_complete", false)): return []
     return PARADIGMS.keys()
 
-static func awaken(hero: Dictionary, paradigm_id: String) -> bool:
+static func awaken(hero: Dictionary, paradigm_id: String = "") -> bool:
     ensure_state(hero)
+    var profession_id := first_tier_profession(hero)
+    var expected_paradigm := paradigm_for_class(profession_id)
+    if paradigm_id.is_empty(): paradigm_id = expected_paradigm
+    if paradigm_id != expected_paradigm: return false
     if paradigm_id not in PARADIGMS: return false
-    if paradigm_id not in available_paradigms(hero): return false
+    if not available_paradigms(hero).has(paradigm_id): return false
     if not can_attempt_awakening(hero): return false
     hero["fifth_tier"]["unlocked"] = true
     hero["fifth_tier"]["paradigm"] = paradigm_id
+    hero["fifth_tier"]["profession_id"] = profession_id
     hero["fifth_tier"]["awakening_count"] = int(hero["fifth_tier"].get("awakening_count", 0)) + 1
     hero["fifth_tier"]["simulation_paradox"] = 0.0
     hero["fifth_tier"]["entropy_shards"] = 0
     hero["fifth_tier"]["network_resonance"] = 0.0
     return true
 
+static func first_tier_profession(hero: Dictionary) -> String:
+    var state: Dictionary = hero.get("fifth_tier", {})
+    var stored := str(state.get("profession_id", ""))
+    if CLASS_AFFINITY.has(stored): return stored
+    var direct := str(hero.get("first_tier_profession", hero.get("class_id", hero.get("class", ""))))
+    if CLASS_AFFINITY.has(direct): return direct
+    return "Warrior"
+
 static func paradigm_for_class(class_id: String) -> String:
-    return str(CLASS_AFFINITY.get(class_id, "matrix_sovereign"))
+    var profile: Dictionary = CLASS_AFFINITY.get(class_id, {})
+    return str(profile.get("paradigm", "singularity_arch"))
+
+static func class_profile(class_id: String) -> Dictionary:
+    return CLASS_AFFINITY.get(class_id, {})
+
+static func natural_fifth_tier_profile(class_id: String) -> Dictionary:
+    var profession := class_profile(class_id)
+    if profession.is_empty(): return {}
+    var paradigm_id := str(profession.get("paradigm", ""))
+    var paradigm := paradigm_profile(paradigm_id)
+    var result: Dictionary = profession.duplicate(true)
+    result["first_tier_profession"] = class_id
+    result["fifth_tier"] = 5
+    result["paradigm_id"] = paradigm_id
+    result["paradigm_name"] = paradigm.get("name", "")
+    result["composite_attribute"] = paradigm.get("composite", "")
+    return result
 
 static func paradigm_profile(paradigm_id: String) -> Dictionary:
     return PARADIGMS.get(paradigm_id, {})
@@ -238,13 +357,31 @@ static func tick(hero: Dictionary, delta: float, linked_party_count: int) -> Dic
 static func visual_profile(hero: Dictionary) -> Dictionary:
     ensure_state(hero)
     var state: Dictionary = hero["fifth_tier"]
-    if not bool(state.get("unlocked", false)): return {"awakened": false}
-    var paradigm_id := str(state.get("paradigm", ""))
-    var profile := paradigm_profile(paradigm_id)
+    var profession_id := first_tier_profession(hero)
+    var profession := class_profile(profession_id)
+    if not bool(state.get("unlocked", false)):
+        return {"awakened": false, "first_tier_profession": profession_id, "natural_profile": profession}
+    var paradigm_id := str(state.get("paradigm", paradigm_for_class(profession_id)))
+    var paradigm := paradigm_profile(paradigm_id)
     return {
         "awakened": true,
+        "tier": FIFTH_TIER,
+        "first_tier_profession": profession_id,
+        "name": profession.get("name", "Transcendent"),
+        "title": profession.get("title", paradigm.get("title", "Transcendent")),
         "paradigm": paradigm_id,
-        "title": profile.get("title", "Transcendent"),
+        "paradigm_name": paradigm.get("name", ""),
+        "weapon_family": profession.get("weapon_family", ""),
+        "primary_weapon": profession.get("primary_weapon", ""),
+        "secondary_weapon": profession.get("secondary_weapon", ""),
+        "weapon_material": profession.get("weapon_material", ""),
+        "armor_material": profession.get("armor_material", ""),
+        "accent_material": profession.get("accent_material", ""),
+        "silhouette": profession.get("silhouette", ""),
+        "aura": profession.get("aura", ""),
+        "vfx": profession.get("vfx", ""),
+        "visual_rule": profession.get("visual_rule", ""),
+        "composite_attribute": paradigm.get("composite", ""),
         "floating_height": 0.22,
         "geometry_aura": true,
         "timeline_distortion": paradigm_id == "chrono_architect",
@@ -254,4 +391,15 @@ static func visual_profile(hero: Dictionary) -> Dictionary:
     }
 
 static func rules_reference() -> Dictionary:
-    return {"tier": FIFTH_TIER, "name": "Transcendence", "required_level": REQUIRED_LEVEL, "max_level": MAX_LEVEL, "paradigms": PARADIGMS, "resources": RESOURCE_RULES, "class_affinity": CLASS_AFFINITY}
+    return {
+        "tier": FIFTH_TIER,
+        "name": "Transcendence",
+        "required_level": REQUIRED_LEVEL,
+        "max_level": MAX_LEVEL,
+        "paradigms": PARADIGMS,
+        "resources": RESOURCE_RULES,
+        "class_affinity": CLASS_AFFINITY,
+        "weapon_locked_to_first_tier": true,
+        "visual_identity_locked_to_first_tier": true,
+        "material_identity_locked_to_first_tier": true,
+    }
