@@ -77,14 +77,14 @@ func apply_preset(preset:Preset)->void:
                 sun_light.shadow_bias = 0.04
         Preset.HD:
             env.ssao_enabled = true
-            env.ssao_radius = 2.8
-            env.ssao_intensity = 1.35
+            env.ssao_radius = 2.2
+            env.ssao_intensity = 1.15
             env.glow_enabled = true
-            env.glow_intensity = 0.45
-            env.glow_bloom = 0.10
-            env.glow_hdr_threshold = 1.10
+            env.glow_intensity = 0.30
+            env.glow_bloom = 0.06
+            env.glow_hdr_threshold = 1.35
             env.tonemap_mode = Environment.TONE_MAPPER_ACES
-            env.tonemap_exposure = -0.35
+            env.tonemap_exposure = -0.90
             if sun_light != null:
                 sun_light.shadow_enabled = true
                 sun_light.shadow_bias = 0.025
