@@ -98,6 +98,10 @@ func _build_environment()->void:
 	environment.fog_density=0.003
 	environment.fog_height=1.5
 	environment.fog_height_density=0.008
+	var active_camera:Camera3D=scene_root.get_node_or_null("Camera3D") as Camera3D
+	if active_camera!=null:
+		active_camera.environment=environment
+		active_camera.current=true
 
 func _build_lights()->void:
 	sun=get_node_or_null("HDSun") as DirectionalLight3D
