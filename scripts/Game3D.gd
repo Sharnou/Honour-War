@@ -222,7 +222,7 @@ func _build_environment_objects() -> void:
 	for i in count:
 		var x:float = 3.0+float((i*41)%340)*0.10
 		var z:float = -5.5+float((i*29)%210)*0.10
-		if abs(x-20.4)<4.2 and abs(z-8.2)<3.0:
+		if Vector2(x-12.925,z-12.65).length()<5.0:
 			continue
 		var trunk:MeshInstance3D = MeshInstance3D.new()
 		trunk.mesh = trunk_mesh
