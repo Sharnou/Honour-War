@@ -31,7 +31,7 @@ policy=ROOT/"docs"/"DAILY_HONOUR_WAR_NO_GLB_POLICY.md"
 check(policy.is_file() and policy.stat().st_size>1200,"Permanent no-GLB daily upgrade policy")
 if policy.is_file():
     policy_text=policy.read_text(encoding="utf-8")
-    for phrase in ["HD GLB assets are permanently retired","must not regenerate","must not download","must not import","native Godot","Screenshot/"]:
+    for phrase in ["previous generated HD `.glb` asset library is permanently retired","restore or regenerate the retired HD GLB library","download or import generated GLB assets","attach generated GLB scenes at runtime","native Godot","Screenshot/"]:
         check(phrase in policy_text,"No-GLB policy: "+phrase)
 
 role=ROOT/"docs"/"DAILY_HONOUR_WAR_VISUAL_UPGRADE_ROLE.md"
