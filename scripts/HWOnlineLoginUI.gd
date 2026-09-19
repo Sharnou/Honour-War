@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-const HWAccountDatabaseClass = preload("res://scripts/HWAccountDatabaseClass.gd")
+const HWAccountDatabaseClass = preload("res://scripts/HWAccountDatabase.gd")
 
 ## Optional online account/login layer. Offline play remains the default path.
 ## Fast Register uses username + password only; no email or verification step is required.
