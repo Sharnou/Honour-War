@@ -8,7 +8,7 @@ const LootSystemClass=preload("res://scripts/LootSystem.gd")
 const TeleportSystemClass=preload("res://scripts/TeleportSystem.gd")
 const SkillSystemClass=preload("res://scripts/SkillSystem.gd")
 const ClassTreeSystemClass=preload("res://scripts/ClassTreeSystem.gd")
-const PetVisualClass=preload("res://scripts/PetVisualClass.gd")
+const PetVisualClass=preload("res://scripts/PetVisual.gd")
 const MonsterDetailsSystemClass=preload("res://scripts/MonsterDetailsSystemClass.gd")
 const CicciWeeklyEventClass=preload("res://scripts/CicciWeeklyEventClass.gd")
 
