@@ -18,6 +18,8 @@ on:
       - "scripts/PetSystem.gd"
       - "scripts/MonsterDetailsSystem.gd"
       - "scripts/GameData.gd"
+      - "scripts/FifthTierClassTreeSystem.gd"
+      - "tests/fifth_tier_profession_weapon_visual_contract_test.gd"
       - "tests/character_visual_profile_contract_test.gd"
       - "tests/hd_gameplay_presentation_contract_test.gd"
       - "tests/world_actor_visual_profile_contract_test.gd"
@@ -117,6 +119,11 @@ jobs:
           timeout 35s xvfb-run -a ./"${GODOT_BINARY}" --path . --rendering-method gl_compatibility --rendering-driver opengl3 --script res://tools/capture_real_game_screenshot.gd 2>&1 | tee real-game-screenshot.log
           test -s visual-captures/honour-war-real-game.png
 
+      - name: Validate Fifth Tier profession-rooted skills, weapons and visuals
+        run: |
+          ./"${GODOT_BINARY}" --headless --path . --script res://tests/fifth_tier_profession_weapon_visual_contract_test.gd 2>&1 | tee fifth-tier-profession-skill.log
+          grep -F "PASS: all six Fifth Tier professions are weapon-, material-, silhouette- and VFX-rooted" fifth-tier-profession-skill.log
+
       - name: Validate combat, skills, pets and progression source wiring
         run: |
           grep -F 'ClassTreeSystem.branch_bonus' scripts/CombatRuntime.gd
@@ -146,5 +153,6 @@ jobs:
             world-actor-visual-profile.log
             real-game-screenshot.log
             production-release-readiness.log
+            fifth-tier-profession-skill.log
             visual-captures/honour-war-real-game.png
           if-no-files-found: ignore
