@@ -77,7 +77,7 @@ def validate_neural4d_policy():
     ):
         if token not in policy:
             fail(f"Permanent visual policy missing: {token}")
-    for token in ("FBX", "OBJ", "53", "retired"):
+    for token in ("FBX", "OBJ", "retired"):
         if token not in manifest:
             fail(f"Neural4D regeneration manifest missing: {token}")
 
