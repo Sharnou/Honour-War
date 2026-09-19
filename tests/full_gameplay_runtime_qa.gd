@@ -149,4 +149,4 @@ func _test_graphics_wiring() -> void:
     check("visual QA enforces no GLBs", visual_qa.contains("Permanent HD GLB retirement: no .glb assets remain"))
     check("daily no-GLB policy exists", FileAccess.file_exists("res://docs/DAILY_HONOUR_WAR_NO_GLB_POLICY.md"))
     check("daily no-GLB policy is permanent", no_glb_policy.contains("Status: **PERMANENT**"))
-    check("native Godot visual pipeline is documented", no_glb_policy.contains("native Godot scenes/resources"))
+    check("native Godot visual pipeline is documented", no_glb_policy.contains("native Godot 4.7.2 scenes/resources"))
