@@ -27,6 +27,7 @@ on:
       - "tests/element_system_contract_test.gd"
       - "tools/honour_war_visual_qa.py"
       - "tools/validate_monster_visual_distinctness.py"
+      - "tools/validate_autoload_class_conflicts.py"
       - "scripts/HWProductionAudioDirector.gd"
       - "scripts/HWPerformanceDirector.gd"
       - "tests/production_release_readiness_test.gd"
@@ -63,6 +64,10 @@ jobs:
           curl -L --fail --retry 3 -o godot.zip "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/${GODOT_BINARY}.zip"
           unzip -q godot.zip
           chmod +x "${GODOT_BINARY}"
+
+      - name: Validate autoload class conflicts before daily upgrade
+        run: |
+          python3 tools/validate_autoload_class_conflicts.py
 
       - name: Run Visual RAG before daily visual upgrade
         run: |
