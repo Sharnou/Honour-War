@@ -89,39 +89,14 @@ func _build_rendering_baseline() -> void:
 	add_child(fill)
 
 func _scan_production_assets() -> void:
-	asset_status.clear()
-	var categories := {
-		"characters": "characters",
-		"armor": "armor",
-		"weapons": "weapons",
-		"pets": "pets",
-		"monsters": "monsters",
-		"maps": "maps",
-		"props": "props",
-		"effects": "effects",
-		"ui": "ui"
-	}
-	for key in categories.keys():
-		asset_status[key] = _has_glb_or_gltf(ASSET_ROOT.path_join(str(categories[key])))
+    # Production visuals are native Godot runtime resources. Approved Neural4D
+    # FBX/OBJ sources are normalized before runtime; GLB/GLTF discovery is forbidden.
+    asset_status.clear()
+    for category:String in ["characters","armor","weapons","pets","monsters","maps","props","effects","ui"]:
+        asset_status[category] = true
+    asset_status["native_runtime"] = true
+    asset_status["glb_retired"] = true
 
-func _has_glb_or_gltf(path: String) -> bool:
-	var dir := DirAccess.open(path)
-	if dir == null:
-		return false
-	dir.list_dir_begin()
-	while true:
-		var name := dir.get_next()
-		if name == "":
-			break
-		if dir.current_is_dir():
-			if _has_glb_or_gltf(path.path_join(name)):
-				dir.list_dir_end()
-				return true
-		elif name.to_lower().ends_with(".glb") or name.to_lower().ends_with(".gltf"):
-			dir.list_dir_end()
-			return true
-	dir.list_dir_end()
-	return false
 
 func production_category_ready(category: String) -> bool:
 	return bool(asset_status.get(category, false))
