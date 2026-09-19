@@ -17,9 +17,12 @@ on:
 permissions:
   contents: read
 
+# Never cancel a verification run because another commit arrived while QA was
+# running. The gameplay + EXE contract is serialized per ref and each revision
+# must be allowed to finish and report its own result.
 concurrency:
   group: honour-war-full-gameplay-qa-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 env:
   GODOT_VERSION: "4.7.2"
