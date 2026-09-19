@@ -254,43 +254,154 @@ func _create_hero(class_id:String)->Node3D:
 	root.add_to_group("player")
 	root.add_to_group("local_player")
 	root.set_meta("hw_player",true)
-	root.set_meta("local_player",true)
 	var hitbox:CollisionShape3D=CollisionShape3D.new()
 	var sphere:SphereShape3D=SphereShape3D.new()
-	sphere.radius=0.85
+	sphere.radius=0.82
 	hitbox.shape=sphere
-	hitbox.position.y=1.25
+	hitbox.position.y=1.20
 	root.add_child(hitbox)
+
+	# Native detailed runtime actor; no GLB dependency.
 	var accent:Color = _class_color(class_id)
-	var body:MeshInstance3D = _capsule(Color("#252a32"),0.38,1.35)
-	body.position.y = 1.0
-	root.add_child(body)
-	var coat:MeshInstance3D = _capsule(accent,0.49,0.88)
-	coat.position.y = 1.45
+	var dark:Color = accent.darkened(0.58)
+	var metal:Color = accent.lightened(0.28)
+	var skin:Color = Color("#e0a27f")
+	var hair_color:Color = Color("#24202a")
+	var leather:Color = Color("#5a3929")
+
+	var torso:MeshInstance3D = _capsule(Color("#1f2732"),0.39,1.20)
+	torso.position.y = 1.04
+	root.add_child(torso)
+	var coat:MeshInstance3D = _capsule(accent,0.50,0.90)
+	coat.position.y = 1.43
 	root.add_child(coat)
-	var head:MeshInstance3D = _sphere(Color("#d6a27d"),0.38)
+	var chest:MeshInstance3D = _box(accent.lightened(0.08),Vector3(0.78,0.54,0.58))
+	chest.position = Vector3(0,1.48,0.02)
+	root.add_child(chest)
+	var belt:MeshInstance3D = _box(leather,Vector3(0.86,0.13,0.60))
+	belt.position = Vector3(0,1.08,0.02)
+	root.add_child(belt)
+	var buckle:MeshInstance3D = _box(metal,Vector3(0.16,0.16,0.08))
+	buckle.position = Vector3(0,1.08,0.34)
+	root.add_child(buckle)
+
+	var leg_l:MeshInstance3D = _capsule(dark,0.18,0.72)
+	leg_l.position = Vector3(-0.22,0.39,0)
+	root.add_child(leg_l)
+	var leg_r:MeshInstance3D = _capsule(dark,0.18,0.72)
+	leg_r.position = Vector3(0.22,0.39,0)
+	root.add_child(leg_r)
+	var boot_l:MeshInstance3D = _box(leather,Vector3(0.32,0.25,0.52))
+	boot_l.position = Vector3(-0.22,0.09,0.08)
+	root.add_child(boot_l)
+	var boot_r:MeshInstance3D = _box(leather,Vector3(0.32,0.25,0.52))
+	boot_r.position = Vector3(0.22,0.09,0.08)
+	root.add_child(boot_r)
+
+	var arm_l:MeshInstance3D = _capsule(accent,0.16,0.72)
+	arm_l.position = Vector3(-0.56,1.34,0)
+	arm_l.rotation_degrees.z = -10.0
+	root.add_child(arm_l)
+	var arm_r:MeshInstance3D = _capsule(accent,0.16,0.72)
+	arm_r.position = Vector3(0.56,1.34,0)
+	arm_r.rotation_degrees.z = 10.0
+	root.add_child(arm_r)
+	var glove_l:MeshInstance3D = _sphere(leather,0.17)
+	glove_l.position = Vector3(-0.61,1.00,0)
+	root.add_child(glove_l)
+	var glove_r:MeshInstance3D = _sphere(leather,0.17)
+	glove_r.position = Vector3(0.61,1.00,0)
+	root.add_child(glove_r)
+
+	var shoulder_l:MeshInstance3D = _sphere(metal,0.25)
+	shoulder_l.position = Vector3(-0.55,1.67,0)
+	shoulder_l.scale = Vector3(1.20,0.70,1.10)
+	root.add_child(shoulder_l)
+	var shoulder_r:MeshInstance3D = _sphere(metal,0.25)
+	shoulder_r.position = Vector3(0.55,1.67,0)
+	shoulder_r.scale = Vector3(1.20,0.70,1.10)
+	root.add_child(shoulder_r)
+	var collar:MeshInstance3D = _ring(metal,0.27,0.055)
+	collar.position.y=1.86
+	root.add_child(collar)
+
+	var neck:MeshInstance3D = _cylinder_skin(0.15,0.22,Vector3(0,1.91,0))
+	root.add_child(neck)
+	var head:MeshInstance3D = _sphere(skin,0.40)
 	head.position.y = 2.28
 	root.add_child(head)
-	var hair:MeshInstance3D = _sphere(Color("#2a2328"),0.43)
-	hair.position = Vector3(0.0,2.47,-0.03)
-	hair.scale = Vector3(1.03,0.60,1.03)
+	var hair:MeshInstance3D = _sphere(hair_color,0.46)
+	hair.position = Vector3(0,2.48,-0.03)
+	hair.scale = Vector3(1.08,0.68,1.04)
 	root.add_child(hair)
-	var shoulder_l:MeshInstance3D = _box(accent,Vector3(0.27,0.22,0.42))
-	shoulder_l.position = Vector3(-0.51,1.63,0.0)
-	root.add_child(shoulder_l)
-	var shoulder_r:MeshInstance3D = _box(accent,Vector3(0.27,0.22,0.42))
-	shoulder_r.position = Vector3(0.51,1.63,0.0)
-	root.add_child(shoulder_r)
+	var fringe:MeshInstance3D = _sphere(hair_color,0.27)
+	fringe.position = Vector3(0,2.37,0.31)
+	fringe.scale = Vector3(1.45,0.52,0.46)
+	root.add_child(fringe)
+	var eye_l:MeshInstance3D = _sphere(Color("#273142"),0.055)
+	eye_l.position = Vector3(-0.14,2.31,0.355)
+	root.add_child(eye_l)
+	var eye_r:MeshInstance3D = _sphere(Color("#273142"),0.055)
+	eye_r.position = Vector3(0.14,2.31,0.355)
+	root.add_child(eye_r)
+	var eye_glow_l:MeshInstance3D = _sphere(Color("#ffffff"),0.018)
+	eye_glow_l.position = Vector3(-0.125,2.325,0.395)
+	root.add_child(eye_glow_l)
+	var eye_glow_r:MeshInstance3D = _sphere(Color("#ffffff"),0.018)
+	eye_glow_r.position = Vector3(0.155,2.325,0.395)
+	root.add_child(eye_glow_r)
+
+	match class_id:
+		"Mage":
+			var mantle:=_ring(accent,0.58,0.08)
+			mantle.rotation_degrees.x=90.0
+			mantle.position.y=1.55
+			root.add_child(mantle)
+			var gem:=_sphere(Color("#c8a8ff"),0.13)
+			gem.position=Vector3(0,2.70,0.05)
+			root.add_child(gem)
+		"Archer":
+			var quiver:=_box(leather,Vector3(0.24,0.62,0.18))
+			quiver.position=Vector3(-0.43,1.32,-0.18)
+			root.add_child(quiver)
+		"Thief":
+			var scarf:=_box(Color("#331d38"),Vector3(0.92,0.12,0.18))
+			scarf.position=Vector3(0,1.84,0.25)
+			root.add_child(scarf)
+		"Acolyte":
+			var holy:=_ring(Color("#fff0a3"),0.33,0.045)
+			holy.position.y=2.72
+			root.add_child(holy)
+		"Merchant":
+			var satchel:=_box(leather,Vector3(0.34,0.38,0.24))
+			satchel.position=Vector3(-0.62,1.18,0.06)
+			root.add_child(satchel)
+
 	var weapon:MeshInstance3D = _weapon(class_id,accent)
-	weapon.position = Vector3(0.66,1.43,0.0)
+	weapon.position = Vector3(0.66,1.42,0.04)
 	root.add_child(weapon)
-	var light:OmniLight3D = OmniLight3D.new()
-	light.light_color = accent
-	light.light_energy = 0.85
-	light.omni_range = 2.8
-	light.position = Vector3(0.0,1.6,0.0)
+	var ring:=_ring(Color("#ffe18a"),0.76,0.045)
+	ring.rotation_degrees.x=90.0
+	ring.position.y=0.055
+	root.add_child(ring)
+	var light:OmniLight3D=OmniLight3D.new()
+	light.light_color=accent
+	light.light_energy=0.42
+	light.omni_range=3.2
+	light.position=Vector3(0,1.55,0)
 	root.add_child(light)
 	return root
+
+func _cylinder_skin(radius:float,height:float,pos:Vector3)->MeshInstance3D:
+	var node:MeshInstance3D=MeshInstance3D.new()
+	var mesh:CylinderMesh=CylinderMesh.new()
+	mesh.top_radius=radius
+	mesh.bottom_radius=radius
+	mesh.height=height
+	node.mesh=mesh
+	node.position=pos
+	node.material_override=_material(Color("#e0a27f"),0.02,0.72)
+	return node
 
 func _create_pet(species:String)->Node3D:
 	var root:Node3D = Node3D.new()
