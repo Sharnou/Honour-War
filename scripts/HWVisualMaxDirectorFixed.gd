@@ -29,6 +29,12 @@ func _bind()->void:
 func _ensure_environment()->void:
     if environment_ready or scene==null:
         return
+    # HDVisualDirector owns the final production environment. This compatibility
+    # director must not add a second WorldEnvironment or sun that can over-light
+    # authored GLB materials and wash out the town.
+    if scene.get_node_or_null("HDVisualDirector")!=null:
+        environment_ready=true
+        return
     var env_node:WorldEnvironment=scene.get_node_or_null("HWVisualMaxEnvironment") as WorldEnvironment
     if env_node==null:
         env_node=WorldEnvironment.new()
