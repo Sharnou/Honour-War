@@ -27,6 +27,10 @@ on:
       - "tests/element_system_contract_test.gd"
       - "tools/honour_war_visual_qa.py"
       - "tools/validate_monster_visual_distinctness.py"
+      - "scripts/HWProductionAudioDirector.gd"
+      - "scripts/HWPerformanceDirector.gd"
+      - "tests/production_release_readiness_test.gd"
+      - ".github/workflows/honour-war-production-release-readiness.yml"
       - ".github/workflows/honour-war-full-gameplay-qa.yml"
       - ".github/workflows/daily-honour-war-upgrade.yml"
 
@@ -115,6 +119,12 @@ jobs:
           grep -F 'max_level' scripts/PetSystem.gd
           grep -F 'fifth_job_class' scripts/GameData.gd
 
+
+      - name: Run production release readiness regression
+        run: |
+          ./"${GODOT_BINARY}" --headless --path . --rendering-method gl_compatibility --rendering-driver opengl3 --script res://tests/production_release_readiness_test.gd 2>&1 | tee production-release-readiness.log
+          grep -F "PRODUCTION_RELEASE_READINESS: PASS" production-release-readiness.log
+
       - name: Upload daily upgrade QA logs
         if: always()
         uses: actions/upload-artifact@v7
@@ -130,5 +140,6 @@ jobs:
             monster-distinctness.log
             world-actor-visual-profile.log
             real-game-screenshot.log
+            production-release-readiness.log
             visual-captures/honour-war-real-game.png
           if-no-files-found: ignore
