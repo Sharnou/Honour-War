@@ -193,13 +193,13 @@ jobs:
             "--resolution", "1920x1080",
             "--position", "0,0",
             "--write-movie", $movie,
-            "--fixed-fps", "30",
-            "--quit-after", "30"
+            "--fixed-fps", "1",
+            "--quit-after", "3"
           )
 
           Write-Host "Starting bounded Godot Movie Maker capture..."
           $p = Start-Process -FilePath $godot -ArgumentList $args -WorkingDirectory $pwd -RedirectStandardOutput $log -RedirectStandardError $err -PassThru
-          $deadline = (Get-Date).AddSeconds(120)
+          $deadline = (Get-Date).AddSeconds(45)
           while (-not $p.HasExited -and (Get-Date) -lt $deadline) {
             Start-Sleep -Milliseconds 500
           }
@@ -209,7 +209,7 @@ jobs:
             Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue
             Get-Content $log -ErrorAction SilentlyContinue
             Get-Content $err -ErrorAction SilentlyContinue
-            throw "Real game Movie Maker capture timed out after 120 seconds"
+            throw "Real game Movie Maker capture timed out after 45 seconds"
           }
 
           Get-Content $log -ErrorAction SilentlyContinue
