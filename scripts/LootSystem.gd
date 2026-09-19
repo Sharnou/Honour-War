@@ -83,7 +83,7 @@ static func add_item(hero:Dictionary,item_name:String,amount:int=1)->bool:
     return true
 static func add_material(hero:Dictionary,item_name:String,amount:int=1)->bool: return add_item(hero,item_name,amount)
 static func add_card(hero:Dictionary,card_name:String)->bool:
-    ensure_state(hero); var catalog:=CardDatabase.all()
+    ensure_state(hero); var catalog:=CardDatabaseClass.all()
     if card_name=="" or not catalog.has(card_name): return false
     if not bool(hero["loot_rules"].get("auto_pick_cards",true)): return false
     if not accept(hero,str(catalog[card_name].get("rarity","Common"))): return false
@@ -93,7 +93,7 @@ static func add_card(hero:Dictionary,card_name:String)->bool:
     return true
 static func collect_drop(hero:Dictionary,name:String,monster_name:String,rng:RandomNumberGenerator)->bool:
     ensure_state(hero)
-    if CardDatabase.all().has(name):
+    if CardDatabaseClass.all().has(name):
         if is_enabled(hero): return add_card(hero,name)
         queue_ground(hero,name,"card",monster_name); return false
     if ItemDatabaseClass.all().has(name):
@@ -170,7 +170,7 @@ static func _add_generated_entry(hero:Dictionary, entry:Dictionary, kind:String)
 static func _roll_standard_drops(hero:Dictionary, monster:Dictionary, rng:RandomNumberGenerator, gained:Array[String])->void:
     var rarity:String=LootProgression.roll_rarity(int(monster.get("level",1)),bool(monster.get("mvp",false)),rng.randf())
     var equipment_catalog:Dictionary=ItemDatabaseClass.all()
-    var card_catalog:Dictionary=CardDatabase.all()
+    var card_catalog:Dictionary=CardDatabaseClass.all()
     var equipment_count:int=0
     var card_count:int=0
     var rate:float=LootProgression.effective_drop_rate_percent(_drop_rate_for_rarity(rarity,bool(monster.get("mvp",false)),true),hero)
