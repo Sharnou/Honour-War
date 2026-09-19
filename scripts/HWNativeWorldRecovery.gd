@@ -8,6 +8,7 @@ const ORIGIN:=Vector2(365.0,120.0)
 var scene:Node3D
 var world_root:Node3D
 var built:bool=false
+var hero_proxy:Node3D
 
 func _ready()->void:
     process_priority=900
@@ -20,6 +21,7 @@ func _process(_delta:float)->void:
         return
     _ensure_camera_and_environment()
     _protect_hero_spawn()
+    _ensure_hero_proxy()
 
 func _initialize()->void:
     scene=get_tree().current_scene as Node3D
@@ -85,6 +87,83 @@ func _protect_hero_spawn()->void:
         var n:=mesh.name.to_lower()
         if n.contains("tree") or n.contains("crown") or n.contains("house") or n.contains("roof") or n.contains("rock") or n.contains("building"):
             mesh.visible=false
+
+func _ensure_hero_proxy()->void:
+    var value:Variant=scene.get("hero_visual")
+    var actual:=value as Node3D if is_instance_valid(value) and value is Node3D else null
+    if actual!=null and actual.visible:
+        if hero_proxy!=null and is_instance_valid(hero_proxy):
+            hero_proxy.visible=false
+        return
+    if hero_proxy==null or not is_instance_valid(hero_proxy):
+        hero_proxy=Node3D.new()
+        hero_proxy.name="HWHeroVisibilityProxy"
+        world_root.add_child(hero_proxy)
+        _build_proxy_character(hero_proxy)
+    hero_proxy.visible=true
+    var spawn:=Vector3(12.65,0.08,12.10)
+    if actual!=null:
+        spawn=actual.global_position
+    var camera:=scene.get_node_or_null("Camera3D") as Camera3D
+    if camera!=null:
+        var forward:=(-camera.global_transform.basis.z).normalized()
+        spawn+=forward*2.2
+    hero_proxy.global_position=spawn
+
+func _build_proxy_character(root:Node3D)->void:
+    var accent:=Color("#4f9cff")
+    _box_proxy(root,"ProxyBody",Vector3(0.72,1.20,0.46),Vector3(0,1.0,0),Color("#263447"))
+    _box_proxy(root,"ProxyCoat",Vector3(0.92,0.95,0.56),Vector3(0,1.45,0),accent)
+    _sphere_proxy(root,"ProxyHead",0.40,Vector3(0,2.28,0),Color("#e0aa83"))
+    _sphere_proxy(root,"ProxyHair",0.46,Vector3(0,2.48,-0.04),Color("#25212b"),Vector3(1.10,0.70,1.02))
+    _box_proxy(root,"ProxyLegL",Vector3(0.30,0.82,0.34),Vector3(-0.22,0.34,0),Color("#202734"))
+    _box_proxy(root,"ProxyLegR",Vector3(0.30,0.82,0.34),Vector3(0.22,0.34,0),Color("#202734"))
+    _box_proxy(root,"ProxyBootL",Vector3(0.34,0.22,0.48),Vector3(-0.22,0.08,-0.05),Color("#5b3928"))
+    _box_proxy(root,"ProxyBootR",Vector3(0.34,0.22,0.48),Vector3(0.22,0.08,-0.05),Color("#5b3928"))
+    _box_proxy(root,"ProxyWeapon",Vector3(0.12,1.55,0.16),Vector3(0.66,1.10,0),Color("#d7c08a"),true)
+    var ring:=MeshInstance3D.new()
+    ring.name="ProxyGroundRing"
+    var tm:=TorusMesh.new()
+    tm.inner_radius=0.62
+    tm.outer_radius=0.70
+    tm.rings=36
+    tm.ring_segments=10
+    ring.mesh=tm
+    ring.rotation_degrees.x=90
+    ring.position.y=0.06
+    ring.material_override=_mat(Color("#ffe18a"),0.25,true,true)
+    root.add_child(ring)
+    var label:=Label3D.new()
+    label.text="HERO"
+    label.font_size=34
+    label.outline_size=8
+    label.modulate=Color("#ffe8a4")
+    label.position=Vector3(0,3.05,0)
+    root.add_child(label)
+
+func _box_proxy(root:Node3D,name:String,size:Vector3,pos:Vector3,color:Color,unshaded:bool=false)->void:
+    var n:=MeshInstance3D.new()
+    n.name=name
+    var m:=BoxMesh.new()
+    m.size=size
+    n.mesh=m
+    n.position=pos
+    n.material_override=_mat(color,0.72,false,unshaded)
+    root.add_child(n)
+
+func _sphere_proxy(root:Node3D,name:String,radius:float,pos:Vector3,color:Color,scale_value:Vector3=Vector3.ONE)->void:
+    var n:=MeshInstance3D.new()
+    n.name=name
+    var m:=SphereMesh.new()
+    m.radius=radius
+    m.height=radius*2.0
+    m.radial_segments=24
+    m.rings=14
+    n.mesh=m
+    n.position=pos
+    n.scale=scale_value
+    n.material_override=_mat(color,0.75,false)
+    root.add_child(n)
 
 func _build_recovery_world()->void:
     if world_root.get_node_or_null("HWRecoveryGround")!=null:
