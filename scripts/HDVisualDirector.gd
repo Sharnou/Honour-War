@@ -24,7 +24,7 @@ func _ready()->void:
 func _process(delta:float)->void:
 	time+=delta
 	if fill!=null and is_instance_valid(fill):
-		fill.light_energy=1.35+sin(time*0.55)*0.10
+		fill.light_energy=0.42+sin(time*0.55)*0.025
 
 func _build_hd_presentation()->void:
 	if not is_inside_tree(): return
@@ -54,36 +54,38 @@ func _build_environment()->void:
 		environment=Environment.new()
 		world_environment.environment=environment
 	environment.background_mode=Environment.BG_COLOR
-	environment.background_color=Color("#08131f")
+	environment.background_color=Color("#6f9bb5")
 	environment.ambient_light_source=Environment.AMBIENT_SOURCE_COLOR
-	environment.ambient_light_color=Color("#a9c5dc")
-	environment.ambient_light_energy=0.82
+	environment.ambient_light_color=Color("#b8d0dd")
+	environment.ambient_light_energy=0.38
 	environment.reflected_light_source=Environment.REFLECTION_SOURCE_BG
-	environment.tonemap_mode=Environment.TONE_MAPPER_FILMIC
+	environment.tonemap_mode=Environment.TONE_MAPPER_ACES
+	environment.tonemap_exposure=-0.70
+	environment.tonemap_white=1.15
 	if forward_plus:
 		environment.ssao_enabled=true
-		environment.ssao_radius=2.2
-		environment.ssao_intensity=2.0
+		environment.ssao_radius=2.0
+		environment.ssao_intensity=1.25
 		environment.ssil_enabled=true
-		environment.ssil_radius=5.0
-		environment.ssil_intensity=1.15
+		environment.ssil_radius=4.0
+		environment.ssil_intensity=0.72
 		environment.glow_enabled=true
-		environment.glow_intensity=0.85
-		environment.glow_bloom=0.16
-		environment.glow_hdr_threshold=1.0
-		environment.glow_hdr_scale=1.25
+		environment.glow_intensity=0.34
+		environment.glow_bloom=0.07
+		environment.glow_hdr_threshold=1.35
+		environment.glow_hdr_scale=1.05
 		environment.volumetric_fog_enabled=true
-		environment.volumetric_fog_density=0.006
+		environment.volumetric_fog_density=0.003
 		environment.volumetric_fog_albedo=Color("#9ab7cc")
 		environment.volumetric_fog_emission=Color("#102234")
-		environment.volumetric_fog_emission_energy=0.08
+		environment.volumetric_fog_emission_energy=0.035
 		environment.volumetric_fog_length=48.0
 		environment.volumetric_fog_detail_spread=1.6
 		environment.sdfgi_enabled=true
 		environment.sdfgi_cascades=4
 		environment.sdfgi_min_cell_size=0.2
 		environment.sdfgi_max_distance=64.0
-		environment.sdfgi_energy=1.0
+		environment.sdfgi_energy=0.72
 	else:
 		environment.ssao_enabled=false
 		environment.ssil_enabled=false
@@ -92,10 +94,10 @@ func _build_environment()->void:
 		environment.sdfgi_enabled=false
 	environment.fog_enabled=true
 	environment.fog_light_color=Color("#8ca9bd")
-	environment.fog_light_energy=0.28
-	environment.fog_density=0.006
+	environment.fog_light_energy=0.16
+	environment.fog_density=0.003
 	environment.fog_height=1.5
-	environment.fog_height_density=0.012
+	environment.fog_height_density=0.008
 
 func _build_lights()->void:
 	sun=get_node_or_null("HDSun") as DirectionalLight3D
@@ -103,19 +105,19 @@ func _build_lights()->void:
 		sun=DirectionalLight3D.new()
 		sun.name="HDSun"
 		add_child(sun)
-	sun.rotation_degrees=Vector3(-48.0,-35.0,0.0)
-	sun.light_energy=1.45
+	sun.rotation_degrees=Vector3(-50.0,-35.0,0.0)
+	sun.light_energy=0.92
 	sun.shadow_enabled=true
 	sun.directional_shadow_max_distance=90.0
 	sun.directional_shadow_fade_start=0.82
-	sun.light_angular_distance=0.10
+	sun.light_angular_distance=0.16
 	rim=get_node_or_null("HDRim") as DirectionalLight3D
 	if rim==null:
 		rim=DirectionalLight3D.new()
 		rim.name="HDRim"
 		add_child(rim)
 	rim.rotation_degrees=Vector3(-25.0,145.0,0.0)
-	rim.light_energy=0.52
+	rim.light_energy=0.18
 	rim.light_color=Color("#75b8e8")
 	rim.shadow_enabled=false
 	fill=get_node_or_null("HDFill") as OmniLight3D
@@ -124,8 +126,8 @@ func _build_lights()->void:
 		fill.name="HDFill"
 		add_child(fill)
 	fill.position=Vector3(4.0,7.0,7.0)
-	fill.omni_range=30.0
-	fill.light_energy=1.35
+	fill.omni_range=26.0
+	fill.light_energy=0.42
 	fill.light_color=Color("#b8dcf5")
 	fill.shadow_enabled=true
 
