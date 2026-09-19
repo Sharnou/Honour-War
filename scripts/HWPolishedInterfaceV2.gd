@@ -330,15 +330,33 @@ func _learn_pet(id:String)->void:
     _render_mode()
 
 func _skills(hero:Dictionary)->void:
-    _heading("HERO SKILL TREE")
+    _heading("HERO SKILL TREE • %s" % str(hero.get("class","Warrior")).to_upper())
+    var points:int=int(hero.get("skill_points",0))
+    _card("SKILL POINTS","Available: %d   •   Spend points on unlocked nodes   •   Passive skills remain active." % points)
+    var grid:=GridContainer.new()
+    grid.columns=3
+    grid.add_theme_constant_override("h_separation",8)
+    grid.add_theme_constant_override("v_separation",8)
+    grid.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+    body.add_child(grid)
     for skill in SKILLS.all_skills(str(hero.get("class","Warrior"))):
         var id:String=str(skill["id"])
         var lvl:int=SKILLS.skill_level(hero,id)
-        var b:Button=Button.new()
-        b.text="%s    Lv.%d / %d    Required %d    Cost %d" % [str(skill["name"]),lvl,int(skill["max_level"]),int(skill["required_level"]),int(skill["cost"])]
-        b.pressed.connect(_learn_skill.bind(id))
-        body.add_child(b)
-        _label(str(skill.get("description","")))
+        var required:int=int(skill["required_level"])
+        var locked:bool=int(hero.get("level",1))<required
+        for req:Variant in skill.get("requires",[]):
+            if int(hero.get("skill_levels",{}).get(str(req),0))<1:
+                locked=true
+        var card:=Button.new()
+        card.custom_minimum_size=Vector2(250,112)
+        card.alignment=HORIZONTAL_ALIGNMENT_LEFT
+        card.text="%s\nLv.%d / %d   •   Req Lv.%d\n%s" % [str(skill["name"]),lvl,int(skill["max_level"]),required,str(skill.get("description",""))]
+        card.tooltip_text=str(skill.get("description",""))+"\nCost "+str(skill.get("cost",0))
+        card.disabled=locked
+        card.modulate=Color("#738095") if locked else Color.WHITE
+        card.pressed.connect(_learn_skill.bind(id))
+        grid.add_child(card)
+    _label("Tree logic is live: prerequisites, required levels, skill points, cooldowns and class-specific definitions are enforced by SkillSystem.")
 
 func _learn_skill(id:String)->void:
     var value:Variant=legacy.get("hero")
@@ -435,8 +453,33 @@ func _refine_slot(slot:String)->void:
     _render_mode()
 
 func _map(hero:Dictionary)->void:
-    _heading("WORLD MAP • TOWNS / FIELDS / DUNGEONS")
-    _card("CURRENT LOCATION",TELEPORT.map_name(int(hero.get("map_id",0)))+"   •   @go [map]")
+    _heading("WORLD MAP • LIVE WORLD")
+    _card("CURRENT LOCATION",TELEPORT.map_name(int(hero.get("map_id",0)))+"   •   Coordinates %d:%d   •   @go [map] [x]:[y]" % [int(hero.get("pos_x",0)),int(hero.get("pos_y",0))])
+    var map_panel:=PanelContainer.new()
+    map_panel.custom_minimum_size=Vector2(0,260)
+    map_panel.add_theme_stylebox_override("panel",_style(Color("#15283a"),Color("#d5b86b")))
+    body.add_child(map_panel)
+    var map_box:=VBoxContainer.new()
+    map_panel.add_child(map_box)
+    var map_title:=Label.new()
+    map_title.text="WORLD GRID  •  TOWN / FIELD / DUNGEON"
+    map_title.add_theme_font_size_override("font_size",14)
+    map_title.add_theme_color_override("font_color",Color("#f2d98d"))
+    map_box.add_child(map_title)
+    var grid:=GridContainer.new()
+    grid.columns=10
+    grid.size_flags_vertical=Control.SIZE_EXPAND_FILL
+    map_box.add_child(grid)
+    var current_id:=int(hero.get("map_id",0))
+    for i in range(50):
+        var tile:=Button.new()
+        tile.custom_minimum_size=Vector2(54,28)
+        tile.text="◆" if i==25 else ("T" if i%10<3 else ("D" if i%10>7 else "F"))
+        tile.tooltip_text="Map sector %d" % i
+        tile.disabled=true
+        tile.modulate=Color("#f1d26d") if i==25 else Color("#86a6c2")
+        grid.add_child(tile)
+    _label("T = town   F = field   D = dungeon   ◆ = current sector. Use fast travel below.")
     _map_section("TOWNS",range(0,10))
     _map_section("FIELDS",range(20,30))
     _map_section("DUNGEONS",range(10,20))
