@@ -62,7 +62,7 @@ Every regenerated asset must pass:
 
 ## Preferred production pipeline
 
-The production runtime remains native Godot resources and scenes.
+The production runtime remains native Godot 4.7.2 scenes/resources and scenes.
 
 Neural4D is an **asset-generation source only**. It does not change the runtime architecture and does not authorize restoration of the retired GLB pipeline.
 
