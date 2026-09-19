@@ -67,7 +67,7 @@ static func queue_ground(hero:Dictionary,name:String,kind:String,monster_name:St
     ensure_state(hero); hero["ground_loot"].append({"name":name,"kind":kind,"monster":monster_name,"time":Time.get_ticks_msec()})
 static func add_item(hero:Dictionary,item_name:String,amount:int=1)->bool:
     ensure_state(hero)
-    var catalog:=ItemDatabase.all()
+    var catalog:=ItemDatabaseClass.all()
     if amount<=0 or not catalog.has(item_name): return false
     var data:Dictionary=catalog[item_name]; var item_type:String=str(data.get("type","")); var rarity:String=str(data.get("rarity","Common"))
     if item_type in ["Weapon","Armor","Accessory"] and not bool(hero["loot_rules"].get("auto_pick_equipment",true)): return false
@@ -96,7 +96,7 @@ static func collect_drop(hero:Dictionary,name:String,monster_name:String,rng:Ran
     if CardDatabase.all().has(name):
         if is_enabled(hero): return add_card(hero,name)
         queue_ground(hero,name,"card",monster_name); return false
-    if ItemDatabase.all().has(name):
+    if ItemDatabaseClass.all().has(name):
         if is_enabled(hero): return add_item(hero,name,1)
         queue_ground(hero,name,"item",monster_name); return false
     return false
@@ -169,7 +169,7 @@ static func _add_generated_entry(hero:Dictionary, entry:Dictionary, kind:String)
 
 static func _roll_standard_drops(hero:Dictionary, monster:Dictionary, rng:RandomNumberGenerator, gained:Array[String])->void:
     var rarity:String=LootProgression.roll_rarity(int(monster.get("level",1)),bool(monster.get("mvp",false)),rng.randf())
-    var equipment_catalog:Dictionary=ItemDatabase.all()
+    var equipment_catalog:Dictionary=ItemDatabaseClass.all()
     var card_catalog:Dictionary=CardDatabase.all()
     var equipment_count:int=0
     var card_count:int=0
