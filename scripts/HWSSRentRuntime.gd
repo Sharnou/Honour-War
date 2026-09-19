@@ -11,6 +11,7 @@ const SS_DEFAULT_SKILL:String = "Champion's Asura"
 const SS_RENT_NPC_NAME:String = "Rent"
 const COLLECTION_ITEM_LIMIT:int = 50
 const COLLECTION_CARD_LIMIT:int = 20
+const RENT_UI_CONTRACT:String = '{"go_button":"GO"}'
 
 var rented:bool = false
 var ss:Dictionary = {}
@@ -87,7 +88,8 @@ func rental_profile() -> Dictionary:
         "default_skill":SS_DEFAULT_SKILL,
         "collection_item_limit":COLLECTION_ITEM_LIMIT,
         "collection_card_limit":COLLECTION_CARD_LIMIT,
-        "behavior":{"follow":true,"heal":true,"fight":true}
+        "behavior":{"follow":true,"heal":true,"fight":true},
+        "ui": {"go_button":"GO"}
     }
 
 func _new_ss(hero:Dictionary) -> Dictionary:
