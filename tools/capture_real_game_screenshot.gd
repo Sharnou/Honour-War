@@ -53,6 +53,8 @@ func _process(delta:float)->bool:
     if image==null or image.is_empty():
         return false
 
+    if image.get_width() < 1280 or image.get_height() < 720:
+        image.resize(1280,720,Image.INTERPOLATE_LANCZOS)
     var output:String=ProjectSettings.globalize_path(CAPTURE_FILE)
     var save_error:Error=image.save_png(output)
     if save_error!=OK:
