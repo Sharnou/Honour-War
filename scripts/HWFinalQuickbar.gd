@@ -26,6 +26,7 @@ var close_button:Button
 var drag_offset:Vector2=Vector2.ZERO
 var dragging:bool=false
 var restore_button:Button
+var user_dragged:bool=false
 
 func _ready()->void:
     layer = 300
@@ -43,6 +44,7 @@ func _process(delta:float)->void:
         legacy = scene.get_node_or_null("LegacyGame")
     _hide_legacy_skillbars()
     _refresh()
+    if not user_dragged and panel!=null and is_instance_valid(panel): _layout_screen_safe()
     if flash_time <= 0.0 and flash_index >= 0:
         flash_index = -1
         _refresh(true)
@@ -78,11 +80,9 @@ func _hide_legacy_skillbars()->void:
 func _build()->void:
     panel = PanelContainer.new()
     panel.name = "HWFinalSkillQuickbar"
-    panel.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
-    panel.offset_left = -410
-    panel.offset_top = -78
-    panel.offset_right = 410
-    panel.offset_bottom = -8
+    panel.set_anchors_preset(Control.PRESET_TOP_LEFT)
+    panel.size=Vector2(760,68)
+    panel.position=Vector2(260,640)
     panel.add_theme_stylebox_override("panel", _style(PANEL_BG, BORDER, 10))
     panel.mouse_filter = Control.MOUSE_FILTER_STOP
     add_child(panel)
@@ -152,7 +152,7 @@ func _build()->void:
 func _toggle_collapsed()->void:
     collapsed=not collapsed
     slots.visible=not collapsed
-    panel.offset_top=-34 if collapsed else -78
+    panel.size.y=36.0 if collapsed else 68.0
     close_button.text="+" if collapsed else "×"
     restore_button.visible=collapsed
     panel.offset_bottom=-12
@@ -169,6 +169,12 @@ func _on_panel_gui_input(event:InputEvent)->void:
         panel.set_anchors_preset(Control.PRESET_TOP_LEFT)
         panel.position.x=clamp(panel.position.x,8.0,get_viewport().get_visible_rect().size.x-panel.size.x-8.0)
         panel.position.y=clamp(panel.position.y,8.0,get_viewport().get_visible_rect().size.y-panel.size.y-8.0)
+
+func _layout_screen_safe()->void:
+    var viewport_size:=get_viewport().get_visible_rect().size
+    panel.size=Vector2(min(760.0,viewport_size.x-24.0),68.0 if not collapsed else 36.0)
+    panel.position=Vector2((viewport_size.x-panel.size.x)*0.5,viewport_size.y-panel.size.y-10.0)
+    restore_button.position=Vector2(viewport_size.x-96.0,viewport_size.y-46.0)
 
 func _refresh(force:bool = false)->void:
     if legacy == null or not is_instance_valid(legacy) or slots == null:
