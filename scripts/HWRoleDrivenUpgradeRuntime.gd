@@ -89,13 +89,13 @@ func _build_rendering_baseline() -> void:
 	add_child(fill)
 
 func _scan_production_assets() -> void:
-    # Production visuals are native Godot runtime resources. Approved Neural4D
-    # FBX/OBJ sources are normalized before runtime; GLB/GLTF discovery is forbidden.
-    asset_status.clear()
-    for category:String in ["characters","armor","weapons","pets","monsters","maps","props","effects","ui"]:
-        asset_status[category] = true
-    asset_status["native_runtime"] = true
-    asset_status["glb_retired"] = true
+	# Production visuals are native Godot runtime resources. Approved Neural4D
+	# FBX/OBJ sources are normalized before runtime; GLB/GLTF discovery is forbidden.
+	asset_status.clear()
+	for category:String in ["characters","armor","weapons","pets","monsters","maps","props","effects","ui"]:
+		asset_status[category] = true
+	asset_status["native_runtime"] = true
+	asset_status["glb_retired"] = true
 
 
 func production_category_ready(category: String) -> bool:
