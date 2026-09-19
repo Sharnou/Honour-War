@@ -302,7 +302,13 @@ func _sync_bosses() -> void:
             boss_seen[id] = true
             _stage_boss(actor, id)
 
-func _stage_boss(actor: Node3D, id: String) -> void:
+func _stage_boss(actor_value: Variant, id: String) -> void:
+    # Boss staging can race monster replacement/despawn; validate before casting.
+    if not is_instance_valid(actor_value) or not actor_value is Node3D:
+        return
+    var actor: Node3D = actor_value as Node3D
+    if actor == null or not is_instance_valid(actor):
+        return
     var root := _build_root()
     var marker := MeshInstance3D.new()
     marker.name = "BossStage_" + id
