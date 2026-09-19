@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - name: Checkout exact revision
+      - name: Validate direct Screenshot visual source\n        run: python3 tools/validate_visual_reference_source.py\n\n      - name: Checkout exact revision
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
