@@ -7,6 +7,7 @@ extends RefCounted
 
 const SkillSystemClass = preload("res://scripts/SkillSystem.gd")
 const FifthTierClassTreeSystem = preload("res://scripts/FifthTierClassTreeSystem.gd")
+const ClassTreeSystemClass = preload("res://scripts/ClassTreeSystem.gd")
 
 const CLASSES:Array[String] = ["Warrior","Mage","Archer","Thief","Acolyte","Merchant"]
 const TIER_LEVELS:Dictionary = {1:1,2:25,3:50,4:150,5:200}
@@ -68,11 +69,11 @@ static func skill_tree(class_id:String)->Dictionary:
     }
 
 static func branch_summary(class_id:String)->Dictionary:
-    var profile:Dictionary = ClassTreeSystemProfileFallback.profile(class_id)
+    var profile:Dictionary = ClassTreeSystemClass.class_profile(class_id)
     return {
         "class_id":class_id,
         "branches":profile.get("branches",[]),
-        "branch_descriptions":profile.get("branch_descriptions",{})
+        "branch_descriptions":ClassTreeSystemClass.branch_descriptions(class_id)
     }
 
 static func progression(hero:Dictionary)->Dictionary:
