@@ -475,6 +475,8 @@ func _try_attach_remote_production_asset(root:Node3D,class_id:String,level:int)-
 			model.queue_free()
 		return
 	model.name = "HW_RemoteGeneratedGLB"
+	var model_3d := model as Node3D
+	_repair_generated_materials(model_3d)
 	root.add_child(model)
 	for child:Node in root.get_children():
 		if child == model:
@@ -482,6 +484,24 @@ func _try_attach_remote_production_asset(root:Node3D,class_id:String,level:int)-
 		if child is MeshInstance3D:
 			(child as MeshInstance3D).visible = false
 	root.set_meta("hw_remote_production_asset",true)
+
+func _repair_generated_materials(root:Node3D)->void:
+	if root == null:
+		return
+	for node:Node in root.find_children("*","MeshInstance3D",true,false):
+		var mesh_instance := node as MeshInstance3D
+		if mesh_instance == null or mesh_instance.mesh == null:
+			continue
+		for surface:int in mesh_instance.mesh.get_surface_count():
+			var material:Material = mesh_instance.get_surface_override_material(surface)
+			if material == null:
+				material = mesh_instance.mesh.surface_get_material(surface)
+			if material == null:
+				var fallback := StandardMaterial3D.new()
+				fallback.albedo_color = Color("#9aa1aa")
+				fallback.metallic = 0.15
+				fallback.roughness = 0.58
+				mesh_instance.set_surface_override_material(surface,fallback)
 
 func _update_camera(_delta:float)->void:
 	return
