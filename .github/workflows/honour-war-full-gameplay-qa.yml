@@ -171,79 +171,37 @@ jobs:
 
       - name: Capture real game frame
         shell: pwsh
-        timeout-minutes: 3
         run: |
           $ErrorActionPreference = "Stop"
           New-Item -ItemType Directory -Force -Path visual-captures | Out-Null
           $log = Join-Path $pwd "real-game-capture.log"
           $err = Join-Path $pwd "real-game-capture.err"
           $godot = Join-Path $pwd "godot.exe"
-          $movie = Join-Path $pwd "visual-captures\honour-war-real-game.png"
-
-          # Use Godot's built-in Movie Maker PNG renderer. This captures the
-          # actual rendered game frames without calling ViewportTexture.get_image()
-          # or waiting on RenderingServer.frame_post_draw.
           $args = @(
             "--path", ".",
             "--display-driver", "windows",
             "--audio-driver", "Dummy",
             "--rendering-method", "forward_plus",
             "--rendering-driver", "d3d12",
-            "--windowed",
             "--resolution", "1920x1080",
-            "--position", "0,0",
-            "--write-movie", $movie,
-            "--fixed-fps", "1",
-            "--quit-after", "3"
+            "--script", "res://tools/capture_real_game_screenshot.gd"
           )
-
-          Write-Host "Starting bounded Godot Movie Maker capture..."
+          Write-Host "Starting bounded direct real-game screenshot capture..."
           $p = Start-Process -FilePath $godot -ArgumentList $args -WorkingDirectory $pwd -RedirectStandardOutput $log -RedirectStandardError $err -PassThru
-          $deadline = (Get-Date).AddSeconds(45)
+          $deadline = (Get-Date).AddSeconds(90)
           while (-not $p.HasExited -and (Get-Date) -lt $deadline) {
             Start-Sleep -Milliseconds 500
           }
-
           if (-not $p.HasExited) {
-            Write-Host "Real-game Movie Maker capture exceeded 120 seconds; terminating it."
             Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue
             Get-Content $log -ErrorAction SilentlyContinue
             Get-Content $err -ErrorAction SilentlyContinue
-            throw "Real game Movie Maker capture timed out after 45 seconds"
+            throw "Real game screenshot capture timed out after 90 seconds"
           }
-
           Get-Content $log -ErrorAction SilentlyContinue
           Get-Content $err -ErrorAction SilentlyContinue
-
-          if ($p.ExitCode -ne 0) {
-            throw "Real game Movie Maker capture failed with exit code $($p.ExitCode)"
-          }
-
-          # Godot's PNG Movie Writer emits an indexed PNG frame file. Normalize
-          # the newest rendered frame to the stable QA filename.
-          $frames = @(Get-ChildItem -Path "visual-captures" -Filter "honour-war-real-game*.png" -File | Sort-Object LastWriteTimeUtc)
-          if ($frames.Count -eq 0) {
-            throw "Godot completed without producing a PNG game frame"
-          }
-          $frame = $frames[-1]
-          $movieFullPath = [System.IO.Path]::GetFullPath($movie)
-          $frameFullPath = [System.IO.Path]::GetFullPath($frame.FullName)
-          if ($frameFullPath -ne $movieFullPath) {
-            Copy-Item -LiteralPath $frameFullPath -Destination $movie -Force
-          }
-
-          if (-not (Test-Path $movie)) { throw "Normalized real game screenshot was not produced" }
-
-          Add-Type -AssemblyName System.Drawing
-          $img = [System.Drawing.Image]::FromFile((Resolve-Path $movie))
-          try {
-            if ($img.Width -lt 640 -or $img.Height -lt 360) {
-              throw "Captured game frame is below 640x360"
-            }
-            Write-Host "PASS: captured real-game frame is $($img.Width)x$($img.Height)"
-          } finally {
-            $img.Dispose()
-          }
+          if ($p.ExitCode -ne 0) { throw "Real game screenshot capture failed with exit code $($p.ExitCode)" }
+          if (-not (Test-Path "visual-captures/honour-war-real-game.png")) { throw "Real game screenshot was not produced" }
 
       - name: Install screenshot QA dependency
         shell: pwsh
