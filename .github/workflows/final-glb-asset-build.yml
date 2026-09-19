@@ -18,6 +18,7 @@ on:
       - "tools/validate_camera_controls.py"
       - "tools/visual_rag/**"
       - "tools/validate_generated_glbs.py"
+      - "tools/validate_monster_visual_distinctness.py"
       - "project.godot"
       - "shaders/ToonShader.gdshader"
       - "scripts/HWVisualMaxDirectorFixed.gd"
@@ -100,6 +101,7 @@ jobs:
               'PYTHONPATH: /tmp/blender-site',
               'hero_class_and_tier',
               'project.godot',
+              'tools/validate_monster_visual_distinctness.py',
               '--repair-attempts 3',
               '--repair-timeout 900',
           )
@@ -158,7 +160,8 @@ jobs:
             tools/blender/enhance_generated_glbs.py \
             tools/auto_repair_generated_glbs.py \
             tools/validate_camera_controls.py \
-            tools/validate_generated_glbs.py
+            tools/validate_generated_glbs.py \
+            tools/validate_monster_visual_distinctness.py
           echo "GLB pipeline and camera QA Python syntax preflight: PASS"
 
       - name: Validate smooth zoom and 90-degree camera controls
@@ -227,6 +230,12 @@ jobs:
           rm -rf assets/3d/generated/monsters
           mkdir -p assets/3d/generated/monsters
           PYTHONPATH=/tmp/blender-site BLENDER_USER_CONFIG=/tmp/blender-config /opt/blender/blender --background --python tools/blender/honour_war_monster_assets.py
+
+      - name: Reject duplicated monster silhouettes before texture pass
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 tools/validate_monster_visual_distinctness.py
 
       - name: Convert GLBs to embedded PBR texture assets
         shell: bash
