@@ -1,4 +1,3 @@
-class_name HWProductionAudioDirector
 extends Node
 
 ## Deterministic runtime audio. Sounds are synthesized from known waveforms at
