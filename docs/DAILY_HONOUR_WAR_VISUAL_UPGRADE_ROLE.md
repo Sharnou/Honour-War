@@ -63,7 +63,7 @@ The face must be kind, alert, wise and observant with stylized expressive eyes a
 
 Use muted fantasy base colors such as faded navy, burgundy, forest green, dusty purple, warm brown leather, aged bronze, parchment cream, charcoal gray or muted teal with one controlled accent such as amber, emerald, crimson, violet, blue crystal or gold embroidery. Avoid pure-white overexposure and excessive glow.
 
-Technical target: stylized hand-painted PBR, clean GLB/GLTF, Godot 4 Forward+, 1,500–4,000 triangles and 1024x1024 texture for an important NPC, 700–1,500 triangles and 512x512 texture for background NPCs, with LODs for busy towns. Animation set includes idle, walk, talk, greeting, combat, hurt, victory and death. Test at the actual Honour War gameplay camera distance.
+Technical target: stylized hand-painted PBR authored directly in native Godot scenes/resources, Godot 4 Forward+, 1,500–4,000 triangles and 1024x1024 texture for an important NPC, 700–1,500 triangles and 512x512 texture for background NPCs, with LODs for busy towns. The retired HD GLB/GLTF pipeline must not be restored. Animation set includes idle, walk, talk, greeting, combat, hurt, victory and death. Test at the actual Honour War gameplay camera distance.
 
 This character and all future age-aware characters must be **original Honour War designs** and must not copy Ragnarok Online or any other existing game's character, costume, hairstyle, equipment, art or icon.
 
