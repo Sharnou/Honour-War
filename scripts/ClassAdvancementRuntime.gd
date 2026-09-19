@@ -1,5 +1,9 @@
 extends Node
 
+const ClassTreeSystemClass = preload("res://scripts/ClassTreeSystem.gd")
+const SaveSystemClass = preload("res://scripts/SaveSystem.gd")
+const GameDataClass = preload("res://scripts/GameData.gd")
+
 # Runtime class advancement controller. Base archetype remains stable for formulas,
 # while the visual/class rank advances automatically at Honour War milestones.
 const TIER_NAMES:Dictionary={0:"Foundation",1:"Specialization",2:"Advanced",3:"Mastery",4:"Transcendence"}
