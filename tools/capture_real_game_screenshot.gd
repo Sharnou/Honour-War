@@ -2,10 +2,11 @@ extends SceneTree
 
 const CAPTURE_DIR:String="res://visual-captures"
 const CAPTURE_FILE:String=CAPTURE_DIR+"/honour-war-real-game.png"
-const STARTUP_TIMEOUT:float=20.0
+const STARTUP_TIMEOUT:float=90.0
 
 var elapsed:float=0.0
 var captured:bool=false
+var seal_done:bool=false
 
 func _initialize()->void:
     get_root().set_meta("hw_visual_capture",true)
@@ -48,37 +49,24 @@ func _launch()->void:
 
 func _sanitize_mesh_materials(root:Node)->int:
     var repaired:int=0
-    # Audit every GeometryInstance3D family before the scene enters the active
-    # tree. MeshInstance3D is the normal GLB path, but MultiMeshInstance3D and
-    # particle draw-pass meshes can also reach RenderingDevice material storage.
-    for node:Node in root.find_children("*","GeometryInstance3D",true,false):
-        var geometry:GeometryInstance3D=node as GeometryInstance3D
-        if geometry==null:
-            continue
-        if geometry is MeshInstance3D:
-            var mesh_instance:MeshInstance3D=geometry as MeshInstance3D
-            if mesh_instance.mesh!=null:
-                repaired+=_sanitize_mesh(mesh_instance.mesh,mesh_instance)
-        elif geometry is MultiMeshInstance3D:
-            var multi:MultiMeshInstance3D=geometry as MultiMeshInstance3D
-            if multi.multimesh!=null and multi.multimesh.mesh!=null:
-                var source_material:Material=multi.multimesh.mesh.surface_get_material(0) if multi.multimesh.mesh.get_surface_count()>0 else null
-                if source_material==null and multi.material_override==null:
-                    var fallback_multi:=StandardMaterial3D.new()
-                    fallback_multi.albedo_color=Color("#9aa1aa")
-                    fallback_multi.metallic=0.15
-                    fallback_multi.roughness=0.58
-                    multi.material_override=fallback_multi
-                    repaired+=1
-                    print("PREATTACH_MATERIAL_PREFLIGHT repaired_multimesh=",multi.get_path())
-    for node:Node in root.find_children("*","GPUParticles3D",true,false):
-        var particles:GPUParticles3D=node as GPUParticles3D
-        if particles==null:
-            continue
-        for pass_index:int in 4:
-            var draw_mesh:Mesh=particles.get_draw_pass_mesh(pass_index)
-            if draw_mesh!=null:
-                repaired+=_sanitize_mesh(draw_mesh,null)
+    # Native Godot runtime capture no longer needs a full GLB-era geometry sweep.
+    # Scan concrete mesh owners once; this keeps capture deterministic and avoids
+    # repeatedly walking large procedural scenes during the 90-second CI window.
+    for node:Node in root.find_children("*","MeshInstance3D",true,false):
+        var mesh_instance:MeshInstance3D=node as MeshInstance3D
+        if mesh_instance!=null and mesh_instance.mesh!=null:
+            repaired+=_sanitize_mesh(mesh_instance.mesh,mesh_instance)
+    for node:Node in root.find_children("*","MultiMeshInstance3D",true,false):
+        var multi:MultiMeshInstance3D=node as MultiMeshInstance3D
+        if multi!=null and multi.multimesh!=null and multi.multimesh.mesh!=null:
+            var source_material:Material=multi.multimesh.mesh.surface_get_material(0) if multi.multimesh.mesh.get_surface_count()>0 else null
+            if source_material==null and multi.material_override==null:
+                var fallback_multi:=StandardMaterial3D.new()
+                fallback_multi.albedo_color=Color("#9aa1aa")
+                fallback_multi.metallic=0.15
+                fallback_multi.roughness=0.58
+                multi.material_override=fallback_multi
+                repaired+=1
     return repaired
 
 func _sanitize_mesh(mesh:Mesh, owner:MeshInstance3D)->int:
@@ -115,13 +103,14 @@ func _process(delta:float)->bool:
         return false
 
     elapsed+=delta
-    if elapsed < 8.0:
-        # Keep sealing runtime-created geometry until the capture window.
+    if not seal_done and elapsed >= 2.0:
+        # One bounded post-startup seal; never rescan the full scene every frame.
         var scene_root:Node=get_current_scene()
         if scene_root!=null:
             var repaired:int=_sanitize_mesh_materials(scene_root)
             if repaired>0:
                 print("FRAME_MATERIAL_SEAL repaired=",repaired)
+        seal_done=true
     if elapsed>STARTUP_TIMEOUT:
         push_error("Real game screenshot timed out after %.1f seconds" % STARTUP_TIMEOUT)
         quit(2)
@@ -129,7 +118,7 @@ func _process(delta:float)->bool:
 
     # Do not wait on RenderingServer.frame_post_draw. In headless/dummy CI
     # rendering that signal can never arrive, which previously left QA stuck.
-    if elapsed<8.0:
+    if elapsed<4.0:
         return false
 
     var viewport:Viewport=get_root().get_viewport()
