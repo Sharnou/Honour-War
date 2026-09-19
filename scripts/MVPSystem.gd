@@ -1,6 +1,8 @@
 class_name MVPSystem
 extends RefCounted
 
+const GameData = preload("res://scripts/GameData.gd")
+
 static func definitions() -> Dictionary:
 	return {
 		"Orc Lord":{"level":250,"hp_mult":12.0,"attack_mult":3.0,"defense_mult":2.5,"title":"MVP • Orc Lord","card":"Orc Lord Card","loot":["MVP Treasure Chest","Orc Tusk","Boss Soul Shard"],"skill":"Earthshaker"},
