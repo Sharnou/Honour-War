@@ -2,7 +2,7 @@ extends Node
 
 ## Godot 4.7 HD startup presentation guard.
 ## Applies the authored HD presentation once at startup, then leaves graphics
-## presets, camera zoom, and gameplay-owned settings under their existing systems.
+## presets, perspective camera control, and gameplay-owned settings under their existing systems.
 
 const CAMERA_SIZE := 13.5
 const TARGET_OFFSET := Vector3(0.0, 1.0, 0.0)
@@ -22,12 +22,13 @@ func _apply_startup()->void:
     var camera_controller := scene.get_node_or_null("Camera3D") as Node
     var camera := camera_controller as Camera3D
     if camera != null:
-        camera.projection = Camera3D.PROJECTION_ORTHOGONAL
-        if camera.size < 6.0 or camera.size > 24.0:
-            camera.size = CAMERA_SIZE
+        # Honour War gameplay uses a readable perspective MMO camera so the
+        # full hero body, roads, trees and building depth remain visible.
+        camera.projection = Camera3D.PROJECTION_PERSPECTIVE
+        camera.fov = 58.0
+        camera.near = 0.05
+        camera.far = 700.0
     if camera_controller != null:
-        if camera_controller.get("orthographic_size") != null:
-            camera_controller.set("orthographic_size", CAMERA_SIZE)
         if camera_controller.get("target_offset") != null:
             camera_controller.set("target_offset", TARGET_OFFSET)
 
