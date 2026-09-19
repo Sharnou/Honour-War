@@ -97,8 +97,8 @@ func _initialize() -> void:
     check("movable closable quickbar", quickbar.contains("_toggle_collapsed") and quickbar.contains("_on_panel_gui_input") and quickbar.contains("RestoreSkillBar"))
     var chat := FileAccess.get_file_as_string("res://scripts/HDChatBootstrap.gd")
     check("hero chat toggle", chat.contains("ChatToggle") and chat.contains("toggle_chat"))
-    var login_ui := FileAccess.get_file_as_string("res://scripts/HWOnlineLoginUI.gd")
-    check("local registration", login_ui.contains("_local_register") and login_ui.contains("LOCAL REGISTER"))
+    var local_login_ui := FileAccess.get_file_as_string("res://scripts/HWOnlineLoginUI.gd")
+    check("local registration", local_login_ui.contains("_local_register") and local_login_ui.contains("LOCAL REGISTER"))
     var recovery := FileAccess.get_file_as_string("res://scripts/HWNativeWorldRecovery.gd")
     check("native world recovery", recovery.contains("HWRecoveryGround") and recovery.contains("HWRecoveryRoad") and recovery.contains("HWRecoveryTreeCrown"))
 
