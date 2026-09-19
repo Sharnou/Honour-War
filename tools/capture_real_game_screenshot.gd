@@ -67,6 +67,14 @@ func _sanitize_mesh_materials(root:Node)->int:
                 fallback_multi.roughness=0.58
                 multi.material_override=fallback_multi
                 repaired+=1
+    for node:Node in root.find_children("*","GPUParticles3D",true,false):
+        var particles:GPUParticles3D=node as GPUParticles3D
+        if particles==null:
+            continue
+        for pass_index:int in range(particles.get_draw_passes()):
+            var draw_mesh:Mesh=particles.get_draw_pass_mesh(pass_index)
+            if draw_mesh!=null:
+                repaired+=_sanitize_mesh(draw_mesh,null)
     return repaired
 
 func _sanitize_mesh(mesh:Mesh, owner:MeshInstance3D)->int:
