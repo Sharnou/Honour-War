@@ -1,7 +1,7 @@
 extends Node
 
 const ClassTreeSystemClass = preload("res://scripts/ClassTreeSystemClass.gd")
-const SaveSystemClass = preload("res://scripts/SaveSystem.gd")
+const SaveSystemClass = preload("res://scripts/SaveSystemClass.gd")
 const GameDataClass = preload("res://scripts/GameData.gd")
 
 # Runtime class advancement controller. Base archetype remains stable for formulas,
@@ -66,7 +66,7 @@ func _sync(force:bool)->void:
         hero["class_rank_tier"]=available_tier
         hero["class_branch"]=old_branch
         hero["class_mastery"]=old_mastery
-        SaveSystem.save_game(hero)
+        SaveSystemClass.save_game(hero)
         _update_hud()
         _update_visuals()
     else:
@@ -143,7 +143,7 @@ func _next_threshold(level:int)->int:
 func _select_branch(branch_name:String)->void:
     if str(hero.get("class_branch",""))!="": return
     if not ClassTreeSystemClass.select_branch(hero,branch_name): return
-    SaveSystem.save_game(hero)
+    SaveSystemClass.save_game(hero)
     _update_hud()
     _update_visuals()
 
