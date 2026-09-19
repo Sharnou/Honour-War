@@ -1,6 +1,7 @@
 class_name SkillOverlay3D
 extends CanvasLayer
 
+const SkillSystemClass=preload("res://scripts/SkillSystemClass.gd")
 var legacy:Node2D
 var bar:Panel
 var detail:Panel
@@ -61,14 +62,14 @@ func _refresh()->void:
 	if not hero_value is Dictionary:
 		return
 	var hero:Dictionary=hero_value
-	var skills:Array=SkillSystem.all_skills(str(hero.get("class","Warrior")))
+	var skills:Array=SkillSystemClass.all_skills(str(hero.get("class","Warrior")))
 	for i in slots.size():
 		if i>=skills.size():
 			slots[i].disabled=true
 			continue
 		var skill:Dictionary=skills[i]
-		var rank:int=SkillSystem.skill_level(hero,str(skill["id"]))
-		var sp:int=SkillSystem.sp_cost(hero,str(skill["id"]))
+		var rank:int=SkillSystemClass.skill_level(hero,str(skill["id"]))
+		var sp:int=SkillSystemClass.sp_cost(hero,str(skill["id"]))
 		slots[i].disabled=str(skill["kind"])=="passive"
 		slots[i].text="%d  %s\nR%d  SP%d" % [i+1,str(skill["name"]),rank,sp]
 	if detail!=null:
@@ -77,7 +78,7 @@ func _refresh()->void:
 			var lines:PackedStringArray=["%s — SKILLS" % str(hero.get("class","Warrior"))]
 			for i in min(8,skills.size()):
 				var skill:Dictionary=skills[i]
-				lines.append("%d. %s [%s] Lv.%d" % [i+1,str(skill["name"]),str(skill["kind"]).to_upper(),SkillSystem.skill_level(hero,str(skill["id"]))])
+				lines.append("%d. %s [%s] Lv.%d" % [i+1,str(skill["name"]),str(skill["kind"]).to_upper(),SkillSystemClass.skill_level(hero,str(skill["id"]))])
 			lines.append("")
 			lines.append("Press 1–8 to cast. K toggles this panel.")
 			title.text="\n".join(lines)
@@ -89,7 +90,7 @@ func _cast(index:int)->void:
 	if not hero_value is Dictionary:
 		return
 	var hero:Dictionary=hero_value
-	var skills:Array=SkillSystem.all_skills(str(hero.get("class","Warrior")))
+	var skills:Array=SkillSystemClass.all_skills(str(hero.get("class","Warrior")))
 	if index<0 or index>=skills.size():
 		return
 	var skill:Dictionary=skills[index]
