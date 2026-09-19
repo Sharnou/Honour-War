@@ -221,32 +221,42 @@ func _build_city_landmarks(center:Vector3)->void:
 
 func _build_environment_objects() -> void:
 	var count:int = QUALITY_COUNTS[quality]
-	var trunk_mesh:CylinderMesh = CylinderMesh.new()
-	trunk_mesh.top_radius = 0.28
-	trunk_mesh.bottom_radius = 0.50
-	trunk_mesh.height = 3.2
-	var crown_mesh:SphereMesh = SphereMesh.new()
-	crown_mesh.radius = 1.45
-	crown_mesh.height = 2.9
 	var trunk_material:StandardMaterial3D = _material(Color("#49352b"),0.0,1.0)
 	var crown_material:StandardMaterial3D = _material(Color("#24533a"),0.0,0.9)
+	var crown_light:StandardMaterial3D = _material(Color("#39734a"),0.0,0.88)
+	var hero_spawn:=Vector3(12.65,0.0,12.10)
 	for i in count:
 		var x:float = 3.0+float((i*41)%340)*0.10
 		var z:float = -5.5+float((i*29)%210)*0.10
-		if Vector2(x-12.925,z-12.65).length()<5.0:
+		var p:=Vector3(x,0.0,z)
+		# Preserve sight lines around the player, plaza and road corridors.
+		if p.distance_to(hero_spawn)<5.2:
 			continue
-		var trunk:MeshInstance3D = MeshInstance3D.new()
-		trunk.mesh = trunk_mesh
-		trunk.material_override = trunk_material
-		trunk.position = Vector3(x,1.6,z)
-		trunk.scale = Vector3.ONE*(0.85+float(i%3)*0.12)
-		world_root.add_child(trunk)
-		var crown:MeshInstance3D = MeshInstance3D.new()
-		crown.mesh = crown_mesh
-		crown.material_override = crown_material
-		crown.position = Vector3(x,3.65,z)
-		crown.scale = Vector3.ONE*(0.85+float((i+1)%3)*0.11)
-		world_root.add_child(crown)
+		if abs(z-12.65)<2.5 or abs(z-3.15)<2.0 or abs(z-22.15)<2.0:
+			continue
+		if abs(x-12.925)<2.6:
+			continue
+		var trunk_mesh:CylinderMesh=CylinderMesh.new()
+		trunk_mesh.top_radius=0.18+float(i%3)*0.05
+		trunk_mesh.bottom_radius=0.34+float(i%3)*0.07
+		trunk_mesh.height=2.7+float(i%3)*0.45
+		var trunk:MeshInstance3D=MeshInstance3D.new()
+		trunk.mesh=trunk_mesh
+		trunk.material_override=trunk_material
+		trunk.position=Vector3(x,trunk_mesh.height*0.5,z)
+		root_add_tree(trunk)
+		var crown_mesh:SphereMesh=SphereMesh.new()
+		crown_mesh.radius=1.05+float(i%4)*0.16
+		crown_mesh.height=2.1+float(i%4)*0.22
+		var crown:MeshInstance3D=MeshInstance3D.new()
+		crown.mesh=crown_mesh
+		crown.material_override=crown_light if i%4==0 else crown_material
+		crown.position=Vector3(x,trunk_mesh.height+0.65,z)
+		crown.scale=Vector3(1.0,0.82+float(i%3)*0.08,1.0)
+		root_add_tree(crown)
+
+func root_add_tree(node:Node3D)->void:
+	world_root.add_child(node)
 
 func _create_hero(class_id:String)->Node3D:
 	var root:Node3D = Node3D.new()
