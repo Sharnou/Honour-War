@@ -126,23 +126,25 @@ func _build_lighting() -> void:
 	var env_node:WorldEnvironment = WorldEnvironment.new()
 	var env:Environment = Environment.new()
 	env.background_mode = Environment.BG_COLOR
-	env.background_color = Color("#07111b")
+	env.background_color = Color("#466a7c")
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 	env.ambient_light_color = Color("#b6c9d6")
-	env.ambient_light_energy = 0.72
-	env.tonemap_mode = Environment.TONE_MAPPER_FILMIC
+	env.ambient_light_energy = 0.34
+	env.tonemap_mode = Environment.TONE_MAPPER_ACES
+	env.tonemap_exposure = -0.85
+	env.tonemap_white = 1.15
 	env_node.environment = env
 	add_child(env_node)
 	var sun:DirectionalLight3D = DirectionalLight3D.new()
 	sun.rotation_degrees = Vector3(-52.0,-32.0,0.0)
-	sun.light_energy = 1.55
+	sun.light_energy = 0.82
 	sun.shadow_enabled = true
 	sun.directional_shadow_max_distance = 48.0
 	add_child(sun)
 	var rim:OmniLight3D = OmniLight3D.new()
 	rim.position = Vector3(5.0,6.0,8.0)
 	rim.omni_range = 24.0
-	rim.light_energy = 2.8
+	rim.light_energy = 0.32
 	rim.light_color = Color("#7fc9ff")
 	add_child(rim)
 
