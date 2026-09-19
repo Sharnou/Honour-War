@@ -118,8 +118,8 @@ func _run_smoke_test() -> void:
     if int(hero.get("map_id",-1)) != 0:
         _fail("@go 0 did not select Prontera/map 0")
         return
-    if abs(float(hero.get("pos_x",0.0)) - 600.0) > 0.5 or abs(float(hero.get("pos_y",0.0)) - 350.0) > 0.5:
-        _fail("@go 0 did not use the map default spawn cell")
+    if abs(float(hero.get("pos_x",0.0)) - 965.0) > 0.5 or abs(float(hero.get("pos_y",0.0)) - 470.0) > 0.5:
+        _fail("@go 0 did not place the hero at the map default world position")
         return
     _pass("@go 0 town shortcut")
 
@@ -131,6 +131,10 @@ func _run_smoke_test() -> void:
     var invalid_coordinate:Dictionary = TeleportSystem.parse_coordinates("230.5:220")
     if bool(invalid_coordinate.get("ok",false)):
         _fail("fractional grid coordinates were accepted")
+        return
+    var negative_coordinate:Dictionary = TeleportSystem.parse_coordinates("-1:220")
+    if bool(negative_coordinate.get("ok",false)):
+        _fail("negative grid coordinates were accepted")
         return
     _pass("X/Y coordinate grid-cell rules")
 
