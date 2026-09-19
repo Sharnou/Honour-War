@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+const SkillSystemClass = preload("res://scripts/SkillSystem.gd")
+
 ## Final combat quickbar.
 ## Always shows eight class skills, including locked/passive entries.
 ## Uses authored SVG icon atlas assets instead of text glyph placeholders.
@@ -125,9 +127,9 @@ func _refresh(force:bool = false)->void:
     if not value is Dictionary:
         return
     var hero:Dictionary = value
-    SKILLS.ensure_state(hero)
+    SkillSystemClass.ensure_state(hero)
     hero_class = str(hero.get("class","Warrior"))
-    var data:Array = SKILLS.all_skills(hero_class)
+    var data:Array = SkillSystemClass.all_skills(hero_class)
     var signature:String = hero_class + ":" + str(hero.get("level",1)) + ":" + str(hero.get("skill_points",0)) + ":" + str(hero.get("skill_cooldowns",{})) + ":" + str(hero.get("skill_levels",{})) + ":" + str(hero.get("hp",0))
     if not force and signature == last_signature and flash_index < 0:
         return
@@ -144,7 +146,7 @@ func _refresh(force:bool = false)->void:
             continue
         var skill:Dictionary = data[i]
         var kind:String = str(skill.get("kind","active"))
-        var level:int = SKILLS.skill_level(hero,str(skill.get("id","")))
+        var level:int = SkillSystemClass.skill_level(hero,str(skill.get("id","")))
         var required:int = int(skill.get("required_level",1))
         var locked:bool = int(hero.get("level",1)) < required
         for req:Variant in skill.get("requires",[]):
@@ -178,8 +180,8 @@ func _cast_slot(index:int)->void:
     if not value is Dictionary:
         return
     var hero:Dictionary = value
-    SKILLS.ensure_state(hero)
-    var data:Array = SKILLS.all_skills(str(hero.get("class","Warrior")))
+    SkillSystemClass.ensure_state(hero)
+    var data:Array = SkillSystemClass.all_skills(str(hero.get("class","Warrior")))
     if index < 0 or index >= data.size():
         return
     var skill:Dictionary = data[index]
@@ -191,7 +193,7 @@ func _cast_slot(index:int)->void:
     if not _can_use(hero, skill):
         return
 
-    var result:Dictionary = SKILLS.use(hero,skill_id,Time.get_ticks_msec() / 1000.0)
+    var result:Dictionary = SkillSystemClass.use(hero,skill_id,Time.get_ticks_msec() / 1000.0)
     if not bool(result.get("ok",false)):
         _log("%s unavailable: %s" % [str(skill.get("name","Skill")),str(result.get("reason","cooldown or SP"))])
         return
