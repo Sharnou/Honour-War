@@ -1,4 +1,3 @@
-class_name HWPerformanceDirector
 extends Node
 
 ## Production performance policy: preserve Forward+ quality while controlling
