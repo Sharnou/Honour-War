@@ -1,7 +1,7 @@
 class_name Game3D
 extends Node3D
 
-const TeleportSystemClass=preload("res://scripts/TeleportSystemClass.gd")
+const TeleportSystemClass=preload("res://scripts/TeleportSystem.gd")
 
 const WORLD_SCALE:float = 0.055
 const QUALITY_NAMES:Array[String] = ["LOW", "HIGH", "ULTRA"]
