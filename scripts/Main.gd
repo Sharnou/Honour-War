@@ -1,5 +1,17 @@
 extends Node2D
 
+const GameDataClass=preload("res://scripts/GameDataClass.gd")
+const SaveSystemClass=preload("res://scripts/SaveSystemClass.gd")
+const PetSystemClass=preload("res://scripts/PetSystemClass.gd")
+const EquipmentSystemClass=preload("res://scripts/EquipmentSystemClass.gd")
+const LootSystemClass=preload("res://scripts/LootSystemClass.gd")
+const TeleportSystemClass=preload("res://scripts/TeleportSystemClass.gd")
+const SkillSystemClass=preload("res://scripts/SkillSystemClass.gd")
+const ClassTreeSystemClass=preload("res://scripts/ClassTreeSystemClass.gd")
+const PetVisualClass=preload("res://scripts/PetVisualClass.gd")
+const MonsterDetailsSystemClass=preload("res://scripts/MonsterDetailsSystemClass.gd")
+const CicciWeeklyEventClass=preload("res://scripts/CicciWeeklyEventClass.gd")
+
 const CLASSES := {
 	"Warrior":{"weapon":"Sword","base":18,"color":Color("#e8a34b"),"skill":"Power Slash"},
 	"Mage":{"weapon":"Staff","base":23,"color":Color("#b88cff"),"skill":"Arcane Spark"},
@@ -9,7 +21,7 @@ const CLASSES := {
 	"Merchant":{"weapon":"Hammer","base":17,"color":Color("#7ed7ff"),"skill":"Forge Smash"}
 }
 
-var hero:Dictionary=GameData.new_hero()
+var hero:Dictionary=GameDataClass.new_hero()
 var monsters:Array=[]
 var logs:Array[String]=[]
 var rng:=RandomNumberGenerator.new()
@@ -17,7 +29,7 @@ var spawn_timer:=0.0
 var save_timer:=0.0
 var age_timer:=0.0
 var pet_attack_timer:=0.0
-var pet_visual:PetVisual
+var pet_visual:PetVisualClass
 var profile:Label
 var status:Label
 var log_label:RichTextLabel
@@ -27,14 +39,14 @@ var command_edit:LineEdit
 
 func _ready()->void:
 	rng.randomize()
-	hero=SaveSystem.load_game(GameData.new_hero())
+	hero=SaveSystemClass.load_game(GameDataClass.new_hero())
 	ensure_state()
 	build_ui()
-	pet_visual=PetVisual.new()
+	pet_visual=PetVisualClass.new()
 	add_child(pet_visual)
 	pet_visual.z_index=5
 	update_pet_visual()
-	if TeleportSystem.is_dungeon(int(hero.get("map_id",0))):
+	if TeleportSystemClass.is_dungeon(int(hero.get("map_id",0))):
 		for i in 5:
 			spawn_monster()
 	log_message("Welcome to Honour War. Write @autoloot to toggle automatic loot.")
@@ -50,13 +62,13 @@ func ensure_state()->void:
 	if not hero.has("cards"): hero["cards"]=[]
 	if not hero.has("quests_completed"): hero["quests_completed"]=[]
 	if not hero.has("pet") or not hero["pet"] is Dictionary:
-		hero["pet"]=PetSystem.new_pet(str(hero.get("class","Warrior")))
-	EquipmentSystem.ensure_state(hero)
-	LootSystem.ensure_state(hero)
+		hero["pet"]=PetSystemClass.new_pet(str(hero.get("class","Warrior")))
+	EquipmentSystemClass.ensure_state(hero)
+	LootSystemClass.ensure_state(hero)
 	ensure_pet_state()
-	hero["age"]=GameData.STARTING_AGE+int(float(hero.get("online_days",0.0))/GameData.AGE_DAYS_PER_YEAR)
-	hero["class_tier"]=max(int(hero.get("class_tier",0)),GameData.class_tier_for_level(int(hero.get("level",1))))
-	var parsed:=TeleportSystem.parse_go("@go %d %d:%d" % [int(hero["map_id"]),int(hero["pos_x"])-365,int(hero["pos_y"])-120])
+	hero["age"]=GameDataClass.STARTING_AGE+int(float(hero.get("online_days",0.0))/GameDataClass.AGE_DAYS_PER_YEAR)
+	hero["class_tier"]=max(int(hero.get("class_tier",0)),GameDataClass.class_tier_for_level(int(hero.get("level",1))))
+	var parsed:=TeleportSystemClass.parse_go("@go %d %d:%d" % [int(hero["map_id"]),int(hero["pos_x"])-365,int(hero["pos_y"])-120])
 	if not parsed["ok"]:
 		hero["map_id"]=0
 		hero["pos_x"]=595.0
@@ -65,12 +77,12 @@ func ensure_state()->void:
 func ensure_pet_state()->void:
 	var pet:Dictionary=hero["pet"]
 	var class_id:=str(hero.get("class","Warrior"))
-	var definition:Dictionary=PetSystem.definition(class_id)
+	var definition:Dictionary=PetSystemClass.definition(class_id)
 	pet["owner_class"]=class_id
 	pet["name"]=str(pet.get("name",definition["name"]))
 	pet["role"]=str(pet.get("role",definition["role"]))
 	pet["species"]=str(pet.get("species",definition["species"]))
-	pet["level"]=clamp(int(pet.get("level",1)),1,PetSystem.MAX_PET_LEVEL)
+	pet["level"]=clamp(int(pet.get("level",1)),1,PetSystemClass.MAX_PET_LEVEL)
 	pet["exp"]=int(pet.get("exp",0))
 	pet["max_hp"]=int(pet.get("max_hp",60))
 	pet["hp"]=clamp(int(pet.get("hp",pet["max_hp"])),0,int(pet["max_hp"]))
@@ -181,16 +193,16 @@ func apply_hero()->void:
 		hero["name"]=name_edit.text.strip_edges()
 	var old_class:=str(hero.get("class","Warrior"))
 	hero["class"]=class_box.get_item_text(class_box.selected)
-	hero["class_tier"]=GameData.class_tier_for_level(int(hero["level"]))
+	hero["class_tier"]=GameDataClass.class_tier_for_level(int(hero["level"]))
 	hero["max_hp"]=100+int(hero["level"])*8
 	hero["hp"]=hero["max_hp"]
 	if old_class!=str(hero["class"]):
-		hero["pet"]=PetSystem.new_pet(str(hero["class"]))
+		hero["pet"]=PetSystemClass.new_pet(str(hero["class"]))
 		log_message("Class changed to %s. New bonded pet: %s." % [hero["class"],hero["pet"]["name"]])
 	ensure_pet_state()
-	EquipmentSystem.ensure_state(hero)
+	EquipmentSystemClass.ensure_state(hero)
 	update_pet_visual()
-	log_message("Hero updated: %s — %s. Pet: %s (%s)." % [hero["name"],GameData.class_title(hero),hero["pet"]["name"],hero["pet"]["role"]])
+	log_message("Hero updated: %s — %s. Pet: %s (%s)." % [hero["name"],GameDataClass.class_title(hero),hero["pet"]["name"],hero["pet"]["role"]])
 	save_game()
 	update_ui()
 
@@ -204,13 +216,13 @@ func rest_hero()->void:
 	update_ui()
 
 func update_age()->void:
-	hero["age"]=GameData.STARTING_AGE+int(float(hero["online_days"])/GameData.AGE_DAYS_PER_YEAR)
+	hero["age"]=GameDataClass.STARTING_AGE+int(float(hero["online_days"])/GameDataClass.AGE_DAYS_PER_YEAR)
 
 func age_bonus()->int:
-	return GameData.age_bonus(int(hero["age"]))
+	return GameDataClass.age_bonus(int(hero["age"]))
 
 func combat_equipment()->Dictionary:
-	return EquipmentSystem.combat_stats(hero)
+	return EquipmentSystemClass.combat_stats(hero)
 
 func skill_power()->int:
 	var definition:Dictionary=CLASSES[str(hero["class"])]
@@ -228,7 +240,7 @@ func _process(delta:float)->void:
 	var move:=Vector2(Input.get_axis("move_left","move_right"),Input.get_axis("move_up","move_down")).normalized()
 	var equipment:=combat_equipment()
 	var speed:=180.0*(1.0+float(equipment.get("move_percent",0.0))/100.0)
-	var current_map:Dictionary=TeleportSystem.MAPS.get(int(hero.get("map_id",0)),{})
+	var current_map:Dictionary=TeleportSystemClass.MAPS.get(int(hero.get("map_id",0)),{})
 	var min_x:float=365.0
 	var min_y:float=120.0
 	var max_x:float=min_x+float(current_map.get("width",1200))-1.0
@@ -239,7 +251,7 @@ func _process(delta:float)->void:
 	if pet_attack_timer>=1.5:
 		pet_attack_timer=0.0
 		pet_auto_attack()
-	if TeleportSystem.is_dungeon(int(hero.get("map_id",0))) and spawn_timer>=4.0 and monsters.size()<8:
+	if TeleportSystemClass.is_dungeon(int(hero.get("map_id",0))) and spawn_timer>=4.0 and monsters.size()<8:
 		spawn_timer=0.0
 		spawn_monster()
 	if age_timer>=8.0:
@@ -268,17 +280,17 @@ func execute_command(command:String)->void:
 	if lower=="@autoloot" or lower.begins_with("@autoloot "):
 		var argument:=lower.substr(9).strip_edges()
 		if argument=="on":
-			LootSystem.set_enabled(hero,true)
+			LootSystemClass.set_enabled(hero,true)
 			log_message("AUTOLOOT ENABLED. Items, equipment, materials and cards are picked automatically.")
 		elif argument=="off":
-			LootSystem.set_enabled(hero,false)
+			LootSystemClass.set_enabled(hero,false)
 			log_message("AUTOLOOT DISABLED. New drops stay on the ground.")
 		elif argument=="status" or argument=="":
-			log_message("AUTOLOOT: %s | Ground drops: %d" % ["ON" if LootSystem.is_enabled(hero) else "OFF",hero["ground_loot"].size()])
+			log_message("AUTOLOOT: %s | Ground drops: %d" % ["ON" if LootSystemClass.is_enabled(hero) else "OFF",hero["ground_loot"].size()])
 		else:
 			log_message("Usage: @autoloot, @autoloot on, @autoloot off, @autoloot status")
-		if LootSystem.is_enabled(hero):
-			var collected:=LootSystem.collect_ground(hero)
+		if LootSystemClass.is_enabled(hero):
+			var collected:=LootSystemClass.collect_ground(hero)
 			if collected.size()>0:
 				log_message("Auto-loot collected: %s" % ", ".join(collected))
 		save_game()
@@ -286,7 +298,7 @@ func execute_command(command:String)->void:
 		command_edit.clear()
 		return
 	if lower=="@loot":
-		var gained:=LootSystem.collect_ground(hero)
+		var gained:=LootSystemClass.collect_ground(hero)
 		if gained.size()>0:
 			log_message("Manual loot pickup: %s" % ", ".join(gained))
 		else:
@@ -295,7 +307,7 @@ func execute_command(command:String)->void:
 		update_ui()
 		command_edit.clear()
 		return
-	var result:=TeleportSystem.parse_go(cmd)
+	var result:=TeleportSystemClass.parse_go(cmd)
 	if not result["ok"]:
 		log_message(str(result["error"]))
 		update_ui()
@@ -307,29 +319,29 @@ func execute_command_from_button()->void:
 	execute_command(command_edit.text)
 
 func fast_travel(map_id:int,x:int,y:int)->void:
-	if not TeleportSystem.MAPS.has(map_id):
+	if not TeleportSystemClass.MAPS.has(map_id):
 		log_message("Unknown destination.")
 		return
 	hero["map_id"]=map_id
 	hero["pos_x"]=365.0+float(x)
 	hero["pos_y"]=120.0+float(y)
 	monsters.clear()
-	if TeleportSystem.is_dungeon(map_id):
+	if TeleportSystemClass.is_dungeon(map_id):
 		for i in 4:
 			spawn_monster()
-	log_message("Fast transmission to %s at X:%d Y:%d. Pet follows automatically.%s" % [TeleportSystem.map_name(map_id),x,y," Combat zone populated." if TeleportSystem.is_dungeon(map_id) else " Safe town: no monsters spawn here."])
+	log_message("Fast transmission to %s at X:%d Y:%d. Pet follows automatically.%s" % [TeleportSystemClass.map_name(map_id),x,y," Combat zone populated." if TeleportSystemClass.is_dungeon(map_id) else " Safe town: no monsters spawn here."])
 	save_game()
 	update_ui()
 
 func spawn_monster()->void:
-	if not TeleportSystem.is_dungeon(int(hero.get("map_id",0))):
+	if not TeleportSystemClass.is_dungeon(int(hero.get("map_id",0))):
 		return
-	var families:=GameData.monster_families()
+	var families:=GameDataClass.monster_families()
 	var family:String=families[rng.randi_range(0,families.size()-1)]
 	var zone:=max(1,int(hero["level"])/10+1)
 	var level:=WorldSystem.monster_level_for_zone(zone,rng.randi_range(0,families.size()-1))
 	var stats:Dictionary=WorldSystem.monster_stats(level)
-	var map_data:Dictionary=TeleportSystem.MAPS.get(int(hero.get("map_id",10)),{})
+	var map_data:Dictionary=TeleportSystemClass.MAPS.get(int(hero.get("map_id",10)),{})
 	var min_x:float=365.0+80.0
 	var min_y:float=120.0+80.0
 	var max_x:float=365.0+float(map_data.get("width",1400))-80.0
@@ -367,9 +379,9 @@ func attack()->void:
 	update_ui()
 
 func use_skill(skill_id:String)->void:
-	SkillSystem.ensure_state(hero)
+	SkillSystemClass.ensure_state(hero)
 	var now:float=Time.get_ticks_msec()/1000.0
-	var result:Dictionary=SkillSystem.use(hero,skill_id,now)
+	var result:Dictionary=SkillSystemClass.use(hero,skill_id,now)
 	if not bool(result.get("ok",false)):
 		var reason:String=str(result.get("reason","unavailable"))
 		log_message("Skill unavailable: %s." % reason)
@@ -391,7 +403,7 @@ func use_skill(skill_id:String)->void:
 		var heal_ratio:float=0.10
 		if skill_id=="aco_seraphic_light": heal_ratio=0.16
 		elif skill_id=="aco_heaven_gate": heal_ratio=0.24
-		var heal:int=max(1,int(float(hero.get("max_hp",100))*heal_ratio)+int(SkillSystem.combat_stats(hero).get("healing_bonus",0)))
+		var heal:int=max(1,int(float(hero.get("max_hp",100))*heal_ratio)+int(SkillSystemClass.combat_stats(hero).get("healing_bonus",0)))
 		hero["hp"]=min(int(hero.get("max_hp",100)),int(hero.get("hp",0))+heal)
 		hero["pet"]["hp"]=min(int(hero["pet"].get("max_hp",60)),int(hero["pet"].get("hp",0))+int(float(heal)*0.55))
 		log_message("%s restores %d HP to hero and strengthens the bonded pet." % [skill_name,heal])
@@ -408,8 +420,8 @@ func use_skill(skill_id:String)->void:
 		log_message("%s needs a target." % skill_name)
 		return
 
-	var skill_stats:Dictionary=SkillSystem.combat_stats(hero)
-	var branch_bonus:Dictionary=ClassTreeSystem.branch_bonus(hero)
+	var skill_stats:Dictionary=SkillSystemClass.combat_stats(hero)
+	var branch_bonus:Dictionary=ClassTreeSystemClass.branch_bonus(hero)
 	var raw:int=skill_power_value+int(hero.get("level",1))
 	raw=int(round(float(raw)*(1.0+float(branch_bonus.get("damage",0.0)))))
 	raw=int(round(float(raw)*float(skill_stats.get("damage_multiplier",1.0))))
@@ -432,7 +444,7 @@ func use_skill(skill_id:String)->void:
 			dealt=int(round(float(dealt)*0.72))
 		if bool(affected_monster.get("mvp",false)):
 			dealt=int(round(float(dealt)*(1.0+float(equipment.get("boss_damage_percent",0.0))/100.0)))
-		var elemental_multiplier:float=MonsterDetailsSystem.skill_damage_multiplier(class_id,skill_id,affected_monster)
+		var elemental_multiplier:float=MonsterDetailsSystemClass.skill_damage_multiplier(class_id,skill_id,affected_monster)
 		dealt=int(round(float(dealt)*elemental_multiplier))
 		if class_id=="Thief" and skill_id=="thief_execution":
 			var ratio:float=float(affected_monster.get("hp",0))/float(max(1,int(affected_monster.get("max",affected_monster.get("hp",1)))))
@@ -475,7 +487,7 @@ func use_skill(skill_id:String)->void:
 			affected_monster["defense_break_until"]=max(float(affected_monster.get("defense_break_until",0.0)),now+break_duration)
 			affected_monster["defense_break_percent"]=max(float(affected_monster.get("defense_break_percent",0.0)),break_percent)
 		if class_id=="Thief" and skill_id in ["thief_shadow_strike","thief_blade_flurry","thief_shadow_requiem","thief_eternal_assassin"]:
-			MonsterDetailsSystem.apply_poison(affected_monster,dealt,6.0)
+			MonsterDetailsSystemClass.apply_poison(affected_monster,dealt,6.0)
 		if int(affected_monster["hp"])<=0:
 			defeat_monster(affected_monster)
 
@@ -510,13 +522,13 @@ func pet_auto_attack()->void:
 func pet_attack_target(monster:Dictionary)->void:
 	ensure_pet_state()
 	var pet:Dictionary=hero["pet"]
-	var damage:=PetSystem.power(pet)+rng.randi_range(0,7)
+	var damage:=PetSystemClass.power(pet)+rng.randi_range(0,7)
 	pet["skill_uses"]=int(pet.get("skill_uses",0))+1
 	var used_skill:=int(pet["skill_uses"])%5==0
 	if used_skill:
-		damage+=PetSystem.skill_power(pet)
+		damage+=PetSystemClass.skill_power(pet)
 		if str(pet["role"])=="Healer":
-			hero["hp"]=min(int(hero["max_hp"]),int(hero["hp"])+PetSystem.heal_power(pet))
+			hero["hp"]=min(int(hero["max_hp"]),int(hero["hp"])+PetSystemClass.heal_power(pet))
 		log_message("%s uses %s Lv.%d!" % [pet["name"],pet["skills"][0],pet["skill_level"]])
 	if pet_visual:
 		pet_visual.trigger_attack()
@@ -534,11 +546,11 @@ func defeat_monster(monster:Dictionary)->void:
 	var exp_gain:=int(float(monster["exp"])*(1.0+float(equipment.get("xp_percent",0.0))/100.0))
 	add_exp(exp_gain)
 	var pet_exp:=max(1,int(exp_gain*2/3))
-	var pet_leveled:=PetSystem.add_exp(hero["pet"],pet_exp)
+	var pet_leveled:=PetSystemClass.add_exp(hero["pet"],pet_exp)
 	if pet_leveled:
 		log_message("%s reached Pet Lv.%d and gained a skill point." % [hero["pet"]["name"],hero["pet"]["level"]])
-	var gained:=LootSystem.on_monster_defeated(hero,monster,rng)
-	if LootSystem.is_enabled(hero):
+	var gained:=LootSystemClass.on_monster_defeated(hero,monster,rng)
+	if LootSystemClass.is_enabled(hero):
 		if gained.size()>0:
 			log_message("AUTOLOOT: %s" % ", ".join(gained))
 	else:
@@ -548,16 +560,16 @@ func defeat_monster(monster:Dictionary)->void:
 	save_game()
 
 func add_exp(amount:int)->void:
-	if int(hero["level"])>=GameData.MAX_HERO_LEVEL:
+	if int(hero["level"])>=GameDataClass.MAX_HERO_LEVEL:
 		hero["exp"]=0
 		return
 	hero["exp"]+=amount
-	while int(hero["level"])<GameData.MAX_HERO_LEVEL and int(hero["exp"])>=GameData.exp_to_next(int(hero["level"])):
-		hero["exp"]-=GameData.exp_to_next(int(hero["level"]))
+	while int(hero["level"])<GameDataClass.MAX_HERO_LEVEL and int(hero["exp"])>=GameDataClass.exp_to_next(int(hero["level"])):
+		hero["exp"]-=GameDataClass.exp_to_next(int(hero["level"]))
 		hero["level"]+=1
 		hero["max_hp"]+=8
 		hero["hp"]=hero["max_hp"]
-	hero["class_tier"]=max(int(hero.get("class_tier",0)),GameData.class_tier_for_level(int(hero["level"])))
+	hero["class_tier"]=max(int(hero.get("class_tier",0)),GameDataClass.class_tier_for_level(int(hero["level"])))
 
 func refine()->void:
 	var level:=int(hero.get("refine",0))
@@ -585,7 +597,7 @@ func refine_pet()->void:
 	if level>=15:
 		log_message("Pet refinement cap +15.")
 		return
-	var material:=PetSystem.refine_material(level)
+	var material:=PetSystemClass.refine_material(level)
 	if int(pet["materials"].get(material,0))<=0:
 		if int(pet["inventory"].get("Pet Refine Item",0))>0:
 			pet["inventory"]["Pet Refine Item"]-=1
@@ -611,7 +623,7 @@ func quest()->void:
 	hero["materials"]["Phracon"]+=1
 	hero["pet"]["materials"]["Phracon"]=int(hero["pet"]["materials"].get("Phracon",0))+1
 	add_exp(50)
-	PetSystem.add_exp(hero["pet"],25)
+	PetSystemClass.add_exp(hero["pet"],25)
 	log_message("Quest %d completed. Hero + Pet rewards delivered." % hero["quest"])
 	save_game()
 	update_ui()
@@ -645,16 +657,16 @@ func update_ui()->void:
 	if not profile:
 		return
 	ensure_pet_state()
-	EquipmentSystem.ensure_state(hero)
-	LootSystem.ensure_state(hero)
+	EquipmentSystemClass.ensure_state(hero)
+	LootSystemClass.ensure_state(hero)
 	var materials:Dictionary=hero["materials"]
 	var pet:Dictionary=hero["pet"]
-	var map_name:=TeleportSystem.map_name(int(hero["map_id"]))
+	var map_name:=TeleportSystemClass.map_name(int(hero["map_id"]))
 	var map_x:=int(hero["pos_x"]-365.0)
 	var map_y:=int(hero["pos_y"]-120.0)
 	var equipment:=combat_equipment()
-	profile.text="Name: %s\nClass: %s\nLevel: %d/%d EXP:%d/%d\nAge:%d HP:%d/%d Zeny:%d Refine:+%d\n\nPET: %s (%s)\nPet Level:%d/%d HP:%d/%d Skill:%d Refine:+%d\n\nEquipment:\n%s\n\nCards:%d Inventory:%d\nAutoLoot:%s Ground Drops:%d\nPhracon:%d Emveretarcon:%d Oridecon:%d" % [str(hero["name"]),str(GameData.class_title(hero)),int(hero["level"]),int(GameData.MAX_HERO_LEVEL),int(hero["exp"]),int(GameData.exp_to_next(int(hero["level"]))),int(hero["age"]),int(hero["hp"]),int(hero["max_hp"]),int(hero["zeny"]),int(hero.get("refine",0)),str(pet["name"]),str(pet["role"]),int(pet["level"]),int(PetSystem.MAX_PET_LEVEL),int(pet["hp"]),int(pet["max_hp"]),int(pet["skill_level"]),int(pet["refine"]),str(EquipmentSystem.summary(hero)),int(hero["cards"].size()),int(hero["inventory"].size()),"ON" if LootSystem.is_enabled(hero) else "OFF",int(hero["ground_loot"].size()),int(materials["Phracon"]),int(materials["Emveretarcon"]),int(materials["Oridecon"])]
-	status.text="%s | MAP %d: %s | X:%d Y:%d | Power:%d | ATK:%d DEF:%d HP+%d | Cards:%d | AutoLoot:%s | Monsters:%d" % [str("Dungeon" if TeleportSystem.is_dungeon(int(hero["map_id"])) else "Field/Town"),int(hero["map_id"]),str(map_name),int(map_x),int(map_y),int(skill_power()),int(equipment.get("attack",0)),int(equipment.get("defense",0)),int(equipment.get("hp",0)),int(hero["cards"].size()),str("ON" if LootSystem.is_enabled(hero) else "OFF"),int(monsters.size())]
+	profile.text="Name: %s\nClass: %s\nLevel: %d/%d EXP:%d/%d\nAge:%d HP:%d/%d Zeny:%d Refine:+%d\n\nPET: %s (%s)\nPet Level:%d/%d HP:%d/%d Skill:%d Refine:+%d\n\nEquipment:\n%s\n\nCards:%d Inventory:%d\nAutoLoot:%s Ground Drops:%d\nPhracon:%d Emveretarcon:%d Oridecon:%d" % [str(hero["name"]),str(GameDataClass.class_title(hero)),int(hero["level"]),int(GameDataClass.MAX_HERO_LEVEL),int(hero["exp"]),int(GameDataClass.exp_to_next(int(hero["level"]))),int(hero["age"]),int(hero["hp"]),int(hero["max_hp"]),int(hero["zeny"]),int(hero.get("refine",0)),str(pet["name"]),str(pet["role"]),int(pet["level"]),int(PetSystemClass.MAX_PET_LEVEL),int(pet["hp"]),int(pet["max_hp"]),int(pet["skill_level"]),int(pet["refine"]),str(EquipmentSystemClass.summary(hero)),int(hero["cards"].size()),int(hero["inventory"].size()),"ON" if LootSystemClass.is_enabled(hero) else "OFF",int(hero["ground_loot"].size()),int(materials["Phracon"]),int(materials["Emveretarcon"]),int(materials["Oridecon"])]
+	status.text="%s | MAP %d: %s | X:%d Y:%d | Power:%d | ATK:%d DEF:%d HP+%d | Cards:%d | AutoLoot:%s | Monsters:%d" % [str("Dungeon" if TeleportSystemClass.is_dungeon(int(hero["map_id"])) else "Field/Town"),int(hero["map_id"]),str(map_name),int(map_x),int(map_y),int(skill_power()),int(equipment.get("attack",0)),int(equipment.get("defense",0)),int(equipment.get("hp",0)),int(hero["cards"].size()),str("ON" if LootSystemClass.is_enabled(hero) else "OFF"),int(monsters.size())]
 	log_label.text="\n".join(logs)
 
 func log_message(message:String)->void:
@@ -665,7 +677,7 @@ func log_message(message:String)->void:
 		log_label.text="\n".join(logs)
 
 func save_game()->void:
-	SaveSystem.save_game(hero)
+	SaveSystemClass.save_game(hero)
 
 func _draw()->void:
 	draw_rect(Rect2(340,95,792,525),Color("#0d233c"))
