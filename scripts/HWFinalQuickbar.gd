@@ -6,7 +6,6 @@ const SkillSystemClass = preload("res://scripts/SkillSystem.gd")
 ## Always shows eight class skills, including locked/passive entries.
 ## Uses authored SVG icon atlas assets instead of text glyph placeholders.
 
-const SKILLS = preload("res://scripts/SkillSystem.gd")
 const ICON_ATLAS_PATH:String = "res://assets/3d/generated/ui/skill_icons_atlas.svg"
 const PANEL_BG:Color = Color("#07111df5")
 const BORDER:Color = Color("#c9ad68")
