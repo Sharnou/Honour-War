@@ -15,7 +15,8 @@ assert 'SS_DEFAULT_SKILL:String = "Champion\'s Asura"' in runtime
 assert 'COLLECTION_ITEM_LIMIT:int = 50' in runtime
 assert 'COLLECTION_CARD_LIMIT:int = 20' in runtime
 assert '"behavior":{"follow":true,"heal":true,"fight":true}' in runtime
-assert '"go_button":"GO"' in runtime
+assert 'SS_RENT_NPC_NAME:String = "Rent"' in runtime
+assert 'func open_rent_panel' in runtime
 assert 'func can_create_as_character_class' in runtime
 assert 'normalized != "SS"' in runtime
 assert 'rental_only":true' in runtime
@@ -27,6 +28,7 @@ assert 'get_node_or_null("/root/HWRentalService")' in npc
 assert 'Rent' in npc
 assert 'PRICE_ZENY:int = 1000000' in npc
 assert 'rental_price_zeny' in npc
+assert 'label.text = "Rent\\n1,000,000 Zeny"' in npc
 assert 'ss_companion' in companion
 assert 'Champion' in companion
 for forbidden in ("HWCompanionArmyRuntime", "soldier_production", "guarded_bank", "tower_defense"):
