@@ -2,7 +2,7 @@ class_name SkillUI
 extends CanvasLayer
 
 const SkillSystemClass=preload("res://scripts/SkillSystemClass.gd")
-const CombatVFXClass=preload("res://scripts/CombatVFXClass.gd")
+const CombatVFXClass=preload("res://scripts/CombatVFX.gd")
 var game:Node
 var panel:Panel
 var tree_box:VBoxContainer
