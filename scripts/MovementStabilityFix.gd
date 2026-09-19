@@ -19,7 +19,7 @@ const TeleportSystem=preload("res://scripts/TeleportSystem.gd")
 const ORIGIN_X:float = 365.0
 const ORIGIN_Y:float = 120.0
 const WORLD_SCALE:float = 0.055
-const MOVE_SPEED:float = 210.0
+const MOVE_SPEED:float = 235.0
 const STOP_DISTANCE:float = 1.5
 const CAMERA_DISTANCE:float = 22.0
 const CAMERA_PITCH:float = -38.0
@@ -131,17 +131,11 @@ func _unhandled_input(event:InputEvent)->void:
             KEY_ESCAPE:
                 destination=Vector2.INF; selected_monster={}; middle_dragging=false
                 get_viewport().set_input_as_handled()
-            KEY_A:
+            KEY_Q:
                 _rotate_keyboard_yaw(-1.0)
                 get_viewport().set_input_as_handled()
-            KEY_D:
+            KEY_E:
                 _rotate_keyboard_yaw(1.0)
-                get_viewport().set_input_as_handled()
-            KEY_W:
-                _rotate_keyboard_pitch(-1.0)
-                get_viewport().set_input_as_handled()
-            KEY_S:
-                _rotate_keyboard_pitch(1.0)
                 get_viewport().set_input_as_handled()
 
 func _change_zoom(amount:float)->void:
@@ -204,11 +198,24 @@ func _process(delta:float)->void:
     if not value is Dictionary: return
     var hero:Dictionary=value
     var current:Vector2=Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0)))
-    if destination!=Vector2.INF:
+    var keyboard_direction:=Vector2(
+        Input.get_action_strength("move_right")-Input.get_action_strength("move_left"),
+        Input.get_action_strength("move_down")-Input.get_action_strength("move_up")
+    )
+    if keyboard_direction.length()>0.01:
+        keyboard_direction=keyboard_direction.normalized()
+        current+=keyboard_direction*MOVE_SPEED*delta
+        destination=Vector2.INF
+    elif destination!=Vector2.INF:
         var distance:float=current.distance_to(destination)
-        if distance<=STOP_DISTANCE: current=destination; destination=Vector2.INF
-        else: current+=current.direction_to(destination)*min(distance,MOVE_SPEED*delta)
-        current=_clamp_to_map(current,hero); hero["pos_x"]=current.x; hero["pos_y"]=current.y
+        if distance<=STOP_DISTANCE:
+            current=destination
+            destination=Vector2.INF
+        else:
+            current+=current.direction_to(destination)*min(distance,MOVE_SPEED*delta)
+    current=_clamp_to_map(current,hero)
+    hero["pos_x"]=current.x
+    hero["pos_y"]=current.y
 
     online_send_elapsed+=delta
     if _online_authenticated() and online_send_elapsed>=ONLINE_SEND_INTERVAL:
