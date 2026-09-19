@@ -80,9 +80,9 @@ func _build()->void:
     panel.name = "HWFinalSkillQuickbar"
     panel.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
     panel.offset_left = -410
-    panel.offset_top = -96
+    panel.offset_top = -78
     panel.offset_right = 410
-    panel.offset_bottom = -12
+    panel.offset_bottom = -8
     panel.add_theme_stylebox_override("panel", _style(PANEL_BG, BORDER, 10))
     panel.mouse_filter = Control.MOUSE_FILTER_STOP
     add_child(panel)
@@ -105,7 +105,7 @@ func _build()->void:
     panel.add_child(outer)
 
     var header := HBoxContainer.new()
-    header.custom_minimum_size = Vector2(0, 22)
+    header.custom_minimum_size = Vector2(0, 18)
     outer.add_child(header)
     var title := Label.new()
     title.name = "Title"
@@ -122,7 +122,7 @@ func _build()->void:
     close_button = Button.new()
     close_button.text = "×"
     close_button.tooltip_text = "Hide skill bar"
-    close_button.custom_minimum_size = Vector2(24,22)
+    close_button.custom_minimum_size = Vector2(22,18)
     close_button.pressed.connect(_toggle_collapsed)
     header.add_child(close_button)
 
@@ -135,7 +135,7 @@ func _build()->void:
     for i in range(8):
         var slot := Button.new()
         slot.name = "SkillSlot_%d" % (i + 1)
-        slot.custom_minimum_size = Vector2(92, 54)
+        slot.custom_minimum_size = Vector2(88, 44)
         slot.size_flags_horizontal = Control.SIZE_EXPAND_FILL
         slot.size_flags_vertical = Control.SIZE_EXPAND_FILL
         slot.alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -152,7 +152,7 @@ func _build()->void:
 func _toggle_collapsed()->void:
     collapsed=not collapsed
     slots.visible=not collapsed
-    panel.offset_top=-42 if collapsed else -96
+    panel.offset_top=-34 if collapsed else -78
     close_button.text="+" if collapsed else "×"
     restore_button.visible=collapsed
     panel.offset_bottom=-12
