@@ -107,9 +107,9 @@ func _ensure_hero_proxy()->void:
             if old_parent!=null:
                 old_parent.remove_child(hero_proxy)
             camera.add_child(hero_proxy)
-        hero_proxy.position=Vector3(0.0,-1.45,-8.0)
+        hero_proxy.position=Vector3(0.0,-1.30,-7.5)
         hero_proxy.rotation=Vector3.ZERO
-        hero_proxy.scale=Vector3.ONE*1.25
+        hero_proxy.scale=Vector3.ONE*0.78
     hero_proxy.visible=true
 
 func _build_proxy_character(root:Node3D)->void:
