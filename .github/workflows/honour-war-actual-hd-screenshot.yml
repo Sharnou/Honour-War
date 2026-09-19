@@ -45,6 +45,12 @@ jobs:
           Expand-Archive -Path godot.zip -DestinationPath godot -Force
           Copy-Item "godot/Godot_v4.7.2-stable_win64.exe" "godot.exe"
 
+      - name: Import project resources and global classes
+        shell: pwsh
+        run: |
+          .\godot.exe --headless --editor --path . --rendering-method gl_compatibility --rendering-driver opengl3 --quit 2>&1 | Tee-Object godot-import.log
+          if ($LASTEXITCODE -ne 0) { throw "Godot project import/parse failed" }
+
       - name: Validate direct Screenshot visual source
         run: |
           python3 tools/validate_visual_reference_source.py
