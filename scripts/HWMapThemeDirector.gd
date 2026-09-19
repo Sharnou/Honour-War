@@ -202,7 +202,6 @@ func _build_dunes(root:Node3D,style:Dictionary) -> void:
     for x in [-24.0,-12.0,0.0,12.0,24.0]:
         var dune := _sphere(root,"Dune",2.2,Vector3(x,0.65,18),_mat(style.ground,0.95))
         dune.scale = Vector3(2.0,0.45,1.1)
-        root.add_child(dune)
 
 func _build_snowbanks(root:Node3D,style:Dictionary) -> void:
     for x in [-24.0,-12.0,0.0,12.0,24.0]:
@@ -225,7 +224,6 @@ func _build_rock_or_crystal(root:Node3D,pos:Vector3,style:Dictionary,index:int) 
     else:
         var rock := _sphere(root,"FieldRock",0.75,pos+Vector3(0,0.45,0),_mat(style.wall,0.92))
         rock.scale = Vector3(1.4,0.75,1.05)
-        root.add_child(rock)
 
 func _build_crystal(root:Node3D,pos:Vector3,color:Color) -> void:
     var c := _cyl(root,"Crystal",0.16,1.2,pos+Vector3(0,0.65,0),_emission(color,1.25))
@@ -241,7 +239,6 @@ func _build_wall_segment(root:Node3D,pos:Vector3,style:Dictionary) -> void:
 func _build_torch(root:Node3D,pos:Vector3,style:Dictionary) -> void:
     _cyl(root,"TorchPost",0.08,1.8,pos+Vector3(0,0.9,0),_mat(Color("#302522"),0.72))
     var flame := _sphere(root,"TorchFlame",0.18,pos+Vector3(0,1.9,0),_emission(style.accent,2.0))
-    root.add_child(flame)
     var light := OmniLight3D.new()
     light.light_color = style.accent
     light.light_energy = 1.25
@@ -273,7 +270,6 @@ func _build_pillar(root:Node3D,pos:Vector3,style:Dictionary) -> void:
 func _build_snowbank(root:Node3D,pos:Vector3,style:Dictionary) -> void:
     var bank := _sphere(root,"Snowbank",1.6,pos+Vector3(0,0.55,0),_mat(style.ground,0.96))
     bank.scale = Vector3(1.9,0.65,1.1)
-    root.add_child(bank)
 
 func _build_totem(root:Node3D,pos:Vector3,style:Dictionary) -> void:
     _cyl(root,"Totem",0.22,2.8,pos+Vector3(0,1.4,0),_mat(style.roof,0.82))
@@ -285,7 +281,6 @@ func _build_dock(root:Node3D,pos:Vector3,style:Dictionary) -> void:
 func _build_lamp(root:Node3D,pos:Vector3,style:Dictionary) -> void:
     _cyl(root,"LampPost",0.08,2.4,pos+Vector3(0,1.2,0),_mat(Color("#3b3130"),0.68))
     var light_mesh := _sphere(root,"Lamp",0.16,pos+Vector3(0,2.5,0),_emission(style.accent,1.15))
-    root.add_child(light_mesh)
     var omni := OmniLight3D.new()
     omni.light_color = style.accent
     omni.light_energy = 0.65
