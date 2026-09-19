@@ -21,6 +21,10 @@ var last_signature:String = ""
 var flash_index:int = -1
 var flash_time:float = 0.0
 var icon_atlas:Texture2D
+var collapsed:bool=false
+var close_button:Button
+var drag_offset:Vector2=Vector2.ZERO
+var dragging:bool=false
 
 func _ready()->void:
     layer = 300
@@ -74,51 +78,82 @@ func _build()->void:
     panel = PanelContainer.new()
     panel.name = "HWFinalSkillQuickbar"
     panel.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
-    panel.position = Vector2(-560, -128)
-    panel.size = Vector2(1120, 116)
+    panel.offset_left = -410
+    panel.offset_top = -96
+    panel.offset_right = 410
+    panel.offset_bottom = -12
     panel.add_theme_stylebox_override("panel", _style(PANEL_BG, BORDER, 10))
+    panel.mouse_filter = Control.MOUSE_FILTER_STOP
     add_child(panel)
 
     var outer := VBoxContainer.new()
-    outer.add_theme_constant_override("separation", 3)
+    outer.add_theme_constant_override("separation", 2)
     panel.add_child(outer)
 
     var header := HBoxContainer.new()
+    header.custom_minimum_size = Vector2(0, 22)
     outer.add_child(header)
     var title := Label.new()
     title.name = "Title"
-    title.text = "COMBAT SKILLS"
-    title.add_theme_font_size_override("font_size", 12)
+    title.text = "SKILLS"
+    title.add_theme_font_size_override("font_size", 10)
     title.add_theme_color_override("font_color", TEXT)
+    title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
     header.add_child(title)
     var hint := Label.new()
-    hint.text = "1–8 CAST   •   K SKILL TREE   •   PASSIVES ALWAYS ACTIVE"
-    hint.add_theme_font_size_override("font_size", 9)
+    hint.text = "1–8  •  K TREE"
+    hint.add_theme_font_size_override("font_size", 8)
     hint.add_theme_color_override("font_color", MUTED)
-    hint.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-    hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
     header.add_child(hint)
+    close_button = Button.new()
+    close_button.text = "×"
+    close_button.tooltip_text = "Hide skill bar"
+    close_button.custom_minimum_size = Vector2(24,22)
+    close_button.pressed.connect(_toggle_collapsed)
+    header.add_child(close_button)
 
     slots = HBoxContainer.new()
     slots.alignment = BoxContainer.ALIGNMENT_CENTER
-    slots.add_theme_constant_override("separation", 7)
+    slots.size_flags_vertical = Control.SIZE_EXPAND_FILL
+    slots.add_theme_constant_override("separation", 4)
     outer.add_child(slots)
 
     for i in range(8):
         var slot := Button.new()
         slot.name = "SkillSlot_%d" % (i + 1)
-        slot.custom_minimum_size = Vector2(132, 82)
+        slot.custom_minimum_size = Vector2(92, 54)
         slot.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+        slot.size_flags_vertical = Control.SIZE_EXPAND_FILL
         slot.alignment = HORIZONTAL_ALIGNMENT_CENTER
         slot.focus_mode = Control.FOCUS_ALL
-        slot.add_theme_font_size_override("font_size", 9)
+        slot.add_theme_font_size_override("font_size", 8)
         slot.add_theme_color_override("font_color", TEXT)
         slot.add_theme_color_override("font_hover_color", TEXT)
-        slot.add_theme_stylebox_override("normal", _style(Color("#101d2e"), Color("#42536a"), 8))
-        slot.add_theme_stylebox_override("hover", _style(Color("#20324a"), BORDER, 8))
-        slot.add_theme_stylebox_override("pressed", _style(Color("#293c58"), Color("#f0d587"), 8))
+        slot.add_theme_stylebox_override("normal", _style(Color("#101d2e"), Color("#42536a"), 6))
+        slot.add_theme_stylebox_override("hover", _style(Color("#20324a"), BORDER, 6))
+        slot.add_theme_stylebox_override("pressed", _style(Color("#293c58"), Color("#f0d587"), 6))
         slot.pressed.connect(_cast_slot.bind(i))
         slots.add_child(slot)
+
+func _toggle_collapsed()->void:
+    collapsed=not collapsed
+    slots.visible=not collapsed
+    panel.offset_top=-42 if collapsed else -96
+    close_button.text="+" if collapsed else "×"
+    panel.offset_bottom=-12
+
+func _gui_input(event:InputEvent)->void:
+    if event is InputEventMouseButton and event.button_index==MOUSE_BUTTON_LEFT:
+        if event.pressed:
+            dragging=true
+            drag_offset=event.position
+        else:
+            dragging=false
+    elif event is InputEventMouseMotion and dragging:
+        panel.position += (event as InputEventMouseMotion).relative
+        panel.set_anchors_preset(Control.PRESET_TOP_LEFT)
+        panel.position.x=clamp(panel.position.x,8.0,get_viewport().get_visible_rect().size.x-panel.size.x-8.0)
+        panel.position.y=clamp(panel.position.y,8.0,get_viewport().get_visible_rect().size.y-panel.size.y-8.0)
 
 func _refresh(force:bool = false)->void:
     if legacy == null or not is_instance_valid(legacy) or slots == null:
