@@ -4,7 +4,7 @@ extends RefCounted
 const GameDataClass = preload("res://scripts/GameData.gd")
 
 ## Canonical six-class clothing, emotion and motion profiles.
-## The profile follows GameDataClass.class_rank_for_hero(), so every job promotion
+## Material identity contributes 51% of the runtime visual appearance rule.\nconst MATERIAL_APPEARANCE_WEIGHT:float = 0.51\n\n## The profile follows GameDataClass.class_rank_for_hero(), so every job promotion
 ## changes the displayed title, clothing emphasis, silhouette and motion language.
 
 const PROFILES:Dictionary={
