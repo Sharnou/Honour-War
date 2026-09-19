@@ -146,12 +146,16 @@ func _replace_if_available(key:String, current:Node3D, path:String, monster_id:S
             replacement.queue_free()
         return false
     var parent:Node = current.get_parent()
-    parent.add_child(replacement)
     var replacement_3d:Node3D = replacement as Node3D
     replacement_3d.global_transform = current.global_transform
     replacement_3d.name = current.name + "_HDAsset"
     replacement_3d.set_meta("hw_source_path", path)
+    # Repair imported surfaces BEFORE the GLB enters the active scene tree.
+    # Forward+ can create renderer material dependencies as soon as a mesh is
+    # attached, so repairing after add_child() is too late for null-material
+    # resources imported from GLB.
     _repair_null_materials(replacement_3d)
+    parent.add_child(replacement_3d)
     if target_height > 0.0:
         _normalize_actor(replacement_3d, target_height)
     replacement_3d.set_meta("hw_authored_scale", replacement_3d.scale)
