@@ -1,6 +1,7 @@
 class_name HDSkillPresentation
 extends Node
 
+const SkillSystemClass = preload("res://scripts/SkillSystemClass.gd")
 signal cast_started(skill_id:String, skill_name:String, duration:float)
 signal cast_completed(skill_id:String, skill_name:String)
 signal cooldown_started(skill_id:String, cooldown:float)
@@ -21,7 +22,7 @@ func _ready() -> void:
 func try_cast(hero:Dictionary, skill_id:String, target_position:Vector3, now:float = -1.0)->Dictionary:
     if now < 0.0:
         now = Time.get_ticks_msec() / 1000.0
-    var result:Dictionary = SkillSystem.use(hero, skill_id, now)
+    var result:Dictionary = SkillSystemClass.use(hero, skill_id, now)
     if not bool(result.get("ok",false)):
         rejected.emit(skill_id,str(result.get("reason","rejected")))
         return result
