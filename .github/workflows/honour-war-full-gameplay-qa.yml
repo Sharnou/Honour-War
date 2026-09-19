@@ -237,6 +237,11 @@ jobs:
             $img.Dispose()
           }
 
+      - name: Validate captured frame visual quality
+        shell: pwsh
+        run: |
+          python tools/visual_frame_quality_qa.py
+
       - name: Upload gameplay QA evidence
         if: always()
         uses: actions/upload-artifact@v4
