@@ -51,6 +51,11 @@ jobs:
         run: |
           python3 tools/validate_visual_reference_source.py
 
+      - name: Import Godot project resources before runtime capture
+        run: |
+          ./"${GODOT_BINARY}" --headless --editor --path . --rendering-method gl_compatibility --rendering-driver opengl3 --quit 2>&1 | tee godot-import.log
+          test "${PIPESTATUS[0]}" -eq 0
+
       - name: Capture actual game frame
         run: |
           mkdir -p visual-captures
