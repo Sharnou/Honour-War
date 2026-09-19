@@ -19,6 +19,8 @@ on:
       - "scripts/MonsterDetailsSystem.gd"
       - "scripts/GameData.gd"
       - "scripts/FifthTierClassTreeSystem.gd"
+      - "scripts/CompleteClassSkillTreeSystem.gd"
+      - "tests/complete_class_skill_tree_contract_test.gd"
       - "tests/fifth_tier_profession_weapon_visual_contract_test.gd"
       - "tests/character_visual_profile_contract_test.gd"
       - "tests/hd_gameplay_presentation_contract_test.gd"
@@ -124,6 +126,11 @@ jobs:
           ./"${GODOT_BINARY}" --headless --path . --script res://tests/fifth_tier_profession_weapon_visual_contract_test.gd 2>&1 | tee fifth-tier-profession-skill.log
           grep -F "PASS: all six Fifth Tier professions are weapon-, material-, silhouette- and VFX-rooted" fifth-tier-profession-skill.log
 
+      - name: Validate complete Tier 1 to Tier 5 skill trees for all six classes
+        run: |
+          ./"${GODOT_BINARY}" --headless --path . --script res://tests/complete_class_skill_tree_contract_test.gd 2>&1 | tee complete-class-skill-tree.log
+          grep -F "COMPLETE_CLASS_SKILL_TREE_QA: PASS" complete-class-skill-tree.log
+
       - name: Validate combat, skills, pets and progression source wiring
         run: |
           grep -F 'ClassTreeSystem.branch_bonus' scripts/CombatRuntime.gd
@@ -154,5 +161,6 @@ jobs:
             real-game-screenshot.log
             production-release-readiness.log
             fifth-tier-profession-skill.log
+            complete-class-skill-tree.log
             visual-captures/honour-war-real-game.png
           if-no-files-found: ignore
