@@ -40,6 +40,11 @@ func _launch()->void:
     print("PREATTACH_MATERIAL_PREFLIGHT repaired=",repaired)
     get_root().add_child(production_scene)
     current_scene=production_scene
+    # A few production/autoload directors create additional geometry during
+    # scene attachment. Run a second seal immediately after attachment and on
+    # every frame before capture so newly-created draw meshes cannot reach
+    # Forward+ with a null material.
+    call_deferred("_postattach_material_seal")
 
 func _sanitize_mesh_materials(root:Node)->int:
     var repaired:int=0
@@ -97,11 +102,26 @@ func _sanitize_mesh(mesh:Mesh, owner:MeshInstance3D)->int:
             print("PREATTACH_MATERIAL_PREFLIGHT repaired_path=",owner.get_path() if owner!=null else "<mesh>"," surface=",surface)
     return repaired
 
+func _postattach_material_seal()->void:
+    var scene_root:Node=get_current_scene()
+    if scene_root==null:
+        return
+    var repaired:int=_sanitize_mesh_materials(scene_root)
+    if repaired>0:
+        print("POSTATTACH_MATERIAL_SEAL repaired=",repaired)
+
 func _process(delta:float)->bool:
     if captured:
         return false
 
     elapsed+=delta
+    if elapsed < 8.0:
+        # Keep sealing runtime-created geometry until the capture window.
+        var scene_root:Node=get_current_scene()
+        if scene_root!=null:
+            var repaired:int=_sanitize_mesh_materials(scene_root)
+            if repaired>0:
+                print("FRAME_MATERIAL_SEAL repaired=",repaired)
     if elapsed>STARTUP_TIMEOUT:
         push_error("Real game screenshot timed out after %.1f seconds" % STARTUP_TIMEOUT)
         quit(2)
