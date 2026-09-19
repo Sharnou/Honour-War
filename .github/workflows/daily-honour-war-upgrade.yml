@@ -90,7 +90,7 @@ jobs:
 
       - name: Validate class-branch clothing style and emotion identity
         run: |
-          ./"\${GODOT_BINARY}" --headless --path . --script res://tests/character_visual_profile_contract_test.gd 2>&1 | tee branch-clothing-emotion.log
+          ./"${GODOT_BINARY}" --headless --path . --script res://tests/character_visual_profile_contract_test.gd 2>&1 | tee branch-clothing-emotion.log
           grep -F "PASS: six-class clothing, emotion, motion, and progression visual profiles" branch-clothing-emotion.log
 
       - name: Validate monster pet MVP and NPC visual roles
