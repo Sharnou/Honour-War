@@ -85,3 +85,36 @@ The reference is accepted as the target with one explicit Honour War change:
 - Right-click/context, chat and party/PvP systems may show the player's real character name and relevant social information.
 
 This rule is part of every Daily Honour War Upgrade and must be regression-tested whenever player/world UI changes.
+
+
+## 11. Permanent Daily Honour War verification matrix
+Every Daily Honour War Upgrade must include the applicable tests below before the upgrade is considered complete.
+
+### Core Godot/runtime gates
+- Godot 4.7.2 editor/script/scene import validation.
+- `tests/full_gameplay_runtime_qa.gd` — movement, input, combat, loot, NPC services, maps, @go, dungeons/fields, level-300 monsters, all six class skill trees, pets, save/load, renderer and production asset wiring.
+- `tests/hd_gameplay_presentation_contract_test.gd` — HD gameplay/presentation integration.
+- `tests/game_completion_contract_test.gd` — game completion contract.
+- `tests/element_system_contract_test.gd` — all 10 elements, weaknesses, catalysts/converters and rejection of unknown materials.
+- `tools/honour_war_visual_qa.py` — permanent visual-production pipeline and HD presentation requirements.
+- `tools/validate_monster_visual_distinctness.py` — reject duplicated monster silhouettes and require distinct authored family geometry.
+- Real running-game screenshot capture and minimum-resolution validation.
+
+### Exported Windows release gates
+For release-impacting changes, the Daily Upgrade must also pass the full `Honour War Full Gameplay + Windows EXE QA` workflow:
+- Godot 4.7.2 Windows export-template installation.
+- Windows Desktop `HonourWarHD.exe` export.
+- Exported EXE deterministic gameplay smoke test with `--qa-smoke-test`.
+- Movement input, hero attack, class skill execution, `@go 0 230:220`, and runtime save checks in the exported executable.
+- 60-second exported-EXE runtime/error scan.
+- Verified Windows release ZIP packaging only after all preceding gates pass.
+
+### Visual-production regression rule
+A daily pass must not be marked complete merely because code contracts pass. The captured game frame must be inspected for the intended HD result: full-body hero readability including face/legs, distinct monster silhouettes, pets, equipment, towns/dungeons, terrain/props, lighting, combat effects and readable UI. The production path remains Visual RAG → Blender → Substance 3D Painter → GLB/GLTF → Godot 4.7.x.
+
+### Failure handling
+- Fix the newest concrete failure before starting unrelated upgrades.
+- Treat warnings caused only by CI hardware fallback (for example WASAPI/dummy audio or ANGLE fallback) separately from gameplay/script errors.
+- Treat duplicate-node errors such as `already has a parent` as real runtime defects and fix them before declaring the visual/runtime gate clean.
+- Do not weaken or bypass a failing test to obtain a green build.
+- Do not call an upgrade complete until the newest required Action run has actually passed.
