@@ -188,6 +188,43 @@ const PROFESSION_SKILLS := {
     ]
 }
 
+const TIER_FOUR_ROOT := {
+    "Warrior":"war_emperors_judgment",
+    "Mage":"mage_arcane_overload",
+    "Archer":"arch_skybreaker",
+    "Thief":"thief_shadow_requiem",
+    "Acolyte":"aco_judgment",
+    "Merchant":"mer_titan_cart",
+}
+
+static func fifth_tier_skills(class_id:String) -> Array:
+    var result:Array = PROFESSION_SKILLS.get(class_id, []).duplicate(true)
+    var previous_id:String = str(TIER_FOUR_ROOT.get(class_id, ""))
+    for index in range(result.size()):
+        result[index]["tier"] = 5
+        result[index]["required_level"] = REQUIRED_LEVEL
+        result[index]["cost"] = 1
+        result[index]["max_level"] = 10
+        result[index]["requires"] = [previous_id] if index == 0 else [str(result[index - 1].get("id",""))]
+        previous_id = str(result[index].get("id",""))
+    return result
+
+static func skill_profile(class_id:String, skill_id:String) -> Dictionary:
+    for skill in fifth_tier_skills(class_id):
+        if str(skill.get("id","")) == skill_id:
+            return skill
+    return {}
+
+static func profession_skill_identity(hero:Dictionary) -> Dictionary:
+    var profession_id:String = first_tier_profession(hero)
+    return {
+        "first_tier_profession":profession_id,
+        "natural_fifth_tier":natural_fifth_tier_profile(profession_id),
+        "skills":fifth_tier_skills(profession_id),
+        "weapon_locked":true,
+        "skill_identity_locked_to_first_tier":true,
+    }
+
 const RESOURCE_RULES := {
     "simulation_paradox": {"cap": PARADOX_MAX, "acquire": "combat cell occupation", "risk": "At 100, Paradox Collapse deals 25% max HP and resets Paradox to 35."},
     "entropy_shards": {"cap": ENTROPY_MAX, "acquire": "high-tier MVP/boss defeats", "risk": "Consumed permanently during the current combat instance; no automatic regeneration."},
