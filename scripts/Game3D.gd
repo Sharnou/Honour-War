@@ -137,6 +137,10 @@ func _build_lighting() -> void:
 	env.tonemap_white = 1.15
 	env_node.environment = env
 	add_child(env_node)
+	var world:World3D=get_world_3d()
+	if world!=null:
+		world.environment=env
+		world.fallback_environment=env
 	# Give the active camera an explicit environment override so multiple legacy
 	# WorldEnvironment nodes cannot leave the actual game frame black.
 	camera.environment = env
