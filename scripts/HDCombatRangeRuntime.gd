@@ -1,5 +1,5 @@
 class_name HDCombatRangeRuntime
-extends CombatRuntime
+extends "res://scripts/CombatRuntime.gd"
 
 ## Compatibility facade retained for existing scenes.
 ## CombatRuntime owns the shared dependencies; this subclass only supplies
