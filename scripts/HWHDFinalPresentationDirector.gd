@@ -179,7 +179,12 @@ func _hit_target(target: Dictionary, critical: bool, damage: int) -> void:
         _boss_impact(target_node, critical)
     _spawn_damage_fx(target_node.global_position + Vector3(0, 0.85, 0), critical, damage)
 
-func _react_actor(actor: Node3D, critical: bool) -> void:
+func _react_actor(actor_value: Variant, critical: bool) -> void:
+    # Combat presentation can race actor respawn/free. Keep this boundary untyped
+    # so GDScript cannot reject a freed Object before the validity guard executes.
+    if not is_instance_valid(actor_value) or not actor_value is Node3D:
+        return
+    var actor: Node3D = actor_value as Node3D
     if actor == null or not is_instance_valid(actor):
         return
     var base := actor.rotation
@@ -251,7 +256,13 @@ func _spawn_burst(pos: Vector3, color: Color, critical: bool) -> void:
     tween.tween_property(fx, "scale", Vector3.ONE * (1.8 if critical else 1.35), 0.22)
     tween.tween_callback(fx.queue_free)
 
-func _boss_impact(actor: Node3D, critical: bool) -> void:
+func _boss_impact(actor_value: Variant, critical: bool) -> void:
+    # Boss impact is another deferred presentation boundary; validate before cast.
+    if not is_instance_valid(actor_value) or not actor_value is Node3D:
+        return
+    var actor: Node3D = actor_value as Node3D
+    if actor == null or not is_instance_valid(actor):
+        return
     var root := _build_root()
     var ring := root.get_node_or_null("BossImpactRing") as MeshInstance3D
     if ring == null:
