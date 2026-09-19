@@ -74,9 +74,11 @@ func _test_npc_wiring() -> void:
 
 func _test_maps() -> void:
     check("map registry has 30 maps", TELEPORT.MAPS.size() == 30)
-    check("@go coordinate command", bool(TELEPORT.parse_go("@go 0 230:220").get("ok", false)))
-    var go:Dictionary = TELEPORT.parse_go("@go 0 230:220")
-    check("@go preserves requested coordinates", int(go.get("x",-1)) == 230 and int(go.get("y",-1)) == 220)
+    var go:Dictionary = TELEPORT.parse_go("@go 0")
+    check("@go 0 town shortcut", bool(go.get("ok", false)) and int(go.get("map_id",-1)) == 0 and int(go.get("x",-1)) == 600 and int(go.get("y",-1)) == 350)
+    var coordinate:Dictionary = TELEPORT.parse_coordinates("230:220")
+    check("X/Y coordinate grid-cell parsing", bool(coordinate.get("ok", false)) and int(coordinate.get("x",-1)) == 230 and int(coordinate.get("y",-1)) == 220)
+    check("fractional grid coordinates rejected", not bool(TELEPORT.parse_coordinates("230.5:220").get("ok", false)))
     check("dungeon map exists", TELEPORT.is_dungeon(10))
     check("field map exists", not TELEPORT.is_dungeon(20))
     check("level 300 monster zone exists", WORLD.monster_level_for_zone(30,10) == 300)
