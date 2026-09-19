@@ -22,9 +22,6 @@ var active_assets:Dictionary = {}
 
 func _ready()->void:
     game = get_parent() as Node3D
-    # Game3D performs its presentation update first. This bridge intentionally
-    # runs later so authored GLB scale/grounding cannot be overwritten by the
-    # procedural fallback animation pass.
     process_priority = 100
     set_process(true)
 
@@ -62,8 +59,6 @@ func _sync_hero()->void:
         hero_asset_root + "/" + class_dir + "/" + tier_name + ".glb",
         hero_asset_root + "/" + class_dir + "/" + tier_name + ".gltf"
     ]
-    # Hero scale and grounding are authored in the source GLB. Do not normalize
-    # hero height at runtime; preserve the exact imported root transform.
     if _replace_first_available("hero", current, candidates, "", 0.0):
         var replacement:Node3D = game.get("hero_visual") as Node3D
         if replacement != null and is_instance_valid(replacement):
@@ -150,6 +145,7 @@ func _replace_if_available(key:String, current:Node3D, path:String, monster_id:S
     replacement_3d.global_transform = current.global_transform
     replacement_3d.name = current.name + "_HDAsset"
     replacement_3d.set_meta("hw_source_path", path)
+    _repair_null_materials(replacement_3d)
     if target_height > 0.0:
         _normalize_actor(replacement_3d, target_height)
     replacement_3d.set_meta("hw_authored_scale", replacement_3d.scale)
@@ -165,6 +161,38 @@ func _replace_if_available(key:String, current:Node3D, path:String, monster_id:S
             visuals_value[monster_id] = replacement_3d
     current.queue_free()
     return true
+
+func _repair_null_materials(root:Node3D)->void:
+    # Some imported GLBs can contain a mesh surface without a resolved Godot
+    # material. Forward+ then emits repeated material_storage null errors and
+    # can stall a bounded screenshot capture. Preserve the authored mesh and
+    # only create a neutral PBR material for the affected surface.
+    var repaired:int = 0
+    for node:Node in root.find_children("*", "MeshInstance3D", true, false):
+        var mesh_instance:MeshInstance3D = node as MeshInstance3D
+        if mesh_instance == null or mesh_instance.mesh == null:
+            continue
+        var surface_count:int = mesh_instance.mesh.get_surface_count()
+        for surface:int in surface_count:
+            var material:Material = mesh_instance.get_surface_override_material(surface)
+            if material == null:
+                material = mesh_instance.mesh.surface_get_material(surface)
+            if material == null:
+                var fallback := StandardMaterial3D.new()
+                fallback.albedo_color = Color("#9aa1aa")
+                fallback.metallic = 0.15
+                fallback.roughness = 0.58
+                mesh_instance.set_surface_override_material(surface, fallback)
+                repaired += 1
+        if mesh_instance.material_override == null and surface_count == 0:
+            var fallback := StandardMaterial3D.new()
+            fallback.albedo_color = Color("#9aa1aa")
+            fallback.metallic = 0.15
+            fallback.roughness = 0.58
+            mesh_instance.material_override = fallback
+            repaired += 1
+    if repaired > 0:
+        root.set_meta("hw_null_materials_repaired", repaired)
 
 func _enforce_production_transforms()->void:
     for key in active_assets.keys():
@@ -191,8 +219,6 @@ func _normalize_actor(root:Node3D, target_height:float)->void:
     var factor:float = target_height / bounds.size.y
     factor = clamp(factor, 0.55, 1.75)
     root.scale = root.scale * factor
-    # Recalculate in root-local space; root.scale is deliberately applied here
-    # so Blender exports with different origins still land their feet on y=0.
     var scaled_bounds:AABB = _collect_mesh_bounds(root)
     root.position.y -= scaled_bounds.position.y * root.scale.y
 
