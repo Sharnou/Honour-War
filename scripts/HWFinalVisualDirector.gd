@@ -35,11 +35,14 @@ func _ensure_runtime_visuals()->void:
         camera.cull_mask=0xFFFFFFFF
         camera.near=0.05
         camera.far=700.0
-    var env_node:=scene.get_node_or_null("HWFinalNativeEnvironment") as WorldEnvironment
+    var env_node:=scene.get_node_or_null("WorldEnvironment") as WorldEnvironment
     if env_node==null:
-        env_node=WorldEnvironment.new()
-        env_node.name="HWFinalNativeEnvironment"
-        scene.add_child(env_node)
+        for child:Node in scene.get_children():
+            if child is WorldEnvironment:
+                env_node=child as WorldEnvironment
+                break
+    if env_node==null:
+        return
     var env:=env_node.environment
     if env==null:
         env=Environment.new()
