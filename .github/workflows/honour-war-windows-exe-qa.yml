@@ -106,7 +106,7 @@ jobs:
       - name: Validate project before export
         shell: pwsh
         run: |
-          & .godot.exe --headless --editor --path . --rendering-method gl_compatibility --rendering-driver opengl3 --quit 2>&1 | Tee-Object godot-export-validation.log
+          & .\godot.exe --headless --editor --path . --rendering-method gl_compatibility --rendering-driver opengl3 --quit 2>&1 | Tee-Object godot-export-validation.log
           if ($LASTEXITCODE -ne 0) { throw "Godot editor validation failed" }
           if (Select-String godot-export-validation.log -Pattern "SCRIPT ERROR|Parse Error|ERROR: Failed to load script|ERROR: Cannot load scene") { throw "Godot reported script/scene errors before export" }
 
@@ -114,7 +114,7 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path build\windows | Out-Null
-          & .godot.exe --headless --path . --export-release "Windows Desktop" "build\windows\HonourWarHD.exe" 2>&1 | Tee-Object godot-export.log
+          & .\godot.exe --headless --path . --export-release "Windows Desktop" "build\windows\HonourWarHD.exe" 2>&1 | Tee-Object godot-export.log
           if ($LASTEXITCODE -ne 0) { throw "Windows export failed" }
           if (-not (Test-Path build\windows\HonourWarHD.exe)) { throw "HonourWarHD.exe was not produced" }
 
