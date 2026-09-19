@@ -25,11 +25,14 @@ var open_button:Button
 var pending_auth_action:String = ""
 var pending_manual_remember:bool = false
 var automatic_login_mode:bool = false
+var local_database:HWAccountDatabaseClass
+var local_mode:bool = true
 var saved_auto_username:String = ""
 var saved_auto_token:String = ""
 
 func _ready() -> void:
     layer = 220
+    local_database = HWAccountDatabaseClass.new()
     if DisplayServer.get_name() == "headless":
         return
     call_deferred("_build")
@@ -81,8 +84,9 @@ func _build() -> void:
     open_button = Button.new()
     open_button.name = "OnlineButton"
     open_button.text = "ONLINE"
-    open_button.position = Vector2(1710,18)
-    open_button.size = Vector2(180,42)
+    open_button.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+    open_button.position = Vector2(-190,18)
+    open_button.size = Vector2(172,42)
     open_button.pressed.connect(_toggle_panel)
     add_child(open_button)
     _build_panel()
@@ -92,8 +96,9 @@ func _build() -> void:
 func _build_panel() -> void:
     panel = Panel.new()
     panel.name = "OnlineLoginPanel"
-    panel.position = Vector2(1300,76)
-    panel.size = Vector2(590,530)
+    panel.set_anchors_preset(Control.PRESET_CENTER)
+    panel.position = Vector2(-300,-260)
+    panel.size = Vector2(600,520)
     panel.visible = false
     add_child(panel)
 
@@ -131,31 +136,53 @@ func _build_panel() -> void:
     remember_login_check.toggled.connect(_on_automatic_login_toggled)
     panel.add_child(remember_login_check)
 
+    var local_label:Label=Label.new()
+    local_label.text="LOCAL ACCOUNT MODE: works without a server • saves hero progression on this PC"
+    local_label.position=Vector2(22,318)
+    local_label.size=Vector2(540,28)
+    local_label.add_theme_font_size_override("font_size",11)
+    local_label.add_theme_color_override("font_color",Color("#8ed8a6"))
+    panel.add_child(local_label)
+
+    var local_login:Button=Button.new()
+    local_login.text="LOCAL LOGIN"
+    local_login.position=Vector2(22,350)
+    local_login.size=Vector2(165,44)
+    local_login.pressed.connect(_local_login)
+    panel.add_child(local_login)
+
+    var local_register:Button=Button.new()
+    local_register.text="LOCAL REGISTER"
+    local_register.position=Vector2(202,350)
+    local_register.size=Vector2(165,44)
+    local_register.pressed.connect(_local_register)
+    panel.add_child(local_register)
+
     var connect_button:Button = Button.new()
     connect_button.text = "CONNECT"
-    connect_button.position = Vector2(22,338)
+    connect_button.position = Vector2(382,350)
     connect_button.size = Vector2(165,44)
     connect_button.pressed.connect(_connect)
     panel.add_child(connect_button)
 
     var login_button:Button = Button.new()
     login_button.text = "LOGIN"
-    login_button.position = Vector2(202,338)
+    login_button.position = Vector2(22,402)
     login_button.size = Vector2(165,44)
     login_button.pressed.connect(_login)
     panel.add_child(login_button)
 
     var register_button:Button = Button.new()
     register_button.text = "REGISTER"
-    register_button.position = Vector2(382,338)
+    register_button.position = Vector2(202,402)
     register_button.size = Vector2(165,44)
     register_button.pressed.connect(_register)
     panel.add_child(register_button)
 
     status_label = Label.new()
     status_label.text = "Offline mode remains active until you connect. Automatic Login can restore your session next time."
-    status_label.position = Vector2(22,405)
-    status_label.size = Vector2(540,92)
+    status_label.position = Vector2(22,454)
+    status_label.size = Vector2(540,54)
     status_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
     panel.add_child(status_label)
 
@@ -176,6 +203,45 @@ func _field(label_text:String,pos:Vector2,placeholder:String) -> void:
     edit.size = Vector2(255,38)
     edit.placeholder_text = placeholder
     panel.add_child(edit)
+
+func _local_register()->void:
+    if local_database==null: local_database=HWAccountDatabaseClass.new()
+    var username:String=username_edit.text.strip_edges()
+    var password:String=password_edit.text
+    if not HWAccountDatabaseClass.validate_username(username):
+        _status("Local registration: username must be 3–24 letters/numbers/_/- characters.")
+        return
+    if password.length()<6:
+        _status("Local registration: password must contain at least 6 characters.")
+        return
+    var salt:String=(username+":"+str(Time.get_ticks_usec())).sha256_text().substr(0,32)
+    var verifier:String=HWAccountDatabaseClass.password_verifier(password,salt)
+    var legacy:=get_tree().current_scene.get_node_or_null("LegacyGame")
+    var player:Dictionary={}
+    if legacy!=null and legacy.get("hero") is Dictionary:
+        player=(legacy.get("hero") as Dictionary).duplicate(true)
+    if local_database.create_account(username,salt,verifier,player):
+        _status("Local registration successful. You can now use LOCAL LOGIN.")
+    else:
+        _status("Local registration failed: account may already exist.")
+
+func _local_login()->void:
+    if local_database==null: local_database=HWAccountDatabaseClass.new()
+    var username:String=username_edit.text.strip_edges()
+    var password:String=password_edit.text
+    var record:Dictionary=local_database.get_auth_record(username)
+    if record.is_empty():
+        _status("Local login failed: account not found.")
+        return
+    var verifier:String=HWAccountDatabaseClass.password_verifier(password,str(record.get("salt","")))
+    if verifier!=str(record.get("verifier","")):
+        _status("Local login failed: incorrect password.")
+        return
+    var legacy:=get_tree().current_scene.get_node_or_null("LegacyGame")
+    if legacy!=null and legacy.has_method("replace_hero"):
+        legacy.call("replace_hero",local_database.load_player(username,{}))
+    local_database.mark_login(username)
+    _status("Local login successful. Hero profile restored.")
 
 func _toggle_panel() -> void:
     if panel != null:
