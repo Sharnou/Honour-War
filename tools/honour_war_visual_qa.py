@@ -89,6 +89,20 @@ if identity_path.is_file():
     check('group == "enemy"' in identity,"Identity UI: player groups do not receive permanent HP/SP world bars")
     check("reveal_player_name_for_social" in identity,"Identity UI: explicit social/chat reveal hook")
 
+source_dir=ROOT/"Screenshot"
+check(source_dir.is_dir(),"Direct Screenshot visual source folder")
+for source_name in [
+    "ChatGPT Image Sep 7, 2026, 03_54_35 PM.png",
+    "ChatGPT Image Sep 8, 2026, 12_13_55 AM.png",
+    "ChatGPT Image Sep 8, 2026, 12_30_08 AM.png",
+    "ChatGPT Image Sep 14, 2026, 02_17_52 PM.png",
+    "ChatGPT Image Sep 15, 2026, 11_17_00 PM.png",
+    "ChatGPT Image Sep 16, 2026, 12_22_47 AM.png",
+    "ChatGPT Image Sep 18, 2026, 11_57_21 PM.png",
+]:
+    source_path=source_dir/source_name
+    check(source_path.is_file() and source_path.stat().st_size>100000,"Direct visual source: "+source_name)
+
 reference=ROOT/"docs"/"HONOUR_WAR_PRIMARY_VISUAL_REFERENCE.md"
 check(reference.is_file() and reference.stat().st_size>1500,"Primary visual/UI reference note")
 if reference.is_file():
