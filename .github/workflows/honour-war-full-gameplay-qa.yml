@@ -387,4 +387,4 @@ jobs:
             honour-war-exe-smoke.err
           if-no-files-found: ignore
 
-# Full gameplay QA is intentionally retriggered on every gameplay/runtime script revision.
+# Full gameplay QA is intentionally retriggered on every gameplay/runtime script revision and permanent visual-contract change.
