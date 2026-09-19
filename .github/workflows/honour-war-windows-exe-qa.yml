@@ -17,11 +17,13 @@ permissions:
 
 concurrency:
   group: honour-war-windows-exe-qa-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 env:
   GODOT_VERSION: "4.7.2"
-  GODOT_ZIP: "Godot_v4.7.2-stable_win64.exe"
+  GODOT_TAG: "4.7.2-stable"
+  GODOT_BINARY: "Godot_v4.7.2-stable_win64.exe"
+  GODOT_TEMPLATE: "Godot_v4.7.2-stable_export_templates.tpz"
 
 jobs:
   windows-release-qa:
@@ -45,44 +47,89 @@ jobs:
       - name: Download Godot 4.7.2
         shell: pwsh
         run: |
-          Invoke-WebRequest -Uri "https://github.com/godotengine/godot/releases/download/4.7.2-stable/Godot_v4.7.2-stable_win64.exe" -OutFile "$pwd\godot.exe"
-          if (-not (Test-Path "$pwd\godot.exe")) { throw "Godot executable was not downloaded" }
+          $ErrorActionPreference = 'Stop'
+          $urls = @(
+            "https://github.com/godotengine/godot-builds/releases/download/$env:GODOT_TAG/$env:GODOT_BINARY.zip",
+            "https://github.com/godotengine/godot/releases/download/$env:GODOT_TAG/$env:GODOT_BINARY.zip"
+          )
+          $downloaded = $false
+          for ($round = 1; $round -le 8 -and -not $downloaded; $round++) {
+            foreach ($url in $urls) {
+              try {
+                Remove-Item -Force -ErrorAction SilentlyContinue godot.zip
+                Remove-Item -Recurse -Force -ErrorAction SilentlyContinue godot-check
+                Invoke-WebRequest -Uri $url -OutFile godot.zip -UseBasicParsing -TimeoutSec 600
+                Expand-Archive -Path godot.zip -DestinationPath godot-check -Force
+                $exe = Get-ChildItem godot-check -Filter $env:GODOT_BINARY -File -Recurse | Select-Object -First 1
+                if ($null -ne $exe) { $downloaded=$true; break }
+              } catch { Write-Warning $_.Exception.Message }
+              Start-Sleep -Seconds 3
+            }
+          }
+          if (-not $downloaded) { throw "Could not download Godot $env:GODOT_VERSION" }
+          Remove-Item -Recurse -Force -ErrorAction SilentlyContinue godot-dist
+          Expand-Archive godot.zip godot-dist -Force
+          $exe = Get-ChildItem godot-dist -Filter $env:GODOT_BINARY -File -Recurse | Select-Object -First 1
+          if ($null -eq $exe) { throw "Godot executable not found after extraction" }
+          Copy-Item $exe.FullName godot.exe -Force
+
+      - name: Download Godot 4.7.2 export templates
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $urls = @(
+            "https://github.com/godotengine/godot-builds/releases/download/$env:GODOT_TAG/$env:GODOT_TEMPLATE",
+            "https://github.com/godotengine/godot/releases/download/$env:GODOT_TAG/$env:GODOT_TEMPLATE"
+          )
+          $downloaded = $false
+          for ($round = 1; $round -le 8 -and -not $downloaded; $round++) {
+            foreach ($url in $urls) {
+              try {
+                Remove-Item -Force -ErrorAction SilentlyContinue templates.tpz
+                Remove-Item -Recurse -Force -ErrorAction SilentlyContinue templates-check
+                Invoke-WebRequest -Uri $url -OutFile templates.tpz -UseBasicParsing -TimeoutSec 600
+                Expand-Archive templates.tpz templates-check -Force
+                $marker = Get-ChildItem templates-check -Filter windows_release_x86_64.exe -File -Recurse | Select-Object -First 1
+                if ($null -ne $marker) { $downloaded=$true; break }
+              } catch { Write-Warning $_.Exception.Message }
+              Start-Sleep -Seconds 3
+            }
+          }
+          if (-not $downloaded) { throw "Could not download export templates" }
+          $templatesDir = Join-Path $env:APPDATA 'Godot\export_templates\4.7.2.stable'
+          New-Item -ItemType Directory -Force -Path $templatesDir | Out-Null
+          Expand-Archive templates.tpz $templatesDir -Force
+          $inner = Join-Path $templatesDir templates
+          if (Test-Path $inner) { Get-ChildItem $inner -Recurse -File | ForEach-Object { Copy-Item $_.FullName $templatesDir -Force } }
+          if (-not (Test-Path (Join-Path $templatesDir windows_release_x86_64.exe))) { throw 'Windows export template missing' }
 
       - name: Validate project before export
         shell: pwsh
         run: |
-          & "$pwd\godot.exe" --headless --editor --path . --rendering-method gl_compatibility --rendering-driver opengl3 --quit 2>&1 | Tee-Object godot-export-validation.log
+          & .godot.exe --headless --editor --path . --rendering-method gl_compatibility --rendering-driver opengl3 --quit 2>&1 | Tee-Object godot-export-validation.log
           if ($LASTEXITCODE -ne 0) { throw "Godot editor validation failed" }
-          if (Select-String -Path godot-export-validation.log -Pattern "SCRIPT ERROR|Parse Error|ERROR: Failed to load script|ERROR: Cannot load scene") {
-            throw "Godot reported script/scene errors before export"
-          }
+          if (Select-String godot-export-validation.log -Pattern "SCRIPT ERROR|Parse Error|ERROR: Failed to load script|ERROR: Cannot load scene") { throw "Godot reported script/scene errors before export" }
 
       - name: Export HonourWarHD.exe
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path build\windows | Out-Null
-          & "$pwd\godot.exe" --headless --path . --export-release "Windows Desktop" "build\windows\HonourWarHD.exe" 2>&1 | Tee-Object godot-export.log
+          & .godot.exe --headless --path . --export-release "Windows Desktop" "build\windows\HonourWarHD.exe" 2>&1 | Tee-Object godot-export.log
           if ($LASTEXITCODE -ne 0) { throw "Windows export failed" }
-          if (-not (Test-Path "build\windows\HonourWarHD.exe")) { throw "HonourWarHD.exe was not produced" }
+          if (-not (Test-Path build\windows\HonourWarHD.exe)) { throw "HonourWarHD.exe was not produced" }
 
       - name: Test exported EXE for 30 seconds
         shell: pwsh
         run: |
-          $exe = (Resolve-Path "build\windows\HonourWarHD.exe").Path
+          $exe = (Resolve-Path build\windows\HonourWarHD.exe).Path
           $log = (Resolve-Path ".").Path + "\honour-war-runtime.log"
           $p = Start-Process -FilePath $exe -ArgumentList "--rendering-method","gl_compatibility","--rendering-driver","opengl3" -WorkingDirectory (Split-Path $exe) -RedirectStandardOutput $log -RedirectStandardError ($log + ".err") -PassThru
           Start-Sleep -Seconds 5
-          if ($p.HasExited) {
-            Get-Content $log -ErrorAction SilentlyContinue
-            Get-Content ($log + ".err") -ErrorAction SilentlyContinue
-            throw "HonourWarHD.exe exited during startup with code $($p.ExitCode)"
-          }
+          if ($p.HasExited) { throw "HonourWarHD.exe exited during startup with code $($p.ExitCode)" }
           Start-Sleep -Seconds 25
-          if ($p.HasExited) {
-            throw "HonourWarHD.exe crashed/exited before the 30-second smoke test completed; exit code $($p.ExitCode)"
-          }
+          if ($p.HasExited) { throw "HonourWarHD.exe exited before the 30-second smoke test completed; exit code $($p.ExitCode)" }
           Stop-Process -Id $p.Id -Force
-          Write-Host "PASS: HonourWarHD.exe remained running for the full 30-second smoke test."
+          Write-Host "PASS: HonourWarHD.exe remained running for 30 seconds."
 
       - name: Package only after EXE test passes
         shell: pwsh
