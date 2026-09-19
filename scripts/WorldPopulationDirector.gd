@@ -2,7 +2,7 @@ class_name WorldPopulationDirector
 extends Node
 
 const GameDataClass = preload("res://scripts/GameDataClass.gd")
-const WorldSystemClass = preload("res://scripts/WorldSystemClass.gd")
+const WorldSystemClass = preload("res://scripts/WorldSystem.gd")
 const TeleportSystemClass = preload("res://scripts/TeleportSystemClass.gd")
 const MonsterDetails = preload("res://scripts/MonsterDetailsSystem.gd")
 var legacy:Node2D
