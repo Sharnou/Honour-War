@@ -1,6 +1,8 @@
 class_name EquipmentOverlay3D
 extends CanvasLayer
 
+const EquipmentSystemClass = preload("res://scripts/EquipmentSystemClass.gd")
+const ItemDatabaseClass = preload("res://scripts/ItemDatabaseClass.gd")
 var legacy:Node
 var panel:Panel
 var equipment_list:VBoxContainer
@@ -74,16 +76,16 @@ func _refresh()->void:
 	if not hero_value is Dictionary:
 		return
 	var hero:Dictionary=hero_value
-	EquipmentSystem.ensure_state(hero)
+	EquipmentSystemClass.ensure_state(hero)
 	_clear(equipment_list)
-	for slot in EquipmentSystem.SLOTS:
+	for slot in EquipmentSystemClass.SLOTS:
 		var row:=HBoxContainer.new()
 		row.custom_minimum_size=Vector2(515,30)
 		var item:=str(hero["equipment"].get(slot,""))
 		if item=="": item="Empty"
 		var cards:Array=hero["equipment_cards"].get(slot,[])
 		var label:=Label.new()
-		label.text="%s: %s  [%d/%d]" % [EquipmentSystem.SLOT_LABELS[slot],item,cards.size(),EquipmentSystem.item_card_slots(item)]
+		label.text="%s: %s  [%d/%d]" % [EquipmentSystemClass.SLOT_LABELS[slot],item,cards.size(),EquipmentSystemClass.item_card_slots(item)]
 		label.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 		row.add_child(label)
 		if item!="Empty" and not (slot=="weapon" and item=="Novice Sword"):
@@ -101,14 +103,14 @@ func _refresh()->void:
 	for item_name in inventory.keys():
 		var item:=str(item_name)
 		var amount:=int(inventory[item_name])
-		if amount<=0 or not ItemDatabase.all().has(EquipmentSystem.base_item_name(item)):
+		if amount<=0 or not ItemDatabaseClass.all().has(EquipmentSystemClass.base_item_name(item)):
 			continue
-		if EquipmentSystem.item_slot(item)=="":
+		if EquipmentSystemClass.item_slot(item)=="":
 			continue
 		var row:=HBoxContainer.new()
 		row.custom_minimum_size=Vector2(515,30)
 		var label:=Label.new()
-		label.text="%s  x%d  • %s" % [item,amount,EquipmentSystem.SLOT_LABELS.get(EquipmentSystem.item_slot(item),EquipmentSystem.item_slot(item))]
+		label.text="%s  x%d  • %s" % [item,amount,EquipmentSystemClass.SLOT_LABELS.get(EquipmentSystemClass.item_slot(item),EquipmentSystemClass.item_slot(item))]
 		label.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 		row.add_child(label)
 		var equip:=Button.new()
@@ -129,9 +131,9 @@ func _equip(item_name:String)->void:
 	var hero_value:Variant=legacy.get("hero")
 	if not hero_value is Dictionary:
 		return
-	var result:Dictionary=EquipmentSystem.equip_from_inventory(hero_value,item_name)
+	var result:Dictionary=EquipmentSystemClass.equip_from_inventory(hero_value,item_name)
 	if bool(result.get("ok",false)):
-		legacy.call("log_message","Equipped %s in %s. The 3D character visual will update automatically." % [result["item"],EquipmentSystem.SLOT_LABELS[result["slot"]]])
+		legacy.call("log_message","Equipped %s in %s. The 3D character visual will update automatically." % [result["item"],EquipmentSystemClass.SLOT_LABELS[result["slot"]]])
 		legacy.call("save_game")
 		legacy.call("update_ui")
 		_refresh()
@@ -144,7 +146,7 @@ func _unequip(slot:String)->void:
 	var hero_value:Variant=legacy.get("hero")
 	if not hero_value is Dictionary:
 		return
-	var result:Dictionary=EquipmentSystem.unequip_to_inventory(hero_value,slot)
+	var result:Dictionary=EquipmentSystemClass.unequip_to_inventory(hero_value,slot)
 	if bool(result.get("ok",false)):
 		legacy.call("log_message","Unequipped %s. It was returned to inventory." % result["item"])
 		legacy.call("save_game")
