@@ -3,7 +3,7 @@ extends Node
 
 const GameDataClass = preload("res://scripts/GameDataClass.gd")
 const WorldSystemClass = preload("res://scripts/WorldSystem.gd")
-const TeleportSystemClass = preload("res://scripts/TeleportSystemClass.gd")
+const TeleportSystemClass = preload("res://scripts/TeleportSystem.gd")
 const MonsterDetails = preload("res://scripts/MonsterDetailsSystem.gd")
 var legacy:Node2D
 var last_map:int=-1
