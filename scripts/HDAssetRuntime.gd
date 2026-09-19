@@ -19,6 +19,7 @@ var game:Node3D
 var legacy:Node
 var poll_elapsed:float = 0.0
 var active_assets:Dictionary = {}
+var retired_assets:Dictionary = {}
 var material_audit_elapsed:float = 0.0
 
 func _ready()->void:
@@ -133,7 +134,7 @@ func _replace_if_available(key:String, current:Node3D, path:String, monster_id:S
         if old_node != null and is_instance_valid(old_node) and old_path == path:
             return true
         if old_node != null and is_instance_valid(old_node):
-            old_node.queue_free()
+            _retire_asset_node(key, old_node)
         active_assets.erase(key)
     if current == null or not is_instance_valid(current) or current.get_parent() == null:
         return false
@@ -169,8 +170,20 @@ func _replace_if_available(key:String, current:Node3D, path:String, monster_id:S
         var visuals_value:Variant = game.get("monster_visuals")
         if visuals_value is Dictionary:
             visuals_value[monster_id] = replacement_3d
-    current.queue_free()
+    # Keep the replaced procedural actor alive but hidden for one renderer
+    # lifetime. Godot 4.7 Forward+ can tear down material dependencies while
+    # a replacement imported GLB is registering, which can produce null
+    # material_storage calls. Retiring avoids that same-frame dependency race.
+    _retire_asset_node(key + ":fallback", current)
     return true
+
+func _retire_asset_node(key:String, node:Node)->void:
+    if node == null or not is_instance_valid(node):
+        return
+    node.visible = false
+    node.process_mode = Node.PROCESS_MODE_DISABLED
+    node.set_meta("hw_retired_asset", true)
+    retired_assets[key] = node
 
 func _repair_scene_materials()->void:
     # Audit runtime-created geometry as well as authored GLBs. This runs before
@@ -189,7 +202,12 @@ func _repair_scene_materials()->void:
             var mesh_instance:MeshInstance3D = geometry as MeshInstance3D
             if mesh_instance.mesh == null:
                 continue
-            for surface:int in mesh_instance.mesh.get_surface_count():
+            var surface_count:int = mesh_instance.mesh.get_surface_count()
+            if surface_count == 0 and mesh_instance.material_override == null:
+                mesh_instance.material_override = _runtime_fallback_material()
+                repaired += 1
+                print("RUNTIME_MATERIAL_REPAIR zero_surface=", mesh_instance.get_path())
+            for surface:int in surface_count:
                 var material:Material = mesh_instance.get_surface_override_material(surface)
                 if material == null:
                     material = mesh_instance.mesh.surface_get_material(surface)
