@@ -2,7 +2,7 @@ class_name CharacterDetail3D
 extends Node3D
 
 const HWClassVisualBlueprintsClass=preload("res://scripts/HWClassVisualBlueprints.gd")
-const EquipmentSystemClass=preload("res://scripts/EquipmentSystemClass.gd")
+const EquipmentSystemClass=preload("res://scripts/EquipmentSystem.gd")
 const ItemDatabaseClass=preload("res://scripts/ItemDatabaseClass.gd")
 var last_hero:Node3D
 var decorated:Dictionary={}
