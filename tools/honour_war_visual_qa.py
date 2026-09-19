@@ -25,13 +25,14 @@ def check(ok:bool,message:str)->None:
     print(("PASS" if ok else "FAIL")+" :: "+message)
     if not ok: errors.append(message)
 
-for cls in CLASSES:
-    for tier in TIERS:
-        path=ASSET_ROOT/"characters"/cls/(tier+".glb")
-        check(path.is_file() and path.stat().st_size>10000,"Character GLB "+cls+"/"+tier)
-for monster in MONSTERS:
-    path=ASSET_ROOT/"monsters"/("monster_"+monster+".glb")
-    check(path.is_file() and path.stat().st_size>10000,"Monster GLB "+monster)
+no_glbs=sorted(ASSET_ROOT.rglob("*.glb")) if ASSET_ROOT.is_dir() else []
+check(not no_glbs,"Permanent HD GLB retirement: no .glb assets remain")
+policy=ROOT/"docs"/"DAILY_HONOUR_WAR_NO_GLB_POLICY.md"
+check(policy.is_file() and policy.stat().st_size>1200,"Permanent no-GLB daily upgrade policy")
+if policy.is_file():
+    policy_text=policy.read_text(encoding="utf-8")
+    for phrase in ["HD GLB assets are permanently retired","must not regenerate","must not download","must not import","native Godot","Screenshot/"]:
+        check(phrase in policy_text,"No-GLB policy: "+phrase)
 
 role=ROOT/"docs"/"DAILY_HONOUR_WAR_VISUAL_UPGRADE_ROLE.md"
 check(role.is_file() and role.stat().st_size>7000,"Permanent Daily Honour War visual role")
@@ -111,8 +112,8 @@ if reference.is_file():
         check(phrase in reference_text,"Primary reference: "+phrase)
 
 runtime=(ROOT/"scripts/HDAssetRuntime.gd").read_text(encoding="utf-8")
-for phrase in ["res://assets/3d/generated/characters","res://assets/3d/generated/monsters","hw_production_asset","hw_source_path","_normalize_actor","hero_target_height","process_priority = 100","_enforce_production_transforms"]:
-    check(phrase in runtime,"HD runtime: "+phrase)
+for phrase in ["HD generated GLB assets were permanently retired","Daily upgrades must NOT regenerate","Daily upgrades must NOT download","Daily upgrades must NOT import","native Godot runtime"]:
+    check(phrase in runtime,"HD runtime retirement policy: "+phrase)
 
 guard=(ROOT/"scripts/HWPresentationGuard.gd").read_text(encoding="utf-8")
 check("hw_production_asset" in guard and "hw_source_path" in guard,"Presentation guard protects production actors")
