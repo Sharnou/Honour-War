@@ -238,8 +238,13 @@ func _local_login()->void:
         _status("Local login failed: incorrect password.")
         return
     var legacy:=get_tree().current_scene.get_node_or_null("LegacyGame")
-    if legacy!=null and legacy.has_method("replace_hero"):
-        legacy.call("replace_hero",local_database.load_player(username,{}))
+    if legacy!=null:
+        var restored:Dictionary=local_database.load_player(username,legacy.get("hero") if legacy.get("hero") is Dictionary else {})
+        if not restored.is_empty():
+            legacy.set("hero",restored)
+            if legacy.has_method("ensure_pet_state"): legacy.call("ensure_pet_state")
+            if legacy.has_method("update_pet_visual"): legacy.call("update_pet_visual")
+            if legacy.has_method("update_ui"): legacy.call("update_ui")
     local_database.mark_login(username)
     _status("Local login successful. Hero profile restored.")
 
