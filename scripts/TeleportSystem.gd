@@ -56,10 +56,13 @@ static func parse_coordinates(token:String)->Dictionary:
     var text:String=token.strip_edges()
     if text.begins_with("(") and text.ends_with(")"):
         text=text.substr(1,text.length()-2).strip_edges()
-    var pieces:PackedStringArray=text.split(":",false)
     # Ragnarok-style navigation addresses individual integer grid cells.
-    if pieces.size()!=2 or not pieces[0].is_valid_int() or not pieces[1].is_valid_int():
+    # Keep the grammar strict: digits only on each side of the X:Y separator.
+    var grid_pattern:RegEx=RegEx.new()
+    grid_pattern.compile("^[0-9]+:[0-9]+$")
+    if grid_pattern.search(text)==null:
         return {"ok":false}
+    var pieces:PackedStringArray=text.split(":",false)
     var x:float=float(int(pieces[0])); var y:float=float(int(pieces[1]))
     if not is_finite(x) or not is_finite(y) or x < 0.0 or y < 0.0: return {"ok":false}
     return {"ok":true,"x":x,"y":y}
