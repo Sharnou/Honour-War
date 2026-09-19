@@ -1,7 +1,7 @@
 extends Node2D
 
 const GameDataClass=preload("res://scripts/GameData.gd")
-const SaveSystemClass=preload("res://scripts/SaveSystemClass.gd")
+const SaveSystemClass=preload("res://scripts/SaveSystem.gd")
 const PetSystemClass=preload("res://scripts/PetSystemClass.gd")
 const EquipmentSystemClass=preload("res://scripts/EquipmentSystemClass.gd")
 const LootSystemClass=preload("res://scripts/LootSystemClass.gd")
