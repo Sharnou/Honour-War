@@ -1,6 +1,8 @@
 class_name HWCharacterVisualProfiles
 extends RefCounted
 
+const GameDataClass = preload("res://scripts/GameData.gd")
+
 ## Canonical six-class clothing, emotion and motion profiles.
 ## The profile follows GameData.class_rank_for_hero(), so every job promotion
 ## changes the displayed title, clothing emphasis, silhouette and motion language.
