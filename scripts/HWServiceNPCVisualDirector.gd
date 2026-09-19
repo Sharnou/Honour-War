@@ -1,6 +1,6 @@
 extends Node
 
-const TeleportSystemClass = preload("res://scripts/TeleportSystemClass.gd")3D
+const TeleportSystemClass = preload("res://scripts/TeleportSystem.gd")3D
 
 ## Town service NPC presentation. Fixed MMORPG service NPCs only; no player ownership/building.
 const Profiles=preload("res://scripts/HWWorldActorVisualProfiles.gd")
