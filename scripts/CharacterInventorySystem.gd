@@ -1,6 +1,8 @@
 class_name CharacterInventorySystem
 extends RefCounted
 
+const ItemDatabaseClass = preload("res://scripts/ItemDatabaseClass.gd")
+
 const Equipment=preload("res://scripts/EquipmentProgressionSystem.gd")
 const Character=preload("res://scripts/CharacterProgressionSystem.gd")
 const Save=preload("res://scripts/SaveSystem.gd")
@@ -17,7 +19,7 @@ static func ensure_state(hero:Dictionary)->void:
 	if not hero.has("sp"): hero["sp"]=40
 
 static func _catalog()->Dictionary:
-	return ItemDatabase.all()
+	return ItemDatabaseClass.all()
 
 static func _count(hero:Dictionary,item_id:String)->int:
 	var value:Variant=hero["inventory"].get(item_id,0)
