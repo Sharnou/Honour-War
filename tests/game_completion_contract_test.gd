@@ -10,7 +10,6 @@ const COMBAT = preload("res://scripts/CombatRules.gd")
 const TELEPORT = preload("res://scripts/TeleportSystem.gd")
 const PET = preload("res://scripts/PetSystem.gd")
 const CITY = preload("res://scripts/CitySystem.gd")
-const MAX_GLB_COUNT := 53
 var failures := 0
 
 func _initialize() -> void:
@@ -118,10 +117,14 @@ func _initialize() -> void:
     check("world warp validation", world.contains("validate_warp_request(peer_id:int,payload:Dictionary)") and world.contains("TELEPORT.MAPS.has(map_id)"))
     check("world disconnect save", world.contains("_on_peer_session_closing") and world.contains("save_player_for_peer"))
 
-    var glb_workflow := FileAccess.get_file_as_string("res://.github/workflows/private-glb-preview-qa.yml")
-    check("GLB QA revision pin", glb_workflow.contains("ref: ${{ github.sha }}"))
-    check("GLB parser preflight", glb_workflow.contains("Preflight GLB validator parser contract"))
-    check("53 generated GLBs", count_files("assets/3d/generated", ".glb") == MAX_GLB_COUNT)
+    var no_glb_policy := FileAccess.get_file_as_string("res://docs/DAILY_HONOUR_WAR_NO_GLB_POLICY.md")
+    var visual_role := FileAccess.get_file_as_string("res://docs/DAILY_HONOUR_WAR_VISUAL_UPGRADE_ROLE.md")
+    check("permanent no-GLB policy", no_glb_policy.contains("Status: **PERMANENT**"))
+    check("Meshy permanently rejected", no_glb_policy.contains("Meshy is **rejected for all future Honour War asset generation**"))
+    check("Neural4D approved source", no_glb_policy.contains("Neural4D is approved as an optional generation source"))
+    check("Neural4D GLB forbidden", no_glb_policy.contains("Honour War must **not** use its GLB export"))
+    check("native Godot 4.7.2 scenes/resources", no_glb_policy.contains("native Godot 4.7.2 scenes/resources"))
+    check("HD character visual specification", visual_role.contains("Stylized 3D NPR") and visual_role.contains("vibrant anime cel-shading") and visual_role.contains("Warm volumetric ambient sunlight"))
     # Build the forbidden token at runtime so this contract cannot fail because
     # it contains its own literal search string. This still rejects the exact
     # forbidden property in every production GDScript under res://scripts.
