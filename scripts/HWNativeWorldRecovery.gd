@@ -45,7 +45,12 @@ func _ensure_camera_and_environment()->void:
     camera.cull_mask=0xFFFFFFFF
     camera.near=0.05
     camera.far=700.0
-    var env_node:=scene.get_node_or_null("HWNativeRecoveryEnvironment") as WorldEnvironment
+    var env_node:=scene.get_node_or_null("WorldEnvironment") as WorldEnvironment
+    if env_node==null:
+        for child:Node in scene.get_children():
+            if child is WorldEnvironment:
+                env_node=child as WorldEnvironment
+                break
     if env_node==null:
         env_node=WorldEnvironment.new()
         env_node.name="HWNativeRecoveryEnvironment"
