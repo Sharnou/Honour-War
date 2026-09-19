@@ -109,7 +109,13 @@ func _on_monster_attack(target_kind: String, _damage: int) -> void:
     _start_attack(live_hero, "monster", {}, false)
     _react_actor(live_hero, false)
 
-func _start_attack(actor: Node3D, kind: String, target: Dictionary, critical: bool) -> void:
+func _start_attack(actor_value: Variant, kind: String, target: Dictionary, critical: bool) -> void:
+    # Keep the boundary untyped: a combat signal can race a visual respawn/free.
+    # Validate the Object before converting it to Node3D so a freed instance can
+    # never trigger GDScript typed-argument validation before this guard runs.
+    if not is_instance_valid(actor_value) or not actor_value is Node3D:
+        return
+    var actor: Node3D = actor_value as Node3D
     if actor == null or not is_instance_valid(actor):
         return
     sequences.append({
