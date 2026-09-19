@@ -11,6 +11,11 @@ var seen:Dictionary = {}
 
 func _ready()->void:
     process_mode = Node.PROCESS_MODE_ALWAYS
+    # Headless/dummy renderer validation does not need UI textures. Avoid
+    # repeatedly asking the dummy resource loader for SVGs; real Forward+
+    # sessions retain the authored atlas.
+    if DisplayServer.get_name() == "headless":
+        return
     atlas_texture = load(ATLAS_PATH) as Texture2D
 
 func _process(delta:float)->void:
@@ -19,7 +24,11 @@ func _process(delta:float)->void:
         return
     elapsed = 0.0
     if atlas_texture == null:
+        if DisplayServer.get_name() == "headless":
+            return
         atlas_texture = load(ATLAS_PATH) as Texture2D
+        if atlas_texture == null:
+            return
     var scene:Node = get_tree().current_scene
     if scene == null:
         return
