@@ -22,6 +22,12 @@ on:
       - "tests/hd_gameplay_presentation_contract_test.gd"
       - "tests/world_actor_visual_profile_contract_test.gd"
       - "tools/capture_real_game_screenshot.gd"
+      - "tests/full_gameplay_runtime_qa.gd"
+      - "tests/game_completion_contract_test.gd"
+      - "tests/element_system_contract_test.gd"
+      - "tools/honour_war_visual_qa.py"
+      - "tools/validate_monster_visual_distinctness.py"
+      - ".github/workflows/honour-war-full-gameplay-qa.yml"
       - ".github/workflows/daily-honour-war-upgrade.yml"
 
 concurrency:
@@ -72,6 +78,30 @@ jobs:
         run: |
           ./"${GODOT_BINARY}" --headless --path . --script res://tests/hd_gameplay_presentation_contract_test.gd 2>&1 | tee gameplay-daily-upgrade.log
 
+      - name: Run full gameplay runtime regression
+        run: |
+          ./"${GODOT_BINARY}" --headless --path . --rendering-method gl_compatibility --rendering-driver opengl3 --script res://tests/full_gameplay_runtime_qa.gd 2>&1 | tee full-gameplay-runtime-qa.log
+          grep -F "FULL_GAMEPLAY_QA: PASS" full-gameplay-runtime-qa.log
+
+      - name: Run game completion regression
+        run: |
+          ./"${GODOT_BINARY}" --headless --path . --script res://tests/game_completion_contract_test.gd 2>&1 | tee game-completion-contract.log
+
+      - name: Run ten-element system regression
+        run: |
+          ./"${GODOT_BINARY}" --headless --path . --script res://tests/element_system_contract_test.gd 2>&1 | tee element-system-qa.log
+          grep -F "ELEMENT_SYSTEM_QA: PASS" element-system-qa.log
+
+      - name: Run visual asset and monster uniqueness regression
+        run: |
+          python3 tools/honour_war_visual_qa.py 2>&1 | tee visual-qa.log
+          python3 tools/validate_monster_visual_distinctness.py 2>&1 | tee monster-distinctness.log
+
+      - name: Verify release workflow contains Windows EXE QA gate
+        run: |
+          grep -F "Run deterministic gameplay smoke test in exported EXE" .github/workflows/honour-war-full-gameplay-qa.yml
+          grep -F "Launch and test exported EXE runtime" .github/workflows/honour-war-full-gameplay-qa.yml
+
       - name: Capture real running-game screenshot
         run: |
           sudo apt-get install -y xvfb
@@ -93,6 +123,11 @@ jobs:
           path: |
             character-visual-profile.log
             gameplay-daily-upgrade.log
+            full-gameplay-runtime-qa.log
+            game-completion-contract.log
+            element-system-qa.log
+            visual-qa.log
+            monster-distinctness.log
             world-actor-visual-profile.log
             real-game-screenshot.log
             visual-captures/honour-war-real-game.png
