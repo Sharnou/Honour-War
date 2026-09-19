@@ -25,6 +25,7 @@ var collapsed:bool=false
 var close_button:Button
 var drag_offset:Vector2=Vector2.ZERO
 var dragging:bool=false
+var restore_button:Button
 
 func _ready()->void:
     layer = 300
@@ -85,6 +86,19 @@ func _build()->void:
     panel.add_theme_stylebox_override("panel", _style(PANEL_BG, BORDER, 10))
     panel.mouse_filter = Control.MOUSE_FILTER_STOP
     add_child(panel)
+    panel.gui_input.connect(_on_panel_gui_input)
+
+    restore_button=Button.new()
+    restore_button.name="RestoreSkillBar"
+    restore_button.text="SKILLS"
+    restore_button.tooltip_text="Show combat skill bar"
+    restore_button.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+    restore_button.position=Vector2(-92,-48)
+    restore_button.size=Vector2(80,34)
+    restore_button.visible=false
+    restore_button.pressed.connect(_toggle_collapsed)
+    restore_button.add_theme_stylebox_override("normal",_style(Color("#101d2e"),BORDER,6))
+    add_child(restore_button)
 
     var outer := VBoxContainer.new()
     outer.add_theme_constant_override("separation", 2)
@@ -140,9 +154,10 @@ func _toggle_collapsed()->void:
     slots.visible=not collapsed
     panel.offset_top=-42 if collapsed else -96
     close_button.text="+" if collapsed else "×"
+    restore_button.visible=collapsed
     panel.offset_bottom=-12
 
-func _gui_input(event:InputEvent)->void:
+func _on_panel_gui_input(event:InputEvent)->void:
     if event is InputEventMouseButton and event.button_index==MOUSE_BUTTON_LEFT:
         if event.pressed:
             dragging=true
