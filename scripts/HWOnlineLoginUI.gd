@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+const HWAccountDatabaseClass = preload("res://scripts/HWAccountDatabaseClass.gd")
+
 ## Optional online account/login layer. Offline play remains the default path.
 ## Fast Register uses username + password only; no email or verification step is required.
 ## Login accepts the exact username or a unique base name when it has one _M/_F account.
@@ -215,7 +217,7 @@ func _prepare_auth(action:String) -> bool:
         return false
     var username:String = username_edit.text.strip_edges()
     var password:String = password_edit.text
-    if not HWAccountDatabase.validate_username(username):
+    if not HWAccountDatabaseClass.validate_username(username):
         _status("Username: 3-24 characters using A-Z, 0-9, _ or -. For gender, finish with _M or _F.")
         return false
     if password.length() < 6:
