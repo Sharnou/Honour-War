@@ -3,7 +3,6 @@ extends Node
 const QA_FLAG := "--qa-smoke-test"
 
 var legacy:Node = null
-var finished := false
 
 func _ready() -> void:
     if not OS.get_cmdline_args().has(QA_FLAG):
@@ -24,8 +23,10 @@ func _run_smoke_test() -> void:
         _fail("LegacyGame/Main runtime node is missing")
         return
 
+    # hero is authoritative gameplay state, represented by a Dictionary rather
+    # than a Godot Object. Do not call is_instance_valid() on the Dictionary.
     var hero_value:Variant = legacy.get("hero")
-    if not is_instance_valid(hero_value) or not hero_value is Dictionary:
+    if not hero_value is Dictionary:
         _fail("hero state is unavailable")
         return
     var hero:Dictionary = hero_value
@@ -77,7 +78,7 @@ func _run_smoke_test() -> void:
     else:
         _pass("hero attack")
 
-    # Exercise the skill entry point and verify SP/cooldown state changes.
+    # Exercise the class skill entry point and verify SP/cooldown state changes.
     hero["pos_x"] = 595.0
     hero["pos_y"] = 340.0
     if monsters.is_empty():
@@ -86,7 +87,7 @@ func _run_smoke_test() -> void:
         if monsters_value is Array and not monsters_value.is_empty():
             monsters = monsters_value
             monsters[0]["pos"] = Vector2(595.0,340.0)
-    var skill_id := ""
+
     var class_id := str(hero.get("class","Warrior"))
     var skill_candidates := {
         "Warrior":"war_power_slash",
@@ -96,19 +97,21 @@ func _run_smoke_test() -> void:
         "Acolyte":"aco_holy_pulse",
         "Merchant":"mer_forge_smash"
     }
-    skill_id = str(skill_candidates.get(class_id,""))
-    if skill_id != "" and legacy.has_method("use_skill"):
-        var sp_before:int = int(hero.get("sp",0))
-        legacy.call("use_skill",skill_id)
-        await get_tree().process_frame
-        var cooldowns:Dictionary = hero.get("skill_cooldowns",{})
-        if cooldowns.has(skill_id) or int(hero.get("sp",sp_before)) < sp_before:
-            _pass("class skill execution")
-        else:
-            _fail("class skill did not execute")
-            return
+    var skill_id:String = str(skill_candidates.get(class_id,""))
+    if skill_id == "" or not legacy.has_method("use_skill"):
+        _fail("class skill entry point is unavailable for " + class_id)
+        return
+    var sp_before:int = int(hero.get("sp",0))
+    legacy.call("use_skill",skill_id)
+    await get_tree().process_frame
+    var cooldowns:Dictionary = hero.get("skill_cooldowns",{})
+    if cooldowns.has(skill_id) or int(hero.get("sp",sp_before)) < sp_before:
+        _pass("class skill execution")
+    else:
+        _fail("class skill did not execute")
+        return
 
-    # Exercise the real @go command and coordinate preservation.
+    # Exercise the real @go command and preserve the requested 230:220 coordinate.
     legacy.call("execute_command","@go 0 230:220")
     await get_tree().process_frame
     if int(hero.get("map_id",-1)) != 0:
