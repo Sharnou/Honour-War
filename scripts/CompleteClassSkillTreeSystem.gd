@@ -68,6 +68,12 @@ static func skill_tree(class_id:String)->Dictionary:
         "fifth_tier_identity":FifthTierClassTreeSystem.natural_fifth_tier_profile(class_id)
     }
 
+const CharacterVisualProfiles = preload("res://scripts/HWCharacterVisualProfiles.gd")
+
+static func branch_visual_identity(class_id:String,branch:String)->Dictionary:
+    var hero:Dictionary={"class":class_id,"class_branch":branch,"level":25}
+    return CharacterVisualProfiles.branch_snapshot(hero)
+
 static func branch_summary(class_id:String)->Dictionary:
     var profile:Dictionary = ClassTreeSystemClass.class_profile(class_id)
     return {
