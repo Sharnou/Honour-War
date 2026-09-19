@@ -1,0 +1,74 @@
+name: Honour War Production Release Readiness
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "project.godot"
+      - "scripts/**"
+      - "tests/**"
+      - "assets/3d/**"
+      - "export_presets.cfg"
+      - ".github/workflows/honour-war-production-release-readiness.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: honour-war-production-release-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  GODOT_VERSION: "4.7.2"
+  GODOT_BINARY: "Godot_v4.7.2-stable_linux.x86_64"
+
+jobs:
+  production-readiness:
+    name: Production release readiness
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact revision
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          ref: ${{ github.sha }}
+
+      - name: Install Godot 4.7.2
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y unzip
+          curl -L --fail --retry 5 -o godot.zip "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/${GODOT_BINARY}.zip"
+          unzip -q godot.zip
+          chmod +x "${GODOT_BINARY}"
+
+      - name: Validate production release contract
+        run: |
+          ./${GODOT_BINARY} --headless --path . --rendering-method gl_compatibility --rendering-driver opengl3 --script res://tests/production_release_readiness_test.gd 2>&1 | tee production-release-readiness.log
+          grep -F "PRODUCTION_RELEASE_READINESS: PASS" production-release-readiness.log
+
+      - name: Validate Godot project
+        run: |
+          ./${GODOT_BINARY} --headless --editor --path . --rendering-method gl_compatibility --rendering-driver opengl3 --quit 2>&1 | tee godot-editor.log
+          if grep -E "SCRIPT ERROR|Parse Error|ERROR: Failed to load script|ERROR: Cannot load scene" godot-editor.log; then exit 1; fi
+
+      - name: Run gameplay completion regression
+        run: |
+          ./${GODOT_BINARY} --headless --path . --rendering-method gl_compatibility --rendering-driver opengl3 --script res://tests/game_completion_contract_test.gd 2>&1 | tee completion.log
+
+      - name: Run monster distinctness regression
+        run: |
+          python3 tools/validate_monster_visual_distinctness.py
+
+      - name: Upload release readiness evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: honour-war-production-release-readiness
+          path: |
+            production-release-readiness.log
+            godot-editor.log
+            completion.log
+          if-no-files-found: ignore
+          retention-days: 14
