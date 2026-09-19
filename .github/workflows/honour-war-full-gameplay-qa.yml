@@ -99,6 +99,12 @@ jobs:
           python tools/honour_war_visual_qa.py 2>&1 | Tee-Object visual-qa.log
           if ($LASTEXITCODE -ne 0) { throw "Visual asset QA failed" }
 
+      - name: Reject duplicated monster silhouettes
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 tools/validate_monster_visual_distinctness.py
+
       - name: Capture real game frame
         shell: pwsh
         run: |
