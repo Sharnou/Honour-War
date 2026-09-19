@@ -6,8 +6,8 @@ const TeleportSystem=preload("res://scripts/TeleportSystem.gd")
 
 @export var legacy_path:NodePath = NodePath("../LegacyGame")
 @export var camera_path:NodePath = NodePath("../Camera3D")
-@export var zoom_min_distance:float = 7.0
-@export var zoom_max_distance:float = 26.0
+@export var zoom_min_distance:float = 8.0
+@export var zoom_max_distance:float = 36.0
 @export var zoom_step:float = 1.75
 @export var zoom_smoothing:float = 10.0
 @export var rotation_smoothing:float = 10.0
@@ -21,11 +21,11 @@ const ORIGIN_Y:float = 120.0
 const WORLD_SCALE:float = 0.055
 const MOVE_SPEED:float = 235.0
 const STOP_DISTANCE:float = 1.5
-const CAMERA_DISTANCE:float = 22.0
+const CAMERA_DISTANCE:float = 27.0
 const CAMERA_PITCH:float = -38.0
 const MIN_CAMERA_PITCH:float = -56.0
 const MAX_CAMERA_PITCH:float = -28.0
-const CAMERA_FOV:float = 55.0
+const CAMERA_FOV:float = 60.0
 const ONLINE_SEND_INTERVAL:float = 0.05
 
 var legacy:Node2D
