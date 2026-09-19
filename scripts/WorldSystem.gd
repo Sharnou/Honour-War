@@ -1,7 +1,7 @@
 class_name WorldSystem
 extends RefCounted
 
-const GameDataClass = preload("res://scripts/GameDataClass.gd")
+const GameDataClass = preload("res://scripts/GameData.gd")
 
 const DROP_TABLE := {
 	"Poring":[{"item":"Apple","chance":0.25},{"item":"Poring Card","chance":0.01},{"item":"Phracon","chance":0.08}],
@@ -31,7 +31,6 @@ static func roll_drops(family:String,rng:RandomNumberGenerator)->Array:
 	return drops
 
 static func refinement_chance(age:int,hero_level:int,refine:int)->float:
-	# Canonical age rule: every earned year adds +1% refinement success.
 	var earned_years:int=max(0,age-GameDataClass.STARTING_AGE)
 	var age_bonus:float=float(earned_years)*0.01
 	return min(0.92,0.45+age_bonus+float(hero_level)/1000.0-float(refine)*0.035)
