@@ -237,6 +237,11 @@ jobs:
             $img.Dispose()
           }
 
+      - name: Install screenshot QA dependency
+        shell: pwsh
+        run: |
+          python -m pip install --disable-pip-version-check --no-input Pillow
+
       - name: Validate captured frame visual quality
         shell: pwsh
         run: |
