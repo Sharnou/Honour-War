@@ -1,10 +1,10 @@
 class_name HWCharacterVisualProfiles
 extends RefCounted
 
-const GameDataClass = preload("res://scripts/GameData.gd")
+const GameDataClass = preload("res://scripts/GameDataClass.gd")
 
 ## Canonical six-class clothing, emotion and motion profiles.
-## The profile follows GameData.class_rank_for_hero(), so every job promotion
+## The profile follows GameDataClass.class_rank_for_hero(), so every job promotion
 ## changes the displayed title, clothing emphasis, silhouette and motion language.
 
 const PROFILES:Dictionary={
@@ -25,7 +25,7 @@ static func snapshot(hero:Dictionary)->Dictionary:
     var p:Dictionary=profile(class_id)
     p["class"]=class_id
     p["level"]=level
-    p["rank"]=GameData.class_rank_for_hero(hero)
-    p["tier"]=GameData.class_tier_for_level(level)
+    p["rank"]=GameDataClass.class_rank_for_hero(hero)
+    p["tier"]=GameDataClass.class_tier_for_level(level)
     p["stage"]=["Foundation","Specialization","Advanced","Mastery","Transcendence"][clampi(p["tier"],0,4)]
     return p
