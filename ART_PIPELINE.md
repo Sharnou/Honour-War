@@ -2,7 +2,7 @@
 
 Honour War's final visual production pipeline is fixed as:
 
-**Blender → Substance 3D Painter → GLB/GLTF → Godot 4**
+**Approved generation → FBX/OBJ → native Godot 4.7.2 → Godot 4 Forward+**
 
 This is the basic logic for all future Honour War visual development.
 Do not restart the game architecture to accommodate the art pipeline.
@@ -19,7 +19,7 @@ placeholders with production assets.
 - Rigging, skinning and animation
 - UV layout and game-ready optimization
 - LOD meshes and collision/proxy geometry
-- GLB/GLTF export
+- FBX/OBJ export
 
 ### Substance 3D Painter
 - High-detail PBR material authoring
@@ -28,7 +28,7 @@ placeholders with production assets.
 - Class, equipment and rarity material variants
 - Premium/glowing material treatments
 
-### GLB/GLTF
+### FBX/OBJ
 - Production interchange format between DCC and Godot
 - Preserve meshes, materials, skeletons, animation clips and scene hierarchy
 - Use stable asset IDs independent of display names
@@ -95,3 +95,7 @@ considered final Honour War art.
 
 See `assets/3d/HD_ASSET_MANIFEST.md` for the production asset contract and the
 initial hero/pet/monster/MVP import list.
+
+
+## Current native asset generation
+Neural4D is an approved optional generation source. Honour War uses FBX for rigged/animated characters, pets and monsters, OBJ for approved static assets, and native Godot 4.7.2 scenes/resources at runtime. Generated GLB assets and Meshy are permanently excluded.
