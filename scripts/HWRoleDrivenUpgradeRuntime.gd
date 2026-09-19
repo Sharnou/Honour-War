@@ -21,7 +21,10 @@ func _ready() -> void:
 
 func _initialize() -> void:
 	var scene:Node=get_tree().current_scene
-	if scene==null or scene.get_node_or_null("HDVisualDirector")==null:
+	if scene==null:
+		call_deferred("_initialize")
+		return
+	if scene.get_node_or_null("HDVisualDirector")==null:
 		_build_rendering_baseline()
 	_scan_production_assets()
 func _process(delta: float) -> void:
