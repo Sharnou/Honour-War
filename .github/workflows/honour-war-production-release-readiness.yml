@@ -35,6 +35,10 @@ jobs:
           fetch-depth: 1
           ref: ${{ github.sha }}
 
+      - name: Validate autoload class conflicts
+        run: |
+          python3 tools/validate_autoload_class_conflicts.py
+
       - name: Install Godot 4.7.2
         run: |
           sudo apt-get update
