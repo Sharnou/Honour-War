@@ -99,17 +99,16 @@ func _ensure_hero_proxy()->void:
     if hero_proxy==null or not is_instance_valid(hero_proxy):
         hero_proxy=Node3D.new()
         hero_proxy.name="HWHeroVisibilityProxy"
-        world_root.add_child(hero_proxy)
         _build_proxy_character(hero_proxy)
-    hero_proxy.visible=true
-    var spawn:=Vector3(12.65,0.08,12.10)
-    if actual!=null:
-        spawn=actual.global_position
     var camera:=scene.get_node_or_null("Camera3D") as Camera3D
     if camera!=null:
-        var forward:=(-camera.global_transform.basis.z).normalized()
-        spawn+=forward*2.2
-    hero_proxy.global_position=spawn
+        if hero_proxy.get_parent()!=camera:
+            hero_proxy.get_parent().remove_child(hero_proxy) if hero_proxy.get_parent()!=null else null
+            camera.add_child(hero_proxy)
+        hero_proxy.position=Vector3(0.0,-1.45,-8.0)
+        hero_proxy.rotation=Vector3.ZERO
+        hero_proxy.scale=Vector3.ONE*1.25
+    hero_proxy.visible=true
 
 func _build_proxy_character(root:Node3D)->void:
     var accent:=Color("#4f9cff")
