@@ -85,9 +85,10 @@ jobs:
           test -s docs/DAILY_HONOUR_WAR_NO_GLB_POLICY.md
           test -f scripts/HDAssetRuntime.gd
           grep -F "HD generated GLB assets were permanently retired" scripts/HDAssetRuntime.gd
-          grep -F "Daily upgrades must NOT regenerate" scripts/HDAssetRuntime.gd
-          grep -F "Daily upgrades must NOT download" scripts/HDAssetRuntime.gd
-          grep -F "Daily upgrades must NOT import" scripts/HDAssetRuntime.gd
+          grep -F "Daily upgrades must NOT regenerate, download, import, or attach GLB assets." scripts/HDAssetRuntime.gd
+          grep -F "native Godot runtime scene/visual systems" scripts/HDAssetRuntime.gd
+          grep -F "Neural4D is an approved optional generation source" docs/DAILY_HONOUR_WAR_VISUAL_UPGRADE_ROLE.md
+          grep -F "Neural4D GLB export is forbidden" docs/DAILY_HONOUR_WAR_VISUAL_UPGRADE_ROLE.md
           if find assets/3d/generated -type f -iname "*.glb" -print -quit | grep -q .; then
             echo "FAIL: retired HD GLB asset detected"
             exit 1
