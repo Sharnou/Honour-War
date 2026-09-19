@@ -326,7 +326,30 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw "Windows export failed" }
           if (-not (Test-Path "build\windows\HonourWarHD.exe")) { throw "HonourWarHD.exe was not produced" }
 
-      - name: Launch and test exported EXE
+      - name: Run deterministic gameplay smoke test in exported EXE
+        shell: pwsh
+        run: |
+          $exe = (Resolve-Path "build\windows\HonourWarHD.exe").Path
+          $log = (Resolve-Path ".").Path + "\honour-war-exe-smoke.log"
+          $err = (Resolve-Path ".").Path + "\honour-war-exe-smoke.err"
+          $p = Start-Process -FilePath $exe -ArgumentList "--qa-smoke-test","--rendering-method","gl_compatibility","--rendering-driver","opengl3" -WorkingDirectory (Split-Path $exe) -RedirectStandardOutput $log -RedirectStandardError $err -PassThru
+          $deadline = (Get-Date).AddSeconds(90)
+          while (-not $p.HasExited -and (Get-Date) -lt $deadline) {
+            Start-Sleep -Milliseconds 500
+          }
+          if (-not $p.HasExited) {
+            Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue
+            Get-Content $log -ErrorAction SilentlyContinue
+            Get-Content $err -ErrorAction SilentlyContinue
+            throw "Exported EXE gameplay smoke test timed out"
+          }
+          Get-Content $log -ErrorAction SilentlyContinue
+          Get-Content $err -ErrorAction SilentlyContinue
+          if ($p.ExitCode -ne 0) { throw "Exported EXE gameplay smoke test failed with exit code $($p.ExitCode)" }
+          if (-not (Select-String -Path $log -Pattern "EXE_QA_SMOKE_TEST: PASS")) { throw "Exported EXE gameplay smoke PASS marker missing" }
+          Write-Host "PASS: exported EXE executed deterministic gameplay smoke test."
+
+      - name: Launch and test exported EXE runtime
         shell: pwsh
         run: |
           $exe = (Resolve-Path "build\windows\HonourWarHD.exe").Path
@@ -345,7 +368,6 @@ jobs:
           }
           Stop-Process -Id $p.Id -Force
           Write-Host "PASS: exported HonourWarHD.exe stayed alive for 60 seconds."
-
       - name: Scan EXE runtime logs for fatal errors
         shell: pwsh
         run: |
