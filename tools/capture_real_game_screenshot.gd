@@ -120,7 +120,7 @@ func _process(delta:float)->bool:
     if elapsed>STARTUP_TIMEOUT:
         push_error("Real game screenshot timed out after %.1f seconds" % STARTUP_TIMEOUT)
         quit(2)
-        return false
+        return true
 
     # Do not wait on RenderingServer.frame_post_draw. In headless/dummy CI
     # rendering that signal can never arrive, which previously left QA stuck.
@@ -165,9 +165,12 @@ func _process(delta:float)->bool:
     if save_error!=OK:
         push_error("Real game screenshot save failed: %s" % save_error)
         quit(1)
-        return false
+        return true
 
     captured=true
     print("REAL_GAME_SCREENSHOT="+output)
+    # This script extends SceneTree: returning true from _process terminates
+    # the main loop immediately. Do both so renderer-side warnings cannot keep
+    # the CI process alive after the real frame has been written.
     quit(0)
-    return false
+    return true
