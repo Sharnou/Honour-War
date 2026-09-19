@@ -2,13 +2,15 @@ extends SceneTree
 
 const CAPTURE_DIR:String="res://visual-captures"
 const CAPTURE_FILE:String=CAPTURE_DIR+"/honour-war-real-game.png"
-const STARTUP_TIMEOUT:float=12.0
+const STARTUP_TIMEOUT:float=20.0
 
 var elapsed:float=0.0
 var captured:bool=false
 
 func _initialize()->void:
     get_root().set_meta("hw_visual_capture",true)
+    if DisplayServer.get_name() != "headless":
+        DisplayServer.window_set_size(Vector2i(1280,720))
     call_deferred("_launch")
 
 func _launch()->void:
@@ -36,7 +38,7 @@ func _process(delta:float)->bool:
 
     # Do not wait on RenderingServer.frame_post_draw. In headless/dummy CI
     # rendering that signal can never arrive, which previously left QA stuck.
-    if elapsed<5.0:
+    if elapsed<8.0:
         return false
 
     var viewport:Viewport=get_root().get_viewport()
