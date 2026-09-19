@@ -24,42 +24,41 @@ func _launch()->void:
         quit(1)
         return
 
-    set_process(true)
-
-func _process(delta:float)->void:
+func _process(delta:float)->bool:
     if captured:
-        return
+        return false
 
     elapsed+=delta
     if elapsed>STARTUP_TIMEOUT:
         push_error("Real game screenshot timed out after %.1f seconds" % STARTUP_TIMEOUT)
         quit(2)
-        return
+        return false
 
     # Do not wait on RenderingServer.frame_post_draw. In headless/dummy CI
     # rendering that signal can never arrive, which previously left QA stuck.
     if elapsed<5.0:
-        return
+        return false
 
     var viewport:Viewport=get_root().get_viewport()
     if viewport==null:
-        return
+        return false
 
     var texture:ViewportTexture=viewport.get_texture()
     if texture==null:
-        return
+        return false
 
     var image:Image=texture.get_image()
     if image==null or image.is_empty():
-        return
+        return false
 
     var output:String=ProjectSettings.globalize_path(CAPTURE_FILE)
     var save_error:Error=image.save_png(output)
     if save_error!=OK:
         push_error("Real game screenshot save failed: %s" % save_error)
         quit(1)
-        return
+        return false
 
     captured=true
     print("REAL_GAME_SCREENSHOT="+output)
     quit(0)
+    return false
