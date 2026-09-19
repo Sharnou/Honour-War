@@ -279,6 +279,45 @@ jobs:
           if (-not (Test-Path $out)) { throw "Godot executable extraction failed" }
           Write-Host "Godot 4.7.2 downloaded and extracted successfully."
 
+      - name: Install Godot 4.7.2 Windows export templates
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $tpz = Join-Path $pwd "Godot_v4.7.2-stable_export_templates.tpz"
+          $uri = "https://github.com/godotengine/godot/releases/download/4.7.2-stable/Godot_v4.7.2-stable_export_templates.tpz"
+          curl.exe --fail --location --retry 5 --retry-all-errors --connect-timeout 20 --output "$tpz" "$uri"
+          if (-not (Test-Path $tpz)) { throw "Godot 4.7.2 export template archive was not downloaded" }
+          $size = (Get-Item $tpz).Length
+          if ($size -lt 70000000) { throw "Godot export template archive is unexpectedly small/corrupt: $size bytes" }
+          Add-Type -AssemblyName System.IO.Compression.FileSystem
+          try {
+            $archive = [System.IO.Compression.ZipFile]::OpenRead($tpz)
+            try {
+              foreach ($name in @("windows_debug_x86_64.exe","windows_release_x86_64.exe")) {
+                $entry = $archive.Entries | Where-Object { $_.FullName -match "(^|/)$([regex]::Escape($name))$" } | Select-Object -First 1
+                if (-not $entry) { throw "Godot export template archive is missing $name" }
+              }
+            } finally { $archive.Dispose() }
+          } catch { throw "Godot export template archive failed ZIP validation: $($_.Exception.Message)" }
+          $extract = Join-Path $pwd "godot-export-templates"
+          if (Test-Path $extract) { Remove-Item $extract -Recurse -Force }
+          Expand-Archive -LiteralPath $tpz -DestinationPath $extract -Force
+          $templatesTarget = Join-Path $env:APPDATA "Godot/export_templates/4.7.2.stable"
+          New-Item -ItemType Directory -Force -Path $templatesTarget | Out-Null
+          foreach ($name in @("windows_debug_x86_64.exe","windows_release_x86_64.exe")) {
+            $found = Get-ChildItem -Path $extract -Filter $name -File -Recurse | Select-Object -First 1
+            if (-not $found) { throw "Required Godot 4.7.2 Windows export template was not found after extraction: $name" }
+            $destination = Join-Path $templatesTarget $name
+            Copy-Item -LiteralPath $found.FullName -Destination $destination -Force
+            $copied = Get-Item $destination
+            if ($copied.Length -lt 1000000) { throw "Installed Godot export template is unexpectedly small: $name ($($copied.Length) bytes)" }
+          }
+          foreach ($name in @("windows_debug_x86_64.exe","windows_release_x86_64.exe")) {
+            $path = Join-Path $templatesTarget $name
+            if (-not (Test-Path $path)) { throw "Godot 4.7.2 Windows export template installation failed: $name" }
+          }
+          Write-Host "Installed Godot 4.7.2 x86_64 Windows export templates for the EXE job."
+
       - name: Export HonourWarHD.exe
         shell: pwsh
         run: |
