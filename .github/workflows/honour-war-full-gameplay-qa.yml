@@ -17,7 +17,7 @@ on:
 permissions:
   contents: read
 
-# Never cancel a verification run because another commit arrived while QA was
+# Never cancel a verification run because another commit arrived while QA is
 # running. The gameplay + EXE contract is serialized per ref and each revision
 # must be allowed to finish and report its own result.
 concurrency:
@@ -108,10 +108,38 @@ jobs:
       - name: Capture real game frame
         shell: pwsh
         run: |
+          $ErrorActionPreference = "Stop"
           New-Item -ItemType Directory -Force -Path visual-captures | Out-Null
-          & "$pwd\godot.exe" --headless --path . --rendering-method gl_compatibility --rendering-driver opengl3 --script res://tools/capture_real_game_screenshot.gd 2>&1 | Tee-Object real-game-capture.log
-          if ($LASTEXITCODE -ne 0) { throw "Real game screenshot capture failed" }
+          $log = Join-Path $pwd "real-game-capture.log"
+          $godot = Join-Path $pwd "godot.exe"
+          # IMPORTANT: do not use --headless here. Headless mode selects the
+          # dummy rendering backend and can block while reading a ViewportTexture.
+          # The Windows runner provides a desktop session, so capture with the
+          # real Windows display driver instead.
+          $args = @(
+            "--path", ".",
+            "--display-driver", "windows",
+            "--rendering-method", "gl_compatibility",
+            "--rendering-driver", "opengl3",
+            "--script", "res://tools/capture_real_game_screenshot.gd"
+          )
+          $p = Start-Process -FilePath $godot -ArgumentList $args -WorkingDirectory $pwd -RedirectStandardOutput $log -RedirectStandardError "$pwd\real-game-capture.err" -PassThru
+          $deadline = (Get-Date).AddSeconds(25)
+          while (-not $p.HasExited -and (Get-Date) -lt $deadline) {
+            Start-Sleep -Milliseconds 250
+          }
+          if (-not $p.HasExited) {
+            Write-Host "Real-game capture exceeded 25 seconds; terminating it instead of hanging the QA job."
+            Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue
+            Get-Content $log -ErrorAction SilentlyContinue
+            Get-Content "$pwd\real-game-capture.err" -ErrorAction SilentlyContinue
+            throw "Real game screenshot capture timed out after 25 seconds"
+          }
+          Get-Content $log -ErrorAction SilentlyContinue
+          Get-Content "$pwd\real-game-capture.err" -ErrorAction SilentlyContinue
+          if ($p.ExitCode -ne 0) { throw "Real game screenshot capture failed with exit code $($p.ExitCode)" }
           if (-not (Test-Path "visual-captures\honour-war-real-game.png")) { throw "Real game screenshot was not produced" }
+          Add-Type -AssemblyName System.Drawing
           $img = [System.Drawing.Image]::FromFile((Resolve-Path "visual-captures\honour-war-real-game.png"))
           try {
             if ($img.Width -lt 640 -or $img.Height -lt 360) { throw "Captured game frame is below 640x360" }
@@ -130,6 +158,7 @@ jobs:
             game-completion-contract.log
             visual-qa.log
             real-game-capture.log
+            real-game-capture.err
             visual-captures/honour-war-real-game.png
           if-no-files-found: ignore
           retention-days: 7
