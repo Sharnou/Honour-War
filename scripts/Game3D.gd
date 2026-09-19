@@ -565,11 +565,11 @@ func _create_remote_player(class_id:String,level:int,peer_id:int)->Node3D:
 	return root
 
 func _try_attach_remote_production_asset(root:Node3D,class_id:String,level:int)->void:
-    # Retired compatibility hook. Remote players use the same native Godot actor
-    # construction as local players; no generated binary model is attached.
-    if root == null:
-        return
-    root.set_meta("hw_remote_native_actor",true)
+	# Retired compatibility hook. Remote players use the same native Godot actor
+	# construction as local players; no generated binary model is attached.
+	if root == null:
+		return
+	root.set_meta("hw_remote_native_actor",true)
 
 
 func _update_camera(_delta:float)->void:
