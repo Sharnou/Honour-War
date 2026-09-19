@@ -115,6 +115,11 @@ runtime=(ROOT/"scripts/HDAssetRuntime.gd").read_text(encoding="utf-8")
 for phrase in ["HD generated GLB assets were permanently retired","Daily upgrades must NOT regenerate","Daily upgrades must NOT download","Daily upgrades must NOT import","native Godot runtime"]:
     check(phrase in runtime,"HD runtime retirement policy: "+phrase)
 
+character_visual_spec = role if role.is_file() else None
+if character_visual_spec:
+    for phrase in ["Stylized 3D NPR","vibrant anime cel-shading","Volumetric, chunky hair","sharp triangular nose-profile shadow","porcelain complexion","matte, unreflective woven-fabric","supple textured brown leather","high-contrast brushed steel","Warm volumetric ambient sunlight","Soft lavender-tinted shadows","solid-grey presentation background","Isometric presentation perspective","Neural4D is an approved optional generation source","Neural4D GLB export is forbidden","FBX for rigged/animated characters","OBJ for approved static assets"]:
+        check(phrase in text,"HD character visual specification: "+phrase)
+
 guard=(ROOT/"scripts/HWPresentationGuard.gd").read_text(encoding="utf-8")
 check("hw_production_asset" in guard and "hw_source_path" in guard,"Presentation guard protects production actors")
 
