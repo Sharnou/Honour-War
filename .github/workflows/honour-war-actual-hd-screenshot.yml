@@ -28,8 +28,8 @@ env:
 jobs:
   actual-game-screenshot:
     name: Capture actual Honour War HD 3D frame
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
+    runs-on: windows-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout exact revision
         uses: actions/checkout@v4
@@ -37,38 +37,24 @@ jobs:
           fetch-depth: 1
           ref: ${{ github.sha }}
 
-      - name: Install runtime dependencies
+      - name: Install Godot 4.7.2
+        shell: pwsh
         run: |
-          sudo apt-get update
-          sudo apt-get install -y unzip xvfb
-          curl -L --fail --retry 5 --retry-all-errors --connect-timeout 20 -o godot.zip "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/${GODOT_BINARY}.zip"
-          test -s godot.zip
-          test "$(stat -c%s godot.zip)" -ge 70000000
-          unzip -q godot.zip
-          chmod +x "${GODOT_BINARY}"
+          Invoke-WebRequest -Uri "https://github.com/godotengine/godot/releases/download/${env:GODOT_VERSION}-stable/Godot_v4.7.2-stable_win64.exe.zip" -OutFile godot.zip
+          if ((Get-Item godot.zip).Length -lt 70000000) { throw "Godot archive unexpectedly small" }
+          Expand-Archive -Path godot.zip -DestinationPath godot -Force
+          Copy-Item "godot/Godot_v4.7.2-stable_win64.exe" "godot.exe"
 
       - name: Validate direct Screenshot visual source
         run: |
           python3 tools/validate_visual_reference_source.py
 
-      - name: Import Godot project resources before runtime capture
-        run: |
-          ./"${GODOT_BINARY}" --headless --editor --path . --rendering-method gl_compatibility --rendering-driver opengl3 --quit 2>&1 | tee godot-import.log
-          test "${PIPESTATUS[0]}" -eq 0
-
       - name: Capture actual game frame
         run: |
           mkdir -p visual-captures
-          timeout 60s xvfb-run -a -s "-screen 0 1920x1080x24" ./"${GODOT_BINARY}" \
-            --path . \
-            --display-driver x11 \
-            --audio-driver Dummy \
-            --rendering-method gl_compatibility \
-            --rendering-driver opengl3 \
-            --resolution 1920x1080 \
-            --script res://tools/capture_real_game_screenshot.gd \
-            2>&1 | tee actual-hd-screenshot.log
-          test -s visual-captures/honour-war-real-game.png
+          .\godot.exe --path . --audio-driver Dummy --rendering-method forward_plus --rendering-driver d3d12 --resolution 1920x1080 --script res://tools/capture_real_game_screenshot.gd 2>&1 | Tee-Object actual-hd-screenshot.log
+          if ($LASTEXITCODE -ne 0) { throw "Actual Forward+ screenshot capture failed" }
+          if (-not (Test-Path "visual-captures/honour-war-real-game.png")) { throw "Actual game screenshot missing" }
 
       - name: Validate actual frame dimensions and visual quality
         run: |
