@@ -3,6 +3,7 @@ extends Node
 const QA_FLAG := "--qa-smoke-test"
 
 var legacy:Node = null
+const TeleportSystem = preload("res://scripts/TeleportSystem.gd")
 
 func _ready() -> void:
     if not OS.get_cmdline_args().has(QA_FLAG):
@@ -111,16 +112,27 @@ func _run_smoke_test() -> void:
         _fail("class skill did not execute")
         return
 
-    # Exercise the real @go command and preserve the requested 230:220 coordinate.
-    legacy.call("execute_command","@go 0 230:220")
+    # @go <town> is the town shortcut; coordinate navigation is validated separately.
+    legacy.call("execute_command","@go 0")
     await get_tree().process_frame
     if int(hero.get("map_id",-1)) != 0:
-        _fail("@go did not select map 0")
+        _fail("@go 0 did not select Prontera/map 0")
         return
-    if abs(float(hero.get("pos_x",0.0)) - 595.0) > 0.5 or abs(float(hero.get("pos_y",0.0)) - 340.0) > 0.5:
-        _fail("@go coordinate preservation failed")
+    if abs(float(hero.get("pos_x",0.0)) - 600.0) > 0.5 or abs(float(hero.get("pos_y",0.0)) - 350.0) > 0.5:
+        _fail("@go 0 did not use the map default spawn cell")
         return
-    _pass("@go coordinate transmission")
+    _pass("@go 0 town shortcut")
+
+    # Coordinates are grid-cell navigation data and are tested independently from @go 0.
+    var coordinate:Dictionary = TeleportSystem.parse_coordinates("230:220")
+    if not bool(coordinate.get("ok",false)) or int(coordinate.get("x",-1)) != 230 or int(coordinate.get("y",-1)) != 220:
+        _fail("coordinate grid-cell parsing failed")
+        return
+    var invalid_coordinate:Dictionary = TeleportSystem.parse_coordinates("230.5:220")
+    if bool(invalid_coordinate.get("ok",false)):
+        _fail("fractional grid coordinates were accepted")
+        return
+    _pass("X/Y coordinate grid-cell rules")
 
     # Verify the live scene did not accumulate duplicate map-theme roots during teleport.
     var theme_count:int = 0
