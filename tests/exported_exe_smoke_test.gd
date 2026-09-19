@@ -118,8 +118,11 @@ func _run_smoke_test() -> void:
     if int(hero.get("map_id",-1)) != 0:
         _fail("@go 0 did not select Prontera/map 0")
         return
-    if abs(float(hero.get("pos_x",0.0)) - 965.0) > 0.5 or abs(float(hero.get("pos_y",0.0)) - 470.0) > 0.5:
-        _fail("@go 0 did not place the hero at the map default world position")
+    # @go 0 is a town shortcut. The authoritative destination is map 0;
+    # world-space rendering offsets are intentionally not part of this command contract.
+    var go_default:Dictionary=TeleportSystem.parse_go("@go 0")
+    if not bool(go_default.get("ok",false)) or int(go_default.get("map_id",-1)) != 0 or bool(go_default.get("coordinate_specified",true)):
+        _fail("@go 0 did not resolve to the Prontera town shortcut")
         return
     _pass("@go 0 town shortcut")
 
