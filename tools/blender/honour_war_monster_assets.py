@@ -91,16 +91,71 @@ def build(name):
     if family == "Poring":
         body = sphere("Body", (0, 0, 0.45), (0.72, 0.72, 0.55), skin); body.parent = root
         crown = cone("Crown", (0, 0, 1.04), 0.18, 0.02, 0.55, dark); crown.parent = root
-    elif family in ("Wolf", "Orc", "Zombie", "Goblin"):
-        body = sphere("Body", (0, 0, 0.82), (0.56, 0.38, 0.68), skin); body.parent = root
-        head = sphere("Head", (0, -0.22, 1.55), (0.38, 0.32, 0.36), skin); head.parent = root
-        for x in (-0.42, 0.42):
-            leg = sphere("Leg", (x, 0, 0.40), (0.17, 0.18, 0.45), dark); leg.parent = root
-        for x in (-0.13, 0.13):
-            e = sphere("Eye", (x, -0.50, 1.58), (0.055, 0.035, 0.06), eye); e.parent = root
-        if family == "Wolf":
-            for x in (-0.28, 0.28):
-                ear = cone("Ear", (x, -0.18, 1.85), 0.15, 0.02, 0.36, dark); ear.parent = root
+    elif family == "Wolf":
+        # Wolf: quadrupedal silhouette, clearly separated from humanoid monsters.
+        torso = sphere("Torso", (0.0, 0.04, 0.78), (0.78, 0.38, 0.40), skin); torso.parent = root
+        chest = sphere("Chest", (0.0, -0.26, 0.98), (0.42, 0.30, 0.38), skin); chest.parent = root
+        head = sphere("Head", (0.0, -0.62, 1.08), (0.36, 0.30, 0.30), skin); head.parent = root
+        for x in (-0.30, 0.30):
+            leg = sphere("Leg", (x, 0.08, 0.38), (0.16, 0.18, 0.44), dark); leg.parent = root
+            paw = sphere("Paw", (x, -0.22, 0.13), (0.20, 0.24, 0.12), dark); paw.parent = root
+        for x in (-0.22, 0.22):
+            e = sphere("Eye", (x, -0.89, 1.16), (0.055, 0.035, 0.06), eye); e.parent = root
+        for x in (-0.25, 0.25):
+            ear = cone("Ear", (x, -0.60, 1.40), 0.15, 0.02, 0.42, dark); ear.parent = root
+        tail = sphere("Tail", (0.0, 0.56, 0.82), (0.18, 0.22, 0.62), dark); tail.parent = root
+        tail.rotation_euler[0] = math.radians(-35)
+    elif family == "Goblin":
+        # Goblin: compact scavenger with oversized head, long ears and club.
+        body = sphere("Body", (0, 0, 0.72), (0.42, 0.34, 0.52), skin); body.parent = root
+        head = sphere("Head", (0, -0.20, 1.42), (0.50, 0.38, 0.42), skin); head.parent = root
+        for x in (-0.58, 0.58):
+            ear = cone("LongEar", (x, -0.18, 1.48), 0.18, 0.025, 0.62, dark); ear.parent = root
+            ear.rotation_euler[1] = math.radians(65 if x > 0 else -65)
+        for x in (-0.15, 0.15):
+            e = sphere("Eye", (x, -0.55, 1.50), (0.07, 0.045, 0.07), eye); e.parent = root
+        for x in (-0.24, 0.24):
+            leg = sphere("Leg", (x, 0.02, 0.32), (0.13, 0.15, 0.34), dark); leg.parent = root
+        club = cube("CrookedClub", (0.58, -0.10, 0.76), (0.10, 0.10, 0.48), dark); club.parent = root
+        club.rotation_euler[1] = math.radians(-28)
+    elif family == "Orc":
+        # Orc: heavy broad-shouldered warrior with tusks and a heavy axe.
+        torso = cube("Torso", (0, 0, 0.92), (0.62, 0.48, 0.70), skin); torso.parent = root
+        head = sphere("Head", (0, -0.18, 1.82), (0.46, 0.38, 0.44), skin); head.parent = root
+        for x in (-0.82, 0.82):
+            shoulder = sphere("Shoulder", (x, 0, 1.42), (0.28, 0.34, 0.28), skin); shoulder.parent = root
+            arm = cube("Arm", (x * 1.02, 0, 0.90), (0.20, 0.22, 0.55), dark); arm.parent = root
+        for x in (-0.22, 0.22):
+            leg = cube("Leg", (x, 0, 0.30), (0.20, 0.22, 0.40), dark); leg.parent = root
+        for x in (-0.18, 0.18):
+            e = sphere("Eye", (x, -0.50, 1.90), (0.065, 0.04, 0.065), eye); e.parent = root
+        for x in (-0.16, 0.16):
+            tusk = cone("Tusk", (x, -0.48, 1.62), 0.08, 0.015, 0.32, dark); tusk.parent = root
+        axe = cube("HeavyAxe", (0.92, 0, 1.00), (0.12, 0.10, 0.62), metal); axe.parent = root
+        axe.rotation_euler[1] = math.radians(-25)
+    elif family == "Zombie":
+        # Zombie: asymmetric decayed corpse with bent posture, exposed ribs,
+        # broken jaw and dragging limbs. It must not share the humanoid template.
+        skin = make_mat(family + "_Rot", (0.20, 0.34, 0.24, 1), 0.02, 0.78)
+        dark = make_mat(family + "_Ragged", (0.08, 0.12, 0.10, 1), 0.0, 0.92)
+        torso = sphere("HunchedTorso", (0.0, 0.05, 0.86), (0.44, 0.34, 0.66), skin); torso.parent = root
+        torso.rotation_euler[0] = math.radians(-16)
+        head = sphere("DecayedHead", (0.0, -0.20, 1.58), (0.34, 0.30, 0.34), skin); head.parent = root
+        head.rotation_euler[2] = math.radians(-12)
+        jaw = cube("BrokenJaw", (0.0, -0.45, 1.38), (0.20, 0.16, 0.08), dark); jaw.parent = root
+        for x in (-0.18, 0.18):
+            e = sphere("DeadEye", (x, -0.46, 1.64), (0.05, 0.035, 0.045), eye); e.parent = root
+        for i in range(3):
+            rib = cube("ExposedRib", (-0.12 + i * 0.12, -0.33, 0.96 + i * 0.12), (0.045, 0.035, 0.16), dark); rib.parent = root
+            rib.rotation_euler[1] = math.radians(-22 + i * 22)
+        arm = sphere("DraggingArm", (0.56, 0.08, 0.74), (0.18, 0.18, 0.78), skin); arm.parent = root
+        arm.rotation_euler[1] = math.radians(-48)
+        other_arm = sphere("BrokenArm", (-0.48, 0.02, 0.92), (0.14, 0.16, 0.52), dark); other_arm.parent = root
+        other_arm.rotation_euler[1] = math.radians(34)
+        leg = sphere("StiffLeg", (-0.18, 0.02, 0.30), (0.15, 0.16, 0.42), dark); leg.parent = root
+        leg.rotation_euler[1] = math.radians(12)
+        leg2 = sphere("DraggingLeg", (0.24, 0.16, 0.24), (0.14, 0.18, 0.34), dark); leg2.parent = root
+        leg2.rotation_euler[1] = math.radians(-42)
     elif family == "Mantis":
         thorax = sphere("Thorax", (0, 0, 0.90), (0.42, 0.32, 0.55), skin); thorax.parent = root
         head = sphere("Head", (0, -0.18, 1.48), (0.30, 0.24, 0.28), dark); head.parent = root
