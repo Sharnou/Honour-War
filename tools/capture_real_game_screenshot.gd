@@ -116,9 +116,9 @@ func _process(delta:float)->bool:
     render_frames+=1
     if not seal_done and elapsed >= 2.0:
         # One bounded post-startup seal; never rescan the full scene every frame.
-        var scene_root:Node=get_current_scene()
-        if scene_root!=null:
-            var repaired:int=_sanitize_mesh_materials(scene_root)
+        var frame_seal_scene:Node=get_current_scene()
+        if frame_seal_scene!=null:
+            var repaired:int=_sanitize_mesh_materials(frame_seal_scene)
             if repaired>0:
                 print("FRAME_MATERIAL_SEAL repaired=",repaired)
         seal_done=true
