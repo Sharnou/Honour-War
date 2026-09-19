@@ -1,6 +1,6 @@
 extends Node
 
-const ClassTreeSystemClass = preload("res://scripts/ClassTreeSystem.gd")
+const ClassTreeSystemClass = preload("res://scripts/ClassTreeSystemClass.gd")
 const SaveSystemClass = preload("res://scripts/SaveSystem.gd")
 const GameDataClass = preload("res://scripts/GameData.gd")
 
@@ -48,10 +48,10 @@ func _sync(force:bool)->void:
         hero=candidate
     else:
         return
-    ClassTreeSystem.ensure_state(hero)
+    ClassTreeSystemClass.ensure_state(hero)
     var level:int=int(hero.get("level",1))
     var class_id:String=str(hero.get("class","Warrior"))
-    var available_tier:int=ClassTreeSystem.available_tier(hero)
+    var available_tier:int=ClassTreeSystemClass.available_tier(hero)
     var tier:int=available_tier-1
     var rank:String=_class_rank_for_level(level,class_id)
     var old_rank:String=str(hero.get("class_rank",""))
@@ -109,11 +109,11 @@ func _update_hud()->void:
     if detail_label==null: return
     var class_id:String=str(hero.get("class","Warrior"))
     var level:int=int(hero.get("level",1))
-    var tier:int=ClassTreeSystem.available_tier(hero)
+    var tier:int=ClassTreeSystemClass.available_tier(hero)
     var rank:String=_class_rank_for_level(level,class_id)
     var branch:String=str(hero.get("class_branch",""))
     var mastery:int=int(hero.get("class_mastery",0))
-    var profile:Dictionary=ClassTreeSystem.class_profile(class_id)
+    var profile:Dictionary=ClassTreeSystemClass.class_profile(class_id)
     var branch_text:String=branch if branch!="" else "Not selected"
     title_label.text="%s  •  Lv.%d" % [rank,level]
     detail_label.text="%s\nTier: %s\nSpecialization: %s\nMastery: %d%%" % [str(profile.get("title",class_id)),TIER_NAMES.get(tier,"Foundation"),branch_text,mastery]
@@ -126,7 +126,7 @@ func _update_hud()->void:
         branch_box.add_child(status)
         return
     var branches:Array=profile.get("branches",[])
-    var descriptions:Dictionary=ClassTreeSystem.branch_descriptions(class_id)
+    var descriptions:Dictionary=ClassTreeSystemClass.branch_descriptions(class_id)
     for branch_name:String in branches:
         var button:Button=Button.new()
         button.text="%s — %s" % [branch_name,str(descriptions.get(branch_name,""))]
@@ -142,7 +142,7 @@ func _next_threshold(level:int)->int:
 
 func _select_branch(branch_name:String)->void:
     if str(hero.get("class_branch",""))!="": return
-    if not ClassTreeSystem.select_branch(hero,branch_name): return
+    if not ClassTreeSystemClass.select_branch(hero,branch_name): return
     SaveSystem.save_game(hero)
     _update_hud()
     _update_visuals()
@@ -159,7 +159,7 @@ func _update_visuals()->void:
     var hero_node:Node3D=actors.get_node_or_null("Hero") as Node3D
     if hero_node==null: return
     var class_id:String=str(hero.get("class","Warrior"))
-    var tier:int=ClassTreeSystem.available_tier(hero)
+    var tier:int=ClassTreeSystemClass.available_tier(hero)
     var branch:String=str(hero.get("class_branch",""))
     var signature:String="%s:%d:%s:%d" % [class_id,tier,branch,int(hero.get("class_mastery",0))]
     if signature==visual_signature and hero_node.get_node_or_null("HWClassRankVisual")!=null: return
