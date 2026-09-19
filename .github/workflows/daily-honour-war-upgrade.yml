@@ -32,6 +32,8 @@ on:
       - "tests/element_system_contract_test.gd"
       - "tools/honour_war_visual_qa.py"
       - "tools/validate_monster_visual_distinctness.py"
+      - "docs/DAILY_HONOUR_WAR_NO_GLB_POLICY.md"
+      - "scripts/HDAssetRuntime.gd"
       - "tools/validate_autoload_class_conflicts.py"
       - "scripts/HWProductionAudioDirector.gd"
       - "scripts/HWPerformanceDirector.gd"
@@ -77,6 +79,20 @@ jobs:
       - name: Validate direct Screenshot visual source
         run: |
           python3 tools/validate_visual_reference_source.py
+
+      - name: Enforce permanent HD GLB retirement
+        run: |
+          test -s docs/DAILY_HONOUR_WAR_NO_GLB_POLICY.md
+          test -f scripts/HDAssetRuntime.gd
+          grep -F "HD generated GLB assets were permanently retired" scripts/HDAssetRuntime.gd
+          grep -F "Daily upgrades must NOT regenerate" scripts/HDAssetRuntime.gd
+          grep -F "Daily upgrades must NOT download" scripts/HDAssetRuntime.gd
+          grep -F "Daily upgrades must NOT import" scripts/HDAssetRuntime.gd
+          if find assets/3d/generated -type f -iname "*.glb" -print -quit | grep -q .; then
+            echo "FAIL: retired HD GLB asset detected"
+            exit 1
+          fi
+          echo "PASS: permanent HD GLB retirement enforced"
 
       - name: Run Visual RAG before daily visual upgrade
         run: |
