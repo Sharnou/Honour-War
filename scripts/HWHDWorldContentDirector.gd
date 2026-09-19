@@ -152,8 +152,11 @@ func _impact(pos:Vector3, color:Color, critical:bool, damage:int) -> void:
         scene_root.add_child(vfx_root)
     var root := Node3D.new()
     root.name = "HDHitCritical" if critical else "HDHit"
-    root.global_position = pos
     root.set_meta("life", 0.0)
+    # Build the complete VFX tree first. A Node3D is not inside the SceneTree
+    # until it is attached; setting global_position before attachment triggers
+    # get_global_transform() errors and can leave renderer dependencies in an
+    # invalid state during Forward+ capture.
     var flash := _sphere("Flash", 0.18 if critical else 0.12, Vector3.ZERO, _mat(color, 0.32))
     root.add_child(flash)
     var ring := _ring("HitRing", 0.20, 0.34 if critical else 0.26, color, 0.72)
@@ -166,6 +169,7 @@ func _impact(pos:Vector3, color:Color, critical:bool, damage:int) -> void:
     number.position = Vector3(0, 0.55, 0)
     root.add_child(number)
     vfx_root.add_child(root)
+    root.global_position = pos
     effect_nodes.append(root)
 
 func _animate_effects(delta:float) -> void:
