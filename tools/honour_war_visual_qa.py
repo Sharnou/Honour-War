@@ -107,7 +107,7 @@ reference=ROOT/"docs"/"HONOUR_WAR_PRIMARY_VISUAL_REFERENCE.md"
 check(reference.is_file() and reference.stat().st_size>1500,"Primary visual/UI reference note")
 if reference.is_file():
     reference_text=reference.read_text(encoding="utf-8")
-    for phrase in ["Screenshot/","ChatGPT Image Sep 7, 2026, 03_54_35 PM.png","ChatGPT Image Sep 8, 2026, 12_13_55 AM.png","ChatGPT Image Sep 8, 2026, 12_30_08 AM.png","ChatGPT Image Sep 14, 2026, 02_17_52 PM.png","ChatGPT Image Sep 15, 2026, 11_17_00 PM.png","ChatGPT Image Sep 16, 2026, 12_22_47 AM.png","ChatGPT Image Sep 18, 2026, 11_57_21 PM.png","direct visual source","Local character name: completely hidden","Remote character names: hidden by default","mouse hovers","party/PvP context","No permanent player HP/SP"]:
+    for phrase in ["Screenshot/","ChatGPT Image Sep 7, 2026, 03_54_35 PM.png","ChatGPT Image Sep 8, 2026, 12_13_55 AM.png","ChatGPT Image Sep 8, 2026, 12_30_08 AM.png","ChatGPT Image Sep 14, 2026, 02_17_52 PM.png","ChatGPT Image Sep 15, 2026, 11_17_00 PM.png","ChatGPT Image Sep 16, 2026, 12_22_47 AM.png","ChatGPT Image Sep 18, 2026, 11_57_21 PM.png","direct visual source","Local character name is completely hidden","Remote character names are hidden by default","on mouse hover","party/PvP context","No permanent player HP/SP"]:
         check(phrase in reference_text,"Primary reference: "+phrase)
 
 runtime=(ROOT/"scripts/HDAssetRuntime.gd").read_text(encoding="utf-8")
