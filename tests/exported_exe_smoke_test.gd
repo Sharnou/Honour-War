@@ -91,7 +91,7 @@ func _run_smoke_test() -> void:
     var class_id := str(hero.get("class","Warrior"))
     var skill_candidates := {
         "Warrior":"war_power_slash",
-        "Mage":"mage_arcane_bolt",
+        "Mage":"mage_arcane_spark",
         "Archer":"arch_celestial_arrow",
         "Thief":"thief_shadow_strike",
         "Acolyte":"aco_holy_pulse",
