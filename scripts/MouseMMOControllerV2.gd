@@ -1,6 +1,7 @@
 class_name MouseMMOControllerV2
 extends Node
 
+const TeleportSystemClass = preload("res://scripts/TeleportSystemClass.gd")
 const WORLD_SCALE:float=0.055
 const ORIGIN_X:float=365.0
 const ORIGIN_Y:float=120.0
@@ -53,7 +54,7 @@ func _process(delta:float)->void:
 		else:
 			var step:=min(distance,MOVE_SPEED*delta)
 			var dir:=pos.direction_to(target_map)
-			var map_data:Dictionary=TeleportSystem.MAPS.get(int(hero.get("map_id",0)),{})
+			var map_data:Dictionary=TeleportSystemClass.MAPS.get(int(hero.get("map_id",0)),{})
 			var min_x:=ORIGIN_X
 			var min_y:=ORIGIN_Y
 			var max_x:=ORIGIN_X+float(map_data.get("width",1200))-1.0
