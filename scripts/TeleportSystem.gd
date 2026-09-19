@@ -57,9 +57,10 @@ static func parse_coordinates(token:String)->Dictionary:
     if text.begins_with("(") and text.ends_with(")"):
         text=text.substr(1,text.length()-2).strip_edges()
     var pieces:PackedStringArray=text.split(":",false)
-    if pieces.size()!=2 or not pieces[0].is_valid_float() or not pieces[1].is_valid_float():
+    # Ragnarok-style navigation addresses individual integer grid cells.
+    if pieces.size()!=2 or not pieces[0].is_valid_int() or not pieces[1].is_valid_int():
         return {"ok":false}
-    var x:float=float(pieces[0]); var y:float=float(pieces[1])
+    var x:float=float(int(pieces[0])); var y:float=float(int(pieces[1]))
     if not is_finite(x) or not is_finite(y): return {"ok":false}
     return {"ok":true,"x":x,"y":y}
 
