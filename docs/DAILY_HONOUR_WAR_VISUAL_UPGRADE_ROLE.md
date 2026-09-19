@@ -148,8 +148,48 @@ The target HUD contains:
 - Switch Characters is a character-selection page tied to the existing save system.
 - Options is a dedicated settings page and must not replace the three-choice ESC structure.
 
-### Lighting and materials
-Normal world presentation uses bright daylight fantasy lighting while preserving rich PBR detail. Production materials should use Base Color, Normal, Roughness, Metallic, AO and Emissive where appropriate. Lighting must reveal faces, armor, monsters and terrain rather than flattening them or hiding gameplay telegraphs.
+### Honour War HD character asset-sheet visual specification — permanent
+Every character generated or regenerated for Honour War must use this visual specification as a mandatory Daily Upgrade art-direction gate.
+
+### Style
+- Stylized 3D NPR presentation.
+- Vibrant anime cel-shading with rich saturated colors.
+- Clean, controlled line-art outlines.
+- High-fidelity realistic anime proportions within the stylized Honour War HD aesthetic.
+- The result must read as a finished game character, not a concept-only render or generic procedural placeholder.
+
+### Geometry
+- Volumetric, chunky hair with a crisp anisotropic halo highlight.
+- Expressive stylized facial structure.
+- Sharp triangular nose-profile shadow for readable anime facial planes.
+- Smooth, flawless porcelain complexion.
+- Full body must remain visible in gameplay capture: face, hair, hands, clothing layers, legs and feet.
+
+### Materials
+- Highly detailed PBR textures.
+- Robes/clothing: matte, unreflective woven-fabric texture.
+- Boots/leather: supple textured brown leather with fine micro-scratches.
+- Armor accessories: high-contrast brushed steel with step-clamped highlight behavior.
+- Material response must remain clean and readable; avoid noisy procedural texture breakup.
+
+### Lighting and atmosphere
+- Warm volumetric ambient sunlight.
+- Soft lavender-tinted shadows.
+- Clean solid-grey presentation background for asset-sheet/reference captures.
+- Isometric presentation perspective for asset-sheet inspection.
+- No realistic skin pores, photorealistic dirt, or noisy/gritty texture treatment.
+- In-game lighting must preserve the same material/color/shape language while remaining readable at the actual Honour War camera distance.
+
+### Asset-sheet QA
+For every important character, the Daily Upgrade must inspect front, side and back silhouettes plus face/profile, expressions, equipment/material details and representative combat/skill poses before approving the asset for runtime use. Class identity, tier progression, weapon silhouette, face, legs and pet relationship must remain unambiguous.
+
+### Approved generation and runtime handoff
+- Neural4D is an approved optional generation source.
+- Meshy is permanently rejected.
+- Neural4D GLB export is forbidden.
+- Preferred handoff: FBX for rigged/animated characters, pets and monsters; OBJ for approved static assets.
+- Final runtime must be native Godot 4.7.2 scenes/resources with Forward+ presentation.
+- The Screenshot/ folder is the visual reference only; reference images must never be pasted into the game as fake graphics.
 
 ## Daily upgrade execution rules
 
@@ -158,7 +198,7 @@ For every upgrade:
 2. Compare the highest-impact visible mismatch against the reference contract.
 3. Fix the mismatch in the actual project rather than documenting it as future work.
 4. Preserve the existing Honour War gameplay architecture; do not restart the project.
-5. Verify that authored GLB/GLTF assets are actually used at runtime and are not overwritten by procedural placeholder presentation.
+5. Verify that approved non-GLB source assets (preferably Neural4D FBX/OBJ when generated) are actually normalized into native Godot resources and are not overwritten by procedural placeholder presentation.
 6. Verify camera framing keeps the hero full-body and readable.
 7. Verify class/pet/monster silhouettes remain distinct.
 8. Verify attack/hit/skill effects visibly communicate combat.
@@ -173,12 +213,16 @@ For every upgrade:
 
 ## Permanent production pipeline
 
-**Blender → Substance 3D Painter → GLB/GLTF → Godot 4 Forward+**
+**Approved generation → FBX/OBJ → native Godot 4.7.2 resources/scenes → Godot 4 Forward+**
 
-Blender: mesh, rig and animation authoring.
-Substance 3D Painter: PBR material authoring.
-GLB/GLTF: production interchange.
-Godot 4 Forward+: runtime rendering, animation integration, lighting, VFX, gameplay, UI and streaming.
+Neural4D: optional character/creature/static-asset generation source.
+Blender: optional mesh, rig and animation refinement/authoring.
+Substance 3D Painter: optional PBR material authoring.
+FBX: preferred interchange for rigged/animated characters, pets and monsters.
+OBJ: preferred interchange for approved static assets.
+Godot 4.7.2: native resource/scene normalization, runtime rendering, animation integration, lighting, VFX, gameplay, UI and streaming.
+GLB/GLTF generated production assets: permanently excluded.
+Meshy: permanently rejected.
 
 ## Hard rejection conditions
 
