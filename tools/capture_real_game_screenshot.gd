@@ -3,10 +3,12 @@ extends SceneTree
 const CAPTURE_DIR:String="res://visual-captures"
 const CAPTURE_FILE:String=CAPTURE_DIR+"/honour-war-real-game.png"
 const STARTUP_TIMEOUT:float=90.0
+const MIN_RENDER_FRAMES:int=45
 
 var elapsed:float=0.0
 var captured:bool=false
 var seal_done:bool=false
+var render_frames:int=0
 
 func _initialize()->void:
     get_root().set_meta("hw_visual_capture",true)
@@ -111,6 +113,7 @@ func _process(delta:float)->bool:
         return false
 
     elapsed+=delta
+    render_frames+=1
     if not seal_done and elapsed >= 2.0:
         # One bounded post-startup seal; never rescan the full scene every frame.
         var scene_root:Node=get_current_scene()
@@ -126,7 +129,11 @@ func _process(delta:float)->bool:
 
     # Do not wait on RenderingServer.frame_post_draw. In headless/dummy CI
     # rendering that signal can never arrive, which previously left QA stuck.
-    if elapsed<4.0:
+    var scene_root:Node=get_current_scene()
+    var camera:=scene_root.get_node_or_null("Camera3D") as Camera3D if scene_root!=null else null
+    var recovery:=scene_root.get_node_or_null("HWNativeWorldRecovery") if scene_root!=null else null
+    var world_ready:=recovery!=null and scene_root.get_node_or_null("World3D/HWRecoveryGround")!=null
+    if elapsed<8.0 or render_frames<MIN_RENDER_FRAMES or camera==null or not camera.current or not world_ready:
         return false
 
     var viewport:Viewport=get_root().get_viewport()
