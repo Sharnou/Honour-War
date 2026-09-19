@@ -15,8 +15,15 @@ var fill: DirectionalLight3D
 var asset_status: Dictionary = {}
 
 func _ready() -> void:
-	_build_rendering_baseline()
-	_scan_production_assets()
+    # HDVisualDirector is the single authoritative production lighting owner.
+    # Keep this runtime focused on asset discovery when the final HD scene is present.
+    call_deferred("_initialize")
+    
+func _initialize() -> void:
+    var scene:Node=get_tree().current_scene
+    if scene==null or scene.get_node_or_null("HDVisualDirector")==null:
+        _build_rendering_baseline()
+    _scan_production_assets()
 
 func _process(delta: float) -> void:
 	elapsed += delta
