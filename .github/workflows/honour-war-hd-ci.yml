@@ -56,12 +56,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          grep -F 'Blender' ART_PIPELINE.md
-          grep -F 'Substance 3D Painter' ART_PIPELINE.md
-          grep -F 'GLB/GLTF' ART_PIPELINE.md
-          grep -F 'Blender' docs/HD_ART_DIRECTION.md
-          grep -F 'Substance 3D Painter' docs/HD_ART_DIRECTION.md
-          grep -F 'GLB/GLTF' docs/HD_ART_DIRECTION.md
+          grep -F 'FBX/OBJ' ART_PIPELINE.md
+          grep -F 'Neural4D' ART_PIPELINE.md
+          grep -F 'native Godot 4.7.2' ART_PIPELINE.md
+          grep -F 'Neural4D' docs/HD_ART_DIRECTION.md
+          grep -F 'native Godot 4.7.2' docs/HD_ART_DIRECTION.md
 
   godot-editor:
     name: Godot 4.7.2 renderer-safe validation
@@ -145,7 +144,7 @@ jobs:
           grep -F 'run/main_scene="res://Main3D.tscn"' project.godot
 
   production-assets:
-    name: Production GLB/GLTF inventory
+    name: Native production asset inventory
     runs-on: ubuntu-latest
     needs: art-contract
     steps:
@@ -164,18 +163,25 @@ jobs:
           echo "Workflow SHA:    ${GITHUB_SHA}"
           echo "Production inventory source verified."
           test "${actual}" = "${GITHUB_SHA}"
-      - name: Inventory production assets
+      - name: Reject retired generated GLB/GLTF assets
         shell: bash
         run: |
           set -euo pipefail
-          find assets/3d -type f \( -name '*.glb' -o -name '*.gltf' \) -print | sort || true
-          find assets -type f -name '*.blend' -print | sort || true
+          if find assets/3d/generated -type f \( -name '*.glb' -o -name '*.gltf' \) -print -quit | grep -q .; then
+            echo 'ERROR: retired generated GLB/GLTF asset found under assets/3d/generated'
+            exit 1
+          fi
+      - name: Inventory approved native production assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          find assets/3d -type f \( -name '*.fbx' -o -name '*.obj' -o -name '*.blend' \) -print | sort || true
           find assets/3d -type f \( -name '*.png' -o -name '*.jpg' -o -name '*.jpeg' -o -name '*.tga' -o -name '*.webp' \) -print | sort || true
       - name: Report production asset count
         shell: bash
         run: |
           set -euo pipefail
-          models=$(find assets/3d -type f \( -name '*.glb' -o -name '*.gltf' \) | wc -l)
+          models=$(find assets/3d -type f \( -name '*.fbx' -o -name '*.obj' \) | wc -l)
           textures=$(find assets/3d -type f \( -name '*.png' -o -name '*.jpg' -o -name '*.jpeg' -o -name '*.tga' -o -name '*.webp' \) | wc -l)
-          echo "Production models: ${models}"
+          echo "Approved FBX/OBJ source models: ${models}"
           echo "Production textures: ${textures}"
