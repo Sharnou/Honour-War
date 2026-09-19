@@ -20,11 +20,47 @@ func _launch()->void:
         quit(1)
         return
 
-    var result:Error=change_scene_to_file("res://Main3D.tscn")
-    if result!=OK:
-        push_error("Could not launch Main3D.tscn for real-game capture")
+    # Instantiate the production scene while it is still outside the active
+    # SceneTree. Forward+ can create RenderingDevice material dependencies during
+    # scene attachment, before ordinary _ready/deferred repair code can run.
+    # Sanitize authored MeshInstance3D surfaces first, then attach the exact same
+    # Main3D scene. This keeps the capture on the real game path and avoids hiding
+    # an importer/renderer problem with a renderer switch.
+    var packed:PackedScene=load("res://Main3D.tscn") as PackedScene
+    if packed==null:
+        push_error("Could not load Main3D.tscn for real-game capture")
         quit(1)
         return
+    var production_scene:Node=packed.instantiate()
+    if production_scene==null:
+        push_error("Could not instantiate Main3D.tscn for real-game capture")
+        quit(1)
+        return
+    var repaired:int=_sanitize_mesh_materials(production_scene)
+    print("PREATTACH_MATERIAL_PREFLIGHT repaired=",repaired)
+    get_root().add_child(production_scene)
+    current_scene=production_scene
+
+func _sanitize_mesh_materials(root:Node)->int:
+    var repaired:int=0
+    for node:Node in root.find_children("*","MeshInstance3D",true,false):
+        var mesh_instance:MeshInstance3D=node as MeshInstance3D
+        if mesh_instance==null or mesh_instance.mesh==null:
+            continue
+        var surface_count:int=mesh_instance.mesh.get_surface_count()
+        for surface:int in surface_count:
+            var material:Material=mesh_instance.get_surface_override_material(surface)
+            if material==null:
+                material=mesh_instance.mesh.surface_get_material(surface)
+            if material==null:
+                var fallback:=StandardMaterial3D.new()
+                fallback.albedo_color=Color("#9aa1aa")
+                fallback.metallic=0.15
+                fallback.roughness=0.58
+                mesh_instance.set_surface_override_material(surface,fallback)
+                repaired+=1
+                print("PREATTACH_MATERIAL_PREFLIGHT repaired_path=",mesh_instance.get_path()," surface=",surface)
+    return repaired
 
 func _process(delta:float)->bool:
     if captured:
