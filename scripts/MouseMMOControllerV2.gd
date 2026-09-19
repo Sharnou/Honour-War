@@ -1,7 +1,7 @@
 class_name MouseMMOControllerV2
 extends Node
 
-const TeleportSystemClass = preload("res://scripts/TeleportSystemClass.gd")
+const TeleportSystemClass = preload("res://scripts/TeleportSystem.gd")
 const WORLD_SCALE:float=0.055
 const ORIGIN_X:float=365.0
 const ORIGIN_Y:float=120.0
