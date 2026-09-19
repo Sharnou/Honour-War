@@ -54,6 +54,10 @@ func _build_environment()->void:
 	if environment==null:
 		environment=Environment.new()
 		world_environment.environment=environment
+	var world:World3D=scene_root.get_world_3d()
+	if world!=null:
+		world.environment=environment
+		world.fallback_environment=environment
 	environment.background_mode=Environment.BG_COLOR
 	environment.background_color=Color("#6f9bb5")
 	environment.ambient_light_source=Environment.AMBIENT_SOURCE_COLOR
