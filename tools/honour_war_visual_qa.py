@@ -38,7 +38,7 @@ role=ROOT/"docs"/"DAILY_HONOUR_WAR_VISUAL_UPGRADE_ROLE.md"
 check(role.is_file() and role.stat().st_size>7000,"Permanent Daily Honour War visual role")
 if role.is_file():
     text=role.read_text(encoding="utf-8")
-    for phrase in ["Visual Fidelity Engineer","Art Director","full-body","Attack","Hit","Maps and world detail","Blender → Substance 3D Painter → GLB/GLTF → Godot 4 Forward+","real character name","Swordsman","EQUIP","Character Status and Equipment are one combined window","Create New Character","Switch Characters","Options","Character age is never displayed"]:
+    for phrase in ["Visual Fidelity Engineer","Art Director","full-body","Attack","Hit","Maps and world detail","native Godot scenes/resources → Godot 4 Forward+","real character name","Swordsman","EQUIP","Character Status and Equipment are one combined window","Create New Character","Switch Characters","Options","Character age is never displayed"]:
         check(phrase in text,"Permanent role: "+phrase)
 
 age_rules=ROOT/"docs"/"AGE_PROGRESSION_RULES.md"
