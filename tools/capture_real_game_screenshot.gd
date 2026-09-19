@@ -45,6 +45,20 @@ func _process(delta:float)->bool:
     if viewport==null:
         return false
 
+    var scene_root:Node=get_root().get_child(0)
+    var camera:Camera3D=scene_root.get_node_or_null("Camera3D") as Camera3D
+    var world_root:Node=scene_root.get_node_or_null("World3D")
+    var actor_root:Node=scene_root.get_node_or_null("Actors3D")
+    var mesh_count:int=0
+    var mesh_nodes:Array[Node]=scene_root.find_children("*","MeshInstance3D",true,false)
+    mesh_count=mesh_nodes.size()
+    print("VISUAL_DIAGNOSTIC camera=",camera," current=",camera.current if camera!=null else false," pos=",camera.global_position if camera!=null else Vector3.ZERO)
+    print("VISUAL_DIAGNOSTIC world3d=",world_root," children=",world_root.get_child_count() if world_root!=null else -1," actors=",actor_root.get_child_count() if actor_root!=null else -1," meshes=",mesh_count)
+    if camera!=null and camera.environment!=null:
+        print("VISUAL_DIAGNOSTIC camera_env_mode=",camera.environment.background_mode," bg=",camera.environment.background_color," ambient=",camera.environment.ambient_light_energy)
+    var world:World3D=scene_root.get_world_3d()
+    if world!=null and world.environment!=null:
+        print("VISUAL_DIAGNOSTIC world_env_mode=",world.environment.background_mode," bg=",world.environment.background_color)
     var texture:ViewportTexture=viewport.get_texture()
     if texture==null:
         return false
