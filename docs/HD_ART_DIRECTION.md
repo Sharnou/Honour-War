@@ -170,9 +170,9 @@ should be selected by screen coverage rather than asset prestige alone.
 
 ## 12. Import contract
 
-Blender exports GLB/GLTF with clean transforms, game-ready naming, skeletons,
+Blender exports FBX/OBJ with clean transforms, game-ready naming, skeletons,
 animations and material slots. Substance exports are packed into the agreed
-PBR channels. Godot imports the resulting GLB/GLTF and owns runtime animation,
+PBR channels. Godot imports the resulting FBX/OBJ and owns runtime animation,
 lighting, VFX, gameplay and streaming.
 
 Stable IDs are mandatory:
@@ -186,11 +186,15 @@ An asset is not production-ready until it passes:
 - topology/UV review
 - material/PBR review
 - rig/animation review
-- GLB/GLTF import review
+- FBX/OBJ import review
 - Godot Forward+ lighting review
 - LOD/performance review
 - gameplay readability review
 
 The production pipeline is permanently:
 
-**Blender → Substance 3D Painter → GLB/GLTF → Godot 4**
+**Approved generation → FBX/OBJ → native Godot 4.7.2 → Godot 4 Forward+**
+
+
+## Current native asset generation
+Neural4D is an approved optional generation source. Honour War uses FBX for rigged/animated characters, pets and monsters, OBJ for approved static assets, and native Godot 4.7.2 scenes/resources at runtime. Generated GLB assets and Meshy are permanently excluded.
