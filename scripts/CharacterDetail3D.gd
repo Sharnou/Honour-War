@@ -1,6 +1,9 @@
 class_name CharacterDetail3D
 extends Node3D
 
+const HWClassVisualBlueprintsClass=preload("res://scripts/HWClassVisualBlueprintsClass.gd")
+const EquipmentSystemClass=preload("res://scripts/EquipmentSystemClass.gd")
+const ItemDatabaseClass=preload("res://scripts/ItemDatabaseClass.gd")
 var last_hero:Node3D
 var decorated:Dictionary={}
 var elapsed:float=0.0
@@ -41,7 +44,7 @@ func _decorate_hero(hero:Node3D,game:Node)->void:
 	_add_belt_boots(hero)
 	_add_class_mark(hero,class_id)
 	# Add the full class blueprint once the base body exists.
-	HWClassVisualBlueprints.apply(hero,class_id,elapsed)
+	HWClassVisualBlueprintsClass.apply(hero,class_id,elapsed)
 
 func _sync_equipment(hero:Node3D,game:Node)->void:
 	var legacy:Node=game.get_node_or_null("LegacyGame")
@@ -60,12 +63,12 @@ func _sync_equipment(hero:Node3D,game:Node)->void:
 	var group:=Node3D.new()
 	group.name="EquippedVisuals"
 	hero.add_child(group)
-	for slot in EquipmentSystem.SLOTS:
+	for slot in EquipmentSystemClass.SLOTS:
 		var item_name:=str(equipment.get(slot,""))
 		if item_name!="": _add_equipped_piece(group,slot,item_name)
 
 func _add_equipped_piece(group:Node3D,slot:String,item_name:String)->void:
-	var data:Dictionary=ItemDatabase.all().get(EquipmentSystem.base_item_name(item_name),{})
+	var data:Dictionary=ItemDatabaseClass.all().get(EquipmentSystemClass.base_item_name(item_name),{})
 	var glowing:bool=bool(data.get("glowing",false))
 	var rarity:=str(data.get("rarity","Common"))
 	var base_color:=_item_color(item_name,slot)
