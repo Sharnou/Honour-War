@@ -146,7 +146,7 @@ func _test_graphics_wiring() -> void:
     check("camera stability wired", FileAccess.file_exists("res://scripts/MovementStabilityFix.gd"))
     check("native visual runtime declares GLB retirement", asset_runtime.contains("HD generated GLB assets were permanently retired"))
     check("native visual runtime forbids GLB loading", asset_runtime.contains("must NOT regenerate, download, import, or attach GLB assets"))
-    check("visual QA enforces no GLBs", visual_qa.contains("No generated HD GLB assets may remain"))
+    check("visual QA enforces no GLBs", visual_qa.contains("Permanent HD GLB retirement: no .glb assets remain"))
     check("daily no-GLB policy exists", FileAccess.file_exists("res://docs/DAILY_HONOUR_WAR_NO_GLB_POLICY.md"))
     check("daily no-GLB policy is permanent", no_glb_policy.contains("Status: **PERMANENT**"))
     check("native Godot visual pipeline is documented", no_glb_policy.contains("native Godot scenes/resources"))
