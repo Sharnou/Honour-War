@@ -1,9 +1,9 @@
 class_name WarpGates3D
 extends Node3D
 
-const WarpGate3DClass=preload("res://scripts/WarpGate3DClass.gd")
+const WarpGate3DClass=preload("res://scripts/WarpGate3D.gd")
 const TeleportSystemClass = preload("res://scripts/TeleportSystem.gd")
-const WARP_GATE_SCRIPT=preload("res://scripts/WarpGate3DClass.gd")
+const WARP_GATE_SCRIPT=preload("res://scripts/WarpGate3D.gd")
 const GATES:Array[Dictionary]=[
 	{"map_id":10,"name":"Prontera Sewer","color":Color("#56d6ff"),"pos":Vector3(6.5,0.05,10.5),"x":180,"y":450},
 	{"map_id":11,"name":"Payon Cave","color":Color("#7cff82"),"pos":Vector3(19.5,0.05,10.5),"x":180,"y":450},
