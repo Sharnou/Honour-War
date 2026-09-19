@@ -19,6 +19,7 @@ func _process(_delta:float)->void:
         _initialize()
         return
     _ensure_camera_and_environment()
+    _protect_hero_spawn()
 
 func _initialize()->void:
     scene=get_tree().current_scene as Node3D
@@ -64,6 +65,26 @@ func _ensure_camera_and_environment()->void:
     if world!=null:
         world.environment=env
         world.fallback_environment=env
+
+func _protect_hero_spawn()->void:
+    var hero_value:Variant=scene.get("hero_visual")
+    var hero:=hero_value as Node3D if is_instance_valid(hero_value) and hero_value is Node3D else null
+    if hero==null:
+        return
+    hero.visible=true
+    hero.scale=Vector3.ONE
+    var spawn:=hero.global_position
+    # Keep the immediate hero readability bubble free of large world props.
+    for node:Node in scene.find_children("*","MeshInstance3D",true,false):
+        var mesh:=node as MeshInstance3D
+        if mesh==null or mesh==hero or not mesh.is_inside_tree():
+            continue
+        var distance:=mesh.global_position.distance_to(spawn)
+        if distance>3.4:
+            continue
+        var n:=mesh.name.to_lower()
+        if n.contains("tree") or n.contains("crown") or n.contains("house") or n.contains("roof") or n.contains("rock") or n.contains("building"):
+            mesh.visible=false
 
 func _build_recovery_world()->void:
     if world_root.get_node_or_null("HWRecoveryGround")!=null:
