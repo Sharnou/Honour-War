@@ -45,6 +45,10 @@ jobs:
         shell: bash
         run: python3 tools/game3d_integrity_qa.py
 
+      - name: Run Visual RAG-first production gap QA
+        shell: bash
+        run: python3 tools/visual_gap_register_qa.py
+
       - name: Download and verify Godot 4.7.2 stable
         shell: bash
         run: |
