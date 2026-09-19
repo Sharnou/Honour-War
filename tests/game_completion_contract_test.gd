@@ -124,7 +124,7 @@ func _initialize() -> void:
     check("Neural4D approved source", no_glb_policy.contains("Neural4D is approved as an optional generation source"))
     check("Neural4D GLB forbidden", no_glb_policy.contains("Honour War must **not** use its GLB export"))
     check("native Godot 4.7.2 scenes/resources", no_glb_policy.contains("native Godot 4.7.2 scenes/resources"))
-    check("HD character visual specification", visual_role.contains("Stylized 3D NPR") and visual_role.contains("vibrant anime cel-shading") and visual_role.contains("Warm volumetric ambient sunlight"))
+    check("HD character visual specification", visual_role.contains("Stylized 3D NPR") and visual_role.contains("Vibrant anime cel-shading") and visual_role.contains("Warm volumetric ambient sunlight"))
     # Build the forbidden token at runtime so this contract cannot fail because
     # it contains its own literal search string. This still rejects the exact
     # forbidden property in every production GDScript under res://scripts.
