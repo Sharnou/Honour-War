@@ -96,25 +96,22 @@ func _protect_hero_spawn()->void:
 func _ensure_hero_proxy()->void:
     var value:Variant=scene.get("hero_visual")
     var actual:=value as Node3D if is_instance_valid(value) and value is Node3D else null
-    # The proxy is a native full-body fallback while Neural4D FBX/OBJ actors are
-    # being regenerated. It prevents a missing/occluded actor from producing an
-    # apparently empty game frame.
+    # Prefer the real gameplay actor. The proxy is only used when the actor is
+    # genuinely missing; never hide a valid world-space hero behind a camera prop.
     if actual!=null:
-        actual.visible=false
+        actual.visible=true
+        if hero_proxy!=null and is_instance_valid(hero_proxy):
+            hero_proxy.queue_free()
+            hero_proxy=null
+        return
     if hero_proxy==null or not is_instance_valid(hero_proxy):
         hero_proxy=Node3D.new()
         hero_proxy.name="HWHeroVisibilityProxy"
         _build_proxy_character(hero_proxy)
-    var camera:=scene.get_node_or_null("Camera3D") as Camera3D
-    if camera!=null:
-        if hero_proxy.get_parent()!=camera:
-            var old_parent:=hero_proxy.get_parent()
-            if old_parent!=null:
-                old_parent.remove_child(hero_proxy)
-            camera.add_child(hero_proxy)
-        hero_proxy.position=Vector3(0.0,-1.30,-7.5)
-        hero_proxy.rotation=Vector3.ZERO
-        hero_proxy.scale=Vector3.ONE*0.78
+        world_root.add_child(hero_proxy)
+    hero_proxy.position=Vector3(12.65,0.0,8.5)
+    hero_proxy.rotation=Vector3.ZERO
+    hero_proxy.scale=Vector3.ONE*0.90
     hero_proxy.visible=true
 
 func _build_proxy_character(root:Node3D)->void:
