@@ -1,4 +1,6 @@
-extends Node3D
+extends Node
+
+const TeleportSystemClass = preload("res://scripts/TeleportSystemClass.gd")3D
 
 ## Town service NPC presentation. Fixed MMORPG service NPCs only; no player ownership/building.
 const Profiles=preload("res://scripts/HWWorldActorVisualProfiles.gd")
@@ -42,7 +44,7 @@ func _sync()->void:
     if not hero_value is Dictionary:
         return
     var map_id:int=int((hero_value as Dictionary).get("map_id",0))
-    var town_data:Dictionary=TeleportSystem.MAPS.get(map_id,{})
+    var town_data:Dictionary=TeleportSystemClass.MAPS.get(map_id,{})
     if str(town_data.get("type",""))!="town":
         _hide()
         return
