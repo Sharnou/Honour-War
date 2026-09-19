@@ -173,38 +173,65 @@ func _replace_if_available(key:String, current:Node3D, path:String, monster_id:S
     return true
 
 func _repair_scene_materials()->void:
-    # Forward+ can touch every MeshInstance3D in the frame, including authored
-    # scene meshes and runtime-created meshes that are not production GLBs.
-    # Audit the complete scene before/while the renderer builds dependencies so
-    # a null surface material can never reach RenderingDevice material storage.
+    # Audit runtime-created geometry as well as authored GLBs. This runs before
+    # and during production-asset synchronization because Forward+ can create
+    # material dependencies immediately when a new GeometryInstance3D enters
+    # the active tree.
     var scene_root:Node = get_tree().current_scene
     if scene_root == null:
         return
     var repaired:int = 0
-    for node:Node in scene_root.find_children("*", "MeshInstance3D", true, false):
-        var mesh_instance:MeshInstance3D = node as MeshInstance3D
-        if mesh_instance == null or mesh_instance.mesh == null:
+    for node:Node in scene_root.find_children("*", "GeometryInstance3D", true, false):
+        var geometry:GeometryInstance3D = node as GeometryInstance3D
+        if geometry == null:
             continue
-        var surface_count:int = mesh_instance.mesh.get_surface_count()
-        for surface:int in surface_count:
-            var material:Material = mesh_instance.get_surface_override_material(surface)
-            if material == null:
-                material = mesh_instance.mesh.surface_get_material(surface)
-            if material == null:
-                var fallback := StandardMaterial3D.new()
-                fallback.albedo_color = Color("#9aa1aa")
-                fallback.metallic = 0.15
-                fallback.roughness = 0.58
-                mesh_instance.set_surface_override_material(surface, fallback)
-                repaired += 1
-        if surface_count == 0 and mesh_instance.material_override == null:
-            # A MeshInstance3D without a mesh surface has nothing to render;
-            # do not manufacture geometry. This branch only guards a future
-            # mesh assignment that may occur immediately after the audit.
+        if geometry is MeshInstance3D:
+            var mesh_instance:MeshInstance3D = geometry as MeshInstance3D
+            if mesh_instance.mesh == null:
+                continue
+            for surface:int in mesh_instance.mesh.get_surface_count():
+                var material:Material = mesh_instance.get_surface_override_material(surface)
+                if material == null:
+                    material = mesh_instance.mesh.surface_get_material(surface)
+                if material == null:
+                    var fallback := _runtime_fallback_material()
+                    mesh_instance.set_surface_override_material(surface, fallback)
+                    repaired += 1
+                    print("RUNTIME_MATERIAL_REPAIR path=", mesh_instance.get_path(), " surface=", surface)
+        elif geometry is MultiMeshInstance3D:
+            var multi:MultiMeshInstance3D = geometry as MultiMeshInstance3D
+            if multi.multimesh != null and multi.multimesh.mesh != null:
+                var has_material:bool = false
+                for surface:int in multi.multimesh.mesh.get_surface_count():
+                    if multi.multimesh.mesh.surface_get_material(surface) != null:
+                        has_material = true
+                        break
+                if not has_material and multi.material_override == null:
+                    multi.material_override = _runtime_fallback_material()
+                    repaired += 1
+                    print("RUNTIME_MATERIAL_REPAIR multimesh=", multi.get_path())
+    for node:Node in scene_root.find_children("*", "GPUParticles3D", true, false):
+        var particles:GPUParticles3D = node as GPUParticles3D
+        if particles == null:
             continue
+        for pass_index:int in 4:
+            var draw_mesh:Mesh = particles.get_draw_pass_mesh(pass_index)
+            if draw_mesh == null:
+                continue
+            for surface:int in draw_mesh.get_surface_count():
+                if draw_mesh.surface_get_material(surface) == null:
+                    draw_mesh.surface_set_material(surface, _runtime_fallback_material())
+                    repaired += 1
+                    print("RUNTIME_MATERIAL_REPAIR particle=", particles.get_path(), " pass=", pass_index, " surface=", surface)
     if repaired > 0:
         scene_root.set_meta("hw_scene_null_materials_repaired", repaired)
 
+func _runtime_fallback_material()->StandardMaterial3D:
+    var fallback := StandardMaterial3D.new()
+    fallback.albedo_color = Color("#9aa1aa")
+    fallback.metallic = 0.15
+    fallback.roughness = 0.58
+    return fallback
 
 func _repair_null_materials(root:Node3D)->void:
     # Some imported GLBs can contain a mesh surface without a resolved Godot
