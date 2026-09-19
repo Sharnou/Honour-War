@@ -9,8 +9,8 @@ const TeleportSystemClass=preload("res://scripts/TeleportSystem.gd")
 const SkillSystemClass=preload("res://scripts/SkillSystem.gd")
 const ClassTreeSystemClass=preload("res://scripts/ClassTreeSystem.gd")
 const PetVisualClass=preload("res://scripts/PetVisual.gd")
-const MonsterDetailsSystemClass=preload("res://scripts/MonsterDetailsSystemClass.gd")
-const CicciWeeklyEventClass=preload("res://scripts/CicciWeeklyEventClass.gd")
+const MonsterDetailsSystemClass=preload("res://scripts/MonsterDetailsSystem.gd")
+const CicciWeeklyEventClass=preload("res://scripts/CicciWeeklyEvent.gd")
 
 const CLASSES := {
 	"Warrior":{"weapon":"Sword","base":18,"color":Color("#e8a34b"),"skill":"Power Slash"},
