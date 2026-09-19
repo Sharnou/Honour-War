@@ -1,5 +1,7 @@
 extends Node
 
+const HWAccountDatabaseClass = preload("res://scripts/HWAccountDatabaseClass.gd")
+
 ## Persistent automatic-login service.
 ## A successful password login can issue a revocable bearer token. The client
 ## stores the token locally, not the account password. The server stores only
@@ -130,7 +132,7 @@ func _authenticate_for_peer(peer_id:int,username:String,token:String) -> void:
     if authority == null or not authority.is_server_authority:
         return
     var normalized:String = username.strip_edges().to_lower()
-    if peer_id <= 0 or not HWAccountDatabase.validate_username(normalized) or not authenticate_token(normalized,token):
+    if peer_id <= 0 or not HWAccountDatabaseClass.validate_username(normalized) or not authenticate_token(normalized,token):
         if peer_id > 0:
             if peer_id == multiplayer.get_unique_id():
                 authority.authentication_failed.emit(peer_id,normalized,"auto_login_invalid")
