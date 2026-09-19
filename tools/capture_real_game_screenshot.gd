@@ -43,23 +43,58 @@ func _launch()->void:
 
 func _sanitize_mesh_materials(root:Node)->int:
     var repaired:int=0
-    for node:Node in root.find_children("*","MeshInstance3D",true,false):
-        var mesh_instance:MeshInstance3D=node as MeshInstance3D
-        if mesh_instance==null or mesh_instance.mesh==null:
+    # Audit every GeometryInstance3D family before the scene enters the active
+    # tree. MeshInstance3D is the normal GLB path, but MultiMeshInstance3D and
+    # particle draw-pass meshes can also reach RenderingDevice material storage.
+    for node:Node in root.find_children("*","GeometryInstance3D",true,false):
+        var geometry:GeometryInstance3D=node as GeometryInstance3D
+        if geometry==null:
             continue
-        var surface_count:int=mesh_instance.mesh.get_surface_count()
-        for surface:int in surface_count:
-            var material:Material=mesh_instance.get_surface_override_material(surface)
-            if material==null:
-                material=mesh_instance.mesh.surface_get_material(surface)
-            if material==null:
-                var fallback:=StandardMaterial3D.new()
-                fallback.albedo_color=Color("#9aa1aa")
-                fallback.metallic=0.15
-                fallback.roughness=0.58
-                mesh_instance.set_surface_override_material(surface,fallback)
-                repaired+=1
-                print("PREATTACH_MATERIAL_PREFLIGHT repaired_path=",mesh_instance.get_path()," surface=",surface)
+        if geometry is MeshInstance3D:
+            var mesh_instance:MeshInstance3D=geometry as MeshInstance3D
+            if mesh_instance.mesh!=null:
+                repaired+=_sanitize_mesh(mesh_instance.mesh,mesh_instance)
+        elif geometry is MultiMeshInstance3D:
+            var multi:MultiMeshInstance3D=geometry as MultiMeshInstance3D
+            if multi.multimesh!=null and multi.multimesh.mesh!=null:
+                var source_material:Material=multi.multimesh.mesh.surface_get_material(0) if multi.multimesh.mesh.get_surface_count()>0 else null
+                if source_material==null and multi.material_override==null:
+                    var fallback_multi:=StandardMaterial3D.new()
+                    fallback_multi.albedo_color=Color("#9aa1aa")
+                    fallback_multi.metallic=0.15
+                    fallback_multi.roughness=0.58
+                    multi.material_override=fallback_multi
+                    repaired+=1
+                    print("PREATTACH_MATERIAL_PREFLIGHT repaired_multimesh=",multi.get_path())
+    for node:Node in root.find_children("*","GPUParticles3D",true,false):
+        var particles:GPUParticles3D=node as GPUParticles3D
+        if particles==null:
+            continue
+        for pass_index:int in 4:
+            var draw_mesh:Mesh=particles.get_draw_pass_mesh(pass_index)
+            if draw_mesh!=null:
+                repaired+=_sanitize_mesh(draw_mesh,null)
+    return repaired
+
+func _sanitize_mesh(mesh:Mesh, owner:MeshInstance3D)->int:
+    var repaired:int=0
+    for surface:int in mesh.get_surface_count():
+        var material:Material=mesh.surface_get_material(surface)
+        if owner!=null:
+            var override_material:Material=owner.get_surface_override_material(surface)
+            if override_material!=null:
+                material=override_material
+        if material==null:
+            var fallback:=StandardMaterial3D.new()
+            fallback.albedo_color=Color("#9aa1aa")
+            fallback.metallic=0.15
+            fallback.roughness=0.58
+            if owner!=null:
+                owner.set_surface_override_material(surface,fallback)
+            else:
+                mesh.surface_set_material(surface,fallback)
+            repaired+=1
+            print("PREATTACH_MATERIAL_PREFLIGHT repaired_path=",owner.get_path() if owner!=null else "<mesh>"," surface=",surface)
     return repaired
 
 func _process(delta:float)->bool:
