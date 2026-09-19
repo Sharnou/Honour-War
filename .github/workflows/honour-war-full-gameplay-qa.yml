@@ -74,7 +74,7 @@ jobs:
           curl.exe --fail --location --retry 5 --retry-all-errors --connect-timeout 20 --output "$tpz" "$uri"
           if (-not (Test-Path $tpz)) { throw "Godot 4.7.2 export template archive was not downloaded" }
           $size = (Get-Item $tpz).Length
-          if ($size -lt 100000000) { throw "Godot export template archive is unexpectedly small/corrupt: $size bytes" }
+          if ($size -lt 70000000) { throw "Godot export template archive is unexpectedly small/corrupt: $size bytes" }
 
           Add-Type -AssemblyName System.IO.Compression.FileSystem
           try {
@@ -82,7 +82,7 @@ jobs:
             try {
               $requiredEntries = @("windows_debug_x86_64.exe","windows_release_x86_64.exe")
               foreach ($name in $requiredEntries) {
-                $entry = $archive.Entries | Where-Object { $_.FullName -like "*$name" } | Select-Object -First 1
+                $entry = $archive.Entries | Where-Object { $_.FullName -match "(^|/)$([regex]::Escape($name))$" } | Select-Object -First 1
                 if (-not $entry) { throw "Godot export template archive is missing $name" }
               }
             } finally { $archive.Dispose() }
@@ -92,13 +92,20 @@ jobs:
           if (Test-Path $extract) { Remove-Item $extract -Recurse -Force }
           Expand-Archive -LiteralPath $tpz -DestinationPath $extract -Force
 
+          # Godot 4.7.2 expects the two template executables directly in the
+          # versioned export_templates directory. The .tpz may contain a
+          # versioned templates/ subdirectory, so locate by filename and copy
+          # the actual binaries rather than relying on archive layout.
           $templatesTarget = Join-Path $env:APPDATA "Godot/export_templates/4.7.2.stable"
           New-Item -ItemType Directory -Force -Path $templatesTarget | Out-Null
 
           foreach ($name in @("windows_debug_x86_64.exe","windows_release_x86_64.exe")) {
             $found = Get-ChildItem -Path $extract -Filter $name -File -Recurse | Select-Object -First 1
             if (-not $found) { throw "Required Godot 4.7.2 Windows export template was not found after extraction: $name" }
-            Copy-Item -LiteralPath $found.FullName -Destination (Join-Path $templatesTarget $name) -Force
+            $destination = Join-Path $templatesTarget $name
+            Copy-Item -LiteralPath $found.FullName -Destination $destination -Force
+            $copied = Get-Item $destination
+            if ($copied.Length -lt 1000000) { throw "Installed Godot export template is unexpectedly small: $name ($($copied.Length) bytes)" }
           }
 
           foreach ($name in @("windows_debug_x86_64.exe","windows_release_x86_64.exe")) {
