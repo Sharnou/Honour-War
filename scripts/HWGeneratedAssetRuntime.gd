@@ -117,6 +117,11 @@ func _attach_visual(key:String, actor:Node3D, path:String) -> void:
             model.queue_free()
         return
     model.name = "HW_GeneratedGLB"
+    # Validate/repair every imported surface before attaching the model to the
+    # active tree. Forward+ D3D12 may create material dependencies immediately
+    # on attachment, so post-attachment repair can still emit null-material
+    # renderer errors.
+    _repair_null_materials(model as Node3D)
     actor.add_child(model)
     var model_3d := model as Node3D
     model_3d.position = Vector3.ZERO
@@ -190,3 +195,21 @@ func _monster_family(value:String) -> String:
         if name.contains(str(family)):
             return str(MONSTER_ASSET_BY_FAMILY[family])
     return ""
+
+func _repair_null_materials(root:Node3D) -> void:
+    if root == null:
+        return
+    for node:Node in root.find_children("*", "MeshInstance3D", true, false):
+        var mesh_instance := node as MeshInstance3D
+        if mesh_instance == null or mesh_instance.mesh == null:
+            continue
+        for surface:int in mesh_instance.mesh.get_surface_count():
+            var material:Material = mesh_instance.get_surface_override_material(surface)
+            if material == null:
+                material = mesh_instance.mesh.surface_get_material(surface)
+            if material == null:
+                var fallback := StandardMaterial3D.new()
+                fallback.albedo_color = Color("#9aa1aa")
+                fallback.metallic = 0.15
+                fallback.roughness = 0.58
+                mesh_instance.set_surface_override_material(surface, fallback)
