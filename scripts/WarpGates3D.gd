@@ -1,6 +1,7 @@
 class_name WarpGates3D
 extends Node3D
 
+const TeleportSystemClass = preload("res://scripts/TeleportSystemClass.gd")
 const WARP_GATE_SCRIPT=preload("res://scripts/WarpGate3D.gd")
 const GATES:Array[Dictionary]=[
 	{"map_id":10,"name":"Prontera Sewer","color":Color("#56d6ff"),"pos":Vector3(6.5,0.05,10.5),"x":180,"y":450},
@@ -33,7 +34,7 @@ func _process(delta:float)->void:
 	var hero_value:Variant=legacy.get("hero")
 	if not hero_value is Dictionary: return
 	var map_id:int=int((hero_value as Dictionary).get("map_id",0))
-	var visible:bool=not TeleportSystem.is_dungeon(map_id)
+	var visible:bool=not TeleportSystemClass.is_dungeon(map_id)
 	if root!=null: root.visible=visible
 	for i in gate_nodes.size():
 		var gate:Node3D=gate_nodes[i]
@@ -48,8 +49,8 @@ func _build_gates()->void:
 		gate.name="Warp_"+str(data["map_id"])
 		gate.position=data["pos"]
 		gate.target_map=int(data["map_id"])
-		gate.target_x=int(TeleportSystem.MAPS[gate.target_map].get("spawn_x",180))
-		gate.target_y=int(TeleportSystem.MAPS[gate.target_map].get("spawn_y",150))
+		gate.target_x=int(TeleportSystemClass.MAPS[gate.target_map].get("spawn_x",180))
+		gate.target_y=int(TeleportSystemClass.MAPS[gate.target_map].get("spawn_y",150))
 		gate.label_text="WARP GATE • "+str(data["name"])
 		gate_nodes.append(gate)
 		root.add_child(gate)
