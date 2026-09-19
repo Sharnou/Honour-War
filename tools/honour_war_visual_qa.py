@@ -38,7 +38,7 @@ role=ROOT/"docs"/"DAILY_HONOUR_WAR_VISUAL_UPGRADE_ROLE.md"
 check(role.is_file() and role.stat().st_size>7000,"Permanent Daily Honour War visual role")
 if role.is_file():
     text=role.read_text(encoding="utf-8")
-    for phrase in ["Visual Fidelity Engineer","Art Director","full-body","Attack","Hit","Maps and world detail","native Godot scenes/resources → Godot 4 Forward+","real character name","Swordsman","EQUIP","Character Status and Equipment are one combined window","Create New Character","Switch Characters","Options","Character age is never displayed"]:
+    for phrase in ["Visual Fidelity Engineer","Art Director","full-body","Attack","Hit","Maps and world detail","native Godot 4.7.2 scenes/resources with Forward+","real character name","Swordsman","EQUIP","Character Status and Equipment are one combined window","Create New Character","Switch Characters","Options","Character age is never displayed"]:
         check(phrase in text,"Permanent role: "+phrase)
 
 age_rules=ROOT/"docs"/"AGE_PROGRESSION_RULES.md"
@@ -117,7 +117,7 @@ for phrase in ["HD generated GLB assets were permanently retired","Daily upgrade
 
 character_visual_spec = role if role.is_file() else None
 if character_visual_spec:
-    for phrase in ["Stylized 3D NPR","vibrant anime cel-shading","Volumetric, chunky hair","sharp triangular nose-profile shadow","porcelain complexion","matte, unreflective woven-fabric","supple textured brown leather","high-contrast brushed steel","Warm volumetric ambient sunlight","Soft lavender-tinted shadows","solid-grey presentation background","Isometric presentation perspective","Neural4D is an approved optional generation source","Neural4D GLB export is forbidden","FBX for rigged/animated characters","OBJ for approved static assets"]:
+    for phrase in ["Stylized 3D NPR","Vibrant anime cel-shading","Volumetric, chunky hair","Sharp triangular nose-profile shadow","porcelain complexion","matte, unreflective woven-fabric","supple textured brown leather","high-contrast brushed steel","Warm volumetric ambient sunlight","Soft lavender-tinted shadows","solid-grey presentation background","Isometric presentation perspective","Neural4D is an approved optional generation source","Neural4D GLB export is forbidden","FBX for rigged/animated characters","OBJ for approved static assets"]:
         check(phrase in text,"HD character visual specification: "+phrase)
 
 guard=(ROOT/"scripts/HWPresentationGuard.gd").read_text(encoding="utf-8")
