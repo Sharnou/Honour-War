@@ -61,7 +61,7 @@ static func parse_coordinates(token:String)->Dictionary:
     if pieces.size()!=2 or not pieces[0].is_valid_int() or not pieces[1].is_valid_int():
         return {"ok":false}
     var x:float=float(int(pieces[0])); var y:float=float(int(pieces[1]))
-    if not is_finite(x) or not is_finite(y): return {"ok":false}
+    if not is_finite(x) or not is_finite(y) or x < 0.0 or y < 0.0: return {"ok":false}
     return {"ok":true,"x":x,"y":y}
 
 static func parse_go(command:String)->Dictionary:
