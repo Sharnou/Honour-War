@@ -1,7 +1,7 @@
 class_name CharacterInventorySystem
 extends RefCounted
 
-const ItemDatabaseClass = preload("res://scripts/ItemDatabaseClass.gd")
+const ItemDatabaseClass = preload("res://scripts/ItemDatabase.gd")
 
 const Equipment=preload("res://scripts/EquipmentProgressionSystem.gd")
 const Character=preload("res://scripts/CharacterProgressionSystem.gd")
