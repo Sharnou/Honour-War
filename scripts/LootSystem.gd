@@ -4,6 +4,9 @@ extends RefCounted
 const EventInventory = preload("res://scripts/EventInventorySystem.gd")
 const QuestSystem = preload("res://scripts/QuestSystem.gd")
 
+const ItemDatabaseClass = preload("res://scripts/ItemDatabaseClass.gd")
+const CardDatabaseClass = preload("res://scripts/CardDatabaseClass.gd")
+
 const DEFAULT_RULES := {"enabled":true,"auto_pick_items":true,"auto_pick_cards":true,"auto_pick_materials":true,"auto_pick_equipment":true,"auto_sell_junk":false,"auto_use_potions":false,"min_rarity":"Common","mvp_only_bonus_loot":true,"pet_picks_up":true}
 const MVP_SUPER_CARD_DROP_RATE := 0.10
 const MVP_GLOWING_ITEM_DROP_RATE := 0.10
