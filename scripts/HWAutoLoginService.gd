@@ -1,6 +1,6 @@
 extends Node
 
-const HWAccountDatabaseClass = preload("res://scripts/HWAccountDatabaseClass.gd")
+const HWAccountDatabaseClass = preload("res://scripts/HWAccountDatabase.gd")
 
 ## Persistent automatic-login service.
 ## A successful password login can issue a revocable bearer token. The client
