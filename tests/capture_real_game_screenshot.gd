@@ -1,7 +1,7 @@
 extends SceneTree
 
 const CAPTURE_PATH:String = "artifacts/honour-war-real-game.png"
-const WARMUP_FRAMES:int = 5
+const WARMUP_FRAMES:int = 30
 
 func _initialize() -> void:
     call_deferred("_boot_capture")
@@ -14,6 +14,7 @@ func _boot_capture() -> void:
         return
     var game:Node = packed.instantiate()
     get_root().add_child(game)
+    current_scene = game
     for i in range(WARMUP_FRAMES):
         await process_frame
     var viewport:Viewport = get_root().get_viewport()
