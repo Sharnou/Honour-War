@@ -3,7 +3,7 @@ extends Node
 ## Adds authored HD item/refinement icons to the existing command windows
 ## without changing inventory, equipment, loot, card, or refinement data.
 
-const ATLAS_PATH:String = "res://assets/3d/generated/ui/item_icons_atlas.svg"
+const ATLAS_PATH:String = "res://assets/ui/item_icons_atlas.svg"
 const POLL:float = 0.25
 var elapsed:float = 0.0
 var atlas_texture:Texture2D
