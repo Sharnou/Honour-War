@@ -62,7 +62,7 @@ func _test_toolbar()->void:
             button.emit_signal("pressed")
             await process_frame
     _check(icon_count==8,"all 8 toolbar icons are present")
-    var quickbars:=hud.find_children("*","QuickSlot_*",true,false)
+    var quickbars:=hud.find_children("QuickSlot_*","Button",true,false)
     _check(quickbars.size()==8,"all 8 quick skill slots exist")
     if quickbars.size()>0:
         var first:=quickbars[0] as Button
