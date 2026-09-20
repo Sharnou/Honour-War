@@ -39,61 +39,61 @@ func _process(delta:float)->void:
         if not live.has(id): states.erase(id)
 
 func _animate(delta:float,visual:Node3D,monster:Dictionary,hero_pos:Vector2,state:Dictionary)->void:
-	state["time"]=float(state["time"])+delta
-	state["next_attack"]=float(state["next_attack"])-delta
-	state["next_cast"]=float(state["next_cast"])-delta
-	var hp:int=int(monster.get("hp",0))
-	if hp<=0:
-		if not bool(state.get("death",false)):
-			state["death"]=true
-			var tween:=visual.create_tween()
-			tween.tween_property(visual,"rotation",Vector3(0,visual.rotation.y,1.0),0.25)
-			tween.parallel().tween_property(visual,"scale",Vector3(0.12,0.12,0.12),0.40)
-		return
-	var world_pos:Vector2=monster.get("pos",Vector2.ZERO)
-	var distance:float=world_pos.distance_to(hero_pos)
-	# Consume the same authoritative simulation state used by Game3D. This
-	# director never derives a different chase velocity from render distance.
-	var authoritative_velocity:=Vector2(
-		float(monster.get("authoritative_velocity_x",monster.get("velocity_x",0.0))),
-		float(monster.get("authoritative_velocity_y",monster.get("velocity_y",0.0)))
-	)
-	var authoritative_speed:float=float(monster.get("authoritative_movement_speed",authoritative_velocity.length()))
-	var movement_state:String=str(monster.get("authoritative_movement_state",monster.get("movement_state","idle")))
-	var facing_value:=Vector2(
-		float(monster.get("authoritative_facing_x",monster.get("facing_x",0.0))),
-		float(monster.get("authoritative_facing_y",monster.get("facing_y",0.0)))
-	)
-	if facing_value.length_squared()<0.0001 and authoritative_velocity.length_squared()>0.0001:
-		facing_value=authoritative_velocity.normalized()
-	var moving:bool=movement_state=="chase" or movement_state=="return" or authoritative_speed>0.01
-	var phase:float=float(state["time"])*(5.0+min(authoritative_speed*0.08,3.0))
-	visual.position.y=0.15+(abs(sin(phase))*0.045 if moving else 0.0)
-	if facing_value.length_squared()>0.0001:
-		var desired_yaw:float=atan2(-facing_value.x,-facing_value.y)
-		visual.rotation.y=lerp_angle(visual.rotation.y,desired_yaw,1.0-exp(-14.0*delta))
-	if moving:
-		visual.rotation.z=sin(phase)*0.045
-	else:
-		visual.rotation.z=lerp(visual.rotation.z,0.0,0.12)
-	visual.set_meta("authoritative_velocity",authoritative_velocity)
-	visual.set_meta("authoritative_speed",authoritative_speed)
-	visual.set_meta("authoritative_movement_state",movement_state)
-	visual.set_meta("authoritative_facing",facing_value)
-	var previous_hp:int=int(state.get("hp",hp))
-	if hp<previous_hp:
-		visual.scale=Vector3(1.13,0.90,1.10)
-		var recover:=visual.create_tween()
-		recover.tween_property(visual,"scale",Vector3.ONE,0.15)
-	state["hp"]=hp
-	if distance<150.0 and float(state["next_attack"])<=0.0:
-		state["next_attack"]=1.1 if not bool(monster.get("mvp",false)) else 0.75
-		_attack(visual,monster)
-	var ranged:bool=bool(monster.get("ranged",false)) or str(monster.get("attack_type",""))=="Ranged"
-	if ranged and distance<220.0 and float(state["next_cast"])<=0.0:
-		state["next_cast"]=2.8 if not bool(monster.get("mvp",false)) else 1.9
-		_cast(visual,monster)
-	_animate_limbs(visual,phase)
+    state["time"]=float(state["time"])+delta
+    state["next_attack"]=float(state["next_attack"])-delta
+    state["next_cast"]=float(state["next_cast"])-delta
+    var hp:int=int(monster.get("hp",0))
+    if hp<=0:
+        if not bool(state.get("death",false)):
+            state["death"]=true
+            var tween:=visual.create_tween()
+            tween.tween_property(visual,"rotation",Vector3(0,visual.rotation.y,1.0),0.25)
+            tween.parallel().tween_property(visual,"scale",Vector3(0.12,0.12,0.12),0.40)
+        return
+    var world_pos:Vector2=monster.get("pos",Vector2.ZERO)
+    var distance:float=world_pos.distance_to(hero_pos)
+    # Consume the same authoritative simulation state used by Game3D. This
+    # director never derives a different chase velocity from render distance.
+    var authoritative_velocity:=Vector2(
+        float(monster.get("authoritative_velocity_x",monster.get("velocity_x",0.0))),
+        float(monster.get("authoritative_velocity_y",monster.get("velocity_y",0.0)))
+    )
+    var authoritative_speed:float=float(monster.get("authoritative_movement_speed",authoritative_velocity.length()))
+    var movement_state:String=str(monster.get("authoritative_movement_state",monster.get("movement_state","idle")))
+    var facing_value:=Vector2(
+        float(monster.get("authoritative_facing_x",monster.get("facing_x",0.0))),
+        float(monster.get("authoritative_facing_y",monster.get("facing_y",0.0)))
+    )
+    if facing_value.length_squared()<0.0001 and authoritative_velocity.length_squared()>0.0001:
+        facing_value=authoritative_velocity.normalized()
+    var moving:bool=movement_state=="chase" or movement_state=="return" or authoritative_speed>0.01
+    var phase:float=float(state["time"])*(5.0+min(authoritative_speed*0.08,3.0))
+    visual.position.y=0.15+(abs(sin(phase))*0.045 if moving else 0.0)
+    if facing_value.length_squared()>0.0001:
+        var desired_yaw:float=atan2(-facing_value.x,-facing_value.y)
+        visual.rotation.y=lerp_angle(visual.rotation.y,desired_yaw,1.0-exp(-14.0*delta))
+    if moving:
+        visual.rotation.z=sin(phase)*0.045
+    else:
+        visual.rotation.z=lerp(visual.rotation.z,0.0,0.12)
+    visual.set_meta("authoritative_velocity",authoritative_velocity)
+    visual.set_meta("authoritative_speed",authoritative_speed)
+    visual.set_meta("authoritative_movement_state",movement_state)
+    visual.set_meta("authoritative_facing",facing_value)
+    var previous_hp:int=int(state.get("hp",hp))
+    if hp<previous_hp:
+        visual.scale=Vector3(1.13,0.90,1.10)
+        var recover:=visual.create_tween()
+        recover.tween_property(visual,"scale",Vector3.ONE,0.15)
+    state["hp"]=hp
+    if distance<150.0 and float(state["next_attack"])<=0.0:
+        state["next_attack"]=1.1 if not bool(monster.get("mvp",false)) else 0.75
+        _attack(visual,monster)
+    var ranged:bool=bool(monster.get("ranged",false)) or str(monster.get("attack_type",""))=="Ranged"
+    if ranged and distance<220.0 and float(state["next_cast"])<=0.0:
+        state["next_cast"]=2.8 if not bool(monster.get("mvp",false)) else 1.9
+        _cast(visual,monster)
+    _animate_limbs(visual,phase)
 
 func _attack(visual:Node3D,monster:Dictionary)->void:
     var weapon:Node3D=visual.get_node_or_null("HW_MonsterWeapon") as Node3D
