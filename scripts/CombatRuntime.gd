@@ -157,9 +157,11 @@ func move_monsters(delta:float,hero:Dictionary)->void:
             continue
         var speed:float=clamp(MONSTER_SPEED+float(monster.get("level",1))*0.04,MONSTER_MIN_SPEED,MONSTER_MAX_SPEED)
         if bool(monster.get("mvp",false)): speed*=1.08
+        var movement_velocity:=Vector2.ZERO
         if float(monster.get("slow_until",0.0))>now: speed*=0.45
         if leash_distance>MONSTER_LEASH_RANGE:
             var return_dir:=pos.direction_to(spawn_pos)
+            movement_velocity=return_dir*speed
             pos=CombatRules.snap_map_point(pos+return_dir*speed*delta)
             monster["movement_state"]="return"
             monster["facing_x"]=return_dir.x
@@ -167,11 +169,15 @@ func move_monsters(delta:float,hero:Dictionary)->void:
         else:
             var chase_dir:=pos.direction_to(hero_pos)
             if chase_dir.length_squared()>0.0001:
+                movement_velocity=chase_dir*speed
                 pos=CombatRules.snap_map_point(pos+chase_dir*min(speed*delta,max(0.0,distance-attack_range)))
                 monster["facing_x"]=chase_dir.x
                 monster["facing_y"]=chase_dir.y
             monster["movement_state"]="chase"
         monster["pos"]=pos
+        monster["velocity_x"]=movement_velocity.x
+        monster["velocity_y"]=movement_velocity.y
+        monster["movement_speed"]=movement_velocity.length()
 
 func regenerate_sp(hero:Dictionary)->void:
     if sp_regen_timer<SP_REGEN_INTERVAL: return
