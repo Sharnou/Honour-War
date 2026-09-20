@@ -15,6 +15,7 @@ func _init()->void:
     ok = ok and CARDS.card_effect(hero,"Zerom Card").get("amount",0)==2
     ok = ok and CARDS.lowest_stat_bonus(hero,"Jing Guai Card")==0
     hero["base_stats"]["DEX"]=54
+    hero["base_stats"]["INT"]=54
     # The current rule is +1 to all stats per 10 points in the lowest
     # pure-base stat once that lowest stat is at least 50: 54 -> +5.
     ok = ok and CARDS.lowest_stat_bonus(hero,"Jing Guai Card")==5
