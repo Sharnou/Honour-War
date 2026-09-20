@@ -22,6 +22,13 @@ func _run()->void:
     _check(taskbar!=null,"HDMMOTaskbar exists")
     _check(systems!=null,"GameplaySystemsRuntime exists")
     _check(ResourceLoader.exists("res://assets/ui/skill_icons_atlas.svg"),"skill icon atlas exists")
+    var chat:=scene.find_child("HDChatBootstrap",true,false)
+    _check(chat!=null,"chat system exists")
+    if chat!=null:
+        _check(chat.has_method("toggle_chat"),"chat toggle action exists")
+        var chat_button:=chat.find_child("ChatToggle",true,false) as Button
+        _check(chat_button!=null,"chat toggle button exists")
+        _check(str(chat_button.text).contains("ENTER"),"chat Enter hotkey is advertised")
     _check(TELEPORT.MAPS.size()>=30,"full registered map catalog is present")
     for map_id in TELEPORT.MAPS.keys():
         _check(TELEPORT.MAPS[map_id].has("type"),"map %s has authored map type" % str(map_id))
