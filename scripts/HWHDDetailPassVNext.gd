@@ -187,7 +187,7 @@ func _build_market_row(center: Vector3, t: Dictionary) -> void:
         _crate(p + Vector3(-1.25, 0, 0.35), t)
         _crate(p + Vector3(1.20, 0, 0.35), t)
         _barrel(p + Vector3(0, 0, -0.35), t)
-        _lamp(p + Vector3(0, 0, -1.45), t.light)
+        _lamp(p + Vector3(0, 0, -1.45), t)
 
 func _build_city_gate(p: Vector3, t: Dictionary, title: String) -> void:
     root.add_child(_box(Vector3(1.5, 6.0, 1.8), p + Vector3(-4.0, 3.0, 0), t.stone))
