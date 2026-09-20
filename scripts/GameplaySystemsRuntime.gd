@@ -127,6 +127,23 @@ func _open_window()->void:
     panel.size=Vector2(620,735)
     _install_closebar()
 
+func _install_closebar()->void:
+    if panel == null:
+        return
+    var existing:=panel.get_node_or_null("UIWindowClose")
+    if existing != null:
+        return
+    var close:=Button.new()
+    close.name="UIWindowClose"
+    close.text="CLOSE"
+    close.tooltip_text="Close this window. Press the same hotkey again to reopen."
+    close.custom_minimum_size=Vector2(0,36)
+    close.pressed.connect(_close_window)
+    var root:=panel.get_child(0) as VBoxContainer
+    if root != null:
+        root.add_child(close)
+        root.move_child(close,0)
+
 func _close_window()->void:
     if panel != null:
         panel.visible=false
