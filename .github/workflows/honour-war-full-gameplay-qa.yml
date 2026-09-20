@@ -190,7 +190,7 @@ jobs:
           )
           Write-Host "Starting bounded direct real-game screenshot capture..."
           $p = Start-Process -FilePath $godot -ArgumentList $args -WorkingDirectory $pwd -RedirectStandardOutput $log -RedirectStandardError $err -PassThru
-          $deadline = (Get-Date).AddSeconds(180)
+          $deadline = (Get-Date).AddSeconds(360)
           while (-not $p.HasExited -and (Get-Date) -lt $deadline) {
             Start-Sleep -Milliseconds 500
           }
@@ -198,7 +198,7 @@ jobs:
             Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue
             Get-Content $log -ErrorAction SilentlyContinue
             Get-Content $err -ErrorAction SilentlyContinue
-            throw "Real game screenshot capture timed out after 180 seconds"
+            throw "Real game screenshot capture timed out after 360 seconds"
           }
           Get-Content $log -ErrorAction SilentlyContinue
           Get-Content $err -ErrorAction SilentlyContinue
@@ -346,12 +346,12 @@ jobs:
             Get-Content $err -ErrorAction SilentlyContinue
             throw "HonourWarHD.exe exited during startup with code $($p.ExitCode)"
           }
-          Start-Sleep -Seconds 50
+          Start-Sleep -Seconds 290
           if ($p.HasExited) {
-            throw "HonourWarHD.exe crashed/exited during the 60-second runtime test; exit code $($p.ExitCode)"
+            throw "HonourWarHD.exe crashed/exited during the 5-minute runtime test; exit code $($p.ExitCode)"
           }
           Stop-Process -Id $p.Id -Force
-          Write-Host "PASS: exported HonourWarHD.exe stayed alive for 60 seconds."
+          Write-Host "PASS: exported HonourWarHD.exe stayed alive for the full 5-minute runtime test."
       - name: Scan EXE runtime logs for fatal errors
         shell: pwsh
         run: |
