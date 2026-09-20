@@ -112,6 +112,12 @@ jobs:
         run: |
           set -euo pipefail
           timeout --kill-after=10s 120s ./Godot_v4.7.2-stable_linux.x86_64 --headless --path . --script res://tests/four_point_production_contract_test.gd 2>&1 | tee four-point-production.log
+      - name: Runtime UI surface QA
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout --kill-after=10s 120s ./Godot_v4.7.2-stable_linux.x86_64 --headless --path . --script res://tests/ui_surface_runtime_test.gd 2>&1 | tee ui-surface-qa.log
+          grep -F 'UI_SURFACE_QA=PASS' ui-surface-qa.log
       - name: Forward+ startup smoke test
         shell: bash
         run: |
@@ -133,6 +139,7 @@ jobs:
             fast-account-auth.log
             godot-forward-plus.log
             four-point-production.log
+            ui-surface-qa.log
           if-no-files-found: ignore
       - name: Validate final renderer contract
         shell: bash
