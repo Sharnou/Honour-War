@@ -220,7 +220,10 @@ func _build_street_furniture(center: Vector3, t: Dictionary) -> void:
 func _build_tree_groves(center: Vector3, t: Dictionary) -> void:
     for i in range(24):
         var p := center + Vector3(_hash(i + 90, 27), 0, _hash(i + 130, 19))
-        if p.distance_to(center) < 9.0:
+        # Keep the gameplay actor presentation corridor clear. The hero must
+        # remain fully readable in the real-game capture and during normal play.
+        var hero_clear_center := center + Vector3(0.0, 0.0, -5.2)
+        if p.distance_to(center) < 9.0 or p.distance_to(hero_clear_center) < 7.5:
             continue
         _tree(p, t, i)
 
