@@ -29,7 +29,7 @@ jobs:
   actual-game-screenshot:
     name: Capture actual Honour War HD 3D frame
     runs-on: windows-latest
-    timeout-minutes: 10
+    timeout-minutes: 7
     steps:
       - name: Checkout exact revision
         uses: actions/checkout@v4
