@@ -23,6 +23,7 @@ var xp_label: Label
 var level_label: Label
 var location_label: Label
 var hidden_timer: float = 0.0
+var action_status: Label
 
 func _ready() -> void:
     game = get_parent()
@@ -41,6 +42,7 @@ func _build() -> void:
     _build_status()
     _build_quickbar()
     _build_systembar()
+    _build_action_status()
     call_deferred("_close_progression")
     call_deferred("_install_runtime_directors")
 
@@ -68,6 +70,7 @@ func _process(delta: float) -> void:
     if hidden_timer >= 0.5:
         hidden_timer = 0.0
         _hide_legacy_huds()
+    _layout_responsive()
     _refresh()
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -147,8 +150,8 @@ func _small_value(prefix: String, tint: Color) -> Label:
 func _build_quickbar() -> void:
     var panel := PanelContainer.new()
     panel.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
-    panel.position = Vector2(-540, -104)
-    panel.size = Vector2(720, 94)
+    panel.position = Vector2(-560, -116)
+    panel.size = Vector2(760, 106)
     panel.add_theme_stylebox_override("panel", _style())
     root.add_child(panel)
 
@@ -168,7 +171,7 @@ func _build_quickbar() -> void:
 
     for i in range(8):
         var slot := Button.new()
-        slot.custom_minimum_size = Vector2(82, 58)
+        slot.custom_minimum_size = Vector2(86, 68)
         slot.name = "QuickSlot_%d" % (i + 1)
         slot.add_theme_font_size_override("font_size", 9)
         slot.add_theme_stylebox_override("normal", _style(Color("#1b2531")))
@@ -179,8 +182,8 @@ func _build_quickbar() -> void:
 func _build_systembar() -> void:
     var panel := PanelContainer.new()
     panel.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
-    panel.position = Vector2(190, -104)
-    panel.size = Vector2(740, 94)
+    panel.position = Vector2(-380, -116)
+    panel.size = Vector2(760, 106)
     panel.add_theme_stylebox_override("panel", _style())
     root.add_child(panel)
 
@@ -202,22 +205,22 @@ func _build_systembar() -> void:
 
     for entry in entries:
         var button := Button.new()
-        button.custom_minimum_size = Vector2(82, 70)
+        button.custom_minimum_size = Vector2(88, 76)
         button.tooltip_text = str(entry[1]).capitalize()
         button.add_theme_stylebox_override("normal", _style(Color("#1b2531")))
         button.add_theme_stylebox_override("hover", _style(Color("#3a3222")))
 
         var icon := HUDIcon.new()
         icon.kind = int(entry[2])
-        icon.position = Vector2(26, 6)
-        icon.size = Vector2(30, 30)
+        icon.position = Vector2(29, 6)
+        icon.size = Vector2(30, 34)
         icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
         button.add_child(icon)
 
         var text := Label.new()
         text.text = str(entry[0])
-        text.position = Vector2(0, 42)
-        text.size = Vector2(82, 22)
+        text.position = Vector2(0, 45)
+        text.size = Vector2(88, 26)
         text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
         text.add_theme_font_size_override("font_size", 8)
         text.add_theme_color_override("font_color", TEXT)
@@ -225,7 +228,25 @@ func _build_systembar() -> void:
         button.add_child(text)
 
         button.pressed.connect(_open.bind(str(entry[1])))
+        button.pressed.connect(_show_action.bind(str(entry[0])))
         row.add_child(button)
+
+func _build_action_status() -> void:
+    action_status = Label.new()
+    action_status.name = "UIActionStatus"
+    action_status.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
+    action_status.position = Vector2(-210, -150)
+    action_status.size = Vector2(420, 28)
+    action_status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+    action_status.add_theme_font_size_override("font_size", 12)
+    action_status.add_theme_color_override("font_color", TEXT)
+    action_status.text = "UI READY • click any toolbar icon to test it"
+    action_status.mouse_filter = Control.MOUSE_FILTER_IGNORE
+    root.add_child(action_status)
+
+func _show_action(label: String) -> void:
+    if action_status != null:
+        action_status.text = "✓ " + label + " opened • input accepted"
 
 func _open(mode: String) -> void:
     if mode == "equipment":
@@ -247,8 +268,6 @@ func _open(mode: String) -> void:
     if ui == null:
         return
     var mode_to_use: String = mode
-    if mode_to_use == "map" or mode_to_use == "system":
-        mode_to_use = "character"
     ui.call("_set_mode", mode_to_use)
     progression_panel = ui.get("panel") as Control
     if progression_panel == null:
@@ -311,6 +330,19 @@ func _use_slot(index: int) -> void:
         return
     var skill_id: String = str(skills[index].get("id", ""))
     system.use(hero, skill_id, Time.get_ticks_msec() / 1000.0)
+
+func _layout_responsive() -> void:
+    if root == null:
+        return
+    var v := get_viewport().get_visible_rect().size
+    if action_status != null:
+        action_status.position = Vector2((v.x - 420.0) * 0.5, v.y - 151.0)
+    for child in root.get_children():
+        if child is PanelContainer:
+            var panel := child as Control
+            if panel.size.y >= 100.0 and panel.position.y < 0.0:
+                panel.position.x = (v.x - panel.size.x) * 0.5
+                panel.position.y = v.y - panel.size.y - 12.0
 
 func _refresh() -> void:
     if legacy == null:
