@@ -139,7 +139,6 @@ func _toggle_mode(target:String)->void:
         _close_window()
     else:
         _set_mode(target)
-        _open_window()
 
 func _open_window()->void:
     if panel == null:
