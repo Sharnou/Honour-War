@@ -2,7 +2,7 @@ extends SceneTree
 
 const CAPTURE_DIR:String="res://visual-captures"
 const CAPTURE_FILE:String=CAPTURE_DIR+"/honour-war-real-game.png"
-const STARTUP_TIMEOUT:float=120.0
+const STARTUP_TIMEOUT:float=300.0
 const MIN_RENDER_FRAMES:int=60
 const MIN_SCENE_LUMA:float=0.035
 const MIN_SCENE_VARIANCE:float=0.002
