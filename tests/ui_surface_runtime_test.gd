@@ -57,6 +57,10 @@ func _test_toolbar()->void:
     for child in hud.get_children():
         if child is PanelContainer: panels.append(child)
     _check(panels.size()>=3,"status/quickbar/systembar panels exist")
+    var final_toolbar:=hud.find_child("FinalSystemToolbarPanel",true,false) as Control
+    var legacy_quickbar:=hud.find_child("LegacyQuickSkillPanel",true,false) as Control
+    _check(final_toolbar!=null and final_toolbar.visible,"final system toolbar remains visible")
+    _check(legacy_quickbar==null or not legacy_quickbar.visible,"duplicate legacy quickbar is hidden")
     var systembar:PanelContainer=panels[2] as PanelContainer if panels.size()>2 else null
     if systembar==null: return
     var rows:Array=[]
