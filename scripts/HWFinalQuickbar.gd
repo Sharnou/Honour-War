@@ -136,7 +136,9 @@ func _build()->void:
     for i in range(8):
         var slot := Button.new()
         slot.name = "SkillSlot_%d" % (i + 1)
-        slot.custom_minimum_size = Vector2(72, 40)
+        slot.custom_minimum_size = Vector2(72, 44)
+        slot.icon_max_width = 32
+        slot.expand_icon = true
         slot.size_flags_horizontal = Control.SIZE_EXPAND_FILL
         slot.size_flags_vertical = Control.SIZE_EXPAND_FILL
         slot.alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -147,6 +149,7 @@ func _build()->void:
         slot.add_theme_stylebox_override("normal", _style(Color("#101d2e"), Color("#42536a"), 6))
         slot.add_theme_stylebox_override("hover", _style(Color("#20324a"), BORDER, 6))
         slot.add_theme_stylebox_override("pressed", _style(Color("#293c58"), Color("#f0d587"), 6))
+        slot.tooltip_text = "Skill " + str(i + 1) + " • click or press " + str(i + 1)
         slot.pressed.connect(_cast_slot.bind(i))
         slots.add_child(slot)
 
