@@ -108,7 +108,6 @@ func _build()->void:
         slot.custom_minimum_size=Vector2(103,69)
         slot.size_flags_horizontal=Control.SIZE_EXPAND_FILL
         slot.expand_icon=true
-        slot.icon_max_width=46
         slot.alignment=HORIZONTAL_ALIGNMENT_CENTER
         slot.add_theme_font_size_override("font_size",10)
         slot.add_theme_color_override("font_color",TEXT)
@@ -121,6 +120,8 @@ func _build()->void:
 
 func _refresh(force:bool=false)->void:
     if legacy==null or slots==null or not is_instance_valid(legacy):
+        return
+    if slots.get_child_count() < 8:
         return
     var value:Variant=legacy.get("hero")
     if not value is Dictionary:
