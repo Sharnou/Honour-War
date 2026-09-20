@@ -335,10 +335,21 @@ func _inventory(current:Dictionary)->void:
             equip.pressed.connect(_equip_item.bind(id))
             row.add_child(equip)
 
-func _select_item(item_id:String)->void: selected_item=item_id; timer=1.0
+func _select_item(item_id:String)->void:
+    selected_item=item_id
+    timer=1.0
+
 func _equip_item(item_id:String)->void:
-    var result:Dictionary=CHARACTER_INV.equip(hero,item_id); _show_result(result,"Equipped "+item_id); if bool(result.get("ok",false)): selected_item=""; timer=1.0
-func _use_item(item_id:String)->void: var result:Dictionary=CHARACTER_INV.use_consumable(hero,item_id); _show_result(result,"Used "+item_id); timer=1.0
+    var result:Dictionary=CHARACTER_INV.equip(hero,item_id)
+    _show_result(result,"Equipped "+item_id)
+    if bool(result.get("ok",false)):
+        selected_item=""
+    timer=1.0
+
+func _use_item(item_id:String)->void:
+    var result:Dictionary=CHARACTER_INV.use_consumable(hero,item_id)
+    _show_result(result,"Used "+item_id)
+    timer=1.0
 
 func _equipment(current:Dictionary)->void:
     _clear_body()
@@ -418,8 +429,15 @@ func _equipment(current:Dictionary)->void:
         _button("REFINE SELECTED",Callable(self,"_refine_selected"))
         _button("CHOOSE CARD",Callable(self,"_show_card_picker"))
 
-func _select_slot(slot:String)->void: selected_slot=slot; selected_card=""; timer=1.0
-func _unequip_slot(slot:String)->void: var result:Dictionary=CHARACTER_INV.unequip(hero,slot); _show_result(result,"Unequipped "+slot); timer=1.0
+func _select_slot(slot:String)->void:
+    selected_slot=slot
+    selected_card=""
+    timer=1.0
+
+func _unequip_slot(slot:String)->void:
+    var result:Dictionary=CHARACTER_INV.unequip(hero,slot)
+    _show_result(result,"Unequipped "+slot)
+    timer=1.0
 func _refine(current:Dictionary)->void:
     _clear_body(); _heading("REFINEMENT • SILENT AUTOSAVE")
     for slot in ["weapon","armor","head","head_middle","head_lower","garment","shoes","offhand","accessory_1","accessory_2"]:
@@ -427,8 +445,14 @@ func _refine(current:Dictionary)->void:
         if not raw is Dictionary: continue
         var item:Dictionary=raw; var refine:int=int(item.get("refine",0)); var chance:float=EQUIPMENT.refine_chance(refine); var material:String="Oridecon" if str(item.get("type",""))=="Weapon" and refine>=5 else "Elunium" if str(item.get("type",""))!="Weapon" and refine>=5 else "Phracon"; var owned:int=int(current.get("inventory",{}).get(material,0))
         var row:=HBoxContainer.new(); body.add_child(row); var text:=Label.new(); text.text="%s +%d → +%d • %.0f%% • %s x%d" % [str(item.get("id","Item")),refine,refine+1,chance*100.0,material,owned]; text.size_flags_horizontal=Control.SIZE_EXPAND_FILL; row.add_child(text); var button:=Button.new(); button.text="REFINE"; button.disabled=owned<=0; button.pressed.connect(_refine_slot.bind(slot)); row.add_child(button)
-func _refine_slot(slot:String)->void: var result:Dictionary=CHARACTER_INV.refine(hero,slot,0.5); _show_result(result,"Refinement attempt complete"); timer=1.0
-func _refine_selected()->void: if selected_slot!="": _refine_slot(selected_slot)
+func _refine_slot(slot:String)->void:
+    var result:Dictionary=CHARACTER_INV.refine(hero,slot,0.5)
+    _show_result(result,"Refinement attempt complete")
+    timer=1.0
+
+func _refine_selected()->void:
+    if selected_slot!="":
+        _refine_slot(selected_slot)
 
 func _show_card_picker()->void:
     mode="equipment"; _clear_body(); _heading("CARD SELECTOR • PREVIEW")
