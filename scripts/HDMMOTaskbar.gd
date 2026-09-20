@@ -1,9 +1,7 @@
 class_name HDMMOTaskbar
 extends CanvasLayer
 
-const EquipmentWindowScript = preload("res://scripts/HDEquipmentWindow.gd")
 const PANEL := Color("#101722ee")
-const PANEL_DARK := Color("#0a1018f4")
 const BORDER := Color("#b99b5b")
 const TEXT := Color("#efe8d8")
 const MUTED := Color("#93a0af")
@@ -14,8 +12,6 @@ const XP := Color("#5eac66")
 var game: Node
 var legacy: Node
 var root: Control
-var equipment_window: Node
-var progression_panel: Control
 var skill_slots: HBoxContainer
 var hp_label: Label
 var sp_label: Label
@@ -44,7 +40,6 @@ func _build() -> void:
     add_child(root)
     _build_status()
     _build_quickbar()
-    call_deferred("_close_progression")
     call_deferred("_install_runtime_directors")
 
 func _install_runtime_directors() -> void:
@@ -72,16 +67,6 @@ func _process(delta: float) -> void:
         hidden_timer = 0.0
         _hide_legacy_huds()
     _refresh()
-
-func _unhandled_input(event: InputEvent) -> void:
-    if not event is InputEventKey:
-        return
-    if not event.pressed or event.echo:
-        return
-    if event.keycode == KEY_ESCAPE:
-        if equipment_window != null and equipment_window.has_method("hide_window"):
-            equipment_window.call("hide_window")
-        _close_progression()
 
 func _hide_legacy_huds() -> void:
     var names: Array[String] = ["HDUIStyleDirector", "PetCombatHUD3D", "HeroPetComboHUD"]
@@ -187,14 +172,6 @@ func _build_quickbar() -> void:
         slot.add_theme_stylebox_override("hover", _style(Color("#3a3222")))
         slot.pressed.connect(_use_slot.bind(i))
         skill_slots.add_child(slot)
-
-func _close_progression() -> void:
-    if progression_panel == null and game != null:
-        var ui: Node = game.get_node_or_null("GameplaySystemsRuntime")
-        if ui != null:
-            progression_panel = ui.get("panel") as Control
-    if progression_panel != null:
-        progression_panel.visible = false
 
 func _use_slot(index: int) -> void:
     if legacy == null:
