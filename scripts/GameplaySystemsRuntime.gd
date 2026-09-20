@@ -14,6 +14,7 @@ const SKILLS=preload("res://scripts/SkillSystem.gd")
 const PET=preload("res://scripts/PetProgressionSystem.gd")
 const PET_SKILLS=preload("res://scripts/PetSkillSystem.gd")
 const SAVE=preload("res://scripts/SaveSystem.gd")
+const TELEPORT=preload("res://scripts/TeleportSystem.gd")
 
 var game:Node3D
 var legacy:Node
@@ -75,7 +76,7 @@ func _build_ui()->void:
     status_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
     root.add_child(status_label)
     var hint:=Label.new()
-    hint.text="HOTKEYS  C Character • P Pet • K Skills • I Inventory • E Equipment • R Refine • M Map • O System • V Status • ESC Close"
+    hint.text="HOTKEYS  C Character • P Pet • K Skills • I Inventory • E Equipment + Status • R Refine • M Map • O System • V Equipment + Status • ESC Close"
     root.add_child(hint)
 
 func _set_mode(next:String)->void:
@@ -105,7 +106,7 @@ func _unhandled_key_input(event:InputEvent)->void:
         KEY_R: target="refine"
         KEY_M: target="map"
         KEY_O: target="system"
-        KEY_V: target="status"
+        KEY_V: target="equipment"
         _:
             return
     _toggle_mode(target)
@@ -178,7 +179,6 @@ func _refresh(current:Dictionary)->void:
     elif mode=="events": _events(current)
     elif mode=="map": _map(current)
     elif mode=="system": _system(current)
-    elif mode=="status": _status_points(current)
     else: _monster(current)
 
 func _character(current:Dictionary)->void:
@@ -241,7 +241,7 @@ func _skills(current:Dictionary)->void:
 
 func _map(current:Dictionary)->void:
     _clear_body()
-    var map_name:=_map_name(current)
+    var map_name:String=TELEPORT.map_name(int(current.get("map_id",0)))
     _heading("WORLD MAP • "+map_name)
     var coord:=Label.new()
     coord.text="Current position  X %d : Y %d\nFast travel: @go [map] [x]:[y]" % [int(current.get("pos_x",0))-365,int(current.get("pos_y",0))-120]
@@ -272,7 +272,7 @@ func _system(current:Dictionary)->void:
     _button("UI SCALE 120%",Callable(self,"_set_ui_scale").bind(1.20))
     _button("RESET UI SCALE",Callable(self,"_set_ui_scale").bind(1.00))
     _heading("INPUT")
-    var hint:=Label.new(); hint.text="C Character • P Pet • K Skills • I Inventory • E Equipment • R Refine • M Map • O System • V Status • same hotkey closes"; body.add_child(hint)
+    var hint:=Label.new(); hint.text="C Character • P Pet • K Skills • I Inventory • E Equipment + Status • R Refine • M Map • O System • V Equipment + Status • same hotkey closes"; body.add_child(hint)
 
 func _save_now()->void:
     SAVE.save_game(hero)
@@ -282,34 +282,6 @@ func _learn_skill(skill_id:String)->void:
     if SKILLS.learn(hero,skill_id): SAVE.save_game(hero); _set_status("✓ Skill learned: "+skill_id)
     else: _set_status("✕ Skill requirements or skill points not met.")
     timer=1.0
-
-func _status_points(current:Dictionary)->void:
-    _clear_body()
-    _heading("STATUS POINTS • CHARACTER STATS")
-    var points:=int(current.get("stat_points",0))
-    var summary:=Label.new()
-    summary.text="Available Status Points: %d\nEach stat has a maximum of 99." % points
-    summary.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-    body.add_child(summary)
-    var stats:Dictionary=current.get("stats",{})
-    for stat in CHARACTER.STAT_NAMES:
-        var row:=HBoxContainer.new()
-        body.add_child(row)
-        var value:=Label.new()
-        value.text="%s   %d / 99" % [stat.to_upper(),int(stats.get(stat,1))]
-        value.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-        row.add_child(value)
-        var one:=Button.new()
-        one.text="+1"
-        one.disabled=points<=0 or int(stats.get(stat,1))>=99
-        one.pressed.connect(_allocate_stat.bind(stat,1))
-        row.add_child(one)
-        var five:=Button.new()
-        five.text="+5"
-        five.disabled=points<=0 or int(stats.get(stat,1))>=99
-        five.pressed.connect(_allocate_stat.bind(stat,5))
-        row.add_child(five)
-    _button("CLOSE",Callable(self,"_close_window"))
 
 func _pet(current:Dictionary)->void:
     _clear_body()
@@ -361,8 +333,33 @@ func _equip_item(item_id:String)->void:
 func _use_item(item_id:String)->void: var result:Dictionary=CHARACTER_INV.use_consumable(hero,item_id); _show_result(result,"Used "+item_id); timer=1.0
 
 func _equipment(current:Dictionary)->void:
-    _clear_body(); _heading("EQUIPMENT • LIVE STATS")
-    var stats:Dictionary=CHARACTER.stats(current); var summary:=Label.new(); summary.text="Power %d • ATK %d • MATK %d • DEF %d • MDEF %d • HP %d • SP %d" % [CHARACTER.combat_power(current),int(stats["atk"]),int(stats["matk"]),int(stats["def"]),int(stats["mdef"]),int(stats["max_hp"]),int(stats["max_sp"] )]; body.add_child(summary)
+    _clear_body(); _heading("EQUIPMENT & STATUS • LIVE STATS")
+    var stats:Dictionary=CHARACTER.stats(current);
+    var status_points:=Label.new()
+    status_points.text="STATUS POINTS AVAILABLE: %d • Each stat has a maximum of 99" % int(current.get("stat_points",0))
+    status_points.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+    body.add_child(status_points) var summary:=Label.new(); summary.text="Power %d • ATK %d • MATK %d • DEF %d • MDEF %d • HP %d • SP %d" % [CHARACTER.combat_power(current),int(stats["atk"]),int(stats["matk"]),int(stats["def"]),int(stats["mdef"]),int(stats["max_hp"]),int(stats["max_sp"] )]; body.add_child(summary)
+    _heading("STATUS ALLOCATION")
+    var current_stats:Dictionary=current.get("stats",{})
+    var available_points:int=int(current.get("stat_points",0))
+    for stat in CHARACTER.STAT_NAMES:
+        var stat_row:=HBoxContainer.new()
+        body.add_child(stat_row)
+        var stat_value:=Label.new()
+        stat_value.text="%s   %d / 99" % [stat.to_upper(),int(current_stats.get(stat,1))]
+        stat_value.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+        stat_row.add_child(stat_value)
+        var stat_one:=Button.new()
+        stat_one.text="+1"
+        stat_one.disabled=available_points<=0 or int(current_stats.get(stat,1))>=99
+        stat_one.pressed.connect(_allocate_stat.bind(stat,1))
+        stat_row.add_child(stat_one)
+        var stat_five:=Button.new()
+        stat_five.text="+5"
+        stat_five.disabled=available_points<=0 or int(current_stats.get(stat,1))>=99
+        stat_five.pressed.connect(_allocate_stat.bind(stat,5))
+        stat_row.add_child(stat_five)
+    _heading("EQUIPMENT SLOTS")
     for slot in ["weapon","armor","head","head_middle","head_lower","garment","shoes","offhand","accessory_1","accessory_2"]:
         var equipment:Dictionary=current.get("equipment",{}); var raw:Variant=equipment.get(slot,null); var name:String="Empty"; var refine:int=0
         if raw is Dictionary: name=str(raw.get("id",raw.get("name","Unknown"))); refine=int(raw.get("refine",current.get("equipment_refine",{}).get(slot,0)))
