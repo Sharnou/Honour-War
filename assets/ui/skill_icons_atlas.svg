@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="768" height="96" viewBox="0 0 768 96">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0b1424"/><stop offset="1" stop-color="#233e5c"/></linearGradient></defs>
+<g stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+<g transform="translate(0)"><rect width="96" height="96" rx="16" fill="url(#bg)" stroke="#d8b15c"/><path d="M48 12 L61 39 L88 48 L61 57 L48 84 L35 57 L8 48 L35 39 Z" fill="#ffbd55" stroke="#fff0b5"/><path d="M48 25 V71 M25 48 H71" stroke="#fff8d5"/></g>
+<g transform="translate(96)"><rect width="96" height="96" rx="16" fill="url(#bg)" stroke="#72c9ff"/><path d="M25 76 Q48 60 48 20 Q71 60 71 76 Z" fill="#6fd7ff" stroke="#eaffff"/><path d="M48 25 V67" stroke="#ffffff"/></g>
+<g transform="translate(192)"><rect width="96" height="96" rx="16" fill="url(#bg)" stroke="#9e7bff"/><circle cx="48" cy="48" r="27" fill="#6042b5" stroke="#e8dcff"/><path d="M48 19 V77 M19 48 H77 M28 28 L68 68 M68 28 L28 68" stroke="#d8c8ff"/></g>
+<g transform="translate(288)"><rect width="96" height="96" rx="16" fill="url(#bg)" stroke="#8eeaab"/><path d="M48 12 L62 39 L84 48 L62 57 L48 84 L34 57 L12 48 L34 39 Z" fill="#38b96b" stroke="#e6fff0"/><circle cx="48" cy="48" r="11" fill="#c7ffe0"/></g>
+<g transform="translate(384)"><rect width="96" height="96" rx="16" fill="url(#bg)" stroke="#ff8c77"/><path d="M28 78 L36 36 L48 17 L60 36 L68 78 Z" fill="#d64e38" stroke="#ffe3dc"/><path d="M48 18 V78" stroke="#fff0ea"/></g>
+<g transform="translate(480)"><rect width="96" height="96" rx="16" fill="url(#bg)" stroke="#f2d76d"/><circle cx="48" cy="48" r="28" fill="#a98429" stroke="#fff1a8"/><path d="M48 23 L54 43 L75 48 L54 53 L48 73 L42 53 L21 48 L42 43 Z" fill="#fff0a0"/></g>
+<g transform="translate(576)"><rect width="96" height="96" rx="16" fill="url(#bg)" stroke="#ff77c8"/><path d="M23 67 Q29 27 48 18 Q67 27 73 67 Q48 81 23 67 Z" fill="#a93679" stroke="#ffd8ef"/><circle cx="48" cy="44" r="10" fill="#ffb3de"/><path d="M33 65 Q48 55 63 65" stroke="#fff0f9"/></g>
+<g transform="translate(672)"><rect width="96" height="96" rx="16" fill="url(#bg)" stroke="#b9e7ff"/><path d="M48 13 L57 38 L83 48 L57 58 L48 83 L39 58 L13 48 L39 38 Z" fill="#5f9fc8" stroke="#e8f8ff"/><path d="M48 25 V71 M25 48 H71" stroke="#ffffff"/></g>
+</g></svg>
