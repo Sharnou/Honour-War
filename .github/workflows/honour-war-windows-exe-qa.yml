@@ -106,7 +106,7 @@ jobs:
       - name: Validate project before export
         shell: pwsh
         run: |
-          & .\godot.exe --headless --editor --path . --rendering-method gl_compatibility --rendering-driver opengl3 --quit 2>&1 | Tee-Object godot-export-validation.log
+          & .\godot.exe --headless --editor --path . --rendering-method forward_plus --rendering-driver d3d12 --quit 2>&1 | Tee-Object godot-export-validation.log
           if ($LASTEXITCODE -ne 0) { throw "Godot editor validation failed" }
           if (Select-String godot-export-validation.log -Pattern "SCRIPT ERROR|Parse Error|ERROR: Failed to load script|ERROR: Cannot load scene") { throw "Godot reported script/scene errors before export" }
 
@@ -123,7 +123,7 @@ jobs:
         run: |
           $exe = (Resolve-Path build\windows\HonourWarHD.exe).Path
           $log = (Resolve-Path ".").Path + "\honour-war-runtime.log"
-          $p = Start-Process -FilePath $exe -ArgumentList "--rendering-method","gl_compatibility","--rendering-driver","opengl3" -WorkingDirectory (Split-Path $exe) -RedirectStandardOutput $log -RedirectStandardError ($log + ".err") -PassThru
+          $p = Start-Process -FilePath $exe -ArgumentList "--rendering-method","forward_plus","--rendering-driver","d3d12" -WorkingDirectory (Split-Path $exe) -RedirectStandardOutput $log -RedirectStandardError ($log + ".err") -PassThru
           Start-Sleep -Seconds 5
           if ($p.HasExited) { throw "HonourWarHD.exe exited during startup with code $($p.ExitCode)" }
           Start-Sleep -Seconds 25
