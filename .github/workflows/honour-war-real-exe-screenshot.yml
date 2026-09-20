@@ -56,7 +56,7 @@ jobs:
           & .\godot.exe --headless --path . --export-release 'Windows Desktop' 'build\windows\HonourWarHD.exe' 2>&1 | Tee-Object godot-export.log
           if ($LASTEXITCODE -ne 0 -or -not (Test-Path 'build\windows\HonourWarHD.exe')) { throw 'Windows EXE export failed' }
 
-      - name: Run exported EXE and capture actual gameplay frame
+      - name: Run exported EXE with OpenGL and capture actual gameplay frame
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
@@ -65,17 +65,14 @@ jobs:
           $env:HW_CAPTURE_PATH = Join-Path $pwd 'artifacts\honour-war-exported-exe.png'
           $stdout = Join-Path $pwd 'artifacts\game.stdout.log'
           $stderr = Join-Path $pwd 'artifacts\game.stderr.log'
-          $proc = Start-Process -FilePath (Join-Path $pwd 'build\windows\HonourWarHD.exe') -WorkingDirectory $pwd -PassThru -RedirectStandardOutput $stdout -RedirectStandardError $stderr
+          $args = @('--rendering-method', 'gl_compatibility', '--rendering-driver', 'opengl3', '--hw-capture-screenshot')
+          $proc = Start-Process -FilePath (Join-Path $pwd 'build\windows\HonourWarHD.exe') -WorkingDirectory $pwd -ArgumentList $args -PassThru -RedirectStandardOutput $stdout -RedirectStandardError $stderr
           Start-Sleep -Seconds 8
-          if (-not (Test-Path $env:HW_CAPTURE_PATH)) {
-            Start-Sleep -Seconds 7
-          }
+          if (-not (Test-Path $env:HW_CAPTURE_PATH)) { Start-Sleep -Seconds 7 }
           if (-not (Test-Path $env:HW_CAPTURE_PATH)) {
             if (-not $proc.HasExited) { Stop-Process -Id $proc.Id -Force }
-            Write-Host '--- EXE stdout ---'
-            if (Test-Path $stdout) { Get-Content $stdout }
-            Write-Host '--- EXE stderr ---'
-            if (Test-Path $stderr) { Get-Content $stderr }
+            Write-Host '--- EXE stdout ---'; if (Test-Path $stdout) { Get-Content $stdout }
+            Write-Host '--- EXE stderr ---'; if (Test-Path $stderr) { Get-Content $stderr }
             throw 'Exported EXE did not create gameplay screenshot within 15 seconds'
           }
           $bytes = (Get-Item $env:HW_CAPTURE_PATH).Length
