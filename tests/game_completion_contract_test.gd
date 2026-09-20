@@ -94,7 +94,7 @@ func _initialize() -> void:
     check("HUD guard", hud.contains("var bound:bool=false") and hud.contains("var bind_queued:bool=false"))
     check("HUD idempotent", hud.contains("is_instance_valid(root)"))
     var quickbar := FileAccess.get_file_as_string("res://scripts/HWFinalQuickbar.gd")
-    check("8-slot combat quickbar", quickbar.contains("SkillSlot_8") and quickbar.contains("COMBAT SKILLS"))
+    check("8-slot combat quickbar", quickbar.contains("for i in range(8)") and quickbar.contains("slot.name="SkillSlot_%d"") and quickbar.contains("COMBAT SKILLS"))
     check("combat quickbar skill system", quickbar.contains("SkillSystem.gd") and quickbar.contains("SkillSystemClass.use"))
     check("legacy command toolbar hidden", hud.contains("toolbar.visible=false") and hud.contains("HONOUR WAR COMMAND"))
     var chat := FileAccess.get_file_as_string("res://scripts/HDChatBootstrap.gd")
