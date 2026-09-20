@@ -128,7 +128,7 @@ jobs:
       - name: Validate editor and scripts
         shell: pwsh
         run: |
-          & "$pwd\godot.exe" --headless --editor --path . --rendering-method gl_compatibility --rendering-driver opengl3 --quit 2>&1 | Tee-Object godot-full-qa-editor.log
+          & "$pwd\godot.exe" --headless --editor --path . --rendering-method forward_plus --rendering-driver d3d12 --quit 2>&1 | Tee-Object godot-full-qa-editor.log
           if ($LASTEXITCODE -ne 0) { throw "Godot editor validation failed" }
           if (Select-String -Path godot-full-qa-editor.log -Pattern "SCRIPT ERROR|Parse Error|ERROR: Failed to load script|ERROR: Cannot load scene") {
             throw "Godot reported script or scene errors"
@@ -137,7 +137,7 @@ jobs:
       - name: Run full gameplay runtime QA
         shell: pwsh
         run: |
-          & "$pwd\godot.exe" --headless --path . --rendering-method gl_compatibility --rendering-driver opengl3 --script res://tests/full_gameplay_runtime_qa.gd 2>&1 | Tee-Object full-gameplay-runtime-qa.log
+          & "$pwd\godot.exe" --headless --path . --rendering-method forward_plus --rendering-driver d3d12 --script res://tests/full_gameplay_runtime_qa.gd 2>&1 | Tee-Object full-gameplay-runtime-qa.log
           if ($LASTEXITCODE -ne 0) { throw "Full gameplay runtime QA failed" }
           if (-not (Select-String -Path full-gameplay-runtime-qa.log -Pattern "FULL_GAMEPLAY_QA: PASS")) { throw "Gameplay QA PASS marker missing" }
 
@@ -316,7 +316,7 @@ jobs:
           $exe = (Resolve-Path "build\windows\HonourWarHD.exe").Path
           $log = (Resolve-Path ".").Path + "\honour-war-exe-smoke.log"
           $err = (Resolve-Path ".").Path + "\honour-war-exe-smoke.err"
-          $p = Start-Process -FilePath $exe -ArgumentList "--qa-smoke-test","--rendering-method","gl_compatibility","--rendering-driver","opengl3" -WorkingDirectory (Split-Path $exe) -RedirectStandardOutput $log -RedirectStandardError $err -PassThru
+          $p = Start-Process -FilePath $exe -ArgumentList "--qa-smoke-test","--rendering-method","forward_plus","--rendering-driver","d3d12" -WorkingDirectory (Split-Path $exe) -RedirectStandardOutput $log -RedirectStandardError $err -PassThru
           $deadline = (Get-Date).AddSeconds(90)
           while (-not $p.HasExited -and (Get-Date) -lt $deadline) {
             Start-Sleep -Milliseconds 500
@@ -339,7 +339,7 @@ jobs:
           $exe = (Resolve-Path "build\windows\HonourWarHD.exe").Path
           $log = (Resolve-Path ".").Path + "\honour-war-exe-runtime.log"
           $err = (Resolve-Path ".").Path + "\honour-war-exe-runtime.err"
-          $p = Start-Process -FilePath $exe -ArgumentList "--rendering-method","gl_compatibility","--rendering-driver","opengl3" -WorkingDirectory (Split-Path $exe) -RedirectStandardOutput $log -RedirectStandardError $err -PassThru
+          $p = Start-Process -FilePath $exe -ArgumentList "--rendering-method","forward_plus","--rendering-driver","d3d12" -WorkingDirectory (Split-Path $exe) -RedirectStandardOutput $log -RedirectStandardError $err -PassThru
           Start-Sleep -Seconds 10
           if ($p.HasExited) {
             Get-Content $log -ErrorAction SilentlyContinue
