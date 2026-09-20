@@ -43,14 +43,14 @@ func _capture_when_game_is_rendering() -> void:
             var legacy_retired:bool = world_root != null and bool(world_root.get_meta("legacy_geometry_hidden_by_production_rebuild",false))
             if camera != null and camera.is_inside_tree() and camera.current and hero_ready and production_ready and legacy_retired:
                 if not prepared:
-                        _prepare_capture_view(scene, camera, hero_value as Node3D)
-                        prepared = true
-                    await get_tree().process_frame
-                    await RenderingServer.frame_post_draw
-                    await get_tree().process_frame
-                    retry_count += 1
-                    if _try_save_rendered_viewport(retry_count):
-                        return
+                    _prepare_capture_view(scene, camera, hero_value as Node3D)
+                    prepared = true
+                await get_tree().process_frame
+                await RenderingServer.frame_post_draw
+                await get_tree().process_frame
+                retry_count += 1
+                if _try_save_rendered_viewport(retry_count):
+                    return
         await get_tree().process_frame
     push_error("REAL_EXE_SCREENSHOT_FAIL: game scene did not reach a stable non-blank rendered frame")
     get_tree().quit(1)
