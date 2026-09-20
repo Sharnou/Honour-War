@@ -3,7 +3,9 @@ extends SceneTree
 const CAPTURE_DIR:String="res://visual-captures"
 const CAPTURE_FILE:String=CAPTURE_DIR+"/honour-war-real-game.png"
 const STARTUP_TIMEOUT:float=120.0
-const MIN_RENDER_FRAMES:int=24
+const MIN_RENDER_FRAMES:int=60
+const MIN_SCENE_LUMA:float=0.035
+const MIN_SCENE_VARIANCE:float=0.002
 
 var elapsed:float=0.0
 var captured:bool=false
@@ -58,6 +60,24 @@ func _postattach_material_seal()->void:
 	var repaired:int=_sanitize_mesh_materials(seal_scene)
 	if repaired>0:print("POSTATTACH_MATERIAL_SEAL repaired=",repaired)
 
+func _has_real_world_pixels(image:Image)->bool:
+	var small:Image=image.duplicate()
+	small.resize(32,18,Image.INTERPOLATE_BILINEAR)
+	var sum:float=0.0
+	var sum_sq:float=0.0
+	var count:int=0
+	for y:int in range(3,15):
+		for x:int in range(2,30):
+			var p:Color=small.get_pixel(x,y)
+			var l:float=(p.r+p.g+p.b)/3.0
+			sum+=l
+			sum_sq+=l*l
+			count+=1
+	if count==0:return false
+	var mean:float=sum/float(count)
+	var variance:float=max(0.0,(sum_sq/float(count))-(mean*mean))
+	return mean>=MIN_SCENE_LUMA and variance>=MIN_SCENE_VARIANCE
+
 func _process(delta:float)->bool:
 	if captured:return false
 	elapsed+=delta;render_frames+=1
@@ -70,11 +90,14 @@ func _process(delta:float)->bool:
 	var detail_root:Node=capture_scene.get_node_or_null("HWWorldDetailOverhaul")
 	var world_ready:bool=(old_world!=null and old_world.get_child_count()>0) or (detail_root!=null and detail_root.get_child_count()>0)
 	if render_frames==20 or render_frames%120==0:print("CAPTURE_WAIT elapsed=",elapsed," camera=",camera!=null," current=",camera.current if camera!=null else false," world_ready=",world_ready," detail_children=",detail_root.get_child_count() if detail_root!=null else -1)
-	if elapsed<3.5 or render_frames<MIN_RENDER_FRAMES or camera==null or not camera.current or not world_ready:return false
+	if elapsed<6.0 or render_frames<MIN_RENDER_FRAMES or camera==null or not camera.current or not world_ready:return false
 	var viewport:Viewport=get_root().get_viewport()
 	if viewport==null:return false
 	var image:Image=viewport.get_texture().get_image()
 	if image==null or image.is_empty():return false
+	if not _has_real_world_pixels(image):
+		if render_frames%60==0:print("CAPTURE_WAIT scene pixels not ready")
+		return false
 	if image.get_width()<1280 or image.get_height()<720:image.resize(1280,720,Image.INTERPOLATE_LANCZOS)
 	var output:String=ProjectSettings.globalize_path(CAPTURE_FILE)
 	var save_error:Error=image.save_png(output)
