@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=3]
+[gd_scene load_steps=62 format=3]
 
 [ext_resource path="res://scripts/Game3D.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/Main.gd" type="Script" id="2"]
@@ -35,7 +35,7 @@
 [ext_resource path="res://scripts/PetCombatHUD3D.gd" type="Script" id="33"]
 [ext_resource path="res://scripts/PetSkillVFX.gd" type="Script" id="34"]
 [ext_resource path="res://scripts/HeroPetComboSystem.gd" type="Script" id="35"]
-[ext_resource path="res://scripts/HeroPetComboHUD.gd" type="Script" id="36"]
+[ext_resource path="res://scripts/HeroPetComboHUD.gd" type="CanvasLayer" id="36"]
 [ext_resource path="res://scripts/HeroPetComboVFX.gd" type="Script" id="37"]
 [ext_resource path="res://scripts/CombatEventBus.gd" type="Script" id="38"]
 [ext_resource path="res://scripts/HeroPetCombatAnimationBridge.gd" type="Script" id="39"]
@@ -59,8 +59,8 @@
 [ext_resource path="res://scripts/HWProductionContentGenerator.gd" type="Script" id="57"]
 [ext_resource path="res://scripts/HWServiceNPCVisualDirector.gd" type="Script" id="58"]
 [ext_resource path="res://tests/exported_exe_smoke_test.gd" type="Script" id="59"]
-
 [ext_resource path="res://scripts/HWNativeWorldRecovery.gd" type="Script" id="60"]
+[ext_resource path="res://scripts/HWWorldDetailOverhaul.gd" type="Script" id="61"]
 
 [node name="HonourWar3D" type="Node3D"]
 script = ExtResource("1")
@@ -73,6 +73,9 @@ script = ExtResource("57")
 
 [node name="HWServiceNPCVisualDirector" type="Node3D" parent="."]
 script = ExtResource("58")
+
+[node name="HWWorldDetailOverhaul" type="Node3D" parent="."]
+script = ExtResource("61")
 
 [node name="ExportedEXESmokeTest" type="Node" parent="."]
 script = ExtResource("59")
