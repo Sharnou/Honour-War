@@ -1,18 +1,19 @@
 #!/usr/bin/env python3
-"""Strict intake gate for Neural4D FBX/OBJ assets.
+"""Strict intake gate for Honour War Neural4D FBX/OBJ assets.
 
-This gate is deliberately format- and filename-strict. It does not modify the
-models and never permits GLB/GLTF into the Honour War asset intake tree.
+Honour War character roster: 60 production characters. The roster is doubled
+from the former 30-character assumption because every character design is now
+generated in both gender variants. GLB/GLTF is permanently forbidden in this
+intake tree.
 """
 from __future__ import annotations
 import argparse
 import json
 import pathlib
-import sys
 
 ALLOWED = {".fbx", ".obj"}
 EXPECTED = {
-    "character": 30,
+    "character": 60,
     "monster": 11,
     "pet": 12,
 }
@@ -22,11 +23,13 @@ PREFIXES = {
     "pet": "pet_",
 }
 
+
 def classify(path: pathlib.Path) -> str | None:
     for category, prefix in PREFIXES.items():
         if path.stem.startswith(prefix):
             return category
     return None
+
 
 def main() -> int:
     p = argparse.ArgumentParser()
@@ -40,8 +43,8 @@ def main() -> int:
         return 2
 
     files = [x for x in root.rglob("*") if x.is_file()]
-    failures = []
-    records = []
+    failures: list[str] = []
+    records: list[dict] = []
     counts = {k: 0 for k in EXPECTED}
 
     for f in files:
@@ -64,8 +67,8 @@ def main() -> int:
             "bytes": f.stat().st_size,
         })
 
-    # Duplicate category/id detection, independent of extension.
-    seen = set()
+    # Duplicate asset-id detection, independent of extension.
+    seen: set[str] = set()
     for r in records:
         key = pathlib.Path(r["path"]).stem
         if key in seen:
@@ -76,18 +79,39 @@ def main() -> int:
         "root": root.as_posix(),
         "counts": counts,
         "expected_max": EXPECTED,
+        "character_roster": {
+            "total": 60,
+            "gender_variants": "both genders for the complete character roster",
+        },
         "files": records,
         "failures": failures,
     }
-    if args.report:
-        pathlib.Path(args.report).parent.mkdir(parents=True, exist_ok=True)
-        pathlib.Path(args.report).write_text(json.dumps(report, indent=2), encoding="utf-8")
 
-    for category in EXPECTED:
+    # A production intake must not silently accept a partial 60-character
+    # roster. Other categories remain queue maxima because their roster sizes
+    # have not been changed by the gender expansion.
+    if counts["character"] != EXPECTED["character"]:
+        failures.append(
+            f"character: {counts['character']} received; exactly {EXPECTED['character']} "
+            "gender-complete production characters are required"
+        )
+
+    for category in ("monster", "pet"):
         if counts[category] > EXPECTED[category]:
             failures.append(
                 f"{category}: {counts[category]} files exceeds queue maximum {EXPECTED[category]}"
             )
+
+    # GLB/GLTF is explicitly rejected even when it does not match a known
+    # prefix, so future geometry cannot bypass the no-GLB contract.
+    forbidden = [f for f in files if f.suffix.lower() in {".glb", ".gltf"}]
+    if forbidden:
+        failures.extend(f"permanently forbidden GLB/GLTF asset: {f}" for f in forbidden)
+
+    report["failures"] = failures
+    if args.report:
+        pathlib.Path(args.report).parent.mkdir(parents=True, exist_ok=True)
+        pathlib.Path(args.report).write_text(json.dumps(report, indent=2), encoding="utf-8")
 
     print(json.dumps(report, indent=2))
     if failures:
@@ -95,6 +119,7 @@ def main() -> int:
         return 1
     print("\nINTAKE GATE: PASS")
     return 0
+
 
 if __name__ == "__main__":
     raise SystemExit(main())
