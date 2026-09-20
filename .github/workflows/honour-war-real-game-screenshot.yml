@@ -91,6 +91,7 @@ jobs:
 
 
       - name: Upload real gameplay screenshot
+        if: always()
         uses: actions/upload-artifact@v7
         with:
           name: honour-war-real-game-screenshot
