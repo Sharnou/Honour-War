@@ -123,18 +123,25 @@ func _emissive(color:Color,energy:float)->StandardMaterial3D:
     m.emission_energy_multiplier=energy
     return m
 
-func _box(parent:Node,name:String,size:Vector3,pos:Vector3,mat:Material)->MeshInstance3D:
+func _resolve_material(value:Variant,roughness:float=0.82,metallic:float=0.0)->Material:
+    if value is Material:
+        return value as Material
+    if value is Color:
+        return _mat(value as Color,roughness,metallic)
+    return _mat(Color("#ffffff"),roughness,metallic)
+
+func _box(parent:Node,name:String,size:Vector3,pos:Vector3,material_value:Variant)->MeshInstance3D:
     var n:=MeshInstance3D.new()
     n.name=name
     var mesh:=BoxMesh.new()
     mesh.size=size
     n.mesh=mesh
     n.position=pos
-    n.material_override=mat
+    n.material_override=_resolve_material(material_value)
     parent.add_child(n)
     return n
 
-func _cylinder(parent:Node,name:String,radius:float,height:float,pos:Vector3,mat:Material,sides:int=28)->MeshInstance3D:
+func _cylinder(parent:Node,name:String,radius:float,height:float,pos:Vector3,material_value:Variant,sides:int=28)->MeshInstance3D:
     var n:=MeshInstance3D.new()
     n.name=name
     var mesh:=CylinderMesh.new()
@@ -144,11 +151,11 @@ func _cylinder(parent:Node,name:String,radius:float,height:float,pos:Vector3,mat
     mesh.radial_segments=sides
     n.mesh=mesh
     n.position=pos
-    n.material_override=mat
+    n.material_override=_resolve_material(material_value)
     parent.add_child(n)
     return n
 
-func _cone(parent:Node,name:String,radius:float,height:float,pos:Vector3,mat:Material)->MeshInstance3D:
+func _cone(parent:Node,name:String,radius:float,height:float,pos:Vector3,material_value:Variant)->MeshInstance3D:
     var n:=MeshInstance3D.new()
     n.name=name
     var mesh:=CylinderMesh.new()
@@ -158,11 +165,11 @@ func _cone(parent:Node,name:String,radius:float,height:float,pos:Vector3,mat:Mat
     mesh.radial_segments=32
     n.mesh=mesh
     n.position=pos
-    n.material_override=mat
+    n.material_override=_resolve_material(material_value)
     parent.add_child(n)
     return n
 
-func _sphere(parent:Node,name:String,radius:float,pos:Vector3,mat:Material,scale_value:=Vector3.ONE)->MeshInstance3D:
+func _sphere(parent:Node,name:String,radius:float,pos:Vector3,material_value:Variant,scale_value:=Vector3.ONE)->MeshInstance3D:
     var n:=MeshInstance3D.new()
     n.name=name
     var mesh:=SphereMesh.new()
@@ -173,11 +180,11 @@ func _sphere(parent:Node,name:String,radius:float,pos:Vector3,mat:Material,scale
     n.mesh=mesh
     n.position=pos
     n.scale=scale_value
-    n.material_override=mat
+    n.material_override=_resolve_material(material_value)
     parent.add_child(n)
     return n
 
-func _ring(parent:Node,name:String,inner:float,outer:float,pos:Vector3,mat:Material)->MeshInstance3D:
+func _ring(parent:Node,name:String,inner:float,outer:float,pos:Vector3,material_value:Variant)->MeshInstance3D:
     var n:=MeshInstance3D.new()
     n.name=name
     var mesh:=TorusMesh.new()
@@ -188,7 +195,7 @@ func _ring(parent:Node,name:String,inner:float,outer:float,pos:Vector3,mat:Mater
     n.mesh=mesh
     n.position=pos
     n.rotation_degrees.x=90.0
-    n.material_override=mat
+    n.material_override=_resolve_material(material_value)
     parent.add_child(n)
     return n
 
@@ -478,7 +485,7 @@ func _build_hero_detail(actor:Node3D)->void:
         "Merchant":
             _box(root,"Satchel",Vector3(0.36,0.42,0.28),Vector3(-0.64,1.20,0.05),leather)
 
-func _capsule_mesh(parent:Node,name:String,radius:float,height:float,pos:Vector3,color:Color)->MeshInstance3D:
+func _capsule_mesh(parent:Node,name:String,radius:float,height:float,pos:Vector3,material_value:Variant)->MeshInstance3D:
     var n:=MeshInstance3D.new()
     n.name=name
     var mesh:=CapsuleMesh.new()
@@ -488,7 +495,7 @@ func _capsule_mesh(parent:Node,name:String,radius:float,height:float,pos:Vector3
     mesh.rings=10
     n.mesh=mesh
     n.position=pos
-    n.material_override=_mat(color,0.86,0.03)
+    n.material_override=_resolve_material(material_value,0.86,0.03)
     parent.add_child(n)
     return n
 

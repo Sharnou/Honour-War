@@ -1,4 +1,4 @@
-[gd_scene load_steps=71 format=3]
+[gd_scene load_steps=70 format=3]
 
 [ext_resource path="res://scripts/Game3D.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/Main.gd" type="Script" id="2"]
@@ -69,7 +69,6 @@
 [ext_resource path="res://scripts/HW30MapVisualDirectorV1.gd" type="Script" id="68"]
 [ext_resource path="res://scripts/HWCicciVisualDirectorV1.gd" type="Script" id="69"]
 [ext_resource path="res://scripts/HWRealGameCapture.gd" type="Script" id="70"]
-[ext_resource path="res://scripts/HWProductionVisualRebuild.gd" type="Script" id="71"]
 
 [ext_resource type="Script" path="res://scripts/HWPetDetailV2.gd" id="64"]
 [node name="HonourWar3D" type="Node3D"]
@@ -252,9 +251,6 @@ script = ExtResource("23")
 chat_panel_scene = ExtResource("24")
 
 [node name="OptionsMenu" parent="." instance=ExtResource("54")]
-
-[node name="HWProductionVisualRebuild" type="Node3D" parent="."]
-script = ExtResource("71")
 
 [node name="LegacyGame" type="Node2D" parent="."]
 visible = false

@@ -36,6 +36,7 @@ func _process(delta:float)->void:
         legacy=scene.get_node_or_null("LegacyGame")
     _hide_legacy_skillbars()
     _refresh()
+    _layout()
     if flash_time<=0.0 and flash_index>=0:
         flash_index=-1
         _refresh(true)
@@ -232,10 +233,6 @@ func _style(bg:Color,border:Color,radius:int)->StyleBoxFlat:
 func _layout()->void:
     var size:=get_viewport().get_visible_rect().size
     panel.position=Vector2(max(12.0,(size.x-panel.size.x)*0.5),max(12.0,size.y-panel.size.y-18.0))
-
-func _notification(what:int)->void:
-    if what==NOTIFICATION_RESIZED and panel!=null:
-        _layout()
 
 func _unhandled_key_input(event:InputEvent)->void:
     if not event is InputEventKey or not event.pressed or event.echo:
