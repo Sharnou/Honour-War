@@ -35,7 +35,8 @@ func _ready() -> void:
 func _bind() -> void:
 	scene_root = get_tree().current_scene
 	if scene_root == null:
-		call_deferred("_bind")
+		# Headless contract tests may instantiate this CanvasLayer before the
+		# gameplay scene is assigned. Avoid recursive deferred binding loops.
 		return
 	legacy = scene_root.get_node_or_null("LegacyGame")
 	overlay = Control.new()
