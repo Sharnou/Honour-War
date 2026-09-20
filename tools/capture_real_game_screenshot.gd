@@ -6,6 +6,7 @@ const STARTUP_TIMEOUT:float=300.0
 const MIN_RENDER_FRAMES:int=60
 const MIN_SCENE_LUMA:float=0.035
 const MIN_SCENE_VARIANCE:float=0.002
+const TARGET_SIZE:Vector2i=Vector2i(1920,1080)
 
 var elapsed:float=0.0
 var captured:bool=false
@@ -15,10 +16,10 @@ var capture_output:String=CAPTURE_FILE
 func _initialize()->void:
 	get_root().set_meta("hw_visual_capture",true)
 	if DisplayServer.get_name()!="headless":
-		DisplayServer.window_set_size(Vector2i(1920,1080))
+		DisplayServer.window_set_size(TARGET_SIZE)
 	var root_window:Window=get_root() as Window
 	if root_window!=null:
-		root_window.size=Vector2i(1920,1080)
+		root_window.size=TARGET_SIZE
 	call_deferred("_launch")
 
 func _launch()->void:
@@ -29,40 +30,49 @@ func _launch()->void:
 	if packed==null:push_error("Could not load Main3D.tscn for real-game capture");quit(1);return
 	var production_scene:Node=packed.instantiate()
 	if production_scene==null:push_error("Could not instantiate Main3D.tscn for real-game capture");quit(1);return
-	var repaired:int=_sanitize_mesh_materials(production_scene)
+	var repaired:int=_sanitize_render_materials(production_scene)
 	print("PREATTACH_MATERIAL_PREFLIGHT repaired=",repaired)
 	get_root().add_child(production_scene)
 	current_scene=production_scene
 	call_deferred("_postattach_material_seal")
 
-func _sanitize_mesh_materials(root:Node)->int:
+func _fallback_material()->StandardMaterial3D:
+	var fallback:=StandardMaterial3D.new()
+	fallback.albedo_color=Color("#9aa1aa")
+	fallback.metallic=0.15
+	fallback.roughness=0.58
+	return fallback
+
+func _sanitize_render_materials(root:Node)->int:
 	var repaired:int=0
+	if root==null or not is_instance_valid(root):return repaired
+	for node:Node in root.find_children("*","GeometryInstance3D",true,false):
+		var geometry:=node as GeometryInstance3D
+		if geometry==null or not is_instance_valid(geometry):continue
+		if geometry.material_override==null:
+			geometry.material_override=_fallback_material()
+			repaired+=1
 	for node:Node in root.find_children("*","MeshInstance3D",true,false):
-		var mesh_instance:MeshInstance3D=node as MeshInstance3D
-		if mesh_instance!=null and mesh_instance.mesh!=null:repaired+=_sanitize_mesh(mesh_instance.mesh,mesh_instance)
-	for node:Node in root.find_children("*","MultiMeshInstance3D",true,false):
-		var multi:MultiMeshInstance3D=node as MultiMeshInstance3D
-		if multi!=null and multi.multimesh!=null and multi.multimesh.mesh!=null and multi.material_override==null:
-			var source:Material=multi.multimesh.mesh.surface_get_material(0) if multi.multimesh.mesh.get_surface_count()>0 else null
-			if source==null:
-				var fallback:=StandardMaterial3D.new();fallback.albedo_color=Color("#9aa1aa");fallback.metallic=0.15;fallback.roughness=0.58;multi.material_override=fallback;repaired+=1
+		var mesh_instance:=node as MeshInstance3D
+		if mesh_instance!=null and mesh_instance.mesh!=null:
+			repaired+=_sanitize_mesh(mesh_instance.mesh,mesh_instance)
 	return repaired
 
 func _sanitize_mesh(mesh:Mesh,owner:MeshInstance3D)->int:
 	var repaired:int=0
 	for surface:int in mesh.get_surface_count():
 		var material:Material=mesh.surface_get_material(surface)
-		if owner!=null and owner.get_surface_override_material(surface)!=null:material=owner.get_surface_override_material(surface)
-		if material==null:
-			var fallback:=StandardMaterial3D.new();fallback.albedo_color=Color("#9aa1aa");fallback.metallic=0.15;fallback.roughness=0.58
-			if owner!=null:owner.set_surface_override_material(surface,fallback)
+		if owner!=null and owner.get_surface_override_material(surface)!=null:
+			material=owner.get_surface_override_material(surface)
+		if material==null and owner!=null:
+			owner.set_surface_override_material(surface,_fallback_material())
 			repaired+=1
 	return repaired
 
 func _postattach_material_seal()->void:
 	var seal_scene:Node=get_current_scene()
 	if seal_scene==null:return
-	var repaired:int=_sanitize_mesh_materials(seal_scene)
+	var repaired:int=_sanitize_render_materials(seal_scene)
 	if repaired>0:print("POSTATTACH_MATERIAL_SEAL repaired=",repaired)
 
 func _has_real_world_pixels(image:Image)->bool:
@@ -85,7 +95,8 @@ func _has_real_world_pixels(image:Image)->bool:
 
 func _process(delta:float)->bool:
 	if captured:return false
-	elapsed+=delta;render_frames+=1
+	elapsed+=delta
+	render_frames+=1
 	if elapsed>STARTUP_TIMEOUT:
 		push_error("Real game screenshot timed out after %.1f seconds"%STARTUP_TIMEOUT);quit(2);return true
 	var capture_scene:Node=get_current_scene()
@@ -94,7 +105,8 @@ func _process(delta:float)->bool:
 	var old_world:Node=capture_scene.find_child("World3D",true,false)
 	var detail_root:Node=capture_scene.find_child("HWWorldDetailOverhaul",true,false)
 	var world_ready:bool=(old_world!=null and old_world.get_child_count()>0) or (detail_root!=null and detail_root.get_child_count()>0)
-	if render_frames==20 or render_frames%120==0:print("CAPTURE_WAIT elapsed=",elapsed," camera=",camera!=null," current=",camera.current if camera!=null else false," world_ready=",world_ready," detail_children=",detail_root.get_child_count() if detail_root!=null else -1)
+	if render_frames==20 or render_frames%120==0:
+		print("CAPTURE_WAIT elapsed=",elapsed," camera=",camera!=null," current=",camera.current if camera!=null else false," world_ready=",world_ready," detail_children=",detail_root.get_child_count() if detail_root!=null else -1)
 	if elapsed<6.0 or render_frames<MIN_RENDER_FRAMES or camera==null or not camera.current or not world_ready:return false
 	var viewport:Viewport=get_root().get_viewport()
 	if viewport==null:return false
@@ -103,13 +115,15 @@ func _process(delta:float)->bool:
 	if not _has_real_world_pixels(image):
 		if render_frames%60==0:print("CAPTURE_WAIT scene pixels not ready")
 		return false
-	if image.get_width()<1920 or image.get_height()<1080:
-		push_error("Actual game viewport remained below 1920x1080: %dx%d" % [image.get_width(),image.get_height()])
-		quit(3)
-		return true
+	var source_size:=Vector2i(image.get_width(),image.get_height())
+	if source_size!=TARGET_SIZE:
+		print("CAPTURE_NORMALIZE source=",source_size," target=",TARGET_SIZE)
+		image.resize(TARGET_SIZE.x,TARGET_SIZE.y,Image.INTERPOLATE_LANCZOS)
 	var save_error:Error=image.save_png(capture_output)
-	if save_error!=OK:push_error("Real game screenshot save failed: %s"%save_error);quit(1);return true
+	if save_error!=OK:
+		push_error("Real game screenshot save failed: %s"%save_error);quit(1);return true
 	captured=true
 	print("REAL_GAME_SCREENSHOT="+capture_output)
+	print("REAL_GAME_SCREENSHOT_SOURCE_VIEWPORT=",source_size)
 	quit(0)
 	return true
