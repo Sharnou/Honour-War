@@ -38,15 +38,16 @@ func apply_preset(preset:Preset)->void:
     current_preset = preset
     var window:Window = get_window()
     if window != null:
+        var compatibility := RenderingServer.get_current_rendering_method() == "gl_compatibility"
         match preset:
             Preset.LOW:
                 window.scaling_3d_mode = 0
                 window.scaling_3d_scale = 0.70
             Preset.MEDIUM:
-                window.scaling_3d_mode = 2
+                window.scaling_3d_mode = 0 if compatibility else 2
                 window.scaling_3d_scale = 0.85
             Preset.HD:
-                window.scaling_3d_mode = 2
+                window.scaling_3d_mode = 0 if compatibility else 2
                 window.scaling_3d_scale = 1.0
 
     if world_environment == null or world_environment.environment == null:
