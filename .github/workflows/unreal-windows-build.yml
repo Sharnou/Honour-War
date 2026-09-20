@@ -1,0 +1,26 @@
+name: Honour War Unreal 5.8 Windows Build
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: [self-hosted, windows, unreal-engine-5.8]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate repository contract
+        shell: pwsh
+        run: python tools/unreal_engine_contract_qa.py
+      - name: Build and package
+        shell: pwsh
+        env:
+          UNREAL_ENGINE_ROOT: C:\Program Files\Epic Games\UE_5.8
+        run: powershell -ExecutionPolicy Bypass -File Build/Build-HonourWar.ps1 -Package
+      - name: Upload packaged build
+        uses: actions/upload-artifact@v4
+        with:
+          name: honour-war-unreal-5-8-windows
+          path: Build/Windows/HonourWar/

@@ -1,0 +1,30 @@
+name: Honour War Unreal 5.8 Real EXE Screenshot
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  runtime:
+    runs-on: [self-hosted, windows, unreal-engine-5.8]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate repository contract
+        shell: pwsh
+        run: python tools/unreal_engine_contract_qa.py
+      - name: Build and package
+        shell: pwsh
+        env:
+          UNREAL_ENGINE_ROOT: C:\Program Files\Epic Games\UE_5.8
+        run: powershell -ExecutionPolicy Bypass -File Build/Build-HonourWar.ps1 -Package
+      - name: Launch actual EXE and capture framebuffer
+        shell: pwsh
+        run: powershell -ExecutionPolicy Bypass -File Build/Capture-HonourWar.ps1
+      - name: Upload real gameplay screenshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: honour-war-real-unreal-exe-screenshot
+          path: Build/HonourWar-real-runtime.png
+          if-no-files-found: error

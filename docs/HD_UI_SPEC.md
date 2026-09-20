@@ -1,31 +1,43 @@
-# Honour War HD UI Specification
+# Honour War — Unreal Engine 5.8 HD UI Specification
 
-## Chat dock
+## Player HUD
 
-The chat dock is a compact, resizable panel anchored to the lower-left HUD. It supports drag repositioning, resize handles, opacity, font scale, channel tabs, scrollback, timestamps, and a single-line input field.
+The player-facing interface is a clean non-diegetic MMORPG HUD:
 
-### Channels
-
-General, Party, Guild, Whisper, System, Combat, and Trade.
-
-### Interaction rules
-
-- Enter focuses the input field when the chat dock is visible.
-- Escape closes input focus without closing the entire HUD.
-- PageUp/PageDown scroll history.
-- Tab cycles channels.
-- `/w player message` sends a whisper.
-- `/reply message` targets the most recent whisper sender.
-- Muted and blocked users are filtered locally and must also be enforced by the server.
+- upper-left: character class, level, age, HP, SP and EXP;
+- upper-center: target status;
+- upper-right: minimap/world-map panel and zone landmarks;
+- lower-left: compact chat dock;
+- center-bottom: COMBAT SKILLS, eight large readable slots, keyboard 1–8;
+- contextual windows for character, inventory, equipment, pet, skills, refinement and system settings.
 
 ## Visual language
 
-- Use consistent panel margins, 8px spacing units, and readable hierarchy.
-- Use icon plus text for important states; never rely on color alone.
-- Preserve a safe area around party frames, quest tracker, minimap, and skill bar.
-- Avoid excessive bloom, screen shake, and floating text density.
-- Provide reduced-motion and UI-scale settings.
+Use dark translucent panels, thin warm metallic/gold borders, high-contrast text, compact spacing and strong title hierarchy. Icons must remain recognizable at 1920×1080 and scale cleanly.
 
-## Feedback standards
+## Skill bar
 
-Every action displays one of: accepted, rejected, unavailable, cooldown, or completed. Combat feedback should use animation, sound, floating numbers, and concise log text together, without obscuring the battlefield.
+The eight-slot bar is the primary combat surface. Each slot has:
+- key number;
+- class-specific skill icon;
+- skill name/short label;
+- cooldown feedback;
+- unavailable/out-of-range feedback;
+- active/cast feedback;
+- hover tooltip.
+
+No old developer/command toolbar is displayed.
+
+## World labels
+
+Local player names are hidden in the 3D world. Remote names are hidden by default and may appear for hover, party/PvP context or explicit social reveal. Enemy combat health bars remain permitted.
+
+Permanent player HP/SP bars under characters are not used.
+
+## Windows
+
+Inventory, equipment, skill tree, pet, refinement, quest and social windows share the same panel language and safe-area spacing. Settings include UI scale and reduced-motion controls.
+
+## Feedback
+
+Every player action produces visible accepted/rejected/cooldown/completed feedback. Combat feedback uses animation, sound, hit VFX and concise floating text without obscuring the playfield.

@@ -1,23 +1,40 @@
-HONOUR WAR — DIRECT VISUAL SOURCE BRIEF
+# Honour War — Direct Visual Source Brief
 
 SOURCE: Screenshot/
-The complete repository Screenshot/ folder is the authoritative visual source.
-No external or generic reference image is permitted to replace it.
 
-STYLE: Generate Honour War from the repository Screenshot reference set; preserve the reference character, environment, composition, material, lighting, combat and UI visual language rather than substituting generic MMORPG imagery.
-CAMERA: Derive camera distance, pitch, framing, character readability and scene composition from the Screenshot reference set.
-LIGHTING: Derive daylight, exposure, contrast, shadow softness, bloom and environment response from the Screenshot reference set.
-CHARACTERS: Derive full-body proportions, face/head visibility, clothing, armor, weapons, pets, silhouettes and progression presentation from the Screenshot reference set.
-ENVIRONMENT: Derive terrain, architecture, vegetation, roads, props, town composition and world density from the Screenshot reference set.
-MATERIALS: Derive material appearance from the reference images, then author known plausible PBR materials in Blender/Substance 3D Painter; never use mystery materials.
-PIPELINE: Screenshot → Blender → Substance 3D Painter → GLB/GLTF → Godot 4.7 Forward+
+The complete repository Screenshot/ folder is the authoritative visual source. The locked detail anchors are:
 
-REMOVE / AVOID:
-- generic external reference images
-- stock MMORPG screenshots
-- box-and-cylinder placeholder look
-- empty terrain
-- uniform buildings
-- flat unlit meshes
-- Transformer-generated assets
-- Unknown Material placeholders
+- Screenshot/ChatGPT Image Sep 16, 2026, 12_22_47 AM.png
+- Screenshot/image_a4469f29.jpg
+
+## Required sequence
+
+Visual RAG / multimodal reference analysis → visual gap specification → Neural4D or Blender authored assets → Substance 3D Painter materials → FBX/OBJ → Unreal Engine 5.8.
+
+## Visual target
+
+Preserve the reference language for:
+- complete full-body class characters, visible faces and legs;
+- layered clothing, armor, weapons and accessories;
+- pets and readable monster silhouettes;
+- dense medieval town/field/dungeon composition;
+- varied terrain, vegetation and props;
+- rich material response and daylight;
+- perspective/isometric-style camera framing;
+- clear attacks, hits, projectiles and skill effects;
+- polished dark/gold MMORPG HUD with an 8-slot combat skill bar.
+
+## Negative target
+
+Do not use:
+- empty flat terrain;
+- box-and-cylinder-only characters as final art;
+- uniform buildings;
+- flat unlit materials;
+- futuristic/modern/scifi elements;
+- Transformers/robots/machines;
+- mystery materials;
+- GLB/GLTF runtime assets;
+- Meshy output.
+
+Procedural native Unreal geometry is permitted only as an explicitly labelled development bootstrap until authored production assets replace it.

@@ -1,0 +1,19 @@
+#pragma once
+
+#include "CoreMinimal.h"
+#include "GameFramework/SaveGame.h"
+#include "HonourWarTypes.h"
+#include "HonourWarSaveGame.generated.h"
+
+UCLASS()
+class HONOURWAR_API UHonourWarSaveGame : public USaveGame
+{
+    GENERATED_BODY()
+
+public:
+    UPROPERTY() int32 Level = 1;
+    UPROPERTY() int32 Experience = 0;
+    UPROPERTY() int32 AgeDays = 0;
+    UPROPERTY() EHonourWarClass ClassId = EHonourWarClass::Warrior;
+    UPROPERTY() FDateTime SavedAtUtc;
+};

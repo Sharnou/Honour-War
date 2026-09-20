@@ -1,200 +1,59 @@
-# Honour War — HD Graphic Design Direction
+# Honour War — Unreal Engine 5.8 HD Art Direction
 
-## Creative target
+Honour War is a premium stylized medieval/fantasy MMORPG/ARPG. The visual target is controlled by the repository Screenshot references and implemented as original real-time 3D assets in Unreal Engine 5.8.
 
-Honour War is a stylized, premium fantasy MMORPG/ARPG. The reference target is
-high-resolution game presentation: detailed silhouettes, expressive characters,
-readable combat, rich PBR surfaces, layered environments and cinematic effects.
-The goal is not generic realism. Every asset must communicate class, faction,
-rarity, role and gameplay purpose at normal gameplay distance.
+## Hero language
 
-## 1. Hero visual language
+Six base classes:
+- Warrior — layered armor, strong silhouette, large melee weapon.
+- Mage — robes, staff/orb, magical focal points.
+- Archer — bow, quiver, light armor and practical leather.
+- Thief — asymmetric dark clothing, dual blades.
+- Acolyte — ceremonial cloth, healing motifs and sacred accents.
+- Merchant — reinforced trade clothing, packs and practical equipment.
 
-Six core classes:
-- Warrior — heavy armor, broad silhouette, large melee weapon, strong warm metal
-  and leather breakup.
-- Mage — elegant layered robes, magical focal points, luminous staff/orb details.
-- Archer — agile silhouette, bow/quiver identity, light armor and practical leather.
-- Thief — compact asymmetric silhouette, dual-blade/stealth language, dark cloth.
-- Acolyte — ceremonial layered cloth, healing motifs, sacred light accents.
-- Merchant — practical reinforced clothing, tools, packs and trade equipment.
+Ranger is an advanced combat class.
 
-Hero LOD0 should carry the highest detail. Face, hair, hands, weapon and chest
-silhouette receive priority because they dominate player recognition.
+Every hero must remain full-body readable with face, hair, hands, legs, feet, clothing layers and equipment visible at normal gameplay distance.
 
-## 2. PBR material standard
+## Environment language
 
-Substance 3D Painter is the authoritative material authoring stage.
-Every production material should define, as applicable:
-- Base Color
-- Normal
-- Roughness
-- Metallic
-- Ambient Occlusion
-- Emissive
+Maps are authored environments, not flat templates. The target includes:
+- terrain variation and ground breakup;
+- stone/dirt roads with borders and transitions;
+- complete medieval buildings with walls, roof structures, windows, doors, trim and signs;
+- markets and lived-in props;
+- fences, banners, lamps, carts, benches, barrels and crates;
+- layered trees, branches, leaves, bushes, grass and flowers;
+- walls, towers, gates and distant landmarks;
+- map-specific landmarks for towns, fields and dungeons.
 
-Use physically plausible roughness variation rather than flat color blocks.
-Edge wear must support form and material identity, not become random noise.
-Metal, leather, cloth, wood, stone, skin, fur and magic surfaces must have
-visibly different microstructure.
+## Material language
 
-## 3. Equipment detail
+Use production PBR materials for skin, hair/fur, cloth, leather, wood, stone, metal, crystal/glass, water and magic. Author Base Color, Normal, Roughness, Metallic, AO and Emissive as appropriate.
 
-Equipment is a first-class visual system. Armor, weapons and headgear should
-be attachable without rebuilding the hero mesh. Rare and upgraded equipment
-needs readable visual progression.
+## Lighting
 
-Refinement progression:
-- +0 to +4: normal presentation
-- +5 to +7: subtle premium treatment
-- +8 to +10: visible energy accents
-- +11 to +13: strong rarity treatment
-- +14 to +15: prestige-grade glow and effects
+The current baseline is bright daylight. Use a strong directional sun, skylight, readable contact shadows, ambient occlusion and atmospheric depth. Avoid overexposure and excessive bloom.
 
-Effects must remain readable without obscuring the character silhouette.
+## Camera
 
-## 4. Pets
+Perspective third-person with an isometric-style composition. Default baseline is roughly 45° yaw and -48° pitch, with readable pitch limits between -62° and -28°. The hero's face and feet must remain visible in ordinary gameplay framing.
 
-Every character has one permanent bonded combat pet.
+## Combat
 
-Pet visual requirements:
-- unique silhouette
-- species-specific locomotion
-- idle personality
-- attack animation
-- hit reaction
-- death animation
-- skill animation language
-- equipment/refinement presentation where applicable
-- level/bond growth communicated visually but without excessive scale inflation
+Attacks should communicate anticipation, contact and recovery. Hit presentation uses readable impact VFX, hit reactions, damage feedback and distinct class skill effects. Ranged classes use visible projectile travel.
 
-Initial visual identities include Dire Wolf, Astral Sprite, Royal Falcon,
-Night Panther, Blessed Poring and Merchant Companion.
+## UI
 
-## 5. Monsters and MVPs
+The player-facing HUD is dark/translucent with warm metallic-gold accents, strong typography and compact spacing. The center-bottom 8-slot COMBAT SKILLS bar is the primary combat interaction surface. No developer/command toolbar is visible.
 
-Normal monsters need a strong silhouette and readable attack telegraph.
-MVPs are spectacle assets and receive the highest non-hero art budget.
+## Production interchange
 
-MVP requirements:
-- distinctive silhouette
-- LOD0 hero-quality mesh
-- custom materials
-- multiple attack/skill animations
-- hit/death reactions
-- unique emissive/VFX language
-- arena/environment integration
-- loot presentation
+Visual RAG → Neural4D or Blender → Substance 3D Painter → FBX/OBJ → Unreal Engine 5.8.
 
-## 6. Environment design
+GLB, GLTF, Meshy and Godot are permanently rejected for Honour War runtime production.
 
-World spaces are divided into:
-- towns/cities
-- forests
-- fields
-- caves
-- ruins
-- deserts
-- snow fields
-- end-game boss zones
-- dungeons
+## Quality floor
 
-Each zone requires three visual layers:
-1. Primary architecture/terrain silhouette.
-2. Secondary props, vegetation, rocks, signs, furniture and gameplay landmarks.
-3. Tertiary decals, material breakup, particles, fog and small storytelling detail.
-
-Towns should feel lived-in. Fields need navigational landmarks. Dungeons need
-strong depth, controlled lighting and combat readability. Boss zones need a
-clear visual escalation without destroying performance.
-
-## 7. Lighting and atmosphere
-
-Godot 4 Forward+ is the runtime presentation baseline.
-
-Use:
-- directional key light
-- restrained fill/rim lighting
-- contact/ambient shading
-- SDFGI where appropriate
-- SSAO/SSIL
-- volumetric fog
-- bloom/glow for emissive gameplay effects
-- controlled exposure/tonemapping
-
-Lighting must preserve gameplay readability. A beautiful effect that hides an
-enemy telegraph is considered a failed effect.
-
-## 8. Animation direction
-
-Hero animation priority:
-Idle → Walk/Run → Attack → Hit → Skill → Death.
-
-Pet animation priority:
-Idle → Locomotion → Attack → Skill → Hit → Death.
-
-Animation should communicate anticipation, contact/impact and recovery. Attack
-impact must line up with authoritative combat events rather than merely playing
-an animation whenever a damage number appears.
-
-## 9. Combat VFX
-
-Combat effects use a three-layer hierarchy:
-- Contact: hit spark, slash, projectile impact.
-- Gameplay: telegraph, target lock, status effect, AoE boundary.
-- Spectacle: ultimate, MVP phase, finisher and major world event.
-
-Color, shape and motion should encode gameplay meaning consistently. VFX should
-support the hero/pet combo system without visually merging all attacks into one
-indistinguishable explosion.
-
-## 10. Camera and composition
-
-The default camera is an elevated isometric/orthographic-style MMO presentation.
-Keep the hero, bonded pet and active target readable in the central gameplay
-area. HUD occupies reserved screen regions and should not compete with combat.
-
-Camera movement should be smooth but responsive. Target-facing must never fight
-attack animation rotation.
-
-## 11. Asset budgets and LOD
-
-Screen importance controls budget:
-- Hero / active MVP: highest detail.
-- Bonded pet / elite: high detail.
-- Normal monsters: medium detail.
-- Distant NPCs/props: low detail.
-
-Every production actor should be authored with LOD planning. Texture resolution
-should be selected by screen coverage rather than asset prestige alone.
-
-## 12. Import contract
-
-Blender exports FBX/OBJ with clean transforms, game-ready naming, skeletons,
-animations and material slots. Substance exports are packed into the agreed
-PBR channels. Godot imports the resulting FBX/OBJ and owns runtime animation,
-lighting, VFX, gameplay and streaming.
-
-Stable IDs are mandatory:
-`hero_<class>`, `pet_<id>`, `monster_<id>`, `mvp_<id>`, `weapon_<id>`,
-`armor_<id>`, `map_<id>`, `prop_<id>`, `effect_<id>`.
-
-## 13. Quality gate
-
-An asset is not production-ready until it passes:
-- silhouette/readability review
-- topology/UV review
-- material/PBR review
-- rig/animation review
-- FBX/OBJ import review
-- Godot Forward+ lighting review
-- LOD/performance review
-- gameplay readability review
-
-The production pipeline is permanently:
-
-**Approved generation → FBX/OBJ → native Godot 4.7.2 → Godot 4 Forward+**
-
-
-## Current native asset generation
-Neural4D is an approved optional generation source. Honour War uses FBX for rigged/animated characters, pets and monsters, OBJ for approved static assets, and native Godot 4.7.2 scenes/resources at runtime. Generated GLB assets and Meshy are permanently excluded.
+The final game must not regress to sparse terrain, primitive-only actors, flat unlit geometry, missing full-body characters or generic UI. A real Unreal runtime frame is required for final visual acceptance.

@@ -1,85 +1,60 @@
-# Honour War — Production HD Asset Manifest
+# Honour War — Unreal 5.8 HD Asset Manifest
 
-This directory tree is the visual source of truth for the final game.
+The production visual library is imported into Unreal Engine 5.8 from FBX/OBJ assets and authored texture maps.
 
-## Mandatory production pipeline
+## Hero library
 
-**Blender → Substance 3D Painter → GLB/GLTF → Godot 4**
+hero_warrior
+hero_mage
+hero_archer
+hero_thief
+hero_acolyte
+hero_merchant
+hero_ranger
 
-Do not replace this with primitive meshes as the final art pipeline.
-Procedural geometry is allowed only as a development fallback when the
-corresponding production asset has not yet been imported.
+Each hero requires full body, face, hair, hands, legs, feet, equipment layers, class weapon and animation sets for idle, movement, combat, hit and death.
 
-## Character assets
+## Pet library
 
-`assets/3d/characters/hero_warrior.glb`
-`assets/3d/characters/hero_mage.glb`
-`assets/3d/characters/hero_archer.glb`
-`assets/3d/characters/hero_thief.glb`
-`assets/3d/characters/hero_acolyte.glb`
-`assets/3d/characters/hero_merchant.glb`
+pet_falcon
+pet_wolf
+pet_wolf_cub
+pet_dragon
+pet_guardian
+pet_sprite
+pet_shadowcat
 
-Each hero should contain:
-- game-ready humanoid mesh
-- UVs and PBR materials
-- Skeleton3D-compatible rig
-- armor/equipment attachment points
-- idle, walk/run, attack, hit, skill and death animations
-- sensible material slots for equipment overrides
+## Monster library
 
-## Pet assets
+Normal, Elite and MVP families, each with unique silhouette, material treatment, attack profile, hit reaction and death animation.
 
-Use `pet_<stable_id>.glb`.
+## Environment library
 
-Required initial production set:
-- `pet_royal_falcon.glb`
-- `pet_astral_sprite.glb`
-- `pet_blessed_poring.glb`
-- `pet_dire_wolf.glb`
-- `pet_night_panther.glb`
-- `pet_merchant_companion.glb`
+Map families:
+- town;
+- forest field;
+- mountain pass;
+- desert ruins;
+- snow region;
+- arcane dungeon.
 
-Pets require their own idle, locomotion, attack, hit and death animation set.
+Each map requires primary, secondary and tertiary dressing passes.
 
-## Monster and MVP assets
+## Props
 
-Use:
-- `monster_<stable_id>.glb`
-- `mvp_<stable_id>.glb`
+Barrels, crates, carts, benches, market stalls, lamps, banners, fences, signs, wells, fountains, bridges, gates, flowers, rocks, trees and map-specific landmarks.
 
-Production MVP examples include Orc Lord, Baphomet, Evil Druid, Fire Dragon,
-Ice Titan, Queen Ant, Ancient Golem, Thanatos and Moonlight Dragon.
+## Materials
 
-## Material contract
+Skin, hair/fur, cloth, leather, wood, stone, metal, glass/crystal, water and magic/emissive.
 
-Substance 3D Painter should author:
-- Base Color
-- Normal
-- Roughness
-- Metallic where applicable
-- Ambient Occlusion
-- Emissive where applicable
+Required texture channels where applicable:
+Base Color, Normal, Roughness, Metallic, AO, Emissive.
 
-Textures must be imported into Godot with appropriate color-space handling.
-Avoid unnecessarily large textures; use 4K selectively for hero/MVP focal assets
-and 2K/1K tiers for ordinary actors and props according to screen importance.
+## Intake policy
 
-## Performance contract
+Approved: FBX, OBJ.
 
-Production assets should support:
-- LOD0 hero/MVP quality
-- LOD1 gameplay quality
-- LOD2 distance quality
-- GPU-friendly material counts
-- baked/efficient secondary detail where appropriate
-- clean collision/proxy geometry
+Rejected: GLB, GLTF, Meshy and Godot runtime assets.
 
-## Runtime integration
-
-`res://scripts/HDAssetRuntime.gd` automatically detects production GLB assets
-when they are present and replaces the corresponding procedural visual while
-preserving the existing gameplay actor references.
-
-This lets gameplay development continue without blocking on every art asset,
-while ensuring imported production art becomes the runtime representation as
-soon as it is committed.
+Procedural geometry in the C++ world bootstrap is development scaffolding only and must eventually be replaced by authored production assets.

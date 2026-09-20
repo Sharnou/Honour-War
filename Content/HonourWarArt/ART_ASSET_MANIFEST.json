@@ -1,0 +1,23 @@
+{
+  "engine": "Unreal Engine 5.8",
+  "visual_source": [
+    "Screenshot/ChatGPT Image Sep 16, 2026, 12_22_47 AM.png",
+    "Screenshot/image_a4469f29.jpg"
+  ],
+  "runtime_formats": ["FBX", "OBJ"],
+  "rejected_formats": ["GLB", "GLTF"],
+  "classes": [
+    {"id":"hero_warrior","asset":"Content/HonourWarArt/Characters/Hero_Warrior.fbx","required_materials":["skin","hair","cloth","leather","metal"],"required_animation_sets":["idle","walk","run","basic_attack","skill","hit","death"]},
+    {"id":"hero_mage","asset":"Content/HonourWarArt/Characters/Hero_Mage.fbx","required_materials":["skin","hair","robe","leather","magic"],"required_animation_sets":["idle","walk","run","cast","skill","hit","death"]},
+    {"id":"hero_archer","asset":"Content/HonourWarArt/Characters/Hero_Archer.fbx","required_materials":["skin","hair","cloth","leather","wood","metal"],"required_animation_sets":["idle","walk","run","draw","fire","skill","hit","death"]},
+    {"id":"hero_thief","asset":"Content/HonourWarArt/Characters/Hero_Thief.fbx","required_materials":["skin","hair","dark_cloth","leather","metal"],"required_animation_sets":["idle","walk","run","dual_attack","skill","hit","death"]},
+    {"id":"hero_acolyte","asset":"Content/HonourWarArt/Characters/Hero_Acolyte.fbx","required_materials":["skin","hair","cloth","gold","magic"],"required_animation_sets":["idle","walk","run","heal","cast","skill","hit","death"]},
+    {"id":"hero_merchant","asset":"Content/HonourWarArt/Characters/Hero_Merchant.fbx","required_materials":["skin","hair","cloth","leather","wood","metal"],"required_animation_sets":["idle","walk","run","trade","attack","skill","hit","death"]}
+  ],
+  "pets": ["falcon","wolf","wolf_cub","dragon","guardian","sprite","shadowcat"],
+  "monster_tiers": ["normal","elite","mvp"],
+  "maps": ["prontera_like_town","forest_field","mountain_pass","desert_ruins","snow_region","arcane_dungeon"],
+  "props": ["barrel","crate","cart","bench","market_stall","lamp","banner","fence","flower_bed","well","fountain","gate","bridge","sign"],
+  "material_channels": ["base_color","normal","roughness","metallic","ambient_occlusion","emissive"],
+  "lod_policy": "LOD0 highest detail for hero/close combat, distance LODs for world scale"
+}

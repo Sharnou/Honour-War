@@ -1,0 +1,18 @@
+{
+  "FileVersion": 3,
+  "EngineAssociation": "5.8",
+  "Category": "Games",
+  "Description": "Honour War — high-detail medieval fantasy MMORPG/ARPG, Unreal Engine 5.8.",
+  "Modules": [
+    {
+      "Name": "HonourWar",
+      "Type": "Runtime",
+      "LoadingPhase": "Default"
+    }
+  ],
+  "Plugins": [
+    { "Name": "EnhancedInput", "Enabled": true },
+    { "Name": "UMG", "Enabled": true }
+  ],
+  "TargetPlatforms": ["Windows"]
+}

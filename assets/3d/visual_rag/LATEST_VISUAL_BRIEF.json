@@ -1,70 +1,39 @@
 {
   "tool": "Honour War Visual RAG preflight",
-  "version": 2,
+  "version": 3,
+  "engine": "Unreal Engine 5.8",
   "direct_visual_source": "Screenshot/",
-  "external_reference_downloads": false,
-  "target": {
-    "source": "Screenshot/",
-    "style": "Generate Honour War from the repository Screenshot reference set; preserve the reference character, environment, composition, material, lighting, combat and UI visual language rather than substituting generic MMORPG imagery.",
-    "camera": "Derive camera distance, pitch, framing, character readability and scene composition from the Screenshot reference set.",
-    "lighting": "Derive daylight, exposure, contrast, shadow softness, bloom and environment response from the Screenshot reference set.",
-    "characters": "Derive full-body proportions, face/head visibility, clothing, armor, weapons, pets, silhouettes and progression presentation from the Screenshot reference set.",
-    "environment": "Derive terrain, architecture, vegetation, roads, props, town composition and world density from the Screenshot reference set.",
-    "materials": "Derive material appearance from the reference images, then author known plausible PBR materials in Blender/Substance 3D Painter; never use mystery materials.",
-    "pipeline": "Screenshot → Blender → Substance 3D Painter → GLB/GLTF → Godot 4.7 Forward+",
-    "negative": [
-      "generic external reference images",
-      "stock MMORPG screenshots",
-      "box-and-cylinder placeholder look",
-      "empty terrain",
-      "uniform buildings",
-      "flat unlit meshes",
-      "Transformer-generated assets",
-      "Unknown Material placeholders"
-    ]
-  },
-  "references": [
-    {
-      "id": "ChatGPT Image Sep 7, 2026, 03_54_35 PM",
-      "source_path": "Screenshot/ChatGPT Image Sep 7, 2026, 03_54_35 PM.png",
-      "size_bytes": 3165281,
-      "source_type": "repository_visual_source"
-    },
-    {
-      "id": "ChatGPT Image Sep 8, 2026, 12_13_55 AM",
-      "source_path": "Screenshot/ChatGPT Image Sep 8, 2026, 12_13_55 AM.png",
-      "size_bytes": 3082444,
-      "source_type": "repository_visual_source"
-    },
-    {
-      "id": "ChatGPT Image Sep 8, 2026, 12_30_08 AM",
-      "source_path": "Screenshot/ChatGPT Image Sep 8, 2026, 12_30_08 AM.png",
-      "size_bytes": 3238846,
-      "source_type": "repository_visual_source"
-    },
-    {
-      "id": "ChatGPT Image Sep 14, 2026, 02_17_52 PM",
-      "source_path": "Screenshot/ChatGPT Image Sep 14, 2026, 02_17_52 PM.png",
-      "size_bytes": 3158528,
-      "source_type": "repository_visual_source"
-    },
-    {
-      "id": "ChatGPT Image Sep 15, 2026, 11_17_00 PM",
-      "source_path": "Screenshot/ChatGPT Image Sep 15, 2026, 11_17_00 PM.png",
-      "size_bytes": 3701215,
-      "source_type": "repository_visual_source"
-    },
-    {
-      "id": "ChatGPT Image Sep 16, 2026, 12_22_47 AM",
-      "source_path": "Screenshot/ChatGPT Image Sep 16, 2026, 12_22_47 AM.png",
-      "size_bytes": 3683114,
-      "source_type": "repository_visual_source"
-    },
-    {
-      "id": "ChatGPT Image Sep 18, 2026, 11_57_21 PM",
-      "source_path": "Screenshot/ChatGPT Image Sep 18, 2026, 11_57_21 PM.png",
-      "size_bytes": 3014670,
-      "source_type": "repository_visual_source"
-    }
-  ]
+  "locked_detail_anchors": [
+    "Screenshot/ChatGPT Image Sep 16, 2026, 12_22_47 AM.png",
+    "Screenshot/image_a4469f29.jpg"
+  ],
+  "pipeline": [
+    "Visual RAG",
+    "Neural4D or Blender",
+    "Substance 3D Painter",
+    "FBX/OBJ",
+    "Unreal Engine 5.8",
+    "runtime validation",
+    "real EXE screenshot"
+  ],
+  "runtime_formats": ["FBX", "OBJ"],
+  "rejected_formats": ["GLB", "GLTF"],
+  "negative": [
+    "empty terrain",
+    "primitive-only final actors",
+    "uniform buildings",
+    "flat unlit materials",
+    "futuristic machinery",
+    "Transformers",
+    "Meshy",
+    "mystery materials"
+  ],
+  "targets": {
+    "characters": "full-body silhouettes, faces, hair, hands, layered equipment, visible legs and feet",
+    "environment": "dense medieval architecture, roads, terrain variation, vegetation, props and landmarks",
+    "materials": "physically plausible PBR response with texture-scale detail",
+    "lighting": "bright daylight with contact shadows and atmospheric depth",
+    "combat": "anticipation, contact, hit reaction, projectile travel, AOE and class-specific skill VFX",
+    "ui": "dark translucent panels, warm metallic/gold trim, readable typography, centered eight-slot combat skill bar, no developer toolbar"
+  }
 }
