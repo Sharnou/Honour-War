@@ -93,6 +93,7 @@ func _silhouette(r:Node3D,p:Dictionary,id:int)->void:
 
 func _slot(r:Node3D,slot:String,item:Dictionary,p:Dictionary)->void:
     var refine:int=clamp(int(item.get("refine",0)),0,15)
+    var glowing:bool=bool(item.get("glowing",false))
     var name:String=str(item.get("name",slot)).strip_edges()
     var seed:int=abs(name.hash())
     var accent:Color=p.accent.lightened(min(0.20,float(refine)*0.012))
@@ -110,7 +111,7 @@ func _slot(r:Node3D,slot:String,item:Dictionary,p:Dictionary)->void:
     elif slot=="shoes": dims=Vector3(0.60,0.18,0.34)
     elif slot.begins_with("accessory"): dims=Vector3(0.16,0.16,0.16)
     mesh.size=dims; node.mesh=mesh; node.position=anchor
-    node.material_override=_mat(accent,0.60 if refine>=10 else 0.30,0.24 if refine>=7 else 0.40)
+    node.material_override=_mat(accent,0.72 if (refine>=10 or glowing) else 0.30,0.18 if (refine>=7 or glowing) else 0.40)
     r.add_child(node)
     if refine>0:
         var badge:=Label3D.new()
@@ -133,15 +134,18 @@ func _slot(r:Node3D,slot:String,item:Dictionary,p:Dictionary)->void:
 func _refine_aura(r:Node3D,data:Dictionary)->void:
     var equipment:Variant=data.get("equipment",{})
     var best:int=0
+    var glowing:bool=false
     if equipment is Dictionary:
         for value in equipment.values():
-            if value is Dictionary: best=max(best,int(value.get("refine",0)))
-    if best<7: return
+            if value is Dictionary:
+                best=max(best,int(value.get("refine",0)))
+                glowing=glowing or bool(value.get("glowing",false))
+    if best<7 and not glowing: return
     var light:=OmniLight3D.new()
     light.name="RefinementAura"
     light.position=Vector3(0,1.35,0.15)
     light.omni_range=2.8+float(best)*0.08
-    light.light_energy=0.45+float(best)*0.06
+    light.light_energy=(0.65 if glowing else 0.45)+float(best)*0.06
     light.light_color=Color("#8fe8ff") if best>=10 else Color("#fff0a0")
     r.add_child(light)
 
