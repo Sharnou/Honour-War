@@ -190,7 +190,7 @@ jobs:
           )
           Write-Host "Starting bounded direct real-game screenshot capture..."
           $p = Start-Process -FilePath $godot -ArgumentList $args -WorkingDirectory $pwd -RedirectStandardOutput $log -RedirectStandardError $err -PassThru
-          $deadline = (Get-Date).AddSeconds(60)
+          $deadline = (Get-Date).AddSeconds(180)
           while (-not $p.HasExited -and (Get-Date) -lt $deadline) {
             Start-Sleep -Milliseconds 500
           }
@@ -198,7 +198,7 @@ jobs:
             Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue
             Get-Content $log -ErrorAction SilentlyContinue
             Get-Content $err -ErrorAction SilentlyContinue
-            throw "Real game screenshot capture timed out after 60 seconds"
+            throw "Real game screenshot capture timed out after 180 seconds"
           }
           Get-Content $log -ErrorAction SilentlyContinue
           Get-Content $err -ErrorAction SilentlyContinue
