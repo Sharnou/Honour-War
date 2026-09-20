@@ -34,7 +34,7 @@ func _build(root:Node3D)->void:
         if h is Dictionary: map_id=int(h.get("map_id",0))
     var name:String=str(root.name)
     var family:=_family(name,map_id)
-    var variant:=abs(name.hash()+map_id*37)%12
+    var variant:int=abs(name.hash()+map_id*37)%12
     var p:=_palette(family,variant)
     var body:=MeshInstance3D.new(); body.name="MonsterBodyDetail"
     var bm:=CapsuleMesh.new(); bm.radius=0.42+float(variant%3)*0.06; bm.height=1.20+float(variant%4)*0.16; bm.radial_segments=24; bm.rings=10
