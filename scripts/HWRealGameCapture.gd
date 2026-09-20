@@ -2,13 +2,15 @@ extends Node
 
 const ENV_ENABLE:String = "HW_CAPTURE_SCREENSHOT"
 const ENV_PATH:String = "HW_CAPTURE_PATH"
+const CAPTURE_ARG:String = "--hw-capture-screenshot"
 const DEFAULT_PATH:String = "artifacts/honour-war-exported-exe.png"
 const WARMUP_SECONDS:float = 4.0
 
 var _armed:bool = false
 
 func _ready() -> void:
-    if OS.get_environment(ENV_ENABLE) != "1":
+    var command_line_capture:bool = OS.get_cmdline_args().has(CAPTURE_ARG)
+    if OS.get_environment(ENV_ENABLE) != "1" and not command_line_capture:
         return
     _armed = true
     call_deferred("_prepare_capture_view")
