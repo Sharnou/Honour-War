@@ -19,7 +19,6 @@ var game:Node3D
 var legacy:Node
 var panel:PanelContainer
 var body:VBoxContainer
-var tabs:HBoxContainer
 var mode:String="character"
 var timer:float=0.0
 var hero:Dictionary={}
@@ -27,7 +26,6 @@ var selected_item:String=""
 var selected_slot:String=""
 var selected_card:String=""
 var status_label:Label
-var resize_handle:Button
 
 func _ready()->void:
     game=get_parent() as Node3D
@@ -66,14 +64,6 @@ func _build_ui()->void:
     title.text="HONOUR WAR  •  PROGRESSION"
     title.add_theme_font_size_override("font_size",16)
     root.add_child(title)
-    tabs=HBoxContainer.new()
-    root.add_child(tabs)
-    var entries:Array=[["character","CHAR"],["skills","SKILLS"],["pet","PET"],["inventory","INV"],["equipment","EQUIP"],["refine","REFINE"],["events","EVENTS"],["monster","MONSTER"],["map","MAP"],["system","SYS"]]
-    for entry in entries:
-        var button:=Button.new()
-        button.text=str(entry[1])
-        button.pressed.connect(_set_mode.bind(str(entry[0])))
-        tabs.add_child(button)
     var scroll:=ScrollContainer.new()
     scroll.size_flags_vertical=Control.SIZE_EXPAND_FILL
     root.add_child(scroll)
@@ -84,14 +74,6 @@ func _build_ui()->void:
     status_label=Label.new()
     status_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
     root.add_child(status_label)
-    resize_handle=Button.new()
-    resize_handle.name="ResizeHandle"
-    resize_handle.text="↘"
-    resize_handle.tooltip_text="Drag to resize this window"
-    resize_handle.position=Vector2(556,700)
-    resize_handle.size=Vector2(42,30)
-    resize_handle.pressed.connect(_toggle_large_panel)
-    panel.add_child(resize_handle)
     var hint:=Label.new()
     hint.text="I Inventory  C Character  K Skills  P Pet  E Events  M Monster"
     root.add_child(hint)
@@ -122,16 +104,49 @@ func _set_mode(next:String)->void:
     if next!="skills": selected_card=""
     selected_item="" if next!="inventory" else selected_item
     timer=1.0
+    _open_window()
 
 func _unhandled_key_input(event:InputEvent)->void:
-    if not event is InputEventKey or not event.pressed or event.echo: return
-    match event.keycode:
-        KEY_I: _set_mode("inventory")
-        KEY_C: _set_mode("character")
-        KEY_K: _set_mode("skills")
-        KEY_P: _set_mode("pet")
-        KEY_E: _set_mode("events")
-        KEY_M: _set_mode("monster")
+    if not event is InputEventKey or not event.pressed or event.echo:
+        return
+    var key:=event.keycode
+    var target: String = ""
+    match key:
+        KEY_C: target="character"
+        KEY_P: target="pet"
+        KEY_K: target="skills"
+        KEY_I: target="inventory"
+        KEY_E: target="equipment"
+        KEY_R: target="refine"
+        KEY_M: target="map"
+        KEY_O: target="system"
+        KEY_V: target="status"
+        _:
+            return
+    _toggle_mode(target)
+    get_viewport().set_input_as_handled()
+
+func _toggle_mode(target:String)->void:
+    if panel == null:
+        return
+    if panel.visible and mode == target:
+        _close_window()
+    else:
+        _set_mode(target)
+        _open_window()
+
+func _open_window()->void:
+    if panel == null:
+        return
+    panel.visible=true
+    panel.position=Vector2(1260,85)
+    panel.size=Vector2(620,735)
+    _install_closebar()
+
+func _close_window()->void:
+    if panel != null:
+        panel.visible=false
+    _set_status("UI closed")
 
 func _clear_body()->void:
     for child in body.get_children(): child.queue_free()
@@ -162,6 +177,7 @@ func _refresh(current:Dictionary)->void:
     elif mode=="events": _events(current)
     elif mode=="map": _map(current)
     elif mode=="system": _system(current)
+    elif mode=="status": _status_points(current)
     else: _monster(current)
 
 func _character(current:Dictionary)->void:
@@ -255,37 +271,44 @@ func _system(current:Dictionary)->void:
     _button("UI SCALE 120%",Callable(self,"_set_ui_scale").bind(1.20))
     _button("RESET UI SCALE",Callable(self,"_set_ui_scale").bind(1.00))
     _heading("INPUT")
-    var hint:=Label.new(); hint.text="I Inventory • C Character • K Skills • P Pet • E Events • M Monster • ESC close"; body.add_child(hint)
+    var hint:=Label.new(); hint.text="C Character • P Pet • K Skills • I Inventory • E Equipment • R Refine • M Map • O System • V Status • same hotkey closes"; body.add_child(hint)
 
 func _save_now()->void:
     SAVE.save_game(hero)
     _set_status("✓ Game saved successfully.")
 
-func _set_ui_scale(scale:float)->void:
-    if panel!=null:
-        panel.scale=Vector2(scale,scale)
-    var hud:=game.get_node_or_null("HDMMOTaskbar") if game!=null else null
-    if hud!=null:
-        var hud_root:=hud.get("root") as Control
-        if hud_root!=null:
-            hud_root.scale=Vector2(scale,scale)
-    _set_status("✓ UI scale set to %.0f%%" % (scale*100.0))
-
-func _toggle_large_panel()->void:
-    if panel==null: return
-    if panel.size.x < 680.0:
-        panel.size=Vector2(760,760)
-        panel.position=Vector2(650,55)
-    else:
-        panel.size=Vector2(620,735)
-        panel.position=Vector2(1260,85)
-    _set_status("✓ Window size adjusted.")
-    
-
 func _learn_skill(skill_id:String)->void:
     if SKILLS.learn(hero,skill_id): SAVE.save_game(hero); _set_status("✓ Skill learned: "+skill_id)
     else: _set_status("✕ Skill requirements or skill points not met.")
     timer=1.0
+
+func _status_points(current:Dictionary)->void:
+    _clear_body()
+    _heading("STATUS POINTS • CHARACTER STATS")
+    var points:=int(current.get("stat_points",0))
+    var summary:=Label.new()
+    summary.text="Available Status Points: %d\nEach stat has a maximum of 99." % points
+    summary.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+    body.add_child(summary)
+    var stats:Dictionary=current.get("stats",{})
+    for stat in CHARACTER.STAT_NAMES:
+        var row:=HBoxContainer.new()
+        body.add_child(row)
+        var value:=Label.new()
+        value.text="%s   %d / 99" % [stat.to_upper(),int(stats.get(stat,1))]
+        value.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+        row.add_child(value)
+        var one:=Button.new()
+        one.text="+1"
+        one.disabled=points<=0 or int(stats.get(stat,1))>=99
+        one.pressed.connect(_allocate_stat.bind(stat,1))
+        row.add_child(one)
+        var five:=Button.new()
+        five.text="+5"
+        five.disabled=points<=0 or int(stats.get(stat,1))>=99
+        five.pressed.connect(_allocate_stat.bind(stat,5))
+        row.add_child(five)
+    _button("CLOSE",Callable(self,"_close_window"))
 
 func _pet(current:Dictionary)->void:
     _clear_body()
