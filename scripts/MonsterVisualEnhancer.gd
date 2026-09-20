@@ -1,9 +1,11 @@
 class_name MonsterVisualEnhancer
 extends Node3D
 
-## Production-facing presentation fallback for named monsters; it is not the approved final asset source.
-## Approved monster asset pipeline: Visual RAG/reference analysis -> Blender/Neural4D -> FBX/OBJ -> native Godot 4.7.2 Forward+.
-## FBX is the preferred handoff for rigged/animated monsters; OBJ is approved for static monsters. GLB/GLTF production assets are prohibited.
+## Issue #312 — monster visual asset note / approved production pipeline.
+## This script is a runtime presentation fallback only; it is NOT the approved final monster asset source.
+## Approved source workflow: Visual RAG/reference analysis -> Blender/Neural4D -> FBX/OBJ -> native Godot 4.7.2 Forward+.
+## FBX is the approved handoff for rigged/animated monsters; OBJ is approved for static monsters.
+## GLB/GLTF production assets are permanently prohibited from the Honour War asset pipeline.
 var game:Node3D
 var built:Dictionary={}
 
