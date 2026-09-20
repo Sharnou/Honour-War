@@ -46,16 +46,29 @@ func _fallback_material()->StandardMaterial3D:
 func _sanitize_render_materials(root:Node)->int:
 	var repaired:int=0
 	if root==null or not is_instance_valid(root):return repaired
-	for node:Node in root.find_children("*","GeometryInstance3D",true,false):
-		var geometry:=node as GeometryInstance3D
-		if geometry==null or not is_instance_valid(geometry):continue
-		if geometry.material_override==null:
-			geometry.material_override=_fallback_material()
-			repaired+=1
 	for node:Node in root.find_children("*","MeshInstance3D",true,false):
 		var mesh_instance:=node as MeshInstance3D
 		if mesh_instance!=null and mesh_instance.mesh!=null:
 			repaired+=_sanitize_mesh(mesh_instance.mesh,mesh_instance)
+	for node:Node in root.find_children("*","MultiMeshInstance3D",true,false):
+		var multi:=node as MultiMeshInstance3D
+		if multi==null or not is_instance_valid(multi) or multi.multimesh==null or multi.multimesh.mesh==null:continue
+		var base_mesh:Mesh=multi.multimesh.mesh
+		var needs_override:bool=false
+		for surface:int in base_mesh.get_surface_count():
+			if base_mesh.surface_get_material(surface)==null:
+				needs_override=true
+				break
+		if needs_override and multi.material_override==null:
+			multi.material_override=_fallback_material()
+			repaired+=1
+	for node:Node in root.find_children("*","GeometryInstance3D",true,false):
+		var geometry:=node as GeometryInstance3D
+		if geometry==null or not is_instance_valid(geometry):continue
+		if geometry is MeshInstance3D or geometry is MultiMeshInstance3D:continue
+		if geometry.material_override==null:
+			geometry.material_override=_fallback_material()
+			repaired+=1
 	return repaired
 
 func _sanitize_mesh(mesh:Mesh,owner:MeshInstance3D)->int:
