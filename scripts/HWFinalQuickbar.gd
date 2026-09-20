@@ -74,9 +74,6 @@ func _hide_legacy_skillbars()->void:
             var legacy_quickbar:Control = hud.get_node_or_null("LegacyQuickSkillPanel") as Control
             if legacy_quickbar != null:
                 legacy_quickbar.visible = false
-            var final_toolbar:Control = hud.get_node_or_null("FinalSystemToolbarPanel") as Control
-            if final_toolbar != null:
-                final_toolbar.visible = true
 
 func _build()->void:
     panel = PanelContainer.new()
