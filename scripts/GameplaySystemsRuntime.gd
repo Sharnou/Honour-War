@@ -338,7 +338,8 @@ func _equipment(current:Dictionary)->void:
     var status_points:=Label.new()
     status_points.text="STATUS POINTS AVAILABLE: %d • Each stat has a maximum of 99" % int(current.get("stat_points",0))
     status_points.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-    body.add_child(status_points) var summary:=Label.new(); summary.text="Power %d • ATK %d • MATK %d • DEF %d • MDEF %d • HP %d • SP %d" % [CHARACTER.combat_power(current),int(stats["atk"]),int(stats["matk"]),int(stats["def"]),int(stats["mdef"]),int(stats["max_hp"]),int(stats["max_sp"] )]; body.add_child(summary)
+    body.add_child(status_points)
+    var summary:=Label.new(); summary.text="Power %d • ATK %d • MATK %d • DEF %d • MDEF %d • HP %d • SP %d" % [CHARACTER.combat_power(current),int(stats["atk"]),int(stats["matk"]),int(stats["def"]),int(stats["mdef"]),int(stats["max_hp"]),int(stats["max_sp"] )]; body.add_child(summary)
     _heading("STATUS ALLOCATION")
     var current_stats:Dictionary=current.get("stats",{})
     var available_points:int=int(current.get("stat_points",0))
