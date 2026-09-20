@@ -22,7 +22,9 @@ func _ready() -> void:
 func _initialize() -> void:
 	var scene:Node=get_tree().current_scene
 	if scene==null:
-		call_deferred("_initialize")
+		# Headless contract tests can execute before a gameplay scene exists.
+		# Do not recursively defer here: an absent current_scene would exhaust
+		# Godot's message queue and crash the validator.
 		return
 	if scene.get_node_or_null("HDVisualDirector")==null:
 		_build_rendering_baseline()
