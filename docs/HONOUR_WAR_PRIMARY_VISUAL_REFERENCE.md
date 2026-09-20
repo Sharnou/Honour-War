@@ -48,7 +48,9 @@ The objective is to **generate an original Honour War implementation whose visua
 
 Use the permanent production pipeline:
 
-**Reference images → Blender → Substance 3D Painter → GLB/GLTF → Godot 4.7 Forward+**
+**Reference images → Visual RAG analysis → Blender/Neural4D → FBX/OBJ → Godot 4.7 Forward+**
+
+For daily production updates, **FBX and OBJ are the approved Neural4D intake formats. GLB/GLTF are rejected as daily-update intake/output formats.**
 
 Production assets must be authored as actual 3D geometry/materials and integrated into the game. Camera or lighting adjustments alone do not satisfy a missing-detail requirement.
 
