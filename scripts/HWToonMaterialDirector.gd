@@ -45,15 +45,18 @@ func _scan_node(node:Node)->void:
         _scan_node(child)
 
 func _convert_mesh(mesh:MeshInstance3D)->void:
+    if mesh == null or not is_instance_valid(mesh):
+        return
     if mesh.get_meta("hw_toon_processed", false):
         return
-    if mesh.mesh == null or mesh.mesh.get_surface_count() <= 0:
+    var source_mesh:Mesh = mesh.mesh
+    if source_mesh == null or source_mesh.get_surface_count() <= 0:
         return
-    var surface_count:int = mesh.mesh.get_surface_count()
+    var surface_count:int = source_mesh.get_surface_count()
     for surface_index in range(surface_count):
         var source_material:Material = mesh.get_active_material(surface_index)
         if source_material == null:
-            source_material = mesh.mesh.surface_get_material(surface_index)
+            source_material = source_mesh.surface_get_material(surface_index)
         if source_material == null:
             continue
         if source_material is ShaderMaterial:
@@ -81,5 +84,7 @@ func _convert_mesh(mesh:MeshInstance3D)->void:
             toon.set_shader_parameter("texture_normal", source.normal_texture)
             toon.set_shader_parameter("use_normal_texture", true)
             toon.set_shader_parameter("normal_scale", source.normal_scale)
+        if toon.shader == null:
+            continue
         mesh.set_surface_override_material(surface_index, toon)
     mesh.set_meta("hw_toon_processed", true)
