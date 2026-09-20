@@ -10,6 +10,7 @@ const MIN_SCENE_VARIANCE:float=0.002
 var elapsed:float=0.0
 var captured:bool=false
 var render_frames:int=0
+var capture_output:String=CAPTURE_FILE
 
 func _initialize()->void:
 	get_root().set_meta("hw_visual_capture",true)
@@ -104,9 +105,9 @@ func _process(delta:float)->bool:
 		push_error("Actual game viewport remained below 1920x1080: %dx%d" % [image.get_width(),image.get_height()])
 		quit(3)
 		return true
-	var save_error:Error=image.save_png(output)
+	var save_error:Error=image.save_png(capture_output)
 	if save_error!=OK:push_error("Real game screenshot save failed: %s"%save_error);quit(1);return true
 	captured=true
-	print("REAL_GAME_SCREENSHOT="+output)
+	print("REAL_GAME_SCREENSHOT="+capture_output)
 	quit(0)
 	return true
