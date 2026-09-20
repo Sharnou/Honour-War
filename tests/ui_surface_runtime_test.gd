@@ -22,6 +22,14 @@ func _run()->void:
     _check(systems!=null,"GameplaySystemsRuntime exists")
     if taskbar!=null:
         _test_toolbar()
+    var hero_visual:=scene.get("hero_visual") as Node3D
+    var pet_visual:=scene.get("pet_visual") as Node3D
+    _check(hero_visual!=null,"live hero visual exists")
+    _check(pet_visual!=null,"live pet visual exists")
+    if hero_visual!=null:
+        _check(hero_visual.find_child("HWCharacterDetailV2",true,false)!=null,"hero native detail layer attached")
+    if pet_visual!=null:
+        _check(pet_visual.find_child("HWPetDetailV2",true,false)!=null,"pet native detail layer attached")
     if systems!=null:
         _test_modes()
         _test_skill_trees()
