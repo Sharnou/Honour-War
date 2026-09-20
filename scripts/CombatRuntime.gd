@@ -27,6 +27,9 @@ const MONSTER_ATTACK_INTERVAL:=1.10
 const SP_REGEN_INTERVAL:=1.0
 const CHASE_RANGE:=260.0
 const MONSTER_SPEED:=42.0
+const MONSTER_MIN_SPEED:=18.0
+const MONSTER_MAX_SPEED:=58.0
+const MONSTER_LEASH_RANGE:=320.0
 const MVP_FEAR_DAMAGE_MULTIPLIER:=0.55
 const MVP_CURSE_DAMAGE_MULTIPLIER:=0.80
 const SPECIALIZATION_COMBAT_SOURCE:String="ClassTreeSystem.branch_bonus"
@@ -145,10 +148,29 @@ func move_monsters(delta:float,hero:Dictionary)->void:
         var pos:Vector2=monster.get("pos",hero_pos)
         var distance:=hero_pos.distance_to(pos)
         var attack_range:float=CombatRules.monster_attack_distance(monster)
-        if distance>CHASE_RANGE or distance<=attack_range or float(monster.get("root_until",0.0))>now_seconds(): continue
-        var speed:float=MONSTER_SPEED
-        if float(monster.get("slow_until",0.0))>now_seconds(): speed*=0.45
-        pos=CombatRules.snap_map_point(pos+pos.direction_to(hero_pos)*speed*delta)
+        var now:=now_seconds()
+        if not monster.has("spawn_pos") or not monster.get("spawn_pos") is Vector2:
+            monster["spawn_pos"]=pos
+        var spawn_pos:Vector2=monster.get("spawn_pos")
+        var leash_distance:float=spawn_pos.distance_to(pos)
+        if distance>CHASE_RANGE or distance<=attack_range or float(monster.get("root_until",0.0))>now:
+            continue
+        var speed:float=clamp(MONSTER_SPEED+float(monster.get("level",1))*0.04,MONSTER_MIN_SPEED,MONSTER_MAX_SPEED)
+        if bool(monster.get("mvp",false)): speed*=1.08
+        if float(monster.get("slow_until",0.0))>now: speed*=0.45
+        if leash_distance>MONSTER_LEASH_RANGE:
+            var return_dir:=pos.direction_to(spawn_pos)
+            pos=CombatRules.snap_map_point(pos+return_dir*speed*delta)
+            monster["movement_state"]="return"
+            monster["facing_x"]=return_dir.x
+            monster["facing_y"]=return_dir.y
+        else:
+            var chase_dir:=pos.direction_to(hero_pos)
+            if chase_dir.length_squared()>0.0001:
+                pos=CombatRules.snap_map_point(pos+chase_dir*min(speed*delta,max(0.0,distance-attack_range)))
+                monster["facing_x"]=chase_dir.x
+                monster["facing_y"]=chase_dir.y
+            monster["movement_state"]="chase"
         monster["pos"]=pos
 
 func regenerate_sp(hero:Dictionary)->void:
