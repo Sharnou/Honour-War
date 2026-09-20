@@ -67,6 +67,52 @@ The visual QA gate is release-blocking if:
 - a workflow substitutes a generic image source
 - the rendered game falls back to primitive-only presentation where authored production assets are required
 
+
+## FINAL HD 3D VISUAL TARGET — PERMANENTLY LOCKED
+
+The following two images are now designated the **final visual-detail anchor references** and must remain permanently active for Honour War:
+
+1. `Screenshot/ChatGPT Image Sep 16, 2026, 12_22_47 AM.png`
+2. `Screenshot/image_a4469f29.jpg`
+
+These two references define the **minimum locked target level** for the finished game's HD 3D presentation. The target is not allowed to regress to a lower-detail, primitive, placeholder, flat, sparse, low-poly or generic presentation.
+
+### Detail-density lock
+
+For every playable map and every gameplay camera view, continuously reproduce the reference-level information density at the appropriate scale:
+
+- complete terrain surface treatment, elevation/readable ground transitions and material variation;
+- dense, purposeful architecture with complete walls, roofs, windows, doors, trim, supports, signs, stairs, bridges and structural details;
+- roads, paths, paving, curbs, borders, drainage, transitions and navigational landmarks;
+- layered vegetation including trees, branches, leaves, bushes, grass, flowers and ground scatter;
+- rocks, cliffs, ruins, fences, posts, lamps, banners, ropes, docks and environmental structures;
+- lived-in props such as crates, barrels, carts, tables, benches, market stalls, tools, containers, signs and decorative objects;
+- water surfaces, shorelines, docks, boats and shoreline transition details where applicable;
+- map-specific landmarks and storytelling objects rather than repeated generic decoration;
+- dungeon walls/floors/ceilings, columns, arches, torches, crystals, debris, doors, traps and depth layers where applicable;
+- character full-body geometry, face, hair, hands, clothing layers, armor, weapon, legs and feet;
+- unique pet and monster silhouettes, anatomy, materials, equipment and readable combat poses;
+- physically readable materials for skin, hair, cloth, leather, wood, stone, metal, glass/crystal, water and magic;
+- shadows, contact shading, ambient occlusion, controlled highlights, atmospheric depth and readable daylight;
+- combat anticipation, contact, impact, hit sparks, trails, projectiles, AoE indicators, damage feedback and skill VFX;
+- complete HUD, icons, skill bar, status/equipment presentation and world-map presentation at the same polish level.
+
+### Map-by-map rule
+
+Every map is treated as a finished authored environment, not a reusable empty template. Each map must receive primary, secondary and tertiary detail passes and must remain visually distinct while obeying the locked reference quality floor. Increasing the number of maps must never be used as a reason to reduce detail density.
+
+### Regression rule
+
+A new visual build may improve on the locked target, but it may **never lower the target detail level**. Any screenshot, runtime capture or EXE that visibly falls below this target is a visual regression and must not be accepted as a finished release.
+
+### Exactness clarification
+
+“Exactly as this picture” means the **same visual-detail target, density, readability, composition quality, material richness, character/environment completeness and polish level**, implemented as original Honour War 3D assets. The reference images are not to be pasted into the game, traced into a fake background, or used as a 2D substitute for missing 3D geometry.
+
+### Release gate
+
+The final HD target is not considered achieved merely because scripts, contracts or EXE smoke tests pass. A release must also have a real gameplay screenshot captured from the running game and visually inspected against both locked anchor references. If the real gameplay frame is visibly below the locked target, the visual work continues.
+
 ## Player identity/UI exception
 
 The following existing Honour War identity behavior remains part of the authoritative visual/UI contract:
