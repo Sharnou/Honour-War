@@ -136,7 +136,7 @@ func _build()->void:
         var slot := Button.new()
         slot.name = "SkillSlot_%d" % (i + 1)
         slot.custom_minimum_size = Vector2(72, 44)
-            slot.expand_icon = true
+        slot.expand_icon = true
         slot.size_flags_horizontal = Control.SIZE_EXPAND_FILL
         slot.size_flags_vertical = Control.SIZE_EXPAND_FILL
         slot.alignment = HORIZONTAL_ALIGNMENT_CENTER
