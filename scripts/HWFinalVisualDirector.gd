@@ -91,7 +91,7 @@ func _ensure_runtime_visuals() -> void:
     # One deliberate daylight sun is used for final presentation. Older passes
     # may create their own DirectionalLight3D nodes; leaving them energized at
     # the same time causes washed-out frames and renderer-dependent output.
-    for child:Node in scene.get_children():
-        if child is DirectionalLight3D and child != sun:
-            (child as DirectionalLight3D).light_energy = 0.0
-            (child as DirectionalLight3D).shadow_enabled = false
+    for node:Node in scene.find_children("*", "DirectionalLight3D", true, false):
+        if node is DirectionalLight3D and node != sun:
+            (node as DirectionalLight3D).light_energy = 0.0
+            (node as DirectionalLight3D).shadow_enabled = false
