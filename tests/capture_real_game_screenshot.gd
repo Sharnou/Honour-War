@@ -1,7 +1,7 @@
 extends SceneTree
 
 const CAPTURE_PATH:String = "artifacts/honour-war-real-game.png"
-const WARMUP_FRAMES:int = 180
+const WARMUP_FRAMES:int = 60
 
 func _initialize() -> void:
     call_deferred("_boot_capture")
