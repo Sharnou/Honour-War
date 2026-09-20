@@ -27,6 +27,7 @@ var selected_item:String=""
 var selected_slot:String=""
 var selected_card:String=""
 var status_label:Label
+var resize_handle:Button
 
 func _ready()->void:
     game=get_parent() as Node3D
@@ -67,7 +68,7 @@ func _build_ui()->void:
     root.add_child(title)
     tabs=HBoxContainer.new()
     root.add_child(tabs)
-    var entries:Array=[["character","CHAR"],["skills","SKILLS"],["pet","PET"],["inventory","INV"],["equipment","EQUIP"],["refine","REFINE"],["events","EVENTS"],["monster","MONSTER"]]
+    var entries:Array=[["character","CHAR"],["skills","SKILLS"],["pet","PET"],["inventory","INV"],["equipment","EQUIP"],["refine","REFINE"],["events","EVENTS"],["monster","MONSTER"],["map","MAP"],["system","SYS"]]
     for entry in entries:
         var button:=Button.new()
         button.text=str(entry[1])
@@ -83,6 +84,14 @@ func _build_ui()->void:
     status_label=Label.new()
     status_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
     root.add_child(status_label)
+    resize_handle=Button.new()
+    resize_handle.name="ResizeHandle"
+    resize_handle.text="↘"
+    resize_handle.tooltip_text="Drag to resize this window"
+    resize_handle.position=Vector2(556,700)
+    resize_handle.size=Vector2(42,30)
+    resize_handle.pressed.connect(_toggle_large_panel)
+    panel.add_child(resize_handle)
     var hint:=Label.new()
     hint.text="I Inventory  C Character  K Skills  P Pet  E Events  M Monster"
     root.add_child(hint)
@@ -151,6 +160,8 @@ func _refresh(current:Dictionary)->void:
     elif mode=="equipment": _equipment(current)
     elif mode=="refine": _refine(current)
     elif mode=="events": _events(current)
+    elif mode=="map": _map(current)
+    elif mode=="system": _system(current)
     else: _monster(current)
 
 func _character(current:Dictionary)->void:
@@ -195,13 +206,77 @@ func _skills(current:Dictionary)->void:
     _clear_body(); SKILLS.ensure_state(current)
     var class_id:String=str(current.get("class","Warrior"))
     _heading("%s SKILL TREE • %d SKILL POINTS" % [class_id.to_upper(),int(current.get("skill_points",0))])
+    var class_hint:=Label.new()
+    class_hint.text="8 skills • 5 tiers • active / passive / ultimate • click LEARN to spend points"
+    class_hint.add_theme_color_override("font_color",Color("#9eabb8"))
+    body.add_child(class_hint)
     for skill in SKILLS.all_skills(class_id):
         var id:String=str(skill["id"]); var level:int=SKILLS.skill_level(current,id); var req_ok:bool=SKILLS.can_learn(current,id)
-        var row:=HBoxContainer.new(); body.add_child(row)
-        var info:=Label.new(); info.text="%s  Lv.%d/%d  • Req Lv.%d • Cost %d\n%s" % [str(skill["name"]),level,int(skill["max_level"]),int(skill["required_level"]),int(skill["cost"]),str(skill["description"])]
-        info.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; info.size_flags_horizontal=Control.SIZE_EXPAND_FILL; row.add_child(info)
-        var learn:=Button.new(); learn.text="LEARN"; learn.disabled=not req_ok; learn.pressed.connect(_learn_skill.bind(id)); row.add_child(learn)
-    _heading("Active skills are automatically rotated by the authoritative combat runtime when learned and affordable.")
+        var row:=HBoxContainer.new(); row.add_theme_constant_override("separation",8); body.add_child(row)
+        var badge:=SkillBadge.new(); badge.tier=int(skill["tier"]); badge.kind=str(skill["kind"]); badge.level=level; badge.custom_minimum_size=Vector2(58,58); row.add_child(badge)
+        var info:=Label.new()
+        info.text="%s  Lv.%d/%d  • TIER %d • Req Lv.%d • Cost %d\n%s" % [str(skill["name"]),level,int(skill["max_level"]),int(skill["tier"]),int(skill["required_level"]),int(skill["cost"]),str(skill["description"])]
+        info.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; info.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+        info.add_theme_font_size_override("font_size",11)
+        row.add_child(info)
+        var learn:=Button.new(); learn.text="LEARN" if level<int(skill["max_level"]) else "MAX"; learn.custom_minimum_size=Vector2(82,44); learn.disabled=not req_ok; learn.pressed.connect(_learn_skill.bind(id)); row.add_child(learn)
+    _heading("Active skills are used by the combat runtime; passive effects remain active after learning. Ultimate skills require their prerequisite chain.")
+
+func _map(current:Dictionary)->void:
+    _clear_body()
+    var map_name:=_map_name(current)
+    _heading("WORLD MAP • "+map_name)
+    var coord:=Label.new()
+    coord.text="Current position  X %d : Y %d\nFast travel: @go [map] [x]:[y]" % [int(current.get("pos_x",0))-365,int(current.get("pos_y",0))-120]
+    coord.add_theme_color_override("font_color",Color("#efe8d8"))
+    body.add_child(coord)
+    var preview:=WorldMapPreview.new()
+    preview.map_id=int(current.get("map_id",0))
+    preview.custom_minimum_size=Vector2(520,300)
+    body.add_child(preview)
+    var marker:=Label.new()
+    marker.text="Legend  • Town  • Dungeon  • Field  • Bank\nAll world maps retain authored terrain/detail layers in the live 3D scene."
+    marker.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+    marker.add_theme_color_override("font_color",Color("#9eabb8"))
+    body.add_child(marker)
+    _button("OPEN TELEPORT COMMAND",Callable(self,"_set_status").bind("@go 0 230:220 ready"))
+
+func _system(current:Dictionary)->void:
+    _clear_body()
+    _heading("SYSTEM • UI & SAVE")
+    var label:=Label.new()
+    label.text="Autosave is active. Current hero: %s • Level %d • Age %d\nRenderer target: Godot 4.7.2 Forward+\nUI target: readable at 1920×1080 and responsive to smaller viewports." % [str(current.get("name","Hero")),int(current.get("level",1)),int(current.get("age",18))]
+    label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+    body.add_child(label)
+    _button("SAVE NOW",Callable(self,"_save_now"))
+    _button("UI SCALE 90%",Callable(self,"_set_ui_scale").bind(0.90))
+    _button("UI SCALE 100%",Callable(self,"_set_ui_scale").bind(1.00))
+    _button("UI SCALE 110%",Callable(self,"_set_ui_scale").bind(1.10))
+    _button("UI SCALE 120%",Callable(self,"_set_ui_scale").bind(1.20))
+    _button("RESET UI SCALE",Callable(self,"_set_ui_scale").bind(1.00))
+    _heading("INPUT")
+    var hint:=Label.new(); hint.text="I Inventory • C Character • K Skills • P Pet • E Events • M Monster • ESC close"; body.add_child(hint)
+
+func _save_now()->void:
+    SAVE.save_game(hero)
+    _set_status("✓ Game saved successfully.")
+
+func _set_ui_scale(scale:float)->void:
+    var layer:=get_parent()
+    if layer is CanvasLayer:
+        layer.scale=Vector2(scale,scale)
+    _set_status("✓ UI scale set to %.0f%%" % (scale*100.0))
+
+func _toggle_large_panel()->void:
+    if panel==null: return
+    if panel.size.x < 680.0:
+        panel.size=Vector2(760,760)
+        panel.position=Vector2(650,55)
+    else:
+        panel.size=Vector2(620,735)
+        panel.position=Vector2(1260,85)
+    _set_status("✓ Window size adjusted.")
+    
 
 func _learn_skill(skill_id:String)->void:
     if SKILLS.learn(hero,skill_id): SAVE.save_game(hero); _set_status("✓ Skill learned: "+skill_id)
@@ -304,6 +379,44 @@ func _monster(_current:Dictionary)->void:
         for monster_value in monsters:
             if not monster_value is Dictionary: continue
             var monster:Dictionary=monster_value; var details:Dictionary=CODEX.details(monster); var label:=Label.new(); label.text="%s Lv.%d • Danger %d\n%s / %s • %s\nHP %d/%d • ATK %d • DEF %d\n%s" % [str(details["name"]),int(details["level"]),int(details["danger"]),str(details["role"]),str(details["element"]),str(details["status"]),int(monster.get("hp",0)),int(monster.get("max",monster.get("hp",0))),int(monster.get("attack",0)),int(monster.get("defense",0)),str(details["description"])]; label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; body.add_child(label)
+
+class SkillBadge extends Control:
+    var tier:int=1
+    var kind:String="active"
+    var level:int=0
+    func _draw()->void:
+        var bg:=Color("#162333")
+        var edge:=Color("#b99b5b")
+        if kind=="ultimate": edge=Color("#e7c96a")
+        elif kind=="passive": edge=Color("#7fa6c9")
+        draw_rect(Rect2(Vector2.ZERO,size),bg,true)
+        draw_rect(Rect2(Vector2.ZERO,size),edge,false,2.0)
+        var center:=size*0.5
+        draw_circle(center,17.0,Color("#25374b"))
+        draw_circle(center,12.0,Color("#101722"))
+        for i in range(max(1,tier)):
+            var a:=float(i)*TAU/5.0-PI*0.5
+            draw_circle(center+Vector2(cos(a),sin(a))*23.0,2.2,edge)
+        draw_string(ThemeDB.fallback_font,Vector2(6,16),kind.to_upper().substr(0,3),HORIZONTAL_ALIGNMENT_LEFT,-1,8,edge)
+        draw_string(ThemeDB.fallback_font,Vector2(0,size.y-7),("Lv."+str(level)),HORIZONTAL_ALIGNMENT_CENTER,size.x,9,Color("#efe8d8"))
+
+class WorldMapPreview extends Control:
+    var map_id:int=0
+    func _draw()->void:
+        draw_rect(Rect2(Vector2.ZERO,size),Color("#0a121c"),true)
+        var cell:=42.0
+        for x in range(12):
+            for y in range(7):
+                var p:=Vector2(float(x)*cell,float(y)*cell)
+                var n:=float((x*31+y*17+map_id*13)%7)/7.0
+                var c:=Color("#274631").lerp(Color("#8a6b45"),n*0.55)
+                draw_rect(Rect2(p+Vector2(1,1),Vector2(cell-2,cell-2)),c,true)
+        for i in range(8):
+            var x:=30.0+float(i)*62.0
+            draw_line(Vector2(x,0),Vector2(x,size.y),Color("#b89d6a66"),1.0)
+        draw_circle(Vector2(size.x*0.52,size.y*0.50),7.0,Color("#e7c96a"))
+        draw_circle(Vector2(size.x*0.22,size.y*0.28),5.0,Color("#66b7d8"))
+        draw_circle(Vector2(size.x*0.78,size.y*0.68),5.0,Color("#d86d6d"))
 
 func _show_result(result:Dictionary,success_text:String)->void:
     if bool(result.get("ok",false)): _set_status("✓ "+success_text)
