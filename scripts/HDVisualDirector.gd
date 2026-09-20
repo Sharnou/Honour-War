@@ -28,6 +28,10 @@ func _process(delta:float)->void:
 
 func _build_hd_presentation()->void:
 	if not is_inside_tree(): return
+	# Compatibility renderer keeps the native Game3D environment/light stack.
+	# Removing it here can leave the real framebuffer unlit/black on software CI.
+	if not forward_plus:
+		return
 	_remove_legacy_root_lighting()
 	_build_environment()
 	_build_lights()
