@@ -61,6 +61,7 @@
 [ext_resource path="res://tests/exported_exe_smoke_test.gd" type="Script" id="59"]
 [ext_resource path="res://scripts/HWNativeWorldRecovery.gd" type="Script" id="60"]
 [ext_resource path="res://scripts/HWWorldDetailOverhaul.gd" type="Script" id="61"]
+[ext_resource path="res://scripts/HWHDDetailPassVNext.gd" type="Script" id="62"]
 
 [node name="HonourWar3D" type="Node3D"]
 script = ExtResource("1")
@@ -76,6 +77,9 @@ script = ExtResource("58")
 
 [node name="HWWorldDetailOverhaul" type="Node3D" parent="."]
 script = ExtResource("61")
+
+[node name="HWHDDetailPassVNext" type="Node3D" parent="."]
+script = ExtResource("62")
 
 [node name="ExportedEXESmokeTest" type="Node" parent="."]
 script = ExtResource("59")
