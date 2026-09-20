@@ -48,7 +48,7 @@ jobs:
       - name: Import project resources and global classes
         shell: pwsh
         run: |
-          .\godot.exe --headless --editor --path . --rendering-method gl_compatibility --rendering-driver opengl3 --quit 2>&1 | Tee-Object godot-import.log
+          .\godot.exe --headless --editor --path . --rendering-method forward_plus --rendering-driver d3d12 --quit 2>&1 | Tee-Object godot-import.log
           if ($LASTEXITCODE -ne 0) { throw "Godot project import/parse failed" }
 
       - name: Validate direct Screenshot visual source
@@ -58,7 +58,7 @@ jobs:
       - name: Capture actual game frame
         run: |
           mkdir -p visual-captures
-          .\godot.exe --path . --audio-driver Dummy --rendering-method gl_compatibility --rendering-driver opengl3 --resolution 1920x1080 --script res://tools/capture_real_game_screenshot.gd 2>&1 | Tee-Object actual-hd-screenshot.log
+          .\godot.exe --path . --audio-driver Dummy --rendering-method forward_plus --rendering-driver d3d12 --resolution 1920x1080 --script res://tools/capture_real_game_screenshot.gd 2>&1 | Tee-Object actual-hd-screenshot.log
           if ($LASTEXITCODE -ne 0) { throw "Actual Forward+ screenshot capture failed" }
           if (-not (Test-Path "visual-captures/honour-war-real-game.png")) { throw "Actual game screenshot missing" }
 
