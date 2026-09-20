@@ -10,18 +10,14 @@ var shader:Shader
 var processed:Dictionary = {}
 var timer:float = 0.0
 var forward_plus:bool = false
+var fallback_material:StandardMaterial3D
 
 func _ready()->void:
-    # The authored toon shader is a production Forward+ presentation feature.
-    # Compatibility/headless QA uses Godot's dummy material backend; applying
-    # instance-uniform shader materials there can trigger null-material queries
-    # even though the authored StandardMaterial3D source is valid. Keep QA on
-    # the original material path while preserving the full toon pipeline in
-    # the actual Forward+ game.
     forward_plus = RenderingServer.get_current_rendering_method() == "forward_plus"
     if not forward_plus:
         return
     shader = load(TOON_SHADER_PATH) as Shader
+    fallback_material = _create_fallback_material()
     call_deferred("_scan_scene")
 
 func _process(delta:float)->void:
@@ -40,12 +36,17 @@ func _scan_scene()->void:
         return
     _scan_node(scene)
 
-func _fallback_material()->StandardMaterial3D:
+func _create_fallback_material()->StandardMaterial3D:
     var fallback:StandardMaterial3D = StandardMaterial3D.new()
     fallback.albedo_color = Color("#9aa1aa")
     fallback.metallic = 0.15
     fallback.roughness = 0.58
     return fallback
+
+func _fallback_material()->StandardMaterial3D:
+    if fallback_material == null:
+        fallback_material = _create_fallback_material()
+    return fallback_material
 
 func _ensure_material_integrity(root:Node)->void:
     if root == null or not is_instance_valid(root):
@@ -59,8 +60,6 @@ func _ensure_material_integrity(root:Node)->void:
             continue
         for surface_index in range(source_mesh.get_surface_count()):
             var active:Material = mesh_instance.get_active_material(surface_index)
-            if active == null:
-                active = mesh_instance.get_surface_override_material(surface_index)
             if active == null:
                 active = source_mesh.surface_get_material(surface_index)
             if active == null:
@@ -77,6 +76,14 @@ func _ensure_material_integrity(root:Node)->void:
             material = base_mesh.surface_get_material(0)
         if material == null:
             multi.material_override = _fallback_material()
+    for node in root.find_children("*", "GeometryInstance3D", true, false):
+        var geometry:GeometryInstance3D = node as GeometryInstance3D
+        if geometry == null or not is_instance_valid(geometry):
+            continue
+        if geometry is MeshInstance3D or geometry is MultiMeshInstance3D:
+            continue
+        if geometry.material_override == null:
+            geometry.material_override = _fallback_material()
 
 func _scan_node(node:Node)->void:
     if node is MeshInstance3D:
@@ -126,6 +133,7 @@ func _convert_mesh(mesh:MeshInstance3D)->void:
             toon.set_shader_parameter("use_normal_texture", true)
             toon.set_shader_parameter("normal_scale", source.normal_scale)
         if toon.shader == null:
+            mesh.set_surface_override_material(surface_index, _fallback_material())
             continue
         mesh.set_surface_override_material(surface_index, toon)
     mesh.set_meta("hw_toon_processed", true)
