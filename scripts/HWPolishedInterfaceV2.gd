@@ -77,6 +77,8 @@ func _process(delta:float)->void:
         if legacy==null:
             bound=false
             return
+    toolbar.visible=false
+    toolbar.mouse_filter=Control.MOUSE_FILTER_IGNORE
     _refresh_status()
 
 func _disable_competing_huds()->void:
