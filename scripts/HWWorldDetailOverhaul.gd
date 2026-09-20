@@ -16,11 +16,11 @@ func _ready() -> void:
         legacy_background.visible = false
     var boost: Node3D = MapBoost.new()
     boost.name = "HWMapDetailBoost"
-    parent.add_child(boost)
+    parent.call_deferred("add_child", boost)
     var prontera: Node3D = PronteraDetail.new()
     prontera.name = "HWPronteraReferenceDetail"
-    parent.add_child(prontera)
+    parent.call_deferred("add_child", prontera)
     var frame: Node = CameraFrame.new()
     frame.name = "HWCameraFrameV3"
-    parent.add_child(frame)
+    parent.call_deferred("add_child", frame)
     queue_free()
