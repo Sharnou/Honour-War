@@ -30,7 +30,6 @@ func _process(delta:float)->void:
         var visual:Node3D=visuals[id] as Node3D
         if visual==null or not is_instance_valid(visual): continue
         live[id]=true
-        if bool(visual.get_meta("hw_production_asset",false)): continue
         if not states.has(id):
             states[id]={"time":0.0,"next_attack":0.8,"next_cast":1.4,"hp":int(monster.get("hp",0)),"death":false}
             _remove_labels(visual)
@@ -54,7 +53,8 @@ func _animate(delta:float,visual:Node3D,monster:Dictionary,hero_pos:Vector2,stat
     var world_pos:Vector2=monster.get("pos",Vector2.ZERO)
     var distance:float=world_pos.distance_to(hero_pos)
     var phase:float=float(state["time"])*5.0
-    var moving:bool=distance>CombatRulesSafe.range(monster) and distance<300.0
+    var movement_state:String=str(monster.get("movement_state","idle"))
+    var moving:bool=movement_state=="chase" or movement_state=="return" or Vector2(float(monster.get("velocity_x",0.0)),float(monster.get("velocity_y",0.0))).length_squared()>0.01
     var bob:float=sin(phase)*0.035
     visual.position.y=0.15+bob
     if moving:
