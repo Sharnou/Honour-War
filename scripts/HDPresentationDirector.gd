@@ -3,10 +3,10 @@ extends Node3D
 
 @export var camera_path:NodePath
 @export var target_path:NodePath
-@export var camera_fov:float=62.0
-@export var preferred_distance:float=36.0
-@export var preferred_pitch:float=-52.0
-@export var world_compression:float=0.76
+@export var camera_fov:float=60.0
+@export var preferred_distance:float=28.0
+@export var preferred_pitch:float=-56.0
+@export var world_compression:float=0.58
 
 var _camera:Camera3D
 var _target:Node3D
