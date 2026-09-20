@@ -24,6 +24,8 @@ func _initialize() -> void:
     _test_skills()
     _test_pets()
     _test_save_load()
+    _test_gameplay_rules()
+    _test_visual_cycles()
     _test_graphics_wiring()
     if failures == 0:
         print("FULL_GAMEPLAY_QA: PASS")
@@ -128,6 +130,28 @@ func _test_save_load() -> void:
     check("save/load preserves zeny", int(loaded.get("zeny",0)) == 987654)
     check("save/load preserves pet", not (loaded.get("pet",{}) as Dictionary).is_empty())
 
+func _test_gameplay_rules() -> void:
+    var skill_text:String = FileAccess.get_file_as_string("res://scripts/HWServerGameplayRuntime.gd")
+    var cicci_text:String = FileAccess.get_file_as_string("res://scripts/CicciWeeklyEventManager.gd")
+    var event_text:String = FileAccess.get_file_as_string("res://scripts/CicciWeeklyEvent.gd")
+    check("server skills use canonical SkillSystem", skill_text.contains("SkillSystem.use(player,skill,now)"))
+    check("server skill rejects insufficient SP", skill_text.contains("skill_rejected") and skill_text.contains("sp"))
+    check("server refinement has +15 cap", skill_text.contains("current>=15") and skill_text.contains("max_refine"))
+    check("hero level is capped at 250 in server combat", skill_text.contains("clamp(int(player.get(\"level\",1)),1,250)"))
+    check("ordinary monster level is capped at 300", skill_text.contains("clamp(requested_level,1,300)"))
+    check("Cicci is explicitly exempt from normal monster cap", event_text.contains("normal_monster_level_cap_exempt"))
+    check("Cicci resurrection cast cannot restart every hit", cicci_text.contains("existing:Variant=state.get(\"cast\",{})") and cicci_text.contains("mvp_already_spawned"))
+
+func _test_visual_cycles() -> void:
+    var equipment_text:String = FileAccess.get_file_as_string("res://scripts/HWEquipmentVisualV3.gd")
+    var monster_text:String = FileAccess.get_file_as_string("res://scripts/HWMonsterVisualLibraryV3.gd")
+    var cicci_text:String = FileAccess.get_file_as_string("res://scripts/HWCicciVisualDirectorV1.gd")
+    var scene_text:String = FileAccess.get_file_as_string("res://Main3D.tscn")
+    check("60 character visual cycles are defined", equipment_text.contains("CYCLES_PER_CLASS := 10") and equipment_text.contains("visual_cycle_total\",60"))
+    check("six classes feed the 60 visual cycles", equipment_text.contains("\"Warrior\",\"Mage\",\"Archer\",\"Thief\",\"Acolyte\",\"Merchant\""))
+    check("monster visual variants are typed and bounded", monster_text.contains("var variant:int=") and monster_text.contains("%12"))
+    check("Cicci has eight deterministic visual cycles", cicci_text.contains("CYCLE_NAMES:Array[String]") and cicci_text.contains("\"ROAR\""))
+    check("Cicci visual director is wired", scene_text.contains("HWCicciVisualDirectorV1"))
 func _test_graphics_wiring() -> void:
     var scene:String = FileAccess.get_file_as_string("res://Main3D.tscn")
     var project:String = FileAccess.get_file_as_string("res://project.godot")
