@@ -19,6 +19,8 @@ var progression_panel: Control
 var skill_slots: HBoxContainer
 var hp_label: Label
 var sp_label: Label
+var pet_hp_label: Label
+var pet_sp_label: Label
 var xp_label: Label
 var level_label: Label
 var location_label: Label
@@ -132,6 +134,10 @@ func _build_status() -> void:
     row.add_child(hp_label)
     sp_label = _small_value("SP", SP)
     row.add_child(sp_label)
+    pet_hp_label = _small_value("PET HP", HP)
+    row.add_child(pet_hp_label)
+    pet_sp_label = _small_value("PET SP", SP)
+    row.add_child(pet_sp_label)
     xp_label = _small_value("EXP", XP)
     row.add_child(xp_label)
 
@@ -218,6 +224,21 @@ func _refresh() -> void:
     var hp_max: int = max(1, int(stats.get("max_hp", 1)))
     var sp: int = int(hero.get("sp", 0))
     var sp_max: int = max(1, int(stats.get("max_sp", 1)))
+    var pet_hp: int = 0
+    var pet_sp: int = 0
+    var pet_hp_max: int = 1
+    var pet_sp_max: int = 1
+    var pet_value: Variant = hero.get("pet", {})
+    if pet_value is Dictionary:
+        var pet: Dictionary = pet_value
+        var pet_system: GDScript = load("res://scripts/PetProgressionSystem.gd") as GDScript
+        if pet_system != null:
+            pet_system.ensure_state(pet)
+            var pet_stats: Dictionary = pet_system.combat_stats(pet)
+            pet_hp_max = max(1, int(pet_stats.get("hp", 1)))
+            pet_sp_max = max(1, int(pet_stats.get("sp", max(1, int(pet_stats.get("magic", 1))))))
+            pet_hp = int(pet.get("hp", pet_hp_max))
+            pet_sp = int(pet.get("sp", pet_sp_max))
 
     if level_label != null:
         level_label.text = "Lv.%d / 250" % int(hero.get("level", 1))
@@ -231,6 +252,10 @@ func _refresh() -> void:
         hp_label.text = "HP %d/%d" % [hp, hp_max]
     if sp_label != null:
         sp_label.text = "SP %d/%d" % [sp, sp_max]
+    if pet_hp_label != null:
+        pet_hp_label.text = "PET HP %d/%d" % [pet_hp, pet_hp_max]
+    if pet_sp_label != null:
+        pet_sp_label.text = "PET SP %d/%d" % [pet_sp, pet_sp_max]
     if xp_label != null:
         xp_label.text = "EXP %d/%d" % [int(xp.get("xp", 0)), max(1, int(xp.get("next", 1)))]
 
