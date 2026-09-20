@@ -87,10 +87,8 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          $path = 'artifacts\honour-war-exported-exe.png'
-          if (-not (Test-Path $path)) { throw 'REAL_EXE_SCREENSHOT_CONTENT_FAIL: screenshot missing' }
-          if ((Get-Item $path).Length -le 10000) { throw 'REAL_EXE_SCREENSHOT_CONTENT_FAIL: screenshot too small' }
-          python -c "from PIL import Image,ImageStat; p=r'$path'; im=Image.open(p).convert('RGB'); print('REAL_EXE_SCREENSHOT_CONTENT:', im.size, ImageStat.Stat(im).mean); mean=sum(ImageStat.Stat(im).mean)/3.0; lo=min(v for pair in ImageStat.Stat(im).extrema for v in pair); hi=max(v for pair in ImageStat.Stat(im).extrema for v in pair); assert im.width>=1280 and im.height>=720 and mean>=18.0 and (hi-lo)>=45, 'rendered frame is too uniform/dark'; print('REAL_EXE_SCREENSHOT_CONTENT_PASS')"
+          python tools/real_game_screenshot_content_qa.py artifacts\\honour-war-exported-exe.png
+
 
       - name: Upload real exported-game screenshot and logs
         if: always()
