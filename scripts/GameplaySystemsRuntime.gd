@@ -35,7 +35,6 @@ func _bind()->void:
     if game==null: return
     legacy=game.get_node_or_null("LegacyGame")
     _build_ui()
-    _wire_toolbar()
 
 func _process(delta:float)->void:
     timer+=delta
@@ -76,28 +75,8 @@ func _build_ui()->void:
     status_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
     root.add_child(status_label)
     var hint:=Label.new()
-    hint.text="I Inventory  C Character  K Skills  P Pet  E Events  M Monster"
+    hint.text="HOTKEYS  C Character • P Pet • K Skills • I Inventory • E Equipment • R Refine • M Map • O System • V Status • ESC Close"
     root.add_child(hint)
-
-func _wire_toolbar()->void:
-    var ui:=game.get_node_or_null("HDUIStyleDirector")
-    if ui==null: return
-    var toolbar:Variant=ui.get("toolbar")
-    if not toolbar is HBoxContainer: return
-    var buttons:Array=toolbar.get_children()
-    for i in buttons.size():
-        var button:Variant=buttons[i]
-        if button is BaseButton: button.pressed.connect(_toolbar_action.bind(i))
-
-func _toolbar_action(index:int)->void:
-    match index:
-        0: _set_mode("character")
-        1: _set_mode("pet")
-        2: _set_mode("skills")
-        3: _set_mode("inventory")
-        4: _set_mode("equipment")
-        5: _set_mode("refine")
-        6: _set_mode("character")
 
 func _set_mode(next:String)->void:
     mode=next
