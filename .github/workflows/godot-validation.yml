@@ -106,6 +106,10 @@ jobs:
           set -euo pipefail
           ./"${GODOT_BINARY}" --headless --path . --script res://tests/hero_monster_movement_skill_qa.gd 2>&1 | tee hero-monster-movement-skill-qa.log
           grep -F 'HERO_MONSTER_MOVEMENT_SKILL_QA: PASS' hero-monster-movement-skill-qa.log >/dev/null
+          if grep -F 'HERO_MONSTER_MOVEMENT_SKILL_QA: FAIL' hero-monster-movement-skill-qa.log; then
+            echo 'Hero/monster movement and skill QA reported FAIL.'
+            exit 1
+          fi
 
       - name: Run authoritative monster movement/facing QA
         shell: bash
@@ -114,13 +118,26 @@ jobs:
           ./"${GODOT_BINARY}" --headless --path . --script res://tests/monster_motion_authority_qa.gd 2>&1 | tee monster-motion-authority-qa.log
           grep -F 'MONSTER_MOTION_AUTHORITY_QA: PASS' monster-motion-authority-qa.log >/dev/null
 
-      - name: Upload Godot validation log
+      - name: Capture real running-game screenshot
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf artifacts
+          mkdir -p artifacts
+          ./"${GODOT_BINARY}" --headless --path . --rendering-method gl_compatibility --rendering-driver opengl3 --script res://tests/capture_real_game_screenshot.gd 2>&1 | tee real-game-screenshot.log
+          grep -F 'REAL_GAME_SCREENSHOT_PASS:' real-game-screenshot.log >/dev/null
+          test -s artifacts/honour-war-real-game.png
+          file artifacts/honour-war-real-game.png
+
+      - name: Upload Godot validation log and real gameplay evidence
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: godot-project-validation-log
+          name: godot-project-validation-and-real-game-evidence
           path: |
             godot-validation.log
             hero-monster-movement-skill-qa.log
             monster-motion-authority-qa.log
+            real-game-screenshot.log
+            artifacts/honour-war-real-game.png
           if-no-files-found: ignore
