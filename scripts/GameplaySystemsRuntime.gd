@@ -95,9 +95,9 @@ func _unhandled_key_input(event:InputEvent)->void:
             _close_window()
             get_viewport().set_input_as_handled()
         return
-    var key:=event.keycode
+    var keycode:int = int(event.keycode)
     var target: String = ""
-    match key:
+    match keycode:
         KEY_C: target="character"
         KEY_P: target="pet"
         KEY_K: target="skills"
