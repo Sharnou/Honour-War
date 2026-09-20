@@ -59,6 +59,10 @@ func _animate(delta:float,visual:Node3D,monster:Dictionary,hero_pos:Vector2,stat
     visual.position.y=0.15+bob
     if moving:
         visual.position.y+=abs(sin(phase))*0.045
+        var facing_value:=Vector2(float(monster.get("facing_x",0.0)),float(monster.get("facing_y",0.0)))
+        if facing_value.length_squared()>0.0001:
+            var desired_yaw:float=atan2(-facing_value.x,-facing_value.y)
+            visual.rotation.y=lerp_angle(visual.rotation.y,desired_yaw,1.0-exp(-14.0*delta))
         visual.rotation.z=sin(phase)*0.045
     else:
         visual.rotation.z=lerp(visual.rotation.z,0.0,0.10)
