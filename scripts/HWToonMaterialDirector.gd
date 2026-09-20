@@ -13,19 +13,21 @@ var forward_plus:bool = false
 var fallback_material:StandardMaterial3D
 
 func _ready()->void:
+    # Deterministic EXE gameplay smoke validates rules, not toon conversion.
+    # Avoid renderer material churn during its forced shutdown path.
+    if "--qa-smoke-test" in OS.get_cmdline_args():
+        set_process(false)
+        return
     forward_plus = RenderingServer.get_current_rendering_method() == "forward_plus"
     if not forward_plus:
         return
     shader = load(TOON_SHADER_PATH) as Shader
     fallback_material = _create_fallback_material()
     call_deferred("_scan_scene")
+    set_process(false)
 
-func _process(delta:float)->void:
-    timer += delta
-    if timer < MATERIAL_GUARD_INTERVAL:
-        return
-    timer = 0.0
-    _scan_scene()
+func _process(_delta:float)->void:
+    pass
 
 func _scan_scene()->void:
     var scene:Node = get_tree().current_scene
