@@ -6,7 +6,7 @@
 
 ### 16 September 2026 — Production Upgrade Pass
 - **Godot 4.7 / 4.7.2** is the project validation and Windows export target.
-- The permanent visual pipeline is now enforced as **Visual RAG → Blender → Substance 3D Painter → GLB/GLTF → Godot 4.7 → validation → runtime/build test**.
+- The permanent visual pipeline is now enforced as **Visual RAG → Neural4D / authored DCC → FBX/OBJ → native Godot 4.7.2 → validation → runtime/build test**.
 - **SS (SUPER SHAMBION)** is a rental-only AI hero. SS follows the owner, fights automatically, uses **Asura Strike**, and can automatically heal the owner and itself.
 - SS rental remains **1,000,000 Zeny** and SS cannot be created from the Create New Character workflow.
 - The SS runtime now has a production-asset path with a development fallback while authored assets are being completed.
@@ -107,42 +107,37 @@ Honour War maintains two independent pools:
 
 ## Production HD art rule
 
-**Visual RAG → Blender → Substance 3D Painter → GLB/GLTF → Godot 4.7**
+**Visual RAG → Neural4D / authored DCC → FBX/OBJ → native Godot 4.7.2 → validation → runtime/build test**
 
-This is the permanent Honour War visual production pipeline.
+The authoritative visual references are:
 
-- Visual RAG: reference/visual analysis and production target definition
-- Blender: production modeling, rigging, skinning, animation, UVs, LODs and export preparation
-- Substance 3D Painter: PBR texturing and material variants
-- GLB/GLTF: production interchange format containing meshes, materials, skeletons and animations
-- Godot 4.7: Forward+ runtime, animation, lighting, atmosphere, VFX, gameplay, UI, networking and world streaming
-- Validation/build: automated integrity checks, Godot validation, runtime checks and Windows export regression
+- `Screenshot/ChatGPT Image Sep 16, 2026, 12_22_47 AM.png`
+- `Screenshot/image_a4469f29.jpg`
+
+These repository references are the permanent visual contract for daily upgrades. They are not optional inspiration. The visual target is the detailed Honour War presentation represented by these files, and daily passes must perform visual gap analysis against them before making art or visual implementation decisions.
+
+**GLB and GLTF are rejected from all daily updates and from the production/runtime asset intake. Meshy is permanently rejected.** Neural4D may use **FBX** for rigged/animated assets and **OBJ** for approved static assets. Final runtime presentation uses native Godot 4.7.2 scenes/resources.
+
+See `VISUAL_REFERENCE_CONTRACT.md` for the mandatory micro-detail fidelity gate and daily visual QA rules.
 
 Procedural geometry remains only as a development fallback. It is not the final
 Honour War art direction.
 
 ## HD runtime architecture
 
-`HDAssetRuntime.gd` detects production GLB assets by stable ID and replaces the
-corresponding procedural actor without changing gameplay references. This lets art
-production progress independently while combat, AI, pets, skills, HUD and progression
-continue using the same runtime architecture.
+`HDAssetRuntime.gd` detects production assets by stable ID and replaces the corresponding procedural actor without changing gameplay references. This lets art production progress independently while combat, AI, pets, skills, HUD and progression continue using the same runtime architecture.
 
 The production asset contract is documented in:
 - `ART_PIPELINE.md`
+- `VISUAL_REFERENCE_CONTRACT.md`
 - `assets/3d/HD_ASSET_MANIFEST.md`
 - `tools/blender/honour_war_hd_asset_builder.py`
-- `tools/blender/export_honour_war_glb.py`
 
 ## Visual target
 
-Honour War targets a high-detail, stylized fantasy MMORPG presentation:
-detailed full-body class silhouettes, visible faces and legs, expressive pets,
-recognizable monsters/MVPs, layered equipment, PBR materials, rich town/field/dungeon
-environments, atmospheric lighting, readable combat effects and polished animation.
+Honour War targets the high-detail, stylized fantasy MMORPG presentation established by the repository screenshot references: detailed full-body class silhouettes, visible faces and legs, expressive pets, recognizable monsters/MVPs, layered equipment, PBR materials, rich town/field/dungeon environments, atmospheric lighting, readable combat effects and polished animation.
 
-The goal is not photorealism and not primitive geometry. The goal is premium
-real-time stylized HD game art with scalable performance tiers.
+The target is not generic HD/MMORPG art. Daily passes must use the authoritative repository references and explicitly track macro and micro visual gaps rather than substituting a generic art direction.
 
 ## Multiplayer scope
 
@@ -160,17 +155,30 @@ export workflow and must pass script validation, EXE export and launch smoke tes
 
 ## Daily Honour War Upgrade policy
 
-Every future upgrade pass must:
+Every future upgrade pass, whether manually triggered or automatic, must:
 
-1. Continue from the current repository rather than restarting the project.
-2. Preserve existing working mechanics, assets, options and progress.
-3. Prioritize actual missing game systems and production assets over cosmetic placeholder work.
-4. Follow the Visual RAG → Blender → Substance 3D Painter → GLB/GLTF → Godot 4.7 pipeline for authored HD assets.
-5. Validate before declaring a feature complete.
-6. Use independent engineering/AI review when an implementation problem requires another technical perspective.
-7. After three failed attempts at the same approach, stop repeating it and use a fresh diagnostic/implementation path.
-8. Never claim an asset, feature, build or test is complete unless it has been verified.
+1. **Run Visual RAG / multimodal visual-reference analysis FIRST.** No Blender generation, Neural4D generation, code visual implementation or art decision may begin before the current visual target/gap analysis exists.
+2. Use the newest real Honour War gameplay screenshot when available and compare it against the two authoritative repository references: `Screenshot/ChatGPT Image Sep 16, 2026, 12_22_47 AM.png` and `Screenshot/image_a4469f29.jpg`.
+3. Review visually similar high-quality references only as supporting evidence; the repository references remain authoritative and generic HD/MMORPG substitutions are not accepted.
+4. Identify the highest-impact visual deficits and convert the findings into concrete asset/model/material/lighting/animation/camera/VFX/UI/gameplay-presentation requirements before implementation.
+5. Continue from the current repository rather than restarting the project.
+6. Preserve existing working mechanics, assets, options, saves and progress.
+7. Prefer real authored production assets over procedural placeholders.
+8. After Visual RAG, use the approved asset path **Neural4D / authored DCC → FBX/OBJ → native Godot 4.7.2**.
+9. **Never introduce, generate, import or depend on GLB/GLTF in a daily update.** Meshy remains permanently rejected.
+10. Apply the reference-fidelity gate to all six base classes and advanced classes, pets, monsters/MVPs, equipment, towns, dungeons, terrain, props, VFX, animation, lighting, camera, UI and gameplay presentation.
+11. Match relevant reference details at both macro and micro levels: silhouettes, body proportions, visible faces/legs, clothing and equipment layers, materials, textures, surface response, terrain, props, lighting, shadows, atmosphere, camera framing, animation timing, attack/hit effects, VFX, HUD/UI scale and presentation.
+12. Validate asset imports, materials, skeletons/animations, runtime integration, lighting/camera presentation, gameplay behavior and build/runtime stability before declaring completion.
+13. Real visual QA screenshots must come from the actual Main3D runtime/build; concept art or generated mockups do not count as gameplay evidence.
+14. When Visual RAG, Neural4D, Blender, Substance 3D Painter or another external art tool is unavailable, perform the available Visual RAG/reference analysis first, then improve manifests, asset specifications, generation scaffolding, import/runtime integration and validation without pretending the unavailable stage was completed.
+15. Record incomplete or unavailable stages explicitly and never claim an asset, feature, build or test is complete unless verified.
+16. Use independent engineering/AI review when an implementation problem requires another technical perspective.
+17. After three failed attempts at the same approach, stop repeating it and use a fresh diagnostic/implementation path.
 
-## Daily HD visual acceptance rule\n\nEvery Daily Honour War Upgrade permanently includes a real-HD presentation pass covering: characters, maps, cities, monsters/MVPs, animation, attack anticipation/contact/impact/recovery, hit reactions, skill VFX, equipment appearance, boss presentation, camera framing and UI polish. The pass follows Visual RAG → Blender → Substance 3D Painter → GLB/GLTF → Godot 4.7 → validation/build regression, while preserving the MMORPG/ARPG-only design and all working gameplay.\n\n## Copyright
+## Daily HD visual acceptance rule
+
+Every Daily Honour War Upgrade permanently includes a real-HD presentation pass covering characters, maps, cities, monsters/MVPs, animation, attack anticipation/contact/impact/recovery, hit reactions, skill VFX, equipment appearance, boss presentation, camera framing and UI polish. The pass must begin with the authoritative Visual RAG/reference gap analysis and then use the Neural4D/FBX/OBJ → native Godot 4.7.2 pipeline, followed by validation and real runtime screenshot/build regression. Existing MMORPG/ARPG gameplay must be preserved.
+
+## Copyright
 
 © Sharnou — Honour War
