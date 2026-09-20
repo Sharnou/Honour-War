@@ -20,6 +20,7 @@ func _run()->void:
     systems=scene.find_child("GameplaySystemsRuntime",true,false)
     _check(taskbar!=null,"HDMMOTaskbar exists")
     _check(systems!=null,"GameplaySystemsRuntime exists")
+    _check(ResourceLoader.exists("res://assets/ui/skill_icons_atlas.svg"),"skill icon atlas exists")
     if taskbar!=null:
         _test_toolbar()
     var hero_visual:=scene.get("hero_visual") as Node3D
