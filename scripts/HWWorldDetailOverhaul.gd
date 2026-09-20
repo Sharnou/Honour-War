@@ -1,17 +1,16 @@
 extends Node3D
-## Compatibility entry point for the production HD world pass.
-## The active implementation is HWWorldDetailOverhaulV3.gd plus the final camera frame pass.
-const V3 = preload("res://scripts/HWWorldDetailOverhaulV3.gd")
+## Production HD world entry point: preserve the existing world builder and add the dense map-detail booster.
+const MapBoost = preload("res://scripts/HWMapDetailBoost.gd")
 const CameraFrame = preload("res://scripts/HWCameraFrameV3.gd")
 
 func _ready() -> void:
     var parent := get_parent()
     if parent == null:
         return
-    var world := V3.new()
-    world.name = "HWWorldDetailOverhaulV3"
-    parent.add_child(world)
-    var frame := CameraFrame.new()
+    var boost: Node3D = MapBoost.new()
+    boost.name = "HWMapDetailBoost"
+    parent.add_child(boost)
+    var frame: Node = CameraFrame.new()
     frame.name = "HWCameraFrameV3"
     parent.add_child(frame)
     queue_free()
