@@ -2,7 +2,7 @@ class_name MonsterVisualEnhancer
 extends Node3D
 
 ## Production-facing procedural presentation fallback for named monsters.
-## Final high-detail Bloody Knight assets still follow Blender -> Painter -> GLB/GLTF -> Godot 4.
+## Final high-detail Bloody Knight assets follow Blender/Neural4D -> FBX/OBJ -> native Godot 4.
 var game:Node3D
 var built:Dictionary={}
 
