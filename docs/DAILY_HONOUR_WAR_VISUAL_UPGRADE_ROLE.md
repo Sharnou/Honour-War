@@ -191,6 +191,46 @@ For every important character, the Daily Upgrade must inspect front, side and ba
 - Final runtime must be native Godot 4.7.2 scenes/resources with Forward+ presentation.
 - The Screenshot/ folder is the visual reference only; reference images must never be pasted into the game as fake graphics.
 
+
+## FINAL HD 3D TARGET LOCK — NEVER LOWER THE VISUAL LEVEL
+
+The final visual-detail target is permanently anchored to these two repository references:
+- `Screenshot/ChatGPT Image Sep 16, 2026, 12_22_47 AM.png`
+- `Screenshot/image_a4469f29.jpg`
+
+These are **minimum-quality anchors**, not optional inspiration. Every Daily Honour War Upgrade must keep the playable game's rendered detail at or above their visual-information density and polish.
+
+### Non-negotiable target
+
+Do not accept a result that is visually simpler than the anchors because it is easier to generate, faster to load, easier to script, or easier to validate. The game must progressively generate the small details that make the reference scenes read as finished HD 3D MMORPG environments:
+
+- complete terrain/material layers and ground transitions;
+- complete architecture and structural trim;
+- roads, paving, borders, bridges, stairs and navigation landmarks;
+- dense vegetation and natural ground scatter;
+- props, furniture, market objects, signs and storytelling details;
+- water, shore, docks and boats where the map requires them;
+- dungeon environmental depth and decoration;
+- unique landmarks and map-specific visual identity;
+- full-body heroes with readable faces, hair, hands, clothing, legs, feet and equipment;
+- distinct pets, monsters and bosses with authored silhouettes;
+- detailed PBR/NPR material separation;
+- contact shadows, ambient shading, controlled highlights and atmospheric depth;
+- readable attack, hit, skill and boss effects;
+- polished HUD, icons, equipment/status and map UI.
+
+### Permanent map-detail mandate
+
+Every map must be reviewed independently. The Daily Upgrade must identify and generate missing **primary, secondary and tertiary** details for that specific map rather than applying a single generic decoration layer to every location. Towns must feel inhabited, fields must have navigational/environmental storytelling, and dungeons/end-game areas must show escalating environmental complexity.
+
+### Visual regression stop condition
+
+If a new build, screenshot, or EXE looks less detailed than the locked references, the Daily Upgrade must treat it as a regression and continue improving it. Passing code tests does not waive this requirement. A real gameplay capture is required before claiming the final visual target has been reached.
+
+### Original implementation rule
+
+The target is the **visual detail level and design language** of the supplied references. Honour War must implement this through original 3D geometry, materials, animation, lighting and VFX; never paste the reference image into the world or substitute a 2D image for missing game assets.
+
 ## Daily upgrade execution rules
 
 For every upgrade:
