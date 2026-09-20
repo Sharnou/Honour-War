@@ -11,7 +11,7 @@ var render_frames:int=0
 
 func _initialize()->void:
 	get_root().set_meta("hw_visual_capture",true)
-	if DisplayServer.get_name()!="headless":DisplayServer.window_set_size(Vector2i(1280,720))
+	if DisplayServer.get_name()!="headless":DisplayServer.window_set_size(Vector2i(1920,1080))
 	call_deferred("_launch")
 
 func _launch()->void:
