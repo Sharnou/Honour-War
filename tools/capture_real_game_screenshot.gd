@@ -2,16 +2,19 @@ extends SceneTree
 
 const CAPTURE_DIR:String="res://visual-captures"
 const CAPTURE_FILE:String=CAPTURE_DIR+"/honour-war-real-game.png"
-const STARTUP_TIMEOUT:float=300.0
+const STARTUP_TIMEOUT:float=420.0
 const MIN_RENDER_FRAMES:int=60
 const MIN_SCENE_LUMA:float=0.035
 const MIN_SCENE_VARIANCE:float=0.002
 const TARGET_SIZE:Vector2i=Vector2i(1920,1080)
+const MATERIAL_GUARD_INTERVAL:float=0.25
 
 var elapsed:float=0.0
 var captured:bool=false
 var render_frames:int=0
 var capture_output:String=CAPTURE_FILE
+var material_timer:float=0.0
+var fallback_material:StandardMaterial3D
 
 func _initialize()->void:
 	get_root().set_meta("hw_visual_capture",true)
@@ -30,18 +33,24 @@ func _launch()->void:
 	if packed==null:push_error("Could not load Main3D.tscn for real-game capture");quit(1);return
 	var production_scene:Node=packed.instantiate()
 	if production_scene==null:push_error("Could not instantiate Main3D.tscn for real-game capture");quit(1);return
+	fallback_material=_create_fallback_material()
 	var repaired:int=_sanitize_render_materials(production_scene)
 	print("PREATTACH_MATERIAL_PREFLIGHT repaired=",repaired)
 	get_root().add_child(production_scene)
 	current_scene=production_scene
 	call_deferred("_postattach_material_seal")
 
-func _fallback_material()->StandardMaterial3D:
+func _create_fallback_material()->StandardMaterial3D:
 	var fallback:=StandardMaterial3D.new()
 	fallback.albedo_color=Color("#9aa1aa")
 	fallback.metallic=0.15
 	fallback.roughness=0.58
 	return fallback
+
+func _fallback_material()->StandardMaterial3D:
+	if fallback_material==null:
+		fallback_material=_create_fallback_material()
+	return fallback_material
 
 func _sanitize_render_materials(root:Node)->int:
 	var repaired:int=0
@@ -56,17 +65,16 @@ func _sanitize_render_materials(root:Node)->int:
 		var base_mesh:Mesh=multi.multimesh.mesh
 		var needs_override:bool=false
 		for surface:int in base_mesh.get_surface_count():
-			if base_mesh.surface_get_material(surface)==null:
+			if multi.material_override==null and base_mesh.surface_get_material(surface)==null:
 				needs_override=true
 				break
-		if needs_override and multi.material_override==null:
+		if needs_override:
 			multi.material_override=_fallback_material()
 			repaired+=1
 	for node:Node in root.find_children("*","GeometryInstance3D",true,false):
 		var geometry:=node as GeometryInstance3D
 		if geometry==null or not is_instance_valid(geometry):continue
-		if geometry is MeshInstance3D or geometry is MultiMeshInstance3D:continue
-		if geometry.material_override==null:
+		if geometry.material_override==null and not geometry is MeshInstance3D and not geometry is MultiMeshInstance3D:
 			geometry.material_override=_fallback_material()
 			repaired+=1
 	return repaired
@@ -110,6 +118,12 @@ func _process(delta:float)->bool:
 	if captured:return false
 	elapsed+=delta
 	render_frames+=1
+	material_timer+=delta
+	if material_timer>=MATERIAL_GUARD_INTERVAL:
+		material_timer=0.0
+		var live_scene:Node=get_current_scene()
+		if live_scene!=null:
+			_sanitize_render_materials(live_scene)
 	if elapsed>STARTUP_TIMEOUT:
 		push_error("Real game screenshot timed out after %.1f seconds"%STARTUP_TIMEOUT);quit(2);return true
 	var capture_scene:Node=get_current_scene()
@@ -129,8 +143,8 @@ func _process(delta:float)->bool:
 		if render_frames%60==0:print("CAPTURE_WAIT scene pixels not ready")
 		return false
 	var source_size:=Vector2i(image.get_width(),image.get_height())
+	print("CAPTURE_NORMALIZE source=",source_size," target=",TARGET_SIZE)
 	if source_size!=TARGET_SIZE:
-		print("CAPTURE_NORMALIZE source=",source_size," target=",TARGET_SIZE)
 		image.resize(TARGET_SIZE.x,TARGET_SIZE.y,Image.INTERPOLATE_LANCZOS)
 	var save_error:Error=image.save_png(capture_output)
 	if save_error!=OK:
