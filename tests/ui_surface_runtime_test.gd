@@ -29,6 +29,14 @@ func _run()->void:
         var chat_button:=chat.find_child("ChatToggle",true,false) as Button
         _check(chat_button!=null,"chat toggle button exists")
         _check(str(chat_button.text).contains("ENTER"),"chat Enter hotkey is advertised")
+    var skill_bar:=scene.find_child("HWFinalSkillQuickbar",true,false)
+    _check(skill_bar!=null,"final skill shortcut bar exists")
+    if skill_bar!=null:
+        var slots:=skill_bar.find_children("SkillSlot_*","Button",true,false)
+        _check(slots.size()==8,"final skill shortcut bar has 8 slots")
+        for slot_value in slots:
+            var slot:=slot_value as Button
+            _check(slot.tooltip_text.length()>0,"every skill shortcut has tooltip")
     _check(TELEPORT.MAPS.size()>=30,"full registered map catalog is present")
     for map_id in TELEPORT.MAPS.keys():
         _check(TELEPORT.MAPS[map_id].has("type"),"map %s has authored map type" % str(map_id))
