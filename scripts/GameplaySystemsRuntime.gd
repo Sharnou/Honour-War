@@ -333,41 +333,82 @@ func _equip_item(item_id:String)->void:
 func _use_item(item_id:String)->void: var result:Dictionary=CHARACTER_INV.use_consumable(hero,item_id); _show_result(result,"Used "+item_id); timer=1.0
 
 func _equipment(current:Dictionary)->void:
-    _clear_body(); _heading("EQUIPMENT & STATUS • LIVE STATS")
-    var stats:Dictionary=CHARACTER.stats(current);
-    var status_points:=Label.new()
+    _clear_body()
+    _heading("EQUIPMENT & STATUS • LIVE STATS")
+    var stats:Dictionary=CHARACTER.stats(current)
+    var status_points:Label=Label.new()
     status_points.text="STATUS POINTS AVAILABLE: %d • Each stat has a maximum of 99" % int(current.get("stat_points",0))
     status_points.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
     body.add_child(status_points)
-    var summary:=Label.new(); summary.text="Power %d • ATK %d • MATK %d • DEF %d • MDEF %d • HP %d • SP %d" % [CHARACTER.combat_power(current),int(stats["atk"]),int(stats["matk"]),int(stats["def"]),int(stats["mdef"]),int(stats["max_hp"]),int(stats["max_sp"] )]; body.add_child(summary)
+
+    var summary:Label=Label.new()
+    summary.text="Power %d • ATK %d • MATK %d • DEF %d • MDEF %d • HP %d • SP %d" % [
+        CHARACTER.combat_power(current),
+        int(stats["atk"]),
+        int(stats["matk"]),
+        int(stats["def"]),
+        int(stats["mdef"]),
+        int(stats["max_hp"]),
+        int(stats["max_sp"])
+    ]
+    body.add_child(summary)
+
     _heading("STATUS ALLOCATION")
     var current_stats:Dictionary=current.get("stats",{})
     var available_points:int=int(current.get("stat_points",0))
     for stat in CHARACTER.STAT_NAMES:
-        var stat_row:=HBoxContainer.new()
+        var stat_row:HBoxContainer=HBoxContainer.new()
         body.add_child(stat_row)
-        var stat_value:=Label.new()
+
+        var stat_value:Label=Label.new()
         stat_value.text="%s   %d / 99" % [stat.to_upper(),int(current_stats.get(stat,1))]
         stat_value.size_flags_horizontal=Control.SIZE_EXPAND_FILL
         stat_row.add_child(stat_value)
-        var stat_one:=Button.new()
+
+        var stat_one:Button=Button.new()
         stat_one.text="+1"
         stat_one.disabled=available_points<=0 or int(current_stats.get(stat,1))>=99
         stat_one.pressed.connect(_allocate_stat.bind(stat,1))
         stat_row.add_child(stat_one)
-        var stat_five:=Button.new()
+
+        var stat_five:Button=Button.new()
         stat_five.text="+5"
         stat_five.disabled=available_points<=0 or int(current_stats.get(stat,1))>=99
         stat_five.pressed.connect(_allocate_stat.bind(stat,5))
         stat_row.add_child(stat_five)
+
     _heading("EQUIPMENT SLOTS")
+    var equipment:Dictionary=current.get("equipment",{})
     for slot in ["weapon","armor","head","head_middle","head_lower","garment","shoes","offhand","accessory_1","accessory_2"]:
-        var equipment:Dictionary=current.get("equipment",{}); var raw:Variant=equipment.get(slot,null); var name:String="Empty"; var refine:int=0
-        if raw is Dictionary: name=str(raw.get("id",raw.get("name","Unknown"))); refine=int(raw.get("refine",current.get("equipment_refine",{}).get(slot,0)))
-        elif raw is String: name=str(raw); refine=int(current.get("equipment_refine",{}).get(slot,0))
-        var row:=HBoxContainer.new(); body.add_child(row); var choose:=Button.new(); choose.text="%s: %s +%d" % [slot.to_upper(),name,refine]; choose.size_flags_horizontal=Control.SIZE_EXPAND_FILL; choose.pressed.connect(_select_slot.bind(slot)); row.add_child(choose)
-        if name!="Empty": var remove:=Button.new(); remove.text="UNEQUIP"; remove.pressed.connect(_unequip_slot.bind(slot)); row.add_child(remove)
-    if selected_slot!="": _heading("SELECTED SLOT • "+selected_slot.to_upper()); _button("REFINE SELECTED",Callable(self,"_refine_selected")); _button("CHOOSE CARD",Callable(self,"_show_card_picker"))
+        var raw:Variant=equipment.get(slot,null)
+        var item_name:String="Empty"
+        var refine:int=0
+        if raw is Dictionary:
+            item_name=str(raw.get("id",raw.get("name","Unknown")))
+            refine=int(raw.get("refine",current.get("equipment_refine",{}).get(slot,0)))
+        elif raw is String:
+            item_name=str(raw)
+            refine=int(current.get("equipment_refine",{}).get(slot,0))
+
+        var equipment_row:HBoxContainer=HBoxContainer.new()
+        body.add_child(equipment_row)
+
+        var choose:Button=Button.new()
+        choose.text="%s: %s +%d" % [slot.to_upper(),item_name,refine]
+        choose.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+        choose.pressed.connect(_select_slot.bind(slot))
+        equipment_row.add_child(choose)
+
+        if item_name!="Empty":
+            var remove:Button=Button.new()
+            remove.text="UNEQUIP"
+            remove.pressed.connect(_unequip_slot.bind(slot))
+            equipment_row.add_child(remove)
+
+    if selected_slot!="":
+        _heading("SELECTED SLOT • "+selected_slot.to_upper())
+        _button("REFINE SELECTED",Callable(self,"_refine_selected"))
+        _button("CHOOSE CARD",Callable(self,"_show_card_picker"))
 
 func _select_slot(slot:String)->void: selected_slot=slot; selected_card=""; timer=1.0
 func _unequip_slot(slot:String)->void: var result:Dictionary=CHARACTER_INV.unequip(hero,slot); _show_result(result,"Unequipped "+slot); timer=1.0
