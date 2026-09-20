@@ -104,8 +104,8 @@ func _build_main_avenue(center: Vector3, t: Dictionary) -> void:
             root.add_child(paver)
 
 func _build_city_block(p: Vector3, t: Dictionary, variant: int) -> void:
-    var wall := t.wall if variant % 2 == 0 else t.wall_alt
-    var roof := t.roof if variant != 2 else t.roof_alt
+    var wall: Color = t["wall"] if variant % 2 == 0 else t["wall_alt"]
+    var roof: Color = t["roof"] if variant != 2 else t["roof_alt"]
     _build_house(p + Vector3(-3.7, 0, 0), wall, roof, t, 0)
     _build_house(p + Vector3(3.7, 0, 0), wall.lightened(0.035), roof, t, 1)
     _build_house(p + Vector3(0, 0, -5.0), wall.darkened(0.04), roof.lightened(0.04), t, 2)
@@ -349,6 +349,11 @@ func _build_dungeon_arch(p: Vector3, t: Dictionary) -> void:
 
 func _build_road_marker(center: Vector3, t: Dictionary, title: String) -> void:
     _build_banner(center + Vector3(0, 0, -22), t.banner_a, title)
+
+func _bench(p: Vector3, t: Dictionary) -> void:
+    root.add_child(_box(Vector3(2.0, 0.18, 0.55), p + Vector3(0, 0.65, 0), t.wood))
+    root.add_child(_box(Vector3(0.16, 0.70, 0.16), p + Vector3(-0.72, 0.35, 0), t.wood_dark))
+    root.add_child(_box(Vector3(0.16, 0.70, 0.16), p + Vector3(0.72, 0.35, 0), t.wood_dark))
 
 func _build_bench(p: Vector3, t: Dictionary) -> void:
     root.add_child(_box(Vector3(2.0, 0.18, 0.55), p + Vector3(0, 0.65, 0), t.wood))
