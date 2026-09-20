@@ -21,11 +21,11 @@ const ORIGIN_Y:float = 120.0
 const WORLD_SCALE:float = 0.055
 const MOVE_SPEED:float = 235.0
 const STOP_DISTANCE:float = 1.5
-const CAMERA_DISTANCE:float = 24.0
-const CAMERA_PITCH:float = -48.0
-const MIN_CAMERA_PITCH:float = -62.0
-const MAX_CAMERA_PITCH:float = -28.0
-const CAMERA_FOV:float = 58.0
+const CAMERA_DISTANCE:float = 15.0
+const CAMERA_PITCH:float = -40.0
+const MIN_CAMERA_PITCH:float = -58.0
+const MAX_CAMERA_PITCH:float = -24.0
+const CAMERA_FOV:float = 50.0
 const ONLINE_SEND_INTERVAL:float = 0.05
 
 var legacy:Node2D
