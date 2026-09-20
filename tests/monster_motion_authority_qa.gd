@@ -65,6 +65,7 @@ func _initialize() -> void:
 	if failures.is_empty():
 		print("MONSTER_MOTION_AUTHORITY_QA: PASS — chase, root/stop and leash return expose authoritative velocity/state/facing")
 		quit(0)
+		return
 	print("MONSTER_MOTION_AUTHORITY_QA: FAIL")
 	for failure in failures:
 		print("FAIL: ",failure)
