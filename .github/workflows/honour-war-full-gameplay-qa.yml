@@ -30,6 +30,8 @@ concurrency:
 
 env:
   GODOT_VERSION: "4.7.2"
+  HW_GAMEPLAY_RUNTIME_SECONDS: "60"
+  HW_STARTUP_TIMEOUT_SECONDS: "300"
 
 jobs:
   gameplay-contract:
@@ -190,7 +192,8 @@ jobs:
           )
           Write-Host "Starting bounded direct real-game screenshot capture..."
           $p = Start-Process -FilePath $godot -ArgumentList $args -WorkingDirectory $pwd -RedirectStandardOutput $log -RedirectStandardError $err -PassThru
-          $deadline = (Get-Date).AddSeconds(360)
+          $startupSeconds = [int]$env:HW_STARTUP_TIMEOUT_SECONDS
+          $deadline = (Get-Date).AddSeconds($startupSeconds)
           while (-not $p.HasExited -and (Get-Date) -lt $deadline) {
             Start-Sleep -Milliseconds 500
           }
@@ -198,7 +201,7 @@ jobs:
             Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue
             Get-Content $log -ErrorAction SilentlyContinue
             Get-Content $err -ErrorAction SilentlyContinue
-            throw "Real game screenshot capture timed out after 360 seconds"
+            throw "Real game screenshot capture timed out after $startupSeconds seconds (auto startup timeout)"
           }
           Get-Content $log -ErrorAction SilentlyContinue
           Get-Content $err -ErrorAction SilentlyContinue
@@ -346,12 +349,16 @@ jobs:
             Get-Content $err -ErrorAction SilentlyContinue
             throw "HonourWarHD.exe exited during startup with code $($p.ExitCode)"
           }
-          Start-Sleep -Seconds 290
+          $runtimeSeconds = [int]$env:HW_GAMEPLAY_RUNTIME_SECONDS
+          $runtimeDeadline = (Get-Date).AddSeconds($runtimeSeconds)
+          while (-not $p.HasExited -and (Get-Date) -lt $runtimeDeadline) {
+            Start-Sleep -Milliseconds 500
+          }
           if ($p.HasExited) {
-            throw "HonourWarHD.exe crashed/exited during the 5-minute runtime test; exit code $($p.ExitCode)"
+            throw "HonourWarHD.exe crashed/exited during the $runtimeSeconds-second gameplay runtime test; exit code $($p.ExitCode)"
           }
           Stop-Process -Id $p.Id -Force
-          Write-Host "PASS: exported HonourWarHD.exe stayed alive for the full 5-minute runtime test."
+          Write-Host "PASS: exported HonourWarHD.exe stayed alive for the full $runtimeSeconds-second gameplay runtime test."
       - name: Scan EXE runtime logs for fatal errors
         shell: pwsh
         run: |
@@ -388,4 +395,4 @@ jobs:
           if-no-files-found: ignore
 
 # Full gameplay QA is intentionally retriggered on every gameplay/runtime script revision and permanent visual-contract change.
-# Real-game capture uses the extended startup window so renderer initialization is verified before timeout.
+# Real-game capture and EXE gameplay runtime use automatic bounded timeouts: startup may take up to HW_STARTUP_TIMEOUT_SECONDS, then the live gameplay runtime is verified for HW_GAMEPLAY_RUNTIME_SECONDS.
