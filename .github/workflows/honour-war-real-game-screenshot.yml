@@ -68,11 +68,15 @@ jobs:
           command -v xvfb-run >/dev/null
           rm -rf artifacts
           mkdir -p artifacts
+          set +e
           xvfb-run -a -s '-screen 0 1920x1080x24 -ac +extension GLX +render -noreset' \
             ./"${GODOT_BINARY}" --path . \
             --rendering-method gl_compatibility --rendering-driver opengl3 \
             --script res://tests/capture_real_game_screenshot.gd \
             2>&1 | tee real-game-screenshot.log
+          godot_exit=${PIPESTATUS[0]}
+          set -e
+          echo "Real gameplay capture process exit: ${godot_exit}"
           grep -F 'REAL_GAME_SCREENSHOT_PASS:' real-game-screenshot.log >/dev/null
           test -s artifacts/honour-war-real-game.png
           grep -F 'REAL_GAME_SCREENSHOT_FRAME:' real-game-screenshot.log >/dev/null
