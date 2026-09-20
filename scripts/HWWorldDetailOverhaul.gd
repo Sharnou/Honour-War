@@ -10,7 +10,9 @@ func _ready() -> void:
         return
     var legacy_world := parent.get_node_or_null("World3D")
     if legacy_world != null:
-        legacy_world.visible = false
+        # Keep the live gameplay world visible. Detail passes layer on top of it;
+        # hiding World3D also hid the recovery geometry and caused black captures.
+        legacy_world.visible = true
     var legacy_background := parent.get_node_or_null("HDEnvironmentDirector/HDEnvironmentBackground")
     if legacy_background != null:
         legacy_background.visible = false
