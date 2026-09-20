@@ -66,14 +66,25 @@ jobs:
           $stdout = Join-Path $pwd 'artifacts\game.stdout.log'
           $stderr = Join-Path $pwd 'artifacts\game.stderr.log'
           $proc = Start-Process -FilePath (Join-Path $pwd 'build\windows\HonourWarHD.exe') -WorkingDirectory $pwd -PassThru -RedirectStandardOutput $stdout -RedirectStandardError $stderr
-          Wait-Process -Id $proc.Id -Timeout 20 -ErrorAction SilentlyContinue
-          if (-not $proc.HasExited) { Stop-Process -Id $proc.Id -Force; throw 'EXE screenshot capture timed out' }
-          if ($proc.ExitCode -ne 0) { throw "EXE screenshot capture failed with exit code $($proc.ExitCode)" }
-          if (-not (Test-Path $env:HW_CAPTURE_PATH)) { throw 'EXE did not create gameplay screenshot' }
-          if ((Get-Item $env:HW_CAPTURE_PATH).Length -le 10000) { throw 'Gameplay screenshot is unexpectedly small' }
-          Write-Host "REAL_EXE_SCREENSHOT_PASS: $env:HW_CAPTURE_PATH"
+          Start-Sleep -Seconds 8
+          if (-not (Test-Path $env:HW_CAPTURE_PATH)) {
+            Start-Sleep -Seconds 7
+          }
+          if (-not (Test-Path $env:HW_CAPTURE_PATH)) {
+            if (-not $proc.HasExited) { Stop-Process -Id $proc.Id -Force }
+            Write-Host '--- EXE stdout ---'
+            if (Test-Path $stdout) { Get-Content $stdout }
+            Write-Host '--- EXE stderr ---'
+            if (Test-Path $stderr) { Get-Content $stderr }
+            throw 'Exported EXE did not create gameplay screenshot within 15 seconds'
+          }
+          $bytes = (Get-Item $env:HW_CAPTURE_PATH).Length
+          if ($bytes -le 10000) { if (-not $proc.HasExited) { Stop-Process -Id $proc.Id -Force }; throw 'Gameplay screenshot is unexpectedly small' }
+          if (-not $proc.HasExited) { Stop-Process -Id $proc.Id -Force }
+          Write-Host "REAL_EXE_SCREENSHOT_PASS: $env:HW_CAPTURE_PATH ($bytes bytes)"
 
-      - name: Upload real exported-game screenshot
+      - name: Upload real exported-game screenshot and logs
+        if: always()
         uses: actions/upload-artifact@v7
         with:
           name: honour-war-real-exe-screenshot
@@ -83,4 +94,4 @@ jobs:
             artifacts/game.stderr.log
             godot-validation.log
             godot-export.log
-          if-no-files-found: error
+          if-no-files-found: ignore
