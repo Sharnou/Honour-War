@@ -50,7 +50,7 @@ jobs:
           cp "${godot_path}" "./${GODOT_BINARY}"
           chmod +x "./${GODOT_BINARY}"
 
-      - name: Validate game scene before capture
+      - name: Validate game scripts and scene
         shell: bash
         run: |
           set -euo pipefail
@@ -61,13 +61,15 @@ jobs:
             exit 1
           fi
 
-      - name: Run the actual Main3D game scene and capture rendered frame
+      - name: Run the actual game with Xvfb and capture rendered frame
         shell: bash
         run: |
           set -euo pipefail
+          command -v xvfb-run >/dev/null
           rm -rf artifacts
           mkdir -p artifacts
-          ./"${GODOT_BINARY}" --headless --path . \
+          xvfb-run -a -s '-screen 0 1920x1080x24 -ac +extension GLX +render -noreset' \
+            ./"${GODOT_BINARY}" --path . \
             --rendering-method gl_compatibility --rendering-driver opengl3 \
             --script res://tests/capture_real_game_screenshot.gd \
             2>&1 | tee real-game-screenshot.log
