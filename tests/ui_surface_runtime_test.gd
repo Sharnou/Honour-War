@@ -30,6 +30,11 @@ func _run()->void:
         _check(hero_visual.find_child("HWCharacterDetailV2",true,false)!=null,"hero native detail layer attached")
     if pet_visual!=null:
         _check(pet_visual.find_child("HWPetDetailV2",true,false)!=null,"pet native detail layer attached")
+    var detail:=scene.find_child("HWHDDetailPassVNext",true,false)
+    _check(detail!=null,"HD map detail pass exists")
+    if detail!=null:
+        var generated:Node=detail.get("root") as Node
+        _check(generated!=null and generated.get_child_count()>=100,"current map has dense authored detail objects")
     if systems!=null:
         _test_modes()
         _test_skill_trees()
