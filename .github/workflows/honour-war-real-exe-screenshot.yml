@@ -1,0 +1,86 @@
+name: Honour War real EXE screenshot
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: honour-war-real-exe-screenshot-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  GODOT_TAG: "4.7.2-stable"
+  GODOT_BINARY: "Godot_v4.7.2-stable_win64.exe"
+  GODOT_TEMPLATE: "Godot_v4.7.2-stable_export_templates.tpz"
+
+jobs:
+  capture:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout exact game revision
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          ref: ${{ github.sha }}
+
+      - name: Download Godot and export templates
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Invoke-WebRequest -Uri "https://github.com/godotengine/godot-builds/releases/download/$env:GODOT_TAG/$env:GODOT_BINARY.zip" -OutFile godot.zip -UseBasicParsing
+          Expand-Archive godot.zip -DestinationPath godot-dist -Force
+          $godot = Get-ChildItem godot-dist -Filter $env:GODOT_BINARY -File -Recurse | Select-Object -First 1
+          if ($null -eq $godot) { throw 'Godot Windows executable was not found' }
+          Copy-Item $godot.FullName godot.exe -Force
+          Invoke-WebRequest -Uri "https://github.com/godotengine/godot-builds/releases/download/$env:GODOT_TAG/$env:GODOT_TEMPLATE" -OutFile templates.tpz -UseBasicParsing
+          $templatesDir = Join-Path $env:APPDATA 'Godot\export_templates\4.7.2.stable'
+          New-Item -ItemType Directory -Force -Path $templatesDir | Out-Null
+          Expand-Archive templates.tpz -DestinationPath $templatesDir -Force
+          $inner = Join-Path $templatesDir 'templates'
+          if (Test-Path $inner) { Get-ChildItem $inner -Recurse -File | ForEach-Object { Copy-Item $_.FullName $templatesDir -Force } }
+          if (-not (Test-Path (Join-Path $templatesDir 'windows_release_x86_64.exe'))) { throw 'Windows export template missing' }
+
+      - name: Validate and export the real Windows game
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          & .\godot.exe --headless --editor --path . --quit 2>&1 | Tee-Object godot-validation.log
+          if ($LASTEXITCODE -ne 0) { throw 'Godot validation failed' }
+          if (Select-String godot-validation.log -Pattern 'SCRIPT ERROR|Parse Error|ERROR: Failed to load script|ERROR: Cannot load scene') { throw 'Godot reported script or scene errors' }
+          New-Item -ItemType Directory -Force -Path build\windows | Out-Null
+          & .\godot.exe --headless --path . --export-release 'Windows Desktop' 'build\windows\HonourWarHD.exe' 2>&1 | Tee-Object godot-export.log
+          if ($LASTEXITCODE -ne 0 -or -not (Test-Path 'build\windows\HonourWarHD.exe')) { throw 'Windows EXE export failed' }
+
+      - name: Run exported EXE and capture actual gameplay frame
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          New-Item -ItemType Directory -Force -Path artifacts | Out-Null
+          $env:HW_CAPTURE_SCREENSHOT = '1'
+          $env:HW_CAPTURE_PATH = Join-Path $pwd 'artifacts\honour-war-exported-exe.png'
+          $stdout = Join-Path $pwd 'artifacts\game.stdout.log'
+          $stderr = Join-Path $pwd 'artifacts\game.stderr.log'
+          $proc = Start-Process -FilePath (Join-Path $pwd 'build\windows\HonourWarHD.exe') -WorkingDirectory $pwd -PassThru -RedirectStandardOutput $stdout -RedirectStandardError $stderr
+          Wait-Process -Id $proc.Id -Timeout 20 -ErrorAction SilentlyContinue
+          if (-not $proc.HasExited) { Stop-Process -Id $proc.Id -Force; throw 'EXE screenshot capture timed out' }
+          if ($proc.ExitCode -ne 0) { throw "EXE screenshot capture failed with exit code $($proc.ExitCode)" }
+          if (-not (Test-Path $env:HW_CAPTURE_PATH)) { throw 'EXE did not create gameplay screenshot' }
+          if ((Get-Item $env:HW_CAPTURE_PATH).Length -le 10000) { throw 'Gameplay screenshot is unexpectedly small' }
+          Write-Host "REAL_EXE_SCREENSHOT_PASS: $env:HW_CAPTURE_PATH"
+
+      - name: Upload real exported-game screenshot
+        uses: actions/upload-artifact@v7
+        with:
+          name: honour-war-real-exe-screenshot
+          path: |
+            artifacts/honour-war-exported-exe.png
+            artifacts/game.stdout.log
+            artifacts/game.stderr.log
+            godot-validation.log
+            godot-export.log
+          if-no-files-found: error
