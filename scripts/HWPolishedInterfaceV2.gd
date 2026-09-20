@@ -155,6 +155,8 @@ func _build()->void:
         b.add_theme_stylebox_override("pressed",_style(Color("#2a3e55"),Color("#f2d78c")))
         b.pressed.connect(_open_mode.bind(str(entry[0])))
         buttons.add_child(b)
+    toolbar.visible=false
+    toolbar.mouse_filter=Control.MOUSE_FILTER_IGNORE
     _refresh_status()
 
 func _bar(fill:Color)->ProgressBar:
