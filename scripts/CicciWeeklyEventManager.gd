@@ -34,6 +34,11 @@ static func ensure_event(game:Node)->void:
 
 static func on_cicci_hit(game:Node,now:int)->Dictionary:
     var state:Dictionary=game.get_meta("cicci_weekly_state",{})
+    if bool(state.get("mvp_spawned",false)):
+        return {"ok":false,"boss":CicciWeeklyEvent.BOSS_NAME,"reason":"mvp_already_spawned"}
+    var existing:Variant=state.get("cast",{})
+    if existing is Dictionary and not existing.is_empty():
+        return existing
     var cast:Dictionary=EVENT.on_hit(now)
     state["cast"]=cast
     game.set_meta("cicci_weekly_state",state)
