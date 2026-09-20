@@ -49,6 +49,10 @@ jobs:
         shell: bash
         run: python3 tools/visual_gap_register_qa.py
 
+      - name: Run material / visual integrity QA
+        shell: bash
+        run: python3 tools/material_visual_integrity_qa.py
+
       - name: Download and verify Godot 4.7.2 stable
         shell: bash
         run: |
