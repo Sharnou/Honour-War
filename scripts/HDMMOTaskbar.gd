@@ -112,7 +112,7 @@ func _build_status() -> void:
     panel.name = "PermanentHeroPetStatus"
     panel.process_mode = Node.PROCESS_MODE_ALWAYS
     panel.position = Vector2(16, 14)
-    panel.size = Vector2(330, 72)
+    panel.size = Vector2(610, 78)
     panel.add_theme_stylebox_override("panel", _style())
     root.add_child(panel)
 
