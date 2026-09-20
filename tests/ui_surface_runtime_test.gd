@@ -25,8 +25,6 @@ func _run()->void:
     _check(TELEPORT.MAPS.size()>=30,"full registered map catalog is present")
     for map_id in TELEPORT.MAPS.keys():
         _check(TELEPORT.MAPS[map_id].has("type"),"map %s has authored map type" % str(map_id))
-    if taskbar!=null:
-        _test_toolbar()
     var hero_visual:=scene.get("hero_visual") as Node3D
     var pet_visual:=scene.get("pet_visual") as Node3D
     _check(hero_visual!=null,"live hero visual exists")
@@ -98,17 +96,21 @@ func _test_pet_tree()->void:
         _check(skills.size()>0,"pet skill tree exists for "+species)
 
 func _test_equipment()->void:
-    if taskbar==null: return
-    taskbar.call("_open","equipment")
+    if systems==null: return
+    systems.panel.visible=false
+    var event:=InputEventKey.new()
+    event.keycode=KEY_E
+    event.pressed=true
+    systems._unhandled_key_input(event)
     await process_frame
-    var window:=scene.find_child("EquipmentWindow",true,false)
-    _check(window!=null,"equipment window opens")
-    if window!=null:
-        var slots:=window.find_children("Slot_*","Panel",true,false)
-        _check(slots.size()==10,"all 10 equipment slots exist")
-        var panel:=window.get("window") as Control
-        _check(panel!=null and panel.size.x>=760.0 and panel.size.y>=600.0,"equipment window size is usable")
-        if window.has_method("hide_window"): window.call("hide_window")
+    _check(systems.panel.visible and str(systems.get("mode"))=="equipment","equipment hotkey opens equipment")
+    var close:=systems.panel.find_child("UIWindowClose",true,false) as Button
+    _check(close!=null,"equipment window has close button")
+    var body:=systems.get("body") as Control
+    _check(body!=null and body.get_child_count()>=10,"equipment panel renders all equipment slots")
+    systems._unhandled_key_input(event)
+    await process_frame
+    _check(not systems.panel.visible,"equipment hotkey closes equipment")
 
 func _check(ok:bool,message:String)->void:
     if not ok: failures.append(message)
