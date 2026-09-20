@@ -56,7 +56,6 @@ HWLiveWorldReplication="*res://scripts/HWLiveWorldReplication.gd"
 HWServerGameplayRuntime="*res://scripts/HWServerGameplayRuntime.gd"
 HWHDHighDetailWorld="*res://scripts/HWHDHighDetailWorld.gd"
 HWHDFinalPresentationDirector="*res://scripts/HWHDFinalPresentationDirector.gd"
-HWRealGameCapture="*res://scripts/HWRealGameCapture.gd"
 
 [display]
 window/size/viewport_width=1920
