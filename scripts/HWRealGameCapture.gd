@@ -36,9 +36,13 @@ func _capture_when_game_is_rendering() -> void:
             var camera:Camera3D = scene.get_node_or_null("Camera3D") as Camera3D
             var hero_value:Variant = scene.get("hero_visual")
             var world_root:Node3D = scene.get_node_or_null("World3D") as Node3D
-            if camera != null and camera.is_inside_tree() and camera.current and hero_value is Node3D and is_instance_valid(hero_value):
-                if world_root != null and world_root.visible and _mesh_count(world_root) > 8:
-                    if not prepared:
+            var production:Node3D = scene.get_node_or_null("HWProductionVisualRebuild") as Node3D
+            var production_world:Node3D = scene.get_node_or_null("HWProductionVisualWorld") as Node3D
+            var production_ready:bool = production != null and bool(production.get("built")) and production_world != null and production_world.visible
+            var hero_ready:bool = hero_value is Node3D and is_instance_valid(hero_value) and (hero_value as Node3D).get_node_or_null("HWProductionHeroVisual") != null
+            var legacy_retired:bool = world_root != null and bool(world_root.get_meta("legacy_geometry_hidden_by_production_rebuild",false))
+            if camera != null and camera.is_inside_tree() and camera.current and hero_ready and production_ready and legacy_retired:
+                if not prepared:
                         _prepare_capture_view(scene, camera, hero_value as Node3D)
                         prepared = true
                     await get_tree().process_frame
