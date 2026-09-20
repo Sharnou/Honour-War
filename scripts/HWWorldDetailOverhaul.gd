@@ -1,5 +1,5 @@
 extends Node3D
-## Production HD world entry point: hide the legacy flat world and layer native dense detail passes.
+## Production HD world entry point: preserve the live gameplay world and layer native dense detail passes.
 const MapBoost = preload("res://scripts/HWMapDetailBoost.gd")
 const PronteraDetail = preload("res://scripts/HWPronteraReferenceDetail.gd")
 const CameraFrame = preload("res://scripts/HWCameraFrameV3.gd")
