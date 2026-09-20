@@ -342,7 +342,10 @@ func _layout_responsive() -> void:
     for child in root.get_children():
         if child is PanelContainer:
             var panel := child as Control
-            if panel.size.y >= 100.0 and panel.position.y < 0.0:
+            if panel.name == "FinalSystemToolbarPanel":
+                panel.position.x = max(12.0, v.x - panel.size.x - 16.0)
+                panel.position.y = v.y - panel.size.y - 12.0
+            elif panel.name == "LegacyQuickSkillPanel":
                 panel.position.x = (v.x - panel.size.x) * 0.5
                 panel.position.y = v.y - panel.size.y - 12.0
 
