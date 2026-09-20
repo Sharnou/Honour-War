@@ -12,7 +12,6 @@ const XP := Color("#5eac66")
 var game: Node
 var legacy: Node
 var root: Control
-var skill_slots: HBoxContainer
 var hp_label: Label
 var sp_label: Label
 var pet_hp_label: Label
@@ -39,7 +38,6 @@ func _build() -> void:
     root.mouse_filter = Control.MOUSE_FILTER_PASS
     add_child(root)
     _build_status()
-    _build_quickbar()
     call_deferred("_install_runtime_directors")
 
 func _install_runtime_directors() -> void:
@@ -140,56 +138,6 @@ func _small_value(prefix: String, tint: Color) -> Label:
     label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
     return label
 
-func _build_quickbar() -> void:
-    var panel := PanelContainer.new()
-    panel.name = "LegacyQuickSkillPanel"
-    panel.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
-    panel.position = Vector2(-560, -116)
-    panel.size = Vector2(760, 106)
-    panel.add_theme_stylebox_override("panel", _style())
-    root.add_child(panel)
-
-    var box := VBoxContainer.new()
-    box.add_theme_constant_override("separation", 2)
-    panel.add_child(box)
-
-    var title := Label.new()
-    title.text = "QUICK SKILLS   1 - 8"
-    title.add_theme_font_size_override("font_size", 9)
-    title.add_theme_color_override("font_color", MUTED)
-    box.add_child(title)
-
-    skill_slots = HBoxContainer.new()
-    skill_slots.add_theme_constant_override("separation", 4)
-    box.add_child(skill_slots)
-
-    for i in range(8):
-        var slot := Button.new()
-        slot.custom_minimum_size = Vector2(86, 68)
-        slot.name = "QuickSlot_%d" % (i + 1)
-        slot.add_theme_font_size_override("font_size", 9)
-        slot.add_theme_stylebox_override("normal", _style(Color("#1b2531")))
-        slot.add_theme_stylebox_override("hover", _style(Color("#3a3222")))
-        slot.pressed.connect(_use_slot.bind(i))
-        skill_slots.add_child(slot)
-
-func _use_slot(index: int) -> void:
-    if legacy == null:
-        return
-    var value: Variant = legacy.get("hero")
-    if not value is Dictionary:
-        return
-    var hero: Dictionary = value
-    var system: GDScript = load("res://scripts/SkillSystem.gd") as GDScript
-    if system == null:
-        return
-    system.ensure_state(hero)
-    var skills: Array = system.all_skills(str(hero.get("class", "Warrior")))
-    if index >= skills.size():
-        return
-    var skill_id: String = str(skills[index].get("id", ""))
-    system.use(hero, skill_id, Time.get_ticks_msec() / 1000.0)
-
 func _refresh() -> void:
     if legacy == null:
         return
@@ -241,27 +189,6 @@ func _refresh() -> void:
         pet_sp_label.text = "PET SP %d/%d" % [pet_sp, pet_sp_max]
     if xp_label != null:
         xp_label.text = "EXP %d/%d" % [int(xp.get("xp", 0)), max(1, int(xp.get("next", 1)))]
-
-    if skill_slots == null:
-        return
-    var skills_script: GDScript = load("res://scripts/SkillSystem.gd") as GDScript
-    if skills_script == null:
-        return
-    var skills: Array = skills_script.all_skills(str(hero.get("class", "Warrior")))
-
-    for i in range(skill_slots.get_child_count()):
-        var slot: Button = skill_slots.get_child(i) as Button
-        if slot == null:
-            continue
-        if i < skills.size():
-            var data: Dictionary = skills[i]
-            var skill_name: String = str(data.get("name", "Skill"))
-            if skill_name.length() > 12:
-                skill_name = skill_name.substr(0, 12)
-            var skill_level: int = skills_script.skill_level(hero, str(data.get("id", "")))
-            slot.text = "%d\n%s\nLv.%d" % [i + 1, skill_name, skill_level]
-        else:
-            slot.text = "%d\n—" % (i + 1)
 
 func _map_name(hero: Dictionary) -> String:
     var teleport: GDScript = load("res://scripts/TeleportSystem.gd") as GDScript
