@@ -110,6 +110,11 @@ func _set_mode(next:String)->void:
 func _unhandled_key_input(event:InputEvent)->void:
     if not event is InputEventKey or not event.pressed or event.echo:
         return
+    if event.keycode == KEY_ESCAPE:
+        if panel != null and panel.visible:
+            _close_window()
+            get_viewport().set_input_as_handled()
+        return
     var key:=event.keycode
     var target: String = ""
     match key:
