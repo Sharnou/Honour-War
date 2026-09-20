@@ -6,8 +6,8 @@ const TeleportSystem=preload("res://scripts/TeleportSystem.gd")
 
 @export var legacy_path:NodePath = NodePath("../LegacyGame")
 @export var camera_path:NodePath = NodePath("../Camera3D")
-@export var zoom_min_distance:float = 8.0
-@export var zoom_max_distance:float = 36.0
+@export var zoom_min_distance:float = 10.0
+@export var zoom_max_distance:float = 42.0
 @export var zoom_step:float = 1.75
 @export var zoom_smoothing:float = 10.0
 @export var rotation_smoothing:float = 10.0
@@ -21,11 +21,11 @@ const ORIGIN_Y:float = 120.0
 const WORLD_SCALE:float = 0.055
 const MOVE_SPEED:float = 235.0
 const STOP_DISTANCE:float = 1.5
-const CAMERA_DISTANCE:float = 19.5
-const CAMERA_PITCH:float = -42.0
-const MIN_CAMERA_PITCH:float = -58.0
-const MAX_CAMERA_PITCH:float = -30.0
-const CAMERA_FOV:float = 56.0
+const CAMERA_DISTANCE:float = 24.0
+const CAMERA_PITCH:float = -48.0
+const MIN_CAMERA_PITCH:float = -62.0
+const MAX_CAMERA_PITCH:float = -28.0
+const CAMERA_FOV:float = 58.0
 const ONLINE_SEND_INTERVAL:float = 0.05
 
 var legacy:Node2D
@@ -72,8 +72,7 @@ func _apply_camera(delta:float=1.0)->void:
     var value:Variant=legacy.get("hero")
     var hero:Dictionary=value if value is Dictionary else {}
     var map_pos:Vector2=Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0)))
-    var target:Vector3=_map_to_world(map_pos)+Vector3(0.0,1.15,0.0)
-
+    var target:Vector3=_map_to_world(map_pos)+Vector3(0.0,1.0,0.0)
     var zoom_alpha:float=1.0-exp(-zoom_smoothing*max(delta,0.016))
     var rotation_alpha:float=1.0-exp(-rotation_smoothing*max(delta,0.016))
     camera_distance=lerp(camera_distance,target_camera_distance,zoom_alpha)
@@ -82,7 +81,6 @@ func _apply_camera(delta:float=1.0)->void:
     camera_pitch=clamp(camera_pitch,MIN_CAMERA_PITCH,MAX_CAMERA_PITCH)
     camera_yaw=wrapf(camera_yaw,0.0,360.0)
     target_camera_yaw=wrapf(target_camera_yaw,0.0,360.0)
-
     var pitch:float=deg_to_rad(camera_pitch)
     var yaw:float=deg_to_rad(camera_yaw)
     var horizontal:float=cos(pitch)*camera_distance
@@ -188,12 +186,10 @@ func _process(delta:float)->void:
     if legacy==null or camera==null or not camera.is_inside_tree(): return
     if authority==null or not is_instance_valid(authority):
         authority=get_node_or_null("/root/HWOnlineAuthorityRuntime")
-
     if Input.is_action_just_pressed("camera_rotate_left"):
         _rotate_camera(-1.0)
     if Input.is_action_just_pressed("camera_rotate_right"):
         _rotate_camera(1.0)
-
     var value:Variant=legacy.get("hero")
     if not value is Dictionary: return
     var hero:Dictionary=value
@@ -216,7 +212,6 @@ func _process(delta:float)->void:
     current=_clamp_to_map(current,hero)
     hero["pos_x"]=current.x
     hero["pos_y"]=current.y
-
     online_send_elapsed+=delta
     if _online_authenticated() and online_send_elapsed>=ONLINE_SEND_INTERVAL:
         online_send_elapsed=0.0
@@ -225,7 +220,6 @@ func _process(delta:float)->void:
             last_online_sent_position=current
     elif not _online_authenticated():
         last_online_sent_position=Vector2.INF
-
     _apply_camera(delta)
     if marker!=null:
         marker.visible=destination!=Vector2.INF
