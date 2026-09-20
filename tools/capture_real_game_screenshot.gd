@@ -16,7 +16,9 @@ func _initialize()->void:
 	get_root().set_meta("hw_visual_capture",true)
 	if DisplayServer.get_name()!="headless":
 		DisplayServer.window_set_size(Vector2i(1920,1080))
-	get_root().get_viewport().size=Vector2i(1920,1080)
+	var root_window:Window=get_root() as Window
+	if root_window!=null:
+		root_window.size=Vector2i(1920,1080)
 	call_deferred("_launch")
 
 func _launch()->void:
