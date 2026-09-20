@@ -143,6 +143,7 @@ func _build_status() -> void:
 
 func _small_value(prefix: String, tint: Color) -> Label:
     var label := Label.new()
+    label.name = prefix
     label.text = prefix
     label.add_theme_font_size_override("font_size", 9)
     label.add_theme_color_override("font_color", tint)
