@@ -69,6 +69,7 @@
 [ext_resource path="res://scripts/HW30MapVisualDirectorV1.gd" type="Script" id="68"]
 [ext_resource path="res://scripts/HWCicciVisualDirectorV1.gd" type="Script" id="69"]
 [ext_resource path="res://scripts/HWRealGameCapture.gd" type="Script" id="70"]
+[ext_resource path="res://scripts/HWProductionVisualRebuild.gd" type="Script" id="71"]
 
 [ext_resource type="Script" path="res://scripts/HWPetDetailV2.gd" id="64"]
 [node name="HonourWar3D" type="Node3D"]
@@ -76,6 +77,9 @@ script = ExtResource("1")
 
 [node name="HWRealGameCapture" type="Node" parent="."]
 script = ExtResource("70")
+
+[node name="HWProductionVisualRebuild" type="Node3D" parent="."]
+script = ExtResource("71")
 
 [node name="HWNativeWorldRecovery" type="Node3D" parent="."]
 script = ExtResource("60")
