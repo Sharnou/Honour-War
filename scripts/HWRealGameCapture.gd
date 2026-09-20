@@ -4,7 +4,7 @@ const ENV_ENABLE:String = "HW_CAPTURE_SCREENSHOT"
 const ENV_PATH:String = "HW_CAPTURE_PATH"
 const CAPTURE_ARG:String = "--hw-capture-screenshot"
 const DEFAULT_PATH:String = "artifacts/honour-war-exported-exe.png"
-const WARMUP_SECONDS:float = 4.0
+const WARMUP_SECONDS:float = 2.0
 
 var _armed:bool = false
 
@@ -54,7 +54,7 @@ func _prepare_capture_view() -> void:
         key.name = "HWCaptureKeyLight"
         key.light_energy = 1.8
         key.light_color = Color("#fff1d2")
-        key.shadow_enabled = true
+        key.shadow_enabled = false
         key.rotation_degrees = Vector3(-52.0,-28.0,0.0)
         scene.add_child(key)
     var fill:DirectionalLight3D = scene.get_node_or_null("HWCaptureFillLight") as DirectionalLight3D
