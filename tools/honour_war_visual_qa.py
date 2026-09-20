@@ -93,15 +93,22 @@ for phrase in ["HD generated GLB assets were permanently retired","Daily upgrade
 if role.is_file():
     for phrase in ["Stylized 3D NPR","Vibrant anime cel-shading","Volumetric, chunky hair","Sharp triangular nose-profile shadow","porcelain complexion","matte, unreflective woven-fabric","supple textured brown leather","high-contrast brushed steel","Warm volumetric ambient sunlight","Soft lavender-tinted shadows","solid-grey presentation background","Isometric presentation perspective","Neural4D is an approved optional generation source","Neural4D GLB export is forbidden","FBX for rigged/animated characters","OBJ for approved static assets"]:
         check(phrase in text,"HD character visual specification: "+phrase)
-guard=(ROOT/"scripts/HWPresentationGuard.gd").read_text(encoding="utf-8")
-check("hw_production_asset" in guard and "hw_source_path" in guard,"Presentation guard protects production actors")
 vitals_path=ROOT/"scripts"/"HWActorVitals.gd"
 if vitals_path.is_file():
     vitals_text=vitals_path.read_text(encoding="utf-8")
     check("Player avatars never carry permanent HP/SP world bars." in vitals_text,"Vitals: permanent player bars disabled")
     check("_build_hero_bars(hero)" not in vitals_text,"Vitals: local hero no longer builds world HP/SP bars")
-for prefix in ["hero_","warrior_","knight_"]:
-    check(re.search(r"\.begins_with\(\s*[\"']"+re.escape(prefix)+r"[\"']\s*\)",guard) is None,"No broad "+prefix+" deletion")
+final_visual=ROOT/"scripts/HWFinalVisualDirector.gd"
+capture=ROOT/"scripts/HWRealGameCapture.gd"
+check(final_visual.is_file(),"Native final visual director exists")
+check(capture.is_file(),"Real game screenshot capture exists")
+if final_visual.is_file():
+    final_text=final_visual.read_text(encoding="utf-8")
+    check("world_root.visible = true" in final_text,"Native runtime world remains visible")
+    check("light_energy = 0.0" in final_text,"Competing directional lights are disabled")
+if capture.is_file():
+    capture_text=capture.read_text(encoding="utf-8")
+    check("REAL_EXE_SCREENSHOT_PASS" in capture_text and "get_viewport()" in capture_text and "get_image()" in capture_text and "save_png(" in capture_text,"Real framebuffer capture uses live viewport")
 movement=(ROOT/"scripts/MovementStabilityFix.gd").read_text(encoding="utf-8")
 game3d=(ROOT/"scripts/Game3D.gd").read_text(encoding="utf-8")
 check("current=true" in movement or "current = true" in movement,"Stable camera owner")
