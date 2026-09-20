@@ -74,7 +74,7 @@ func _build()->void:
     panel=PanelContainer.new()
     panel.name="HWFinalSkillQuickbar"
     panel.position=Vector2(0,0)
-    panel.size=Vector2(900,98)
+    panel.size=Vector2(1400,120)
     panel.add_theme_stylebox_override("panel",_style(PANEL_BG,BORDER,12))
     panel.mouse_filter=Control.MOUSE_FILTER_STOP
     add_child(panel)
@@ -87,7 +87,7 @@ func _build()->void:
     header.custom_minimum_size=Vector2(0,20)
     outer.add_child(header)
     var title:=Label.new()
-    title.text="COMBAT SKILLS"
+    title.text="COMBAT SKILLS  •  1–8 HOTKEYS"
     title.add_theme_font_size_override("font_size",11)
     title.add_theme_color_override("font_color",BORDER)
     title.size_flags_horizontal=Control.SIZE_EXPAND_FILL
@@ -105,7 +105,7 @@ func _build()->void:
     for i in range(8):
         var slot:=Button.new()
         slot.name="SkillSlot_%d"%(i+1)
-        slot.custom_minimum_size=Vector2(103,69)
+        slot.custom_minimum_size=Vector2(150,84)
         slot.size_flags_horizontal=Control.SIZE_EXPAND_FILL
         slot.expand_icon=true
         slot.alignment=HORIZONTAL_ALIGNMENT_CENTER
