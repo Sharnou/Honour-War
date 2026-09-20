@@ -1,62 +1,7 @@
 name: Daily Honour War Upgrade
 
 on:
-  schedule:
-    - cron: "37 2 * * *"
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - "scripts/HWCharacterVisualProfiles.gd"
-      - "scripts/ClassTreeSystem.gd"
-      - "scripts/HWWorldActorVisualProfiles.gd"
-      - "scripts/HWSSRentNPCDirector.gd"
-      - "scripts/HWServiceNPCVisualDirector.gd"
-      - "scripts/HWFinalVisualDirector.gd"
-      - "scripts/CombatRuntime.gd"
-      - "scripts/Main.gd"
-      - "scripts/SkillSystem.gd"
-      - "scripts/PetSystem.gd"
-      - "scripts/MonsterDetailsSystem.gd"
-      - "scripts/GameData.gd"
-      - "scripts/FifthTierClassTreeSystem.gd"
-      - "scripts/CompleteClassSkillTreeSystem.gd"
-      - "tests/complete_class_skill_tree_contract_test.gd"
-      - "tests/fifth_tier_profession_weapon_visual_contract_test.gd"
-      - "tests/character_visual_profile_contract_test.gd"
-      - "tests/hd_gameplay_presentation_contract_test.gd"
-      - "tests/world_actor_visual_profile_contract_test.gd"
-      - "tools/capture_real_game_screenshot.gd"
-      - "tests/full_gameplay_runtime_qa.gd"
-      - "tests/game_completion_contract_test.gd"
-      - "tests/element_system_contract_test.gd"
-      - "tools/honour_war_visual_qa.py"
-      - "tools/validate_monster_visual_distinctness.py"
-      - "docs/DAILY_HONOUR_WAR_NO_GLB_POLICY.md"
-      - "scripts/HDAssetRuntime.gd"
-      - "tools/validate_autoload_class_conflicts.py"
-      - "scripts/HWProductionAudioDirector.gd"
-      - "scripts/HWPerformanceDirector.gd"
-      - "scripts/Game3D.gd"
-      - "scripts/HWNativeWorldRecovery.gd"
-      - "scripts/MovementStabilityFix.gd"
-      - "scripts/HWGeneratedAssetRuntime.gd"
-      - "scripts/HWRoleDrivenUpgradeRuntime.gd"
-      - "tests/production_release_readiness_test.gd"
-      - ".github/workflows/honour-war-production-release-readiness.yml"
-      - ".github/workflows/honour-war-full-gameplay-qa.yml"
-      - ".github/workflows/daily-honour-war-upgrade.yml"
-
-concurrency:
-  group: daily-honour-war-upgrade-${{ github.ref }}
-  cancel-in-progress: true
-
-permissions:
-  contents: read
-
-env:
-  GODOT_VERSION: "4.7.2"
-  GODOT_BINARY: "Godot_v4.7.2-stable_linux.x86_64"
 
 jobs:
   daily-upgrade:
