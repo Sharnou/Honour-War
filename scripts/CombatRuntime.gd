@@ -153,11 +153,20 @@ func move_monsters(delta:float,hero:Dictionary)->void:
             monster["spawn_pos"]=pos
         var spawn_pos:Vector2=monster.get("spawn_pos")
         var leash_distance:float=spawn_pos.distance_to(pos)
+        # These fields are the authoritative presentation contract. Reset them every
+        # simulation tick so a stopped/rooted/attacking monster can never leave a
+        # stale velocity or "moving" animation behind.
+        var movement_velocity:=Vector2.ZERO
+        monster["movement_state"]="idle"
+        monster["movement_velocity"]=Vector2.ZERO
+        monster["authoritative_velocity_x"]=0.0
+        monster["authoritative_velocity_y"]=0.0
+        monster["authoritative_movement_speed"]=0.0
+        monster["authoritative_movement_state"]="idle"
         if distance>CHASE_RANGE or distance<=attack_range or float(monster.get("root_until",0.0))>now:
             continue
         var speed:float=clamp(MONSTER_SPEED+float(monster.get("level",1))*0.04,MONSTER_MIN_SPEED,MONSTER_MAX_SPEED)
         if bool(monster.get("mvp",false)): speed*=1.08
-        var movement_velocity:=Vector2.ZERO
         if float(monster.get("slow_until",0.0))>now: speed*=0.45
         if leash_distance>MONSTER_LEASH_RANGE:
             var return_dir:=pos.direction_to(spawn_pos)
@@ -175,9 +184,24 @@ func move_monsters(delta:float,hero:Dictionary)->void:
                 monster["facing_y"]=chase_dir.y
             monster["movement_state"]="chase"
         monster["pos"]=pos
+        var authoritative_speed:float=movement_velocity.length()
+        monster["movement_velocity"]=movement_velocity
         monster["velocity_x"]=movement_velocity.x
         monster["velocity_y"]=movement_velocity.y
-        monster["movement_speed"]=movement_velocity.length()
+        monster["movement_speed"]=authoritative_speed
+        monster["authoritative_velocity_x"]=movement_velocity.x
+        monster["authoritative_velocity_y"]=movement_velocity.y
+        monster["authoritative_movement_speed"]=authoritative_speed
+        monster["authoritative_movement_state"]=str(monster.get("movement_state","idle"))
+        if movement_velocity.length_squared()>0.0001:
+            var authoritative_facing:Vector2=movement_velocity.normalized()
+            monster["facing_x"]=authoritative_facing.x
+            monster["facing_y"]=authoritative_facing.y
+        else:
+            monster["facing_x"]=float(monster.get("facing_x",0.0))
+            monster["facing_y"]=float(monster.get("facing_y",0.0))
+        monster["authoritative_facing_x"]=float(monster.get("facing_x",0.0))
+        monster["authoritative_facing_y"]=float(monster.get("facing_y",0.0))
 
 func regenerate_sp(hero:Dictionary)->void:
     if sp_regen_timer<SP_REGEN_INTERVAL: return
