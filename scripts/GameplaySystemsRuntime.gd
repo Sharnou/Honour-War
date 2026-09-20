@@ -262,9 +262,8 @@ func _save_now()->void:
     _set_status("✓ Game saved successfully.")
 
 func _set_ui_scale(scale:float)->void:
-    var layer:=get_parent()
-    if layer is CanvasLayer:
-        layer.scale=Vector2(scale,scale)
+    if panel!=null:
+        panel.scale=Vector2(scale,scale)
     _set_status("✓ UI scale set to %.0f%%" % (scale*100.0))
 
 func _toggle_large_panel()->void:
