@@ -13,7 +13,9 @@ var render_frames:int=0
 
 func _initialize()->void:
 	get_root().set_meta("hw_visual_capture",true)
-	if DisplayServer.get_name()!="headless":DisplayServer.window_set_size(Vector2i(1920,1080))
+	if DisplayServer.get_name()!="headless":
+		DisplayServer.window_set_size(Vector2i(1920,1080))
+	get_root().get_viewport().size=Vector2i(1920,1080)
 	call_deferred("_launch")
 
 func _launch()->void:
@@ -98,8 +100,10 @@ func _process(delta:float)->bool:
 	if not _has_real_world_pixels(image):
 		if render_frames%60==0:print("CAPTURE_WAIT scene pixels not ready")
 		return false
-	if image.get_width()<1280 or image.get_height()<720:image.resize(1280,720,Image.INTERPOLATE_LANCZOS)
-	var output:String=ProjectSettings.globalize_path(CAPTURE_FILE)
+	if image.get_width()<1920 or image.get_height()<1080:
+		push_error("Actual game viewport remained below 1920x1080: %dx%d" % [image.get_width(),image.get_height()])
+		quit(3)
+		return true
 	var save_error:Error=image.save_png(output)
 	if save_error!=OK:push_error("Real game screenshot save failed: %s"%save_error);quit(1);return true
 	captured=true
