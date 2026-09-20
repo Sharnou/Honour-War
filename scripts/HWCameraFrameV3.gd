@@ -11,6 +11,6 @@ func _process(_delta:float) -> void:
         camera = get_parent().get_node_or_null("Camera3D") as Camera3D
     if camera == null:
         return
-    camera.fov = 62.0
+    camera.fov = 50.0
     camera.near = 0.05
     camera.far = 900.0
