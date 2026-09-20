@@ -193,6 +193,22 @@ void AHonourWarCharacter::BuildHeroVisual()
     AddPart(this,VisualRoot,Sphere,TEXT("LeftEye"),FVector(38,-16,176),FVector(0.055f,0.055f,0.055f),FRotator::ZeroRotator,FLinearColor::Black);
     AddPart(this,VisualRoot,Sphere,TEXT("RightEye"),FVector(38,16,176),FVector(0.055f,0.055f,0.055f),FRotator::ZeroRotator,FLinearColor::Black);
     BuildWeaponVisual();
+    BuildFifthTierVisual();
+}
+
+void AHonourWarCharacter::BuildFifthTierVisual()
+{
+    if (GetClassTier()!=EHonourWarClassTier::Tier5 || !VisualRoot) return;
+
+    UStaticMesh* Sphere=LoadMesh(TEXT("/Engine/BasicShapes/Sphere.Sphere"));
+    UStaticMesh* Torus=LoadMesh(TEXT("/Engine/BasicShapes/Cylinder.Cylinder"));
+    if (!Sphere || !Torus) return;
+
+    const FHonourWarClassStyle Style=HonourWarClassStyle(CharacterClass);
+    AddPart(this,VisualRoot,Torus,TEXT("Tier5Mantle"),FVector(0,0,142),FVector(0.88f,0.70f,0.12f),FRotator::ZeroRotator,Style.Accent);
+    AddPart(this,VisualRoot,Sphere,TEXT("Tier5Crown"),FVector(-18,0,224),FVector(0.22f,0.22f,0.22f),FRotator::ZeroRotator,Style.Accent);
+    AddPart(this,VisualRoot,Sphere,TEXT("Tier5ShoulderL"),FVector(8,-63,126),FVector(0.24f,0.24f,0.22f),FRotator::ZeroRotator,Style.Accent);
+    AddPart(this,VisualRoot,Sphere,TEXT("Tier5ShoulderR"),FVector(8,63,126),FVector(0.24f,0.24f,0.22f),FRotator::ZeroRotator,Style.Accent);
 }
 
 void AHonourWarCharacter::BuildWeaponVisual()

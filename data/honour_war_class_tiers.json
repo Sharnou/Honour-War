@@ -1,0 +1,22 @@
+{
+  "game": "Honour War",
+  "engine": "Unreal Engine 5.8",
+  "tiers": [
+    {"tier":1,"name":"Foundation","required_level":1},
+    {"tier":2,"name":"Specialization","required_level":25},
+    {"tier":3,"name":"Advanced","required_level":50},
+    {"tier":4,"name":"Mastery","required_level":150},
+    {"tier":5,"name":"Transcendence","required_level":200}
+  ],
+  "base_classes":["Warrior","Mage","Archer","Thief","Acolyte","Merchant"],
+  "advanced_classes":["Ranger"],
+  "fifth_tier": {
+    "Warrior":"Abyssal Warlord",
+    "Mage":"Eternal Spellwright",
+    "Archer":"Causality Marksman",
+    "Thief":"Absolute Shadow",
+    "Acolyte":"Eternal Benediction",
+    "Merchant":"Infinite Quartermaster"
+  },
+  "rule":"Fifth Tier remains rooted in the first-tier profession, including weapon family, silhouette, equipment identity and skill lineage."
+}

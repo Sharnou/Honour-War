@@ -25,10 +25,14 @@ required=[
     ROOT/"Source"/"HonourWar"/"HonourWarHUD.cpp",
     ROOT/"Source"/"HonourWar"/"HonourWarHUDWidget.h",
     ROOT/"Source"/"HonourWar"/"HonourWarHUDWidget.cpp",
+    ROOT/"Source"/"HonourWar"/"HonourWarClassProgression.h",
     ROOT/"Source"/"HonourWar"/"HonourWarPlayerController.h",
     ROOT/"Source"/"HonourWar"/"HonourWarPlayerController.cpp",
     ROOT/"Source"/"HonourWar"/"HonourWarScreenshotDirector.h",
     ROOT/"Source"/"HonourWar"/"HonourWarScreenshotDirector.cpp",
+    ROOT/"data"/"honour_war_class_tiers.json",
+    ROOT/"data"/"honour_war_maps.json",
+    ROOT/"docs"/"MMORPG_MOUSE_CONTROL_SPEC.md",
 ]
 for path in required:
     if not path.is_file():
@@ -51,6 +55,29 @@ for phrase in ["Inventory","Character","Skills","Quests","Prontera City","Active
     if phrase not in hud:
         print(f"UNREAL_CONTRACT_FAIL: MMORPG HUD element missing: {phrase}")
         sys.exit(1)
+
+progression=(ROOT/"Source"/"HonourWar"/"HonourWarClassProgression.h").read_text(encoding="utf-8")
+for phrase in ["EHonourWarClassTier","Tier5","EHonourWarFifthTierArchetype","NaturalFifthTier","FifthTierProfile"]:
+    if phrase not in progression:
+        print(f"UNREAL_CONTRACT_FAIL: fifth-tier class system missing: {phrase}")
+        sys.exit(1)
+
+controller=(ROOT/"Source"/"HonourWar"/"HonourWarPlayerController.cpp").read_text(encoding="utf-8")
+for phrase in ["HandleMouseClick","GetHitResultUnderCursorByChannel","SetMouseTarget","SetMouseDestination","HandleMouseWheel","RotateCameraFromMouse"]:
+    if phrase not in controller:
+        print(f"UNREAL_CONTRACT_FAIL: MMORPG mouse control missing: {phrase}")
+        sys.exit(1)
+
+world=(ROOT/"Source"/"HonourWar"/"HonourWarWorldDirector.cpp").read_text(encoding="utf-8")
+for phrase in ["BuildBiomeRegions","ForestRegion","MountainRegion","DesertRegion","SnowRegion","BuildDungeonGate","BuildRiverBridge"]:
+    if phrase not in world:
+        print(f"UNREAL_CONTRACT_FAIL: map design layer missing: {phrase}")
+        sys.exit(1)
+
+capture=(ROOT/"Source"/"HonourWar"/"HonourWarScreenshotDirector.cpp").read_text(encoding="utf-8")
+if "FScreenshotRequest::RequestScreenshot(Output,true,false,false,FIntRect(),true)" not in capture:
+    print("UNREAL_CONTRACT_FAIL: real screenshot must capture actual game viewport with HUD visible")
+    sys.exit(1)
 
 for path in ROOT.rglob("*"):
     if not path.is_file():

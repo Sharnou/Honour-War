@@ -32,6 +32,7 @@ public:
     int32 GetLevel() const { return Level; }
     int32 GetExperience() const { return Experience; }
     int32 GetAgeDays() const { return AgeDays; }
+    float GetEngagementRange() const { return SkillRangeForClass(); }
 
     void SetClassId(EHonourWarClass NewClass);
     void SetLevel(int32 NewLevel);

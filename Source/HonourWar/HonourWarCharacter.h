@@ -39,6 +39,7 @@ public:
 private:
     void BuildHeroVisual();
     void BuildWeaponVisual();
+    void BuildFifthTierVisual();
 
     UPROPERTY(VisibleAnywhere) USpringArmComponent* CameraBoom;
     UPROPERTY(VisibleAnywhere) UCameraComponent* FollowCamera;

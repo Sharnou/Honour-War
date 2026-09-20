@@ -1,0 +1,14 @@
+{
+  "engine":"Unreal Engine 5.8",
+  "world":"Honour War",
+  "default_daylight":true,
+  "maps":[
+    {"id":"prontera_like_town","type":"town","theme":"medieval stone-and-timber capital","landmarks":["plaza","fountain","market","guild_hall","city_gate"]},
+    {"id":"forest_field","type":"field","theme":"lush forest hunting ground","landmarks":["grove","river","old_bridge","hunter_camp"]},
+    {"id":"mountain_pass","type":"field","theme":"rocky mountain road","landmarks":["cliff_gate","shrine","watchtower","stone_bridge"]},
+    {"id":"desert_ruins","type":"field","theme":"sunlit ancient ruins","landmarks":["ruined_pillars","buried_gate","oasis","mvp_altar"]},
+    {"id":"snow_region","type":"field","theme":"bright snow country","landmarks":["frozen_shrine","pine_grove","ice_pass","ruined_chapel"]},
+    {"id":"arcane_dungeon","type":"dungeon","theme":"ancient underground magical fortress","landmarks":["dungeon_gate","torch_hall","boss_chamber","treasure_vault"]}
+  ],
+  "travel_command":"@go [map] [x]:[y]"
+}

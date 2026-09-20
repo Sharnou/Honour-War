@@ -35,6 +35,7 @@ private:
 
     void BuildLighting();
     void BuildGround();
+    void BuildBiomeRegions();
     void BuildTownCenter();
     void BuildHouses();
     void BuildWalls();
@@ -51,4 +52,7 @@ private:
     void BuildBanner(const FVector& Center,float Yaw,const FLinearColor& ClothColor);
     void BuildFence(const FVector& Center,float Yaw,float Length);
     void BuildRock(const FVector& Center,float Scale);
+    void BuildShrine(const FVector& Center,float Scale);
+    void BuildDungeonGate(const FVector& Center);
+    void BuildRiverBridge(const FVector& Center);
 };

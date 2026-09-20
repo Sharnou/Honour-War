@@ -1,5 +1,7 @@
 #include "HonourWarPlayerController.h"
 #include "HonourWarCharacter.h"
+#include "HonourWarMonster.h"
+#include "InputCoreTypes.h"
 
 AHonourWarPlayerController::AHonourWarPlayerController()
 {
@@ -17,6 +19,70 @@ void AHonourWarPlayerController::BeginPlay()
     InputMode.SetHideCursorDuringCapture(false);
     InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
     SetInputMode(InputMode);
+}
+
+void AHonourWarPlayerController::PlayerTick(float DeltaTime)
+{
+    Super::PlayerTick(DeltaTime);
+    if (bRightMouseDown) RotateCameraFromMouse();
+}
+
+bool AHonourWarPlayerController::InputKey(const FInputKeyEventArgs& Params)
+{
+    if (Params.Key==EKeys::LeftMouseButton && Params.Event==IE_Pressed)
+    {
+        HandleMouseClick();
+        return true;
+    }
+    if (Params.Key==EKeys::RightMouseButton)
+    {
+        bRightMouseDown=(Params.Event==IE_Pressed);
+        return true;
+    }
+    if (Params.Key==EKeys::MouseScrollUp && Params.Event==IE_Pressed)
+    {
+        HandleMouseWheel(1.0f);
+        return true;
+    }
+    if (Params.Key==EKeys::MouseScrollDown && Params.Event==IE_Pressed)
+    {
+        HandleMouseWheel(-1.0f);
+        return true;
+    }
+    return Super::InputKey(Params);
+}
+
+void AHonourWarPlayerController::HandleMouseClick()
+{
+    AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(GetPawn());
+    if (!Character) return;
+
+    FHitResult Hit;
+    if (!GetHitResultUnderCursorByChannel(UEngineTypes::ConvertToTraceType(ECC_Visibility),true,Hit))
+        return;
+
+    if (AHonourWarMonster* Monster=Cast<AHonourWarMonster>(Hit.GetActor()))
+        Character->SetMouseTarget(Monster);
+    else
+        Character->SetMouseDestination(Hit.Location);
+}
+
+void AHonourWarPlayerController::HandleMouseWheel(float Delta)
+{
+    if (AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(GetPawn()))
+        Character->AdjustCameraZoom(Delta);
+}
+
+void AHonourWarPlayerController::RotateCameraFromMouse()
+{
+    float DX=0.0f;
+    float DY=0.0f;
+    GetInputMouseDelta(DX,DY);
+    if (AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(GetPawn()))
+    {
+        Character->CameraTurn(DX*0.50f);
+        Character->CameraLookUp(DY*0.35f);
+    }
 }
 
 void AHonourWarPlayerController::SetupInputComponent()

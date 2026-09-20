@@ -72,3 +72,10 @@ The obsolete development command toolbar is not part of the game.
 ## Visual acceptance
 
 The target is determined by the two locked repository visual anchors and the full Screenshot/ reference set. Production completion requires a real Unreal Engine 5.8 runtime/EXE screenshot showing the actual game, not a mockup.
+
+
+## Fifth-tier class and control requirements
+
+The Unreal implementation must preserve the five-tier progression and expose Tier 5 / Transcendence at level 200. Fifth-tier identity remains tied to the original profession.
+
+Mouse-first desktop MMORPG controls are mandatory: left-click ground movement, left-click target selection/approach/attack, right-drag camera orbit, and wheel zoom.

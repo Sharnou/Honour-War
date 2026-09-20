@@ -15,6 +15,8 @@ public:
 protected:
     virtual void BeginPlay() override;
     virtual void SetupInputComponent() override;
+    virtual void PlayerTick(float DeltaTime) override;
+    virtual bool InputKey(const FInputKeyEventArgs& Params) override;
 
 private:
     void MoveForward(float Value);
@@ -34,4 +36,8 @@ private:
     void Skill6();
     void Skill7();
     void Skill8();
+    void HandleMouseClick();
+    void HandleMouseWheel(float Delta);
+    void RotateCameraFromMouse();
+    bool bRightMouseDown=false;
 };

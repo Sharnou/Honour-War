@@ -1,5 +1,6 @@
 #include "HonourWarScreenshotDirector.h"
 #include "Engine/HighResScreenshot.h"
+#include "Engine/UnrealClient.h"
 #include "Misc/CommandLine.h"
 #include "Misc/Paths.h"
 #include "HAL/FileManager.h"
@@ -34,10 +35,16 @@ void AHonourWarScreenshotDirector::RequestCapture()
     const FString Output=Directory/TEXT("HonourWar-real-runtime.png");
     IFileManager::Get().MakeDirectory(*Directory,true);
 
-    FScreenshotRequest::RequestScreenshot(Output,false,false);
+    FScreenshotRequest::RequestScreenshot(Output,true,false,false,FIntRect(),true);
 }
 
 void AHonourWarScreenshotDirector::FinishCapture()
 {
+    const FString Output=FPaths::ProjectSavedDir()/TEXT("Screenshots/HonourWar-real-runtime.png");
+    if (!IFileManager::Get().FileExists(*Output))
+    {
+        GetWorldTimerManager().SetTimer(ExitTimer,this,&AHonourWarScreenshotDirector::FinishCapture,1.0f,false);
+        return;
+    }
     FGenericPlatformMisc::RequestExit(false);
 }

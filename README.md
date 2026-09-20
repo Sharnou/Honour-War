@@ -51,3 +51,15 @@ The old Godot workflow run #1762, Match completeness contract to generated eight
 ## Copyright
 
 © Sharnou — Honour War
+
+
+## Fifth-tier class progression
+
+The class tree has five tiers:
+Tier 1 Foundation (Lv. 1), Tier 2 Specialization (Lv. 25), Tier 3 Advanced (Lv. 50), Tier 4 Mastery (Lv. 150), Tier 5 Transcendence (Lv. 200).
+
+Tier 5 remains rooted in the original first-tier profession and preserves profession-specific weapon family, silhouette, equipment identity and skill lineage. Unreal exposes this through `EHonourWarClassTier` and `EHonourWarFifthTierArchetype`.
+
+## Mouse-first MMORPG controls
+
+Left click on ground moves the hero. Left click on a monster selects it and moves the hero into class-specific engagement range, then uses the basic attack. Right-mouse drag rotates the camera. Mouse wheel zooms the camera. W/A/S/D remains available as a secondary control scheme.

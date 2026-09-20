@@ -51,6 +51,7 @@ void AHonourWarWorldDirector::BeginPlay()
     Super::BeginPlay();
     BuildLighting();
     BuildGround();
+    BuildBiomeRegions();
     BuildTownCenter();
     BuildHouses();
     BuildWalls();
@@ -142,6 +143,85 @@ void AHonourWarWorldDirector::BuildGround()
         AddPart(CubeMesh,TEXT("CrossRoadX"),FVector(P,0,14),FVector(0.40f,24.0f,0.05f),FRotator::ZeroRotator,FLinearColor(0.59f,0.48f,0.33f));
         AddPart(CubeMesh,TEXT("CrossRoadY"),FVector(0,P,15),FVector(24.0f,0.40f,0.05f),FRotator::ZeroRotator,FLinearColor(0.59f,0.48f,0.33f));
     }
+}
+
+
+void AHonourWarWorldDirector::BuildRiverBridge(const FVector& Center)
+{
+    const FLinearColor Water(0.12f,0.36f,0.62f);
+    const FLinearColor Stone(0.48f,0.48f,0.44f);
+    AddPart(CubeMesh,TEXT("RiverWater"),Center+FVector(0,0,8),FVector(5.5f,72.0f,0.08f),FRotator::ZeroRotator,Water);
+    AddPart(CubeMesh,TEXT("BridgeDeck"),Center+FVector(0,0,42),FVector(7.0f,28.0f,0.38f),FRotator::ZeroRotator,FLinearColor(0.30f,0.17f,0.075f),true);
+    for(int32 I=-6;I<=6;++I)
+    {
+        AddPart(CubeMesh,TEXT("BridgePlank"),Center+FVector(0,I*210.0f,80),
+            FVector(6.4f,0.12f,0.22f),FRotator::ZeroRotator,FLinearColor(0.42f,0.24f,0.10f));
+    }
+    AddPart(CubeMesh,TEXT("BridgeRailL"),Center+FVector(-640,0,170),FVector(0.22f,28.0f,1.15f),FRotator::ZeroRotator,Stone);
+    AddPart(CubeMesh,TEXT("BridgeRailR"),Center+FVector(640,0,170),FVector(0.22f,28.0f,1.15f),FRotator::ZeroRotator,Stone);
+}
+
+void AHonourWarWorldDirector::BuildShrine(const FVector& Center,float Scale)
+{
+    const FLinearColor Stone(0.58f,0.57f,0.52f);
+    const FLinearColor Gold(0.74f,0.54f,0.18f);
+    AddPart(CylinderMesh,TEXT("ShrineBase"),Center+FVector(0,0,55*Scale),FVector(7.0f*Scale,7.0f*Scale,0.38f*Scale),FRotator::ZeroRotator,Stone);
+    AddPart(CubeMesh,TEXT("ShrinePillarL"),Center+FVector(-240*Scale,0,290*Scale),FVector(0.75f*Scale,1.2f*Scale,2.8f*Scale),FRotator::ZeroRotator,Stone);
+    AddPart(CubeMesh,TEXT("ShrinePillarR"),Center+FVector(240*Scale,0,290*Scale),FVector(0.75f*Scale,1.2f*Scale,2.8f*Scale),FRotator::ZeroRotator,Stone);
+    AddPart(ConeMesh,TEXT("ShrineRoof"),Center+FVector(0,0,660*Scale),FVector(4.8f*Scale,5.4f*Scale,2.2f*Scale),FRotator::ZeroRotator,FLinearColor(0.20f,0.28f,0.30f));
+    AddPart(SphereMesh,TEXT("ShrineRelic"),Center+FVector(0,0,390*Scale),FVector(1.05f*Scale,1.05f*Scale,1.05f*Scale),FRotator::ZeroRotator,Gold);
+}
+
+void AHonourWarWorldDirector::BuildDungeonGate(const FVector& Center)
+{
+    const FLinearColor Stone(0.22f,0.23f,0.23f);
+    const FLinearColor Iron(0.10f,0.075f,0.055f);
+    AddPart(CubeMesh,TEXT("DungeonPillarL"),Center+FVector(-920,0,500),FVector(2.0f,5.0f,5.5f),FRotator::ZeroRotator,Stone,true);
+    AddPart(CubeMesh,TEXT("DungeonPillarR"),Center+FVector(920,0,500),FVector(2.0f,5.0f,5.5f),FRotator::ZeroRotator,Stone,true);
+    AddPart(CubeMesh,TEXT("DungeonLintel"),Center+FVector(0,0,1060),FVector(20.0f,5.2f,2.0f),FRotator::ZeroRotator,Stone,true);
+    AddPart(CubeMesh,TEXT("DungeonDoor"),Center+FVector(0,-160,500),FVector(7.0f,0.6f,5.0f),FRotator::ZeroRotator,Iron);
+    AddPart(SphereMesh,TEXT("DungeonTorchL"),Center+FVector(-760,-260,710),FVector(0.55f,0.55f,0.55f),FRotator::ZeroRotator,FLinearColor(1.0f,0.46f,0.16f));
+    AddPart(SphereMesh,TEXT("DungeonTorchR"),Center+FVector(760,-260,710),FVector(0.55f,0.55f,0.55f),FRotator::ZeroRotator,FLinearColor(1.0f,0.46f,0.16f));
+}
+
+void AHonourWarWorldDirector::BuildBiomeRegions()
+{
+    AddPart(CubeMesh,TEXT("ForestRegion"),FVector(5200,2500,-6),FVector(26,18,0.08f),FRotator::ZeroRotator,FLinearColor(0.11f,0.28f,0.10f));
+    AddPart(CubeMesh,TEXT("MountainRegion"),FVector(2700,6100,40),FVector(26,6,0.34f),FRotator(0,7,0),FLinearColor(0.29f,0.31f,0.28f));
+    AddPart(CubeMesh,TEXT("DesertRegion"),FVector(-4800,-5000,-1),FVector(29,13,0.09f),FRotator::ZeroRotator,FLinearColor(0.72f,0.56f,0.31f));
+    AddPart(CubeMesh,TEXT("SnowRegion"),FVector(-6500,2200,2),FVector(16,20,0.10f),FRotator::ZeroRotator,FLinearColor(0.80f,0.84f,0.88f));
+    AddPart(CubeMesh,TEXT("DungeonApproach"),FVector(0,-5200,5),FVector(12,7,0.11f),FRotator::ZeroRotator,FLinearColor(0.19f,0.18f,0.17f));
+
+    for(int32 I=0;I<8;++I)
+    {
+        BuildRock(FVector(2600+I*520,5200+(I%3)*280,0),1.2f+(I%2)*0.25f);
+        BuildRock(FVector(-5200+(I%3)*300,-4100-I*300,0),1.0f+(I%3)*0.18f);
+    }
+
+    const FVector ForestTrees[]={
+        FVector(5000,2700,0),FVector(5400,3000,0),FVector(5800,2500,0),
+        FVector(5200,3500,0),FVector(6100,3300,0),FVector(4700,3400,0),
+        FVector(6000,2000,0),FVector(4550,2200,0)
+    };
+    int32 I=0;
+    for(const FVector& P:ForestTrees)
+    {
+        BuildTree(P,1.05f+(I%3)*0.12f,I%2);
+        ++I;
+    }
+
+    for(int32 K=0;K<7;++K)
+    {
+        const FVector Desert=(-4800.0f+K*650.0f,-4950.0f-(K%2)*420.0f,0);
+        AddPart(CubeMesh,TEXT("DesertPillar"),Desert+FVector(0,0,330),FVector(1.8f,1.8f,3.8f),FRotator(0,K*11.0f,0),FLinearColor(0.46f,0.34f,0.18f));
+        AddPart(ConeMesh,TEXT("DesertCap"),Desert+FVector(0,0,720),FVector(2.6f,2.6f,0.75f),FRotator(0,0,0),FLinearColor(0.60f,0.45f,0.24f));
+    }
+
+    BuildShrine(FVector(-6500,2200,0),1.05f);
+    BuildDungeonGate(FVector(0,-5200,0));
+    BuildRiverBridge(FVector(3000,0,0));
+    AddPart(CubeMesh,TEXT("RiverBankL"),FVector(3000,-1050,12),FVector(7.5f,4.8f,0.08f),FRotator::ZeroRotator,FLinearColor(0.56f,0.46f,0.30f));
+    AddPart(CubeMesh,TEXT("RiverBankR"),FVector(3000,1050,12),FVector(7.5f,4.8f,0.08f),FRotator::ZeroRotator,FLinearColor(0.56f,0.46f,0.30f));
 }
 
 void AHonourWarWorldDirector::BuildTownCenter()

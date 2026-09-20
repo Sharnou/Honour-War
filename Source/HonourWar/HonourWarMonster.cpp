@@ -46,8 +46,9 @@ AHonourWarMonster::AHonourWarMonster()
     LeftHorn->SetupAttachment(Root);
     RightHorn->SetupAttachment(Root);
 
-    Body->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    Body->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
     Head->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    Body->SetCollisionResponseToChannel(ECC_Visibility,ECR_Block);
     LeftHorn->SetCollisionEnabled(ECollisionEnabled::NoCollision);
     RightHorn->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
