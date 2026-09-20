@@ -81,28 +81,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python3 - <<'PY'
-          from pathlib import Path
-          from PIL import Image, ImageStat
-          p = Path("artifacts/honour-war-real-game.png")
-          if not p.is_file() or p.stat().st_size <= 10000:
-              raise SystemExit("REAL_GAME_SCREENSHOT_CONTENT_FAIL: screenshot missing or too small")
-          im = Image.open(p).convert("RGB")
-          if im.width < 1280 or im.height < 720:
-              raise SystemExit(f"REAL_GAME_SCREENSHOT_CONTENT_FAIL: unexpected dimensions {im.size}")
-          stat = ImageStat.Stat(im)
-          mean = sum(stat.mean) / 3.0
-          extrema = [channel for pair in stat.extrema for channel in pair]
-          spread = max(extrema) - min(extrema)
-          pixels = im.width * im.height
-          sample = im.resize((192, 108))
-          dark = sum(1 for px in sample.getdata() if max(px) < 12)
-          dark_ratio = dark / (192 * 108)
-          print(f"REAL_GAME_SCREENSHOT_CONTENT: {im.width}x{im.height} mean={mean:.2f} spread={spread} dark_ratio={dark_ratio:.4f}")
-          if mean < 18.0 or spread < 45 or dark_ratio > 0.97:
-              raise SystemExit("REAL_GAME_SCREENSHOT_CONTENT_FAIL: rendered frame is too uniform/dark")
-          print("REAL_GAME_SCREENSHOT_CONTENT_PASS")
-          PY
+          python3 tools/real_game_screenshot_content_qa.py artifacts/honour-war-real-game.png
+
 
       - name: Upload real gameplay screenshot
         uses: actions/upload-artifact@v7
