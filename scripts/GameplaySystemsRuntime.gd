@@ -324,8 +324,16 @@ func _inventory(current:Dictionary)->void:
         var row:=HBoxContainer.new(); body.add_child(row)
         var item_button:=Button.new(); item_button.text="%s x%d" % [id,amount]; item_button.size_flags_horizontal=Control.SIZE_EXPAND_FILL; item_button.pressed.connect(_select_item.bind(id)); row.add_child(item_button)
         var type:String=str(data.get("type",""))
-        if type=="Consumable": var use:=Button.new(); use.text="USE"; use.pressed.connect(_use_item.bind(id)); row.add_child(use)
-        elif type in ["Weapon","Armor","Accessory"]: var equip:=Button.new(); equip.text="EQUIP"; equip.pressed.connect(_equip_item.bind(id)); row.add_child(equip)
+        if type=="Consumable":
+            var use:Button=Button.new()
+            use.text="USE"
+            use.pressed.connect(_use_item.bind(id))
+            row.add_child(use)
+        elif type in ["Weapon","Armor","Accessory"]:
+            var equip:Button=Button.new()
+            equip.text="EQUIP"
+            equip.pressed.connect(_equip_item.bind(id))
+            row.add_child(equip)
 
 func _select_item(item_id:String)->void: selected_item=item_id; timer=1.0
 func _equip_item(item_id:String)->void:
