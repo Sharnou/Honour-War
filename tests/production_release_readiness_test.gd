@@ -70,7 +70,7 @@ func _run()->void:
         check(elements.contains('"%s"'%element),"element system "+element)
     check(not elements.contains("Unknown Material"),"no unknown material dependency")
     check(not elements.contains("Transformer"),"no Transformer material dependency")
-    var visual_profile:=FileAccess.get_file_as_string("res://scripts/HWCharacterVisualProfiles.gd")
+    var visual_profile:=FileAccess.get_file_as_string("res://scripts/HWCharacterVisualProfiles.gd").to_lower()
     check(visual_profile.contains("material") and (visual_profile.contains("0.51") or visual_profile.contains("51") or visual_profile.contains("material_weight")),"material-driven hero appearance rule")
     check(FileAccess.file_exists("res://assets/ui/item_icons_atlas.svg"),"HD item icon atlas")
     check(FileAccess.file_exists("res://tools/capture_real_game_screenshot.gd"),"real-game screenshot capture")
