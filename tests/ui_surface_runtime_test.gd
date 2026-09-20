@@ -68,8 +68,8 @@ func _run()->void:
         quit(1)
 
 func _test_modes()->void:
-    var expected=["character","pet","skills","inventory","equipment","refine","map","system","status"]
-    var keys=[KEY_C,KEY_P,KEY_K,KEY_I,KEY_E,KEY_R,KEY_M,KEY_O,KEY_V]
+    var expected=["character","pet","skills","inventory","equipment","refine","map","system"]
+    var keys=[KEY_C,KEY_P,KEY_K,KEY_I,KEY_E,KEY_R,KEY_M,KEY_O]
     for i in range(expected.size()):
         systems.panel.visible=false
         var event:=InputEventKey.new()
@@ -84,6 +84,27 @@ func _test_modes()->void:
         systems._unhandled_key_input(event)
         await process_frame
         _check(not systems.panel.visible,"same hotkey closes "+expected[i])
+    # V is an intentional alias for the merged Equipment + Status window.
+    systems.panel.visible=false
+    var status_event:=InputEventKey.new()
+    status_event.keycode=KEY_V
+    status_event.pressed=true
+    systems._unhandled_key_input(status_event)
+    await process_frame
+    _check(systems.panel.visible,"V opens merged Equipment + Status window")
+    _check(str(systems.get("mode"))=="equipment","V selects merged Equipment + Status window")
+    var merged_body:=systems.get("body") as Control
+    _check(merged_body!=null and merged_body.get_child_count()>=16,"merged Equipment + Status window renders status allocation and equipment slots")
+    var merged_text:=" ".join([])
+    if merged_body!=null:
+        for child in merged_body.get_children():
+            if child is Label:
+                merged_text+=" "+str((child as Label).text)
+    _check(merged_text.contains("STATUS POINTS AVAILABLE"),"merged window contains status-point allocation")
+    _check(merged_text.contains("EQUIPMENT SLOTS"),"merged window contains equipment section")
+    systems._unhandled_key_input(status_event)
+    await process_frame
+    _check(not systems.panel.visible,"V closes merged Equipment + Status window")
     systems._set_mode("character")
     await process_frame
     var panel:=systems.get("panel") as Control
@@ -118,14 +139,21 @@ func _test_equipment()->void:
     event.pressed=true
     systems._unhandled_key_input(event)
     await process_frame
-    _check(systems.panel.visible and str(systems.get("mode"))=="equipment","equipment hotkey opens equipment")
+    _check(systems.panel.visible and str(systems.get("mode"))=="equipment","equipment hotkey opens merged equipment/status window")
     var close:=systems.panel.find_child("UIWindowClose",true,false) as Button
-    _check(close!=null,"equipment window has close button")
+    _check(close!=null,"merged equipment/status window has close button")
     var body:=systems.get("body") as Control
-    _check(body!=null and body.get_child_count()>=10,"equipment panel renders all equipment slots")
+    _check(body!=null and body.get_child_count()>=16,"merged equipment/status panel renders status allocation and all equipment slots")
+    var labels_text:=" ".join([])
+    if body!=null:
+        for child in body.get_children():
+            if child is Label:
+                labels_text+=" "+str((child as Label).text)
+    _check(labels_text.contains("STATUS POINTS AVAILABLE"),"merged equipment/status panel exposes status points")
+    _check(labels_text.contains("EQUIPMENT SLOTS"),"merged equipment/status panel exposes equipment section")
     systems._unhandled_key_input(event)
     await process_frame
-    _check(not systems.panel.visible,"equipment hotkey closes equipment")
+    _check(not systems.panel.visible,"equipment hotkey closes merged equipment/status window")
 
 func _check(ok:bool,message:String)->void:
     if not ok: failures.append(message)
