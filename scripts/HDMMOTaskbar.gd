@@ -149,6 +149,7 @@ func _small_value(prefix: String, tint: Color) -> Label:
 
 func _build_quickbar() -> void:
     var panel := PanelContainer.new()
+    panel.name = "LegacyQuickSkillPanel"
     panel.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
     panel.position = Vector2(-560, -116)
     panel.size = Vector2(760, 106)
@@ -181,6 +182,7 @@ func _build_quickbar() -> void:
 
 func _build_systembar() -> void:
     var panel := PanelContainer.new()
+    panel.name = "FinalSystemToolbarPanel"
     panel.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
     panel.position = Vector2(-380, -116)
     panel.size = Vector2(760, 106)
