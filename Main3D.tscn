@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=3]
+[gd_scene load_steps=69 format=3]
 
 [ext_resource path="res://scripts/Game3D.gd" type="Script" id="1"]
 [ext_resource path="res://scripts/Main.gd" type="Script" id="2"]
@@ -64,6 +64,9 @@
 [ext_resource path="res://scripts/HWHDDetailPassVNext.gd" type="Script" id="62"]
 [ext_resource path="res://scripts/HWCharacterDetailV2.gd" type="Script" id="63"]
 [ext_resource path="res://scripts/HWFinalQuickbar.gd" type="Script" id="65"]
+[ext_resource path="res://scripts/HWEquipmentVisualV3.gd" type="Script" id="66"]
+[ext_resource path="res://scripts/HWMonsterVisualLibraryV3.gd" type="Script" id="67"]
+[ext_resource path="res://scripts/HW30MapVisualDirectorV1.gd" type="Script" id="68"]
 
 [ext_resource type="Script" path="res://scripts/HWPetDetailV2.gd" id="64"]
 [node name="HonourWar3D" type="Node3D"]
@@ -88,6 +91,15 @@ script = ExtResource("62")
 script = ExtResource("63")
 [node name="HWPetDetailV2" type="Node3D" parent="."]
 script = ExtResource("64")
+
+[node name="HWEquipmentVisualV3" type="Node3D" parent="."]
+script = ExtResource("66")
+
+[node name="HWMonsterVisualLibraryV3" type="Node3D" parent="."]
+script = ExtResource("67")
+
+[node name="HW30MapVisualDirectorV1" type="Node3D" parent="."]
+script = ExtResource("68")
 
 
 [node name="ExportedEXESmokeTest" type="Node" parent="."]
