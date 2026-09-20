@@ -52,6 +52,8 @@ func _process(delta:float)->void:
 func _bind_and_build()->void:
     scene = get_tree().current_scene
     if scene == null:
+        scene = get_parent() as Node
+    if scene == null or not is_instance_valid(scene):
         return
     legacy = scene.get_node_or_null("LegacyGame")
     _hide_legacy_skillbars()
