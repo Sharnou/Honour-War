@@ -83,6 +83,8 @@ func _update_visuals(delta:float) -> void:
 		if pet_visual != null:
 			pet_visual.queue_free()
 		pet_visual = _create_pet(pet_species)
+		pet_visual.set_meta("species",pet_species)
+		pet_visual.set_meta("hw_pet",true)
 		actor_root.add_child(pet_visual)
 	var production_hero:bool = bool(hero_visual.get_meta("hw_production_asset",false))
 	var target:Vector3 = _map_to_world(hero_pos)
