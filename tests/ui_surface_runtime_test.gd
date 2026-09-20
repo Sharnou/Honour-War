@@ -2,6 +2,7 @@ extends SceneTree
 
 const SKILLS = preload("res://scripts/SkillSystem.gd")
 const PET_SKILLS = preload("res://scripts/PetSkillSystem.gd")
+const TELEPORT = preload("res://scripts/TeleportSystem.gd")
 
 var failures:Array[String]=[]
 var scene:Node
@@ -21,6 +22,9 @@ func _run()->void:
     _check(taskbar!=null,"HDMMOTaskbar exists")
     _check(systems!=null,"GameplaySystemsRuntime exists")
     _check(ResourceLoader.exists("res://assets/ui/skill_icons_atlas.svg"),"skill icon atlas exists")
+    _check(TELEPORT.MAPS.size()>=30,"full registered map catalog is present")
+    for map_id in TELEPORT.MAPS.keys():
+        _check(TELEPORT.MAPS[map_id].has("type"),"map %s has authored map type" % str(map_id))
     if taskbar!=null:
         _test_toolbar()
     var hero_visual:=scene.get("hero_visual") as Node3D
