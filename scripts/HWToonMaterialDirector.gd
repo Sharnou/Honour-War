@@ -5,6 +5,7 @@ extends Node3D
 ## preserving albedo, roughness, and normal textures when those maps exist.
 
 const TOON_SHADER_PATH:String = "res://shaders/ToonShader.gdshader"
+const MATERIAL_GUARD_INTERVAL:float = 0.15
 var shader:Shader
 var processed:Dictionary = {}
 var timer:float = 0.0
@@ -25,18 +26,57 @@ func _ready()->void:
 
 func _process(delta:float)->void:
     timer += delta
-    if timer < 1.0:
+    if timer < MATERIAL_GUARD_INTERVAL:
         return
     timer = 0.0
     _scan_scene()
 
 func _scan_scene()->void:
-    if shader == null:
-        return
     var scene:Node = get_tree().current_scene
     if scene == null:
         return
+    _ensure_material_integrity(scene)
+    if shader == null:
+        return
     _scan_node(scene)
+
+func _fallback_material()->StandardMaterial3D:
+    var fallback:StandardMaterial3D = StandardMaterial3D.new()
+    fallback.albedo_color = Color("#9aa1aa")
+    fallback.metallic = 0.15
+    fallback.roughness = 0.58
+    return fallback
+
+func _ensure_material_integrity(root:Node)->void:
+    if root == null or not is_instance_valid(root):
+        return
+    for node in root.find_children("*", "MeshInstance3D", true, false):
+        var mesh_instance:MeshInstance3D = node as MeshInstance3D
+        if mesh_instance == null or not is_instance_valid(mesh_instance):
+            continue
+        var source_mesh:Mesh = mesh_instance.mesh
+        if source_mesh == null or source_mesh.get_surface_count() <= 0:
+            continue
+        for surface_index in range(source_mesh.get_surface_count()):
+            var active:Material = mesh_instance.get_active_material(surface_index)
+            if active == null:
+                active = mesh_instance.get_surface_override_material(surface_index)
+            if active == null:
+                active = source_mesh.surface_get_material(surface_index)
+            if active == null:
+                mesh_instance.set_surface_override_material(surface_index, _fallback_material())
+    for node in root.find_children("*", "MultiMeshInstance3D", true, false):
+        var multi:MultiMeshInstance3D = node as MultiMeshInstance3D
+        if multi == null or not is_instance_valid(multi):
+            continue
+        if multi.multimesh == null or multi.multimesh.mesh == null:
+            continue
+        var base_mesh:Mesh = multi.multimesh.mesh
+        var material:Material = multi.material_override
+        if material == null and base_mesh.get_surface_count() > 0:
+            material = base_mesh.surface_get_material(0)
+        if material == null:
+            multi.material_override = _fallback_material()
 
 func _scan_node(node:Node)->void:
     if node is MeshInstance3D:
@@ -58,6 +98,7 @@ func _convert_mesh(mesh:MeshInstance3D)->void:
         if source_material == null:
             source_material = source_mesh.surface_get_material(surface_index)
         if source_material == null:
+            mesh.set_surface_override_material(surface_index, _fallback_material())
             continue
         if source_material is ShaderMaterial:
             var existing_shader:Shader = (source_material as ShaderMaterial).shader
