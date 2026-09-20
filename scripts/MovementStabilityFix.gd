@@ -44,6 +44,8 @@ var middle_dragging:bool = false
 var last_middle_position:Vector2 = Vector2.ZERO
 var online_send_elapsed:float = 0.0
 var last_online_sent_position:Vector2 = Vector2.INF
+var velocity:Vector2 = Vector2.ZERO
+var last_facing:Vector2 = Vector2.DOWN
 
 func _ready()->void:
     process_priority=1000
@@ -194,24 +196,45 @@ func _process(delta:float)->void:
     if not value is Dictionary: return
     var hero:Dictionary=value
     var current:Vector2=Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0)))
-    var keyboard_direction:=Vector2(
+    var input_direction:=Vector2(
         Input.get_action_strength("move_right")-Input.get_action_strength("move_left"),
         Input.get_action_strength("move_down")-Input.get_action_strength("move_up")
     )
-    if keyboard_direction.length()>0.01:
-        keyboard_direction=keyboard_direction.normalized()
-        current+=keyboard_direction*MOVE_SPEED*delta
+    var desired_velocity:=Vector2.ZERO
+    if input_direction.length_squared()>0.0001:
+        input_direction=input_direction.normalized()
+        desired_velocity=input_direction*_hero_move_speed(hero)
         destination=Vector2.INF
+        last_facing=input_direction
     elif destination!=Vector2.INF:
+        var to_target:Vector2=current.direction_to(destination)
         var distance:float=current.distance_to(destination)
         if distance<=STOP_DISTANCE:
             current=destination
             destination=Vector2.INF
         else:
-            current+=current.direction_to(destination)*min(distance,MOVE_SPEED*delta)
+            desired_velocity=to_target*_hero_move_speed(hero)
+            last_facing=to_target
+    var rate:float=HERO_ACCELERATION if desired_velocity.length_squared()>0.0001 else HERO_DECELERATION
+    velocity=velocity.move_toward(desired_velocity,rate*max(_hero_move_speed(hero),1.0)*delta)
+    if destination!=Vector2.INF:
+        var remaining:float=current.distance_to(destination)
+        if velocity.length()*delta>=remaining:
+            current=destination
+            destination=Vector2.INF
+            velocity=Vector2.ZERO
+        else:
+            current+=velocity*delta
+    else:
+        current+=velocity*delta
     current=_clamp_to_map(current,hero)
     hero["pos_x"]=current.x
     hero["pos_y"]=current.y
+    hero["movement_velocity_x"]=velocity.x
+    hero["movement_velocity_y"]=velocity.y
+    hero["movement_speed"]=velocity.length()
+    hero["facing_x"]=last_facing.x
+    hero["facing_y"]=last_facing.y
     online_send_elapsed+=delta
     if _online_authenticated() and online_send_elapsed>=ONLINE_SEND_INTERVAL:
         online_send_elapsed=0.0
@@ -239,6 +262,13 @@ func _screen_to_map(screen_position:Vector2)->Vector2:
 
 func _map_to_world(map_position:Vector2)->Vector3:
     return Vector3((map_position.x-ORIGIN_X)*WORLD_SCALE,0.0,(map_position.y-ORIGIN_Y)*WORLD_SCALE)
+
+func _hero_move_speed(hero:Dictionary)->float:
+    var equipment_value:Variant=hero.get("equipment",{})
+    var move_percent:float=0.0
+    if equipment_value is Dictionary:
+        move_percent=float((equipment_value as Dictionary).get("move_percent",0.0))
+    return HERO_MAX_SPEED*(1.0+clamp(move_percent,-50.0,200.0)/100.0)
 
 func _clamp_to_map(point:Vector2,hero:Dictionary)->Vector2:
     var map_data:Dictionary=TeleportSystem.MAPS.get(int(hero.get("map_id",0)),{})
