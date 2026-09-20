@@ -95,7 +95,7 @@ func _test_modes()->void:
     _check(str(systems.get("mode"))=="equipment","V selects merged Equipment + Status window")
     var merged_body:=systems.get("body") as Control
     _check(merged_body!=null and merged_body.get_child_count()>=16,"merged Equipment + Status window renders status allocation and equipment slots")
-    var merged_text:=" ".join([])
+    var merged_text:String=""
     if merged_body!=null:
         for child in merged_body.get_children():
             if child is Label:
@@ -144,7 +144,7 @@ func _test_equipment()->void:
     _check(close!=null,"merged equipment/status window has close button")
     var body:=systems.get("body") as Control
     _check(body!=null and body.get_child_count()>=16,"merged equipment/status panel renders status allocation and all equipment slots")
-    var labels_text:=" ".join([])
+    var labels_text:String=""
     if body!=null:
         for child in body.get_children():
             if child is Label:
