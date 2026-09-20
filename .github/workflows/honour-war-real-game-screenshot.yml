@@ -75,6 +75,8 @@ jobs:
             2>&1 | tee real-game-screenshot.log
           grep -F 'REAL_GAME_SCREENSHOT_PASS:' real-game-screenshot.log >/dev/null
           test -s artifacts/honour-war-real-game.png
+          grep -F 'REAL_GAME_SCREENSHOT_FRAME:' real-game-screenshot.log >/dev/null
+          grep -F 'REAL_GAME_SCREENSHOT_PASS:' real-game-screenshot.log >/dev/null
           file artifacts/honour-war-real-game.png
 
       - name: Verify screenshot contains rendered game content
