@@ -220,7 +220,7 @@ func _build_street_furniture(center: Vector3, t: Dictionary) -> void:
 func _build_tree_groves(center: Vector3, t: Dictionary) -> void:
     for i in range(24):
         var p := center + Vector3(_hash(i + 90, 27), 0, _hash(i + 130, 19))
-        if abs(p.x - center.x) < 6.0:
+        if p.distance_to(center) < 9.0:
             continue
         _tree(p, t, i)
 
