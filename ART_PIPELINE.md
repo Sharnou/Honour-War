@@ -9,6 +9,42 @@ Do not restart the game architecture to accommodate the art pipeline.
 Upgrade the existing game in place and progressively replace development
 placeholders with production assets.
 
+## Permanent generation rules
+
+- Meshy is permanently rejected for Honour War generation.
+- Generated GLB/GLTF assets are permanently rejected from the production and runtime pipeline.
+- Neural4D is an approved optional generation source.
+- Use FBX for rigged/animated characters, pets and monsters.
+- Use OBJ for approved static assets when FBX is not appropriate.
+- Convert imported production assets into native Godot 4.7.2 scenes/resources before runtime where practical.
+- No future daily upgrade may reintroduce GLB/GLTF or Meshy dependencies.
+- All visual QA must verify the native no-GLB pipeline.
+
+## Character gender rule
+
+- The player chooses gender exactly once during account registration.
+- The registration identity uses the immutable suffix `_M` for Male or `_F` for Female.
+- After registration, account gender cannot be changed.
+- Every character owned by the account must use the account's locked gender.
+- A `_M` account can never create, select, equip, load or save a Female character.
+- A `_F` account can never create, select, equip, load or save a Male character.
+- Gender is account data, not a cosmetic option and not a per-login setting.
+- Runtime and persistence validation must reject any character whose gender does not match the locked account gender.
+- The 60-character production target is therefore represented as 30 class/gender combinations per gender, while each individual account can access only its registered gender variants.
+
+## Daily upgrade rules
+
+Every Daily Honour War Upgrade must preserve these contracts:
+
+1. Never reintroduce Meshy.
+2. Never reintroduce GLB/GLTF production dependencies.
+3. Preserve the FBX/OBJ → native Godot pipeline.
+4. Preserve immutable registration gender.
+5. Preserve `_M`/`_F` account identity semantics.
+6. Never allow cross-gender character creation or persistence.
+7. Add QA coverage whenever character/account identity logic changes.
+8. Real gameplay screenshots must come from the actual Main3D runtime, never generated concept art.
+
 ## Roles
 
 ### Blender
@@ -70,7 +106,7 @@ It is stylized HD game art designed for real-time performance.
 
 Gameplay data must never depend on display names.
 
-- `hero_<class>`
+- `hero_<class>_<gender>`
 - `armor_<id>`
 - `weapon_<id>`
 - `headgear_<id>`
@@ -83,19 +119,15 @@ Gameplay data must never depend on display names.
 
 ## Runtime rule
 
-`res://scripts/HDAssetRuntime.gd` is the runtime bridge. When a production GLB
-exists at the expected stable path, it replaces the corresponding procedural
-visual automatically while preserving the gameplay reference used by combat,
-AI, animation and HUD systems.
-
+Production assets must enter the game through the approved FBX/OBJ-to-native-Godot pipeline.
+Runtime code must not search for, import, preload or prefer GLB/GLTF assets.
 Procedural visuals are fallback-only development geometry. They must not be
 considered final Honour War art.
 
 ## Asset manifest
 
-See `assets/3d/HD_ASSET_MANIFEST.md` for the production asset contract and the
-initial hero/pet/monster/MVP import list.
-
+See `assets/3d/HD_ASSET_MANIFEST.md` for the production asset contract and the initial hero/pet/monster/MVP import list.
 
 ## Current native asset generation
+
 Neural4D is an approved optional generation source. Honour War uses FBX for rigged/animated characters, pets and monsters, OBJ for approved static assets, and native Godot 4.7.2 scenes/resources at runtime. Generated GLB assets and Meshy are permanently excluded.
