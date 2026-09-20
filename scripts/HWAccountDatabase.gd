@@ -6,6 +6,7 @@ extends RefCounted
 ## are stored; challenge responses are derived from the verifier.
 ## Account gender is selected once at registration and is immutable thereafter.
 
+const HWGenderPolicyClass = preload("res://scripts/HWGenderPolicy.gd")
 const SCHEMA_VERSION:int = 1
 const DEFAULT_PATH:String = "user://honour_war_accounts.json"
 const MAX_ACCOUNTS:int = 100000
@@ -56,28 +57,28 @@ func account_gender(username:String) -> String:
     var normalized:String = _normalize_username(username)
     var record:Variant = accounts.get(normalized,{})
     if not record is Dictionary:
-        return HWGenderPolicy.UNKNOWN
-    var stored:String = str(record.get("gender",HWGenderPolicy.UNKNOWN))
-    var gender:String = HWGenderPolicy.normalize_gender(stored)
-    if gender in [HWGenderPolicy.MALE,HWGenderPolicy.FEMALE]:
+        return HWGenderPolicyClass.UNKNOWN
+    var stored:String = str(record.get("gender",HWGenderPolicyClass.UNKNOWN))
+    var gender:String = HWGenderPolicyClass.normalize_gender(stored)
+    if gender in [HWGenderPolicyClass.MALE,HWGenderPolicyClass.FEMALE]:
         return gender
-    return HWGenderPolicy.gender_from_username(normalized)
+    return HWGenderPolicyClass.gender_from_username(normalized)
 
 func can_use_character_gender(username:String,character_gender:String) -> bool:
-    return HWGenderPolicy.can_use_character_gender(account_gender(username),character_gender)
+    return HWGenderPolicyClass.can_use_character_gender(account_gender(username),character_gender)
 
 func create_account(username:String,salt:String,verifier:String,player:Dictionary) -> bool:
     var normalized:String = _normalize_username(username)
     if not validate_username(normalized):
         return false
-    if not HWGenderPolicy.is_registration_gender_valid(normalized):
+    if not HWGenderPolicyClass.is_registration_gender_valid(normalized):
         return false
     if salt.strip_edges().length() < 16 or verifier.strip_edges().length() != 64:
         return false
     if accounts.has(normalized) or accounts.size() >= MAX_ACCOUNTS:
         return false
-    var gender:String = HWGenderPolicy.registration_gender(normalized)
-    var locked_player:Dictionary = HWGenderPolicy.lock_player_gender(player,gender)
+    var gender:String = HWGenderPolicyClass.registration_gender(normalized)
+    var locked_player:Dictionary = HWGenderPolicyClass.lock_player_gender(player,gender)
     accounts[normalized] = {
         "username":normalized,
         "salt":salt,
@@ -117,10 +118,10 @@ func load_player(username:String,default_player:Dictionary) -> Dictionary:
         return default_player.duplicate(true)
     var stored:Variant = record.get("player",{})
     var gender:String = account_gender(username)
-    if stored is Dictionary and not stored.is_empty() and gender in [HWGenderPolicy.MALE,HWGenderPolicy.FEMALE]:
-        return HWGenderPolicy.lock_player_gender(stored,gender)
-    if gender in [HWGenderPolicy.MALE,HWGenderPolicy.FEMALE]:
-        return HWGenderPolicy.lock_player_gender(default_player,gender)
+    if stored is Dictionary and not stored.is_empty() and gender in [HWGenderPolicyClass.MALE,HWGenderPolicyClass.FEMALE]:
+        return HWGenderPolicyClass.lock_player_gender(stored,gender)
+    if gender in [HWGenderPolicyClass.MALE,HWGenderPolicyClass.FEMALE]:
+        return HWGenderPolicyClass.lock_player_gender(default_player,gender)
     return default_player.duplicate(true)
 
 func save_player(username:String,player:Dictionary) -> bool:
@@ -128,9 +129,9 @@ func save_player(username:String,player:Dictionary) -> bool:
     if not accounts.has(normalized) or not player is Dictionary:
         return false
     var gender:String = account_gender(normalized)
-    if not HWGenderPolicy.validate_player_gender(player,gender):
+    if not HWGenderPolicyClass.validate_player_gender(player,gender):
         return false
-    var locked_player:Dictionary = HWGenderPolicy.lock_player_gender(player,gender)
+    var locked_player:Dictionary = HWGenderPolicyClass.lock_player_gender(player,gender)
     accounts[normalized]["player"] = locked_player
     accounts[normalized]["updated_at"] = Time.get_unix_time_from_system()
     return flush()
@@ -152,13 +153,12 @@ static func password_verifier(password:String,salt:String) -> String:
 static func challenge_digest(verifier:String,nonce:String) -> String:
     return (verifier + ":" + nonce).sha256_text()
 
-static func _normalize_username(username:String) -> String:
-    return username.strip_edges().to_lower()
+static func _constant_time_equal(a:String,b:String) -> bool:
+    if a.length()!=b.length(): return false
+    var different:int=0
+    for i in a.length():
+        different |= a.unicode_at(i)^b.unicode_at(i)
+    return different==0
 
-static func _constant_time_equal(left:String,right:String) -> bool:
-    if left.length() != right.length():
-        return false
-    var result:int = 0
-    for index in left.length():
-        result |= left.unicode_at(index) ^ right.unicode_at(index)
-    return result == 0
+func _normalize_username(username:String) -> String:
+    return username.strip_edges().to_lower()
