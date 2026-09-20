@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 
+UENUM(BlueprintType)
 enum class EHonourWarClass : uint8
 {
     Warrior,

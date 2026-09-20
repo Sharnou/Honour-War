@@ -10,7 +10,6 @@
 AHonourWarScreenshotDirector::AHonourWarScreenshotDirector()
 {
     PrimaryActorTick.bCanEverTick=false;
-    SetActorTickEnabled(false);
 }
 
 void AHonourWarScreenshotDirector::BeginPlay()
@@ -23,14 +22,18 @@ void AHonourWarScreenshotDirector::BeginPlay()
         return;
     }
 
-    GetWorldTimerManager().SetTimer(CaptureTimer,this,&AHonourWarScreenshotDirector::RequestCapture,5.0f,false);
-    GetWorldTimerManager().SetTimer(ExitTimer,this,&AHonourWarScreenshotDirector::FinishCapture,8.0f,false);
+    GetWorldTimerManager().SetTimer(CaptureTimer,this,&AHonourWarScreenshotDirector::RequestCapture,6.0f,false);
+    GetWorldTimerManager().SetTimer(ExitTimer,this,&AHonourWarScreenshotDirector::FinishCapture,12.0f,false);
 }
 
 void AHonourWarScreenshotDirector::RequestCapture()
 {
-    const FString Output=FPaths::ProjectSavedDir()/TEXT("Screenshots/HonourWar-real-runtime.png");
-    IFileManager::Get().MakeDirectory(*FPaths::GetPath(Output),true);
+    if (!GetWorld()) return;
+
+    const FString Directory=FPaths::ProjectSavedDir()/TEXT("Screenshots");
+    const FString Output=Directory/TEXT("HonourWar-real-runtime.png");
+    IFileManager::Get().MakeDirectory(*Directory,true);
+
     FScreenshotRequest::RequestScreenshot(Output,false,false);
 }
 
