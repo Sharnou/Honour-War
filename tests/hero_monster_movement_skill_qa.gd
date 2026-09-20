@@ -64,6 +64,7 @@ func _initialize() -> void:
     if failures.is_empty():
         print("HERO_MONSTER_MOVEMENT_SKILL_QA: PASS — six hero classes, active/ultimate skills, combat ranges and movement bounds validated")
         quit(0)
+        return
     print("HERO_MONSTER_MOVEMENT_SKILL_QA: FAIL")
     for failure in failures:
         print("FAIL: ",failure)
