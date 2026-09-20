@@ -9,6 +9,10 @@ static func ensure_state(pet:Dictionary)->void:
     pet["xp"] = max(0,int(pet.get("xp",0)))
     pet["loyalty"] = clamp(int(pet.get("loyalty",100)),0,100)
     pet["refine"] = clamp(int(pet.get("refine",0)),0,15)
+    var hp_max:int=80+int(pet["level"])*25
+    var sp_max:int=30+int(pet["level"])*12
+    pet["hp"]=clamp(int(pet.get("hp",hp_max)),0,hp_max)
+    pet["sp"]=clamp(int(pet.get("sp",sp_max)),0,sp_max)
     PetSkillSystem.ensure_state(pet)
 
 static func xp_to_next(level:int)->int:
@@ -33,7 +37,7 @@ static func combat_stats(pet:Dictionary)->Dictionary:
     var species:String=str(pet.get("species",pet.get("name","Wolf Cub")))
     var role:String=str(pet.get("role",species)).to_lower()
     var level:int=int(pet["level"])
-    var base:Dictionary={"attack":10+level*3,"magic":8+level*2,"defense":level*2,"hp":80+level*25,"crit":0,"range":2.6}
+    var base:Dictionary={"attack":10+level*3,"magic":8+level*2,"defense":level*2,"hp":80+level*25,"sp":30+level*12,"crit":0,"range":2.6}
     if species=="Falcon" or role=="ranged": base["range"]=9.0
     elif species=="Dragon" or role=="caster": base["range"]=10.0
     elif species=="Sprite" or role=="support" or role=="healer": base["range"]=6.0
