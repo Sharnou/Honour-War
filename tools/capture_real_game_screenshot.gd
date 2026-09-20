@@ -2,8 +2,8 @@ extends SceneTree
 
 const CAPTURE_DIR:String="res://visual-captures"
 const CAPTURE_FILE:String=CAPTURE_DIR+"/honour-war-real-game.png"
-const STARTUP_TIMEOUT:float=45.0
-const MIN_RENDER_FRAMES:int=60
+const STARTUP_TIMEOUT:float=120.0
+const MIN_RENDER_FRAMES:int=24
 
 var elapsed:float=0.0
 var captured:bool=false
@@ -70,7 +70,7 @@ func _process(delta:float)->bool:
 	var detail_root:Node=capture_scene.get_node_or_null("HWWorldDetailOverhaul")
 	var world_ready:bool=(old_world!=null and old_world.get_child_count()>0) or (detail_root!=null and detail_root.get_child_count()>0)
 	if render_frames==20 or render_frames%120==0:print("CAPTURE_WAIT elapsed=",elapsed," camera=",camera!=null," current=",camera.current if camera!=null else false," world_ready=",world_ready," detail_children=",detail_root.get_child_count() if detail_root!=null else -1)
-	if elapsed<5.0 or render_frames<MIN_RENDER_FRAMES or camera==null or not camera.current or not world_ready:return false
+	if elapsed<3.5 or render_frames<MIN_RENDER_FRAMES or camera==null or not camera.current or not world_ready:return false
 	var viewport:Viewport=get_root().get_viewport()
 	if viewport==null:return false
 	var image:Image=viewport.get_texture().get_image()
