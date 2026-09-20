@@ -111,7 +111,7 @@ if final_visual.is_file():
     check("light_energy = 0.0" in final_text,"Competing directional lights are disabled")
 if capture.is_file():
     capture_text=capture.read_text(encoding="utf-8")
-    check("REAL_EXE_SCREENSHOT_PASS" in capture_text and "get_viewport().get_texture().get_image()" in capture_text,"Real framebuffer capture uses live viewport")
+    check("REAL_EXE_SCREENSHOT_PASS" in capture_text and "get_viewport()" in capture_text and "get_image()" in capture_text and "save_png(" in capture_text,"Real framebuffer capture uses live viewport")
 movement=(ROOT/"scripts/MovementStabilityFix.gd").read_text(encoding="utf-8")
 game3d=(ROOT/"scripts/Game3D.gd").read_text(encoding="utf-8")
 check("current=true" in movement or "current = true" in movement,"Stable camera owner")
