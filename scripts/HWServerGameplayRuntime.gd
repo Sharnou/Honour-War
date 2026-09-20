@@ -9,6 +9,7 @@ const GameplayFormula = preload("res://scripts/GameplayFormula.gd")
 const LootSystem = preload("res://scripts/LootSystem.gd")
 const CharacterProgression = preload("res://scripts/CharacterProgressionSystem.gd")
 const SaveSystem = preload("res://scripts/SaveSystem.gd")
+const SkillSystem = preload("res://scripts/SkillSystem.gd")
 
 signal gameplay_result(peer_id:int,result:Dictionary)
 signal combat_result(peer_id:int,result:Dictionary)
@@ -129,11 +130,11 @@ func _apply_skill(peer_id:int,player:Dictionary,payload:Dictionary)->Dictionary:
     var skill:String=str(payload.get("skill","")).strip_edges()
     if skill.is_empty():
         return {"action":"skill","ok":false,"reason":"skill_required"}
-    var stats:Dictionary=GameplayFormula.hero_stats(int(player.get("level",1)),player)
-    var multiplier:float=1.25+float(int(player.get("level",1))%10)*0.025
-    var power:int=GameplayFormula.physical_damage(int(stats.get("attack",40)),0,multiplier,false)
-    player["sp"]=max(0,int(player.get("sp",50))-5)
-    return {"action":"skill","ok":true,"skill":skill,"power":power,"sp":int(player["sp"])}
+    var now:float=Time.get_ticks_msec()/1000.0
+    var used:Dictionary=SkillSystem.use(player,skill,now)
+    if not bool(used.get("ok",false)):
+        return {"action":"skill","ok":false,"reason":str(used.get("reason","skill_rejected")),"skill":skill,"sp":int(player.get("sp",0))}
+    return {"action":"skill","ok":true,"skill":skill,"power":int(used.get("power",0)),"sp":int(player.get("sp",0)),"sp_cost":int(used.get("sp_cost",0)),"cooldown":float(used.get("skill",{}).get("cooldown",0.0))}
 
 func _apply_use_item(peer_id:int,player:Dictionary,payload:Dictionary)->Dictionary:
     var item:String=str(payload.get("item","")).strip_edges()
@@ -175,15 +176,19 @@ func _apply_refine(peer_id:int,player:Dictionary,payload:Dictionary,is_pet:bool)
     var item_name:String=str(equipment.get(slot,""))
     if item_name.is_empty():
         return {"action":"refine","ok":false,"reason":"equipment_unavailable"}
-    var current:int=int(payload.get("refine",player.get("refine",0)))
+    var current:int=clamp(int(payload.get("refine",player.get("refine",0))),0,15)
+    if current>=15:
+        return {"action":"refine","ok":false,"reason":"max_refine","pet":is_pet,"slot":slot,"refine":15}
     var age:int=int(player.get("age",18))
     var chance:float=GameplayFormula.refine_success_rate(current,age)
     var roll:float=clampf(float(payload.get("roll",0.5)),0.0,0.999999)
     var success:bool=roll<chance
+    var next_refine:int=current
     if success:
-        equipment[slot]=item_name+" +%d" % (current+1)
+        next_refine=current+1
+        equipment[slot]=item_name+" +%d" % next_refine
         player["equipment"]=equipment
-    return {"action":"refine","ok":true,"pet":is_pet,"slot":slot,"success":success,"chance":chance,"refine":current+1 if success else current}
+    return {"action":"refine","ok":true,"pet":is_pet,"slot":slot,"success":success,"chance":chance,"refine":next_refine}
 
 func _apply_loot(peer_id:int,player:Dictionary,payload:Dictionary)->Dictionary:
     var gained:Array[String]=LootSystem.collect_ground(player)
