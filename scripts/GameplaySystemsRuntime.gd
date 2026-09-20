@@ -493,7 +493,11 @@ func _show_card_picker()->void:
         select.pressed.connect(_select_card.bind(id))
         row.add_child(select)
     _button("BACK",Callable(self,"_set_mode").bind("equipment"))
-func _select_card(card_id:String)->void: selected_card=card_id; var data:Dictionary=CARDS.all().get(card_id,{}); _set_status("Card preview: %s • %s" % [card_id,str(data.get("bonus",""))]); timer=1.0
+func _select_card(card_id:String)->void:
+    selected_card=card_id
+    var data:Dictionary=CARDS.all().get(card_id,{})
+    _set_status("Card preview: %s • %s" % [card_id,str(data.get("bonus",""))])
+    timer=1.0
 func _insert_card_now()->void:
     if selected_slot=="" or selected_card=="": return
     var result:Dictionary=CHARACTER_INV.insert_card(hero,selected_slot,selected_card)
