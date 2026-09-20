@@ -47,7 +47,7 @@ The primary combat HUD contains:
 - target information;
 - minimap/world-map panel;
 - compact chat;
-- centered 8-slot COMBAT SKILLS bar;
+- compact MMORPG profile/navigation HUD;
 - no legacy developer/command toolbar.
 
 ## Runtime screenshot gate

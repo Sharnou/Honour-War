@@ -26,7 +26,7 @@ The finished game must show, at normal gameplay distance:
 - camera framing that keeps the hero readable;
 - attack anticipation/contact/recovery and visible hit feedback;
 - projectiles/AOE/skill VFX;
-- a complete dark/gold MMORPG HUD with an 8-slot combat skill bar.
+- a complete dark/gold MMORPG HUD with profile, RPG navigation, minimap, quest tracker, chat and utility shortcuts, with no center-bottom skill strip.
 
 A runtime that falls back to sparse primitive-only presentation is a visual regression.
 

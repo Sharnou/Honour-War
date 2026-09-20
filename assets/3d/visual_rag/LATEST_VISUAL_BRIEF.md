@@ -22,7 +22,7 @@ Preserve the reference language for:
 - rich material response and daylight;
 - perspective/isometric-style camera framing;
 - clear attacks, hits, projectiles and skill effects;
-- polished dark/gold MMORPG HUD with an 8-slot combat skill bar.
+- polished dark/gold MMORPG HUD with profile, RPG navigation, minimap, quest tracker, chat and utility shortcuts, with no center-bottom skill strip.
 
 ## Negative target
 

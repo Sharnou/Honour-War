@@ -73,7 +73,7 @@ Attacks need anticipation, contact and recovery. Hits need:
 
 ## UI
 
-Use dark translucent panels, thin warm metallic/gold borders, clear typography, clean iconography and consistent spacing. The center-bottom skill bar is the primary combat interaction surface. Remove the old developer/command toolbar from the player-facing experience.
+Use dark translucent panels, thin warm metallic/gold borders, clear typography, clean iconography and consistent spacing. The reference-driven profile, navigation, minimap, quest, chat and utility surfaces are the primary MMORPG interaction layers. Remove the old developer/command toolbar and bottom skill strip from the player-facing experience.
 
 ## Quality rule
 
