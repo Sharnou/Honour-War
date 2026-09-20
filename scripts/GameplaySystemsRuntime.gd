@@ -264,6 +264,11 @@ func _save_now()->void:
 func _set_ui_scale(scale:float)->void:
     if panel!=null:
         panel.scale=Vector2(scale,scale)
+    var hud:=game.get_node_or_null("HDMMOTaskbar") if game!=null else null
+    if hud!=null:
+        var hud_root:=hud.get("root") as Control
+        if hud_root!=null:
+            hud_root.scale=Vector2(scale,scale)
     _set_status("✓ UI scale set to %.0f%%" % (scale*100.0))
 
 func _toggle_large_panel()->void:
