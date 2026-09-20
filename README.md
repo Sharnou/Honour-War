@@ -1,83 +1,52 @@
 # Honour War — Unreal Engine 5.8 HD MMORPG/ARPG
 
-> Development status: Unreal Engine 5.8 migration and HD 3D production foundation. Godot has been permanently retired.
+Development status: Unreal Engine 5.8 migration and HD 3D production foundation. Godot has been permanently retired.
 
-## Engine standard
+## MMORPG HUD
 
-- Unreal Engine 5.8 — sole runtime and Windows build target.
-- Windows PC.
-- C++ gameplay/runtime foundation with UMG HUD.
-- Visual RAG is the first visual/design stage.
+Honour War is an MMORPG/ARPG, not a strategy game.
 
-Unreal Engine 5.8 is the project's locked renderer/runtime choice. The repository no longer uses Godot for the game runtime or build pipeline.
-
-## Visual target
-
-The entire Screenshot/ folder is authoritative. The two locked detail anchors are:
-
+The HUD is driven by the two locked repository visual anchors:
 - Screenshot/ChatGPT Image Sep 16, 2026, 12_22_47 AM.png
 - Screenshot/image_a4469f29.jpg
 
-The target is a premium stylized medieval/fantasy MMORPG presentation: complete full-body characters, visible faces and legs, distinct class equipment, expressive pets, recognizable monsters/MVPs, dense towns/fields/dungeons, detailed terrain and props, rich materials, bright daylight, readable combat VFX and a polished MMORPG HUD.
-
-The current Unreal foundation includes a native 3D town/field bootstrap with layered buildings, roads, market dressing, walls, vegetation, monsters, full-body class-driven hero presentation and an eight-slot combat skill HUD. Authored production FBX/OBJ art still needs to replace the bootstrap meshes before the final locked visual target can be declared complete.
-
-## Game foundation
-
-- Hero level cap: 250.
-- Monster level cap: 300.
-- Soldier level cap: 50.
-- Six base classes: Warrior, Mage, Archer, Thief, Acolyte, Merchant.
-- Ranger is an advanced combat class.
-- Monsters provide EXP, Zeny, items and cards.
-- Hero respawns near the city/base point after death.
-- Online-time age progression affects skills, refinement, economy and appearance.
-- Refinement uses Phracon, Zeny, Emveretarcon and Oridecon.
-- Online multiplayer foundation and parties are part of the design.
-- Fast travel uses @go [map] [x]:[y].
-- Constant daylight is the current visual baseline.
-- No futuristic/modern/sci-fi machinery, robots, transformers, factories or space-themed presentation.
-
-## Player HUD
-
-The intended player-facing HUD has:
-- upper-left player information and HP/SP/EXP;
-- upper-center target;
-- upper-right map/minimap;
+Current reference-driven HUD:
+- upper-left portrait/profile with name, level/class, HP/SP/EXP and age/honour;
+- left Inventory / Character / Skills / Quests navigation;
+- upper-right mail/social/settings controls;
+- circular minimap with map coordinates, compass and time;
+- active quest tracker;
 - lower-left chat;
-- center-bottom COMBAT SKILLS with 8 slots bound to 1–8;
-- contextual character, inventory, equipment, pet, skills, refinement and system windows.
+- lower-right Map / Bag / Shop / Party / Guild shortcuts.
 
-The old development/command toolbar is not part of the game.
+Removed:
+- center-bottom 8-slot COMBAT SKILLS HUD;
+- standalone player panel;
+- developer command toolbar;
+- strategy/tower/army interface.
 
-## Art pipeline
+Skill hotkeys 1 through 8 remain functional gameplay inputs without rendering a bottom skill strip.
 
-Visual RAG → Neural4D or Blender → Substance 3D Painter → FBX/OBJ → Unreal Engine 5.8 → runtime/EXE validation
+## Engine
 
-GLB, GLTF and Meshy are permanently rejected. See:
-- NO_GODOT_FOREVER.md
-- ART_PIPELINE.md
-- VISUAL_REFERENCE_CONTRACT.md
-- docs/UNREAL_VISUAL_SPEC.md
-- Content/HonourWarArt/ART_ASSET_MANIFEST.json
+Unreal Engine 5.8 is the sole runtime and Windows build target. No Godot runtime, project, scene, source file or workflow remains on main.
 
-## Build
+## Real screenshot rule
 
-Set UNREAL_ENGINE_ROOT to the UE 5.8 installation directory.
+Only a screenshot captured from the running Unreal Engine 5.8 game/Windows EXE counts as game evidence. Generated artwork, reference images and mockups never count.
 
-PowerShell:
-powershell -ExecutionPolicy Bypass -File Build/Build-HonourWar.ps1 -Package
+Run the packaged executable with the HonourWarCapture argument to produce:
+Saved/Screenshots/HonourWar-real-runtime.png
 
-Windows launcher:
-Build/Run-HonourWar.bat
+The active Windows runner must actually build, launch and capture the executable before an EXE screenshot can be declared verified.
 
-For real runtime evidence, package the game and launch it with -HonourWarCapture; the screenshot director writes to Saved/Screenshots/HonourWar-real-runtime.png.
+## Visual target
+
+The world remains medieval/fantasy with detailed terrain, buildings, vegetation, props, monsters, full-body heroes, readable combat effects and bright daylight. Futuristic/scifi machinery, robots, transformers, factories, rockets and space presentation are excluded.
 
 ## Validation
 
-tools/unreal_engine_contract_qa.py verifies the Unreal 5.8 project contract and rejects retired Godot files/workflows.
-
-The actual UE compile/package gate uses a Windows runner with Unreal Engine 5.8 installed; the repository cannot truthfully claim a successful UE build until that environment executes the build.
+The old Godot workflow run #1762, Match completeness contract to generated eight-slot combat bar, belongs to the retired Godot pipeline and is not a current game gate. The current contract is tools/unreal_engine_contract_qa.py and the current runtime gate is the Unreal Windows build/screenshot workflow.
 
 ## Copyright
 

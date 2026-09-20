@@ -1,43 +1,74 @@
-# Honour War — Unreal Engine 5.8 HD UI Specification
+# Honour War — Unreal Engine 5.8 MMORPG HUD Specification
 
-## Player HUD
+Honour War is an MMORPG/ARPG, not a strategy game.
 
-The player-facing interface is a clean non-diegetic MMORPG HUD:
+## Reference-driven layout
 
-- upper-left: character class, level, age, HP, SP and EXP;
-- upper-center: target status;
-- upper-right: minimap/world-map panel and zone landmarks;
-- lower-left: compact chat dock;
-- center-bottom: COMBAT SKILLS, eight large readable slots, keyboard 1–8;
-- contextual windows for character, inventory, equipment, pet, skills, refinement and system settings.
+The player-facing HUD is rebuilt from the locked Honour War reference images:
+- Screenshot/image_a4469f29.jpg
+- Screenshot/ChatGPT Image Sep 16, 2026, 12_22_47 AM.png
+
+The implementation follows their information hierarchy and visual placement while remaining an original Honour War UI.
+
+## Visible HUD surfaces
+
+Upper-left:
+- portrait/profile treatment;
+- character name;
+- level and class;
+- HP, SP and EXP;
+- compact age/honour information.
+
+Left side:
+- Inventory;
+- Character;
+- Skills;
+- Quests.
+
+Upper-right:
+- mail/social/system icon row;
+- circular-style minimap with compass;
+- map coordinates, zone and local time.
+
+Right side:
+- active quest tracker.
+
+Lower-left:
+- MMORPG chat with channel tabs, history and message entry.
+
+Lower-right:
+- Map;
+- Bag;
+- Shop;
+- Party;
+- Guild.
+
+## Explicitly removed
+
+Do not render:
+- center-bottom 8-slot COMBAT SKILLS bar;
+- large standalone player panel;
+- developer/command toolbar;
+- strategy, army or tower command interface.
+
+Skill hotkeys 1 through 8 remain available as gameplay input and are not rendered as a bottom skill strip. The Skills button provides access to the skill interface.
 
 ## Visual language
 
-Use dark translucent panels, thin warm metallic/gold borders, high-contrast text, compact spacing and strong title hierarchy. Icons must remain recognizable at 1920×1080 and scale cleanly.
+Use:
+- dark translucent glass panels;
+- warm gold accents;
+- portrait/profile framing;
+- compact information density;
+- readable typography;
+- circular/minimap presentation;
+- small utility buttons;
+- restrained obstruction of the 3D world.
 
-## Skill bar
+## Scaling
 
-The eight-slot bar is the primary combat surface. Each slot has:
-- key number;
-- class-specific skill icon;
-- skill name/short label;
-- cooldown feedback;
-- unavailable/out-of-range feedback;
-- active/cast feedback;
-- hover tooltip.
+The reference layout is authored around 1920x1080 and uses anchors/safe areas for smaller screens.
 
-No old developer/command toolbar is displayed.
+## Acceptance
 
-## World labels
-
-Local player names are hidden in the 3D world. Remote names are hidden by default and may appear for hover, party/PvP context or explicit social reveal. Enemy combat health bars remain permitted.
-
-Permanent player HP/SP bars under characters are not used.
-
-## Windows
-
-Inventory, equipment, skill tree, pet, refinement, quest and social windows share the same panel language and safe-area spacing. Settings include UI scale and reduced-motion controls.
-
-## Feedback
-
-Every player action produces visible accepted/rejected/cooldown/completed feedback. Combat feedback uses animation, sound, hit VFX and concise floating text without obscuring the playfield.
+HUD acceptance requires a real Unreal Engine 5.8 runtime frame over the actual 3D game world. Concept art and generated images are not gameplay evidence.
