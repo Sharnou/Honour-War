@@ -57,6 +57,7 @@ func _build_ui()->void:
     panel.position=Vector2(1260,85)
     panel.size=Vector2(620,735)
     add_child(panel)
+    panel.visible=false
     var root:=VBoxContainer.new()
     root.add_theme_constant_override("separation",5)
     panel.add_child(root)
