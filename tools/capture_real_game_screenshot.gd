@@ -86,8 +86,8 @@ func _process(delta:float)->bool:
 	var capture_scene:Node=get_current_scene()
 	if capture_scene==null:return false
 	var camera:=capture_scene.get_node_or_null("Camera3D") as Camera3D
-	var old_world:Node=capture_scene.get_node_or_null("World3D")
-	var detail_root:Node=capture_scene.get_node_or_null("HWWorldDetailOverhaul")
+	var old_world:Node=capture_scene.find_child("World3D",true,false)
+	var detail_root:Node=capture_scene.find_child("HWWorldDetailOverhaul",true,false)
 	var world_ready:bool=(old_world!=null and old_world.get_child_count()>0) or (detail_root!=null and detail_root.get_child_count()>0)
 	if render_frames==20 or render_frames%120==0:print("CAPTURE_WAIT elapsed=",elapsed," camera=",camera!=null," current=",camera.current if camera!=null else false," world_ready=",world_ready," detail_children=",detail_root.get_child_count() if detail_root!=null else -1)
 	if elapsed<6.0 or render_frames<MIN_RENDER_FRAMES or camera==null or not camera.current or not world_ready:return false
