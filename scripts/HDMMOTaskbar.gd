@@ -24,9 +24,11 @@ var pet_sp_label: Label
 var xp_label: Label
 var level_label: Label
 var location_label: Label
+var status_panel: PanelContainer
 var hidden_timer: float = 0.0
 
 func _ready() -> void:
+    process_mode = Node.PROCESS_MODE_ALWAYS
     game = get_parent()
     if game == null:
         return
@@ -106,6 +108,9 @@ func _style(bg: Color = PANEL) -> StyleBoxFlat:
 
 func _build_status() -> void:
     var panel := PanelContainer.new()
+    status_panel = panel
+    panel.name = "PermanentHeroPetStatus"
+    panel.process_mode = Node.PROCESS_MODE_ALWAYS
     panel.position = Vector2(16, 14)
     panel.size = Vector2(330, 72)
     panel.add_theme_stylebox_override("panel", _style())
