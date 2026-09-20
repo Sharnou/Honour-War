@@ -107,6 +107,13 @@ jobs:
           ./"${GODOT_BINARY}" --headless --path . --script res://tests/hero_monster_movement_skill_qa.gd 2>&1 | tee hero-monster-movement-skill-qa.log
           grep -F 'HERO_MONSTER_MOVEMENT_SKILL_QA: PASS' hero-monster-movement-skill-qa.log >/dev/null
 
+      - name: Run authoritative monster movement/facing QA
+        shell: bash
+        run: |
+          set -euo pipefail
+          ./"${GODOT_BINARY}" --headless --path . --script res://tests/monster_motion_authority_qa.gd 2>&1 | tee monster-motion-authority-qa.log
+          grep -F 'MONSTER_MOTION_AUTHORITY_QA: PASS' monster-motion-authority-qa.log >/dev/null
+
       - name: Upload Godot validation log
         if: always()
         uses: actions/upload-artifact@v7
@@ -115,4 +122,5 @@ jobs:
           path: |
             godot-validation.log
             hero-monster-movement-skill-qa.log
+            monster-motion-authority-qa.log
           if-no-files-found: ignore
