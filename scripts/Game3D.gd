@@ -469,10 +469,36 @@ func _update_monsters(delta:float)->void:
 		visual2.set_meta("character_name",str(monster.get("name","Monster")))
 		visual2.set_meta("hp",int(monster.get("hp",0)))
 		visual2.set_meta("max_hp",int(monster.get("max_hp",max(1,int(monster.get("hp",0))))))
+		# CombatRuntime owns the monster simulation. This layer only presents its
+		# authoritative position, velocity, movement state and facing.
 		var pos_value:Variant = monster.get("pos",Vector2.ZERO)
 		if pos_value is Vector2:
 			var target:Vector3 = _map_to_world(pos_value)
-			visual2.position = visual2.position.lerp(target,1.0-exp(-10.0*max(delta,0.016)))
+			var blend:float = 1.0-exp(-14.0*max(delta,0.016))
+			visual2.position = visual2.position.lerp(target,blend)
+		var authoritative_velocity:=Vector2(
+			float(monster.get("authoritative_velocity_x",monster.get("velocity_x",0.0))),
+			float(monster.get("authoritative_velocity_y",monster.get("velocity_y",0.0)))
+		)
+		var authoritative_speed:float=float(monster.get("authoritative_movement_speed",authoritative_velocity.length()))
+		var movement_state:String=str(monster.get("authoritative_movement_state",monster.get("movement_state","idle")))
+		var facing_value:=Vector2(
+			float(monster.get("authoritative_facing_x",monster.get("facing_x",0.0))),
+			float(monster.get("authoritative_facing_y",monster.get("facing_y",0.0)))
+		)
+		if facing_value.length_squared()<0.0001 and authoritative_velocity.length_squared()>0.0001:
+			facing_value=authoritative_velocity.normalized()
+		if facing_value.length_squared()>0.0001:
+			var desired_yaw:float=atan2(-facing_value.x,-facing_value.y)
+			visual2.rotation.y=lerp_angle(visual2.rotation.y,desired_yaw,1.0-exp(-14.0*max(delta,0.016)))
+		var moving:bool=movement_state=="chase" or movement_state=="return" or authoritative_speed>0.01
+		visual2.set_meta("authoritative_velocity",authoritative_velocity)
+		visual2.set_meta("authoritative_speed",authoritative_speed)
+		visual2.set_meta("authoritative_movement_state",movement_state)
+		visual2.set_meta("authoritative_facing",facing_value)
+		var phase:float=elapsed*(5.0+min(authoritative_speed*0.08,3.0))
+		visual2.position.y=0.15+(abs(sin(phase))*0.045 if moving else 0.0)
+		visual2.rotation.z=sin(phase)*0.045 if moving else lerp(visual2.rotation.z,0.0,0.12)
 		var hp:int = int(monster.get("hp",0))
 		var old_hp:int = int(monster_hp_cache.get(id,hp))
 		if hp < old_hp:
