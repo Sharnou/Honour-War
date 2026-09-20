@@ -11,7 +11,59 @@ func _ready() -> void:
     if OS.get_environment(ENV_ENABLE) != "1":
         return
     _armed = true
+    call_deferred("_prepare_capture_view")
     call_deferred("_capture_after_warmup")
+
+func _prepare_capture_view() -> void:
+    var scene:Node3D = get_tree().current_scene as Node3D
+    if scene == null:
+        return
+    var camera:Camera3D = scene.get_node_or_null("Camera3D") as Camera3D
+    if camera != null:
+        camera.current = true
+        camera.near = 0.05
+        camera.far = 700.0
+        camera.fov = 48.0
+    var world_environment:WorldEnvironment = scene.get_node_or_null("HWCaptureEnvironment") as WorldEnvironment
+    if world_environment == null:
+        world_environment = WorldEnvironment.new()
+        world_environment.name = "HWCaptureEnvironment"
+        scene.add_child(world_environment)
+    var environment:Environment = world_environment.environment
+    if environment == null:
+        environment = Environment.new()
+        world_environment.environment = environment
+    environment.background_mode = Environment.BG_COLOR
+    environment.background_color = Color("#78a7bd")
+    environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
+    environment.ambient_light_color = Color("#dcecf4")
+    environment.ambient_light_energy = 1.35
+    environment.tonemap_mode = Environment.TONE_MAPPER_ACES
+    environment.tonemap_exposure = 0.35
+    if camera != null:
+        camera.environment = environment
+    var world:World3D = scene.get_world_3d()
+    if world != null:
+        world.environment = environment
+        world.fallback_environment = environment
+    var key:DirectionalLight3D = scene.get_node_or_null("HWCaptureKeyLight") as DirectionalLight3D
+    if key == null:
+        key = DirectionalLight3D.new()
+        key.name = "HWCaptureKeyLight"
+        key.light_energy = 1.8
+        key.light_color = Color("#fff1d2")
+        key.shadow_enabled = true
+        key.rotation_degrees = Vector3(-52.0,-28.0,0.0)
+        scene.add_child(key)
+    var fill:DirectionalLight3D = scene.get_node_or_null("HWCaptureFillLight") as DirectionalLight3D
+    if fill == null:
+        fill = DirectionalLight3D.new()
+        fill.name = "HWCaptureFillLight"
+        fill.light_energy = 0.55
+        fill.light_color = Color("#c7ddff")
+        fill.shadow_enabled = false
+        fill.rotation_degrees = Vector3(-35.0,145.0,0.0)
+        scene.add_child(fill)
 
 func _capture_after_warmup() -> void:
     var timer:SceneTreeTimer = get_tree().create_timer(WARMUP_SECONDS, true, false, true)
