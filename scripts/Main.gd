@@ -393,8 +393,8 @@ func use_skill(skill_id:String)->void:
 	if kind=="passive":
 		return
 
-	var target=nearest_monster()
 	var class_id:String=str(hero.get("class","Warrior"))
+	var target=nearest_monster_for_skill(skill_id,class_id)
 	var skill_power_value:int=int(result.get("power",0))
 	var equipment:Dictionary=combat_equipment()
 
@@ -510,7 +510,7 @@ func use_skill(skill_id:String)->void:
 	save_game()
 	update_ui()
 
-	func nearest_monster_for_skill(skill_id:String,class_id:String):
+func nearest_monster_for_skill(skill_id:String,class_id:String):
 	var best=null
 	var best_distance:float=INF
 	var hero_pos:=Vector2(float(hero.get("pos_x",595.0)),float(hero.get("pos_y",340.0)))
@@ -519,22 +519,22 @@ func use_skill(skill_id:String)->void:
 	var skill:Dictionary=skills.get(skill_id,{})
 	var kind:String=str(skill.get("kind","active"))
 	if kind=="ultimate":
-	engagement*=1.35
+		engagement*=1.35
 	elif int(skill.get("tier",1))>=3:
-	engagement*=1.15
+		engagement*=1.15
 	for monster_value in monsters:
-	if not monster_value is Dictionary:
-	continue
-	var monster:Dictionary=monster_value
-	if int(monster.get("hp",0))<=0:
-	continue
-	var p:Variant=monster.get("pos",hero_pos)
-	if not p is Vector2:
-	continue
-	var distance:float=hero_pos.distance_to(p)
-	if distance<=engagement and distance<best_distance:
-	best=monster
-	best_distance=distance
+		if not monster_value is Dictionary:
+			continue
+		var monster:Dictionary=monster_value
+		if int(monster.get("hp",0))<=0:
+			continue
+		var p:Variant=monster.get("pos",hero_pos)
+		if not p is Vector2:
+			continue
+		var distance:float=hero_pos.distance_to(p)
+		if distance<=engagement and distance<best_distance:
+			best=monster
+			best_distance=distance
 	return best
 
 func pet_auto_attack()->void:
