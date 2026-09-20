@@ -228,7 +228,9 @@ func _skills(current:Dictionary)->void:
     class_hint.add_theme_color_override("font_color",Color("#9eabb8"))
     body.add_child(class_hint)
     for skill in SKILLS.all_skills(class_id):
-        var id:String=str(skill["id"]); var level:int=SKILLS.skill_level(current,id); var req_ok:bool=SKILLS.can_learn(current,id)
+        var id:String=str(skill["id"])
+        var level:int=SKILLS.skill_level(current,id)
+        var req_ok:bool=SKILLS.can_learn(current,id)
         var row:=HBoxContainer.new(); row.add_theme_constant_override("separation",8); body.add_child(row)
         var badge:=SkillBadge.new(); badge.tier=int(skill["tier"]); badge.kind=str(skill["kind"]); badge.level=level; badge.custom_minimum_size=Vector2(58,58); row.add_child(badge)
         var info:=Label.new()
@@ -288,13 +290,17 @@ func _pet(current:Dictionary)->void:
     var pet_value:Variant=current.get("pet",{})
     if not pet_value is Dictionary: _heading("PET SYSTEM"); body.add_child(Label.new()); return
     var pet:Dictionary=pet_value; PET.ensure_state(pet)
-    var species:String=str(pet.get("species",pet.get("name","Wolf Cub"))); var stats:Dictionary=PET.combat_stats(pet); var next:int=PET.xp_to_next(int(pet.get("level",1)))
+    var species:String=str(pet.get("species",pet.get("name","Wolf Cub")))
+    var stats:Dictionary=PET.combat_stats(pet)
+    var next:int=PET.xp_to_next(int(pet.get("level",1)))
     _heading("%s • %s • LEVEL %d / 250" % [str(pet.get("name","Pet")),species,int(pet.get("level",1))])
     var label:=Label.new(); label.text="XP %d / %d • Skill Points %d\nLoyalty %d%% • Refine +%d\nAttack %d • Magic %d • Defense %d • HP %d • Crit %d • Range %.1fm" % [int(pet.get("xp",0)),next,int(pet.get("skill_points",0)),int(pet.get("loyalty",100)),int(pet.get("refine",0)),int(stats["attack"]),int(stats["magic"]),int(stats["defense"]),int(stats["hp"]),int(stats["crit"]),float(stats["range"])]
     label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; body.add_child(label)
     _heading("PET SKILL TREE"); PET_SKILLS.ensure_state(pet)
     for skill in PET_SKILLS.all_skills(species):
-        var id:String=str(skill["id"]); var level:int=PET_SKILLS.skill_level(pet,id); var can:bool=PET_SKILLS.can_learn(pet,id)
+        var id:String=str(skill["id"])
+        var level:int=PET_SKILLS.skill_level(pet,id)
+        var can:bool=PET_SKILLS.can_learn(pet,id)
         var row:=HBoxContainer.new(); body.add_child(row)
         var info:=Label.new(); info.text="%s Lv.%d/%d • Req %d • Cost %d" % [str(skill["name"]),level,int(skill["max_level"]),int(skill["required_level"]),int(skill["cost"])]
         info.size_flags_horizontal=Control.SIZE_EXPAND_FILL; row.add_child(info)
@@ -316,9 +322,11 @@ func _refine_pet()->void:
 
 func _inventory(current:Dictionary)->void:
     _clear_body(); _heading("INVENTORY • %d ZENY" % int(current.get("zeny",0)))
-    var inv_value:Variant=current.get("inventory",{}); var inv:Dictionary=inv_value if inv_value is Dictionary else {}
+    var inv_value:Variant=current.get("inventory",{})
+    var inv:Dictionary=inv_value if inv_value is Dictionary else {}
     for item_value in inv.keys():
-        var id:String=str(item_value); var amount:int=int(inv[item_value].get("amount",0)) if inv[item_value] is Dictionary else int(inv[item_value])
+        var id:String=str(item_value)
+        var amount:int=int(inv[item_value].get("amount",0)) if inv[item_value] is Dictionary else int(inv[item_value])
         if amount<=0: continue
         var data:Dictionary=ITEMS.all().get(id,{})
         var row:=HBoxContainer.new(); body.add_child(row)
@@ -443,8 +451,22 @@ func _refine(current:Dictionary)->void:
     for slot in ["weapon","armor","head","head_middle","head_lower","garment","shoes","offhand","accessory_1","accessory_2"]:
         var raw:Variant=current.get("equipment",{}).get(slot,null)
         if not raw is Dictionary: continue
-        var item:Dictionary=raw; var refine:int=int(item.get("refine",0)); var chance:float=EQUIPMENT.refine_chance(refine); var material:String="Oridecon" if str(item.get("type",""))=="Weapon" and refine>=5 else "Elunium" if str(item.get("type",""))!="Weapon" and refine>=5 else "Phracon"; var owned:int=int(current.get("inventory",{}).get(material,0))
-        var row:=HBoxContainer.new(); body.add_child(row); var text:=Label.new(); text.text="%s +%d → +%d • %.0f%% • %s x%d" % [str(item.get("id","Item")),refine,refine+1,chance*100.0,material,owned]; text.size_flags_horizontal=Control.SIZE_EXPAND_FILL; row.add_child(text); var button:=Button.new(); button.text="REFINE"; button.disabled=owned<=0; button.pressed.connect(_refine_slot.bind(slot)); row.add_child(button)
+        var item:Dictionary=raw
+        var refine:int=int(item.get("refine",0))
+        var chance:float=EQUIPMENT.refine_chance(refine)
+        var material:String="Oridecon" if str(item.get("type",""))=="Weapon" and refine>=5 else "Elunium" if str(item.get("type",""))!="Weapon" and refine>=5 else "Phracon"
+        var owned:int=int(current.get("inventory",{}).get(material,0))
+        var row:=HBoxContainer.new()
+        body.add_child(row)
+        var text:=Label.new()
+        text.text="%s +%d → +%d • %.0f%% • %s x%d" % [str(item.get("id","Item")),refine,refine+1,chance*100.0,material,owned]
+        text.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+        row.add_child(text)
+        var button:=Button.new()
+        button.text="REFINE"
+        button.disabled=owned<=0
+        button.pressed.connect(_refine_slot.bind(slot))
+        row.add_child(button)
 func _refine_slot(slot:String)->void:
     var result:Dictionary=CHARACTER_INV.refine(hero,slot,0.5)
     _show_result(result,"Refinement attempt complete")
@@ -458,18 +480,38 @@ func _show_card_picker()->void:
     mode="equipment"; _clear_body(); _heading("CARD SELECTOR • PREVIEW")
     var cards_value:Variant=hero.get("cards",[]); var cards:Array=cards_value if cards_value is Array else []
     for card_value in cards:
-        var id:String=str(card_value); var data:Dictionary=CARDS.all().get(id,{}); var row:=HBoxContainer.new(); body.add_child(row); var label:=Label.new(); label.text="%s • %s • %s" % [id,str(data.get("rarity","Common")),str(data.get("bonus",""))]; label.size_flags_horizontal=Control.SIZE_EXPAND_FILL; row.add_child(label); var select:=Button.new(); select.text="SELECT"; select.pressed.connect(_select_card.bind(id)); row.add_child(select)
+        var id:String=str(card_value)
+        var data:Dictionary=CARDS.all().get(id,{})
+        var row:=HBoxContainer.new()
+        body.add_child(row)
+        var label:=Label.new()
+        label.text="%s • %s • %s" % [id,str(data.get("rarity","Common")),str(data.get("bonus",""))]
+        label.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+        row.add_child(label)
+        var select:=Button.new()
+        select.text="SELECT"
+        select.pressed.connect(_select_card.bind(id))
+        row.add_child(select)
     _button("BACK",Callable(self,"_set_mode").bind("equipment"))
 func _select_card(card_id:String)->void: selected_card=card_id; var data:Dictionary=CARDS.all().get(card_id,{}); _set_status("Card preview: %s • %s" % [card_id,str(data.get("bonus",""))]); timer=1.0
 func _insert_card_now()->void:
     if selected_slot=="" or selected_card=="": return
-    var result:Dictionary=CHARACTER_INV.insert_card(hero,selected_slot,selected_card); _show_result(result,"Card inserted"); if bool(result.get("ok",false)): selected_card=""; timer=1.0
+    var result:Dictionary=CHARACTER_INV.insert_card(hero,selected_slot,selected_card)
+    _show_result(result,"Card inserted")
+    if bool(result.get("ok",false)):
+        selected_card=""
+    timer=1.0
 
 func _events(current:Dictionary)->void:
     _clear_body(); _heading("LIVE EVENTS")
-    var progress_value:Variant=current.get("event_progress",{}); var progress:Dictionary=progress_value if progress_value is Dictionary else {}
+    var progress_value:Variant=current.get("event_progress",{})
+    var progress:Dictionary=progress_value if progress_value is Dictionary else {}
     for event in INV.event_catalog():
-        var id:String=str(event["id"]); var label:=Label.new(); label.text="%s • %dh\n%s\nReward: %s\nProgress %d/%d" % [str(event["name"]),int(event["duration_hours"]),str(event["objective"]),str(event["reward"]),int(progress.get(id,0)),int(event.get("target",1))]; label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; body.add_child(label)
+        var id:String=str(event["id"])
+        var label:=Label.new()
+        label.text="%s • %dh\n%s\nReward: %s\nProgress %d/%d" % [str(event["name"]),int(event["duration_hours"]),str(event["objective"]),str(event["reward"]),int(progress.get(id,0)),int(event.get("target",1))]
+        label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+        body.add_child(label)
 
 func _monster(_current:Dictionary)->void:
     _clear_body(); _heading("MONSTER CODEX")
@@ -477,7 +519,12 @@ func _monster(_current:Dictionary)->void:
     if monsters is Array:
         for monster_value in monsters:
             if not monster_value is Dictionary: continue
-            var monster:Dictionary=monster_value; var details:Dictionary=CODEX.details(monster); var label:=Label.new(); label.text="%s Lv.%d • Danger %d\n%s / %s • %s\nHP %d/%d • ATK %d • DEF %d\n%s" % [str(details["name"]),int(details["level"]),int(details["danger"]),str(details["role"]),str(details["element"]),str(details["status"]),int(monster.get("hp",0)),int(monster.get("max",monster.get("hp",0))),int(monster.get("attack",0)),int(monster.get("defense",0)),str(details["description"])]; label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; body.add_child(label)
+            var monster:Dictionary=monster_value
+            var details:Dictionary=CODEX.details(monster)
+            var label:=Label.new()
+            label.text="%s Lv.%d • Danger %d\n%s / %s • %s\nHP %d/%d • ATK %d • DEF %d\n%s" % [str(details["name"]),int(details["level"]),int(details["danger"]),str(details["role"]),str(details["element"]),str(details["status"]),int(monster.get("hp",0)),int(monster.get("max",monster.get("hp",0))),int(monster.get("attack",0)),int(monster.get("defense",0)),str(details["description"])]
+            label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+            body.add_child(label)
 
 class SkillBadge extends Control:
     var tier:int=1
@@ -520,6 +567,9 @@ class WorldMapPreview extends Control:
 func _show_result(result:Dictionary,success_text:String)->void:
     if bool(result.get("ok",false)): _set_status("✓ "+success_text)
     else:
-        var reason:String=str(result.get("reason","action_failed")).replace("_"," ").capitalize(); if result.has("material"): reason+=" • "+str(result["material"]); _set_status("✕ "+reason)
+        var reason:String=str(result.get("reason","action_failed")).replace("_"," ").capitalize()
+        if result.has("material"):
+            reason+=" • "+str(result["material"])
+        _set_status("✕ "+reason)
 func _set_status(text:String)->void:
     if status_label!=null: status_label.text=text
