@@ -23,7 +23,7 @@ concurrency:
 
 env:
   GODOT_VERSION: "4.7.2"
-  GODOT_BINARY: "Godot_v4.7.2-stable_linux.x86_64"
+  GODOT_BINARY: "Godot_v4.7.2-stable_win64.exe"
 
 jobs:
   actual-game-screenshot:
