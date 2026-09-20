@@ -27,6 +27,9 @@ const MIN_CAMERA_PITCH:float = -58.0
 const MAX_CAMERA_PITCH:float = -24.0
 const CAMERA_FOV:float = 48.0
 const ONLINE_SEND_INTERVAL:float = 0.05
+const HERO_ACCELERATION:float = 18.0
+const HERO_DECELERATION:float = 24.0
+const HERO_MAX_SPEED:float = 235.0
 
 var legacy:Node2D
 var camera:Camera3D
