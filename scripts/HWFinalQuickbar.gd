@@ -71,11 +71,12 @@ func _hide_legacy_skillbars()->void:
     if old_taskbar != null:
         var hud:Control = old_taskbar.get_node_or_null("HonourWarFinalHUD") as Control
         if hud != null:
-            for child:Node in hud.get_children():
-                if child is PanelContainer:
-                    var c:Control = child as Control
-                    if c.position.x < 0.0 and c.position.y < 0.0:
-                        c.visible = false
+            var legacy_quickbar:Control = hud.get_node_or_null("LegacyQuickSkillPanel") as Control
+            if legacy_quickbar != null:
+                legacy_quickbar.visible = false
+            var final_toolbar:Control = hud.get_node_or_null("FinalSystemToolbarPanel") as Control
+            if final_toolbar != null:
+                final_toolbar.visible = true
 
 func _build()->void:
     panel = PanelContainer.new()
