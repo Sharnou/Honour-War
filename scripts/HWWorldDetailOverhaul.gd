@@ -1,15 +1,25 @@
 extends Node3D
-## Production HD world entry point: preserve the existing world builder and add the dense map-detail booster.
+## Production HD world entry point: hide the legacy flat world and layer native dense detail passes.
 const MapBoost = preload("res://scripts/HWMapDetailBoost.gd")
+const PronteraDetail = preload("res://scripts/HWPronteraReferenceDetail.gd")
 const CameraFrame = preload("res://scripts/HWCameraFrameV3.gd")
 
 func _ready() -> void:
     var parent := get_parent()
     if parent == null:
         return
+    var legacy_world := parent.get_node_or_null("World3D")
+    if legacy_world != null:
+        legacy_world.visible = false
+    var legacy_background := parent.get_node_or_null("HDEnvironmentDirector/HDEnvironmentBackground")
+    if legacy_background != null:
+        legacy_background.visible = false
     var boost: Node3D = MapBoost.new()
     boost.name = "HWMapDetailBoost"
     parent.add_child(boost)
+    var prontera: Node3D = PronteraDetail.new()
+    prontera.name = "HWPronteraReferenceDetail"
+    parent.add_child(prontera)
     var frame: Node = CameraFrame.new()
     frame.name = "HWCameraFrameV3"
     parent.add_child(frame)
