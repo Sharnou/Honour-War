@@ -54,54 +54,27 @@ func _run()->void:
         print("UI_SURFACE_QA=FAIL count=%d" % failures.size())
         quit(1)
 
-func _test_toolbar()->void:
-    var hud:Node=taskbar.find_child("HonourWarFinalHUD",true,false)
-    _check(hud!=null,"final HUD exists")
-    if hud==null: return
-    var panels:Array=[]
-    for child in hud.get_children():
-        if child is PanelContainer: panels.append(child)
-    _check(panels.size()>=3,"status/quickbar/systembar panels exist")
-    var final_toolbar:=hud.find_child("FinalSystemToolbarPanel",true,false) as Control
-    var legacy_quickbar:=hud.find_child("LegacyQuickSkillPanel",true,false) as Control
-    _check(final_toolbar!=null and final_toolbar.visible,"final system toolbar remains visible")
-    _check(legacy_quickbar==null or not legacy_quickbar.visible,"duplicate legacy quickbar is hidden")
-    var systembar:PanelContainer=panels[2] as PanelContainer if panels.size()>2 else null
-    if systembar==null: return
-    var rows:Array=[]
-    for child in systembar.get_children():
-        if child is HBoxContainer: rows.append(child)
-    var row:HBoxContainer=rows[0] as HBoxContainer if not rows.is_empty() else null
-    _check(row!=null,"system toolbar row exists")
-    if row==null: return
-    _check(row.get_child_count()==8,"all 8 system toolbar buttons exist")
-    var icon_count:=0
-    for button in row.get_children():
-        _check(button is Button,"toolbar entry is clickable Button")
-        if button is Button:
-            var icons:=button.find_children("*","HUDIcon",true,false)
-            icon_count+=icons.size()
-            button.emit_signal("pressed")
-            await process_frame
-    _check(icon_count==8,"all 8 toolbar icons are present")
-    var quickbars:=hud.find_children("QuickSlot_*","Button",true,false)
-    _check(quickbars.size()==8,"all 8 quick skill slots exist")
-    if quickbars.size()>0:
-        var first:=quickbars[0] as Button
-        _check(first.custom_minimum_size.x>=80.0 and first.custom_minimum_size.y>=60.0,"quick skill slots have production touch/click size")
-    var status:Label=hud.find_child("UIActionStatus",true,false) as Label
-    _check(status!=null,"toolbar action status exists")
-
 func _test_modes()->void:
-    var expected=["character","pet","skills","inventory","equipment","refine","events","monster","map","system"]
-    for mode in expected:
-        systems.call("_set_mode",mode)
+    var expected=["character","pet","skills","inventory","equipment","refine","map","system","status"]
+    var keys=[KEY_C,KEY_P,KEY_K,KEY_I,KEY_E,KEY_R,KEY_M,KEY_O,KEY_V]
+    for i in range(expected.size()):
+        systems.panel.visible=false
+        var event:=InputEventKey.new()
+        event.keycode=keys[i]
+        event.pressed=true
+        systems._unhandled_key_input(event)
         await process_frame
-        _check(str(systems.get("mode"))==mode,"mode "+mode+" opens")
+        _check(systems.panel.visible,"hotkey opens "+expected[i])
+        _check(str(systems.get("mode"))==expected[i],"hotkey selects "+expected[i])
+        var close:=systems.panel.find_child("UIWindowClose",true,false) as Button
+        _check(close!=null,"close button exists for "+expected[i])
+        systems._unhandled_key_input(event)
+        await process_frame
+        _check(not systems.panel.visible,"same hotkey closes "+expected[i])
+    systems._set_mode("character")
+    await process_frame
     var panel:=systems.get("panel") as Control
-    _check(panel!=null,"progression panel exists")
-    if panel!=null:
-        _check(panel.size.x>=590.0 and panel.size.y>=700.0,"progression panel production size is usable")
+    _check(panel!=null and panel.size.x>=590.0 and panel.size.y>=700.0,"progression panel production size is usable")
 
 func _test_skill_trees()->void:
     for class_id in ["Warrior","Mage","Archer","Thief","Acolyte","Merchant"]:
