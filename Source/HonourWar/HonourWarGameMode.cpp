@@ -38,7 +38,6 @@ void AHonourWarGameMode::BeginPlay()
         Params);
 }
 
-
 bool AHonourWarGameMode::HandleChatCommand(AHonourWarCharacter* Character,const FString& Message,FString& OutMessage)
 {
     if(!Character || !Character->HasAuthority()) return false;
@@ -146,3 +145,5 @@ bool AHonourWarGameMode::HandleGuildCommand(AHonourWarCharacter* Character,const
     OutMessage=TEXT("Usage: @guild create [name] | @guild join [name] | @guild leave");
     return true;
 }
+
+// Full-runtime regression trigger: keep this source path in the Windows build/screenshot validation set.
