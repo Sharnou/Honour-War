@@ -16,6 +16,7 @@ CLASSES = {
     "Thief": ((0.70, 0.12, 0.42, 1), "Dagger"),
     "Acolyte": ((0.86, 0.66, 0.16, 1), "Mace"),
     "Merchant": ((0.10, 0.48, 0.70, 1), "Hammer"),
+    "Ranger": ((0.20, 0.44, 0.30, 1), "Bow"),
 }
 TIERS = [("Foundation", 0), ("Specialization", 1), ("Advanced", 2), ("Mastery", 3), ("Transcendence", 4)]
 
