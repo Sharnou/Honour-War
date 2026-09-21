@@ -45,7 +45,7 @@ float UHonourWarCombatComponent::BaseDamageForClass() const
 {
     const float AgeYears = 18.0f + static_cast<float>(AgeDays) / 3.0f;
     const float AgeMultiplier = 1.0f + FMath::Clamp((AgeYears - 18.0f) * 0.005f, 0.0f, 1.0f);
-    const float LevelScale = (30.0f + Level * 8.0f) * AgeMultiplier;
+    const float LevelScale = (30.0f + Level * 8.0f) * AgeMultiplier * (1.0f + BasicSkillLevel * 0.06f);
     switch (CharacterClass)
     {
         case EHonourWarClass::Mage: return LevelScale * 1.35f;
@@ -163,6 +163,58 @@ void UHonourWarCombatComponent::SetEquipmentRefineLevel(int32 NewRefine){ Equipm
 void UHonourWarCombatComponent::SetPhracon(int32 Value){ Phracon = FMath::Max(0,Value); }
 void UHonourWarCombatComponent::SetEmveretarcon(int32 Value){ Emveretarcon = FMath::Max(0,Value); }
 void UHonourWarCombatComponent::SetOridecon(int32 Value){ Oridecon = FMath::Max(0,Value); }
+
+bool UHonourWarCombatComponent::TryMixCards()
+{
+    if (Cards.Num() < 3)
+    {
+        LastLootMessage=TEXT("Card Mixing blocked | need 3 cards.");
+        return false;
+    }
+
+    const int64 AgeDiscountedCost=FMath::Max<int64>(1000LL,static_cast<int64>(
+        FMath::RoundToFloat(5000.0f*(1.0f-FMath::Clamp(static_cast<float>(AgeDays)*0.005f,0.0f,0.60f)))));
+    if (Zeny<AgeDiscountedCost)
+    {
+        LastLootMessage=FString::Printf(TEXT("Card Mixing blocked | need %lld Zeny."),AgeDiscountedCost);
+        return false;
+    }
+
+    const FString A=Cards[0];
+    const FString B=Cards[1];
+    const FString C=Cards[2];
+    Cards.RemoveAt(0);
+    Cards.RemoveAt(0);
+    Cards.RemoveAt(0);
+    Zeny-=AgeDiscountedCost;
+    const FString Mixed=FString::Printf(TEXT("Mixed Card | %s + %s + %s"),*A,*B,*C);
+    Cards.Insert(Mixed,0);
+    LastLootMessage=FString::Printf(TEXT("CARD MIX SUCCESS | %s | %lld Zeny"),*Mixed,AgeDiscountedCost);
+    return true;
+}
+
+bool UHonourWarCombatComponent::TryUpgradeBasicSkill()
+{
+    if (BasicSkillLevel>=10)
+    {
+        LastLootMessage=TEXT("Basic Skill is already at level 10.");
+        return false;
+    }
+
+    const float AgeDiscount=FMath::Clamp(static_cast<float>(AgeDays)*0.005f,0.0f,0.60f);
+    const int64 Cost=FMath::Max<int64>(1000LL,static_cast<int64>(
+        FMath::RoundToFloat((2500.0f+BasicSkillLevel*1750.0f)*(1.0f-AgeDiscount))));
+    if (Zeny<Cost)
+    {
+        LastLootMessage=FString::Printf(TEXT("Basic Skill upgrade blocked | need %lld Zeny."),Cost);
+        return false;
+    }
+
+    Zeny-=Cost;
+    ++BasicSkillLevel;
+    LastLootMessage=FString::Printf(TEXT("Basic Skill upgraded to Lv.%d | %lld Zeny | age discount %.0f%%"),BasicSkillLevel,Cost,AgeDiscount*100.0f);
+    return true;
+}
 
 float UHonourWarCombatComponent::GetRefineSuccessPercent() const
 {
