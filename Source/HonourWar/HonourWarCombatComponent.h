@@ -33,6 +33,12 @@ public:
     int32 GetExperience() const { return Experience; }
     int32 GetAgeDays() const { return AgeDays; }
     int64 GetZeny() const { return Zeny; }
+    int32 GetEquipmentRefineLevel() const { return EquipmentRefineLevel; }
+    int32 GetPhracon() const { return Phracon; }
+    int32 GetEmveretarcon() const { return Emveretarcon; }
+    int32 GetOridecon() const { return Oridecon; }
+    float GetRefineSuccessPercent() const;
+    int64 GetRefineZenyCost() const;
     int32 GetHonours() const { return Honours; }
     FString GetLastLootMessage() const { return LastLootMessage; }
     const TArray<FString>& GetInventoryItems() const { return InventoryItems; }
@@ -44,6 +50,11 @@ public:
     void SetExperience(int32 NewExperience);
     void SetAgeDays(int32 NewAgeDays);
     void SetZeny(int64 NewZeny);
+    void SetEquipmentRefineLevel(int32 NewRefine);
+    void SetPhracon(int32 Value);
+    void SetEmveretarcon(int32 Value);
+    void SetOridecon(int32 Value);
+    bool TryRefineEquipment();
     void SetHonours(int32 NewHonours);
     void SetInventoryItems(const TArray<FString>& NewItems);
     void SetCards(const TArray<FString>& NewCards);
@@ -69,6 +80,10 @@ private:
     UPROPERTY(EditAnywhere) float MaxSp = 500.0f;
     UPROPERTY(EditAnywhere) float CurrentSp = 500.0f;
     UPROPERTY(EditAnywhere) int64 Zeny = 0;
+    UPROPERTY(EditAnywhere) int32 EquipmentRefineLevel = 0;
+    UPROPERTY(EditAnywhere) int32 Phracon = 20;
+    UPROPERTY(EditAnywhere) int32 Emveretarcon = 10;
+    UPROPERTY(EditAnywhere) int32 Oridecon = 5;
     UPROPERTY(EditAnywhere) int32 Honours = 0;
     UPROPERTY() TArray<FString> InventoryItems;
     UPROPERTY() TArray<FString> Cards;
