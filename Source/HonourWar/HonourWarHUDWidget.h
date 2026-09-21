@@ -8,6 +8,7 @@ class UCanvasPanel;
 class UProgressBar;
 class UTextBlock;
 class UButton;
+class UEditableTextBox;
 class UBorder;
 class UHonourWarQuestComponent;
 class AHonourWarGameState;
@@ -48,6 +49,7 @@ private:
     UFUNCTION() void OpenParty();
     UFUNCTION() void OpenGuild();
     UFUNCTION() void OpenSystem();
+    UFUNCTION() void SubmitChat();
 
     UPROPERTY() UCanvasPanel* RootCanvas = nullptr;
     UPROPERTY() UProgressBar* HpBar = nullptr;
@@ -57,6 +59,8 @@ private:
     UPROPERTY() UTextBlock* ProfileMeta = nullptr;
     UPROPERTY() UTextBlock* TeamText = nullptr;
     UPROPERTY() UTextBlock* ChatText = nullptr;
+    UPROPERTY() UEditableTextBox* ChatInput = nullptr;
+    UPROPERTY() UButton* ChatSendButton = nullptr;
     UPROPERTY() UTextBlock* EconomyText = nullptr;
     UPROPERTY() UTextBlock* RefinementText = nullptr;
     UPROPERTY() UTextBlock* BaseSightText = nullptr;
