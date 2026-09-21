@@ -137,6 +137,8 @@ void AHonourWarPlayerController::SetupInputComponent()
     InputComponent->BindAction(TEXT("Skill7"),IE_Pressed,this,&AHonourWarPlayerController::Skill7);
     InputComponent->BindAction(TEXT("Skill8"),IE_Pressed,this,&AHonourWarPlayerController::Skill8);
     InputComponent->BindAction(TEXT("RefineEquipment"),IE_Pressed,this,&AHonourWarPlayerController::RefineEquipment);
+    InputComponent->BindAction(TEXT("MixCards"),IE_Pressed,this,&AHonourWarPlayerController::MixCards);
+    InputComponent->BindAction(TEXT("UpgradeBasicSkill"),IE_Pressed,this,&AHonourWarPlayerController::UpgradeBasicSkill);
 }
 
 void AHonourWarPlayerController::MoveForward(float V){if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->MoveForward(V);}
@@ -157,6 +159,8 @@ void AHonourWarPlayerController::Skill6(){if(auto*C=Cast<AHonourWarCharacter>(Ge
 void AHonourWarPlayerController::Skill7(){if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->ActivateSkill(6);}
 void AHonourWarPlayerController::Skill8(){if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->ActivateSkill(7);}
 void AHonourWarPlayerController::RefineEquipment(){if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->RefineEquipment();}
+void AHonourWarPlayerController::MixCards(){if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->MixCards();}
+void AHonourWarPlayerController::UpgradeBasicSkill(){if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->UpgradeBasicSkill();}
 
 
 bool AHonourWarPlayerController::ExecuteGoCommand(const FString& Command)
