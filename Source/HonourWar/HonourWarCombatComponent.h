@@ -64,6 +64,8 @@ public:
     void SetZeny(int64 NewZeny);
     void AddZeny(int64 Amount);
     void AddHonours(int32 Amount);
+    void AddQuestItem(const FString& ItemName);
+    void SetQuestMessage(const FString& Message);
     void SetEquipmentRefineLevel(int32 NewRefine);
     void SetPhracon(int32 Value);
     void SetEmveretarcon(int32 Value);
