@@ -63,6 +63,7 @@ void UHonourWarHUDWidget::BuildSurface()
     BuildProfileCluster(RootCanvas);
     BuildLeftNavigation(RootCanvas);
     BuildTopRightControls(RootCanvas);
+    BuildSectionPanel(RootCanvas);
     BuildMiniMap(RootCanvas);
     BuildQuestTracker(RootCanvas);
     BuildChatDock(RootCanvas);
@@ -114,10 +115,28 @@ UButton* UHonourWarHUDWidget::MakeNavButton(UCanvasPanel* Root,const FString& Ic
 
 void UHonourWarHUDWidget::BuildLeftNavigation(UCanvasPanel* Root)
 {
-    MakeNavButton(Root,TEXT("▣"),TEXT("Inventory"),150.0f);
-    MakeNavButton(Root,TEXT("♙"),TEXT("Character"),222.0f);
-    MakeNavButton(Root,TEXT("✦"),TEXT("Skills"),294.0f);
-    MakeNavButton(Root,TEXT("☷"),TEXT("Quests"),366.0f);
+    UButton* Inventory=MakeNavButton(Root,TEXT("▣"),TEXT("Inventory"),150.0f);
+    Inventory->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::OpenInventory);
+    UButton* Character=MakeNavButton(Root,TEXT("♙"),TEXT("Character"),222.0f);
+    Character->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::OpenCharacter);
+    UButton* Skills=MakeNavButton(Root,TEXT("✦"),TEXT("Skills"),294.0f);
+    Skills->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::OpenSkills);
+    UButton* Quests=MakeNavButton(Root,TEXT("☷"),TEXT("Quests"),366.0f);
+    Quests->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::OpenQuests);
+}
+
+void UHonourWarHUDWidget::BuildSectionPanel(UCanvasPanel* Root)
+{
+    SectionPanel=Panel(WidgetTree,TEXT("SectionPanel"),Glass,FMargin(18.0f));
+    Place(Root,SectionPanel,FVector2D(280,170),FVector2D(650,430));
+    UVerticalBox* Stack=WidgetTree->ConstructWidget<UVerticalBox>(UVerticalBox::StaticClass(),TEXT("SectionStack"));
+    SectionPanel->SetContent(Stack);
+    SectionTitle=Text(WidgetTree,TEXT("SectionTitle"),TEXT("Honour War"),26.0f,Gold);
+    Stack->AddChildToVerticalBox(SectionTitle);
+    SectionBody=Text(WidgetTree,TEXT("SectionBody"),
+        TEXT("Select an MMORPG menu to inspect your character, inventory, skills and world services."),
+        16.0f,White);
+    Stack->AddChildToVerticalBox(SectionBody);
 }
 
 UButton* UHonourWarHUDWidget::MakeTopButton(UCanvasPanel* Root,const FString& Icon,float X)
@@ -131,10 +150,14 @@ UButton* UHonourWarHUDWidget::MakeTopButton(UCanvasPanel* Root,const FString& Ic
 
 void UHonourWarHUDWidget::BuildTopRightControls(UCanvasPanel* Root)
 {
-    MakeTopButton(Root,TEXT("✉"),1395.0f);
-    MakeTopButton(Root,TEXT("♛"),1459.0f);
-    MakeTopButton(Root,TEXT("♟"),1523.0f);
-    MakeTopButton(Root,TEXT("⚙"),1587.0f);
+    UButton* Mail=MakeTopButton(Root,TEXT("✉"),1395.0f);
+    Mail->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::OpenParty);
+    UButton* Ranking=MakeTopButton(Root,TEXT("♛"),1459.0f);
+    Ranking->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::OpenGuild);
+    UButton* Social=MakeTopButton(Root,TEXT("♟"),1523.0f);
+    Social->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::OpenParty);
+    UButton* System=MakeTopButton(Root,TEXT("⚙"),1587.0f);
+    System->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::OpenSystem);
 }
 
 void UHonourWarHUDWidget::BuildMiniMap(UCanvasPanel* Root)
@@ -187,11 +210,85 @@ UButton* UHonourWarHUDWidget::MakeShortcut(UCanvasPanel* Root,const FString& Ico
 
 void UHonourWarHUDWidget::BuildBottomRightShortcuts(UCanvasPanel* Root)
 {
-    MakeShortcut(Root,TEXT("✦"),TEXT("Map"),560.0f);
-    MakeShortcut(Root,TEXT("▣"),TEXT("Bag"),660.0f);
-    MakeShortcut(Root,TEXT("◇"),TEXT("Shop"),760.0f);
-    MakeShortcut(Root,TEXT("♟"),TEXT("Party"),860.0f);
-    MakeShortcut(Root,TEXT("◆"),TEXT("Guild"),960.0f);
+    UButton* Map=MakeShortcut(Root,TEXT("✦"),TEXT("Map"),560.0f);
+    Map->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::OpenMap);
+    UButton* Bag=MakeShortcut(Root,TEXT("▣"),TEXT("Bag"),660.0f);
+    Bag->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::OpenBag);
+    UButton* Shop=MakeShortcut(Root,TEXT("◇"),TEXT("Shop"),760.0f);
+    Shop->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::OpenShop);
+    UButton* Party=MakeShortcut(Root,TEXT("♟"),TEXT("Party"),860.0f);
+    Party->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::OpenParty);
+    UButton* Guild=MakeShortcut(Root,TEXT("◆"),TEXT("Guild"),960.0f);
+    Guild->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::OpenGuild);
+}
+
+void UHonourWarHUDWidget::ShowSection(const FString& Title,const FString& Body)
+{
+    if (SectionPanel) SectionPanel->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
+    if (SectionTitle) SectionTitle->SetText(FText::FromString(Title));
+    if (SectionBody) SectionBody->SetText(FText::FromString(Body));
+}
+
+void UHonourWarHUDWidget::OpenInventory()
+{
+    AHonourWarCharacter* C=Cast<AHonourWarCharacter>(GetOwningPlayerPawn());
+    if (!C || !C->GetCombatComponent()) return;
+    const TArray<FString>& Items=C->GetCombatComponent()->GetInventoryItems();
+    FString Body=FString::Printf(TEXT("Equipment +%d\n\n"),C->GetCombatComponent()->GetEquipmentRefineLevel());
+    Body+=Items.Num()==0 ? TEXT("Inventory is empty. Defeat monsters to receive equipment.") : FString::Join(Items,TEXT("\n"));
+    ShowSection(TEXT("Inventory"),Body);
+}
+
+void UHonourWarHUDWidget::OpenCharacter()
+{
+    AHonourWarCharacter* C=Cast<AHonourWarCharacter>(GetOwningPlayerPawn());
+    if (!C || !C->GetCombatComponent()) return;
+    UHonourWarCombatComponent* Combat=C->GetCombatComponent();
+    ShowSection(TEXT("Character"),
+        FString::Printf(TEXT("%s\nLv.%d\nTier %s\nAge %d online days\nZeny %lld\nHonours %d"),
+            *C->GetClassName(),Combat->GetLevel(),*C->GetClassTierName(),Combat->GetAgeDays(),Combat->GetZeny(),Combat->GetHonours()));
+}
+
+void UHonourWarHUDWidget::OpenSkills()
+{
+    ShowSection(TEXT("Skills"),
+        TEXT("1 Basic Attack\n2 Class Skill\n3 Power Strike\n4 Arcane Burst\n5 Rapid Volley\n6 Guardian Light\n7 Shadow Step\n8 Finisher\n\nCooldown and SP are validated by the server."));
+}
+
+void UHonourWarHUDWidget::OpenQuests()
+{
+    ShowSection(TEXT("Quests"),TEXT("The Lost Scroll\nFind the missing scroll in the northern forest.\n\nReward: experience, Zeny and adventure progress."));
+}
+
+void UHonourWarHUDWidget::OpenMap()
+{
+    ShowSection(TEXT("World Map"),
+        TEXT("0  prontera_like_town\n1  forest_field\n2  mountain_pass\n3  desert_ruins\n4  snow_region\n5  arcane_dungeon\n\nFast travel: @go [map] [x]:[y]"));
+}
+
+void UHonourWarHUDWidget::OpenBag()
+{
+    OpenInventory();
+}
+
+void UHonourWarHUDWidget::OpenShop()
+{
+    ShowSection(TEXT("Town Shop"),TEXT("Weapon Refinement\nCard Mixing\nHero Skill Upgrade\nSoldier Production\n\nTown services use Zeny and monster-earned materials."));
+}
+
+void UHonourWarHUDWidget::OpenParty()
+{
+    ShowSection(TEXT("Party"),TEXT("Online party support: 2v1 through 4v4.\nTarget selection, combat skills and rewards are server-authoritative."));
+}
+
+void UHonourWarHUDWidget::OpenGuild()
+{
+    ShowSection(TEXT("Guild"),TEXT("Guild communication and group progression interface.\nThe panel is ready for persistent server-backed guild data."));
+}
+
+void UHonourWarHUDWidget::OpenSystem()
+{
+    ShowSection(TEXT("System"),TEXT("R = refine equipment\nF5 = save\nF6 = load\nQ = reset camera\nMouse wheel = zoom\nRight-mouse drag = orbit camera"));
 }
 
 void UHonourWarHUDWidget::RefreshVitals()
