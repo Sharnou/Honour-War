@@ -513,6 +513,16 @@ void AHonourWarWorldDirector::SpawnSoldierSquad()
     }
 }
 
+void AHonourWarWorldDirector::RegisterSoldierDeath()
+{
+    ++SoldierDeathCount;
+    if (SoldierDeathCount >= 5)
+    {
+        SoldierDeathCount=0;
+        SpawnSoldierSquad();
+    }
+}
+
 void AHonourWarWorldDirector::SpawnMonsters()
 {
     const FVector MonsterLocations[]={
