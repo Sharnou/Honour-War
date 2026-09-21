@@ -110,6 +110,8 @@ void AHonourWarCharacter::OnRepCharacterClass()
     if(CombatComponent) CombatComponent->SetClassId(CharacterClass);
     if(QuestComponent)
         QuestComponent->SetQuestState(Save->QuestId,Save->QuestProgress,Save->QuestComplete);
+    if(AHonourWarPlayerState* PS=GetPlayerState<AHonourWarPlayerState>())
+        PS->SetGuild(Save->GuildName,Save->GuildRank);
     BuildHeroVisual();
     UpdateHonourWarPlayerNameplate(this);
 }
@@ -552,6 +554,11 @@ void AHonourWarCharacter::SaveProgress()
     Save->SavedAtUtc=FDateTime::UtcNow();
     Save->OnlineSeconds=OnlineSeconds;
     Save->PlayerLocation=GetActorLocation();
+    if(AHonourWarPlayerState* PS=GetPlayerState<AHonourWarPlayerState>())
+    {
+        Save->GuildName=PS->GetGuildName();
+        Save->GuildRank=PS->GetGuildRank();
+    }
     if(QuestComponent)
     {
         Save->QuestId=QuestComponent->GetQuestId();
