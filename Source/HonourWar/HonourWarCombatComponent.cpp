@@ -163,6 +163,7 @@ void UHonourWarCombatComponent::SetEquipmentRefineLevel(int32 NewRefine){ Equipm
 void UHonourWarCombatComponent::SetPhracon(int32 Value){ Phracon = FMath::Max(0,Value); }
 void UHonourWarCombatComponent::SetEmveretarcon(int32 Value){ Emveretarcon = FMath::Max(0,Value); }
 void UHonourWarCombatComponent::SetOridecon(int32 Value){ Oridecon = FMath::Max(0,Value); }
+void UHonourWarCombatComponent::SetBasicSkillLevel(int32 Value){ BasicSkillLevel=FMath::Clamp(Value,1,10); }
 
 bool UHonourWarCombatComponent::TryMixCards()
 {
