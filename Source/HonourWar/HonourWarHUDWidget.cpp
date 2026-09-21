@@ -96,6 +96,8 @@ void UHonourWarHUDWidget::BuildProfileCluster(UCanvasPanel* Root)
     Stack->AddChildToVerticalBox(XpBar);
     EconomyText=Text(WidgetTree,TEXT("EconomyText"),TEXT("Zeny 0  •  Honours 0"),13.0f,Muted);
     Stack->AddChildToVerticalBox(EconomyText);
+    RefinementText=Text(WidgetTree,TEXT("RefinementText"),TEXT("Equip +0  |  Refine 99.5%  |  R"),12.0f,Muted);
+    Stack->AddChildToVerticalBox(RefinementText);
 }
 
 UButton* UHonourWarHUDWidget::MakeNavButton(UCanvasPanel* Root,const FString& Icon,const FString& LabelText,float Y)
@@ -204,6 +206,15 @@ void UHonourWarHUDWidget::RefreshVitals()
     XpBar->SetPercent(Combat->GetXpPercent());
     if (EconomyText)
         EconomyText->SetText(FText::FromString(FString::Printf(TEXT("Age %d days  |  Zeny %lld  |  Honours %d"),Combat->GetAgeDays(),Combat->GetZeny(),Combat->GetHonours())));
+    if (RefinementText)
+        RefinementText->SetText(FText::FromString(FString::Printf(
+            TEXT("Equip +%d  |  Refine %.1f%%  |  P:%d E:%d O:%d  |  R"),
+            Combat->GetEquipmentRefineLevel(),
+            Combat->GetRefineSuccessPercent(),
+            Combat->GetPhracon(),
+            Combat->GetEmveretarcon(),
+            Combat->GetOridecon()
+        )));
     CombatText->SetText(FText::FromString(FString::Printf(TEXT("[Combat] %s"),*Character->GetLastCombatMessage())));
 }
 
