@@ -68,6 +68,11 @@ void AHonourWarSoldier::SetLevel(int32 NewLevel)
     if (HasActorBegunPlay()) BuildVisual();
 }
 
+void AHonourWarSoldier::SetCommander(AHonourWarCharacter* NewCommander)
+{
+    Commander=NewCommander;
+}
+
 void AHonourWarSoldier::SetSoldierClass(EHonourWarClass NewClass)
 {
     SoldierClass=NewClass;
@@ -129,7 +134,7 @@ void AHonourWarSoldier::Tick(float DeltaSeconds)
     if (bDead || !HasAuthority()) return;
 
     AttackTimer=FMath::Max(0.0f,AttackTimer-DeltaSeconds);
-    APawn* Player=UGameplayStatics::GetPlayerPawn(this,0);
+    APawn* Player=Commander ? Cast<APawn>(Commander) : UGameplayStatics::GetPlayerPawn(this,0);
     if (!Player) return;
 
     AHonourWarMonster* Target=FindNearestMonster(1300.0f);
@@ -161,7 +166,9 @@ void AHonourWarSoldier::Tick(float DeltaSeconds)
         Target->ReceiveCombatHit(Damage,SoldierClass);
         if (!WasDead && Target->IsDead())
         {
-            if (AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(Player))
+            if (Commander)
+                Commander->HandleMonsterDefeat(Target->GetMonsterLevel());
+            else if (AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(Player))
                 Character->HandleMonsterDefeat(Target->GetMonsterLevel());
         }
         AutoSkillIndex=(AutoSkillIndex+1)%2;
@@ -181,7 +188,7 @@ void AHonourWarSoldier::ReceiveDamage(float Damage)
             bDeathRegistered=true;
             if (AHonourWarWorldDirector* Director=Cast<AHonourWarWorldDirector>(
                 UGameplayStatics::GetActorOfClass(GetWorld(),AHonourWarWorldDirector::StaticClass())))
-                Director->RegisterSoldierDeath();
+                Director->RegisterSoldierDeath(Commander);
         }
         SetActorEnableCollision(false);
         SetLifeSpan(0.2f);
