@@ -39,6 +39,8 @@ protected:
     virtual void BeginPlay() override;
 
 private:
+    void ApplySpeciesVisual();
+
     UPROPERTY() USceneComponent* Root;
     UPROPERTY() UStaticMeshComponent* Body;
     UPROPERTY() UStaticMeshComponent* Head;
