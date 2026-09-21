@@ -89,6 +89,11 @@ def main() -> int:
 
     for needle, label in [
         ("TryRefineEquipment", "equipment refinement runtime"),
+        ("TryMixCards", "card mixing runtime"),
+        ("TryUpgradeBasicSkill", "basic skill upgrade runtime"),
+        ("ServerTryRefineEquipment_Implementation", "server refinement RPC"),
+        ("ServerTryMixCards_Implementation", "server card-mixing RPC"),
+        ("ServerTryUpgradeBasicSkill_Implementation", "server skill-upgrade RPC"),
         ("GetRefineSuccessPercent", "age-aware refinement success"),
         ("GetRefineZenyCost", "age-aware refinement price"),
         ("EquipmentRefineLevel>=15", "+15 refinement cap"),
