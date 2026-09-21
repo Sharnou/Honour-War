@@ -10,7 +10,6 @@ Modern, futuristic, science-fiction and machine-centric presentation is prohibit
 
 - Hero maximum level: 250.
 - Monster maximum level: 300.
-- Soldier maximum level: 50.
 - Heroes gain experience and Zeny/items/cards from monsters.
 - Level-300 monsters can provide top-tier rewards.
 - Hero respawns at the city/base point after death with no death-count limit.
@@ -83,10 +82,7 @@ Mouse-first desktop MMORPG controls are mandatory: left-click ground movement, l
 
 ## City, base and soldier gameplay
 
-Cities are RPG progression hubs rather than a strategy-game HUD. A developed city can contain hero services for weapon refinement, card mixing, storage, skills and soldier production.
-
-Soldiers are production units with a level cap of 50 and two automatic combat skills. Soldiers can occupy guarded income banks only after the local guarding monster is defeated. Every five fallen soldiers return to the city production point. Soldier production and bank income are world systems and must not replace the mouse-first MMORPG HUD.
-
+Cities are RPG progression hubs rather than a strategy-game HUD. A developed city can contain hero services for weapon refinement, card mixing, storage, skills and 
 ## Rewards
 
 Monster defeat is a complete reward event:
@@ -101,3 +97,8 @@ Level-300 monsters are the top-tier reward source and can provide Mythic equipme
 ## Visual/gameplay invariants
 
 Every visual cycle must regenerate the visual target around the HD 3D anime-inspired MMORPG identity and preserve the Ragnarok Online-inspired perspective/isometric mouse-and-camera convention. Runtime proof is a real Unreal Engine 5.8 Windows EXE frame.
+
+
+## Permanent exclusions
+
+Honour War is an MMORPG/ARPG, not a strategy-war game. The following are permanently rejected and must not be regenerated: soldier systems, squads or squad production, soldier auto-skills, soldier death replacement, guarded income banks, defense towers, base-building strategy systems, base sight overlays, skill shrines, soldier workshops, building/construction UI tools, player-vs-player server-authoritative combat, server-authoritative monster damage, monsters inside cities, transformer/futuristic machinery designs, GLB/GLTF runtime or art intake.
