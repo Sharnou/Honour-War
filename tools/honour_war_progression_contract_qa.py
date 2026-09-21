@@ -93,6 +93,10 @@ def main() -> int:
         ("GetRefineZenyCost", "age-aware refinement price"),
         ("EquipmentRefineLevel>=15", "+15 refinement cap"),
         ("AgeDiscount", "age-based refinement material discount"),
+    ]:
+        require(combat, needle, label)
+
+    for needle, label in [
         ("OnlineTimeAccumulator += DeltaSeconds", "online session accumulator"),
         ("OnlineSeconds += WholeSeconds", "online session counter"),
         ("86400", "online day boundary"),
