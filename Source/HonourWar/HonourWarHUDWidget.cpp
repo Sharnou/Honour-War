@@ -94,7 +94,8 @@ void UHonourWarHUDWidget::BuildProfileCluster(UCanvasPanel* Root)
     XpBar=WidgetTree->ConstructWidget<UProgressBar>(UProgressBar::StaticClass(),TEXT("XP"));
     XpBar->SetFillColorAndOpacity(Gold);
     Stack->AddChildToVerticalBox(XpBar);
-    Stack->AddChildToVerticalBox(Text(WidgetTree,TEXT("AgeText"),TEXT("Age 18  •  Honours 0"),13.0f,Muted));
+    EconomyText=Text(WidgetTree,TEXT("EconomyText"),TEXT("Zeny 0  •  Honours 0"),13.0f,Muted);
+    Stack->AddChildToVerticalBox(EconomyText);
 }
 
 UButton* UHonourWarHUDWidget::MakeNavButton(UCanvasPanel* Root,const FString& Icon,const FString& LabelText,float Y)
@@ -201,6 +202,8 @@ void UHonourWarHUDWidget::RefreshVitals()
     HpBar->SetPercent(Combat->GetHealthPercent());
     SpBar->SetPercent(Combat->GetSpPercent());
     XpBar->SetPercent(Combat->GetXpPercent());
+    if (EconomyText)
+        EconomyText->SetText(FText::FromString(FString::Printf(TEXT("Age %d days  |  Zeny %lld  |  Honours %d"),Combat->GetAgeDays(),Combat->GetZeny(),Combat->GetHonours())));
     CombatText->SetText(FText::FromString(FString::Printf(TEXT("[Combat] %s"),*Character->GetLastCombatMessage())));
 }
 
