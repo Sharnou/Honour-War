@@ -16,4 +16,5 @@ public:
     virtual void PostLogin(APlayerController* NewPlayer) override;
     virtual void PreLogin(const FString& Options,const FString& Address,const FUniqueNetIdRepl& UniqueId,FString& ErrorMessage) override;
     bool HandleGuildCommand(AHonourWarCharacter* Character,const FString& Command,FString& OutMessage);
+    bool HandleChatCommand(AHonourWarCharacter* Character,const FString& Message,FString& OutMessage);
 };
