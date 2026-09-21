@@ -237,7 +237,7 @@ def build_pet(class_id, species):
     return root
 
 
-def export_glb(root, path):
+def export_fbx(root, path):
     bpy.ops.object.select_all(action="DESELECT")
     stack = [root]
     while stack:
@@ -246,13 +246,11 @@ def export_glb(root, path):
         stack.extend(list(node.children))
     bpy.context.view_layer.objects.active = root
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    bpy.ops.export_scene.gltf(
+    bpy.ops.export_scene.fbx(
         filepath=path,
-        export_format="GLB",
         use_selection=True,
-        export_materials="EXPORT",
-        export_apply=True,
-        export_animations=True,
+        apply_unit_scale=True,
+        apply_scale_options="FBX_SCALE_ALL",
     )
     bpy.ops.object.select_all(action="DESELECT")
 
@@ -266,10 +264,10 @@ def main():
         for tier in TIERS:
             clear_scene()
             hero = build_hero(class_id, tier)
-            export_glb(hero, os.path.join(out_root, "characters", class_id, tier + ".fbx"))
+            export_fbx(hero, os.path.join(out_root, "characters", class_id, tier + ".fbx"))
         clear_scene()
         pet = build_pet(class_id, CLASSES[class_id]["pet"])
-        export_glb(pet, os.path.join(out_root, "pets", class_id + "_pet.glb"))
+        export_fbx(pet, os.path.join(out_root, "pets", class_id + "_pet.fbx"))
 
     clear_scene()
     # Reusable town prop kit: lamp, tree, market stall, stone pillar, gate.
@@ -284,7 +282,7 @@ def main():
     crown = sphere("TreeCrown", (1.5, 0, 2.45), (1.05, 1.0, 1.25), leaf); crown.parent = lamp
     counter = cube("MarketCounter", (-1.8, 0, 0.75), (1.0, 0.45, 0.08), wood); counter.parent = lamp
     pillar = cylinder("StonePillar", (3.2, 0, 1.1), 0.30, 2.2, stone); pillar.parent = lamp
-    export_glb(lamp, os.path.join(out_root, "props", "town_prop_kit.glb"))
+    export_fbx(lamp, os.path.join(out_root, "props", "town_prop_kit.fbx"))
 
     print("Honour War production assets generated under:", out_root)
 
