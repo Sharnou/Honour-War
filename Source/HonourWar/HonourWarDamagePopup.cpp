@@ -4,6 +4,7 @@
 AHonourWarDamagePopup::AHonourWarDamagePopup()
 {
     PrimaryActorTick.bCanEverTick=true;
+    bReplicates=true;
     SetLifeSpan(Life);
     Text=CreateDefaultSubobject<UTextRenderComponent>(TEXT("Text"));
     RootComponent=Text;
