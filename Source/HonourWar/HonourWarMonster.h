@@ -7,6 +7,19 @@
 
 class UStaticMeshComponent;
 
+UENUM(BlueprintType)
+enum class EHonourWarMonsterSpecies : uint8
+{
+    Poring,
+    Goblin,
+    Wolf,
+    Skeleton,
+    Orc,
+    Mantis,
+    Golem,
+    Dragon
+};
+
 UCLASS()
 class HONOURWAR_API AHonourWarMonster : public AActor
 {
@@ -17,6 +30,8 @@ public:
     virtual void Tick(float DeltaSeconds) override;
     void ReceiveCombatHit(float Damage, EHonourWarClass SourceClass);
     void SetLevel(int32 NewLevel);
+    void SetSpecies(EHonourWarMonsterSpecies NewSpecies);
+    FString GetSpeciesName() const;
     int32 GetMonsterLevel() const { return Level; }
     bool IsDead() const { return bDead; }
 
@@ -31,6 +46,7 @@ private:
     UPROPERTY() UStaticMeshComponent* RightHorn;
 
     UPROPERTY(EditAnywhere) int32 Level = 12;
+    UPROPERTY(EditAnywhere) EHonourWarMonsterSpecies Species = EHonourWarMonsterSpecies::Goblin;
     float MaxHealth = 800.0f;
     float CurrentHealth = 800.0f;
     float AttackTimer = 0.0f;
