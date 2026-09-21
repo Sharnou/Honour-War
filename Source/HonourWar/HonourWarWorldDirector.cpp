@@ -502,7 +502,7 @@ void AHonourWarWorldDirector::SpawnIncomeBanks()
     for(int32 Index=0;Index<UE_ARRAY_COUNT(BankLocations);++Index)
     {
         FActorSpawnParameters Params;
-        Params.SpawnCollisionHandlingOverride=ESpawnActorCollisionMethod::AdjustIfPossibleButAlwaysSpawn;
+        Params.SpawnCollisionHandlingOverride=ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 
         const FVector GuardianLocation=BankLocations[Index]+FVector(260.0f,0,40.0f);
         AHonourWarMonster* Guardian=GetWorld()->SpawnActor<AHonourWarMonster>(
