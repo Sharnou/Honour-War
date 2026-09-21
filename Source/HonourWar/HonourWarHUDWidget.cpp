@@ -309,7 +309,34 @@ void UHonourWarHUDWidget::OpenParty()
 
 void UHonourWarHUDWidget::OpenGuild()
 {
-    ShowSection(TEXT("Guild"),TEXT("Guild communication and group progression interface.\nThe panel is ready for persistent server-backed guild data."));
+    AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(GetOwningPlayerPawn());
+    AHonourWarPlayerState* Self=Character?Character->GetPlayerState<AHonourWarPlayerState>():nullptr;
+
+    FString Body;
+    if(!Self || Self->GetGuildName().IsEmpty())
+    {
+        Body=TEXT("No guild.\n\n@ guild create is available through the server command console.");
+    }
+    else
+    {
+        Body=FString::Printf(TEXT("Guild: %s\nRank: %s\n\nMembers on this server:\n"),*Self->GetGuildName(),*Self->GetGuildRank());
+        if(UWorld* World=GetWorld())
+        {
+            if(AGameStateBase* State=World->GetGameState())
+            {
+                for(APlayerState* PlayerState:State->PlayerArray)
+                {
+                    if(AHonourWarPlayerState* PS=Cast<AHonourWarPlayerState>(PlayerState))
+                    {
+                        if(PS->GetGuildName().Equals(Self->GetGuildName(),ESearchCase::IgnoreCase))
+                            Body+=FString::Printf(TEXT("• %s — %s — Team %d\n"),*PS->GetPlayerName(),*PS->GetGuildRank(),PS->GetTeamId()+1);
+                    }
+                }
+            }
+        }
+        Body+=TEXT("\nCommands: @guild leave | @guild create [name] | @guild join [name]");
+    }
+    ShowSection(TEXT("Guild"),Body);
 }
 
 void UHonourWarHUDWidget::OpenSystem()
