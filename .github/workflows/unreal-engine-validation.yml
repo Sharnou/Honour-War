@@ -29,3 +29,8 @@ jobs:
 
       - name: Validate Visual RAG cycle contract
         run: python tools/visual_gap_register_qa.py
+
+      - name: Validate HD asset generators and intake
+        run: |
+          python tools/validate_hd_assets.py
+          python tools/validate_art_generators.py
