@@ -78,6 +78,7 @@ def main() -> int:
         ("InventoryItems", "save inventory"),
         ("Cards", "save cards"),
         ("OnlineSeconds", "save online time"),
+        ("PlayerLocation", "save player location"),
     ]:
         require(save, needle, label)
 
@@ -86,6 +87,7 @@ def main() -> int:
         ("OnlineSeconds += WholeSeconds", "online session counter"),
         ("86400", "online day boundary"),
         ("AutoSaveAccumulator >= 60.0f", "60-second autosave"),
+        ("Save->PlayerLocation=GetActorLocation()", "autosave player location"),
         ("SetAgeDays", "online age update"),
     ]:
         require(char, needle, label)
