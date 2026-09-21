@@ -243,6 +243,18 @@ void AHonourWarCharacter::RefineEquipment()
         LastCombatMessage = CombatComponent->TryRefineEquipment() ? CombatComponent->GetLastLootMessage() : CombatComponent->GetLastLootMessage();
 }
 
+void AHonourWarCharacter::MixCards()
+{
+    if (CombatComponent)
+        LastCombatMessage = CombatComponent->TryMixCards() ? CombatComponent->GetLastLootMessage() : CombatComponent->GetLastLootMessage();
+}
+
+void AHonourWarCharacter::UpgradeBasicSkill()
+{
+    if (CombatComponent)
+        LastCombatMessage = CombatComponent->TryUpgradeBasicSkill() ? CombatComponent->GetLastLootMessage() : CombatComponent->GetLastLootMessage();
+}
+
 void AHonourWarCharacter::HandleMonsterDefeat(int32 MonsterLevel)
 {
     if(CombatComponent)
@@ -391,6 +403,7 @@ void AHonourWarCharacter::SaveProgress()
     Save->Phracon=CombatComponent->GetPhracon();
     Save->Emveretarcon=CombatComponent->GetEmveretarcon();
     Save->Oridecon=CombatComponent->GetOridecon();
+    Save->BasicSkillLevel=CombatComponent->GetBasicSkillLevel();
     Save->Honours=CombatComponent->GetHonours();
     Save->InventoryItems=CombatComponent->GetInventoryItems();
     Save->Cards=CombatComponent->GetCards();
@@ -422,6 +435,7 @@ void AHonourWarCharacter::LoadProgress()
     CombatComponent->SetEmveretarcon(Save->Emveretarcon);
     CombatComponent->SetOridecon(Save->Oridecon);
     CombatComponent->SetHonours(Save->Honours);
+    CombatComponent->SetBasicSkillLevel(Save->BasicSkillLevel);
     CombatComponent->SetInventoryItems(Save->InventoryItems);
     CombatComponent->SetCards(Save->Cards);
     BuildHeroVisual();
