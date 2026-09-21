@@ -41,5 +41,6 @@ private:
     UPROPERTY() UTextBlock* ProfileName = nullptr;
     UPROPERTY() UTextBlock* ProfileMeta = nullptr;
     UPROPERTY() UTextBlock* EconomyText = nullptr;
+    UPROPERTY() UTextBlock* RefinementText = nullptr;
     UPROPERTY() UTextBlock* CombatText = nullptr;
 };
