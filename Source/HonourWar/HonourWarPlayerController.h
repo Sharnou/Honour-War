@@ -37,6 +37,7 @@ private:
     void Skill6();
     void Skill7();
     void Skill8();
+    void RefineEquipment();
     void HandleMouseClick();
     void HandleMouseWheel(float Delta);
     void RotateCameraFromMouse();
