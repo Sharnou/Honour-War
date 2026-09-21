@@ -1,6 +1,7 @@
 #include "HonourWarWorldDirector.h"
 #include "HonourWarMonster.h"
 #include "HonourWarSoldier.h"
+#include "HonourWarIncomeBank.h"
 #include "Components/SceneComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/DirectionalLightComponent.h"
@@ -63,6 +64,7 @@ void AHonourWarWorldDirector::BeginPlay()
     BuildDistantLandmarks();
     SpawnMonsters();
     SpawnSoldierSquad();
+    SpawnIncomeBanks();
 }
 
 UMaterialInstanceDynamic* AHonourWarWorldDirector::MaterialFor(const FLinearColor& Color)
@@ -485,6 +487,31 @@ void AHonourWarWorldDirector::BuildDistantLandmarks()
     for (const FVector& P:HillPositions)
     {
         AddPart(SphereMesh,TEXT("DistantHill"),P+FVector(0,0,900),FVector(18,15,10),FRotator::ZeroRotator,FLinearColor(0.18f,0.30f,0.16f));
+    }
+}
+
+void AHonourWarWorldDirector::SpawnIncomeBanks()
+{
+    const FVector BankLocations[]={
+        FVector(3600.0f,-2600.0f,120.0f),
+        FVector(-3600.0f,2600.0f,120.0f),
+        FVector(5100.0f,3900.0f,120.0f)
+    };
+    const int32 GuardianLevels[]={90,180,300};
+
+    for(int32 Index=0;Index<UE_ARRAY_COUNT(BankLocations);++Index)
+    {
+        FActorSpawnParameters Params;
+        Params.SpawnCollisionHandlingOverride=ESpawnActorCollisionMethod::AdjustIfPossibleButAlwaysSpawn;
+
+        const FVector GuardianLocation=BankLocations[Index]+FVector(260.0f,0,40.0f);
+        AHonourWarMonster* Guardian=GetWorld()->SpawnActor<AHonourWarMonster>(
+            AHonourWarMonster::StaticClass(),GuardianLocation,FRotator::ZeroRotator,Params);
+        if(Guardian) Guardian->SetLevel(GuardianLevels[Index]);
+
+        AHonourWarIncomeBank* Bank=GetWorld()->SpawnActor<AHonourWarIncomeBank>(
+            AHonourWarIncomeBank::StaticClass(),BankLocations[Index],FRotator::ZeroRotator,Params);
+        if(Bank) Bank->InitializeBank(Index,Guardian);
     }
 }
 
