@@ -63,6 +63,15 @@ def main() -> int:
 
     require(world, "const int32 MonsterLevels[] = {12, 28, 55, 90, 140, 180, 220, 260, 300};", "full monster level progression")
 
+    soldier_cpp = (ROOT / "Source" / "HonourWar" / "HonourWarSoldier.cpp").read_text(encoding="utf-8")
+    for needle, label in [
+        ("AutoSkillIndex=(AutoSkillIndex+1)%2", "two automatic soldier skills"),
+        ("Director->RegisterSoldierDeath()", "soldier death registration"),
+        ("HandleMonsterDefeat", "soldier kill reward routing"),
+        ("SetLifeSpan(0.2f)", "soldier death lifecycle"),
+    ]:
+        require(soldier_cpp, needle, label)
+
     for needle, label in [
         ("Zeny", "save Zeny"),
         ("Honours", "save honours"),
