@@ -26,6 +26,7 @@ public:
     UPROPERTY() int32 Phracon = 20;
     UPROPERTY() int32 Emveretarcon = 10;
     UPROPERTY() int32 Oridecon = 5;
+    UPROPERTY() int32 BasicSkillLevel = 1;
     UPROPERTY() int32 Honours = 0;
     UPROPERTY() TArray<FString> InventoryItems;
     UPROPERTY() TArray<FString> Cards;
