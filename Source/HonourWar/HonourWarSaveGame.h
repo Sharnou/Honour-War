@@ -22,6 +22,10 @@ public:
     UPROPERTY() int64 OnlineSeconds = 0;
     UPROPERTY() FVector PlayerLocation = FVector::ZeroVector;
     UPROPERTY() int64 Zeny = 0;
+    UPROPERTY() int32 EquipmentRefineLevel = 0;
+    UPROPERTY() int32 Phracon = 20;
+    UPROPERTY() int32 Emveretarcon = 10;
+    UPROPERTY() int32 Oridecon = 5;
     UPROPERTY() int32 Honours = 0;
     UPROPERTY() TArray<FString> InventoryItems;
     UPROPERTY() TArray<FString> Cards;
