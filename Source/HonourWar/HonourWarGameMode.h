@@ -12,4 +12,5 @@ public:
     AHonourWarGameMode();
     virtual void BeginPlay() override;
     virtual void PostLogin(APlayerController* NewPlayer) override;
+    virtual void PreLogin(const FString& Options,const FString& Address,const FUniqueNetIdRepl& UniqueId,FString& ErrorMessage) override;
 };
