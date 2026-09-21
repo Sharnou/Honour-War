@@ -4,9 +4,9 @@
 #include "GameFramework/GameModeBase.h"
 #include "HonourWarGameMode.generated.h"
 
-UCLASS()
 class AHonourWarCharacter;
 
+UCLASS()
 class HONOURWAR_API AHonourWarGameMode : public AGameModeBase
 {
     GENERATED_BODY()
