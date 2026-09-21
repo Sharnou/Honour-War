@@ -9,6 +9,7 @@ class UStaticMeshComponent;
 class UMaterialInterface;
 class UMaterialInstanceDynamic;
 class USceneComponent;
+class AHonourWarMonster;
 
 UCLASS()
 class HONOURWAR_API AHonourWarWorldDirector : public AActor
@@ -47,6 +48,7 @@ private:
     void BuildVegetation();
     void BuildDistantLandmarks();
     void SpawnMonsters();
+    void SpawnIncomeBanks();
     void SpawnSoldierSquad();
 
     void BuildHouse(const FVector& Center,float Yaw,const FLinearColor& WallColor,const FLinearColor& RoofColor);
