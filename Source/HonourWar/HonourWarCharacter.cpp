@@ -460,9 +460,9 @@ void AHonourWarCharacter::BuildHeroVisual()
     AddPart(this,VisualRoot,Sphere,TEXT("LeftEye"),FVector(38,-16,176),FVector(0.055f,0.055f,0.055f),FRotator::ZeroRotator,FLinearColor::Black);
     AddPart(this,VisualRoot,Sphere,TEXT("RightEye"),FVector(38,16,176),FVector(0.055f,0.055f,0.055f),FRotator::ZeroRotator,FLinearColor::Black);
 
+    const FLinearColor FaceMark(0.46f,0.32f,0.27f);
     if(Mature>0.05f)
     {
-        const FLinearColor FaceMark(0.46f,0.32f,0.27f);
         AddPart(this,VisualRoot,Cube,TEXT("AgeMarkL"),FVector(42,-17,167),FVector(0.015f,0.05f,0.10f),FRotator(0,0,8),FaceMark);
         AddPart(this,VisualRoot,Cube,TEXT("AgeMarkR"),FVector(42,17,167),FVector(0.015f,0.05f,0.10f),FRotator(0,0,-8),FaceMark);
     }
