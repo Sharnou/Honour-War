@@ -47,3 +47,14 @@ void AHonourWarGameMode::PostLogin(APlayerController* NewPlayer)
         PS->PartySlot=FMath::Min(3,PlayerIndex/2);
     }
 }
+
+
+void AHonourWarGameMode::PreLogin(const FString& Options,const FString& Address,const FUniqueNetIdRepl& UniqueId,FString& ErrorMessage)
+{
+    Super::PreLogin(Options,Address,UniqueId,ErrorMessage);
+    if(!ErrorMessage.IsEmpty()) return;
+
+    const int32 CurrentPlayers=GetNumPlayers();
+    if(CurrentPlayers>=8)
+        ErrorMessage=TEXT("Honour War party capacity reached: maximum 8 active players (4v4).");
+}
