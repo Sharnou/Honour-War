@@ -460,10 +460,15 @@ void AHonourWarWorldDirector::SpawnMonsters()
         FVector(-2700,1100,110),FVector(-3200,1500,110),FVector(-3600,800,110),
         FVector(2600,-1250,110),FVector(3200,-1650,110),FVector(-3000,-1400,110)
     };
-    for (const FVector& Location:MonsterLocations)
+    const int32 MonsterLevels[] = {12, 28, 55, 90, 140, 180, 220, 260, 300};
+    for (int32 Index=0; Index<UE_ARRAY_COUNT(MonsterLocations); ++Index)
     {
         FActorSpawnParameters Params;
         Params.SpawnCollisionHandlingOverride=ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
-        GetWorld()->SpawnActor<AHonourWarMonster>(AHonourWarMonster::StaticClass(),Location,FRotator::ZeroRotator,Params);
+        if (AHonourWarMonster* Monster=GetWorld()->SpawnActor<AHonourWarMonster>(
+            AHonourWarMonster::StaticClass(),MonsterLocations[Index],FRotator::ZeroRotator,Params))
+        {
+            Monster->SetLevel(MonsterLevels[Index]);
+        }
     }
 }
