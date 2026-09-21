@@ -98,7 +98,8 @@ bool UHonourWarCombatComponent::UseSkill(int32 SkillIndex)
     Target->ReceiveCombatHit(Damage, CharacterClass);
     if (Target->IsDead())
     {
-        RewardMonsterDefeat(Target->GetMonsterLevel());
+        if (AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(GetOwner()))
+            Character->HandleMonsterDefeat(Target->GetMonsterLevel());
     }
     else
     {
