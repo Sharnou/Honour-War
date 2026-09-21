@@ -11,6 +11,10 @@ on:
       - "Content/**"
       - "Build/**"
 
+concurrency:
+  group: honour-war-unreal-windows-build.yml
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
