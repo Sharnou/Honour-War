@@ -13,7 +13,8 @@ AHonourWarPlayerController::AHonourWarPlayerController()
 void AHonourWarPlayerController::BeginPlay()
 {
     Super::BeginPlay();
-    SetControlRotation(FRotator(-48.0f,45.0f,0.0f));
+    // Permanent Honour War MMORPG camera convention: elevated isometric-style, Ragnarok Online-inspired.
+    SetControlRotation(FRotator(-50.0f,45.0f,0.0f));
 
     FInputModeGameAndUI InputMode;
     InputMode.SetHideCursorDuringCapture(false);
@@ -140,7 +141,7 @@ void AHonourWarPlayerController::MoveRight(float V){if(auto*C=Cast<AHonourWarCha
 void AHonourWarPlayerController::Turn(float V){if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->CameraTurn(V);}
 void AHonourWarPlayerController::LookUp(float V){if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->CameraLookUp(V);}
 void AHonourWarPlayerController::Attack(){if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->Attack();}
-void AHonourWarPlayerController::ResetCamera(){SetControlRotation(FRotator(-48.0f,45.0f,0.0f));}
+void AHonourWarPlayerController::ResetCamera(){SetControlRotation(FRotator(-50.0f,45.0f,0.0f));}
 void AHonourWarPlayerController::SaveGame(){if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->SaveProgress();}
 void AHonourWarPlayerController::LoadGame(){if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->LoadProgress();}
 void AHonourWarPlayerController::NextClass(){if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->CycleClass();}
