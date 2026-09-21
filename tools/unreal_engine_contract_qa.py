@@ -108,6 +108,12 @@ for phrase in ["RecordMonsterDefeat","The Lost Scroll","QuestProgress","QuestGoa
         print(f"UNREAL_CONTRACT_FAIL: quest system missing: {phrase}")
         sys.exit(1)
 
+game_mode=(ROOT/"Source"/"HonourWar"/"HonourWarGameMode.cpp").read_text(encoding="utf-8")
+for phrase in ["HandleGuildCommand","@guild"]:
+    if phrase not in game_mode:
+        print(f"UNREAL_CONTRACT_FAIL: guild server command missing: {phrase}")
+        sys.exit(1)
+
 player_state=(ROOT/"Source"/"HonourWar"/"HonourWarPlayerState.cpp").read_text(encoding="utf-8")
 for phrase in ["TeamId","PartySlot","DOREPLIFETIME"]:
     if phrase not in player_state:
