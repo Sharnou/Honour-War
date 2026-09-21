@@ -2,6 +2,14 @@ name: Honour War Unreal 5.8 Windows Build
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "HonourWar.uproject"
+      - "Config/**"
+      - "Source/**"
+      - "Content/**"
+      - "Build/**"
 
 permissions:
   contents: read
@@ -14,6 +22,11 @@ jobs:
       - name: Validate repository contract
         shell: pwsh
         run: python tools/unreal_engine_contract_qa.py
+      - name: Validate camera and progression contracts
+        shell: pwsh
+        run: |
+          python tools/validate_camera_controls.py
+          python tools/honour_war_progression_contract_qa.py
       - name: Build and package
         shell: pwsh
         env:
