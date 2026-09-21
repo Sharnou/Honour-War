@@ -1,14 +1,16 @@
-# Honour War — HD Anime-Isometric Visual Development Cycle Contract
+# Honour War — HD 3D Anime-Isometric Visual Development Cycle Contract
 
 Status: PERMANENT / RELEASE-BLOCKING
 
 Honour War visual development cycles use one locked identity:
 
-HD anime-inspired isometric MMORPG.
+HD 3D anime-inspired isometric medieval/fantasy MMORPG/ARPG.
+
+## Mandatory cycle
 
 Every completed visual cycle must:
-1. Inspect the locked Screenshot references with Visual RAG/multimodal analysis.
-2. Record visual gaps across characters, equipment, pets, monsters, maps, terrain, architecture, props, materials, lighting, camera, combat VFX and HUD.
+1. Inspect the locked Screenshot/ references with Visual RAG/multimodal analysis.
+2. Record visual gaps across characters, equipment, pets, monsters, maps, terrain, architecture, props, materials, lighting, camera, animation, combat VFX and HUD.
 3. Regenerate or update the visual brief from that analysis.
 4. Refresh required Neural4D/Blender production assets.
 5. Texture production assets through Substance 3D Painter.
@@ -17,21 +19,38 @@ Every completed visual cycle must:
 8. Capture a real Unreal runtime/EXE frame.
 9. Compare that real frame against the locked anchors before accepting the cycle.
 
-Required visual identity:
-- anime-inspired fantasy character silhouettes and faces;
+The visual brief is regenerated every completed cycle so visual changes remain anchored to the same HD anime-inspired MMORPG identity.
+
+## Permanent gameplay/camera contract
+
+The gameplay controls and camera are part of the visual target and must be preserved in every cycle:
+- left-click ground = click-to-move;
+- left-click monster = select and engage;
+- right-mouse drag = camera orbit;
+- mouse wheel = bounded zoom;
+- W/A/S/D = secondary movement;
+- 1–8 = gameplay skill inputs;
+- perspective elevated isometric-style camera;
+- default framing keeps the hero's complete body readable.
+
+These conventions are inspired by the classic Ragnarok Online desktop MMORPG interaction pattern; they are treated as a persistent Honour War control requirement.
+
+## Required visual identity
+
+- anime-inspired fantasy character silhouettes and expressive faces;
 - complete full-body presentation with visible legs and feet;
 - layered clothing, armor, hair and class weapons;
 - Tier 1–5 class visual progression with Tier 5 Transcendence at level 200;
 - richly composed medieval towns, fields, mountains, rivers, ruins, snow regions and dungeons;
 - detailed terrain, roads, vegetation and props;
 - bright daylight;
-- perspective/isometric MMO camera;
 - readable combat animation and VFX;
 - compact MMORPG HUD.
 
-Rejected:
+## Rejected
+
 - strategy-game presentation;
-- futuristic, modern, sci-fi, robot, transformer, factory or space presentation;
+- futuristic, modern, scifi, robot, transformer, factory or space presentation;
 - empty maps;
 - flat unlit final materials;
 - generic placeholder HUD;
