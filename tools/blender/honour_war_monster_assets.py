@@ -4,6 +4,8 @@ import os
 from mathutils import Vector
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../assets/3d/generated/monsters"))
+EXPORT_FORMAT = "FBX"
+# Production path: Visual RAG -> Blender/Neural4D -> Substance 3D Painter -> FBX/OBJ -> Unreal Engine 5.8.
 FAMILIES = [
     "Poring", "Goblin", "Wolf", "Skeleton", "Zombie", "Orc",
     "Mantis", "Golem", "Evil Druid", "Dragon", "Bloody Knight"
@@ -210,7 +212,7 @@ def export(root, path):
         stack.extend(list(o.children))
     bpy.context.view_layer.objects.active = root
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    bpy.ops.export_scene.gltf(filepath=path, export_format="GLB", use_selection=True, export_materials="EXPORT", export_apply=True)
+    bpy.ops.export_scene.fbx(filepath=path, use_selection=True, apply_unit_scale=True)
     bpy.ops.object.select_all(action="DESELECT")
 
 
@@ -218,8 +220,8 @@ def main():
     for family in FAMILIES:
         clear()
         root = build(family)
-        export(root, os.path.join(ROOT, "monster_" + family.replace(" ", "_") + ".glb"))
-    print("Generated monster GLBs in", ROOT)
+        export(root, os.path.join(ROOT, "monster_" + family.replace(" ", "_") + ".fbx"))
+    print("Generated monster FBX assets in", ROOT)
 
 
 if __name__ == "__main__":
