@@ -1,3 +1,4 @@
+// Current HD MMORPG runtime pass: keep soldier support in the active Unreal build path.
 #include "HonourWarSoldier.h"
 #include "HonourWarCharacter.h"
 #include "HonourWarMonster.h"
