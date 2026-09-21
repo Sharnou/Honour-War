@@ -68,6 +68,8 @@ def validate_required_paths() -> None:
         "Source/HonourWar/HonourWarMonster.cpp",
         "Source/HonourWar/HonourWarSoldier.cpp",
         "Source/HonourWar/HonourWarWorldDirector.cpp",
+        "Source/HonourWar/HonourWarIncomeBank.cpp",
+        "Source/HonourWar/HonourWarLootDatabase.h",
         "tools/validate_camera_controls.py",
         "tools/honour_war_progression_contract_qa.py",
         "tools/visual_gap_register_qa.py",
