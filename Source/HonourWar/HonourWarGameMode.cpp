@@ -5,6 +5,7 @@
 #include "HonourWarWorldDirector.h"
 #include "HonourWarScreenshotDirector.h"
 #include "HonourWarPlayerState.h"
+#include "HonourWarGameState.h"
 #include "GameFramework/GameStateBase.h"
 #include "Engine/World.h"
 
@@ -13,6 +14,7 @@ AHonourWarGameMode::AHonourWarGameMode()
     DefaultPawnClass=AHonourWarCharacter::StaticClass();
     PlayerControllerClass=AHonourWarPlayerController::StaticClass();
     PlayerStateClass=AHonourWarPlayerState::StaticClass();
+    GameStateClass=AHonourWarGameState::StaticClass();
     HUDClass=AHonourWarHUD::StaticClass();
 }
 
@@ -60,6 +62,27 @@ void AHonourWarGameMode::PreLogin(const FString& Options,const FString& Address,
         ErrorMessage=TEXT("Honour War party capacity reached: maximum 8 active players (4v4).");
 }
 
+
+bool AHonourWarGameMode::HandleChatCommand(AHonourWarCharacter* Character,const FString& Message,FString& OutMessage)
+{
+    if(!Character || !Character->HasAuthority()) return false;
+    FString Clean=Message;
+    Clean.TrimStartAndEndInline();
+    if(Clean.IsEmpty())
+    {
+        OutMessage=TEXT("Usage: @say [message]");
+        return true;
+    }
+    Clean.LeftInline(180,true);
+
+    if(AHonourWarGameState* State=GetGameState<AHonourWarGameState>())
+    {
+        const FString Name=Character->GetPlayerState() ? Character->GetPlayerState()->GetPlayerName() : TEXT("Player");
+        State->AddWorldMessage(FString::Printf(TEXT("[World] %s: %s"),*Name,*Clean));
+    }
+    OutMessage=TEXT("Message sent.");
+    return true;
+}
 
 bool AHonourWarGameMode::HandleGuildCommand(AHonourWarCharacter* Character,const FString& Command,FString& OutMessage)
 {
