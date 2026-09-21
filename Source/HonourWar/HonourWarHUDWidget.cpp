@@ -190,8 +190,8 @@ void UHonourWarHUDWidget::BuildQuestTracker(UCanvasPanel* Root)
     UVerticalBox* Stack=WidgetTree->ConstructWidget<UVerticalBox>(UVerticalBox::StaticClass(),TEXT("QuestStack"));
     Quest->SetContent(Stack);
     Stack->AddChildToVerticalBox(Text(WidgetTree,TEXT("QuestHeader"),TEXT("◆  Active Quest"),19.0f,Gold));
-    Stack->AddChildToVerticalBox(Text(WidgetTree,TEXT("QuestName"),TEXT("The Lost Scroll"),17.0f,White));
-    Stack->AddChildToVerticalBox(Text(WidgetTree,TEXT("QuestBody"),TEXT("Find the missing scroll in the northern forest."),14.0f,Muted));
+    QuestText=Text(WidgetTree,TEXT("QuestText"),TEXT("The Lost Scroll\\nDefeat monsters to recover the lost scroll.\\nProgress 0 / 5"),14.0f,White);
+    Stack->AddChildToVerticalBox(QuestText);
 }
 
 void UHonourWarHUDWidget::BuildChatDock(UCanvasPanel* Root)
@@ -275,8 +275,10 @@ void UHonourWarHUDWidget::OpenCharacter()
 
 void UHonourWarHUDWidget::OpenSkills()
 {
+    AHonourWarCharacter* C=Cast<AHonourWarCharacter>(GetOwningPlayerPawn());
+    const int32 BasicLevel=(C && C->GetCombatComponent()) ? C->GetCombatComponent()->GetBasicSkillLevel() : 1;
     ShowSection(TEXT("Skills"),
-        FString::Printf(TEXT("1 Basic Attack  |  Basic Skill Lv.%d\n2 Class Skill\n3 Power Strike\n4 Arcane Burst\n5 Rapid Volley\n6 Guardian Light\n7 Shadow Step\n8 Finisher\n\nU = upgrade basic skill\nC = mix 3 cards\nCooldown and SP are validated by the server."), C && C->GetCombatComponent() ? C->GetCombatComponent()->GetBasicSkillLevel() : 1));
+        FString::Printf(TEXT("1 Basic Attack  |  Basic Skill Lv.%d\n2 Class Skill\n3 Power Strike\n4 Arcane Burst\n5 Rapid Volley\n6 Guardian Light\n7 Shadow Step\n8 Finisher\n\nU = upgrade basic skill\nC = mix 3 cards\nCooldown and SP are validated by the server."),BasicLevel));
 }
 
 void UHonourWarHUDWidget::OpenQuests()
