@@ -19,6 +19,8 @@ public:
     UPROPERTY(BlueprintAssignable) FHonourWarSkillEvent OnSkillUsed;
 
     bool UseSkill(int32 SkillIndex);
+    UFUNCTION(Server, Reliable)
+    void ServerUseSkill(int32 SkillIndex);
     void ReceiveDamage(float Damage);
     void RestoreVitals();
 
