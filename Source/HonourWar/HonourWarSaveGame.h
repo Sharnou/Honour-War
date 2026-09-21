@@ -19,4 +19,8 @@ public:
     UPROPERTY() EHonourWarClassTier ClassTier = EHonourWarClassTier::Tier1;
     UPROPERTY() EHonourWarFifthTierArchetype FifthTierArchetype = EHonourWarFifthTierArchetype::AbyssalWarlord;
     UPROPERTY() FDateTime SavedAtUtc;
+    UPROPERTY() int64 Zeny = 0;
+    UPROPERTY() int32 Honours = 0;
+    UPROPERTY() TArray<FString> InventoryItems;
+    UPROPERTY() TArray<FString> Cards;
 };
