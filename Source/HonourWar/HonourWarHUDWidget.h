@@ -53,6 +53,7 @@ private:
     UPROPERTY() UProgressBar* XpBar = nullptr;
     UPROPERTY() UTextBlock* ProfileName = nullptr;
     UPROPERTY() UTextBlock* ProfileMeta = nullptr;
+    UPROPERTY() UTextBlock* TeamText = nullptr;
     UPROPERTY() UTextBlock* EconomyText = nullptr;
     UPROPERTY() UTextBlock* RefinementText = nullptr;
     UPROPERTY() UTextBlock* BaseSightText = nullptr;
