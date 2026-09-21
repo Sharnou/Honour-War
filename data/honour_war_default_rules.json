@@ -7,7 +7,6 @@
   "hero_level_cap": 250,
   "monster_level_cap": 300,
   "pet_level_cap": 250,
-  "soldier_level_cap": 50,
   "hero_start_age": 18,
   "world_daylight_default": true,
   "fast_travel_command": "@go [map] [x]:[y]",
@@ -62,12 +61,8 @@
     "real_runtime_screenshot_required": true
   },
   "multiplayer": {
-    "server_authoritative": true,
-    "party_sizes": [
-      "2v1",
-      "3v3",
-      "4v4"
-    ]
+    "online": true,
+    "player_vs_player": false
   },
   "city_system": {
     "purpose": "RPG service hubs",
@@ -75,17 +70,9 @@
       "weapon_refinement",
       "card_mixing",
       "storage",
-      "hero_skill_upgrade",
-      "soldier_production"
+      "hero_skill_upgrade"
     ],
     "fast_travel": "@go [map] [x]:[y]"
-  },
-  "soldier_system": {
-    "level_cap": 50,
-    "automatic_combat_skills_per_soldier": 2,
-    "production_source": "city_base",
-    "guarded_bank_rule": "defeat_guardian_before_income",
-    "respawn_rule": "every_5_deaths_return_to_city_production"
   },
   "reward_loop": {
     "on_monster_defeat": [
@@ -110,5 +97,26 @@
     ],
     "cycle": "Visual RAG -> regenerated brief -> 3D asset refresh -> Unreal 5.8 runtime -> real EXE screenshot",
     "daily_unattended_upgrade": false
+  },
+  "permanent_exclusions": {
+    "soldier_system": false,
+    "soldier_level_cap": false,
+    "automatic_soldier_skills": false,
+    "soldier_death_replacement": false,
+    "squad_production": false,
+    "guarded_income_banks": false,
+    "defense_towers": false,
+    "base_building": false,
+    "base_sight_overlay": false,
+    "skill_shrine": false,
+    "soldier_workshop": false,
+    "strategy_war_systems": false,
+    "building_ui_tools": false,
+    "player_vs_player_server_authority": false,
+    "monster_server_authority": false,
+    "city_monsters": false,
+    "transformers": false,
+    "glb": false,
+    "gltf": false
   }
 }
