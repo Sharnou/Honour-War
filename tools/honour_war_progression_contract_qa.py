@@ -82,11 +82,24 @@ def main() -> int:
         ("AutoSkillIndex=(AutoSkillIndex+1)%2", "two automatic soldier skills"),
         ("Director->RegisterSoldierDeath()", "soldier death registration"),
         ("HandleMonsterDefeat", "soldier kill reward routing"),
-        ("ReceivePlayerDamage", "PvP damage receiver"),
-        ("CanAttackPlayer", "team-safe PvP targeting"),
         ("SetLifeSpan(0.2f)", "soldier death lifecycle"),
     ]:
         require(soldier_cpp, needle, label)
+
+    for needle, label in [
+        ("ReceivePlayerDamage", "PvP damage receiver"),
+        ("CanAttackPlayer", "team-safe PvP targeting"),
+    ]:
+        require(char, needle, label)
+
+    quest_cpp=(ROOT/"Source"/"HonourWar"/"HonourWarQuestComponent.cpp").read_text(encoding="utf-8")
+    for needle, label in [
+        ("RecordMonsterDefeat", "quest progression"),
+        ("The Lost Scroll", "Lost Scroll quest"),
+        ("QuestProgress", "quest progress"),
+        ("DOREPLIFETIME", "quest replication"),
+    ]:
+        require(quest_cpp, needle, label)
 
     for needle, label in [
         ("Zeny", "save Zeny"),
