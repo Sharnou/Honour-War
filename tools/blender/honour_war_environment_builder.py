@@ -2,7 +2,7 @@
 
 Creates repeatable game-ready environment packages for every TeleportSystem map:
 10 towns, 10 dungeons, and 10 fields. Geometry is organized for later sculpting and
-Substance 3D Painter texturing, then exported as GLB for Godot 4.7.
+Substance 3D Painter texturing, then exported as approved FBX/OBJ source for Unreal Engine 5.8.
 """
 
 import bpy
@@ -110,7 +110,7 @@ def build_map(map_id):
     root["map_id"] = map_id
     root["map_name"] = name
     root["map_type"] = map_type
-    root["pipeline"] = "Blender -> Substance 3D Painter -> GLB/GLTF -> Godot 4.7"
+    root["pipeline"] = "Blender/Neural4D -> Substance 3D Painter -> FBX/OBJ -> Unreal Engine 5.8"
 
     if "Desert" in name or "Morroc" in name:
         ground_mat = sand
@@ -174,14 +174,14 @@ def build_map(map_id):
     os.makedirs(OUTPUT_ROOT, exist_ok=True)
     safe = "map_%02d_%s" % (map_id, name.lower().replace(" ", "_"))
     blend_path = os.path.join(OUTPUT_ROOT, safe + ".blend")
-    glb_path = os.path.join(OUTPUT_ROOT, safe + ".glb")
+    fbx_path = os.path.join(OUTPUT_ROOT, safe + ".fbx")
     bpy.ops.wm.save_as_mainfile(filepath=blend_path)
     bpy.ops.object.select_all(action="SELECT")
-    bpy.ops.export_scene.gltf(filepath=glb_path, export_format="GLB", use_selection=True)
-    return glb_path
+    bpy.ops.export_scene.fbx(filepath=fbx_path, use_selection=True, apply_unit_scale=True)
+    return fbx_path
 
 
 if __name__ == "__main__":
     for map_id in MAPS:
         build_map(map_id)
-    print("HONOUR WAR ENVIRONMENT BUILD COMPLETE: %d maps" % len(MAPS))
+    print("HONOUR WAR ENVIRONMENT FBX SOURCE BUILD COMPLETE: %d maps" % len(MAPS))
