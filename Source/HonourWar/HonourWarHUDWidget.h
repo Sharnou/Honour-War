@@ -9,6 +9,7 @@ class UProgressBar;
 class UTextBlock;
 class UButton;
 class UBorder;
+class UHonourWarQuestComponent;
 
 UCLASS()
 class HONOURWAR_API UHonourWarHUDWidget : public UUserWidget
@@ -57,6 +58,7 @@ private:
     UPROPERTY() UTextBlock* EconomyText = nullptr;
     UPROPERTY() UTextBlock* RefinementText = nullptr;
     UPROPERTY() UTextBlock* BaseSightText = nullptr;
+    UPROPERTY() UTextBlock* QuestText = nullptr;
     UPROPERTY() UTextBlock* CombatText = nullptr;
     UPROPERTY() UBorder* SectionPanel = nullptr;
     UPROPERTY() UTextBlock* SectionTitle = nullptr;
