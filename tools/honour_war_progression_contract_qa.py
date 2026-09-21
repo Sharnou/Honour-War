@@ -63,6 +63,8 @@ def main() -> int:
 
     require(world, "const int32 MonsterLevels[] = {12, 28, 55, 90, 140, 180, 220, 260, 300};", "full monster level progression")
     require(world, "SpawnIncomeBanks();", "income bank spawning")
+    for species in ["Poring","Goblin","Wolf","Skeleton","Orc","Mantis","Golem","Dragon"]:
+        require(world, "EHonourWarMonsterSpecies::"+species, species+" world spawn roster")
     bank_cpp = (ROOT / "Source" / "HonourWar" / "HonourWarIncomeBank.cpp").read_text(encoding="utf-8")
     for needle, label in [
         ("Guardian->IsDead()", "guarded bank unlock"),
