@@ -3,6 +3,7 @@
 #include "HonourWarSoldier.h"
 #include "HonourWarIncomeBank.h"
 #include "HonourWarDefenseTower.h"
+#include "HonourWarBaseBuilding.h"
 #include "Components/SceneComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/DirectionalLightComponent.h"
@@ -67,6 +68,7 @@ void AHonourWarWorldDirector::BeginPlay()
     SpawnSoldierSquad();
     SpawnIncomeBanks();
     SpawnDefenseTowers();
+    SpawnBaseBuilding();
 }
 
 UMaterialInstanceDynamic* AHonourWarWorldDirector::MaterialFor(const FLinearColor& Color)
@@ -489,6 +491,18 @@ void AHonourWarWorldDirector::BuildDistantLandmarks()
     for (const FVector& P:HillPositions)
     {
         AddPart(SphereMesh,TEXT("DistantHill"),P+FVector(0,0,900),FVector(18,15,10),FRotator::ZeroRotator,FLinearColor(0.18f,0.30f,0.16f));
+    }
+}
+
+void AHonourWarWorldDirector::SpawnBaseBuilding()
+{
+    const FVector BaseLocation(900.0f,900.0f,120.0f);
+    FActorSpawnParameters Params;
+    Params.SpawnCollisionHandlingOverride=ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+    if(AHonourWarBaseBuilding* Base=GetWorld()->SpawnActor<AHonourWarBaseBuilding>(
+        AHonourWarBaseBuilding::StaticClass(),BaseLocation,FRotator::ZeroRotator,Params))
+    {
+        Base->InitializeBaseLevel(1);
     }
 }
 
