@@ -2,7 +2,6 @@
 #include "HonourWarCombatEffect.h"
 #include "HonourWarDamagePopup.h"
 #include "HonourWarCharacter.h"
-#include "HonourWarSoldier.h"
 #include "Components/SceneComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/TextRenderComponent.h"
@@ -298,55 +297,18 @@ void AHonourWarMonster::BeginPlay()
     }
 }
 
-AHonourWarSoldier* AHonourWarMonster::FindNearestSoldier(float Range) const
-{
-    TArray<AActor*> Found;
-    UGameplayStatics::GetAllActorsOfClass(GetWorld(),AHonourWarSoldier::StaticClass(),Found);
-    AHonourWarSoldier* Best=nullptr;
-    float BestDistSq=FMath::Square(Range);
-    for(AActor* Actor:Found)
-    {
-        AHonourWarSoldier* Soldier=Cast<AHonourWarSoldier>(Actor);
-        if(!Soldier || Soldier->IsDead()) continue;
-        const float DistSq=FVector::DistSquared(GetActorLocation(),Soldier->GetActorLocation());
-        if(DistSq<BestDistSq){BestDistSq=DistSq;Best=Soldier;}
-    }
-    return Best;
-}
-
 void AHonourWarMonster::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
-    if (bDead || !HasAuthority()) return;
+    if (bDead) return;
 
     AttackTimer=FMath::Max(0.0f,AttackTimer-DeltaSeconds);
     APawn* Player=UGameplayStatics::GetPlayerPawn(this,0);
     if (!Player) return;
 
-    AHonourWarSoldier* SoldierTarget=FindNearestSoldier(1050.0f);
-    const float PlayerDistance=FVector::Dist(GetActorLocation(),Player->GetActorLocation());
-    const float SoldierDistance=SoldierTarget ? FVector::Dist(GetActorLocation(),SoldierTarget->GetActorLocation()) : TNumericLimits<float>::Max();
-
-    if (SoldierTarget && SoldierDistance < PlayerDistance)
-    {
-        const FVector ToSoldier=SoldierTarget->GetActorLocation()-GetActorLocation();
-        if (SoldierDistance>280.0f)
-        {
-            const FVector Direction=ToSoldier.GetSafeNormal2D();
-            AddActorWorldOffset(Direction*(260.0f*DeltaSeconds),true);
-            if(!Direction.IsNearlyZero())
-                SetActorRotation(FMath::RInterpTo(GetActorRotation(),Direction.Rotation(),DeltaSeconds,8.0f));
-        }
-        else if (AttackTimer<=0.0f)
-        {
-            SoldierTarget->ReceiveDamage(55.0f+Level*1.8f);
-            AttackTimer=1.2f;
-        }
-        return;
-    }
-
     const FVector ToPlayer=Player->GetActorLocation()-GetActorLocation();
     const float Distance=ToPlayer.Size();
+
     if (Distance<1900.0f && Distance>280.0f)
     {
         const FVector Direction=ToPlayer.GetSafeNormal2D();
@@ -365,7 +327,7 @@ void AHonourWarMonster::Tick(float DeltaSeconds)
 
 void AHonourWarMonster::ReceiveCombatHit(float Damage,EHonourWarClass SourceClass)
 {
-    if (!HasAuthority() || bDead) return;
+    if (bDead) return;
 
     const float Multiplier=
         SourceClass==EHonourWarClass::Mage ? 1.10f :
