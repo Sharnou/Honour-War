@@ -16,7 +16,7 @@ public:
     AHonourWarMonster();
     virtual void Tick(float DeltaSeconds) override;
     void ReceiveCombatHit(float Damage, EHonourWarClass SourceClass);
-    void SetLevel(int32 NewLevel) { Level = FMath::Clamp(NewLevel, 1, 300); }
+    void SetLevel(int32 NewLevel);
     int32 GetMonsterLevel() const { return Level; }
     bool IsDead() const { return bDead; }
 
