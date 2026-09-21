@@ -35,6 +35,8 @@ required=[
     ROOT/"Source"/"HonourWar"/"HonourWarIncomeBank.h",
     ROOT/"Source"/"HonourWar"/"HonourWarIncomeBank.cpp",
     ROOT/"Source"/"HonourWar"/"HonourWarLootDatabase.h",
+    ROOT/"Source"/"HonourWar"/"HonourWarQuestComponent.h",
+    ROOT/"Source"/"HonourWar"/"HonourWarQuestComponent.cpp",
     ROOT/"Source"/"HonourWar"/"HonourWarCombatEffect.h",
     ROOT/"Source"/"HonourWar"/"HonourWarCombatEffect.cpp",
     ROOT/"Source"/"HonourWar"/"HonourWarDamagePopup.h",
@@ -98,6 +100,12 @@ for phrase in ["SetLevel","SetSoldierClass","AutoSkillIndex","RegisterSoldierDea
 
     if phrase not in soldier:
         print(f"UNREAL_CONTRACT_FAIL: soldier system missing: {phrase}")
+        sys.exit(1)
+
+quest=(ROOT/"Source"/"HonourWar"/"HonourWarQuestComponent.cpp").read_text(encoding="utf-8")
+for phrase in ["RecordMonsterDefeat","The Lost Scroll","QuestProgress","QuestGoal","DOREPLIFETIME"]:
+    if phrase not in quest:
+        print(f"UNREAL_CONTRACT_FAIL: quest system missing: {phrase}")
         sys.exit(1)
 
 player_state=(ROOT/"Source"/"HonourWar"/"HonourWarPlayerState.cpp").read_text(encoding="utf-8")
