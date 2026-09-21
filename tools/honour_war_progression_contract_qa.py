@@ -99,6 +99,8 @@ def main() -> int:
         ("Phracon", "save Phracon"),
         ("Emveretarcon", "save Emveretarcon"),
         ("Oridecon", "save Oridecon"),
+        ("QuestProgress", "save quest progress"),
+        ("QuestComplete", "save quest completion"),
     ]:
         require(save, needle, label)
 
