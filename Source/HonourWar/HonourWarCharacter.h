@@ -63,4 +63,6 @@ private:
     UPROPERTY() AHonourWarMonster* MouseTarget = nullptr;
     UPROPERTY() FVector MouseDestination = FVector::ZeroVector;
     UPROPERTY() bool bMouseMoveActive = false;
+    UPROPERTY() int64 OnlineSeconds = 0;
+    float AutoSaveAccumulator = 0.0f;
 };
