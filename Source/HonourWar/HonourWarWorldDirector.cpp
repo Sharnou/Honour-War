@@ -2,6 +2,7 @@
 #include "HonourWarMonster.h"
 #include "HonourWarSoldier.h"
 #include "HonourWarIncomeBank.h"
+#include "HonourWarDefenseTower.h"
 #include "Components/SceneComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/DirectionalLightComponent.h"
@@ -65,6 +66,7 @@ void AHonourWarWorldDirector::BeginPlay()
     SpawnMonsters();
     SpawnSoldierSquad();
     SpawnIncomeBanks();
+    SpawnDefenseTowers();
 }
 
 UMaterialInstanceDynamic* AHonourWarWorldDirector::MaterialFor(const FLinearColor& Color)
@@ -487,6 +489,31 @@ void AHonourWarWorldDirector::BuildDistantLandmarks()
     for (const FVector& P:HillPositions)
     {
         AddPart(SphereMesh,TEXT("DistantHill"),P+FVector(0,0,900),FVector(18,15,10),FRotator::ZeroRotator,FLinearColor(0.18f,0.30f,0.16f));
+    }
+}
+
+void AHonourWarWorldDirector::SpawnDefenseTowers()
+{
+    const FVector Locations[]={
+        FVector(1750,0,80),FVector(-1750,0,80),
+        FVector(0,1750,80),FVector(0,-1750,80),
+        FVector(1450,1450,80),FVector(-1450,-1450,80)
+    };
+    const EHonourWarClass Elements[]={
+        EHonourWarClass::Warrior,EHonourWarClass::Mage,
+        EHonourWarClass::Archer,EHonourWarClass::Acolyte,
+        EHonourWarClass::Ranger,EHonourWarClass::Thief
+    };
+
+    for(int32 Index=0;Index<UE_ARRAY_COUNT(Locations);++Index)
+    {
+        FActorSpawnParameters Params;
+        Params.SpawnCollisionHandlingOverride=ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+        if(AHonourWarDefenseTower* Tower=GetWorld()->SpawnActor<AHonourWarDefenseTower>(
+            AHonourWarDefenseTower::StaticClass(),Locations[Index],FRotator::ZeroRotator,Params))
+        {
+            Tower->Initialize(35+Index*3,Elements[Index]);
+        }
     }
 }
 
