@@ -46,6 +46,7 @@ required=[
     ROOT/"docs"/"MMORPG_MOUSE_CONTROL_SPEC.md",
     ROOT/"docs"/"VISUAL_DEVELOPMENT_CYCLE_CONTRACT.md",
     ROOT/"docs"/"HONOUR_WAR_HD_MMO_ANIME_STYLE_CONTRACT.md",
+    ROOT/"docs"/"HONOUR_WAR_HD_GENERATION_BIBLE.md",
     ROOT/"assets"/"3d"/"visual_rag"/"LATEST_VISUAL_BRIEF.json",
     ROOT/"docs"/"HONOUR_WAR_PERMANENT_EXCLUSIONS.md",
     ROOT/"tools"/"rejected_systems_qa.py",
@@ -66,7 +67,6 @@ for phrase in retired:
     if phrase in hud:
         print(f"UNREAL_CONTRACT_FAIL: retired HUD element remains: {phrase}")
         sys.exit(1)
-
 for phrase in ["Prontera City","Active Quest","MMORPGChat","MMORPGMiniMap","Equip +","Age %d days"]:
     if phrase not in hud:
         print(f"UNREAL_CONTRACT_FAIL: MMORPG HUD element missing: {phrase}")
@@ -140,6 +140,12 @@ cycle=(ROOT/"docs"/"VISUAL_DEVELOPMENT_CYCLE_CONTRACT.md").read_text(encoding="u
 if "Every completed visual cycle" not in cycle or "does not re-enable" not in cycle:
     print("UNREAL_CONTRACT_FAIL: development-cycle visual contract missing or unsafe")
     sys.exit(1)
+
+bible=(ROOT/"docs"/"HONOUR_WAR_HD_GENERATION_BIBLE.md").read_text(encoding="utf-8")
+for phrase in ["HD 3D MMORPG / Anime-Inspired Generation Bible","Permanent exclusions","Approved asset pipeline","Runtime test matrix","Screenshot acceptance gate","Ragnarok Online-inspired"]:
+    if phrase not in bible:
+        print(f"UNREAL_CONTRACT_FAIL: generation bible incomplete: {phrase}")
+        sys.exit(1)
 
 for path in ROOT.rglob("*"):
     if not path.is_file():
