@@ -26,7 +26,7 @@ public:
     UFUNCTION(Server, Reliable)
     void ServerTryMixCards();
     UFUNCTION(Server, Reliable)
-    void ServerTryUpgradeBasicSkill;
+    void ServerTryUpgradeBasicSkill();
     void ReceiveDamage(float Damage);
     void RestoreVitals();
 
