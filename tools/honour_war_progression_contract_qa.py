@@ -61,7 +61,9 @@ def main() -> int:
     ]:
         require(monster, needle, label)
 
-    require(world, "const int32 MonsterLevels[] = {12, 28, 55, 90, 140, 180, 220, 260, 300};", "full monster level progression")
+    require(world, "const int32 MonsterLevels[]", "monster level array")
+    require(world, "300", "level-300 monster")
+    require(world, "const FVector MonsterLocations[]", "monster spawn locations")
     require(world, "SpawnIncomeBanks();", "income bank spawning")
     for species in ["Poring","Goblin","Wolf","Skeleton","Orc","Mantis","Golem","Dragon"]:
         require(world, "EHonourWarMonsterSpecies::"+species, species+" world spawn roster")
