@@ -29,6 +29,8 @@ required=[
     ROOT/"Source"/"HonourWar"/"HonourWarPlayerController.h",
     ROOT/"Source"/"HonourWar"/"HonourWarPlayerController.cpp",
     ROOT/"Source"/"HonourWar"/"HonourWarPlayerState.h",
+    ROOT/"Source"/"HonourWar"/"HonourWarGameState.h",
+    ROOT/"Source"/"HonourWar"/"HonourWarGameState.cpp",
     ROOT/"Source"/"HonourWar"/"HonourWarPlayerState.cpp",
     ROOT/"Source"/"HonourWar"/"HonourWarSoldier.h",
     ROOT/"Source"/"HonourWar"/"HonourWarSoldier.cpp",
@@ -109,9 +111,15 @@ for phrase in ["RecordMonsterDefeat","The Lost Scroll","QuestProgress","QuestGoa
         sys.exit(1)
 
 game_mode=(ROOT/"Source"/"HonourWar"/"HonourWarGameMode.cpp").read_text(encoding="utf-8")
-for phrase in ["HandleGuildCommand","@guild"]:
+for phrase in ["HandleGuildCommand","@guild","HandleChatCommand","@say"]:
     if phrase not in game_mode:
         print(f"UNREAL_CONTRACT_FAIL: guild server command missing: {phrase}")
+        sys.exit(1)
+
+game_state=(ROOT/"Source"/"HonourWar"/"HonourWarGameState.cpp").read_text(encoding="utf-8")
+for phrase in ["AddWorldMessage","WorldMessages","DOREPLIFETIME"]:
+    if phrase not in game_state:
+        print(f"UNREAL_CONTRACT_FAIL: world chat state missing: {phrase}")
         sys.exit(1)
 
 player_state=(ROOT/"Source"/"HonourWar"/"HonourWarPlayerState.cpp").read_text(encoding="utf-8")
