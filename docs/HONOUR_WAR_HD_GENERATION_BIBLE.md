@@ -1,4 +1,4 @@
-# Honour War — HD MMORPG / Anime-Inspired Generation Bible
+# Honour War — HD 3D MMORPG / Anime-Inspired Generation Bible
 
 Status: PERMANENT / RELEASE-BLOCKING
 
