@@ -148,6 +148,16 @@ void UHonourWarCombatComponent::AddHonours(int32 Amount)
     if(Amount>0) Honours+=Amount;
 }
 
+void UHonourWarCombatComponent::AddQuestItem(const FString& ItemName)
+{
+    if(!ItemName.IsEmpty()) InventoryItems.Add(ItemName);
+}
+
+void UHonourWarCombatComponent::SetQuestMessage(const FString& Message)
+{
+    LastLootMessage=Message;
+}
+
 bool UHonourWarCombatComponent::UseSkillOnPlayer(AHonourWarCharacter* Target)
 {
     if(!Target || Target==GetOwner()) return false;
