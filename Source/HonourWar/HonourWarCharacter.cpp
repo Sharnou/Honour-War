@@ -96,6 +96,20 @@ void AHonourWarCharacter::BeginPlay()
 void AHonourWarCharacter::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
+    OnlineSeconds += static_cast<int64>(DeltaSeconds);
+    if (OnlineSeconds >= 86400)
+    {
+        const int64 OnlineDays = OnlineSeconds / 86400;
+        OnlineSeconds %= 86400;
+        if (CombatComponent) CombatComponent->SetAgeDays(CombatComponent->GetAgeDays() + static_cast<int32>(OnlineDays));
+        BuildHeroVisual();
+    }
+    AutoSaveAccumulator += DeltaSeconds;
+    if (AutoSaveAccumulator >= 60.0f)
+    {
+        AutoSaveAccumulator = 0.0f;
+        SaveProgress();
+    }
     if(!bMouseMoveActive || !GetCharacterMovement()) return;
 
     AHonourWarMonster* Target=MouseTarget;
@@ -219,7 +233,11 @@ void AHonourWarCharacter::ReceiveMonsterDamage(float Damage)
 
 void AHonourWarCharacter::HandleMonsterDefeat(int32 MonsterLevel)
 {
-    if(CombatComponent) CombatComponent->RewardMonsterDefeat(MonsterLevel);
+    if(CombatComponent)
+    {
+        CombatComponent->RewardMonsterDefeat(MonsterLevel);
+        LastCombatMessage = CombatComponent->GetLastLootMessage();
+    }
 }
 
 void AHonourWarCharacter::HandleDeathAndRespawn()
@@ -361,6 +379,7 @@ void AHonourWarCharacter::SaveProgress()
     Save->InventoryItems=CombatComponent->GetInventoryItems();
     Save->Cards=CombatComponent->GetCards();
     Save->SavedAtUtc=FDateTime::UtcNow();
+    Save->OnlineSeconds=OnlineSeconds;
     UGameplayStatics::SaveGameToSlot(Save,TEXT("HonourWar_Profile"),0);
     LastCombatMessage=TEXT("Progress saved");
 }
@@ -373,12 +392,12 @@ void AHonourWarCharacter::LoadProgress()
         UGameplayStatics::LoadGameFromSlot(TEXT("HonourWar_Profile"),0));
     if(!Save) return;
 
-    const int32 ElapsedDays=FMath::Max(0,static_cast<int32>((FDateTime::UtcNow()-Save->SavedAtUtc).GetTotalDays()));
+    OnlineSeconds=FMath::Max<int64>(0,Save->OnlineSeconds);
     CharacterClass=Save->ClassId;
     CombatComponent->SetClassId(CharacterClass);
     CombatComponent->SetLevel(Save->Level);
     CombatComponent->SetExperience(Save->Experience);
-    CombatComponent->SetAgeDays(Save->AgeDays+ElapsedDays);
+    CombatComponent->SetAgeDays(Save->AgeDays);
     CombatComponent->SetZeny(Save->Zeny);
     CombatComponent->SetHonours(Save->Honours);
     CombatComponent->SetInventoryItems(Save->InventoryItems);
