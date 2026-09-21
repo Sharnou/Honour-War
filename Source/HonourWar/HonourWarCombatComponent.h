@@ -57,6 +57,9 @@ public:
     void SetEmveretarcon(int32 Value);
     void SetOridecon(int32 Value);
     bool TryRefineEquipment();
+    int32 GetBasicSkillLevel() const { return BasicSkillLevel; }
+    bool TryMixCards();
+    bool TryUpgradeBasicSkill();
     void SetHonours(int32 NewHonours);
     void SetInventoryItems(const TArray<FString>& NewItems);
     void SetCards(const TArray<FString>& NewCards);
@@ -86,6 +89,7 @@ private:
     UPROPERTY(EditAnywhere) int32 Phracon = 20;
     UPROPERTY(EditAnywhere) int32 Emveretarcon = 10;
     UPROPERTY(EditAnywhere) int32 Oridecon = 5;
+    UPROPERTY(EditAnywhere) int32 BasicSkillLevel = 1;
     UPROPERTY(EditAnywhere) int32 Honours = 0;
     UPROPERTY() TArray<FString> InventoryItems;
     UPROPERTY() TArray<FString> Cards;
