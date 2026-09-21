@@ -32,19 +32,18 @@ The HUD is driven by the two locked repository visual anchors:
 - Screenshot/image_a4469f29.jpg
 
 Current reference-driven HUD:
-- upper-left portrait/profile with name, level/class, HP/SP/EXP and age/honour;
-- left Inventory / Character / Skills / Quests navigation;
-- upper-right mail/social/settings controls;
+- upper-left portrait/profile with name, level/class, HP/SP/EXP, age and honour;
 - circular minimap with map coordinates, compass and time;
 - active quest tracker;
-- lower-left chat;
-- lower-right Map / Bag / Shop / Party / Guild shortcuts.
+- lower-left world chat with editable message input;
+- compact MMORPG combat/economy status.
 
-Removed:
-- center-bottom 8-slot COMBAT SKILLS HUD;
-- standalone player panel;
-- developer command toolbar;
-- strategy/tower/army interface.
+Removed permanently:
+- build/menu overlay panels and construction UI;
+- soldier, squad, workshop and tower systems;
+- base-building and base-sight overlays;
+- strategy-war controls;
+- player-vs-player team combat controls.
 
 ## Engine
 
@@ -65,7 +64,7 @@ The world remains medieval/fantasy with detailed terrain, buildings, vegetation,
 
 ## Validation
 
-The active release gate is tools/unreal_engine_contract_qa.py plus the Unreal Windows build/runtime screenshot workflows. Retired Godot validation is not a current game gate.
+The active release gate is tools/rejected_systems_qa.py plus tools/unreal_engine_contract_qa.py and the Unreal Windows build/runtime screenshot workflows. Retired Godot validation is not a current game gate.
 
 ## Fifth-tier class progression
 
