@@ -12,9 +12,7 @@ class UMaterialInterface;
 class UMaterialInstanceDynamic;
 class USceneComponent;
 class AHonourWarMonster;
-class AHonourWarBaseBuilding;
 class AHonourWarCharacter;
-class AHonourWarSoldier;
 
 UCLASS()
 class HONOURWAR_API AHonourWarWorldDirector : public AActor
@@ -23,7 +21,6 @@ class HONOURWAR_API AHonourWarWorldDirector : public AActor
 
 public:
     AHonourWarWorldDirector();
-    void RegisterSoldierDeath(AHonourWarCharacter* Commander);
 
 protected:
     virtual void BeginPlay() override;
@@ -36,11 +33,6 @@ private:
     UPROPERTY() UStaticMesh* SphereMesh=nullptr;
     UPROPERTY() UStaticMesh* ConeMesh=nullptr;
     UPROPERTY() UMaterialInterface* BaseMaterial=nullptr;
-    int32 SoldierDeathCount=0;
-    float CommanderScanTimer=0.0f;
-    TSet<AHonourWarCharacter*> CommandersWithSquad;
-    TMap<AHonourWarCharacter*,int32> SoldierDeathsByCommander;
-    void EnsureCommanderSquads();
 
     struct FMonsterSlot
     {
@@ -70,10 +62,6 @@ private:
     void BuildVegetation();
     void BuildDistantLandmarks();
     void SpawnMonsters();
-    void SpawnIncomeBanks();
-    void SpawnDefenseTowers();
-    void SpawnBaseBuilding();
-    void SpawnSoldierSquad(AHonourWarCharacter* Commander);
 
     void BuildHouse(const FVector& Center,float Yaw,const FLinearColor& WallColor,const FLinearColor& RoofColor);
     void BuildTree(const FVector& Center,float Scale,int32 Variant);
@@ -82,7 +70,6 @@ private:
     void BuildBanner(const FVector& Center,float Yaw,const FLinearColor& ClothColor);
     void BuildFence(const FVector& Center,float Yaw,float Length);
     void BuildRock(const FVector& Center,float Scale);
-    void BuildShrine(const FVector& Center,float Scale);
     void BuildDungeonGate(const FVector& Center);
     void BuildRiverBridge(const FVector& Center);
 };
