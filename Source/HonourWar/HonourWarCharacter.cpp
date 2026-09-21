@@ -356,6 +356,10 @@ void AHonourWarCharacter::SaveProgress()
     Save->ClassId=CharacterClass;
     Save->ClassTier=GetClassTier();
     Save->FifthTierArchetype=HonourWarClassProgression::NaturalFifthTier(CharacterClass);
+    Save->Zeny=CombatComponent->GetZeny();
+    Save->Honours=CombatComponent->GetHonours();
+    Save->InventoryItems=CombatComponent->GetInventoryItems();
+    Save->Cards=CombatComponent->GetCards();
     Save->SavedAtUtc=FDateTime::UtcNow();
     UGameplayStatics::SaveGameToSlot(Save,TEXT("HonourWar_Profile"),0);
     LastCombatMessage=TEXT("Progress saved");
@@ -375,5 +379,9 @@ void AHonourWarCharacter::LoadProgress()
     CombatComponent->SetLevel(Save->Level);
     CombatComponent->SetExperience(Save->Experience);
     CombatComponent->SetAgeDays(Save->AgeDays+ElapsedDays);
+    CombatComponent->SetZeny(Save->Zeny);
+    CombatComponent->SetHonours(Save->Honours);
+    CombatComponent->SetInventoryItems(Save->InventoryItems);
+    CombatComponent->SetCards(Save->Cards);
     BuildHeroVisual();
 }
