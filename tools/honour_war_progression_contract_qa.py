@@ -62,6 +62,15 @@ def main() -> int:
         require(monster, needle, label)
 
     require(world, "const int32 MonsterLevels[] = {12, 28, 55, 90, 140, 180, 220, 260, 300};", "full monster level progression")
+    require(world, "SpawnIncomeBanks();", "income bank spawning")
+    bank_cpp = (ROOT / "Source" / "HonourWar" / "HonourWarIncomeBank.cpp").read_text(encoding="utf-8")
+    for needle, label in [
+        ("Guardian->IsDead()", "guarded bank unlock"),
+        ("HasOccupyingSoldier()", "soldier bank occupation"),
+        ("AddZeny(ZenyPerSecond)", "automatic bank income"),
+        ("if(!HasAuthority()) return", "authority-only bank income"),
+    ]:
+        require(bank_cpp, needle, label)
     require((ROOT / "Config" / "DefaultInput.ini").read_text(encoding="utf-8"), 'ActionName="RefineEquipment"', "refinement input")
 
     soldier_cpp = (ROOT / "Source" / "HonourWar" / "HonourWarSoldier.cpp").read_text(encoding="utf-8")
