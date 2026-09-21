@@ -1,6 +1,7 @@
 #include "HonourWarCombatComponent.h"
 #include "HonourWarCharacter.h"
 #include "HonourWarMonster.h"
+#include "HonourWarLootDatabase.h"
 #include "Kismet/GameplayStatics.h"
 
 UHonourWarCombatComponent::UHonourWarCombatComponent()
@@ -224,14 +225,22 @@ void UHonourWarCombatComponent::RewardMonsterDefeat(int32 MonsterLevel)
     else if (SafeLevel >= 200) Rarity = TEXT("Legendary");
     else if (SafeLevel >= 100) Rarity = TEXT("Epic");
 
-    const FString ItemName = FString::Printf(TEXT("%s Monster Loot +%d"), *Rarity, SafeLevel);
+    const int32 LootRank = FMath::Clamp(101 - FMath::RoundToInt(static_cast<float>(SafeLevel) * 100.0f / 300.0f), 1, 100);
+    const FString DatabaseItem = HonourWarLootDatabase::ItemForRank(LootRank);
+    const FString ItemName = FString::Printf(TEXT("%s | %s"), *Rarity, *DatabaseItem);
     InventoryItems.Add(ItemName);
+
+    if (SafeLevel >= 100)
+    {
+        const FString DatabaseCard = HonourWarLootDatabase::CardForRank(LootRank);
+        Cards.Add(DatabaseCard);
+    }
 
     if (SafeLevel >= 300)
     {
         Cards.Add(TEXT("World Monarch Card"));
         InventoryItems.Add(TEXT("Transcendent Monster Suit"));
-        LastLootMessage = FString::Printf(TEXT("Lv.%d MONSTER DEFEATED | %lld Zeny | Mythic Suit | World Monarch Card | +%d XP"), SafeLevel, ZenyReward, KillXp);
+        LastLootMessage = FString::Printf(TEXT("Lv.%d MONSTER DEFEATED | %lld Zeny | Mythic | %s | World Monarch Card | +%d XP"), SafeLevel, ZenyReward, *DatabaseItem, KillXp);
     }
     else
     {
