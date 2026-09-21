@@ -1,5 +1,6 @@
 #include "HonourWarSoldier.h"
 #include "HonourWarMonster.h"
+#include "HonourWarWorldDirector.h"
 #include "Components/SceneComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Engine/StaticMesh.h"
@@ -62,11 +63,13 @@ void AHonourWarSoldier::SetLevel(int32 NewLevel)
     Level=FMath::Clamp(NewLevel,1,50);
     MaxHealth=900.0f+Level*22.0f;
     CurrentHealth=MaxHealth;
+    if (HasActorBegunPlay()) BuildVisual();
 }
 
 void AHonourWarSoldier::SetSoldierClass(EHonourWarClass NewClass)
 {
     SoldierClass=NewClass;
+    if (HasActorBegunPlay()) BuildVisual();
 }
 
 void AHonourWarSoldier::BeginPlay()
@@ -165,6 +168,13 @@ void AHonourWarSoldier::ReceiveDamage(float Damage)
     if (CurrentHealth<=0.0f)
     {
         bDead=true;
+        if (!bDeathRegistered)
+        {
+            bDeathRegistered=true;
+            if (AHonourWarWorldDirector* Director=Cast<AHonourWarWorldDirector>(
+                UGameplayStatics::GetActorOfClass(GetWorld(),AHonourWarWorldDirector::StaticClass())))
+                Director->RegisterSoldierDeath();
+        }
         SetActorEnableCollision(false);
         SetLifeSpan(0.2f);
     }
