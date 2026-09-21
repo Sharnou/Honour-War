@@ -33,6 +33,10 @@ required=[
     ROOT/"Source"/"HonourWar"/"HonourWarIncomeBank.h",
     ROOT/"Source"/"HonourWar"/"HonourWarIncomeBank.cpp",
     ROOT/"Source"/"HonourWar"/"HonourWarLootDatabase.h",
+    ROOT/"Source"/"HonourWar"/"HonourWarCombatEffect.h",
+    ROOT/"Source"/"HonourWar"/"HonourWarCombatEffect.cpp",
+    ROOT/"Source"/"HonourWar"/"HonourWarDamagePopup.h",
+    ROOT/"Source"/"HonourWar"/"HonourWarDamagePopup.cpp",
     ROOT/"Source"/"HonourWar"/"HonourWarScreenshotDirector.h",
     ROOT/"Source"/"HonourWar"/"HonourWarScreenshotDirector.cpp",
     ROOT/"data"/"honour_war_class_tiers.json",
@@ -74,6 +78,17 @@ controller=(ROOT/"Source"/"HonourWar"/"HonourWarPlayerController.cpp").read_text
 for phrase in ["HandleMouseClick","GetHitResultUnderCursorByChannel","SetMouseTarget","SetMouseDestination","HandleMouseWheel","RotateCameraFromMouse","bHasLastMousePosition"]:
     if phrase not in controller:
         print(f"UNREAL_CONTRACT_FAIL: MMORPG mouse control missing: {phrase}")
+        sys.exit(1)
+
+effect=(ROOT/"Source"/"HonourWar"/"HonourWarCombatEffect.cpp").read_text(encoding="utf-8")
+popup=(ROOT/"Source"/"HonourWar"/"HonourWarDamagePopup.cpp").read_text(encoding="utf-8")
+for phrase in ["Initialize","SetLifeSpan","SetLightColor"]:
+    if phrase not in effect:
+        print(f"UNREAL_CONTRACT_FAIL: combat effect missing: {phrase}")
+        sys.exit(1)
+for phrase in ["SetText","SetTextRenderColor","SetXScale","SetLifeSpan"]:
+    if phrase not in popup:
+        print(f"UNREAL_CONTRACT_FAIL: damage popup missing: {phrase}")
         sys.exit(1)
 
 soldier=(ROOT/"Source"/"HonourWar"/"HonourWarSoldier.cpp").read_text(encoding="utf-8")
