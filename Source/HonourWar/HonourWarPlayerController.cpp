@@ -136,6 +136,7 @@ void AHonourWarPlayerController::SetupInputComponent()
     InputComponent->BindAction(TEXT("Skill6"),IE_Pressed,this,&AHonourWarPlayerController::Skill6);
     InputComponent->BindAction(TEXT("Skill7"),IE_Pressed,this,&AHonourWarPlayerController::Skill7);
     InputComponent->BindAction(TEXT("Skill8"),IE_Pressed,this,&AHonourWarPlayerController::Skill8);
+    InputComponent->BindAction(TEXT("RefineEquipment"),IE_Pressed,this,&AHonourWarPlayerController::RefineEquipment);
 }
 
 void AHonourWarPlayerController::MoveForward(float V){if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->MoveForward(V);}
@@ -155,6 +156,7 @@ void AHonourWarPlayerController::Skill5(){if(auto*C=Cast<AHonourWarCharacter>(Ge
 void AHonourWarPlayerController::Skill6(){if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->ActivateSkill(5);}
 void AHonourWarPlayerController::Skill7(){if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->ActivateSkill(6);}
 void AHonourWarPlayerController::Skill8(){if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->ActivateSkill(7);}
+void AHonourWarPlayerController::RefineEquipment(){if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->RefineEquipment();}
 
 
 bool AHonourWarPlayerController::ExecuteGoCommand(const FString& Command)
