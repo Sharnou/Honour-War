@@ -315,7 +315,7 @@ def build_all():
             export_root(root, os.path.join(ROOT, "characters", class_id, tier_name + ".fbx"))
     # Pets: class-specific contract plus shared species assets.
     for class_id, (_, _) in CLASSES.items():
-        species = {"Warrior":"Wolf", "Mage":"ArcaneOrb", "Archer":"Falcon", "Thief":"Panther", "Acolyte":"PoringAngel", "Merchant":"Clockwork"}[class_id]
+        species = {"Warrior":"Wolf", "Mage":"ArcaneOrb", "Archer":"Falcon", "Thief":"Panther", "Acolyte":"PoringAngel", "Merchant":"Clockwork", "Ranger":"Falcon"}[class_id]
         clear()
         root = pet(class_id, species)
         export_root(root, os.path.join(ROOT, "pets", class_id + "_pet.fbx"))
