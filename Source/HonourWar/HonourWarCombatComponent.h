@@ -21,6 +21,12 @@ public:
     bool UseSkill(int32 SkillIndex);
     UFUNCTION(Server, Reliable)
     void ServerUseSkill(int32 SkillIndex);
+    UFUNCTION(Server, Reliable)
+    void ServerTryRefineEquipment();
+    UFUNCTION(Server, Reliable)
+    void ServerTryMixCards();
+    UFUNCTION(Server, Reliable)
+    void ServerTryUpgradeBasicSkill;
     void ReceiveDamage(float Damage);
     void RestoreVitals();
 
