@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "HonourWarTypes.h"
+#include "HonourWarMonster.h"
 #include "HonourWarWorldDirector.generated.h"
 
 class UStaticMesh;
