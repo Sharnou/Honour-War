@@ -11,6 +11,7 @@ class HONOURWAR_API AHonourWarPlayerController : public APlayerController
 
 public:
     AHonourWarPlayerController();
+    void SendChatMessage(const FString& Message);
 
 protected:
     virtual void BeginPlay() override;
@@ -19,7 +20,6 @@ protected:
     virtual bool InputKey(const FInputKeyEventArgs& Params) override;
     virtual bool Exec(UWorld* InWorld,const TCHAR* Cmd,FOutputDevice& Ar) override;
 
-    void SendChatMessage(const FString& Message);
     UFUNCTION(Server,Reliable)
     void ServerSendChat(const FString& Message);
 
