@@ -8,6 +8,7 @@
 #include "HonourWarCharacter.generated.h"
 
 class UCameraComponent;
+class UTextRenderComponent;
 class USpringArmComponent;
 class UHonourWarCombatComponent;
 class UHonourWarQuestComponent;
@@ -78,6 +79,7 @@ private:
     UPROPERTY(VisibleAnywhere) UHonourWarCombatComponent* CombatComponent;
     UPROPERTY(VisibleAnywhere) UHonourWarQuestComponent* QuestComponent;
     UPROPERTY() USceneComponent* VisualRoot;
+    UPROPERTY() UTextRenderComponent* PlayerNameplate = nullptr;
     UPROPERTY() FString LastCombatMessage = TEXT("Ready");
     UPROPERTY(ReplicatedUsing=OnRepCharacterClass) EHonourWarClass CharacterClass = EHonourWarClass::Warrior;
     UPROPERTY() FVector RespawnPoint = FVector(900.0f, 900.0f, 180.0f);
