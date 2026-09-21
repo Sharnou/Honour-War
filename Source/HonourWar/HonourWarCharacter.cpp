@@ -217,6 +217,11 @@ void AHonourWarCharacter::ReceiveMonsterDamage(float Damage)
     if(CombatComponent) CombatComponent->ReceiveDamage(Damage);
 }
 
+void AHonourWarCharacter::HandleMonsterDefeat(int32 MonsterLevel)
+{
+    if(CombatComponent) CombatComponent->RewardMonsterDefeat(MonsterLevel);
+}
+
 void AHonourWarCharacter::HandleDeathAndRespawn()
 {
     SetActorLocation(RespawnPoint);
