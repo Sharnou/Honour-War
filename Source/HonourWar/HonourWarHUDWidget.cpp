@@ -171,6 +171,8 @@ void UHonourWarHUDWidget::BuildMiniMap(UCanvasPanel* Root)
     Stack->AddChildToVerticalBox(Text(WidgetTree,TEXT("MapCoords"),TEXT("(128, 214)   •   N"),13.0f,Muted));
     Stack->AddChildToVerticalBox(Text(WidgetTree,TEXT("MapCompass"),TEXT("        N\n     W  ✦  E\n        S"),24.0f,Gold));
     Stack->AddChildToVerticalBox(Text(WidgetTree,TEXT("MapStatus"),TEXT("Daylight  •  14:32"),14.0f,White));
+    BaseSightText=Text(WidgetTree,TEXT("BaseSight"),TEXT("Base Sight  •  offline"),14.0f,Muted);
+    Stack->AddChildToVerticalBox(BaseSightText);
 }
 
 void UHonourWarHUDWidget::BuildQuestTracker(UCanvasPanel* Root)
@@ -303,6 +305,8 @@ void UHonourWarHUDWidget::RefreshVitals()
     XpBar->SetPercent(Combat->GetXpPercent());
     if (EconomyText)
         EconomyText->SetText(FText::FromString(FString::Printf(TEXT("Age %d days  |  Zeny %lld  |  Honours %d"),Combat->GetAgeDays(),Combat->GetZeny(),Combat->GetHonours())));
+    if (BaseSightText)
+        BaseSightText->SetText(FText::FromString(Character->GetBaseSightActive()?TEXT("Base Sight  •  ONLINE  •  minimap overlay"):TEXT("Base Sight  •  offline")));
     if (RefinementText)
         RefinementText->SetText(FText::FromString(FString::Printf(
             TEXT("Equip +%d  |  Refine %.1f%%  |  P:%d E:%d O:%d  |  R"),
