@@ -252,7 +252,7 @@ void UHonourWarHUDWidget::OpenCharacter()
 void UHonourWarHUDWidget::OpenSkills()
 {
     ShowSection(TEXT("Skills"),
-        TEXT("1 Basic Attack\n2 Class Skill\n3 Power Strike\n4 Arcane Burst\n5 Rapid Volley\n6 Guardian Light\n7 Shadow Step\n8 Finisher\n\nCooldown and SP are validated by the server."));
+        FString::Printf(TEXT("1 Basic Attack  |  Basic Skill Lv.%d\n2 Class Skill\n3 Power Strike\n4 Arcane Burst\n5 Rapid Volley\n6 Guardian Light\n7 Shadow Step\n8 Finisher\n\nU = upgrade basic skill\nC = mix 3 cards\nCooldown and SP are validated by the server."), C && C->GetCombatComponent() ? C->GetCombatComponent()->GetBasicSkillLevel() : 1));
 }
 
 void UHonourWarHUDWidget::OpenQuests()
