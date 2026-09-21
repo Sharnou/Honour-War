@@ -433,9 +433,16 @@ void AHonourWarCharacter::BuildHeroVisual()
     if(!Cube||!Sphere||!Cylinder) return;
 
     const FHonourWarClassStyle Style=HonourWarClassStyle(CharacterClass);
-    const FLinearColor Skin(0.76f,0.53f,0.40f);
-    const FLinearColor Hair(0.055f,0.035f,0.025f);
+    const float AgeYears=18.0f+static_cast<float>(CombatComponent?CombatComponent->GetAgeDays():0)/3.0f;
+    const float Mature=FMath::Clamp((AgeYears-18.0f)/42.0f,0.0f,1.0f);
+    const FLinearColor YoungSkin(0.76f,0.53f,0.40f);
+    const FLinearColor MatureSkin(0.62f,0.46f,0.38f);
+    const FLinearColor Skin=FLinearColor::LerpUsingHSV(YoungSkin,MatureSkin,Mature);
+    const FLinearColor YoungHair(0.055f,0.035f,0.025f);
+    const FLinearColor SilverHair(0.68f,0.68f,0.72f);
+    const FLinearColor Hair=FLinearColor::LerpUsingHSV(YoungHair,SilverHair,Mature*0.82f);
     const FLinearColor Metal(0.62f,0.63f,0.64f);
+    const float HeadMaturityScale=1.0f+Mature*0.08f;
 
     AddPart(this,VisualRoot,Cylinder,TEXT("Body"),FVector(0,0,75),FVector(0.62f,0.48f,0.82f),FRotator::ZeroRotator,Style.Primary);
     AddPart(this,VisualRoot,Cube,TEXT("ChestPlate"),FVector(0,0,112),FVector(0.68f,0.54f,0.28f),FRotator::ZeroRotator,Metal);
@@ -448,10 +455,21 @@ void AHonourWarCharacter::BuildHeroVisual()
     AddPart(this,VisualRoot,Cylinder,TEXT("RightArm"),FVector(0,49,100),FVector(0.18f,0.18f,0.48f),FRotator(0,0,8),Style.Primary);
     AddPart(this,VisualRoot,Sphere,TEXT("LeftGlove"),FVector(12,-54,72),FVector(0.20f,0.20f,0.20f),FRotator::ZeroRotator,Style.Secondary);
     AddPart(this,VisualRoot,Sphere,TEXT("RightGlove"),FVector(12,54,72),FVector(0.20f,0.20f,0.20f),FRotator::ZeroRotator,Style.Secondary);
-    AddPart(this,VisualRoot,Sphere,TEXT("Head"),FVector(0,0,172),FVector(0.54f,0.50f,0.58f),FRotator::ZeroRotator,Skin);
-    AddPart(this,VisualRoot,Sphere,TEXT("Hair"),FVector(-4,0,197),FVector(0.58f,0.54f,0.28f),FRotator::ZeroRotator,Hair);
+    AddPart(this,VisualRoot,Sphere,TEXT("Head"),FVector(0,0,172),FVector(0.54f*HeadMaturityScale,0.50f*HeadMaturityScale,0.58f*HeadMaturityScale),FRotator::ZeroRotator,Skin);
+    AddPart(this,VisualRoot,Sphere,TEXT("Hair"),FVector(-4,0,197+Mature*3.0f),FVector(0.58f,0.54f,0.28f+Mature*0.03f),FRotator::ZeroRotator,Hair);
     AddPart(this,VisualRoot,Sphere,TEXT("LeftEye"),FVector(38,-16,176),FVector(0.055f,0.055f,0.055f),FRotator::ZeroRotator,FLinearColor::Black);
     AddPart(this,VisualRoot,Sphere,TEXT("RightEye"),FVector(38,16,176),FVector(0.055f,0.055f,0.055f),FRotator::ZeroRotator,FLinearColor::Black);
+
+    if(Mature>0.05f)
+    {
+        const FLinearColor FaceMark(0.46f,0.32f,0.27f);
+        AddPart(this,VisualRoot,Cube,TEXT("AgeMarkL"),FVector(42,-17,167),FVector(0.015f,0.05f,0.10f),FRotator(0,0,8),FaceMark);
+        AddPart(this,VisualRoot,Cube,TEXT("AgeMarkR"),FVector(42,17,167),FVector(0.015f,0.05f,0.10f),FRotator(0,0,-8),FaceMark);
+    }
+    if(Mature>=0.70f)
+    {
+        AddPart(this,VisualRoot,Cube,TEXT("MatureJaw"),FVector(43,0,162),FVector(0.018f,0.16f,0.025f),FRotator::ZeroRotator,FaceMark);
+    }
 
     BuildWeaponVisual();
     BuildFifthTierVisual();
