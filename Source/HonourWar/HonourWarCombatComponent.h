@@ -6,6 +6,7 @@
 #include "HonourWarCombatComponent.generated.h"
 
 class AHonourWarMonster;
+class AHonourWarCharacter;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FHonourWarSkillEvent, int32, SkillIndex, float, Damage);
 
 UCLASS(ClassGroup=(HonourWar), meta=(BlueprintSpawnableComponent))
@@ -21,6 +22,8 @@ public:
     bool UseSkill(int32 SkillIndex);
     UFUNCTION(Server, Reliable)
     void ServerUseSkill(int32 SkillIndex);
+    UFUNCTION(Server, Reliable)
+    void ServerUseSkillOnPlayer(AHonourWarCharacter* Target);
     UFUNCTION(Server, Reliable)
     void ServerTryRefineEquipment();
     UFUNCTION(Server, Reliable)
@@ -68,6 +71,7 @@ public:
     int32 GetBasicSkillLevel() const { return BasicSkillLevel; }
     bool TryMixCards();
     bool TryUpgradeBasicSkill();
+    bool UseSkillOnPlayer(AHonourWarCharacter* Target);
     void SetHonours(int32 NewHonours);
     void SetInventoryItems(const TArray<FString>& NewItems);
     void SetCards(const TArray<FString>& NewCards);
