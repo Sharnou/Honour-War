@@ -2,7 +2,7 @@
 """Validate that a captured PNG contains non-trivial rendered pixels.
 
 Uses only Python's standard library so GitHub runners do not need Pillow.
-Supports the 8-bit non-interlaced RGB/RGBA PNGs produced by Godot viewport capture.
+Supports the 8-bit non-interlaced RGB/RGBA PNGs produced by the Unreal Engine Windows runtime capture.
 """
 
 from __future__ import annotations
