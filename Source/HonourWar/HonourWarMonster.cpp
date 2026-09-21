@@ -76,8 +76,13 @@ void AHonourWarMonster::BeginPlay()
     RightHorn->SetRelativeRotation(FRotator(-24,0,14));
     RightHorn->SetRelativeScale3D(FVector(0.20f,0.20f,0.70f));
 
-    ApplyColor(Body,FLinearColor(0.35f,0.17f,0.12f));
-    ApplyColor(Head,FLinearColor(0.46f,0.24f,0.15f));
+    const float TierScale = 0.80f + static_cast<float>(Level) / 260.0f;
+    Body->SetRelativeScale3D(FVector(1.20f*TierScale,1.00f*TierScale,1.35f*TierScale));
+    Head->SetRelativeScale3D(FVector(0.84f*TierScale,0.84f*TierScale,0.74f*TierScale));
+    const FLinearColor BodyColor = Level >= 300 ? FLinearColor(0.18f,0.03f,0.28f) : Level >= 200 ? FLinearColor(0.55f,0.08f,0.10f) : Level >= 100 ? FLinearColor(0.30f,0.12f,0.08f) : FLinearColor(0.35f,0.17f,0.12f);
+    const FLinearColor HeadColor = Level >= 300 ? FLinearColor(0.38f,0.06f,0.52f) : Level >= 200 ? FLinearColor(0.68f,0.14f,0.12f) : Level >= 100 ? FLinearColor(0.46f,0.18f,0.12f) : FLinearColor(0.46f,0.24f,0.15f);
+    ApplyColor(Body,BodyColor);
+    ApplyColor(Head,HeadColor);
     ApplyColor(LeftHorn,FLinearColor(0.12f,0.07f,0.05f));
     ApplyColor(RightHorn,FLinearColor(0.12f,0.07f,0.05f));
 
