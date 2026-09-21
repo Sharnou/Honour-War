@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "HonourWarTypes.h"
 #include "HonourWarWorldDirector.generated.h"
 
 class UStaticMesh;
@@ -22,6 +23,7 @@ public:
 
 protected:
     virtual void BeginPlay() override;
+    virtual void Tick(float DeltaSeconds) override;
 
 private:
     UPROPERTY() USceneComponent* Root;
@@ -31,6 +33,18 @@ private:
     UPROPERTY() UStaticMesh* ConeMesh=nullptr;
     UPROPERTY() UMaterialInterface* BaseMaterial=nullptr;
     int32 SoldierDeathCount=0;
+
+    struct FMonsterSlot
+    {
+        FVector Location=FVector::ZeroVector;
+        int32 Level=1;
+        EHonourWarMonsterSpecies Species=EHonourWarMonsterSpecies::Goblin;
+        TWeakObjectPtr<AHonourWarMonster> Active;
+        float RespawnTimer=0.0f;
+    };
+
+    TArray<FMonsterSlot> MonsterSlots;
+    void SpawnMonsterSlot(int32 SlotIndex);
 
     UStaticMeshComponent* AddPart(UStaticMesh* Mesh,const TCHAR* Name,const FVector& Location,const FVector& Scale,
         const FRotator& Rotation,const FLinearColor& Color,bool bCollision=false);
