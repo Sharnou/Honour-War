@@ -1,65 +1,67 @@
 #!/usr/bin/env python3
-"""Validate the Visual RAG-first production gap register.
+"""Validate the permanent Visual RAG-first Unreal production cycle."""
 
-This intentionally does not require Blender or Substance 3D Painter in CI.
-It prevents specification-only gaps from being reported as authored production.
-"""
-from pathlib import Path
+from __future__ import annotations
+
 import json
+from pathlib import Path
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-REGISTER = ROOT / "assets/3d/PRODUCTION_VISUAL_GAP_REGISTER.json"
-REQUIRED_ORDER = [
-    "Visual RAG",
-    "Blender",
-    "Substance 3D Painter",
-    "GLB/GLTF",
-    "Godot 4.7 Forward+",
-    "automated integrity/runtime/export validation",
-]
-FORBIDDEN = {
-    "Barracks",
-    "Tower Defense",
-    "Soldier Production",
-    "Guarded Bank",
-    "soldier army or respawn loops",
-    "guarded-bank income or occupation",
-    "bank territories",
-    "strategy-city progression",
-}
+BRIEF = ROOT / "assets" / "3d" / "visual_rag" / "LATEST_VISUAL_BRIEF.json"
+STYLE = ROOT / "docs" / "HONOUR_WAR_HD_MMO_ANIME_STYLE_CONTRACT.md"
+CYCLE = ROOT / "docs" / "VISUAL_DEVELOPMENT_CYCLE_CONTRACT.md"
+PIPELINE = ROOT / "ART_PIPELINE.md"
 
-def main():
-    if not REGISTER.exists():
-        print(f"ERROR: missing {REGISTER.relative_to(ROOT)}")
-        return 1
-    data = json.loads(REGISTER.read_text(encoding="utf-8"))
-    if data.get("pipeline_order") != REQUIRED_ORDER:
-        print("ERROR: pipeline order does not match the permanent production role order")
-        return 1
-    gaps = data.get("current_gaps", [])
-    if not gaps:
-        print("ERROR: current_gaps must remain explicit until authored assets are verified")
-        return 1
-    for gap in gaps:
-        for key in ("id", "visual_rag_target", "blender_contract", "substance_contract", "interchange", "godot_integration", "status", "blocker"):
-            if not gap.get(key):
-                print(f"ERROR: gap {gap.get('id', '<unknown>')} missing {key}")
-                return 1
-        if gap["status"] not in {"authored_production", "deterministic_generated", "specification_only", "blocked_external_tool"}:
-            print(f"ERROR: invalid status for {gap['id']}: {gap['status']}")
-            return 1
-        if gap["status"] == "authored_production" and gap.get("blocker"):
-            print(f"ERROR: authored production gap cannot retain a blocker: {gap['id']}")
-            return 1
-    prohibited = set(data.get("prohibited_systems", []))
-    missing = FORBIDDEN - prohibited
-    if missing:
-        print("ERROR: prohibited system list is incomplete:", sorted(missing))
-        return 1
-    print("VISUAL GAP REGISTER QA")
-    print(f"PASS: {len(gaps)} explicit gap records; production claims remain evidence-gated")
+
+def require(condition: bool, message: str) -> None:
+    if not condition:
+        print("VISUAL_CYCLE_QA_FAIL: " + message)
+        raise SystemExit(1)
+
+
+def main() -> int:
+    for path in (BRIEF, STYLE, CYCLE, PIPELINE):
+        require(path.is_file(), f"missing required visual-cycle file: {path.relative_to(ROOT)}")
+
+    brief = json.loads(BRIEF.read_text(encoding="utf-8"))
+    style = STYLE.read_text(encoding="utf-8")
+    cycle = CYCLE.read_text(encoding="utf-8")
+    pipeline = PIPELINE.read_text(encoding="utf-8")
+
+    require(brief.get("engine") == "Unreal Engine 5.8", "visual brief engine is not Unreal Engine 5.8")
+    require(brief.get("identity") == "HD 3D anime-inspired isometric MMORPG/ARPG", "visual identity drifted")
+    require(brief.get("direct_visual_source") == "Screenshot/", "Screenshot/ is not the authoritative visual source")
+    require(brief.get("runtime_formats") == ["FBX", "OBJ"], "runtime intake must remain FBX/OBJ")
+    require(brief.get("rejected_formats") == ["GLB", "GLTF"], "GLB/GLTF retirement is not explicit")
+    required_camera = brief.get("required", {}).get("camera", {})
+    require(required_camera.get("style") == "Ragnarok Online-inspired perspective/isometric MMORPG camera", "camera identity drifted")
+    require(required_camera.get("complete_hero_framing") is True, "complete hero framing is not required")
+    required_controls = brief.get("required", {}).get("controls", {})
+    require(required_controls.get("left_click_ground") == "click-to-move", "click-to-move missing")
+    require(required_controls.get("left_click_monster") == "select-and-engage", "monster target interaction missing")
+    require(required_controls.get("right_drag") == "camera_orbit", "right-drag camera orbit missing")
+    require(required_controls.get("mouse_wheel") == "bounded_zoom", "mouse-wheel zoom missing")
+    require(brief.get("cycle_rules", {}).get("visual_rag_required_first") is True, "Visual RAG-first rule missing")
+    require(brief.get("cycle_rules", {}).get("regenerate_visual_brief_each_completed_cycle") is True, "brief regeneration rule missing")
+    require(brief.get("cycle_rules", {}).get("refresh_3d_assets_each_completed_cycle") is True, "3D refresh rule missing")
+    require(brief.get("cycle_rules", {}).get("validate_real_unreal_runtime_each_completed_cycle") is True, "real runtime rule missing")
+    require(brief.get("cycle_rules", {}).get("daily_unattended_upgrade") is False, "unattended upgrade system must remain disabled")
+
+    for text, label in [(style, "style contract"), (cycle, "visual cycle contract"), (pipeline, "art pipeline")]:
+        for phrase in [
+            "HD 3D anime-inspired",
+            "Ragnarok Online-inspired",
+            "Visual RAG",
+            "FBX/OBJ",
+            "Unreal Engine 5.8",
+            "right-mouse drag",
+        ]:
+            require(phrase in text, f"{label} missing {phrase}")
+
+    print("VISUAL_CYCLE_QA_PASS: HD 3D anime MMORPG identity, Visual RAG-first regeneration, FBX/OBJ Unreal intake, and Ragnarok-inspired camera/control contract are locked.")
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())
