@@ -2,6 +2,7 @@
 #include "Net/UnrealNetwork.h"
 #include "HonourWarPlayerState.h"
 #include "HonourWarCombatComponent.h"
+#include "HonourWarQuestComponent.h"
 #include "HonourWarSaveGame.h"
 #include "HonourWarMonster.h"
 #include "Components/CapsuleComponent.h"
@@ -83,6 +84,7 @@ AHonourWarCharacter::AHonourWarCharacter()
     VisualRoot=CreateDefaultSubobject<USceneComponent>(TEXT("VisualRoot"));
     VisualRoot->SetupAttachment(RootComponent);
     CombatComponent=CreateDefaultSubobject<UHonourWarCombatComponent>(TEXT("CombatComponent"));
+    QuestComponent=CreateDefaultSubobject<UHonourWarQuestComponent>(TEXT("QuestComponent"));
     AutoPossessPlayer=EAutoReceiveInput::Player0;
 }
 
@@ -96,6 +98,8 @@ void AHonourWarCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& 
 void AHonourWarCharacter::OnRepCharacterClass()
 {
     if(CombatComponent) CombatComponent->SetClassId(CharacterClass);
+    if(QuestComponent)
+        QuestComponent->SetQuestState(Save->QuestId,Save->QuestProgress,Save->QuestComplete);
     BuildHeroVisual();
 }
 
@@ -348,6 +352,7 @@ void AHonourWarCharacter::HandleMonsterDefeat(int32 MonsterLevel)
     if(CombatComponent)
     {
         CombatComponent->RewardMonsterDefeat(MonsterLevel);
+        if(QuestComponent) QuestComponent->RecordMonsterDefeat(MonsterLevel);
         LastCombatMessage = CombatComponent->GetLastLootMessage();
     }
 }
@@ -504,6 +509,12 @@ void AHonourWarCharacter::SaveProgress()
     Save->SavedAtUtc=FDateTime::UtcNow();
     Save->OnlineSeconds=OnlineSeconds;
     Save->PlayerLocation=GetActorLocation();
+    if(QuestComponent)
+    {
+        Save->QuestId=QuestComponent->GetQuestId();
+        Save->QuestProgress=QuestComponent->GetQuestProgress();
+        Save->QuestComplete=QuestComponent->IsQuestComplete();
+    }
     UGameplayStatics::SaveGameToSlot(Save,TEXT("HonourWar_Profile"),0);
     LastCombatMessage=TEXT("Progress saved");
 }
