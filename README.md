@@ -1,10 +1,31 @@
 # Honour War — Unreal Engine 5.8 HD MMORPG/ARPG
 
-Development status: Unreal Engine 5.8 migration and HD 3D production foundation. Godot has been permanently retired.
+Development status: Unreal Engine 5.8 HD 3D production foundation. Godot has been permanently retired.
+
+## Permanent visual identity
+
+Honour War is permanently defined as an HD 3D anime-inspired MMORPG/ARPG with a medieval/fantasy world, full-body 3D characters, class-specific equipment, expressive animation, readable combat VFX, dense environments and a compact MMORPG HUD.
+
+The visual target is regenerated from the locked repository reference images on every development visual cycle. A completed cycle is not accepted until the regenerated brief, refreshed production assets, Unreal runtime validation and real EXE screenshot agree with the visual contract.
+
+The authoritative visual source is the Screenshot/ folder. Visual production uses the approved pipeline:
+Visual RAG/reference analysis → gap register → visual brief regeneration → Neural4D or Blender → Substance 3D Painter → FBX/OBJ → Unreal Engine 5.8 → runtime validation → real EXE screenshot → reference comparison.
+
+## MMORPG controls and camera
+
+The interaction model is permanently Ragnarok Online-inspired desktop MMORPG control, implemented independently in Unreal:
+
+- Left click ground: click-to-move.
+- Left click living monster: select target, move into the class engagement range, then perform the basic attack.
+- Right-mouse hold + drag: orbit the perspective/isometric camera horizontally and vertically.
+- Mouse wheel: smooth bounded camera zoom.
+- W/A/S/D: secondary direct movement.
+- 1–8: gameplay skill inputs without requiring a bottom skill strip.
+- Q: reset camera framing.
+
+The camera remains a perspective, elevated isometric-style MMORPG camera with the complete hero visible during normal gameplay. Camera framing, movement, targeting and zoom are gameplay contracts, not optional presentation features.
 
 ## MMORPG HUD
-
-Honour War is an MMORPG/ARPG, not a strategy game.
 
 The HUD is driven by the two locked repository visual anchors:
 - Screenshot/ChatGPT Image Sep 16, 2026, 12_22_47 AM.png
@@ -25,11 +46,9 @@ Removed:
 - developer command toolbar;
 - strategy/tower/army interface.
 
-Skill hotkeys 1 through 8 remain functional gameplay inputs without rendering a bottom skill strip.
-
 ## Engine
 
-Unreal Engine 5.8 is the sole runtime and Windows build target. No Godot runtime, project, scene, source file or workflow remains on main.
+Unreal Engine 5.8 is the sole runtime and Windows build target. No Godot runtime, project, scene, source file or workflow is part of the active game.
 
 ## Real screenshot rule
 
@@ -46,20 +65,15 @@ The world remains medieval/fantasy with detailed terrain, buildings, vegetation,
 
 ## Validation
 
-The old Godot workflow run #1762, Match completeness contract to generated eight-slot combat bar, belongs to the retired Godot pipeline and is not a current game gate. The current contract is tools/unreal_engine_contract_qa.py and the current runtime gate is the Unreal Windows build/screenshot workflow.
-
-## Copyright
-
-© Sharnou — Honour War
-
+The active release gate is tools/unreal_engine_contract_qa.py plus the Unreal Windows build/runtime screenshot workflows. Retired Godot validation is not a current game gate.
 
 ## Fifth-tier class progression
 
 The class tree has five tiers:
 Tier 1 Foundation (Lv. 1), Tier 2 Specialization (Lv. 25), Tier 3 Advanced (Lv. 50), Tier 4 Mastery (Lv. 150), Tier 5 Transcendence (Lv. 200).
 
-Tier 5 remains rooted in the original first-tier profession and preserves profession-specific weapon family, silhouette, equipment identity and skill lineage. Unreal exposes this through `EHonourWarClassTier` and `EHonourWarFifthTierArchetype`.
+Tier 5 remains rooted in the original first-tier profession and preserves profession-specific weapon family, silhouette, equipment identity and skill lineage. Unreal exposes this through EHonourWarClassTier and EHonourWarFifthTierArchetype.
 
-## Mouse-first MMORPG controls
+## Copyright
 
-Left click on ground moves the hero. Left click on a monster selects it and moves the hero into class-specific engagement range, then uses the basic attack. Right-mouse drag rotates the camera. Mouse wheel zooms the camera. W/A/S/D remains available as a secondary control scheme.
+© Sharnou — Honour War
