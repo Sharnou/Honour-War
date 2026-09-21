@@ -1,4 +1,5 @@
 #include "HonourWarSoldier.h"
+#include "HonourWarCharacter.h"
 #include "HonourWarMonster.h"
 #include "HonourWarWorldDirector.h"
 #include "Components/SceneComponent.h"
