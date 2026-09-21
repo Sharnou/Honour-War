@@ -386,6 +386,7 @@ void AHonourWarCharacter::SaveProgress()
     Save->Cards=CombatComponent->GetCards();
     Save->SavedAtUtc=FDateTime::UtcNow();
     Save->OnlineSeconds=OnlineSeconds;
+    Save->PlayerLocation=GetActorLocation();
     UGameplayStatics::SaveGameToSlot(Save,TEXT("HonourWar_Profile"),0);
     LastCombatMessage=TEXT("Progress saved");
 }
@@ -400,6 +401,7 @@ void AHonourWarCharacter::LoadProgress()
 
     OnlineSeconds=FMath::Max<int64>(0,Save->OnlineSeconds);
     CharacterClass=Save->ClassId;
+    SetActorLocation(Save->PlayerLocation);
     CombatComponent->SetClassId(CharacterClass);
     CombatComponent->SetLevel(Save->Level);
     CombatComponent->SetExperience(Save->Experience);
