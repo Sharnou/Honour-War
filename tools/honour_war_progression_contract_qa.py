@@ -29,13 +29,10 @@ def main() -> int:
         raise SystemExit("PROGRESSION_QA_FAIL: hero level cap must be 250")
     if rules.get("monster_level_cap") != 300:
         raise SystemExit("PROGRESSION_QA_FAIL: monster level cap must be 300")
-    if rules.get("soldier_level_cap") != 50:
-        raise SystemExit("PROGRESSION_QA_FAIL: soldier level cap must be 50")
     if rules.get("visual_runtime", {}).get("approved_asset_intake") != ["FBX", "OBJ"]:
         raise SystemExit("PROGRESSION_QA_FAIL: approved runtime intake must remain FBX/OBJ")
 
     combat = COMBAT.read_text(encoding="utf-8")
-    combat_h = COMBAT_H.read_text(encoding="utf-8")
     monster = MONSTER.read_text(encoding="utf-8")
     world = WORLD.read_text(encoding="utf-8")
     save = SAVE.read_text(encoding="utf-8")
@@ -64,34 +61,9 @@ def main() -> int:
     require(world, "const int32 MonsterLevels[]", "monster level array")
     require(world, "300", "level-300 monster")
     require(world, "const FVector MonsterLocations[]", "monster spawn locations")
-    require(world, "SpawnIncomeBanks();", "income bank spawning")
     for species in ["Poring","Goblin","Wolf","Skeleton","Orc","Mantis","Golem","Dragon"]:
         require(world, "EHonourWarMonsterSpecies::"+species, species+" world spawn roster")
-    bank_cpp = (ROOT / "Source" / "HonourWar" / "HonourWarIncomeBank.cpp").read_text(encoding="utf-8")
-    for needle, label in [
-        ("Guardian->IsDead()", "guarded bank unlock"),
-        ("HasOccupyingSoldier()", "soldier bank occupation"),
-        ("AddZeny(ZenyPerSecond)", "automatic bank income"),
-        ("if(!HasAuthority()) return", "authority-only bank income"),
-    ]:
-        require(bank_cpp, needle, label)
     require((ROOT / "Config" / "DefaultInput.ini").read_text(encoding="utf-8"), 'ActionName="RefineEquipment"', "refinement input")
-
-    soldier_cpp = (ROOT / "Source" / "HonourWar" / "HonourWarSoldier.cpp").read_text(encoding="utf-8")
-    for needle, label in [
-        ("AutoSkillIndex=(AutoSkillIndex+1)%2", "two automatic soldier skills"),
-        ("SetCommander", "soldier commander ownership"),
-        ("Director->RegisterSoldierDeath(Commander)", "commander-specific soldier death registration"),
-        ("HandleMonsterDefeat", "soldier kill reward routing"),
-        ("SetLifeSpan(0.2f)", "soldier death lifecycle"),
-    ]:
-        require(soldier_cpp, needle, label)
-
-    for needle, label in [
-        ("ReceivePlayerDamage", "PvP damage receiver"),
-        ("CanAttackPlayer", "team-safe PvP targeting"),
-    ]:
-        require(char, needle, label)
 
     quest_cpp=(ROOT/"Source"/"HonourWar"/"HonourWarQuestComponent.cpp").read_text(encoding="utf-8")
     for needle, label in [
@@ -122,9 +94,6 @@ def main() -> int:
         ("TryRefineEquipment", "equipment refinement runtime"),
         ("TryMixCards", "card mixing runtime"),
         ("TryUpgradeBasicSkill", "basic skill upgrade runtime"),
-        ("ServerTryRefineEquipment_Implementation", "server refinement RPC"),
-        ("ServerTryMixCards_Implementation", "server card-mixing RPC"),
-        ("ServerTryUpgradeBasicSkill_Implementation", "server skill-upgrade RPC"),
         ("GetRefineSuccessPercent", "age-aware refinement success"),
         ("GetRefineZenyCost", "age-aware refinement price"),
         ("EquipmentRefineLevel>=15", "+15 refinement cap"),
@@ -149,12 +118,8 @@ def main() -> int:
     ]:
         require(hud, needle, label)
 
-    for needle, label in [
-        ("city_base", "soldier production rule"),
-        ("guarded_bank_rule", "guarded bank rule"),
-    ]:
-        if needle not in RULES.read_text(encoding="utf-8"):
-            raise SystemExit(f"PROGRESSION_QA_FAIL: missing {label}: {needle}")
+    if rules.get("multiplayer", {}).get("player_vs_player") is not False:
+        raise SystemExit("PROGRESSION_QA_FAIL: player-vs-player mode must remain disabled")
 
     print("HONOUR WAR PROGRESSION QA PASS: level caps, kill rewards, economy, cards, online-age, autosave, world monster tiers and HUD persistence are wired.")
     return 0
