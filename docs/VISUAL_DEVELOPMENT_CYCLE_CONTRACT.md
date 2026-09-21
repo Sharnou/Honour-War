@@ -23,7 +23,7 @@ The visual brief is regenerated every completed cycle so visual changes remain a
 
 ## Permanent gameplay/camera contract
 
-The gameplay controls and camera are part of the visual target and must be preserved in every cycle:
+The gameplay controls and camera are part of the visual target and must be preserved in every cycle. The permanent convention is Ragnarok Online-inspired desktop MMORPG interaction:
 - left-click ground = click-to-move;
 - left-click monster = select and engage;
 - right-mouse drag = camera orbit;
@@ -58,3 +58,6 @@ These conventions are inspired by the classic Ragnarok Online desktop MMORPG int
 - Meshy.
 
 This contract controls development cycles only. It does not re-enable any retired daily or unattended automatic upgrade system.
+
+
+The visual brief is regenerated every completed cycle so visual improvements remain anchored to this identity rather than drifting into a different genre, camera model or art direction.
