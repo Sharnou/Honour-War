@@ -40,6 +40,7 @@ private:
     void BuildHouses();
     void BuildWalls();
     void BuildMarket();
+    void BuildTownServices();
     void BuildRoadFurniture();
     void BuildVegetation();
     void BuildDistantLandmarks();
