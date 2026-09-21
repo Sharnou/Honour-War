@@ -2,6 +2,7 @@
 #include "HonourWarCharacter.h"
 #include "HonourWarMonster.h"
 #include "HonourWarGameMode.h"
+#include "HonourWarGameState.h"
 #include "InputCoreTypes.h"
 #include "GameFramework/Actor.h"
 #include "Misc/Parse.h"
@@ -230,6 +231,23 @@ bool AHonourWarPlayerController::Exec(UWorld* InWorld,const TCHAR* Cmd,FOutputDe
     const FString Command(Cmd);
     if(ExecuteGoCommand(Command))
         return true;
+
+    if(Command.StartsWith(TEXT("@say"),ESearchCase::IgnoreCase))
+    {
+        FString Message=Command.RightChop(4).TrimStart();
+        if(AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(GetPawn()))
+        {
+            if(AHonourWarGameMode* GameMode=GetWorld()?GetWorld()->GetAuthGameMode<AHonourWarGameMode>():nullptr)
+            {
+                FString Result;
+                if(GameMode->HandleChatCommand(Character,Message,Result))
+                {
+                    ClientMessage(Result);
+                    return true;
+                }
+            }
+        }
+    }
 
     if(Command.StartsWith(TEXT("@guild"),ESearchCase::IgnoreCase))
     {
