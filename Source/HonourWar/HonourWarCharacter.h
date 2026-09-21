@@ -58,6 +58,8 @@ public:
     UFUNCTION(BlueprintCallable) FString GetFifthTierClassName() const;
     UFUNCTION(BlueprintCallable) UHonourWarCombatComponent* GetCombatComponent() const { return CombatComponent; }
     UFUNCTION(BlueprintCallable) FString GetLastCombatMessage() const { return LastCombatMessage; }
+    UFUNCTION(Server, Reliable)
+    void ServerSetClassId(EHonourWarClass NewClass);
     UFUNCTION(BlueprintCallable) bool GetBaseSightActive() const { return bBaseSightActive; }
     void SetBaseSightActive(bool bActive) { bBaseSightActive=bActive; }
     void SetClassId(EHonourWarClass NewClass);
@@ -66,13 +68,15 @@ private:
     void BuildHeroVisual();
     void BuildWeaponVisual();
     void BuildFifthTierVisual();
+    UFUNCTION()
+    void OnRepCharacterClass();
 
     UPROPERTY(VisibleAnywhere) USpringArmComponent* CameraBoom;
     UPROPERTY(VisibleAnywhere) UCameraComponent* FollowCamera;
     UPROPERTY(VisibleAnywhere) UHonourWarCombatComponent* CombatComponent;
     UPROPERTY() USceneComponent* VisualRoot;
     UPROPERTY() FString LastCombatMessage = TEXT("Ready");
-    UPROPERTY() EHonourWarClass CharacterClass = EHonourWarClass::Warrior;
+    UPROPERTY(ReplicatedUsing=OnRepCharacterClass) EHonourWarClass CharacterClass = EHonourWarClass::Warrior;
     UPROPERTY() FVector RespawnPoint = FVector(900.0f, 900.0f, 180.0f);
     UPROPERTY() AHonourWarMonster* MouseTarget = nullptr;
     UPROPERTY() AHonourWarCharacter* PlayerTarget = nullptr;
