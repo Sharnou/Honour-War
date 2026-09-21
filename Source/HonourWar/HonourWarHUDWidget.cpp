@@ -12,6 +12,7 @@
 #include "Components/HorizontalBox.h"
 #include "GameFramework/GameStateBase.h"
 #include "HonourWarPlayerState.h"
+#include "HonourWarGameState.h"
 #include "Blueprint/WidgetTree.h"
 
 namespace
@@ -198,7 +199,8 @@ void UHonourWarHUDWidget::BuildChatDock(UCanvasPanel* Root)
     UVerticalBox* Stack=WidgetTree->ConstructWidget<UVerticalBox>(UVerticalBox::StaticClass(),TEXT("ChatStack"));
     Chat->SetContent(Stack);
     Stack->AddChildToVerticalBox(Text(WidgetTree,TEXT("ChatTabs"),TEXT("All    World    Party    Guild    System    Combat"),13.0f,Gold));
-    CombatText=Text(WidgetTree,TEXT("ChatText"),TEXT("[World] Welcome to Honour War.\n[World] The town gate is open.\n[System] Your adventure begins here."),14.0f,White);
+    ChatText=Text(WidgetTree,TEXT("ChatText"),TEXT("[World] Welcome to Honour War.\\n[System] Type @say [message] to speak."),14.0f,White);
+    Stack->AddChildToVerticalBox(ChatText);
     Stack->AddChildToVerticalBox(CombatText);
     Stack->AddChildToVerticalBox(Text(WidgetTree,TEXT("ChatInput"),TEXT("  Type a message...                         ◉  ➤"),13.0f,Muted));
 }
@@ -356,6 +358,15 @@ void UHonourWarHUDWidget::RefreshVitals()
     XpBar->SetPercent(Combat->GetXpPercent());
     if (EconomyText)
         EconomyText->SetText(FText::FromString(FString::Printf(TEXT("Age %d days  |  Zeny %lld  |  Honours %d"),Combat->GetAgeDays(),Combat->GetZeny(),Combat->GetHonours())));
+    if(ChatText)
+    {
+        if(AHonourWarGameState* State=GetWorld()?GetWorld()->GetGameState<AHonourWarGameState>():nullptr)
+        {
+            const TArray<FString>& Messages=State->GetWorldMessages();
+            if(Messages.Num()>0)
+                ChatText->SetText(FText::FromString(FString::Join(Messages,TEXT("\\n"))));
+        }
+    }
     if (QuestText && Character->GetQuestComponent())
         QuestText->SetText(FText::FromString(
             FString::Printf(TEXT("%s\\n%s"),
