@@ -1,4 +1,6 @@
 #include "HonourWarMonster.h"
+#include "HonourWarCombatEffect.h"
+#include "HonourWarDamagePopup.h"
 #include "HonourWarCharacter.h"
 #include "Components/SceneComponent.h"
 #include "Components/StaticMeshComponent.h"
@@ -149,14 +151,31 @@ void AHonourWarMonster::Tick(float DeltaSeconds)
 
 void AHonourWarMonster::ReceiveCombatHit(float Damage,EHonourWarClass SourceClass)
 {
-    if (bDead) return;
+    if (!HasAuthority() || bDead) return;
 
     const float Multiplier=
         SourceClass==EHonourWarClass::Mage ? 1.10f :
         SourceClass==EHonourWarClass::Archer ? 1.06f :
         SourceClass==EHonourWarClass::Ranger ? 1.08f : 1.0f;
 
-    CurrentHealth=FMath::Max(0.0f,CurrentHealth-Damage*Multiplier);
+    const float FinalDamage=FMath::Max(0.0f,Damage*Multiplier);
+    CurrentHealth=FMath::Max(0.0f,CurrentHealth-FinalDamage);
+
+    if(UWorld* World=GetWorld())
+    {
+        const FHonourWarClassStyle Style=HonourWarClassStyle(SourceClass);
+        if(AHonourWarCombatEffect* Effect=World->SpawnActor<AHonourWarCombatEffect>(
+            AHonourWarCombatEffect::StaticClass(),GetActorLocation()+FVector(0,0,130),FRotator::ZeroRotator))
+        {
+            Effect->Initialize(Style.Accent,FMath::Clamp(FinalDamage/80.0f,0.8f,2.2f),FinalDamage>=85.0f);
+        }
+        if(AHonourWarDamagePopup* Popup=World->SpawnActor<AHonourWarDamagePopup>(
+            AHonourWarDamagePopup::StaticClass(),GetActorLocation()+FVector(0,0,230),FRotator(0,180,0)))
+        {
+            Popup->Initialize(FinalDamage,Style.Accent,FinalDamage>=85.0f);
+        }
+    }
+
     if (CurrentHealth<=0.0f)
     {
         bDead=true;
