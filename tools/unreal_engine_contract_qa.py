@@ -34,6 +34,7 @@ required=[
     ROOT/"data"/"honour_war_maps.json",
     ROOT/"docs"/"MMORPG_MOUSE_CONTROL_SPEC.md",
     ROOT/"docs"/"VISUAL_DEVELOPMENT_CYCLE_CONTRACT.md",
+    ROOT/"docs"/"HONOUR_WAR_HD_MMO_ANIME_STYLE_CONTRACT.md",
     ROOT/"assets"/"3d"/"visual_rag"/"LATEST_VISUAL_BRIEF.json",
 ]
 for path in required:
@@ -82,7 +83,7 @@ if "FScreenshotRequest::RequestScreenshot(Output,true,false,false,FIntRect(),tru
     sys.exit(1)
 
 visual=(ROOT/"assets"/"3d"/"visual_rag"/"LATEST_VISUAL_BRIEF.json").read_text(encoding="utf-8")
-for phrase in ["HD anime-inspired isometric MMORPG","Unreal Engine 5.8","FBX","OBJ","Screenshot/"]:
+for phrase in ["HD 3D anime-inspired isometric MMORPG","Unreal Engine 5.8","FBX","OBJ","Screenshot/","Ragnarok Online-inspired"]:
     if phrase not in visual:
         print(f"UNREAL_CONTRACT_FAIL: visual cycle identity missing: {phrase}")
         sys.exit(1)
