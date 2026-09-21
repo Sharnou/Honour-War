@@ -73,6 +73,165 @@ void AHonourWarMonster::SetLevel(int32 NewLevel)
     }
 }
 
+void AHonourWarMonster::SetSpecies(EHonourWarMonsterSpecies NewSpecies)
+{
+    Species=NewSpecies;
+    if(HasActorBegunPlay()) ApplySpeciesVisual();
+}
+
+FString AHonourWarMonster::GetSpeciesName() const
+{
+    switch(Species)
+    {
+        case EHonourWarMonsterSpecies::Poring: return TEXT("Poring");
+        case EHonourWarMonsterSpecies::Goblin: return TEXT("Goblin");
+        case EHonourWarMonsterSpecies::Wolf: return TEXT("Wolf");
+        case EHonourWarMonsterSpecies::Skeleton: return TEXT("Skeleton");
+        case EHonourWarMonsterSpecies::Orc: return TEXT("Orc");
+        case EHonourWarMonsterSpecies::Mantis: return TEXT("Mantis");
+        case EHonourWarMonsterSpecies::Golem: return TEXT("Golem");
+        case EHonourWarMonsterSpecies::Dragon: return TEXT("Dragon");
+        default: return TEXT("Monster");
+    }
+}
+
+void AHonourWarMonster::ApplySpeciesVisual()
+{
+    const float TierScale=0.80f+static_cast<float>(Level)/260.0f;
+    UStaticMesh* Sphere=Mesh(TEXT("/Engine/BasicShapes/Sphere.Sphere"));
+    UStaticMesh* Cube=Mesh(TEXT("/Engine/BasicShapes/Cube.Cube"));
+    UStaticMesh* Cone=Mesh(TEXT("/Engine/BasicShapes/Cone.Cone"));
+    if(!Sphere||!Cone) return;
+
+    Body->SetStaticMesh(Sphere);
+    Head->SetStaticMesh(Sphere);
+    LeftHorn->SetStaticMesh(Cone);
+    RightHorn->SetStaticMesh(Cone);
+    LeftHorn->SetVisibility(true);
+    RightHorn->SetVisibility(true);
+
+    FLinearColor BodyColor(0.35f,0.17f,0.12f);
+    FLinearColor HeadColor(0.46f,0.24f,0.15f);
+    FVector BodyScale=FVector(1.20f,1.00f,1.35f)*TierScale;
+    FVector HeadScale=FVector(0.84f,0.84f,0.74f)*TierScale;
+    FVector HeadLocation(26,0,190);
+    FVector LeftLocation(46,-42,245);
+    FVector RightLocation(46,42,245);
+    FRotator LeftRotation(-24,0,-14);
+    FRotator RightRotation(-24,0,14);
+    FVector HornScale(0.20f,0.20f,0.70f);
+
+    switch(Species)
+    {
+        case EHonourWarMonsterSpecies::Poring:
+            BodyScale=FVector(1.45f,1.45f,0.92f)*TierScale;
+            HeadScale=FVector(0.40f,0.40f,0.32f)*TierScale;
+            HeadLocation=FVector(42,0,135);
+            LeftHorn->SetVisibility(false);
+            RightHorn->SetVisibility(false);
+            BodyColor=FLinearColor(0.12f,0.46f,0.92f);
+            HeadColor=FLinearColor(0.28f,0.70f,1.00f);
+            break;
+        case EHonourWarMonsterSpecies::Goblin:
+            BodyScale=FVector(0.90f,0.76f,0.96f)*TierScale;
+            HeadScale=FVector(1.00f,0.82f,0.86f)*TierScale;
+            HeadLocation=FVector(30,0,205);
+            LeftLocation=FVector(36,-82,215);
+            RightLocation=FVector(36,82,215);
+            LeftRotation=FRotator(-70,0,-58);
+            RightRotation=FRotator(-70,0,58);
+            HornScale=FVector(0.16f,0.16f,0.78f)*TierScale;
+            BodyColor=FLinearColor(0.20f,0.48f,0.18f);
+            HeadColor=FLinearColor(0.36f,0.66f,0.24f);
+            break;
+        case EHonourWarMonsterSpecies::Wolf:
+            BodyScale=FVector(1.48f,0.72f,0.76f)*TierScale;
+            HeadScale=FVector(0.72f,0.58f,0.55f)*TierScale;
+            HeadLocation=FVector(105,-12,155);
+            LeftLocation=FVector(135,-42,175);
+            RightLocation=FVector(135,42,175);
+            LeftHorn->SetVisibility(false);
+            RightHorn->SetVisibility(false);
+            BodyColor=FLinearColor(0.20f,0.22f,0.25f);
+            HeadColor=FLinearColor(0.30f,0.32f,0.36f);
+            break;
+        case EHonourWarMonsterSpecies::Skeleton:
+            BodyScale=FVector(0.56f,0.46f,1.25f)*TierScale;
+            HeadScale=FVector(0.58f,0.50f,0.66f)*TierScale;
+            HeadLocation=FVector(22,0,215);
+            LeftHorn->SetVisibility(false);
+            RightHorn->SetVisibility(false);
+            BodyColor=FLinearColor(0.72f,0.68f,0.55f);
+            HeadColor=FLinearColor(0.85f,0.81f,0.68f);
+            break;
+        case EHonourWarMonsterSpecies::Orc:
+            if(Cube) Body->SetStaticMesh(Cube);
+            BodyScale=FVector(1.15f,0.95f,1.20f)*TierScale;
+            HeadScale=FVector(0.78f,0.68f,0.72f)*TierScale;
+            HeadLocation=FVector(26,0,215);
+            LeftLocation=FVector(58,-30,185);
+            RightLocation=FVector(58,30,185);
+            LeftRotation=FRotator(20,0,-18);
+            RightRotation=FRotator(20,0,18);
+            HornScale=FVector(0.13f,0.13f,0.50f)*TierScale;
+            BodyColor=FLinearColor(0.26f,0.44f,0.10f);
+            HeadColor=FLinearColor(0.38f,0.56f,0.16f);
+            break;
+        case EHonourWarMonsterSpecies::Mantis:
+            BodyScale=FVector(0.66f,0.62f,1.32f)*TierScale;
+            HeadScale=FVector(0.50f,0.44f,0.48f)*TierScale;
+            HeadLocation=FVector(36,0,225);
+            LeftLocation=FVector(88,-75,170);
+            RightLocation=FVector(88,75,170);
+            LeftRotation=FRotator(0,0,-58);
+            RightRotation=FRotator(0,0,58);
+            HornScale=FVector(0.12f,0.10f,0.78f)*TierScale;
+            BodyColor=FLinearColor(0.13f,0.52f,0.20f);
+            HeadColor=FLinearColor(0.20f,0.70f,0.28f);
+            break;
+        case EHonourWarMonsterSpecies::Golem:
+            if(Cube) Body->SetStaticMesh(Cube);
+            if(Cube) Head->SetStaticMesh(Cube);
+            BodyScale=FVector(1.35f,1.05f,1.30f)*TierScale;
+            HeadScale=FVector(0.80f,0.72f,0.72f)*TierScale;
+            HeadLocation=FVector(24,0,220);
+            LeftLocation=FVector(0,-92,175);
+            RightLocation=FVector(0,92,175);
+            LeftRotation=FRotator(0,90,-12);
+            RightRotation=FRotator(0,90,12);
+            HornScale=FVector(0.34f,0.34f,0.34f)*TierScale;
+            BodyColor=FLinearColor(0.34f,0.36f,0.38f);
+            HeadColor=FLinearColor(0.46f,0.49f,0.52f);
+            break;
+        case EHonourWarMonsterSpecies::Dragon:
+            BodyScale=FVector(1.58f,1.05f,1.20f)*TierScale;
+            HeadScale=FVector(0.82f,0.70f,0.72f)*TierScale;
+            HeadLocation=FVector(105,0,215);
+            LeftLocation=FVector(110,-48,245);
+            RightLocation=FVector(110,48,245);
+            HornScale=FVector(0.18f,0.18f,0.95f)*TierScale;
+            LeftRotation=FRotator(-30,0,-16);
+            RightRotation=FRotator(-30,0,16);
+            BodyColor=FLinearColor(0.54f,0.10f,0.08f);
+            HeadColor=FLinearColor(0.70f,0.16f,0.10f);
+            break;
+    }
+
+    Body->SetRelativeLocation(FVector(0,0,90));
+    Body->SetRelativeScale3D(BodyScale);
+    Head->SetRelativeLocation(HeadLocation);
+    Head->SetRelativeScale3D(HeadScale);
+    LeftHorn->SetRelativeLocation(LeftLocation);
+    RightHorn->SetRelativeLocation(RightLocation);
+    LeftHorn->SetRelativeRotation(LeftRotation);
+    RightHorn->SetRelativeRotation(RightRotation);
+    LeftHorn->SetRelativeScale3D(HornScale);
+    RightHorn->SetRelativeScale3D(HornScale);
+
+    ApplyColor(Body,BodyColor);
+    ApplyColor(Head,HeadColor);
+}
+
 void AHonourWarMonster::BeginPlay()
 {
     Super::BeginPlay();
@@ -100,6 +259,7 @@ void AHonourWarMonster::BeginPlay()
     ApplyColor(Head,HeadColor);
     ApplyColor(LeftHorn,FLinearColor(0.12f,0.07f,0.05f));
     ApplyColor(RightHorn,FLinearColor(0.12f,0.07f,0.05f));
+    ApplySpeciesVisual();
 
     UStaticMesh* Sphere=Mesh(TEXT("/Engine/BasicShapes/Sphere.Sphere"));
     if (Sphere)
