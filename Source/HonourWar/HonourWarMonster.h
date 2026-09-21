@@ -7,6 +7,7 @@
 
 class UStaticMeshComponent;
 class UTextRenderComponent;
+class AHonourWarSoldier;
 
 UENUM(BlueprintType)
 enum class EHonourWarMonsterSpecies : uint8
@@ -41,6 +42,7 @@ protected:
 
 private:
     void ApplySpeciesVisual();
+    AHonourWarSoldier* FindNearestSoldier(float Range) const;
 
     UPROPERTY() USceneComponent* Root;
     UPROPERTY() UStaticMeshComponent* Body;
