@@ -12,7 +12,7 @@ AHonourWarDamagePopup::AHonourWarDamagePopup()
     Text->SetVerticalAlignment(EVerticalTextAligment::EVRTA_TextCenter);
     Text->SetWorldSize(34.0f);
     Text->SetTextRenderColor(FColor::White);
-    Text->SetHorizontalScale(0.85f);
+    Text->SetXScale(0.85f);
     Text->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
