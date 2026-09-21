@@ -77,7 +77,7 @@ for phrase in ["EHonourWarClassTier","Tier5","EHonourWarFifthTierArchetype","Nat
         sys.exit(1)
 
 controller=(ROOT/"Source"/"HonourWar"/"HonourWarPlayerController.cpp").read_text(encoding="utf-8")
-for phrase in ["HandleMouseClick","GetHitResultUnderCursorByChannel","SetMouseTarget","SetMouseDestination","HandleMouseWheel","RotateCameraFromMouse","bHasLastMousePosition"]:
+for phrase in ["HandleMouseClick","GetHitResultUnderCursorByChannel","SetMouseTarget","SetPlayerTarget","SetMouseDestination","HandleMouseWheel","RotateCameraFromMouse","bHasLastMousePosition","ExecuteGoCommand","Anchors"]:
     if phrase not in controller:
         print(f"UNREAL_CONTRACT_FAIL: MMORPG mouse control missing: {phrase}")
         sys.exit(1)
@@ -94,7 +94,7 @@ for phrase in ["SetText","SetTextRenderColor","SetXScale","SetLifeSpan"]:
         sys.exit(1)
 
 soldier=(ROOT/"Source"/"HonourWar"/"HonourWarSoldier.cpp").read_text(encoding="utf-8")
-for phrase in ["SetLevel","SetSoldierClass","AutoSkillIndex","RegisterSoldierDeath","HandleMonsterDefeat","ServerUseSkillOnPlayer"]:
+for phrase in ["SetLevel","SetSoldierClass","AutoSkillIndex","RegisterSoldierDeath","HandleMonsterDefeat"]:
 
     if phrase not in soldier:
         print(f"UNREAL_CONTRACT_FAIL: soldier system missing: {phrase}")
@@ -104,6 +104,12 @@ player_state=(ROOT/"Source"/"HonourWar"/"HonourWarPlayerState.cpp").read_text(en
 for phrase in ["TeamId","PartySlot","DOREPLIFETIME"]:
     if phrase not in player_state:
         print(f"UNREAL_CONTRACT_FAIL: player state missing: {phrase}")
+        sys.exit(1)
+
+combat=(ROOT/"Source"/"HonourWar"/"HonourWarCombatComponent.cpp").read_text(encoding="utf-8")
+for phrase in ["ServerUseSkillOnPlayer","ServerTryRefineEquipment","ServerTryMixCards","ServerTryUpgradeBasicSkill"]:
+    if phrase not in combat:
+        print(f"UNREAL_CONTRACT_FAIL: combat RPC missing: {phrase}")
         sys.exit(1)
 
 bank=(ROOT/"Source"/"HonourWar"/"HonourWarIncomeBank.cpp").read_text(encoding="utf-8")
