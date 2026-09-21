@@ -13,6 +13,8 @@ class UMaterialInstanceDynamic;
 class USceneComponent;
 class AHonourWarMonster;
 class AHonourWarBaseBuilding;
+class AHonourWarCharacter;
+class AHonourWarSoldier;
 
 UCLASS()
 class HONOURWAR_API AHonourWarWorldDirector : public AActor
@@ -21,7 +23,7 @@ class HONOURWAR_API AHonourWarWorldDirector : public AActor
 
 public:
     AHonourWarWorldDirector();
-    void RegisterSoldierDeath();
+    void RegisterSoldierDeath(AHonourWarCharacter* Commander);
 
 protected:
     virtual void BeginPlay() override;
@@ -35,6 +37,10 @@ private:
     UPROPERTY() UStaticMesh* ConeMesh=nullptr;
     UPROPERTY() UMaterialInterface* BaseMaterial=nullptr;
     int32 SoldierDeathCount=0;
+    float CommanderScanTimer=0.0f;
+    TSet<AHonourWarCharacter*> CommandersWithSquad;
+    TMap<AHonourWarCharacter*,int32> SoldierDeathsByCommander;
+    void EnsureCommanderSquads();
 
     struct FMonsterSlot
     {
@@ -67,7 +73,7 @@ private:
     void SpawnIncomeBanks();
     void SpawnDefenseTowers();
     void SpawnBaseBuilding();
-    void SpawnSoldierSquad();
+    void SpawnSoldierSquad(AHonourWarCharacter* Commander);
 
     void BuildHouse(const FVector& Center,float Yaw,const FLinearColor& WallColor,const FLinearColor& RoofColor);
     void BuildTree(const FVector& Center,float Scale,int32 Variant);
