@@ -73,7 +73,8 @@ def main() -> int:
         require(save, needle, label)
 
     for needle, label in [
-        ("OnlineSeconds += static_cast<int64>(DeltaSeconds)", "online session counter"),
+        ("OnlineTimeAccumulator += DeltaSeconds", "online session accumulator"),
+        ("OnlineSeconds += WholeSeconds", "online session counter"),
         ("86400", "online day boundary"),
         ("AutoSaveAccumulator >= 60.0f", "60-second autosave"),
         ("SetAgeDays", "online age update"),
