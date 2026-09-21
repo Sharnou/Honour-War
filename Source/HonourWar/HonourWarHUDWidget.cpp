@@ -1,6 +1,7 @@
 #include "HonourWarHUDWidget.h"
 #include "HonourWarCharacter.h"
 #include "HonourWarCombatComponent.h"
+#include "HonourWarQuestComponent.h"
 #include "Components/Button.h"
 #include "Components/CanvasPanel.h"
 #include "Components/CanvasPanelSlot.h"
@@ -263,7 +264,11 @@ void UHonourWarHUDWidget::OpenSkills()
 
 void UHonourWarHUDWidget::OpenQuests()
 {
-    ShowSection(TEXT("Quests"),TEXT("The Lost Scroll\nFind the missing scroll in the northern forest.\n\nReward: experience, Zeny and adventure progress."));
+    AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(GetOwningPlayerPawn());
+    if(Character && Character->GetQuestComponent())
+        ShowSection(Character->GetQuestComponent()->GetQuestTitle(),Character->GetQuestComponent()->GetQuestBody());
+    else
+        ShowSection(TEXT("Quests"),TEXT("Quest data unavailable."));
 }
 
 void UHonourWarHUDWidget::OpenMap()
@@ -324,6 +329,11 @@ void UHonourWarHUDWidget::RefreshVitals()
     XpBar->SetPercent(Combat->GetXpPercent());
     if (EconomyText)
         EconomyText->SetText(FText::FromString(FString::Printf(TEXT("Age %d days  |  Zeny %lld  |  Honours %d"),Combat->GetAgeDays(),Combat->GetZeny(),Combat->GetHonours())));
+    if (QuestText && Character->GetQuestComponent())
+        QuestText->SetText(FText::FromString(
+            FString::Printf(TEXT("%s\\n%s"),
+                *Character->GetQuestComponent()->GetQuestTitle(),
+                *Character->GetQuestComponent()->GetQuestBody())));
     if (TeamText)
         TeamText->SetText(FText::FromString(FString::Printf(TEXT("Team %d  |  Party Slot %d"),Character->GetTeamId()+1,Character->GetPartySlot()+1)));
     if (BaseSightText)
