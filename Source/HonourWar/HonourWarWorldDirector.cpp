@@ -1,10 +1,5 @@
 #include "HonourWarWorldDirector.h"
 #include "HonourWarMonster.h"
-#include "HonourWarSoldier.h"
-#include "HonourWarIncomeBank.h"
-#include "HonourWarDefenseTower.h"
-#include "HonourWarBaseBuilding.h"
-#include "HonourWarCharacter.h"
 #include "Components/SceneComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/DirectionalLightComponent.h"
@@ -13,7 +8,6 @@
 #include "Components/ExponentialHeightFogComponent.h"
 #include "Engine/StaticMesh.h"
 #include "Engine/World.h"
-#include "Kismet/GameplayStatics.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "UObject/ConstructorHelpers.h"
 
@@ -67,9 +61,6 @@ void AHonourWarWorldDirector::BeginPlay()
     BuildVegetation();
     BuildDistantLandmarks();
     SpawnMonsters();
-    SpawnIncomeBanks();
-    SpawnDefenseTowers();
-    SpawnBaseBuilding();
 }
 
 UMaterialInstanceDynamic* AHonourWarWorldDirector::MaterialFor(const FLinearColor& Color)
@@ -171,17 +162,6 @@ void AHonourWarWorldDirector::BuildRiverBridge(const FVector& Center)
     AddPart(CubeMesh,TEXT("BridgeRailR"),Center+FVector(640,0,170),FVector(0.22f,28.0f,1.15f),FRotator::ZeroRotator,Stone);
 }
 
-void AHonourWarWorldDirector::BuildShrine(const FVector& Center,float Scale)
-{
-    const FLinearColor Stone(0.58f,0.57f,0.52f);
-    const FLinearColor Gold(0.74f,0.54f,0.18f);
-    AddPart(CylinderMesh,TEXT("ShrineBase"),Center+FVector(0,0,55*Scale),FVector(7.0f*Scale,7.0f*Scale,0.38f*Scale),FRotator::ZeroRotator,Stone);
-    AddPart(CubeMesh,TEXT("ShrinePillarL"),Center+FVector(-240*Scale,0,290*Scale),FVector(0.75f*Scale,1.2f*Scale,2.8f*Scale),FRotator::ZeroRotator,Stone);
-    AddPart(CubeMesh,TEXT("ShrinePillarR"),Center+FVector(240*Scale,0,290*Scale),FVector(0.75f*Scale,1.2f*Scale,2.8f*Scale),FRotator::ZeroRotator,Stone);
-    AddPart(ConeMesh,TEXT("ShrineRoof"),Center+FVector(0,0,660*Scale),FVector(4.8f*Scale,5.4f*Scale,2.2f*Scale),FRotator::ZeroRotator,FLinearColor(0.20f,0.28f,0.30f));
-    AddPart(SphereMesh,TEXT("ShrineRelic"),Center+FVector(0,0,390*Scale),FVector(1.05f*Scale,1.05f*Scale,1.05f*Scale),FRotator::ZeroRotator,Gold);
-}
-
 void AHonourWarWorldDirector::BuildDungeonGate(const FVector& Center)
 {
     const FLinearColor Stone(0.22f,0.23f,0.23f);
@@ -227,7 +207,6 @@ void AHonourWarWorldDirector::BuildBiomeRegions()
         AddPart(ConeMesh,TEXT("DesertCap"),Desert+FVector(0,0,720),FVector(2.6f,2.6f,0.75f),FRotator(0,0,0),FLinearColor(0.60f,0.45f,0.24f));
     }
 
-    BuildShrine(FVector(-6500,2200,0),1.05f);
     BuildDungeonGate(FVector(0,-5200,0));
     BuildRiverBridge(FVector(3000,0,0));
     AddPart(CubeMesh,TEXT("RiverBankL"),FVector(3000,-1050,12),FVector(7.5f,4.8f,0.08f),FRotator::ZeroRotator,FLinearColor(0.56f,0.46f,0.30f));
@@ -311,14 +290,6 @@ void AHonourWarWorldDirector::BuildWalls()
     AddPart(CubeMesh,TEXT("EastWall"),FVector(6200,0,300),FVector(1.8f,124,4.8f),FRotator::ZeroRotator,Stone,true);
     AddPart(CubeMesh,TEXT("WestWall"),FVector(-6200,0,300),FVector(1.8f,124,4.8f),FRotator::ZeroRotator,Stone,true);
 
-    const FVector TowerPositions[]={
-        FVector(5600,5600,0),FVector(-5600,5600,0),FVector(5600,-5600,0),FVector(-5600,-5600,0)
-    };
-    for (const FVector& P:TowerPositions)
-    {
-        AddPart(CylinderMesh,TEXT("GateTower"),P+FVector(0,0,400),FVector(5.8f,5.8f,7.2f),FRotator::ZeroRotator,DarkStone,true);
-        AddPart(ConeMesh,TEXT("TowerRoof"),P+FVector(0,0,1140),FVector(6.6f,6.6f,2.7f),FRotator::ZeroRotator,FLinearColor(0.18f,0.11f,0.09f));
-    }
     AddPart(CubeMesh,TEXT("MainGate"),FVector(0,6120,185),FVector(9.2f,0.8f,2.15f),FRotator::ZeroRotator,FLinearColor(0.14f,0.075f,0.028f),true);
     AddPart(CubeMesh,TEXT("GateBeam"),FVector(0,6050,650),FVector(11.0f,1.0f,0.45f),FRotator::ZeroRotator,Stone);
 }
@@ -393,8 +364,6 @@ void AHonourWarWorldDirector::BuildTownServices()
     const FLinearColor DarkStone=FLinearColor(0.22f,0.22f,0.22f);
     const FLinearColor Wood=FLinearColor(0.28f,0.13f,0.05f);
     const FLinearColor Gold=FLinearColor(0.78f,0.58f,0.20f);
-    const FLinearColor Magic=FLinearColor(0.48f,0.62f,1.00f);
-    const FLinearColor Banner=FLinearColor(0.55f,0.10f,0.12f);
 
     // Weapon refinement / blacksmith service.
     AddPart(CubeMesh,TEXT("BlacksmithFloor"),FVector(1550,1450,22),FVector(7.5f,5.5f,0.18f),FRotator::ZeroRotator,Stone,true);
@@ -407,14 +376,6 @@ void AHonourWarWorldDirector::BuildTownServices()
     AddPart(CylinderMesh,TEXT("CardMixerRing"),FVector(-1550,1450,190),FVector(2.1f,2.1f,0.18f),FRotator::ZeroRotator,Gold);
     AddPart(SphereMesh,TEXT("CardMixerCrystal"),FVector(-1550,1450,285),FVector(0.65f,0.65f,0.85f),FRotator::ZeroRotator,Magic);
 
-    // Hero skill-upgrade shrine.
-    BuildShrine(FVector(1550,-1450,0),0.55f);
-    AddPart(SphereMesh,TEXT("SkillShrineCore"),FVector(1550,-1450,520),FVector(0.55f,0.55f,0.55f),FRotator::ZeroRotator,Magic);
-
-    // Soldier production workshop; integrated into the town as an RPG service building.
-    AddPart(CubeMesh,TEXT("SoldierWorkshop"),FVector(-1550,-1450,190),FVector(8.0f,6.0f,3.3f),FRotator::ZeroRotator,Stone,true);
-    AddPart(ConeMesh,TEXT("SoldierWorkshopRoof"),FVector(-1550,-1450,650),FVector(8.7f,6.8f,2.5f),FRotator::ZeroRotator,Banner);
-    AddPart(CubeMesh,TEXT("SoldierWorkshopDoor"),FVector(-1550,-2035,220),FVector(2.2f,0.35f,3.0f),FRotator::ZeroRotator,Wood);
 }
 
 void AHonourWarWorldDirector::BuildRoadFurniture()
@@ -495,139 +456,6 @@ void AHonourWarWorldDirector::BuildDistantLandmarks()
     }
 }
 
-void AHonourWarWorldDirector::SpawnBaseBuilding()
-{
-    const FVector BaseLocation(900.0f,900.0f,120.0f);
-    FActorSpawnParameters Params;
-    Params.SpawnCollisionHandlingOverride=ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
-    if(AHonourWarBaseBuilding* Base=GetWorld()->SpawnActor<AHonourWarBaseBuilding>(
-        AHonourWarBaseBuilding::StaticClass(),BaseLocation,FRotator::ZeroRotator,Params))
-    {
-        Base->InitializeBaseLevel(1);
-    }
-}
-
-void AHonourWarWorldDirector::SpawnDefenseTowers()
-{
-    const FVector Locations[]={
-        FVector(1750,0,80),FVector(-1750,0,80),
-        FVector(0,1750,80),FVector(0,-1750,80),
-        FVector(1450,1450,80),FVector(-1450,-1450,80)
-    };
-    const EHonourWarClass Elements[]={
-        EHonourWarClass::Warrior,EHonourWarClass::Mage,
-        EHonourWarClass::Archer,EHonourWarClass::Acolyte,
-        EHonourWarClass::Ranger,EHonourWarClass::Thief
-    };
-
-    for(int32 Index=0;Index<UE_ARRAY_COUNT(Locations);++Index)
-    {
-        FActorSpawnParameters Params;
-        Params.SpawnCollisionHandlingOverride=ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
-        if(AHonourWarDefenseTower* Tower=GetWorld()->SpawnActor<AHonourWarDefenseTower>(
-            AHonourWarDefenseTower::StaticClass(),Locations[Index],FRotator::ZeroRotator,Params))
-        {
-            Tower->Initialize(35+Index*3,Elements[Index]);
-        }
-    }
-}
-
-void AHonourWarWorldDirector::SpawnIncomeBanks()
-{
-    const FVector BankLocations[]={
-        FVector(3600.0f,-2600.0f,120.0f),
-        FVector(-3600.0f,2600.0f,120.0f),
-        FVector(5100.0f,3900.0f,120.0f)
-    };
-    const int32 GuardianLevels[]={90,180,300};
-
-    for(int32 Index=0;Index<UE_ARRAY_COUNT(BankLocations);++Index)
-    {
-        FActorSpawnParameters Params;
-        Params.SpawnCollisionHandlingOverride=ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
-
-        const FVector GuardianLocation=BankLocations[Index]+FVector(260.0f,0,40.0f);
-        AHonourWarMonster* Guardian=GetWorld()->SpawnActor<AHonourWarMonster>(
-            AHonourWarMonster::StaticClass(),GuardianLocation,FRotator::ZeroRotator,Params);
-        if(Guardian) Guardian->SetLevel(GuardianLevels[Index]);
-
-        AHonourWarIncomeBank* Bank=GetWorld()->SpawnActor<AHonourWarIncomeBank>(
-            AHonourWarIncomeBank::StaticClass(),BankLocations[Index],FRotator::ZeroRotator,Params);
-        if(Bank) Bank->InitializeBank(Index,Guardian);
-    }
-}
-
-void AHonourWarWorldDirector::SpawnSoldierSquad(AHonourWarCharacter* Commander)
-{
-    if(!HasAuthority()) return;
-
-    const FVector ProductionPoint(-1550,-2050,120);
-    const int32 TeamOffset=(Commander?Commander->GetTeamId():0)*900;
-    const EHonourWarClass SoldierClasses[]={
-        EHonourWarClass::Warrior,
-        EHonourWarClass::Archer,
-        EHonourWarClass::Mage,
-        EHonourWarClass::Acolyte,
-        EHonourWarClass::Thief
-    };
-
-    for(int32 Index=0;Index<UE_ARRAY_COUNT(SoldierClasses);++Index)
-    {
-        const FVector Offset=FVector(220.0f*(Index%3),180.0f*((Index/3)%2)+TeamOffset,0.0f);
-        FActorSpawnParameters Params;
-        Params.SpawnCollisionHandlingOverride=ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
-        if(AHonourWarSoldier* Soldier=GetWorld()->SpawnActor<AHonourWarSoldier>(
-            AHonourWarSoldier::StaticClass(),ProductionPoint+Offset,FRotator::ZeroRotator,Params))
-        {
-            Soldier->SetLevel(FMath::Min(50,20+Index*5));
-            Soldier->SetSoldierClass(SoldierClasses[Index]);
-            Soldier->SetCommander(Commander);
-        }
-    }
-}
-
-void AHonourWarWorldDirector::RegisterSoldierDeath(AHonourWarCharacter* Commander)
-{
-    if(!Commander) return;
-
-    int32& Count=SoldierDeathsByCommander.FindOrAdd(Commander);
-    ++Count;
-    if(Count>=5)
-    {
-        Count=0;
-        SpawnSoldierSquad(Commander);
-    }
-}
-
-void AHonourWarWorldDirector::EnsureCommanderSquads()
-{
-    TArray<AActor*> Players;
-    UGameplayStatics::GetAllActorsOfClass(GetWorld(),AHonourWarCharacter::StaticClass(),Players);
-
-    TSet<AHonourWarCharacter*> Active;
-    for(AActor* Actor:Players)
-    {
-        AHonourWarCharacter* Commander=Cast<AHonourWarCharacter>(Actor);
-        if(!Commander) continue;
-        Active.Add(Commander);
-
-        if(!CommandersWithSquad.Contains(Commander))
-        {
-            SpawnSoldierSquad(Commander);
-            CommandersWithSquad.Add(Commander);
-        }
-    }
-
-    for(auto It=CommandersWithSquad.CreateIterator();It;++It)
-    {
-        if(!Active.Contains(*It))
-        {
-            SoldierDeathsByCommander.Remove(*It);
-            It.RemoveCurrent();
-        }
-    }
-}
-
 void AHonourWarWorldDirector::SpawnMonsterSlot(int32 SlotIndex)
 {
     if(!HasAuthority() || !MonsterSlots.IsValidIndex(SlotIndex)) return;
@@ -648,14 +476,6 @@ void AHonourWarWorldDirector::SpawnMonsterSlot(int32 SlotIndex)
 void AHonourWarWorldDirector::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
-    if(!HasAuthority()) return;
-
-    CommanderScanTimer+=DeltaSeconds;
-    if(CommanderScanTimer>=1.0f)
-    {
-        CommanderScanTimer=0.0f;
-        EnsureCommanderSquads();
-    }
 
     for(int32 Index=0;Index<MonsterSlots.Num();++Index)
     {
@@ -677,14 +497,13 @@ void AHonourWarWorldDirector::SpawnMonsters()
     MonsterSlots.Reset();
 
     const FVector MonsterLocations[]={
-        FVector(1800,1200,110),FVector(2600,1000,110),FVector(3100,1300,110),FVector(3350,750,110),
-        FVector(4700,2300,110),FVector(5200,2800,110),FVector(5900,3200,110),FVector(6300,2400,110),
-        FVector(2300,5200,150),FVector(3000,5600,150),FVector(3800,6100,150),
-        FVector(-2700,1100,110),FVector(-3200,1500,110),FVector(-3600,800,110),
-        FVector(-4300,-4300,110),FVector(-5200,-5000,110),FVector(-3500,-5600,110),
-        FVector(-6200,1800,110),FVector(-6900,2500,110),FVector(-5700,3200,110),
-        FVector(2600,-1250,110),FVector(3200,-1650,110),FVector(-3000,-1400,110),
-        FVector(0,-4500,160)
+        FVector(8500,3400,110),FVector(9400,2800,110),FVector(10300,4000,110),FVector(9300,5200,110),
+        FVector(4200,8300,150),FVector(5200,9100,150),FVector(6400,8400,150),
+        FVector(-7800,-7200,110),FVector(-9000,-8200,110),FVector(-10400,-7000,110),
+        FVector(-8600,3000,110),FVector(-9600,3800,110),FVector(-8200,5200,110),
+        FVector(0,-8200,160),FVector(2200,-9000,160),FVector(-2200,-9300,160),
+        FVector(7800,-3200,110),FVector(9000,-4200,110),FVector(-8200,-3600,110),FVector(-9400,-4600,110),
+        FVector(7600,7200,150),FVector(-7600,7200,150),FVector(12500,0,110),FVector(-12500,0,110)
     };
     const int32 MonsterLevels[]={
         12,28,55,90,140,180,220,260,
@@ -713,7 +532,9 @@ void AHonourWarWorldDirector::SpawnMonsters()
         Slot.Location=MonsterLocations[Index];
         Slot.Level=MonsterLevels[Index];
         Slot.Species=Species[Index];
+        if(FVector2D(Slot.Location.X,Slot.Location.Y).Size()<7800.0f)
+            continue;
         MonsterSlots.Add(Slot);
-        SpawnMonsterSlot(Index);
+        SpawnMonsterSlot(MonsterSlots.Num()-1);
     }
 }
