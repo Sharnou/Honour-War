@@ -88,7 +88,7 @@ for phrase in ["HD anime-inspired isometric MMORPG","Unreal Engine 5.8","FBX","O
         sys.exit(1)
 
 cycle=(ROOT/"docs"/"VISUAL_DEVELOPMENT_CYCLE_CONTRACT.md").read_text(encoding="utf-8")
-if "Every completed visual cycle" not in cycle or "does not restore" not in cycle:
+if "Every completed visual cycle" not in cycle or "does not re-enable" not in cycle:
     print("UNREAL_CONTRACT_FAIL: development-cycle visual contract missing or unsafe")
     sys.exit(1)
 
