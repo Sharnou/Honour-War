@@ -167,6 +167,12 @@ void UHonourWarCombatComponent::SetBasicSkillLevel(int32 Value){ BasicSkillLevel
 
 bool UHonourWarCombatComponent::TryMixCards()
 {
+    if (GetOwner() && !GetOwner()->HasAuthority())
+    {
+        ServerTryMixCards();
+        return true;
+    }
+
     if (Cards.Num() < 3)
     {
         LastLootMessage=TEXT("Card Mixing blocked | need 3 cards.");
@@ -196,6 +202,12 @@ bool UHonourWarCombatComponent::TryMixCards()
 
 bool UHonourWarCombatComponent::TryUpgradeBasicSkill()
 {
+    if (GetOwner() && !GetOwner()->HasAuthority())
+    {
+        ServerTryUpgradeBasicSkill();
+        return true;
+    }
+
     if (BasicSkillLevel>=10)
     {
         LastLootMessage=TEXT("Basic Skill is already at level 10.");
@@ -234,6 +246,12 @@ int64 UHonourWarCombatComponent::GetRefineZenyCost() const
 
 bool UHonourWarCombatComponent::TryRefineEquipment()
 {
+    if (GetOwner() && !GetOwner()->HasAuthority())
+    {
+        ServerTryRefineEquipment();
+        return true;
+    }
+
     if (EquipmentRefineLevel>=15)
     {
         LastLootMessage=TEXT("Equipment is already at maximum refinement +15.");
@@ -312,4 +330,19 @@ void UHonourWarCombatComponent::RewardMonsterDefeat(int32 MonsterLevel)
 void UHonourWarCombatComponent::ServerUseSkill_Implementation(int32 SkillIndex)
 {
     UseSkill(SkillIndex);
+}
+
+void UHonourWarCombatComponent::ServerTryRefineEquipment_Implementation()
+{
+    TryRefineEquipment();
+}
+
+void UHonourWarCombatComponent::ServerTryMixCards_Implementation()
+{
+    TryMixCards();
+}
+
+void UHonourWarCombatComponent::ServerTryUpgradeBasicSkill_Implementation()
+{
+    TryUpgradeBasicSkill();
 }
