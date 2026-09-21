@@ -34,6 +34,8 @@ public:
     void ReceiveMonsterDamage(float Damage);
     void HandleMonsterDefeat(int32 MonsterLevel);
     void RefineEquipment();
+    void MixCards();
+    void UpgradeBasicSkill();
     void CycleClass();
 
     void SetMouseDestination(const FVector& Destination);
