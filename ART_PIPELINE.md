@@ -57,6 +57,8 @@ Six base classes and advanced classes receive complete full-body models with vis
 
 ## Camera and gameplay standard
 
+The permanent gameplay framing is explicitly **Ragnarok Online-inspired** while remaining an original Honour War implementation.
+
 The permanent gameplay framing is a perspective, elevated isometric-style MMORPG camera inspired by the classic Ragnarok Online desktop interaction pattern:
 left-click navigation/targeting, right-drag camera orbit, wheel zoom, direct keyboard movement and numeric skill inputs.
 
