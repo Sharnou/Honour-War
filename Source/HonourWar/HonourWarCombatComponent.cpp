@@ -121,6 +121,168 @@ void UHonourWarCombatComponent::ReceiveDamage(float Damage)
     }
 }
 
+void UHonourWarCombatComponent::RestoreVitals()
+{
+    CurrentHealth=MaxHealth;
+    CurrentSp=MaxSp;
+}
+
+void UHonourWarCombatComponent::GainExperience(int32 Amount)
+{
+    Experience+=FMath::Max(0,Amount);
+    while(Experience>=XpToNextLevel && Level<250)
+    {
+        Experience-=XpToNextLevel;
+        ++Level;
+        MaxHealth+=120.0f;
+        MaxSp+=45.0f;
+        RestoreVitals();
+        XpToNextLevel=FMath::Max(100,Level*120);
+    }
+}
+
+void UHonourWarCombatComponent::SetClassId(EHonourWarClass NewClass){ CharacterClass=NewClass; }
+
+void UHonourWarCombatComponent::SetLevel(int32 NewLevel)
+{
+    Level=FMath::Clamp(NewLevel,1,250);
+    MaxHealth=1200.0f+(Level-1)*120.0f;
+    MaxSp=500.0f+(Level-1)*45.0f;
+    XpToNextLevel=FMath::Max(100,Level*120);
+    RestoreVitals();
+}
+
+void UHonourWarCombatComponent::SetExperience(int32 NewExperience){ Experience=FMath::Max(0,NewExperience); }
+void UHonourWarCombatComponent::SetAgeDays(int32 NewAgeDays){ AgeDays=FMath::Max(0,NewAgeDays); }
+void UHonourWarCombatComponent::SetZeny(int64 NewZeny){ Zeny=FMath::Max<int64>(0,NewZeny); }
+void UHonourWarCombatComponent::AddZeny(int64 Amount){ if(Amount>0) Zeny+=Amount; }
+void UHonourWarCombatComponent::SetEquipmentRefineLevel(int32 NewRefine){ EquipmentRefineLevel=FMath::Clamp(NewRefine,0,15); }
+void UHonourWarCombatComponent::SetPhracon(int32 Value){ Phracon=FMath::Max(0,Value); }
+void UHonourWarCombatComponent::SetEmveretarcon(int32 Value){ Emveretarcon=FMath::Max(0,Value); }
+void UHonourWarCombatComponent::SetOridecon(int32 Value){ Oridecon=FMath::Max(0,Value); }
+void UHonourWarCombatComponent::SetBasicSkillLevel(int32 Value){ BasicSkillLevel=FMath::Clamp(Value,1,10); }
+
+bool UHonourWarCombatComponent::TryMixCards()
+{
+    if(Cards.Num()<3)
+    {
+        LastLootMessage=TEXT("Card Mixing blocked | need 3 cards.");
+        return false;
+    }
+
+    const int64 AgeDiscountedCost=FMath::Max<int64>(
+        1000LL,
+        static_cast<int64>(FMath::RoundToFloat(
+            5000.0f*(1.0f-FMath::Clamp(static_cast<float>(AgeDays)*0.005f,0.0f,0.60f)))));
+
+    if(Zeny<AgeDiscountedCost)
+    {
+        LastLootMessage=FString::Printf(TEXT("Card Mixing blocked | need %lld Zeny."),AgeDiscountedCost);
+        return false;
+    }
+
+    const FString CardA=Cards[0];
+    const FString CardB=Cards[1];
+    const FString CardC=Cards[2];
+    Cards.RemoveAt(0);
+    Cards.RemoveAt(0);
+    Cards.RemoveAt(0);
+    Zeny-=AgeDiscountedCost;
+
+    const FString Mixed=FString::Printf(TEXT("Mixed Card | %s + %s + %s"),*CardA,*CardB,*CardC);
+    Cards.Insert(Mixed,0);
+    LastLootMessage=FString::Printf(TEXT("CARD MIX SUCCESS | %s | %lld Zeny"),*Mixed,AgeDiscountedCost);
+    return true;
+}
+
+bool UHonourWarCombatComponent::TryUpgradeBasicSkill()
+{
+    if(BasicSkillLevel>=10)
+    {
+        LastLootMessage=TEXT("Basic Skill is already at level 10.");
+        return false;
+    }
+
+    const float AgeDiscount=FMath::Clamp(static_cast<float>(AgeDays)*0.005f,0.0f,0.60f);
+    const int64 Cost=FMath::Max<int64>(
+        1000LL,
+        static_cast<int64>(FMath::RoundToFloat((2500.0f+BasicSkillLevel*1750.0f)*(1.0f-AgeDiscount))));
+
+    if(Zeny<Cost)
+    {
+        LastLootMessage=FString::Printf(TEXT("Basic Skill upgrade blocked | need %lld Zeny."),Cost);
+        return false;
+    }
+
+    Zeny-=Cost;
+    ++BasicSkillLevel;
+    LastLootMessage=FString::Printf(
+        TEXT("Basic Skill upgraded to Lv.%d | %lld Zeny | age discount %.0f%%"),
+        BasicSkillLevel,Cost,AgeDiscount*100.0f);
+    return true;
+}
+
+float UHonourWarCombatComponent::GetRefineSuccessPercent() const
+{
+    if(EquipmentRefineLevel>=15) return 0.0f;
+    const float BaseSuccess=100.0f-static_cast<float>(EquipmentRefineLevel+1)*5.5f;
+    const float AgeBonus=FMath::Min(25.0f,static_cast<float>(AgeDays)*0.25f);
+    return FMath::Clamp(BaseSuccess+AgeBonus,5.0f,99.5f);
+}
+
+int64 UHonourWarCombatComponent::GetRefineZenyCost() const
+{
+    const float AgeDiscount=FMath::Clamp(static_cast<float>(AgeDays)*0.005f,0.0f,0.60f);
+    const int64 BaseCost=1000LL+static_cast<int64>(EquipmentRefineLevel)*1500LL;
+    return FMath::Max<int64>(1,static_cast<int64>(
+        FMath::RoundToFloat(static_cast<float>(BaseCost)*(1.0f-AgeDiscount))));
+}
+
+bool UHonourWarCombatComponent::TryRefineEquipment()
+{
+    if(EquipmentRefineLevel>=15)
+    {
+        LastLootMessage=TEXT("Equipment is already at maximum refinement +15.");
+        return false;
+    }
+
+    const float AgeDiscount=FMath::Clamp(static_cast<float>(AgeDays)*0.005f,0.0f,0.60f);
+    const int32 OreCost=FMath::Max(
+        1,
+        FMath::CeilToInt((1.0f+static_cast<float>(EquipmentRefineLevel)/4.0f)*(1.0f-AgeDiscount)));
+
+    int32& PrimaryMaterial=
+        EquipmentRefineLevel<5 ? Phracon :
+        (EquipmentRefineLevel<10 ? Emveretarcon : Oridecon);
+
+    const int64 ZenyCost=GetRefineZenyCost();
+    if(Zeny<ZenyCost || PrimaryMaterial<OreCost)
+    {
+        LastLootMessage=FString::Printf(
+            TEXT("Refine +%d blocked | need %lld Zeny + %d ore."),
+            EquipmentRefineLevel+1,ZenyCost,OreCost);
+        return false;
+    }
+
+    Zeny-=ZenyCost;
+    PrimaryMaterial-=OreCost;
+
+    const float Success=GetRefineSuccessPercent();
+    if(FMath::FRandRange(0.0f,100.0f)<=Success)
+    {
+        ++EquipmentRefineLevel;
+        LastLootMessage=FString::Printf(
+            TEXT("Refinement SUCCESS | equipment +%d | %.1f%% success | age discount %.0f%%"),
+            EquipmentRefineLevel,Success,AgeDiscount*100.0f);
+        return true;
+    }
+
+    LastLootMessage=FString::Printf(
+        TEXT("Refinement FAILED | equipment remains +%d | %.1f%% success | materials consumed"),
+        EquipmentRefineLevel,Success);
+    return false;
+}
+
 void UHonourWarCombatComponent::AddHonours(int32 Amount)
 {
     if(Amount>0) Honours+=Amount;
@@ -178,5 +340,3 @@ void UHonourWarCombatComponent::RewardMonsterDefeat(int32 MonsterLevel)
         LastLootMessage = FString::Printf(TEXT("Lv.%d defeated | %lld Zeny | %s | +%d XP"), SafeLevel, ZenyReward, *ItemName, KillXp);
     }
 }
-
-
