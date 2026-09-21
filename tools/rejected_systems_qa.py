@@ -29,12 +29,24 @@ EXCLUDED_SYMBOLS = (
     "BaseSight",
     "TeamId",
     "PartySlot",
+    "BuildSectionPanel",
+    "SkillShrine",
+    "SoldierWorkshop",
+    "DefenseTower",
+    "IncomeBank",
+    "SpawnSoldierSquad",
+    "squad production",
+    "transformer",
 )
 
 EXCLUDED_TERMS = (
     "bpy.ops.export_scene.gltf",
     "bpy.ops.wm.gltf_export",
     "strategy/tower/army",
+    "guarded income bank",
+    "tower-defense",
+    "base sight overlay",
+    "building/construction UI",
 )
 
 REMOVED_FILES = (
