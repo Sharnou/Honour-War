@@ -28,6 +28,8 @@ required=[
     ROOT/"Source"/"HonourWar"/"HonourWarClassProgression.h",
     ROOT/"Source"/"HonourWar"/"HonourWarPlayerController.h",
     ROOT/"Source"/"HonourWar"/"HonourWarPlayerController.cpp",
+    ROOT/"Source"/"HonourWar"/"HonourWarSoldier.h",
+    ROOT/"Source"/"HonourWar"/"HonourWarSoldier.cpp",
     ROOT/"Source"/"HonourWar"/"HonourWarScreenshotDirector.h",
     ROOT/"Source"/"HonourWar"/"HonourWarScreenshotDirector.cpp",
     ROOT/"data"/"honour_war_class_tiers.json",
@@ -69,6 +71,12 @@ controller=(ROOT/"Source"/"HonourWar"/"HonourWarPlayerController.cpp").read_text
 for phrase in ["HandleMouseClick","GetHitResultUnderCursorByChannel","SetMouseTarget","SetMouseDestination","HandleMouseWheel","RotateCameraFromMouse","bHasLastMousePosition"]:
     if phrase not in controller:
         print(f"UNREAL_CONTRACT_FAIL: MMORPG mouse control missing: {phrase}")
+        sys.exit(1)
+
+soldier=(ROOT/"Source"/"HonourWar"/"HonourWarSoldier.cpp").read_text(encoding="utf-8")
+for phrase in ["SetLevel","SetSoldierClass","AutoSkillIndex","RegisterSoldierDeath","HandleMonsterDefeat"]:
+    if phrase not in soldier:
+        print(f"UNREAL_CONTRACT_FAIL: soldier system missing: {phrase}")
         sys.exit(1)
 
 world=(ROOT/"Source"/"HonourWar"/"HonourWarWorldDirector.cpp").read_text(encoding="utf-8")
