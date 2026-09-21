@@ -1,5 +1,6 @@
 #include "HonourWarCharacter.h"
 #include "Net/UnrealNetwork.h"
+#include "HonourWarPlayerState.h"
 #include "HonourWarCombatComponent.h"
 #include "HonourWarSaveGame.h"
 #include "HonourWarMonster.h"
@@ -126,7 +127,26 @@ void AHonourWarCharacter::Tick(float DeltaSeconds)
     if(!bMouseMoveActive || !GetCharacterMovement()) return;
 
     AHonourWarMonster* Target=MouseTarget;
-    if(Target && Target->IsDead())
+    if(PlayerTarget && !CanAttackPlayer(PlayerTarget))
+    {
+        LastCombatMessage=TEXT("Cannot attack a friendly party member");
+        PlayerTarget=nullptr;
+    }
+
+    if(PlayerTarget)
+    {
+        const FVector ToPlayer=PlayerTarget->GetActorLocation()-GetActorLocation();
+        if(ToPlayer.Size2D()<=CombatComponent->GetEngagementRange())
+        {
+            GetCharacterMovement()->StopMovementImmediately();
+            bMouseMoveActive=false;
+            if(CombatComponent)
+                CombatComponent->UseSkillOnPlayer(PlayerTarget);
+            return;
+        }
+        Destination=PlayerTarget->GetActorLocation();
+    }
+    else if(Target && Target->IsDead())
     {
         MouseTarget=nullptr;
         Target=nullptr;
@@ -163,9 +183,57 @@ void AHonourWarCharacter::Tick(float DeltaSeconds)
     }
 }
 
+void AHonourWarCharacter::SetPlayerTarget(AHonourWarCharacter* Target)
+{
+    MouseTarget=nullptr;
+    PlayerTarget=(Target!=this)?Target:nullptr;
+    if(PlayerTarget)
+    {
+        MouseDestination=PlayerTarget->GetActorLocation();
+        MouseDestination.Z=GetActorLocation().Z;
+        bMouseMoveActive=true;
+    }
+}
+
+void AHonourWarCharacter::ClearPlayerTarget()
+{
+    PlayerTarget=nullptr;
+}
+
+bool AHonourWarCharacter::CanAttackPlayer(const AHonourWarCharacter* Target) const
+{
+    if(!Target || Target==this) return false;
+    return GetTeamId()!=Target->GetTeamId();
+}
+
+int32 AHonourWarCharacter::GetTeamId() const
+{
+    const AHonourWarPlayerState* PS=GetPlayerState<AHonourWarPlayerState>();
+    return PS?PS->GetTeamId():-1;
+}
+
+int32 AHonourWarCharacter::GetPartySlot() const
+{
+    const AHonourWarPlayerState* PS=GetPlayerState<AHonourWarPlayerState>();
+    return PS?PS->GetPartySlot():-1;
+}
+
+void AHonourWarCharacter::ReceivePlayerDamage(float Damage, AHonourWarCharacter* Source)
+{
+    if(!HasAuthority() || !CombatComponent) return;
+    const bool bDefeated=CombatComponent->ReceivePlayerDamage(Damage);
+    if(bDefeated && Source && Source->GetCombatComponent())
+    {
+        Source->GetCombatComponent()->AddHonours(25);
+        Source->GetCombatComponent()->AddZeny(5000);
+        Source->LastCombatMessage=FString::Printf(TEXT("PvP victory | +25 Honours | +5000 Zeny"));
+    }
+}
+
 void AHonourWarCharacter::SetMouseDestination(const FVector& Destination)
 {
     MouseTarget=nullptr;
+    PlayerTarget=nullptr;
     MouseDestination=Destination;
     MouseDestination.Z=GetActorLocation().Z;
     bMouseMoveActive=true;
@@ -185,6 +253,7 @@ void AHonourWarCharacter::SetMouseTarget(AHonourWarMonster* Target)
 void AHonourWarCharacter::ClearMouseCommand()
 {
     MouseTarget=nullptr;
+    PlayerTarget=nullptr;
     bMouseMoveActive=false;
     if(GetCharacterMovement()) GetCharacterMovement()->StopMovementImmediately();
 }
