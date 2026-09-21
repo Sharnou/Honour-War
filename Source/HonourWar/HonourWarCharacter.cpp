@@ -8,6 +8,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/SceneComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "Components/TextRenderComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -82,6 +83,15 @@ AHonourWarCharacter::AHonourWarCharacter()
     FollowCamera->FieldOfView=48.0f;
 
     VisualRoot=CreateDefaultSubobject<USceneComponent>(TEXT("VisualRoot"));
+    PlayerNameplate=CreateDefaultSubobject<UTextRenderComponent>(TEXT("PlayerNameplate"));
+    PlayerNameplate->SetupAttachment(RootComponent);
+    PlayerNameplate->SetHorizontalAlignment(EHorizTextAligment::EHTA_Center);
+    PlayerNameplate->SetVerticalAlignment(EVerticalTextAligment::EVRTA_TextCenter);
+    PlayerNameplate->SetWorldSize(30.0f);
+    PlayerNameplate->SetRelativeLocation(FVector(0,0,270));
+    PlayerNameplate->SetTextRenderColor(FColor(235,240,255,255));
+    PlayerNameplate->bAlwaysRenderAsText=true;
+    PlayerNameplate->SetCollisionEnabled(ECollisionEnabled::NoCollision);
     VisualRoot->SetupAttachment(RootComponent);
     CombatComponent=CreateDefaultSubobject<UHonourWarCombatComponent>(TEXT("CombatComponent"));
     QuestComponent=CreateDefaultSubobject<UHonourWarQuestComponent>(TEXT("QuestComponent"));
@@ -101,11 +111,25 @@ void AHonourWarCharacter::OnRepCharacterClass()
     if(QuestComponent)
         QuestComponent->SetQuestState(Save->QuestId,Save->QuestProgress,Save->QuestComplete);
     BuildHeroVisual();
+    UpdateHonourWarPlayerNameplate(this);
 }
 
 void AHonourWarCharacter::ServerSetClassId_Implementation(EHonourWarClass NewClass)
 {
     SetClassId(NewClass);
+}
+
+static void UpdateHonourWarPlayerNameplate(AHonourWarCharacter* Character)
+{
+    if(!Character) return;
+    UTextRenderComponent* Plate=Character->FindComponentByClass<UTextRenderComponent>();
+    if(!Plate || !Character->GetPlayerState()) return;
+    Plate->SetText(FText::FromString(FString::Printf(
+        TEXT("%s  |  %s  |  Team %d  |  Lv.%d"),
+        *Character->GetPlayerState()->GetPlayerName(),
+        *Character->GetClassName(),
+        Character->GetTeamId()+1,
+        Character->GetCombatComponent()?Character->GetCombatComponent()->GetLevel():1)));
 }
 
 void AHonourWarCharacter::BeginPlay()
@@ -115,6 +139,7 @@ void AHonourWarCharacter::BeginPlay()
     SetActorLocation(RespawnPoint);
     BuildHeroVisual();
     LoadProgress();
+    UpdateHonourWarPlayerNameplate(this);
 }
 
 void AHonourWarCharacter::Tick(float DeltaSeconds)
