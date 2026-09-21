@@ -2,7 +2,7 @@
 Honour War HD Asset Builder
 
 Production rule:
-Blender -> Substance 3D Painter -> GLB/GLTF -> Godot 4
+Blender/Neural4D -> Substance 3D Painter -> FBX/OBJ -> Unreal Engine 5.8
 
 This script is a repeatable starting point for production asset generation.
 It intentionally creates a clean game-ready source scene rather than making
@@ -147,7 +147,7 @@ def create_hero(class_id="Warrior"):
     armature.parent = root
 
     root["asset_id"] = "hero_%s" % class_id.lower()
-    root["pipeline"] = "Blender -> Substance 3D Painter -> GLB/GLTF -> Godot 4"
+    root["pipeline"] = "Blender/Neural4D -> Substance 3D Painter -> FBX/OBJ -> Unreal Engine 5.8"
     root["material_contract"] = "BaseColor, Normal, Roughness, Metallic, AO, Emissive"
 
     output = os.path.join(CHARACTER_ROOT, "hero_%s_source.blend" % class_id.lower())
@@ -157,4 +157,4 @@ def create_hero(class_id="Warrior"):
 
 if __name__ == "__main__":
     create_hero("Warrior")
-    print("Honour War HD source generated. Sculpt/detail in Blender, texture in Substance 3D Painter, then export GLB/GLTF to assets/3d/characters.")
+    print("Honour War HD source generated. Sculpt/detail in Blender, texture in Substance 3D Painter, then export approved FBX/OBJ source assets to assets/3d/characters.")
