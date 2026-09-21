@@ -119,12 +119,66 @@ bool UHonourWarCombatComponent::UseSkill(int32 SkillIndex)
 
 void UHonourWarCombatComponent::ReceiveDamage(float Damage)
 {
+    if(!GetOwner() || !GetOwner()->HasAuthority()) return;
     CurrentHealth = FMath::Max(0.0f, CurrentHealth - FMath::Max(0.0f, Damage));
     if (CurrentHealth <= 0.0f)
     {
         if (AHonourWarCharacter* Character = Cast<AHonourWarCharacter>(GetOwner()))
             Character->HandleDeathAndRespawn();
     }
+}
+
+bool UHonourWarCombatComponent::ReceivePlayerDamage(float Damage)
+{
+    if(!GetOwner() || !GetOwner()->HasAuthority()) return false;
+    if(CurrentHealth<=0.0f) return false;
+
+    CurrentHealth=FMath::Max(0.0f,CurrentHealth-FMath::Max(0.0f,Damage));
+    if(CurrentHealth<=0.0f)
+    {
+        if(AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(GetOwner()))
+            Character->HandleDeathAndRespawn();
+        return true;
+    }
+    return false;
+}
+
+void UHonourWarCombatComponent::AddHonours(int32 Amount)
+{
+    if(Amount>0) Honours+=Amount;
+}
+
+bool UHonourWarCombatComponent::UseSkillOnPlayer(AHonourWarCharacter* Target)
+{
+    if(!Target || Target==GetOwner()) return false;
+    if(GetOwner() && !GetOwner()->HasAuthority())
+    {
+        ServerUseSkillOnPlayer(Target);
+        return true;
+    }
+
+    AHonourWarCharacter* Attacker=Cast<AHonourWarCharacter>(GetOwner());
+    if(!Attacker || !Attacker->CanAttackPlayer(Target)) return false;
+
+    const float ManaCost=24.0f;
+    if(CurrentSp<ManaCost) return false;
+
+    const float Damage=BaseDamageForClass()*(1.0f+BasicSkillLevel*0.06f);
+    CurrentSp-=ManaCost;
+    Target->ReceivePlayerDamage(Damage,Attacker);
+
+    if(UWorld* World=GetWorld())
+    {
+        const FHonourWarClassStyle Style=HonourWarClassStyle(CharacterClass);
+        if(AHonourWarCombatEffect* Effect=World->SpawnActor<AHonourWarCombatEffect>(
+            AHonourWarCombatEffect::StaticClass(),Target->GetActorLocation()+FVector(0,0,130),FRotator::ZeroRotator))
+            Effect->Initialize(Style.Accent,FMath::Clamp(Damage/80.0f,0.8f,1.8f),Damage>=90.0f);
+        if(AHonourWarDamagePopup* Popup=World->SpawnActor<AHonourWarDamagePopup>(
+            AHonourWarDamagePopup::StaticClass(),Target->GetActorLocation()+FVector(0,0,230),FRotator(0,180,0)))
+            Popup->Initialize(Damage,Style.Accent,Damage>=90.0f);
+    }
+
+    return true;
 }
 
 void UHonourWarCombatComponent::RestoreVitals()
@@ -346,4 +400,10 @@ void UHonourWarCombatComponent::ServerTryMixCards_Implementation()
 void UHonourWarCombatComponent::ServerTryUpgradeBasicSkill_Implementation()
 {
     TryUpgradeBasicSkill();
+}
+
+
+void UHonourWarCombatComponent::ServerUseSkillOnPlayer_Implementation(AHonourWarCharacter* Target)
+{
+    UseSkillOnPlayer(Target);
 }
