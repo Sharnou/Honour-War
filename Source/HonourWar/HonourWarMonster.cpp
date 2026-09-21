@@ -4,6 +4,7 @@
 #include "HonourWarCharacter.h"
 #include "Components/SceneComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "Components/TextRenderComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Engine/StaticMesh.h"
@@ -42,11 +43,20 @@ AHonourWarMonster::AHonourWarMonster()
     Head=CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Head"));
     LeftHorn=CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LeftHorn"));
     RightHorn=CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RightHorn"));
+    Nameplate=CreateDefaultSubobject<UTextRenderComponent>(TEXT("Nameplate"));
 
     Body->SetupAttachment(Root);
     Head->SetupAttachment(Root);
     LeftHorn->SetupAttachment(Root);
     RightHorn->SetupAttachment(Root);
+    Nameplate->SetupAttachment(Root);
+    Nameplate->SetHorizontalAlignment(EHorizTextAligment::EHTA_Center);
+    Nameplate->SetVerticalAlignment(EVerticalTextAligment::EVRTA_TextCenter);
+    Nameplate->SetWorldSize(28.0f);
+    Nameplate->SetRelativeLocation(FVector(0,0,320));
+    Nameplate->SetTextRenderColor(FColor(255,240,190,255));
+    Nameplate->bAlwaysRenderAsText=true;
+    Nameplate->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
     Body->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
     Head->SetCollisionEnabled(ECollisionEnabled::NoCollision);
@@ -76,7 +86,11 @@ void AHonourWarMonster::SetLevel(int32 NewLevel)
 void AHonourWarMonster::SetSpecies(EHonourWarMonsterSpecies NewSpecies)
 {
     Species=NewSpecies;
-    if(HasActorBegunPlay()) ApplySpeciesVisual();
+    if(HasActorBegunPlay())
+    {
+        ApplySpeciesVisual();
+        if(Nameplate) Nameplate->SetText(FText::FromString(FString::Printf(TEXT("Lv.%d %s [%s]"),Level,*GetSpeciesName(),Level>=250?TEXT("MVP"):(Level>=150?TEXT("Elite"):TEXT("Normal")))));
+    }
 }
 
 FString AHonourWarMonster::GetSpeciesName() const
@@ -260,6 +274,10 @@ void AHonourWarMonster::BeginPlay()
     ApplyColor(LeftHorn,FLinearColor(0.12f,0.07f,0.05f));
     ApplyColor(RightHorn,FLinearColor(0.12f,0.07f,0.05f));
     ApplySpeciesVisual();
+
+    const FString TierLabel=Level>=250 ? TEXT("MVP") : (Level>=150 ? TEXT("Elite") : TEXT("Normal"));
+    Nameplate->SetText(FText::FromString(FString::Printf(TEXT("Lv.%d %s [%s]"),Level,*GetSpeciesName(),*TierLabel)));
+    Nameplate->SetWorldSize(Level>=250?34.0f:28.0f);
 
     UStaticMesh* Sphere=Mesh(TEXT("/Engine/BasicShapes/Sphere.Sphere"));
     if (Sphere)
