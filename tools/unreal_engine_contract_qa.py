@@ -77,10 +77,16 @@ for phrase in ["HandleMouseClick","GetHitResultUnderCursorByChannel","SetMouseTa
         sys.exit(1)
 
 soldier=(ROOT/"Source"/"HonourWar"/"HonourWarSoldier.cpp").read_text(encoding="utf-8")
-for phrase in ["SetLevel","SetSoldierClass","AutoSkillIndex","RegisterSoldierDeath","HandleMonsterDefeat","HasOccupyingSoldier"]:
+for phrase in ["SetLevel","SetSoldierClass","AutoSkillIndex","RegisterSoldierDeath","HandleMonsterDefeat"]:
 
     if phrase not in soldier:
         print(f"UNREAL_CONTRACT_FAIL: soldier system missing: {phrase}")
+        sys.exit(1)
+
+bank=(ROOT/"Source"/"HonourWar"/"HonourWarIncomeBank.cpp").read_text(encoding="utf-8")
+for phrase in ["HasOccupyingSoldier","Guardian->IsDead()","AddZeny(ZenyPerSecond)"]:
+    if phrase not in bank:
+        print(f"UNREAL_CONTRACT_FAIL: guarded income bank system missing: {phrase}")
         sys.exit(1)
 
 world=(ROOT/"Source"/"HonourWar"/"HonourWarWorldDirector.cpp").read_text(encoding="utf-8")
