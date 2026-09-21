@@ -38,6 +38,8 @@ private:
     void Skill7();
     void Skill8();
     void RefineEquipment();
+    void MixCards();
+    void UpgradeBasicSkill();
     void HandleMouseClick();
     void HandleMouseWheel(float Delta);
     void RotateCameraFromMouse();
