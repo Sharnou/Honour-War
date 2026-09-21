@@ -45,6 +45,7 @@ private:
     void BuildVegetation();
     void BuildDistantLandmarks();
     void SpawnMonsters();
+    void SpawnSoldierSquad();
 
     void BuildHouse(const FVector& Center,float Yaw,const FLinearColor& WallColor,const FLinearColor& RoofColor);
     void BuildTree(const FVector& Center,float Scale,int32 Variant);
