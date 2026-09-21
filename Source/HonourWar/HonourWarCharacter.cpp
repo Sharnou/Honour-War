@@ -1,4 +1,5 @@
 #include "HonourWarCharacter.h"
+#include "Net/UnrealNetwork.h"
 #include "HonourWarCombatComponent.h"
 #include "HonourWarSaveGame.h"
 #include "HonourWarMonster.h"
@@ -82,6 +83,12 @@ AHonourWarCharacter::AHonourWarCharacter()
     VisualRoot->SetupAttachment(RootComponent);
     CombatComponent=CreateDefaultSubobject<UHonourWarCombatComponent>(TEXT("CombatComponent"));
     AutoPossessPlayer=EAutoReceiveInput::Player0;
+}
+
+void AHonourWarCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+    Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+    DOREPLIFETIME(AHonourWarCharacter,bBaseSightActive);
 }
 
 void AHonourWarCharacter::BeginPlay()
