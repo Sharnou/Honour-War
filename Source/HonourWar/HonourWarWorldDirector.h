@@ -12,6 +12,7 @@ class UMaterialInterface;
 class UMaterialInstanceDynamic;
 class USceneComponent;
 class AHonourWarMonster;
+class AHonourWarBaseBuilding;
 
 UCLASS()
 class HONOURWAR_API AHonourWarWorldDirector : public AActor
@@ -65,6 +66,7 @@ private:
     void SpawnMonsters();
     void SpawnIncomeBanks();
     void SpawnDefenseTowers();
+    void SpawnBaseBuilding();
     void SpawnSoldierSquad();
 
     void BuildHouse(const FVector& Center,float Yaw,const FLinearColor& WallColor,const FLinearColor& RoofColor);
