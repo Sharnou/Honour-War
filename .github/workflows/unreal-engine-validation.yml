@@ -17,5 +17,15 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Validate Unreal 5.8 contract
+
+      - name: Validate Unreal 5.8 + HD MMORPG contract
         run: python tools/unreal_engine_contract_qa.py
+
+      - name: Validate MMORPG camera and controls
+        run: python tools/validate_camera_controls.py
+
+      - name: Validate core progression, rewards, economy and autosave
+        run: python tools/honour_war_progression_contract_qa.py
+
+      - name: Validate Visual RAG cycle contract
+        run: python tools/visual_gap_register_qa.py
