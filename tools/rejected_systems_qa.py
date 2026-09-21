@@ -8,7 +8,14 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
-RUNTIME_DIRS = [ROOT / "Source", ROOT / "tools"]
+RUNTIME_DIRS = [ROOT / "Source"]
+TOOL_DIR = ROOT / "tools"
+TOOL_VALIDATOR_EXEMPT = {
+    "rejected_systems_qa.py",
+    "validate_hd_assets.py",
+    "validate_art_generators.py",
+    "unreal_engine_contract_qa.py",
+}
 EXCLUDED_SYMBOLS = (
     "HonourWarSoldier",
     "HonourWarIncomeBank",
@@ -76,6 +83,15 @@ def scan_runtime() -> None:
                 if marker in text:
                     fail(f"rejected runtime marker remains in {path.relative_to(ROOT)}: {marker}")
 
+def scan_tooling_for_rejected_generators() -> None:
+    for path in TOOL_DIR.glob("*.py"):
+        if path.name in TOOL_VALIDATOR_EXEMPT:
+            continue
+        text = path.read_text(encoding="utf-8", errors="ignore")
+        for marker in EXCLUDED_SYMBOLS + ("bpy.ops.export_scene.gltf", "bpy.ops.wm.gltf_export"):
+            if marker in text:
+                fail(f"rejected generator/tool marker remains in {path.relative_to(ROOT)}: {marker}")
+
 def check_removed_files() -> None:
     for relative in REMOVED_FILES:
         if (ROOT / relative).exists():
@@ -103,6 +119,7 @@ def check_city_monster_exclusion() -> None:
 
 def main() -> int:
     scan_runtime()
+    scan_tooling_for_rejected_generators()
     check_removed_files()
     check_no_legacy_binary_formats()
     check_city_monster_exclusion()
