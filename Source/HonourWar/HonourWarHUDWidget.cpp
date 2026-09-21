@@ -10,6 +10,8 @@
 #include "Components/TextBlock.h"
 #include "Components/VerticalBox.h"
 #include "Components/HorizontalBox.h"
+#include "Components/EditableTextBox.h"
+#include "HonourWarPlayerController.h"
 #include "GameFramework/GameStateBase.h"
 #include "HonourWarPlayerState.h"
 #include "HonourWarGameState.h"
@@ -202,7 +204,20 @@ void UHonourWarHUDWidget::BuildChatDock(UCanvasPanel* Root)
     ChatText=Text(WidgetTree,TEXT("ChatText"),TEXT("[World] Welcome to Honour War.\\n[System] Type @say [message] to speak."),14.0f,White);
     Stack->AddChildToVerticalBox(ChatText);
     Stack->AddChildToVerticalBox(CombatText);
-    Stack->AddChildToVerticalBox(Text(WidgetTree,TEXT("ChatInput"),TEXT("  Type a message...                         ◉  ➤"),13.0f,Muted));
+
+    UHorizontalBox* InputRow=WidgetTree->ConstructWidget<UHorizontalBox>(UHorizontalBox::StaticClass(),TEXT("ChatInputRow"));
+    ChatInput=WidgetTree->ConstructWidget<UEditableTextBox>(UEditableTextBox::StaticClass(),TEXT("ChatInput"));
+    ChatInput->SetHintText(FText::FromString(TEXT("Type a world message...")));
+    ChatInput->SetIsCaretMovedWhenGainFocus(true);
+    ChatInput->SetSelectAllTextWhenFocused(false);
+
+    ChatSendButton=WidgetTree->ConstructWidget<UButton>(UButton::StaticClass(),TEXT("ChatSendButton"));
+    ChatSendButton->SetContent(Text(WidgetTree,TEXT("ChatSendLabel"),TEXT("SEND"),13.0f,Gold));
+    ChatSendButton->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::SubmitChat);
+
+    InputRow->AddChildToHorizontalBox(ChatInput);
+    InputRow->AddChildToHorizontalBox(ChatSendButton);
+    Stack->AddChildToVerticalBox(InputRow);
 }
 
 UButton* UHonourWarHUDWidget::MakeShortcut(UCanvasPanel* Root,const FString& Icon,const FString& LabelText,float X)
@@ -392,4 +407,14 @@ void UHonourWarHUDWidget::NativeTick(const FGeometry& MyGeometry,float InDeltaTi
 {
     Super::NativeTick(MyGeometry,InDeltaTime);
     RefreshVitals();
+}
+
+
+void UHonourWarHUDWidget::SubmitChat()
+{
+    if(!ChatInput) return;
+    const FString Message=ChatInput->GetText().ToString();
+    if(AHonourWarPlayerController* PC=Cast<AHonourWarPlayerController>(GetOwningPlayer()))
+        PC->SendChatMessage(Message);
+    ChatInput->SetText(FText::GetEmpty());
 }
