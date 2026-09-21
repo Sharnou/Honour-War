@@ -64,8 +64,12 @@ AHonourWarCharacter::AHonourWarCharacter()
 
     CameraBoom=CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
     CameraBoom->SetupAttachment(RootComponent);
-    CameraBoom->TargetArmLength=1100.0f;
-    CameraBoom->SetRelativeRotation(FRotator(-48.0f,45.0f,0.0f));
+    CameraBoom->TargetArmLength=900.0f;
+    CameraBoom->SetRelativeRotation(FRotator(-50.0f,45.0f,0.0f));
+    CameraBoom->bEnableCameraLag=true;
+    CameraBoom->CameraLagSpeed=12.0f;
+    CameraBoom->bEnableCameraRotationLag=true;
+    CameraBoom->CameraRotationLagSpeed=12.0f;
     CameraBoom->bUsePawnControlRotation=true;
     CameraBoom->bDoCollisionTest=true;
     CameraBoom->ProbeSize=18.0f;
@@ -161,7 +165,7 @@ void AHonourWarCharacter::ClearMouseCommand()
 void AHonourWarCharacter::AdjustCameraZoom(float WheelDelta)
 {
     if(!CameraBoom) return;
-    CameraBoom->TargetArmLength=FMath::Clamp(CameraBoom->TargetArmLength-WheelDelta*120.0f,600.0f,1500.0f);
+    CameraBoom->TargetArmLength=FMath::Clamp(CameraBoom->TargetArmLength-WheelDelta*120.0f,550.0f,1350.0f);
 }
 
 void AHonourWarCharacter::MoveForward(float Value)
