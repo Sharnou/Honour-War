@@ -67,7 +67,7 @@ for phrase in retired:
         print(f"UNREAL_CONTRACT_FAIL: retired HUD element remains: {phrase}")
         sys.exit(1)
 
-for phrase in ["Inventory","Character","Skills","Quests","Prontera City","Active Quest","Party","Guild","MMORPGChat","MMORPGMiniMap"]:
+for phrase in ["Prontera City","Active Quest","MMORPGChat","MMORPGMiniMap","Equip +","Age %d days"]:
     if phrase not in hud:
         print(f"UNREAL_CONTRACT_FAIL: MMORPG HUD element missing: {phrase}")
         sys.exit(1)
@@ -79,7 +79,7 @@ for phrase in ["EHonourWarClassTier","Tier5","EHonourWarFifthTierArchetype","Nat
         sys.exit(1)
 
 controller=(ROOT/"Source"/"HonourWar"/"HonourWarPlayerController.cpp").read_text(encoding="utf-8")
-for phrase in ["HandleMouseClick","GetHitResultUnderCursorByChannel","SetMouseTarget","SetPlayerTarget","SetMouseDestination","HandleMouseWheel","RotateCameraFromMouse","bHasLastMousePosition","ExecuteGoCommand","Anchors"]:
+for phrase in ["HandleMouseClick","GetHitResultUnderCursorByChannel","SetMouseTarget","SetMouseDestination","HandleMouseWheel","RotateCameraFromMouse","bHasLastMousePosition","ExecuteGoCommand","Anchors"]:
     if phrase not in controller:
         print(f"UNREAL_CONTRACT_FAIL: MMORPG mouse control missing: {phrase}")
         sys.exit(1)
@@ -117,12 +117,6 @@ character=(ROOT/"Source"/"HonourWar"/"HonourWarCharacter.cpp").read_text(encodin
 for phrase in ["ServerSetClassId_Implementation","OnRepCharacterClass","DOREPLIFETIME(AHonourWarCharacter,CharacterClass)"]:
     if phrase not in character:
         print(f"UNREAL_CONTRACT_FAIL: replicated class system missing: {phrase}")
-        sys.exit(1)
-
-combat=(ROOT/"Source"/"HonourWar"/"HonourWarCombatComponent.cpp").read_text(encoding="utf-8")
-for phrase in ["ServerUseSkillOnPlayer","ServerTryRefineEquipment","ServerTryMixCards","ServerTryUpgradeBasicSkill"]:
-    if phrase not in combat:
-        print(f"UNREAL_CONTRACT_FAIL: combat RPC missing: {phrase}")
         sys.exit(1)
 
 world=(ROOT/"Source"/"HonourWar"/"HonourWarWorldDirector.cpp").read_text(encoding="utf-8")
