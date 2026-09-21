@@ -31,6 +31,7 @@ public:
     UFUNCTION(Server, Reliable)
     void ServerTryUpgradeBasicSkill();
     void ReceiveDamage(float Damage);
+    bool ReceivePlayerDamage(float Damage);
     void RestoreVitals();
 
     float GetHealthPercent() const { return MaxHealth > 0.0f ? CurrentHealth / MaxHealth : 0.0f; }
@@ -62,6 +63,7 @@ public:
     void SetAgeDays(int32 NewAgeDays);
     void SetZeny(int64 NewZeny);
     void AddZeny(int64 Amount);
+    void AddHonours(int32 Amount);
     void SetEquipmentRefineLevel(int32 NewRefine);
     void SetPhracon(int32 Value);
     void SetEmveretarcon(int32 Value);
