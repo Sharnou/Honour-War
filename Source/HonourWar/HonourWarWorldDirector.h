@@ -64,6 +64,7 @@ private:
     void BuildDistantLandmarks();
     void SpawnMonsters();
     void SpawnIncomeBanks();
+    void SpawnDefenseTowers();
     void SpawnSoldierSquad();
 
     void BuildHouse(const FVector& Center,float Yaw,const FLinearColor& WallColor,const FLinearColor& RoofColor);
