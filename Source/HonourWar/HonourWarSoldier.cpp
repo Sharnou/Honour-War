@@ -155,7 +155,13 @@ void AHonourWarSoldier::Tick(float DeltaSeconds)
     {
         const float SkillMultiplier=AutoSkillIndex==0 ? 1.0f : 1.35f;
         const float Damage=(18.0f+Level*2.4f)*SkillMultiplier;
+        const bool WasDead=Target->IsDead();
         Target->ReceiveCombatHit(Damage,SoldierClass);
+        if (!WasDead && Target->IsDead())
+        {
+            if (AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(Player))
+                Character->HandleMonsterDefeat(Target->GetMonsterLevel());
+        }
         AutoSkillIndex=(AutoSkillIndex+1)%2;
         AttackTimer=1.0f;
     }
