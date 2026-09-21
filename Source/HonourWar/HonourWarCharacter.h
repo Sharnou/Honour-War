@@ -31,6 +31,7 @@ public:
     void LoadProgress();
     void HandleDeathAndRespawn();
     void ReceiveMonsterDamage(float Damage);
+    void HandleMonsterDefeat(int32 MonsterLevel);
     void CycleClass();
 
     void SetMouseDestination(const FVector& Destination);
