@@ -64,7 +64,7 @@ Player HUD:
 - target;
 - minimap/world map;
 - chat;
-- 8-slot COMBAT SKILLS bar;
+- numeric 1–8 gameplay skills without requiring a persistent bottom skill strip;
 - contextual RPG windows.
 
 The obsolete development command toolbar is not part of the game.
@@ -79,3 +79,25 @@ The target is determined by the two locked repository visual anchors and the ful
 The Unreal implementation must preserve the five-tier progression and expose Tier 5 / Transcendence at level 200. Fifth-tier identity remains tied to the original profession.
 
 Mouse-first desktop MMORPG controls are mandatory: left-click ground movement, left-click target selection/approach/attack, right-drag camera orbit, and wheel zoom.
+
+
+## City, base and soldier gameplay
+
+Cities are RPG progression hubs rather than a strategy-game HUD. A developed city can contain hero services for weapon refinement, card mixing, storage, skills and soldier production.
+
+Soldiers are production units with a level cap of 50 and two automatic combat skills. Soldiers can occupy guarded income banks only after the local guarding monster is defeated. Every five fallen soldiers return to the city production point. Soldier production and bank income are world systems and must not replace the mouse-first MMORPG HUD.
+
+## Rewards
+
+Monster defeat is a complete reward event:
+- experience;
+- Zeny;
+- honour;
+- item drops;
+- card drops.
+
+Level-300 monsters are the top-tier reward source and can provide Mythic equipment/suits and a world-level card.
+
+## Visual/gameplay invariants
+
+Every visual cycle must regenerate the visual target around the HD 3D anime-inspired MMORPG identity and preserve the Ragnarok Online-inspired perspective/isometric mouse-and-camera convention. Runtime proof is a real Unreal Engine 5.8 Windows EXE frame.
