@@ -13,7 +13,6 @@ class USpringArmComponent;
 class UHonourWarCombatComponent;
 class UHonourWarQuestComponent;
 class AHonourWarMonster;
-class AHonourWarCharacter;
 
 UCLASS()
 class HONOURWAR_API AHonourWarCharacter : public ACharacter
@@ -44,12 +43,6 @@ public:
     void CycleClass();
 
     void SetMouseDestination(const FVector& Destination);
-    void SetPlayerTarget(AHonourWarCharacter* Target);
-    void ClearPlayerTarget();
-    bool CanAttackPlayer(const AHonourWarCharacter* Target) const;
-    int32 GetTeamId() const;
-    int32 GetPartySlot() const;
-    void ReceivePlayerDamage(float Damage, AHonourWarCharacter* Source);
     void SetMouseTarget(AHonourWarMonster* Target);
     void ClearMouseCommand();
     void AdjustCameraZoom(float WheelDelta);
@@ -63,8 +56,6 @@ public:
     UFUNCTION(BlueprintCallable) FString GetLastCombatMessage() const { return LastCombatMessage; }
     UFUNCTION(Server, Reliable)
     void ServerSetClassId(EHonourWarClass NewClass);
-    UFUNCTION(BlueprintCallable) bool GetBaseSightActive() const { return bBaseSightActive; }
-    void SetBaseSightActive(bool bActive) { bBaseSightActive=bActive; }
     void SetClassId(EHonourWarClass NewClass);
 
 private:
@@ -84,10 +75,8 @@ private:
     UPROPERTY(ReplicatedUsing=OnRepCharacterClass) EHonourWarClass CharacterClass = EHonourWarClass::Warrior;
     UPROPERTY() FVector RespawnPoint = FVector(900.0f, 900.0f, 180.0f);
     UPROPERTY() AHonourWarMonster* MouseTarget = nullptr;
-    UPROPERTY() AHonourWarCharacter* PlayerTarget = nullptr;
     UPROPERTY() FVector MouseDestination = FVector::ZeroVector;
     UPROPERTY() bool bMouseMoveActive = false;
-    UPROPERTY(Replicated) bool bBaseSightActive = false;
     UPROPERTY() int64 OnlineSeconds = 0;
     float AutoSaveAccumulator = 0.0f;
 };
