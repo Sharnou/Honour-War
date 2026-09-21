@@ -56,6 +56,7 @@ public:
     void SetPhracon(int32 Value);
     void SetEmveretarcon(int32 Value);
     void SetOridecon(int32 Value);
+    void SetBasicSkillLevel(int32 Value);
     bool TryRefineEquipment();
     int32 GetBasicSkillLevel() const { return BasicSkillLevel; }
     bool TryMixCards();
