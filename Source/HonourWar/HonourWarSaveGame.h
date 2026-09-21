@@ -33,4 +33,6 @@ public:
     UPROPERTY() int32 QuestId=1;
     UPROPERTY() int32 QuestProgress=0;
     UPROPERTY() bool QuestComplete=false;
+    UPROPERTY() FString GuildName;
+    UPROPERTY() FString GuildRank=TEXT("Member");
 };
