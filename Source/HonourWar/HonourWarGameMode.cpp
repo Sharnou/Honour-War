@@ -5,6 +5,7 @@
 #include "HonourWarWorldDirector.h"
 #include "HonourWarScreenshotDirector.h"
 #include "HonourWarGameState.h"
+#include "HonourWarPlayerState.h"
 #include "GameFramework/GameStateBase.h"
 #include "Engine/World.h"
 
@@ -13,6 +14,7 @@ AHonourWarGameMode::AHonourWarGameMode()
     DefaultPawnClass=AHonourWarCharacter::StaticClass();
     PlayerControllerClass=AHonourWarPlayerController::StaticClass();
     GameStateClass=AHonourWarGameState::StaticClass();
+    PlayerStateClass=AHonourWarPlayerState::StaticClass();
     HUDClass=AHonourWarHUD::StaticClass();
 }
 
