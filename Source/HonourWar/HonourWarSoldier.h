@@ -9,6 +9,7 @@ class UStaticMeshComponent;
 class USceneComponent;
 class AHonourWarMonster;
 class AHonourWarWorldDirector;
+class AHonourWarCharacter;
 
 UCLASS()
 class HONOURWAR_API AHonourWarSoldier : public AActor
@@ -21,6 +22,8 @@ public:
 
     void SetLevel(int32 NewLevel);
     void SetSoldierClass(EHonourWarClass NewClass);
+    void SetCommander(AHonourWarCharacter* NewCommander);
+    AHonourWarCharacter* GetCommander() const { return Commander; }
     void ReceiveDamage(float Damage);
 
     int32 GetSoldierLevel() const { return Level; }
@@ -40,6 +43,7 @@ private:
 
     UPROPERTY(EditAnywhere) int32 Level = 25;
     UPROPERTY(EditAnywhere) EHonourWarClass SoldierClass = EHonourWarClass::Warrior;
+    UPROPERTY() AHonourWarCharacter* Commander = nullptr;
 
     float MaxHealth = 900.0f;
     float CurrentHealth = 900.0f;
