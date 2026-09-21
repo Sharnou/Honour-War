@@ -3,11 +3,11 @@ import math
 import os
 
 # Honour War SS (SUPER SHAMBION) production asset generator.
-# Pipeline contract: Blender -> Substance 3D Painter handoff -> GLB/GLTF -> Godot 4.7.x.
+# Pipeline contract: Blender/Neural4D -> Substance 3D Painter handoff -> FBX/OBJ -> Unreal Engine 5.8.
 # This intentionally does NOT create a player-selectable character class.
 
 OUT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../assets/3d/generated/ss"))
-OUT_FILE = os.path.join(OUT_DIR, "SS_SuperShambion.glb")
+OUT_FILE = os.path.join(OUT_DIR, "SS_SuperShambion.fbx")
 
 
 def mat(name, color, metallic=0.0, rough=0.45, emission=None):
@@ -138,7 +138,7 @@ def build():
     root.select_set(True)
     bpy.context.view_layer.objects.active = root
     os.makedirs(OUT_DIR, exist_ok=True)
-    bpy.ops.export_scene.gltf(filepath=OUT_FILE, export_format="GLB", export_apply=True)
+    bpy.ops.export_scene.fbx(filepath=OUT_FILE, use_selection=True, apply_unit_scale=True)
     print("HONOUR WAR SS PRODUCTION ASSET:", OUT_FILE)
 
 
