@@ -170,6 +170,34 @@ void AHonourWarPlayerController::MixCards(){if(auto*C=Cast<AHonourWarCharacter>(
 void AHonourWarPlayerController::UpgradeBasicSkill(){if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->UpgradeBasicSkill();}
 
 
+void AHonourWarPlayerController::SendChatMessage(const FString& Message)
+{
+    FString Clean=Message;
+    Clean.TrimStartAndEndInline();
+    Clean.LeftInline(180,true);
+    if(Clean.IsEmpty()) return;
+
+    if(!HasAuthority())
+    {
+        ServerSendChat(Clean);
+        return;
+    }
+
+    if(AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(GetPawn()))
+    {
+        if(AHonourWarGameMode* GameMode=GetWorld()?GetWorld()->GetAuthGameMode<AHonourWarGameMode>():nullptr)
+        {
+            FString Result;
+            GameMode->HandleChatCommand(Character,Clean,Result);
+        }
+    }
+}
+
+void AHonourWarPlayerController::ServerSendChat_Implementation(const FString& Message)
+{
+    SendChatMessage(Message);
+}
+
 bool AHonourWarPlayerController::ExecuteGoCommand(const FString& Command)
 {
     TArray<FString> Tokens;
