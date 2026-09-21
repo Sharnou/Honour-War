@@ -4,7 +4,7 @@
 
 Honour War uses a Ragnarok Online-inspired desktop MMORPG interaction model while remaining an original Unreal Engine 5.8 game.
 
-## Primary interaction
+## Locked primary interaction
 
 ### Left mouse
 
@@ -41,3 +41,8 @@ Monster click selection is performed through an Unreal visibility collision quer
 ## Regression contract
 
 Any visual or gameplay development cycle that changes the camera, movement, targeting or HUD must re-check this specification and the Unreal contract QA before the cycle can be accepted.
+
+
+## Cycle rule
+
+Any visual or gameplay development cycle that changes the camera, movement, targeting or HUD must re-check this specification and the Unreal contract QA before acceptance.
