@@ -10,6 +10,7 @@
 class UCameraComponent;
 class USpringArmComponent;
 class UHonourWarCombatComponent;
+class UHonourWarQuestComponent;
 class AHonourWarMonster;
 class AHonourWarCharacter;
 
@@ -35,6 +36,7 @@ public:
     void HandleDeathAndRespawn();
     void ReceiveMonsterDamage(float Damage);
     void HandleMonsterDefeat(int32 MonsterLevel);
+    UFUNCTION(BlueprintCallable) UHonourWarQuestComponent* GetQuestComponent() const { return QuestComponent; }
     void RefineEquipment();
     void MixCards();
     void UpgradeBasicSkill();
@@ -74,6 +76,7 @@ private:
     UPROPERTY(VisibleAnywhere) USpringArmComponent* CameraBoom;
     UPROPERTY(VisibleAnywhere) UCameraComponent* FollowCamera;
     UPROPERTY(VisibleAnywhere) UHonourWarCombatComponent* CombatComponent;
+    UPROPERTY(VisibleAnywhere) UHonourWarQuestComponent* QuestComponent;
     UPROPERTY() USceneComponent* VisualRoot;
     UPROPERTY() FString LastCombatMessage = TEXT("Ready");
     UPROPERTY(ReplicatedUsing=OnRepCharacterClass) EHonourWarClass CharacterClass = EHonourWarClass::Warrior;
