@@ -58,6 +58,19 @@ AHonourWarMonster::AHonourWarMonster()
     if (ConeFinder.Succeeded()){LeftHorn->SetStaticMesh(ConeFinder.Object);RightHorn->SetStaticMesh(ConeFinder.Object);}
 }
 
+void AHonourWarMonster::SetLevel(int32 NewLevel)
+{
+    Level=FMath::Clamp(NewLevel,1,300);
+    MaxHealth=600.0f+Level*65.0f;
+    CurrentHealth=MaxHealth;
+    if(HasActorBegunPlay())
+    {
+        const float TierScale=0.80f+static_cast<float>(Level)/260.0f;
+        Body->SetRelativeScale3D(FVector(1.20f*TierScale,1.00f*TierScale,1.35f*TierScale));
+        Head->SetRelativeScale3D(FVector(0.84f*TierScale,0.84f*TierScale,0.74f*TierScale));
+    }
+}
+
 void AHonourWarMonster::BeginPlay()
 {
     Super::BeginPlay();
