@@ -159,6 +159,7 @@ void UHonourWarCombatComponent::SetLevel(int32 NewLevel)
 void UHonourWarCombatComponent::SetExperience(int32 NewExperience){ Experience = FMath::Max(0, NewExperience); }
 void UHonourWarCombatComponent::SetAgeDays(int32 NewAgeDays){ AgeDays = FMath::Max(0, NewAgeDays); }
 void UHonourWarCombatComponent::SetZeny(int64 NewZeny){ Zeny = FMath::Max<int64>(0, NewZeny); }
+void UHonourWarCombatComponent::AddZeny(int64 Amount){ if(Amount>0) Zeny+=Amount; }
 void UHonourWarCombatComponent::SetEquipmentRefineLevel(int32 NewRefine){ EquipmentRefineLevel = FMath::Clamp(NewRefine,0,15); }
 void UHonourWarCombatComponent::SetPhracon(int32 Value){ Phracon = FMath::Max(0,Value); }
 void UHonourWarCombatComponent::SetEmveretarcon(int32 Value){ Emveretarcon = FMath::Max(0,Value); }
