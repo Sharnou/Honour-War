@@ -12,8 +12,6 @@
 #include "Components/HorizontalBox.h"
 #include "Components/EditableTextBox.h"
 #include "HonourWarPlayerController.h"
-#include "GameFramework/GameStateBase.h"
-#include "HonourWarPlayerState.h"
 #include "HonourWarGameState.h"
 #include "Blueprint/WidgetTree.h"
 
@@ -67,13 +65,9 @@ void UHonourWarHUDWidget::BuildSurface()
     WidgetTree->RootWidget=RootCanvas;
 
     BuildProfileCluster(RootCanvas);
-    BuildLeftNavigation(RootCanvas);
-    BuildTopRightControls(RootCanvas);
-    BuildSectionPanel(RootCanvas);
     BuildMiniMap(RootCanvas);
     BuildQuestTracker(RootCanvas);
     BuildChatDock(RootCanvas);
-    BuildBottomRightShortcuts(RootCanvas);
 }
 
 void UHonourWarHUDWidget::BuildProfileCluster(UCanvasPanel* Root)
@@ -91,8 +85,6 @@ void UHonourWarHUDWidget::BuildProfileCluster(UCanvasPanel* Root)
     Stack->AddChildToVerticalBox(ProfileName);
     ProfileMeta=Text(WidgetTree,TEXT("ProfileMeta"),TEXT("Lv. 1  •  Warrior"),16.0f,Gold);
     Stack->AddChildToVerticalBox(ProfileMeta);
-    TeamText=Text(WidgetTree,TEXT("TeamText"),TEXT("Team 1  |  Party Slot 1"),13.0f,Gold);
-    Stack->AddChildToVerticalBox(TeamText);
 
     HpBar=WidgetTree->ConstructWidget<UProgressBar>(UProgressBar::StaticClass(),TEXT("HP"));
     HpBar->SetFillColorAndOpacity(FLinearColor(0.68f,0.10f,0.12f,1.0f));
@@ -121,52 +113,7 @@ UButton* UHonourWarHUDWidget::MakeNavButton(UCanvasPanel* Root,const FString& Ic
     return Button;
 }
 
-void UHonourWarHUDWidget::BuildLeftNavigation(UCanvasPanel* Root)
-{
-    UButton* Inventory=MakeNavButton(Root,TEXT("▣"),TEXT("Inventory"),150.0f);
-    Inventory->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::OpenInventory);
-    UButton* Character=MakeNavButton(Root,TEXT("♙"),TEXT("Character"),222.0f);
-    Character->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::OpenCharacter);
-    UButton* Skills=MakeNavButton(Root,TEXT("✦"),TEXT("Skills"),294.0f);
-    Skills->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::OpenSkills);
-    UButton* Quests=MakeNavButton(Root,TEXT("☷"),TEXT("Quests"),366.0f);
-    Quests->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::OpenQuests);
-}
 
-void UHonourWarHUDWidget::BuildSectionPanel(UCanvasPanel* Root)
-{
-    SectionPanel=Panel(WidgetTree,TEXT("SectionPanel"),Glass,FMargin(18.0f));
-    Place(Root,SectionPanel,FVector2D(280,170),FVector2D(650,430));
-    UVerticalBox* Stack=WidgetTree->ConstructWidget<UVerticalBox>(UVerticalBox::StaticClass(),TEXT("SectionStack"));
-    SectionPanel->SetContent(Stack);
-    SectionTitle=Text(WidgetTree,TEXT("SectionTitle"),TEXT("Honour War"),26.0f,Gold);
-    Stack->AddChildToVerticalBox(SectionTitle);
-    SectionBody=Text(WidgetTree,TEXT("SectionBody"),
-        TEXT("Select an MMORPG menu to inspect your character, inventory, skills and world services."),
-        16.0f,White);
-    Stack->AddChildToVerticalBox(SectionBody);
-}
-
-UButton* UHonourWarHUDWidget::MakeTopButton(UCanvasPanel* Root,const FString& Icon,float X)
-{
-    UButton* Button=WidgetTree->ConstructWidget<UButton>(UButton::StaticClass(),*FString::Printf(TEXT("Top_%d"),FMath::RoundToInt(X)));
-    Button->SetColorAndOpacity(FLinearColor(0.035f,0.045f,0.060f,0.90f));
-    Button->SetContent(Text(WidgetTree,*FString::Printf(TEXT("TopIcon_%d"),FMath::RoundToInt(X)),Icon,25.0f,Gold));
-    Place(Root,Button,FVector2D(X,20),FVector2D(58,58));
-    return Button;
-}
-
-void UHonourWarHUDWidget::BuildTopRightControls(UCanvasPanel* Root)
-{
-    UButton* Mail=MakeTopButton(Root,TEXT("✉"),1395.0f);
-    Mail->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::OpenParty);
-    UButton* Ranking=MakeTopButton(Root,TEXT("♛"),1459.0f);
-    Ranking->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::OpenGuild);
-    UButton* Social=MakeTopButton(Root,TEXT("♟"),1523.0f);
-    Social->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::OpenParty);
-    UButton* System=MakeTopButton(Root,TEXT("⚙"),1587.0f);
-    System->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::OpenSystem);
-}
 
 void UHonourWarHUDWidget::BuildMiniMap(UCanvasPanel* Root)
 {
@@ -179,8 +126,6 @@ void UHonourWarHUDWidget::BuildMiniMap(UCanvasPanel* Root)
     Stack->AddChildToVerticalBox(Text(WidgetTree,TEXT("MapCoords"),TEXT("(128, 214)   •   N"),13.0f,Muted));
     Stack->AddChildToVerticalBox(Text(WidgetTree,TEXT("MapCompass"),TEXT("        N\n     W  ✦  E\n        S"),24.0f,Gold));
     Stack->AddChildToVerticalBox(Text(WidgetTree,TEXT("MapStatus"),TEXT("Daylight  •  14:32"),14.0f,White));
-    BaseSightText=Text(WidgetTree,TEXT("BaseSight"),TEXT("Base Sight  •  offline"),14.0f,Muted);
-    Stack->AddChildToVerticalBox(BaseSightText);
 }
 
 void UHonourWarHUDWidget::BuildQuestTracker(UCanvasPanel* Root)
@@ -232,136 +177,17 @@ UButton* UHonourWarHUDWidget::MakeShortcut(UCanvasPanel* Root,const FString& Ico
     return Button;
 }
 
-void UHonourWarHUDWidget::BuildBottomRightShortcuts(UCanvasPanel* Root)
-{
-    UButton* Map=MakeShortcut(Root,TEXT("✦"),TEXT("Map"),560.0f);
-    Map->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::OpenMap);
-    UButton* Bag=MakeShortcut(Root,TEXT("▣"),TEXT("Bag"),660.0f);
-    Bag->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::OpenBag);
-    UButton* Shop=MakeShortcut(Root,TEXT("◇"),TEXT("Shop"),760.0f);
-    Shop->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::OpenShop);
-    UButton* Party=MakeShortcut(Root,TEXT("♟"),TEXT("Party"),860.0f);
-    Party->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::OpenParty);
-    UButton* Guild=MakeShortcut(Root,TEXT("◆"),TEXT("Guild"),960.0f);
-    Guild->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::OpenGuild);
-}
 
-void UHonourWarHUDWidget::ShowSection(const FString& Title,const FString& Body)
-{
-    if (SectionPanel) SectionPanel->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
-    if (SectionTitle) SectionTitle->SetText(FText::FromString(Title));
-    if (SectionBody) SectionBody->SetText(FText::FromString(Body));
-}
 
-void UHonourWarHUDWidget::OpenInventory()
-{
-    AHonourWarCharacter* C=Cast<AHonourWarCharacter>(GetOwningPlayerPawn());
-    if (!C || !C->GetCombatComponent()) return;
-    const TArray<FString>& Items=C->GetCombatComponent()->GetInventoryItems();
-    FString Body=FString::Printf(TEXT("Equipment +%d\n\n"),C->GetCombatComponent()->GetEquipmentRefineLevel());
-    Body+=Items.Num()==0 ? TEXT("Inventory is empty. Defeat monsters to receive equipment.") : FString::Join(Items,TEXT("\n"));
-    ShowSection(TEXT("Inventory"),Body);
-}
 
-void UHonourWarHUDWidget::OpenCharacter()
-{
-    AHonourWarCharacter* C=Cast<AHonourWarCharacter>(GetOwningPlayerPawn());
-    if (!C || !C->GetCombatComponent()) return;
-    UHonourWarCombatComponent* Combat=C->GetCombatComponent();
-    ShowSection(TEXT("Character"),
-        FString::Printf(TEXT("%s\nLv.%d\nTier %s\nAge %d online days\nZeny %lld\nHonours %d"),
-            *C->GetClassName(),Combat->GetLevel(),*C->GetClassTierName(),Combat->GetAgeDays(),Combat->GetZeny(),Combat->GetHonours()));
-}
 
-void UHonourWarHUDWidget::OpenSkills()
-{
-    AHonourWarCharacter* C=Cast<AHonourWarCharacter>(GetOwningPlayerPawn());
-    const int32 BasicLevel=(C && C->GetCombatComponent()) ? C->GetCombatComponent()->GetBasicSkillLevel() : 1;
-    ShowSection(TEXT("Skills"),
-        FString::Printf(TEXT("1 Basic Attack  |  Basic Skill Lv.%d\n2 Class Skill\n3 Power Strike\n4 Arcane Burst\n5 Rapid Volley\n6 Guardian Light\n7 Shadow Step\n8 Finisher\n\nU = upgrade basic skill\nC = mix 3 cards\nCooldown and SP are validated by the server."),BasicLevel));
-}
 
-void UHonourWarHUDWidget::OpenQuests()
-{
-    AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(GetOwningPlayerPawn());
-    if(Character && Character->GetQuestComponent())
-        ShowSection(Character->GetQuestComponent()->GetQuestTitle(),Character->GetQuestComponent()->GetQuestBody());
-    else
-        ShowSection(TEXT("Quests"),TEXT("Quest data unavailable."));
-}
 
-void UHonourWarHUDWidget::OpenMap()
-{
-    ShowSection(TEXT("World Map"),
-        TEXT("0  prontera_like_town\n1  forest_field\n2  mountain_pass\n3  desert_ruins\n4  snow_region\n5  arcane_dungeon\n\nFast travel: @go [map] [x]:[y]"));
-}
 
-void UHonourWarHUDWidget::OpenBag()
-{
-    OpenInventory();
-}
 
-void UHonourWarHUDWidget::OpenShop()
-{
-    ShowSection(TEXT("Town Shop"),TEXT("Weapon Refinement\nCard Mixing\nHero Skill Upgrade\nSoldier Production\n\nTown services use Zeny and monster-earned materials."));
-}
 
-void UHonourWarHUDWidget::OpenParty()
-{
-    FString Body=FString::Printf(TEXT("Online party combat: 2v1 through 4v4\n\n"));
-    if(UWorld* World=GetWorld())
-    {
-        if(AGameStateBase* State=World->GetGameState())
-        {
-            for(APlayerState* PlayerState:State->PlayerArray)
-            {
-                if(AHonourWarPlayerState* PS=Cast<AHonourWarPlayerState>(PlayerState))
-                {
-                    Body+=FString::Printf(TEXT("Team %d | Slot %d | %s\n"),PS->GetTeamId()+1,PS->GetPartySlot()+1,*PS->GetPlayerName());
-                }
-            }
-        }
-    }
-    Body+=TEXT("\nLeft-click an opposing player to target. Friendly party members are protected.");
-    ShowSection(TEXT("Party"),Body);
-}
 
-void UHonourWarHUDWidget::OpenGuild()
-{
-    AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(GetOwningPlayerPawn());
-    AHonourWarPlayerState* Self=Character?Character->GetPlayerState<AHonourWarPlayerState>():nullptr;
 
-    FString Body;
-    if(!Self || Self->GetGuildName().IsEmpty())
-    {
-        Body=TEXT("No guild.\n\n@ guild create is available through the server command console.");
-    }
-    else
-    {
-        Body=FString::Printf(TEXT("Guild: %s\nRank: %s\n\nMembers on this server:\n"),*Self->GetGuildName(),*Self->GetGuildRank());
-        if(UWorld* World=GetWorld())
-        {
-            if(AGameStateBase* State=World->GetGameState())
-            {
-                for(APlayerState* PlayerState:State->PlayerArray)
-                {
-                    if(AHonourWarPlayerState* PS=Cast<AHonourWarPlayerState>(PlayerState))
-                    {
-                        if(PS->GetGuildName().Equals(Self->GetGuildName(),ESearchCase::IgnoreCase))
-                            Body+=FString::Printf(TEXT("• %s — %s — Team %d\n"),*PS->GetPlayerName(),*PS->GetGuildRank(),PS->GetTeamId()+1);
-                    }
-                }
-            }
-        }
-        Body+=TEXT("\nCommands: @guild leave | @guild create [name] | @guild join [name]");
-    }
-    ShowSection(TEXT("Guild"),Body);
-}
-
-void UHonourWarHUDWidget::OpenSystem()
-{
-    ShowSection(TEXT("System"),TEXT("R = refine equipment\nF5 = save\nF6 = load\nQ = reset camera\nMouse wheel = zoom\nRight-mouse drag = orbit camera"));
-}
 
 void UHonourWarHUDWidget::RefreshVitals()
 {
@@ -389,10 +215,6 @@ void UHonourWarHUDWidget::RefreshVitals()
             FString::Printf(TEXT("%s\\n%s"),
                 *Character->GetQuestComponent()->GetQuestTitle(),
                 *Character->GetQuestComponent()->GetQuestBody())));
-    if (TeamText)
-        TeamText->SetText(FText::FromString(FString::Printf(TEXT("Team %d  |  Party Slot %d"),Character->GetTeamId()+1,Character->GetPartySlot()+1)));
-    if (BaseSightText)
-        BaseSightText->SetText(FText::FromString(Character->GetBaseSightActive()?TEXT("Base Sight  •  ONLINE  •  minimap overlay"):TEXT("Base Sight  •  offline")));
     if (RefinementText)
         RefinementText->SetText(FText::FromString(FString::Printf(
             TEXT("Equip +%d  |  Refine %.1f%%  |  P:%d E:%d O:%d  |  R"),
