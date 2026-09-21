@@ -80,12 +80,7 @@ void AHonourWarPlayerController::HandleMouseClick()
     if (!GetHitResultUnderCursorByChannel(UEngineTypes::ConvertToTraceType(ECC_Visibility),true,Hit))
         return;
 
-    if (AHonourWarCharacter* Other=Cast<AHonourWarCharacter>(Hit.GetActor()))
-    {
-        if(Other!=Character)
-            Character->SetPlayerTarget(Other);
-    }
-    else if (AHonourWarMonster* Monster=Cast<AHonourWarMonster>(Hit.GetActor()))
+    if (AHonourWarMonster* Monster=Cast<AHonourWarMonster>(Hit.GetActor()))
         Character->SetMouseTarget(Monster);
     else
         Character->SetMouseDestination(Hit.Location);
