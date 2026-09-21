@@ -4,7 +4,7 @@ Purpose:
 - Create clean, named, export-ready collection structure for the ten development roles.
 - Generate non-destructive blockout guides that are intended to be replaced/refined
   into authored high-detail meshes, not shipped as final game art.
-- Prepare GLB export conventions for Blender -> Substance 3D Painter -> Godot 4.
+- Prepare FBX/OBJ export conventions for Blender/Neural4D -> Substance 3D Painter -> Unreal Engine 5.8.
 
 Run inside Blender's Scripting workspace. This script does not claim to create
 finished character/monster art; it establishes a repeatable production scaffold.
@@ -77,7 +77,7 @@ def create_character_scaffold(collection, class_name):
 
 def create_export_metadata():
     scene = bpy.context.scene
-    scene["HW_pipeline"] = "Blender -> Substance 3D Painter -> GLB/GLTF -> Godot 4"
+    scene["HW_pipeline"] = "Blender/Neural4D -> Substance 3D Painter -> FBX/OBJ -> Unreal Engine 5.8"
     scene["HW_asset_status"] = "SCAFFOLD_ONLY"
     scene["HW_target_renderer"] = "Godot 4 Forward+"
     scene["HW_texture_policy"] = "PBR: BaseColor / Normal / Roughness / Metallic / AO"
