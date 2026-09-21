@@ -25,30 +25,11 @@ protected:
 private:
     void BuildSurface();
     void BuildProfileCluster(UCanvasPanel* Root);
-    void BuildLeftNavigation(UCanvasPanel* Root);
-    void BuildSectionPanel(UCanvasPanel* Root);
-    void BuildTopRightControls(UCanvasPanel* Root);
     void BuildMiniMap(UCanvasPanel* Root);
     void BuildQuestTracker(UCanvasPanel* Root);
     void BuildChatDock(UCanvasPanel* Root);
-    void BuildBottomRightShortcuts(UCanvasPanel* Root);
-
-    UButton* MakeNavButton(UCanvasPanel* Root, const FString& Icon, const FString& Text, float Y);
-    UButton* MakeTopButton(UCanvasPanel* Root, const FString& Icon, float X);
-    UButton* MakeShortcut(UCanvasPanel* Root, const FString& Icon, const FString& Text, float X);
 
     void RefreshVitals();
-    void ShowSection(const FString& Title,const FString& Body);
-    UFUNCTION() void OpenInventory();
-    UFUNCTION() void OpenCharacter();
-    UFUNCTION() void OpenSkills();
-    UFUNCTION() void OpenQuests();
-    UFUNCTION() void OpenMap();
-    UFUNCTION() void OpenBag();
-    UFUNCTION() void OpenShop();
-    UFUNCTION() void OpenParty();
-    UFUNCTION() void OpenGuild();
-    UFUNCTION() void OpenSystem();
     UFUNCTION() void SubmitChat();
 
     UPROPERTY() UCanvasPanel* RootCanvas = nullptr;
@@ -57,16 +38,11 @@ private:
     UPROPERTY() UProgressBar* XpBar = nullptr;
     UPROPERTY() UTextBlock* ProfileName = nullptr;
     UPROPERTY() UTextBlock* ProfileMeta = nullptr;
-    UPROPERTY() UTextBlock* TeamText = nullptr;
     UPROPERTY() UTextBlock* ChatText = nullptr;
     UPROPERTY() UEditableTextBox* ChatInput = nullptr;
     UPROPERTY() UButton* ChatSendButton = nullptr;
     UPROPERTY() UTextBlock* EconomyText = nullptr;
     UPROPERTY() UTextBlock* RefinementText = nullptr;
-    UPROPERTY() UTextBlock* BaseSightText = nullptr;
     UPROPERTY() UTextBlock* QuestText = nullptr;
     UPROPERTY() UTextBlock* CombatText = nullptr;
-    UPROPERTY() UBorder* SectionPanel = nullptr;
-    UPROPERTY() UTextBlock* SectionTitle = nullptr;
-    UPROPERTY() UTextBlock* SectionBody = nullptr;
 };
