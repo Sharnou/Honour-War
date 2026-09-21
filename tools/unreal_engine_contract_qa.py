@@ -30,6 +30,9 @@ required=[
     ROOT/"Source"/"HonourWar"/"HonourWarPlayerController.cpp",
     ROOT/"Source"/"HonourWar"/"HonourWarSoldier.h",
     ROOT/"Source"/"HonourWar"/"HonourWarSoldier.cpp",
+    ROOT/"Source"/"HonourWar"/"HonourWarIncomeBank.h",
+    ROOT/"Source"/"HonourWar"/"HonourWarIncomeBank.cpp",
+    ROOT/"Source"/"HonourWar"/"HonourWarLootDatabase.h",
     ROOT/"Source"/"HonourWar"/"HonourWarScreenshotDirector.h",
     ROOT/"Source"/"HonourWar"/"HonourWarScreenshotDirector.cpp",
     ROOT/"data"/"honour_war_class_tiers.json",
@@ -74,7 +77,8 @@ for phrase in ["HandleMouseClick","GetHitResultUnderCursorByChannel","SetMouseTa
         sys.exit(1)
 
 soldier=(ROOT/"Source"/"HonourWar"/"HonourWarSoldier.cpp").read_text(encoding="utf-8")
-for phrase in ["SetLevel","SetSoldierClass","AutoSkillIndex","RegisterSoldierDeath","HandleMonsterDefeat"]:
+for phrase in ["SetLevel","SetSoldierClass","AutoSkillIndex","RegisterSoldierDeath","HandleMonsterDefeat","HasOccupyingSoldier"]:
+
     if phrase not in soldier:
         print(f"UNREAL_CONTRACT_FAIL: soldier system missing: {phrase}")
         sys.exit(1)
