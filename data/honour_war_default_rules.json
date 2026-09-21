@@ -11,25 +11,104 @@
   "hero_start_age": 18,
   "world_daylight_default": true,
   "fast_travel_command": "@go [map] [x]:[y]",
-  "classes": ["Warrior","Mage","Archer","Thief","Acolyte","Merchant"],
-  "advanced_classes": ["Ranger"],
-  "refinement_materials": ["Phracon","Zeny","Emveretarcon","Oridecon"],
-  "rarities": ["Common","Uncommon","Rare","Epic","Legendary","Mythic"],
+  "classes": [
+    "Warrior",
+    "Mage",
+    "Archer",
+    "Thief",
+    "Acolyte",
+    "Merchant"
+  ],
+  "advanced_classes": [
+    "Ranger"
+  ],
+  "refinement_materials": [
+    "Phracon",
+    "Zeny",
+    "Emveretarcon",
+    "Oridecon"
+  ],
+  "rarities": [
+    "Common",
+    "Uncommon",
+    "Rare",
+    "Epic",
+    "Legendary",
+    "Mythic"
+  ],
   "refinement_min": 0,
   "refinement_max": 15,
   "rune_socket_min": 0,
   "rune_socket_max": 4,
-  "online_age_effects": ["basic_skill_effects","refinement_success","refinement_material_consumption","item_prices","appearance"],
+  "online_age_effects": [
+    "basic_skill_effects",
+    "refinement_success",
+    "refinement_material_consumption",
+    "item_prices",
+    "appearance"
+  ],
   "visual_runtime": {
     "engine": "Unreal Engine 5.8",
     "reference_source": "Screenshot/",
-    "approved_asset_intake": ["FBX","OBJ"],
-    "rejected_asset_intake": ["GLB","GLTF"],
+    "approved_asset_intake": [
+      "FBX",
+      "OBJ"
+    ],
+    "rejected_asset_intake": [
+      "GLB",
+      "GLTF"
+    ],
     "visual_rag_required_first": true,
     "real_runtime_screenshot_required": true
   },
   "multiplayer": {
     "server_authoritative": true,
-    "party_sizes": ["2v1","3v3","4v4"]
+    "party_sizes": [
+      "2v1",
+      "3v3",
+      "4v4"
+    ]
+  },
+  "city_system": {
+    "purpose": "RPG service hubs",
+    "services": [
+      "weapon_refinement",
+      "card_mixing",
+      "storage",
+      "hero_skill_upgrade",
+      "soldier_production"
+    ],
+    "fast_travel": "@go [map] [x]:[y]"
+  },
+  "soldier_system": {
+    "level_cap": 50,
+    "automatic_combat_skills_per_soldier": 2,
+    "production_source": "city_base",
+    "guarded_bank_rule": "defeat_guardian_before_income",
+    "respawn_rule": "every_5_deaths_return_to_city_production"
+  },
+  "reward_loop": {
+    "on_monster_defeat": [
+      "experience",
+      "zeny",
+      "honour",
+      "item",
+      "card"
+    ],
+    "level_300": "Mythic suit and World Monarch Card eligible"
+  },
+  "visual_identity": {
+    "identity": "HD 3D anime-inspired isometric MMORPG/ARPG",
+    "camera": "Ragnarok Online-inspired perspective/isometric",
+    "controls": [
+      "left_click_ground",
+      "left_click_monster",
+      "right_drag_camera",
+      "mouse_wheel_zoom",
+      "WASD",
+      "1-8_skills"
+    ],
+    "cycle": "Visual RAG -> regenerated brief -> 3D asset refresh -> Unreal 5.8 runtime -> real EXE screenshot",
+    "daily_unattended_upgrade": false
   }
 }
