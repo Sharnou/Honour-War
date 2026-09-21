@@ -8,6 +8,7 @@ class UCanvasPanel;
 class UProgressBar;
 class UTextBlock;
 class UButton;
+class UBorder;
 
 UCLASS()
 class HONOURWAR_API UHonourWarHUDWidget : public UUserWidget
@@ -33,6 +34,17 @@ private:
     UButton* MakeShortcut(UCanvasPanel* Root, const FString& Icon, const FString& Text, float X);
 
     void RefreshVitals();
+    void ShowSection(const FString& Title,const FString& Body);
+    UFUNCTION() void OpenInventory();
+    UFUNCTION() void OpenCharacter();
+    UFUNCTION() void OpenSkills();
+    UFUNCTION() void OpenQuests();
+    UFUNCTION() void OpenMap();
+    UFUNCTION() void OpenBag();
+    UFUNCTION() void OpenShop();
+    UFUNCTION() void OpenParty();
+    UFUNCTION() void OpenGuild();
+    UFUNCTION() void OpenSystem();
 
     UPROPERTY() UCanvasPanel* RootCanvas = nullptr;
     UPROPERTY() UProgressBar* HpBar = nullptr;
@@ -43,4 +55,7 @@ private:
     UPROPERTY() UTextBlock* EconomyText = nullptr;
     UPROPERTY() UTextBlock* RefinementText = nullptr;
     UPROPERTY() UTextBlock* CombatText = nullptr;
+    UPROPERTY() UBorder* SectionPanel = nullptr;
+    UPROPERTY() UTextBlock* SectionTitle = nullptr;
+    UPROPERTY() UTextBlock* SectionBody = nullptr;
 };
