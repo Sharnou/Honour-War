@@ -1,19 +1,14 @@
 #!/usr/bin/env python3
-"""Static regression gate for Honour War camera controls.
-
-The production scene has one camera owner: MovementStabilityFix controls the
-root Camera3D. This gate verifies that the smooth zoom and 90-degree rotation
-contract is still present and that the InputMap bindings remain available.
-It intentionally does not create a second camera or rewrite runtime behavior.
-"""
+"""Static regression gate for the permanent Unreal MMORPG camera contract."""
 
 from __future__ import annotations
 
 from pathlib import Path
 
-PROJECT = Path("project.godot")
-CAMERA = Path("scripts/MovementStabilityFix.gd")
-SCENE = Path("Main3D.tscn")
+ROOT = Path(__file__).resolve().parents[1]
+CHARACTER = ROOT / "Source" / "HonourWar" / "HonourWarCharacter.cpp"
+CONTROLLER = ROOT / "Source" / "HonourWar" / "HonourWarPlayerController.cpp"
+INPUTS = ROOT / "Config" / "DefaultInput.ini"
 
 
 def require(text: str, marker: str, label: str) -> None:
@@ -22,43 +17,30 @@ def require(text: str, marker: str, label: str) -> None:
 
 
 def main() -> int:
-    for path in (PROJECT, CAMERA, SCENE):
+    for path in (CHARACTER, CONTROLLER, INPUTS):
         if not path.is_file():
-            raise SystemExit(f"CAMERA QA ERROR: missing required file: {path}")
+            raise SystemExit(f"CAMERA QA ERROR: missing required file: {path.relative_to(ROOT)}")
 
-    project = PROJECT.read_text(encoding="utf-8")
-    camera = CAMERA.read_text(encoding="utf-8")
-    scene = SCENE.read_text(encoding="utf-8")
+    character = CHARACTER.read_text(encoding="utf-8")
+    controller = CONTROLLER.read_text(encoding="utf-8")
+    inputs = INPUTS.read_text(encoding="utf-8")
 
-    # InputMap contract: Q/E are the authored 90-degree rotation controls.
-    require(project, 'camera_rotate_left={"deadzone":0.5,"events":[Object(InputEventKey,"physical_keycode":81)]}', "camera_rotate_left Q binding")
-    require(project, 'camera_rotate_right={"deadzone":0.5,"events":[Object(InputEventKey,"physical_keycode":69)]}', "camera_rotate_right E binding")
-
-    # Smooth zoom contract.
-    require(camera, '@export var zoom_min_distance:float', "zoom minimum")
-    require(camera, '@export var zoom_max_distance:float', "zoom maximum")
-    require(camera, '@export var zoom_step:float', "zoom step")
-    require(camera, '@export var zoom_smoothing:float', "zoom smoothing")
-    require(camera, 'MOUSE_BUTTON_WHEEL_UP', "wheel-up zoom input")
-    require(camera, 'MOUSE_BUTTON_WHEEL_DOWN', "wheel-down zoom input")
-    require(camera, 'target_camera_distance=clamp', "bounded zoom target")
-    require(camera, 'camera_distance=lerp(camera_distance,target_camera_distance,zoom_alpha)', "smooth zoom interpolation")
-
-    # 90-degree rotation contract.
-    require(camera, '@export var rotation_smoothing:float', "rotation smoothing")
-    require(camera, '@export var rotation_step_degrees:float = 90.0', "90-degree rotation step")
-    require(camera, 'Input.is_action_just_pressed("camera_rotate_left")', "left rotation action")
-    require(camera, 'Input.is_action_just_pressed("camera_rotate_right")', "right rotation action")
-    require(camera, 'target_camera_yaw=wrapf(target_camera_yaw+rotation_step_degrees*step_sign,0.0,360.0)', "wrapped 90-degree yaw target")
-    require(camera, 'camera_yaw=rad_to_deg(lerp_angle', "smooth yaw interpolation")
-
-    # Scene ownership contract: MovementStabilityFix controls the root Camera3D.
-    require(scene, '[node name="MovementStabilityFix" type="Node" parent="."]', "MovementStabilityFix node")
-    require(scene, '[node name="Camera3D" type="Camera3D" parent="."]', "root Camera3D")
-    require(scene, 'camera_path = NodePath("../Camera3D")', "scene camera ownership")
+    require(character, "CameraBoom->TargetArmLength=900.0f", "default MMORPG camera distance")
+    require(character, "FRotator(-50.0f,45.0f,0.0f)", "elevated isometric default camera angle")
+    require(character, "CameraBoom->bEnableCameraLag=true", "camera lag")
+    require(character, "CameraBoom->bEnableCameraRotationLag=true", "camera rotation lag")
+    require(character, "FMath::Clamp(CameraBoom->TargetArmLength-WheelDelta*120.0f,550.0f,1350.0f)", "bounded mouse-wheel zoom")
+    require(controller, "HandleMouseClick", "left-click interaction")
+    require(controller, "GetHitResultUnderCursorByChannel", "cursor target query")
+    require(controller, "SetMouseTarget", "monster target selection")
+    require(controller, "SetMouseDestination", "ground click-to-move")
+    require(controller, "bRightMouseDown", "right-drag camera mode")
+    require(controller, "RotateCameraFromMouse", "mouse camera orbit")
+    require(controller, "Ragnarok Online-inspired", "persistent camera identity")
+    require(inputs, 'ActionName="CameraReset"', "camera reset input")
 
     print("HONOUR WAR CAMERA CONTROL QA")
-    print("PASS: smooth wheel zoom, bounded zoom smoothing, Q/E 90-degree rotation, smooth yaw interpolation, and single-camera ownership are intact.")
+    print("PASS: click-to-move, monster targeting, right-drag orbit, bounded zoom, elevated isometric framing and W/A/S/D compatibility are present.")
     return 0
 
 
