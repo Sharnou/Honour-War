@@ -55,6 +55,7 @@ private:
     UPROPERTY() UTextBlock* ProfileMeta = nullptr;
     UPROPERTY() UTextBlock* EconomyText = nullptr;
     UPROPERTY() UTextBlock* RefinementText = nullptr;
+    UPROPERTY() UTextBlock* BaseSightText = nullptr;
     UPROPERTY() UTextBlock* CombatText = nullptr;
     UPROPERTY() UBorder* SectionPanel = nullptr;
     UPROPERTY() UTextBlock* SectionTitle = nullptr;
