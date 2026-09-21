@@ -56,6 +56,7 @@ void AHonourWarWorldDirector::BeginPlay()
     BuildHouses();
     BuildWalls();
     BuildMarket();
+    BuildTownServices();
     BuildRoadFurniture();
     BuildVegetation();
     BuildDistantLandmarks();
@@ -373,6 +374,38 @@ void AHonourWarWorldDirector::BuildRock(const FVector& Center,float Scale)
         FVector(1.8f*Scale,1.25f*Scale,0.95f*Scale),FRotator(0,18,0),FLinearColor(0.30f,0.31f,0.29f));
     AddPart(SphereMesh,TEXT("RockB"),Center+FVector(110*Scale,60*Scale,48*Scale),
         FVector(0.90f*Scale,0.72f*Scale,0.60f*Scale),FRotator(0,-10,0),FLinearColor(0.24f,0.25f,0.24f));
+}
+
+
+
+void AHonourWarWorldDirector::BuildTownServices()
+{
+    const FLinearColor Stone=FLinearColor(0.40f,0.39f,0.36f);
+    const FLinearColor DarkStone=FLinearColor(0.22f,0.22f,0.22f);
+    const FLinearColor Wood=FLinearColor(0.28f,0.13f,0.05f);
+    const FLinearColor Gold=FLinearColor(0.78f,0.58f,0.20f);
+    const FLinearColor Magic=FLinearColor(0.48f,0.62f,1.00f);
+    const FLinearColor Banner=FLinearColor(0.55f,0.10f,0.12f);
+
+    // Weapon refinement / blacksmith service.
+    AddPart(CubeMesh,TEXT("BlacksmithFloor"),FVector(1550,1450,22),FVector(7.5f,5.5f,0.18f),FRotator::ZeroRotator,Stone,true);
+    AddPart(CubeMesh,TEXT("BlacksmithForge"),FVector(1550,1450,145),FVector(3.1f,2.6f,1.1f),FRotator::ZeroRotator,DarkStone);
+    AddPart(CylinderMesh,TEXT("BlacksmithAnvil"),FVector(1730,1450,265),FVector(1.2f,1.2f,0.7f),FRotator::ZeroRotator,Gold);
+    AddPart(SphereMesh,TEXT("ForgeEmber"),FVector(1550,1450,330),FVector(0.65f,0.65f,0.65f),FRotator::ZeroRotator,FLinearColor(1.0f,0.30f,0.08f));
+
+    // Card mixing station.
+    AddPart(CubeMesh,TEXT("CardMixerDesk"),FVector(-1550,1450,115),FVector(4.8f,2.8f,0.42f),FRotator::ZeroRotator,Wood);
+    AddPart(CylinderMesh,TEXT("CardMixerRing"),FVector(-1550,1450,190),FVector(2.1f,2.1f,0.18f),FRotator::ZeroRotator,Gold);
+    AddPart(SphereMesh,TEXT("CardMixerCrystal"),FVector(-1550,1450,285),FVector(0.65f,0.65f,0.85f),FRotator::ZeroRotator,Magic);
+
+    // Hero skill-upgrade shrine.
+    BuildShrine(FVector(1550,-1450,0),0.55f);
+    AddPart(SphereMesh,TEXT("SkillShrineCore"),FVector(1550,-1450,520),FVector(0.55f,0.55f,0.55f),FRotator::ZeroRotator,Magic);
+
+    // Soldier production workshop; integrated into the town as an RPG service building.
+    AddPart(CubeMesh,TEXT("SoldierWorkshop"),FVector(-1550,-1450,190),FVector(8.0f,6.0f,3.3f),FRotator::ZeroRotator,Stone,true);
+    AddPart(ConeMesh,TEXT("SoldierWorkshopRoof"),FVector(-1550,-1450,650),FVector(8.7f,6.8f,2.5f),FRotator::ZeroRotator,Banner);
+    AddPart(CubeMesh,TEXT("SoldierWorkshopDoor"),FVector(-1550,-2035,220),FVector(2.2f,0.35f,3.0f),FRotator::ZeroRotator,Wood);
 }
 
 void AHonourWarWorldDirector::BuildRoadFurniture()
