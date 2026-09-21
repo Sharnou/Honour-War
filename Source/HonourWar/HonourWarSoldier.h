@@ -8,6 +8,7 @@
 class UStaticMeshComponent;
 class USceneComponent;
 class AHonourWarMonster;
+class AHonourWarWorldDirector;
 
 UCLASS()
 class HONOURWAR_API AHonourWarSoldier : public AActor
@@ -45,4 +46,5 @@ private:
     float AttackTimer = 0.0f;
     int32 AutoSkillIndex = 0;
     bool bDead = false;
+    bool bDeathRegistered = false;
 };
