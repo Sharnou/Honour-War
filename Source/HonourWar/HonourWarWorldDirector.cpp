@@ -1,5 +1,6 @@
 #include "HonourWarWorldDirector.h"
 #include "HonourWarMonster.h"
+#include "HonourWarSoldier.h"
 #include "Components/SceneComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/DirectionalLightComponent.h"
@@ -61,6 +62,7 @@ void AHonourWarWorldDirector::BeginPlay()
     BuildVegetation();
     BuildDistantLandmarks();
     SpawnMonsters();
+    SpawnSoldierSquad();
 }
 
 UMaterialInstanceDynamic* AHonourWarWorldDirector::MaterialFor(const FLinearColor& Color)
@@ -483,6 +485,31 @@ void AHonourWarWorldDirector::BuildDistantLandmarks()
     for (const FVector& P:HillPositions)
     {
         AddPart(SphereMesh,TEXT("DistantHill"),P+FVector(0,0,900),FVector(18,15,10),FRotator::ZeroRotator,FLinearColor(0.18f,0.30f,0.16f));
+    }
+}
+
+void AHonourWarWorldDirector::SpawnSoldierSquad()
+{
+    const FVector ProductionPoint(-1550,-2050,120);
+    const EHonourWarClass SoldierClasses[]={
+        EHonourWarClass::Warrior,
+        EHonourWarClass::Archer,
+        EHonourWarClass::Mage,
+        EHonourWarClass::Acolyte,
+        EHonourWarClass::Thief
+    };
+
+    for (int32 Index=0;Index<UE_ARRAY_COUNT(SoldierClasses);++Index)
+    {
+        const FVector Offset=FVector(220.0f*(Index%3),180.0f*((Index/3)%2),0.0f);
+        FActorSpawnParameters Params;
+        Params.SpawnCollisionHandlingOverride=ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+        if (AHonourWarSoldier* Soldier=GetWorld()->SpawnActor<AHonourWarSoldier>(
+            AHonourWarSoldier::StaticClass(),ProductionPoint+Offset,FRotator::ZeroRotator,Params))
+        {
+            Soldier->SetLevel(FMath::Min(50,20+Index*5));
+            Soldier->SetSoldierClass(SoldierClasses[Index]);
+        }
     }
 }
 
