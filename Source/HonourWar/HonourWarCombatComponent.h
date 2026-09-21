@@ -58,6 +58,7 @@ public:
     void SetExperience(int32 NewExperience);
     void SetAgeDays(int32 NewAgeDays);
     void SetZeny(int64 NewZeny);
+    void AddZeny(int64 Amount);
     void SetEquipmentRefineLevel(int32 NewRefine);
     void SetPhracon(int32 Value);
     void SetEmveretarcon(int32 Value);
