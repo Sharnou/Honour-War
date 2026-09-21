@@ -32,12 +32,22 @@ public:
     int32 GetLevel() const { return Level; }
     int32 GetExperience() const { return Experience; }
     int32 GetAgeDays() const { return AgeDays; }
+    int64 GetZeny() const { return Zeny; }
+    int32 GetHonours() const { return Honours; }
+    FString GetLastLootMessage() const { return LastLootMessage; }
+    const TArray<FString>& GetInventoryItems() const { return InventoryItems; }
+    const TArray<FString>& GetCards() const { return Cards; }
     float GetEngagementRange() const { return SkillRangeForClass(); }
 
     void SetClassId(EHonourWarClass NewClass);
     void SetLevel(int32 NewLevel);
     void SetExperience(int32 NewExperience);
     void SetAgeDays(int32 NewAgeDays);
+    void SetZeny(int64 NewZeny);
+    void SetHonours(int32 NewHonours);
+    void SetInventoryItems(const TArray<FString>& NewItems);
+    void SetCards(const TArray<FString>& NewCards);
+    void RewardMonsterDefeat(int32 MonsterLevel);
 
 protected:
     virtual void BeginPlay() override;
@@ -58,6 +68,11 @@ private:
     UPROPERTY(EditAnywhere) float CurrentHealth = 1200.0f;
     UPROPERTY(EditAnywhere) float MaxSp = 500.0f;
     UPROPERTY(EditAnywhere) float CurrentSp = 500.0f;
+    UPROPERTY(EditAnywhere) int64 Zeny = 0;
+    UPROPERTY(EditAnywhere) int32 Honours = 0;
+    UPROPERTY() TArray<FString> InventoryItems;
+    UPROPERTY() TArray<FString> Cards;
+    UPROPERTY() FString LastLootMessage = TEXT("No loot yet");
 
     int32 XpToNextLevel = 100;
     TArray<float> SkillCooldowns;
