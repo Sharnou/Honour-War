@@ -4,6 +4,7 @@
 #include "HonourWarIncomeBank.h"
 #include "HonourWarDefenseTower.h"
 #include "HonourWarBaseBuilding.h"
+#include "HonourWarCharacter.h"
 #include "Components/SceneComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/DirectionalLightComponent.h"
@@ -65,7 +66,6 @@ void AHonourWarWorldDirector::BeginPlay()
     BuildVegetation();
     BuildDistantLandmarks();
     SpawnMonsters();
-    SpawnSoldierSquad();
     SpawnIncomeBanks();
     SpawnDefenseTowers();
     SpawnBaseBuilding();
@@ -556,9 +556,12 @@ void AHonourWarWorldDirector::SpawnIncomeBanks()
     }
 }
 
-void AHonourWarWorldDirector::SpawnSoldierSquad()
+void AHonourWarWorldDirector::SpawnSoldierSquad(AHonourWarCharacter* Commander)
 {
+    if(!HasAuthority()) return;
+
     const FVector ProductionPoint(-1550,-2050,120);
+    const int32 TeamOffset=(Commander?Commander->GetTeamId():0)*900;
     const EHonourWarClass SoldierClasses[]={
         EHonourWarClass::Warrior,
         EHonourWarClass::Archer,
@@ -567,27 +570,60 @@ void AHonourWarWorldDirector::SpawnSoldierSquad()
         EHonourWarClass::Thief
     };
 
-    for (int32 Index=0;Index<UE_ARRAY_COUNT(SoldierClasses);++Index)
+    for(int32 Index=0;Index<UE_ARRAY_COUNT(SoldierClasses);++Index)
     {
-        const FVector Offset=FVector(220.0f*(Index%3),180.0f*((Index/3)%2),0.0f);
+        const FVector Offset=FVector(220.0f*(Index%3),180.0f*((Index/3)%2)+TeamOffset,0.0f);
         FActorSpawnParameters Params;
         Params.SpawnCollisionHandlingOverride=ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
-        if (AHonourWarSoldier* Soldier=GetWorld()->SpawnActor<AHonourWarSoldier>(
+        if(AHonourWarSoldier* Soldier=GetWorld()->SpawnActor<AHonourWarSoldier>(
             AHonourWarSoldier::StaticClass(),ProductionPoint+Offset,FRotator::ZeroRotator,Params))
         {
             Soldier->SetLevel(FMath::Min(50,20+Index*5));
             Soldier->SetSoldierClass(SoldierClasses[Index]);
+            Soldier->SetCommander(Commander);
         }
     }
 }
 
-void AHonourWarWorldDirector::RegisterSoldierDeath()
+void AHonourWarWorldDirector::RegisterSoldierDeath(AHonourWarCharacter* Commander)
 {
-    ++SoldierDeathCount;
-    if (SoldierDeathCount >= 5)
+    if(!Commander) return;
+
+    int32& Count=SoldierDeathsByCommander.FindOrAdd(Commander);
+    ++Count;
+    if(Count>=5)
     {
-        SoldierDeathCount=0;
-        SpawnSoldierSquad();
+        Count=0;
+        SpawnSoldierSquad(Commander);
+    }
+}
+
+void AHonourWarWorldDirector::EnsureCommanderSquads()
+{
+    TArray<AActor*> Players;
+    UGameplayStatics::GetAllActorsOfClass(GetWorld(),AHonourWarCharacter::StaticClass(),Players);
+
+    TSet<AHonourWarCharacter*> Active;
+    for(AActor* Actor:Players)
+    {
+        AHonourWarCharacter* Commander=Cast<AHonourWarCharacter>(Actor);
+        if(!Commander) continue;
+        Active.Add(Commander);
+
+        if(!CommandersWithSquad.Contains(Commander))
+        {
+            SpawnSoldierSquad(Commander);
+            CommandersWithSquad.Add(Commander);
+        }
+    }
+
+    for(auto It=CommandersWithSquad.CreateIterator();It;++It)
+    {
+        if(!Active.Contains(*It))
+        {
+            SoldierDeathsByCommander.Remove(*It);
+            It.RemoveCurrent();
+        }
     }
 }
 
@@ -612,6 +648,13 @@ void AHonourWarWorldDirector::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
     if(!HasAuthority()) return;
+
+    CommanderScanTimer+=DeltaSeconds;
+    if(CommanderScanTimer>=1.0f)
+    {
+        CommanderScanTimer=0.0f;
+        EnsureCommanderSquads();
+    }
 
     for(int32 Index=0;Index<MonsterSlots.Num();++Index)
     {
