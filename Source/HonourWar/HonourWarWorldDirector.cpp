@@ -31,7 +31,7 @@ namespace
 
 AHonourWarWorldDirector::AHonourWarWorldDirector()
 {
-    PrimaryActorTick.bCanEverTick=false;
+    PrimaryActorTick.bCanEverTick=true;
     Root=CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
     RootComponent=Root;
 
@@ -550,8 +550,47 @@ void AHonourWarWorldDirector::RegisterSoldierDeath()
     }
 }
 
+void AHonourWarWorldDirector::SpawnMonsterSlot(int32 SlotIndex)
+{
+    if(!HasAuthority() || !MonsterSlots.IsValidIndex(SlotIndex)) return;
+    FMonsterSlot& Slot=MonsterSlots[SlotIndex];
+
+    FActorSpawnParameters Params;
+    Params.SpawnCollisionHandlingOverride=ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+    if(AHonourWarMonster* Monster=GetWorld()->SpawnActor<AHonourWarMonster>(
+        AHonourWarMonster::StaticClass(),Slot.Location,FRotator::ZeroRotator,Params))
+    {
+        Monster->SetLevel(Slot.Level);
+        Monster->SetSpecies(Slot.Species);
+        Slot.Active=Monster;
+        Slot.RespawnTimer=0.0f;
+    }
+}
+
+void AHonourWarWorldDirector::Tick(float DeltaSeconds)
+{
+    Super::Tick(DeltaSeconds);
+    if(!HasAuthority()) return;
+
+    for(int32 Index=0;Index<MonsterSlots.Num();++Index)
+    {
+        FMonsterSlot& Slot=MonsterSlots[Index];
+        if(Slot.Active.IsValid() && !Slot.Active->IsDead()) continue;
+
+        Slot.Active.Reset();
+        Slot.RespawnTimer=FMath::Max(0.0f,Slot.RespawnTimer-DeltaSeconds);
+        if(Slot.RespawnTimer<=0.0f)
+        {
+            Slot.RespawnTimer=20.0f;
+            SpawnMonsterSlot(Index);
+        }
+    }
+}
+
 void AHonourWarWorldDirector::SpawnMonsters()
 {
+    MonsterSlots.Reset();
+
     const FVector MonsterLocations[]={
         FVector(1800,1200,110),FVector(2600,1000,110),FVector(3100,1300,110),FVector(3350,750,110),
         FVector(4700,2300,110),FVector(5200,2800,110),FVector(5900,3200,110),FVector(6300,2400,110),
@@ -582,15 +621,14 @@ void AHonourWarWorldDirector::SpawnMonsters()
         EHonourWarMonsterSpecies::Dragon
     };
 
+    MonsterSlots.Reserve(UE_ARRAY_COUNT(MonsterLocations));
     for(int32 Index=0;Index<UE_ARRAY_COUNT(MonsterLocations);++Index)
     {
-        FActorSpawnParameters Params;
-        Params.SpawnCollisionHandlingOverride=ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
-        if(AHonourWarMonster* Monster=GetWorld()->SpawnActor<AHonourWarMonster>(
-            AHonourWarMonster::StaticClass(),MonsterLocations[Index],FRotator::ZeroRotator,Params))
-        {
-            Monster->SetLevel(MonsterLevels[Index]);
-            Monster->SetSpecies(Species[Index]);
-        }
+        FMonsterSlot Slot;
+        Slot.Location=MonsterLocations[Index];
+        Slot.Level=MonsterLevels[Index];
+        Slot.Species=Species[Index];
+        MonsterSlots.Add(Slot);
+        SpawnMonsterSlot(Index);
     }
 }
