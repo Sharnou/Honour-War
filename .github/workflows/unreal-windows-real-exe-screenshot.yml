@@ -23,6 +23,10 @@ jobs:
     runs-on: [self-hosted, windows, unreal-engine-5.8]
     steps:
       - uses: actions/checkout@v4
+      - name: Validate permanent Honour War exclusions
+        shell: pwsh
+        run: python tools/rejected_systems_qa.py
+
       - name: Validate repository contract
         shell: pwsh
         run: |
