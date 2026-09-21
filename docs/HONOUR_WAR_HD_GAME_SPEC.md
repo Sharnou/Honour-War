@@ -12,7 +12,7 @@ Modern, futuristic, science-fiction and machine-centric presentation is prohibit
 - Monster maximum level: 300.
 - Heroes gain experience and Zeny/items/cards from monsters.
 - Level-300 monsters can provide top-tier rewards.
-- Hero respawns at the city/base point after death with no death-count limit.
+- Hero respawns at the city respawn point after death with no death-count limit.
 
 ## Classes
 
