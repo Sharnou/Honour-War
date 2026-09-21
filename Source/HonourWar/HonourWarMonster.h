@@ -6,6 +6,7 @@
 #include "HonourWarMonster.generated.h"
 
 class UStaticMeshComponent;
+class UTextRenderComponent;
 
 UENUM(BlueprintType)
 enum class EHonourWarMonsterSpecies : uint8
@@ -46,6 +47,7 @@ private:
     UPROPERTY() UStaticMeshComponent* Head;
     UPROPERTY() UStaticMeshComponent* LeftHorn;
     UPROPERTY() UStaticMeshComponent* RightHorn;
+    UPROPERTY() UTextRenderComponent* Nameplate;
 
     UPROPERTY(EditAnywhere) int32 Level = 12;
     UPROPERTY(EditAnywhere) EHonourWarMonsterSpecies Species = EHonourWarMonsterSpecies::Goblin;
