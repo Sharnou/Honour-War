@@ -2,6 +2,8 @@
 #include "HonourWarCharacter.h"
 #include "HonourWarMonster.h"
 #include "InputCoreTypes.h"
+#include "GameFramework/Actor.h"
+#include "Misc/Parse.h"
 
 AHonourWarPlayerController::AHonourWarPlayerController()
 {
@@ -153,3 +155,65 @@ void AHonourWarPlayerController::Skill5(){if(auto*C=Cast<AHonourWarCharacter>(Ge
 void AHonourWarPlayerController::Skill6(){if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->ActivateSkill(5);}
 void AHonourWarPlayerController::Skill7(){if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->ActivateSkill(6);}
 void AHonourWarPlayerController::Skill8(){if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->ActivateSkill(7);}
+
+
+bool AHonourWarPlayerController::ExecuteGoCommand(const FString& Command)
+{
+    TArray<FString> Tokens;
+    Command.ParseIntoArrayWS(Tokens);
+    if (Tokens.Num() < 3 || Tokens[0].Compare(TEXT("@go"),ESearchCase::IgnoreCase)!=0)
+        return false;
+
+    FString MapId=Tokens[1].ToLower();
+    static const TArray<FString> MapNames={
+        TEXT("prontera_like_town"),
+        TEXT("forest_field"),
+        TEXT("mountain_pass"),
+        TEXT("desert_ruins"),
+        TEXT("snow_region"),
+        TEXT("arcane_dungeon")
+    };
+
+    int32 MapIndex=INDEX_NONE;
+    if (MapId.IsNumeric())
+        MapIndex=FCString::Atoi(*MapId);
+    else
+        MapIndex=MapNames.IndexOfByKey(MapId);
+
+    if (MapIndex<0 || MapIndex>=MapNames.Num())
+        return false;
+
+    TArray<FString> Coordinates;
+    Tokens[2].ParseIntoArray(Coordinates,TEXT(":"),true);
+    if (Coordinates.Num()!=2)
+        return false;
+
+    const float X=FCString::Atof(*Coordinates[0]);
+    const float Y=FCString::Atof(*Coordinates[1]);
+
+    static const FVector Anchors[]={
+        FVector(0,0,180),
+        FVector(-2600,-2200,180),
+        FVector(-2700,1700,180),
+        FVector(2850,-1750,180),
+        FVector(-2850,-2100,180),
+        FVector(0,2850,180)
+    };
+
+    APawn* Pawn=GetPawn();
+    if (!Pawn) return false;
+
+    const FVector Destination=Anchors[MapIndex]+FVector(X*10.0f,Y*10.0f,0.0f);
+    Pawn->SetActorLocation(Destination);
+    if (AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(Pawn))
+        Character->ClearMouseCommand();
+
+    return true;
+}
+
+bool AHonourWarPlayerController::Exec(UWorld* InWorld,const TCHAR* Cmd,FOutputDevice& Ar)
+{
+    if (Cmd && ExecuteGoCommand(FString(Cmd)))
+        return true;
+    return Super::Exec(InWorld,Cmd,Ar);
+}
