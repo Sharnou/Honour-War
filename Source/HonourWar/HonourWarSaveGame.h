@@ -30,4 +30,7 @@ public:
     UPROPERTY() int32 Honours = 0;
     UPROPERTY() TArray<FString> InventoryItems;
     UPROPERTY() TArray<FString> Cards;
+    UPROPERTY() int32 QuestId=1;
+    UPROPERTY() int32 QuestProgress=0;
+    UPROPERTY() bool QuestComplete=false;
 };
