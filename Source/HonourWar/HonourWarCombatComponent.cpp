@@ -41,7 +41,9 @@ float UHonourWarCombatComponent::SkillRangeForClass() const
 
 float UHonourWarCombatComponent::BaseDamageForClass() const
 {
-    const float LevelScale = 30.0f + Level * 8.0f;
+    const float AgeYears = 18.0f + static_cast<float>(AgeDays) / 3.0f;
+    const float AgeMultiplier = 1.0f + FMath::Clamp((AgeYears - 18.0f) * 0.005f, 0.0f, 1.0f);
+    const float LevelScale = (30.0f + Level * 8.0f) * AgeMultiplier;
     switch (CharacterClass)
     {
         case EHonourWarClass::Mage: return LevelScale * 1.35f;
@@ -94,7 +96,14 @@ bool UHonourWarCombatComponent::UseSkill(int32 SkillIndex)
     LastTarget = Target;
 
     Target->ReceiveCombatHit(Damage, CharacterClass);
-    GainExperience(FMath::Max(1, FMath::RoundToInt(Damage * 0.08f)));
+    if (Target->IsDead())
+    {
+        RewardMonsterDefeat(Target->GetMonsterLevel());
+    }
+    else
+    {
+        GainExperience(FMath::Max(1, FMath::RoundToInt(Damage * 0.08f)));
+    }
     OnSkillUsed.Broadcast(SkillIndex, Damage);
     return true;
 }
@@ -140,3 +149,38 @@ void UHonourWarCombatComponent::SetLevel(int32 NewLevel)
 }
 void UHonourWarCombatComponent::SetExperience(int32 NewExperience){ Experience = FMath::Max(0, NewExperience); }
 void UHonourWarCombatComponent::SetAgeDays(int32 NewAgeDays){ AgeDays = FMath::Max(0, NewAgeDays); }
+void UHonourWarCombatComponent::SetZeny(int64 NewZeny){ Zeny = FMath::Max<int64>(0, NewZeny); }
+void UHonourWarCombatComponent::SetHonours(int32 NewHonours){ Honours = FMath::Max(0, NewHonours); }
+void UHonourWarCombatComponent::SetInventoryItems(const TArray<FString>& NewItems){ InventoryItems = NewItems; }
+void UHonourWarCombatComponent::SetCards(const TArray<FString>& NewCards){ Cards = NewCards; }
+
+void UHonourWarCombatComponent::RewardMonsterDefeat(int32 MonsterLevel)
+{
+    const int32 SafeLevel = FMath::Clamp(MonsterLevel, 1, 300);
+    const int32 KillXp = SafeLevel >= 300 ? 50000 : FMath::Max(25, SafeLevel * 35);
+    const int64 ZenyReward = SafeLevel >= 300 ? 250000 : static_cast<int64>(SafeLevel) * 45 + 75;
+    const int32 HonourReward = SafeLevel >= 300 ? 100 : FMath::Max(1, SafeLevel / 10);
+
+    GainExperience(KillXp);
+    Zeny += ZenyReward;
+    Honours += HonourReward;
+
+    FString Rarity = TEXT("Rare");
+    if (SafeLevel >= 300) Rarity = TEXT("Mythic");
+    else if (SafeLevel >= 200) Rarity = TEXT("Legendary");
+    else if (SafeLevel >= 100) Rarity = TEXT("Epic");
+
+    const FString ItemName = FString::Printf(TEXT("%s Monster Loot +%d"), *Rarity, SafeLevel);
+    InventoryItems.Add(ItemName);
+
+    if (SafeLevel >= 300)
+    {
+        Cards.Add(TEXT("World Monarch Card"));
+        InventoryItems.Add(TEXT("Transcendent Monster Suit"));
+        LastLootMessage = FString::Printf(TEXT("Lv.%d MONSTER DEFEATED | %lld Zeny | Mythic Suit | World Monarch Card | +%d XP"), SafeLevel, ZenyReward, KillXp);
+    }
+    else
+    {
+        LastLootMessage = FString::Printf(TEXT("Lv.%d defeated | %lld Zeny | %s | +%d XP"), SafeLevel, ZenyReward, *ItemName, KillXp);
+    }
+}
