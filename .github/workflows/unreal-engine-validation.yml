@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: honour-war-unreal-engine-validation.yml
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
