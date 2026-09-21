@@ -17,6 +17,7 @@ class HONOURWAR_API AHonourWarWorldDirector : public AActor
 
 public:
     AHonourWarWorldDirector();
+    void RegisterSoldierDeath();
 
 protected:
     virtual void BeginPlay() override;
@@ -47,7 +48,6 @@ private:
     void BuildDistantLandmarks();
     void SpawnMonsters();
     void SpawnSoldierSquad();
-    void RegisterSoldierDeath();
 
     void BuildHouse(const FVector& Center,float Yaw,const FLinearColor& WallColor,const FLinearColor& RoofColor);
     void BuildTree(const FVector& Center,float Scale,int32 Variant);
