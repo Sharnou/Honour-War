@@ -19,6 +19,10 @@ protected:
     virtual bool InputKey(const FInputKeyEventArgs& Params) override;
     virtual bool Exec(UWorld* InWorld,const TCHAR* Cmd,FOutputDevice& Ar) override;
 
+    void SendChatMessage(const FString& Message);
+    UFUNCTION(Server,Reliable)
+    void ServerSendChat(const FString& Message);
+
 private:
     void MoveForward(float Value);
     void MoveRight(float Value);
