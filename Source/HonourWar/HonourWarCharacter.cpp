@@ -96,7 +96,13 @@ void AHonourWarCharacter::BeginPlay()
 void AHonourWarCharacter::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
-    OnlineSeconds += static_cast<int64>(DeltaSeconds);
+    OnlineTimeAccumulator += DeltaSeconds;
+    if (OnlineTimeAccumulator >= 1.0f)
+    {
+        const int64 WholeSeconds = static_cast<int64>(OnlineTimeAccumulator);
+        OnlineSeconds += WholeSeconds;
+        OnlineTimeAccumulator -= static_cast<float>(WholeSeconds);
+    }
     if (OnlineSeconds >= 86400)
     {
         const int64 OnlineDays = OnlineSeconds / 86400;
