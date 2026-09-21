@@ -1,3 +1,4 @@
+// Honour War current HD MMORPG runtime contract revision.
 #pragma once
 
 #include "CoreMinimal.h"
