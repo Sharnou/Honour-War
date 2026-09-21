@@ -24,6 +24,7 @@ namespace
 AHonourWarCombatEffect::AHonourWarCombatEffect()
 {
     PrimaryActorTick.bCanEverTick=true;
+    bReplicates=true;
     SetLifeSpan(Life);
     Root=CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
     RootComponent=Root;
