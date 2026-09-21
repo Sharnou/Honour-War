@@ -17,6 +17,7 @@ protected:
     virtual void SetupInputComponent() override;
     virtual void PlayerTick(float DeltaTime) override;
     virtual bool InputKey(const FInputKeyEventArgs& Params) override;
+    virtual bool Exec(UWorld* InWorld,const TCHAR* Cmd,FOutputDevice& Ar) override;
 
 private:
     void MoveForward(float Value);
@@ -39,6 +40,7 @@ private:
     void HandleMouseClick();
     void HandleMouseWheel(float Delta);
     void RotateCameraFromMouse();
+    bool ExecuteGoCommand(const FString& Command);
     bool bRightMouseDown=false;
     bool bHasLastMousePosition=false;
     FVector2D LastMousePosition=FVector2D::ZeroVector;
