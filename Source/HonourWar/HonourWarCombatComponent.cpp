@@ -7,6 +7,7 @@
 UHonourWarCombatComponent::UHonourWarCombatComponent()
 {
     PrimaryComponentTick.bCanEverTick = true;
+    SetIsReplicatedByDefault(true);
     SkillCooldowns.Init(0.0f, 8);
 }
 
@@ -83,6 +84,12 @@ AHonourWarMonster* UHonourWarCombatComponent::FindNearestTarget(float MaxRange) 
 
 bool UHonourWarCombatComponent::UseSkill(int32 SkillIndex)
 {
+    if (GetOwner() && !GetOwner()->HasAuthority())
+    {
+        ServerUseSkill(FMath::Clamp(SkillIndex,0,7));
+        return true;
+    }
+
     if (!SkillCooldowns.IsValidIndex(SkillIndex) || SkillCooldowns[SkillIndex] > 0.0f) return false;
 
     const float ManaCost = 18.0f + SkillIndex * 4.0f;
@@ -246,4 +253,10 @@ void UHonourWarCombatComponent::RewardMonsterDefeat(int32 MonsterLevel)
     {
         LastLootMessage = FString::Printf(TEXT("Lv.%d defeated | %lld Zeny | %s | +%d XP"), SafeLevel, ZenyReward, *ItemName, KillXp);
     }
+}
+
+
+void UHonourWarCombatComponent::ServerUseSkill_Implementation(int32 SkillIndex)
+{
+    UseSkill(SkillIndex);
 }
