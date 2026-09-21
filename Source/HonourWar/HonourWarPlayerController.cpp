@@ -1,6 +1,7 @@
 #include "HonourWarPlayerController.h"
 #include "HonourWarCharacter.h"
 #include "HonourWarMonster.h"
+#include "HonourWarGameMode.h"
 #include "InputCoreTypes.h"
 #include "GameFramework/Actor.h"
 #include "Misc/Parse.h"
@@ -224,7 +225,27 @@ bool AHonourWarPlayerController::ExecuteGoCommand(const FString& Command)
 
 bool AHonourWarPlayerController::Exec(UWorld* InWorld,const TCHAR* Cmd,FOutputDevice& Ar)
 {
-    if (Cmd && ExecuteGoCommand(FString(Cmd)))
+    if(!Cmd) return Super::Exec(InWorld,Cmd,Ar);
+
+    const FString Command(Cmd);
+    if(ExecuteGoCommand(Command))
         return true;
+
+    if(Command.StartsWith(TEXT("@guild"),ESearchCase::IgnoreCase))
+    {
+        if(AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(GetPawn()))
+        {
+            if(AHonourWarGameMode* GameMode=GetWorld()?GetWorld()->GetAuthGameMode<AHonourWarGameMode>():nullptr)
+            {
+                FString Message;
+                if(GameMode->HandleGuildCommand(Character,Command,Message))
+                {
+                    ClientMessage(Message);
+                    return true;
+                }
+            }
+        }
+    }
+
     return Super::Exec(InWorld,Cmd,Ar);
 }
