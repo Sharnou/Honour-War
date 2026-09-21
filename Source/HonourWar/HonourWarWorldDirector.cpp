@@ -209,8 +209,8 @@ void AHonourWarWorldDirector::BuildBiomeRegions()
 
     BuildDungeonGate(FVector(0,-5200,0));
     BuildRiverBridge(FVector(3000,0,0));
-    AddPart(CubeMesh,TEXT("RiverBankL"),FVector(3000,-1050,12),FVector(7.5f,4.8f,0.08f),FRotator::ZeroRotator,FLinearColor(0.56f,0.46f,0.30f));
-    AddPart(CubeMesh,TEXT("RiverBankR"),FVector(3000,1050,12),FVector(7.5f,4.8f,0.08f),FRotator::ZeroRotator,FLinearColor(0.56f,0.46f,0.30f));
+    AddPart(CubeMesh,TEXT("RiverEdgeL"),FVector(3000,-1050,12),FVector(7.5f,4.8f,0.08f),FRotator::ZeroRotator,FLinearColor(0.56f,0.46f,0.30f));
+    AddPart(CubeMesh,TEXT("RiverEdgeR"),FVector(3000,1050,12),FVector(7.5f,4.8f,0.08f),FRotator::ZeroRotator,FLinearColor(0.56f,0.46f,0.30f));
 }
 
 void AHonourWarWorldDirector::BuildTownCenter()
@@ -283,7 +283,6 @@ void AHonourWarWorldDirector::BuildHouses()
 void AHonourWarWorldDirector::BuildWalls()
 {
     const FLinearColor Stone(0.35f,0.36f,0.36f);
-    const FLinearColor DarkStone(0.26f,0.28f,0.28f);
 
     AddPart(CubeMesh,TEXT("NorthWall"),FVector(0,6200,300),FVector(124,1.8f,4.8f),FRotator::ZeroRotator,Stone,true);
     AddPart(CubeMesh,TEXT("SouthWall"),FVector(0,-6200,300),FVector(124,1.8f,4.8f),FRotator::ZeroRotator,Stone,true);
@@ -444,8 +443,8 @@ void AHonourWarWorldDirector::BuildVegetation()
 
 void AHonourWarWorldDirector::BuildDistantLandmarks()
 {
-    const FVector Shrine=FVector(0,3200,0);
-    AddPart(CubeMesh,TEXT("GuildHall"),Shrine+FVector(0,0,300),FVector(20,9,3.6f),FRotator::ZeroRotator,FLinearColor(0.38f,0.30f,0.22f));
+    const FVector GuildLandmark=FVector(0,3200,0);
+    AddPart(CubeMesh,TEXT("GuildHall"),GuildLandmark+FVector(0,0,300),FVector(20,9,3.6f),FRotator::ZeroRotator,FLinearColor(0.38f,0.30f,0.22f));
     AddPart(ConeMesh,TEXT("GuildHallRoof"),Shrine+FVector(0,0,760),FVector(22,11,3.2f),FRotator::ZeroRotator,FLinearColor(0.23f,0.12f,0.09f));
     AddPart(CubeMesh,TEXT("GuildDoor"),Shrine+FVector(0,-925,260),FVector(3.0f,0.40f,3.7f),FRotator::ZeroRotator,FLinearColor(0.13f,0.07f,0.03f));
 
