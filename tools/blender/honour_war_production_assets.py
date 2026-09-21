@@ -16,6 +16,7 @@ CLASSES = {
     "Thief": {"accent": (0.78, 0.16, 0.48, 1), "weapon": "Dagger", "pet": "Panther"},
     "Acolyte": {"accent": (0.90, 0.70, 0.18, 1), "weapon": "Mace", "pet": "PoringAngel"},
     "Merchant": {"accent": (0.12, 0.58, 0.78, 1), "weapon": "Hammer", "pet": "Clockwork"},
+    "Ranger": {"accent": (0.20, 0.44, 0.30, 1), "weapon": "Bow", "pet": "Falcon"},
 }
 
 TIERS = ["Foundation", "Specialization", "Advanced", "Mastery", "Transcendence"]
