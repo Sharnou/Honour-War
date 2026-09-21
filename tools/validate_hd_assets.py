@@ -94,8 +94,8 @@ def validate_no_legacy_generators() -> None:
     forbidden_markers = (
         "bpy.ops.export_scene.gltf",
         "bpy.ops.wm.gltf_export",
-        ".glb")",
-        ".gltf")",
+        ".glb",
+        ".gltf",
     )
     for path in generators:
         if not path.is_file():
