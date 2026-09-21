@@ -80,7 +80,8 @@ def main() -> int:
     soldier_cpp = (ROOT / "Source" / "HonourWar" / "HonourWarSoldier.cpp").read_text(encoding="utf-8")
     for needle, label in [
         ("AutoSkillIndex=(AutoSkillIndex+1)%2", "two automatic soldier skills"),
-        ("Director->RegisterSoldierDeath()", "soldier death registration"),
+        ("SetCommander", "soldier commander ownership"),
+        ("Director->RegisterSoldierDeath(Commander)", "commander-specific soldier death registration"),
         ("HandleMonsterDefeat", "soldier kill reward routing"),
         ("SetLifeSpan(0.2f)", "soldier death lifecycle"),
     ]:
