@@ -28,6 +28,8 @@ required=[
     ROOT/"Source"/"HonourWar"/"HonourWarClassProgression.h",
     ROOT/"Source"/"HonourWar"/"HonourWarPlayerController.h",
     ROOT/"Source"/"HonourWar"/"HonourWarPlayerController.cpp",
+    ROOT/"Source"/"HonourWar"/"HonourWarPlayerState.h",
+    ROOT/"Source"/"HonourWar"/"HonourWarPlayerState.cpp",
     ROOT/"Source"/"HonourWar"/"HonourWarSoldier.h",
     ROOT/"Source"/"HonourWar"/"HonourWarSoldier.cpp",
     ROOT/"Source"/"HonourWar"/"HonourWarIncomeBank.h",
@@ -92,10 +94,16 @@ for phrase in ["SetText","SetTextRenderColor","SetXScale","SetLifeSpan"]:
         sys.exit(1)
 
 soldier=(ROOT/"Source"/"HonourWar"/"HonourWarSoldier.cpp").read_text(encoding="utf-8")
-for phrase in ["SetLevel","SetSoldierClass","AutoSkillIndex","RegisterSoldierDeath","HandleMonsterDefeat"]:
+for phrase in ["SetLevel","SetSoldierClass","AutoSkillIndex","RegisterSoldierDeath","HandleMonsterDefeat","ServerUseSkillOnPlayer"]:
 
     if phrase not in soldier:
         print(f"UNREAL_CONTRACT_FAIL: soldier system missing: {phrase}")
+        sys.exit(1)
+
+player_state=(ROOT/"Source"/"HonourWar"/"HonourWarPlayerState.cpp").read_text(encoding="utf-8")
+for phrase in ["TeamId","PartySlot","DOREPLIFETIME"]:
+    if phrase not in player_state:
+        print(f"UNREAL_CONTRACT_FAIL: player state missing: {phrase}")
         sys.exit(1)
 
 bank=(ROOT/"Source"/"HonourWar"/"HonourWarIncomeBank.cpp").read_text(encoding="utf-8")
