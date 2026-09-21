@@ -23,6 +23,7 @@ private:
     void BuildSurface();
     void BuildProfileCluster(UCanvasPanel* Root);
     void BuildLeftNavigation(UCanvasPanel* Root);
+    void BuildSectionPanel(UCanvasPanel* Root);
     void BuildTopRightControls(UCanvasPanel* Root);
     void BuildMiniMap(UCanvasPanel* Root);
     void BuildQuestTracker(UCanvasPanel* Root);
