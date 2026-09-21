@@ -90,6 +90,18 @@ void AHonourWarCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& 
 {
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);
     DOREPLIFETIME(AHonourWarCharacter,bBaseSightActive);
+    DOREPLIFETIME(AHonourWarCharacter,CharacterClass);
+}
+
+void AHonourWarCharacter::OnRepCharacterClass()
+{
+    if(CombatComponent) CombatComponent->SetClassId(CharacterClass);
+    BuildHeroVisual();
+}
+
+void AHonourWarCharacter::ServerSetClassId_Implementation(EHonourWarClass NewClass)
+{
+    SetClassId(NewClass);
 }
 
 void AHonourWarCharacter::BeginPlay()
@@ -366,6 +378,12 @@ FString AHonourWarCharacter::GetFifthTierClassName() const{return HonourWarClass
 
 void AHonourWarCharacter::SetClassId(EHonourWarClass NewClass)
 {
+    if(!HasAuthority())
+    {
+        ServerSetClassId(NewClass);
+        return;
+    }
+
     CharacterClass=NewClass;
     if(CombatComponent) CombatComponent->SetClassId(NewClass);
     BuildHeroVisual();
