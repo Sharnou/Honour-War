@@ -106,6 +106,12 @@ for phrase in ["TeamId","PartySlot","DOREPLIFETIME"]:
         print(f"UNREAL_CONTRACT_FAIL: player state missing: {phrase}")
         sys.exit(1)
 
+character=(ROOT/"Source"/"HonourWar"/"HonourWarCharacter.cpp").read_text(encoding="utf-8")
+for phrase in ["ServerSetClassId_Implementation","OnRepCharacterClass","DOREPLIFETIME(AHonourWarCharacter,CharacterClass)"]:
+    if phrase not in character:
+        print(f"UNREAL_CONTRACT_FAIL: replicated class system missing: {phrase}")
+        sys.exit(1)
+
 combat=(ROOT/"Source"/"HonourWar"/"HonourWarCombatComponent.cpp").read_text(encoding="utf-8")
 for phrase in ["ServerUseSkillOnPlayer","ServerTryRefineEquipment","ServerTryMixCards","ServerTryUpgradeBasicSkill"]:
     if phrase not in combat:
