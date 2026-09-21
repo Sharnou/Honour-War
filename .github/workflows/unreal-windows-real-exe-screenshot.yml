@@ -2,6 +2,14 @@ name: Honour War Unreal 5.8 Real EXE Screenshot
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "HonourWar.uproject"
+      - "Config/**"
+      - "Source/**"
+      - "Content/**"
+      - "Build/**"
 
 permissions:
   contents: read
@@ -13,7 +21,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: Validate repository contract
         shell: pwsh
-        run: python tools/unreal_engine_contract_qa.py
+        run: |
+          python tools/unreal_engine_contract_qa.py
+          python tools/validate_camera_controls.py
+          python tools/honour_war_progression_contract_qa.py
+          python tools/visual_gap_register_qa.py
       - name: Build and package
         shell: pwsh
         env:
@@ -22,6 +34,9 @@ jobs:
       - name: Launch actual EXE and capture framebuffer
         shell: pwsh
         run: powershell -ExecutionPolicy Bypass -File Build/Capture-HonourWar.ps1
+      - name: Validate real screenshot content
+        shell: pwsh
+        run: python tools/unreal_runtime_screenshot_qa.py Build/HonourWar-real-runtime.png
       - name: Upload real gameplay screenshot
         uses: actions/upload-artifact@v4
         with:
