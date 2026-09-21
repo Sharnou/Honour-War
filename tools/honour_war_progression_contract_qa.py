@@ -62,6 +62,7 @@ def main() -> int:
         require(monster, needle, label)
 
     require(world, "const int32 MonsterLevels[] = {12, 28, 55, 90, 140, 180, 220, 260, 300};", "full monster level progression")
+    require((ROOT / "Config" / "DefaultInput.ini").read_text(encoding="utf-8"), 'ActionName="RefineEquipment"', "refinement input")
 
     soldier_cpp = (ROOT / "Source" / "HonourWar" / "HonourWarSoldier.cpp").read_text(encoding="utf-8")
     for needle, label in [
@@ -79,10 +80,19 @@ def main() -> int:
         ("Cards", "save cards"),
         ("OnlineSeconds", "save online time"),
         ("PlayerLocation", "save player location"),
+        ("EquipmentRefineLevel", "save equipment refinement level"),
+        ("Phracon", "save Phracon"),
+        ("Emveretarcon", "save Emveretarcon"),
+        ("Oridecon", "save Oridecon"),
     ]:
         require(save, needle, label)
 
     for needle, label in [
+        ("TryRefineEquipment", "equipment refinement runtime"),
+        ("GetRefineSuccessPercent", "age-aware refinement success"),
+        ("GetRefineZenyCost", "age-aware refinement price"),
+        ("EquipmentRefineLevel>=15", "+15 refinement cap"),
+        ("AgeDiscount", "age-based refinement material discount"),
         ("OnlineTimeAccumulator += DeltaSeconds", "online session accumulator"),
         ("OnlineSeconds += WholeSeconds", "online session counter"),
         ("86400", "online day boundary"),
