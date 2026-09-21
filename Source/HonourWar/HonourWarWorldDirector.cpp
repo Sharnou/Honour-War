@@ -553,19 +553,44 @@ void AHonourWarWorldDirector::RegisterSoldierDeath()
 void AHonourWarWorldDirector::SpawnMonsters()
 {
     const FVector MonsterLocations[]={
-        FVector(2600,1000,110),FVector(3100,1300,110),FVector(3350,750,110),
+        FVector(1800,1200,110),FVector(2600,1000,110),FVector(3100,1300,110),FVector(3350,750,110),
+        FVector(4700,2300,110),FVector(5200,2800,110),FVector(5900,3200,110),FVector(6300,2400,110),
+        FVector(2300,5200,150),FVector(3000,5600,150),FVector(3800,6100,150),
         FVector(-2700,1100,110),FVector(-3200,1500,110),FVector(-3600,800,110),
-        FVector(2600,-1250,110),FVector(3200,-1650,110),FVector(-3000,-1400,110)
+        FVector(-4300,-4300,110),FVector(-5200,-5000,110),FVector(-3500,-5600,110),
+        FVector(-6200,1800,110),FVector(-6900,2500,110),FVector(-5700,3200,110),
+        FVector(2600,-1250,110),FVector(3200,-1650,110),FVector(-3000,-1400,110),
+        FVector(0,-4500,160)
     };
-    const int32 MonsterLevels[] = {12, 28, 55, 90, 140, 180, 220, 260, 300};
-    for (int32 Index=0; Index<UE_ARRAY_COUNT(MonsterLocations); ++Index)
+    const int32 MonsterLevels[]={
+        12,28,55,90,140,180,220,260,
+        35,75,125,
+        18,48,92,
+        110,175,240,
+        160,210,275,
+        70,145,225,
+        300
+    };
+    const EHonourWarMonsterSpecies Species[]={
+        EHonourWarMonsterSpecies::Poring,EHonourWarMonsterSpecies::Goblin,EHonourWarMonsterSpecies::Wolf,EHonourWarMonsterSpecies::Skeleton,
+        EHonourWarMonsterSpecies::Orc,EHonourWarMonsterSpecies::Mantis,EHonourWarMonsterSpecies::Golem,EHonourWarMonsterSpecies::Dragon,
+        EHonourWarMonsterSpecies::Wolf,EHonourWarMonsterSpecies::Golem,EHonourWarMonsterSpecies::Mantis,
+        EHonourWarMonsterSpecies::Goblin,EHonourWarMonsterSpecies::Skeleton,EHonourWarMonsterSpecies::Orc,
+        EHonourWarMonsterSpecies::Poring,EHonourWarMonsterSpecies::Dragon,EHonourWarMonsterSpecies::Golem,
+        EHonourWarMonsterSpecies::Skeleton,EHonourWarMonsterSpecies::Wolf,EHonourWarMonsterSpecies::Mantis,
+        EHonourWarMonsterSpecies::Dragon,EHonourWarMonsterSpecies::Orc,EHonourWarMonsterSpecies::Goblin,
+        EHonourWarMonsterSpecies::Dragon
+    };
+
+    for(int32 Index=0;Index<UE_ARRAY_COUNT(MonsterLocations);++Index)
     {
         FActorSpawnParameters Params;
         Params.SpawnCollisionHandlingOverride=ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
-        if (AHonourWarMonster* Monster=GetWorld()->SpawnActor<AHonourWarMonster>(
+        if(AHonourWarMonster* Monster=GetWorld()->SpawnActor<AHonourWarMonster>(
             AHonourWarMonster::StaticClass(),MonsterLocations[Index],FRotator::ZeroRotator,Params))
         {
             Monster->SetLevel(MonsterLevels[Index]);
+            Monster->SetSpecies(Species[Index]);
         }
     }
 }
