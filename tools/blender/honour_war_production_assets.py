@@ -4,8 +4,8 @@ import os
 from mathutils import Vector
 
 # Honour War production asset generator.
-# Run with Blender 4.x in background mode to build actual GLB assets.
-# Pipeline: Blender -> Substance 3D Painter (optional texture pass) -> GLB/GLTF -> Godot 4.
+# Run with Blender 4.x in background mode to build production FBX assets.
+# Pipeline: Visual RAG -> Blender/Neural4D -> Substance 3D Painter -> FBX/OBJ -> Unreal Engine 5.8.
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../assets/3d/generated"))
 
@@ -266,7 +266,7 @@ def main():
         for tier in TIERS:
             clear_scene()
             hero = build_hero(class_id, tier)
-            export_glb(hero, os.path.join(out_root, "characters", class_id, tier + ".glb"))
+            export_glb(hero, os.path.join(out_root, "characters", class_id, tier + ".fbx"))
         clear_scene()
         pet = build_pet(class_id, CLASSES[class_id]["pet"])
         export_glb(pet, os.path.join(out_root, "pets", class_id + "_pet.glb"))
