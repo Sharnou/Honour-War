@@ -11,4 +11,5 @@ class HONOURWAR_API AHonourWarGameMode : public AGameModeBase
 public:
     AHonourWarGameMode();
     virtual void BeginPlay() override;
+    virtual void PostLogin(APlayerController* NewPlayer) override;
 };
