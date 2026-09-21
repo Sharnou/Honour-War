@@ -237,6 +237,12 @@ void AHonourWarCharacter::ReceiveMonsterDamage(float Damage)
     if(CombatComponent) CombatComponent->ReceiveDamage(Damage);
 }
 
+void AHonourWarCharacter::RefineEquipment()
+{
+    if (CombatComponent)
+        LastCombatMessage = CombatComponent->TryRefineEquipment() ? CombatComponent->GetLastLootMessage() : CombatComponent->GetLastLootMessage();
+}
+
 void AHonourWarCharacter::HandleMonsterDefeat(int32 MonsterLevel)
 {
     if(CombatComponent)
@@ -381,6 +387,10 @@ void AHonourWarCharacter::SaveProgress()
     Save->ClassTier=GetClassTier();
     Save->FifthTierArchetype=HonourWarClassProgression::NaturalFifthTier(CharacterClass);
     Save->Zeny=CombatComponent->GetZeny();
+    Save->EquipmentRefineLevel=CombatComponent->GetEquipmentRefineLevel();
+    Save->Phracon=CombatComponent->GetPhracon();
+    Save->Emveretarcon=CombatComponent->GetEmveretarcon();
+    Save->Oridecon=CombatComponent->GetOridecon();
     Save->Honours=CombatComponent->GetHonours();
     Save->InventoryItems=CombatComponent->GetInventoryItems();
     Save->Cards=CombatComponent->GetCards();
@@ -407,6 +417,10 @@ void AHonourWarCharacter::LoadProgress()
     CombatComponent->SetExperience(Save->Experience);
     CombatComponent->SetAgeDays(Save->AgeDays);
     CombatComponent->SetZeny(Save->Zeny);
+    CombatComponent->SetEquipmentRefineLevel(Save->EquipmentRefineLevel);
+    CombatComponent->SetPhracon(Save->Phracon);
+    CombatComponent->SetEmveretarcon(Save->Emveretarcon);
+    CombatComponent->SetOridecon(Save->Oridecon);
     CombatComponent->SetHonours(Save->Honours);
     CombatComponent->SetInventoryItems(Save->InventoryItems);
     CombatComponent->SetCards(Save->Cards);
