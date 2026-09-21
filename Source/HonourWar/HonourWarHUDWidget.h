@@ -10,6 +10,7 @@ class UTextBlock;
 class UButton;
 class UBorder;
 class UHonourWarQuestComponent;
+class AHonourWarGameState;
 
 UCLASS()
 class HONOURWAR_API UHonourWarHUDWidget : public UUserWidget
@@ -55,6 +56,7 @@ private:
     UPROPERTY() UTextBlock* ProfileName = nullptr;
     UPROPERTY() UTextBlock* ProfileMeta = nullptr;
     UPROPERTY() UTextBlock* TeamText = nullptr;
+    UPROPERTY() UTextBlock* ChatText = nullptr;
     UPROPERTY() UTextBlock* EconomyText = nullptr;
     UPROPERTY() UTextBlock* RefinementText = nullptr;
     UPROPERTY() UTextBlock* BaseSightText = nullptr;
