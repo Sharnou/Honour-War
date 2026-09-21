@@ -1,0 +1,15 @@
+{
+  "game":"Honour War",
+  "engine":"Unreal Engine 5.8",
+  "identity":"HD anime-inspired isometric MMORPG",
+  "genre":"MMORPG/ARPG",
+  "camera":{"projection":"perspective","style":"isometric","pitch_default_degrees":-48,"pitch_min_degrees":-62,"pitch_max_degrees":-28,"mouse_orbit":true,"wheel_zoom":true},
+  "characters":{"style":"anime-inspired fantasy","full_body_required":true,"face_required":true,"hair_required":true,"hands_required":true,"legs_required":true,"feet_required":true},
+  "class_tiers":{"tier1_level":1,"tier2_level":25,"tier3_level":50,"tier4_level":150,"tier5_level":200},
+  "world_maps":["town","forest_field","mountain_pass","river","desert_ruins","snow_region","arcane_dungeon"],
+  "lighting":"bright medieval daylight",
+  "hud":"compact MMORPG reference-driven layout",
+  "production_cycle":"Visual RAG -> visual brief regeneration -> asset refresh -> Unreal 5.8 validation -> real runtime screenshot",
+  "daily_auto_upgrade":false,
+  "rejected":["strategy presentation","modern sci-fi","robots","transformers","factories","space","GLB","GLTF","Meshy","Godot"]
+}

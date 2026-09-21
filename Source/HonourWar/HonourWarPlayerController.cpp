@@ -37,6 +37,20 @@ bool AHonourWarPlayerController::InputKey(const FInputKeyEventArgs& Params)
     if (Params.Key==EKeys::RightMouseButton)
     {
         bRightMouseDown=(Params.Event==IE_Pressed);
+        if (bRightMouseDown)
+        {
+            float X=0.0f;
+            float Y=0.0f;
+            if (GetMousePosition(X,Y))
+            {
+                LastMousePosition=FVector2D(X,Y);
+                bHasLastMousePosition=true;
+            }
+        }
+        else
+        {
+            bHasLastMousePosition=false;
+        }
         return true;
     }
     if (Params.Key==EKeys::MouseScrollUp && Params.Event==IE_Pressed)
@@ -75,13 +89,25 @@ void AHonourWarPlayerController::HandleMouseWheel(float Delta)
 
 void AHonourWarPlayerController::RotateCameraFromMouse()
 {
-    float DX=0.0f;
-    float DY=0.0f;
-    GetInputMouseDelta(DX,DY);
+    float X=0.0f;
+    float Y=0.0f;
+    if (!GetMousePosition(X,Y)) return;
+
+    const FVector2D Current(X,Y);
+    if (!bHasLastMousePosition)
+    {
+        LastMousePosition=Current;
+        bHasLastMousePosition=true;
+        return;
+    }
+
+    const FVector2D Delta=Current-LastMousePosition;
+    LastMousePosition=Current;
+
     if (AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(GetPawn()))
     {
-        Character->CameraTurn(DX*0.50f);
-        Character->CameraLookUp(DY*0.35f);
+        Character->CameraTurn(Delta.X*0.50f);
+        Character->CameraLookUp(Delta.Y*0.35f);
     }
 }
 

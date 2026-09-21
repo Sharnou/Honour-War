@@ -1,6 +1,10 @@
 # Honour War — Unreal Engine 5.8 HD Art Direction
 
-Honour War is a premium stylized medieval/fantasy MMORPG/ARPG. The visual target is controlled by the repository Screenshot references and implemented as original real-time 3D assets in Unreal Engine 5.8.
+Honour War is an HD anime-inspired isometric medieval/fantasy MMORPG/ARPG. The visual target is controlled by the repository Screenshot references and implemented as original real-time 3D assets in Unreal Engine 5.8.
+
+## Visual identity
+
+HD anime-inspired 3D characters, readable faces, stylized hair, layered fantasy equipment, strong silhouettes, rich PBR response, bright daylight, and isometric-style MMORPG composition. The reference characteristics are used as design guidance; reference pixels are never pasted into the game.
 
 ## Hero language
 
@@ -46,13 +50,17 @@ Attacks should communicate anticipation, contact and recovery. Hit presentation 
 
 ## UI
 
-The player-facing HUD is dark/translucent with warm metallic-gold accents, strong typography and compact spacing. The center-bottom 8-slot COMBAT SKILLS bar is the primary combat interaction surface. No developer/command toolbar is visible.
+The player-facing HUD is a compact MMORPG interface with profile/vitals, RPG navigation, minimap, quest tracker, chat and utility shortcuts. There is no center-bottom eight-slot skill strip and no developer/command toolbar.
 
 ## Production interchange
 
 Visual RAG → Neural4D or Blender → Substance 3D Painter → FBX/OBJ → Unreal Engine 5.8.
 
 GLB, GLTF, Meshy and Godot are permanently rejected for Honour War runtime production.
+
+## Development-cycle rule
+
+Every completed visual development cycle regenerates or updates the Visual RAG brief, then validates a real Unreal runtime frame against the locked reference anchors. This is a development-cycle gate and does not restore daily unattended upgrades.
 
 ## Quality floor
 

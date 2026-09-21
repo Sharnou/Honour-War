@@ -1,40 +1,32 @@
-# Honour War — Direct Visual Source Brief
 
-SOURCE: Screenshot/
+# Honour War — HD Anime-Isometric Visual RAG Brief
 
-The complete repository Screenshot/ folder is the authoritative visual source. The locked detail anchors are:
+Source: repository Screenshot/ folder.
 
+Locked detail anchors:
 - Screenshot/ChatGPT Image Sep 16, 2026, 12_22_47 AM.png
 - Screenshot/image_a4469f29.jpg
 
-## Required sequence
+Target identity:
+HD anime-inspired isometric medieval/fantasy MMORPG/ARPG.
 
-Visual RAG / multimodal reference analysis → visual gap specification → Neural4D or Blender authored assets → Substance 3D Painter materials → FBX/OBJ → Unreal Engine 5.8.
+Every visual development cycle must begin with Visual RAG/reference analysis, regenerate or update this brief, then validate a real Unreal Engine 5.8 runtime frame.
 
-## Visual target
+Required:
+- expressive anime-inspired full-body heroes with visible faces, hair, hands, legs and feet;
+- class-specific layered armor/clothing and weapons;
+- Tier 1–5 visual progression and distinct Tier 5 silhouettes;
+- pets and monsters with readable silhouettes;
+- dense medieval towns, fields, mountains, rivers, ruins, snow regions and dungeons;
+- detailed terrain, roads, vegetation, props and landmarks;
+- PBR material variation;
+- bright daylight and strong contact shading;
+- perspective/isometric camera;
+- readable attack/hit/projectile/skill VFX;
+- compact MMORPG HUD.
 
-Preserve the reference language for:
-- complete full-body class characters, visible faces and legs;
-- layered clothing, armor, weapons and accessories;
-- pets and readable monster silhouettes;
-- dense medieval town/field/dungeon composition;
-- varied terrain, vegetation and props;
-- rich material response and daylight;
-- perspective/isometric-style camera framing;
-- clear attacks, hits, projectiles and skill effects;
-- polished dark/gold MMORPG HUD with profile, RPG navigation, minimap, quest tracker, chat and utility shortcuts, with no center-bottom skill strip.
+Pipeline:
+Visual RAG → Neural4D or Blender → Substance 3D Painter → FBX/OBJ → Unreal Engine 5.8 → runtime validation → real EXE screenshot.
 
-## Negative target
-
-Do not use:
-- empty flat terrain;
-- box-and-cylinder-only characters as final art;
-- uniform buildings;
-- flat unlit materials;
-- futuristic/modern/scifi elements;
-- Transformers/robots/machines;
-- mystery materials;
-- GLB/GLTF runtime assets;
-- Meshy output.
-
-Procedural native Unreal geometry is permitted only as an explicitly labelled development bootstrap until authored production assets replace it.
+Rejected:
+Godot, GLB, GLTF, Meshy, futuristic/modern/sci-fi machinery, robots, transformers, factories, space presentation, empty template maps, primitive-only final assets.

@@ -3,11 +3,13 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "HonourWarTypes.h"
+#include "HonourWarClassProgression.h"
 #include "HonourWarCharacter.generated.h"
 
 class UCameraComponent;
 class USpringArmComponent;
 class UHonourWarCombatComponent;
+class AHonourWarMonster;
 
 UCLASS()
 class HONOURWAR_API AHonourWarCharacter : public ACharacter
@@ -17,6 +19,7 @@ class HONOURWAR_API AHonourWarCharacter : public ACharacter
 public:
     AHonourWarCharacter();
     virtual void BeginPlay() override;
+    virtual void Tick(float DeltaSeconds) override;
 
     void MoveForward(float Value);
     void MoveRight(float Value);
@@ -30,8 +33,16 @@ public:
     void ReceiveMonsterDamage(float Damage);
     void CycleClass();
 
+    void SetMouseDestination(const FVector& Destination);
+    void SetMouseTarget(AHonourWarMonster* Target);
+    void ClearMouseCommand();
+    void AdjustCameraZoom(float WheelDelta);
+
     UFUNCTION(BlueprintCallable) EHonourWarClass GetClassId() const;
     UFUNCTION(BlueprintCallable) FString GetClassName() const;
+    UFUNCTION(BlueprintCallable) EHonourWarClassTier GetClassTier() const;
+    UFUNCTION(BlueprintCallable) FString GetClassTierName() const;
+    UFUNCTION(BlueprintCallable) FString GetFifthTierClassName() const;
     UFUNCTION(BlueprintCallable) UHonourWarCombatComponent* GetCombatComponent() const { return CombatComponent; }
     UFUNCTION(BlueprintCallable) FString GetLastCombatMessage() const { return LastCombatMessage; }
     void SetClassId(EHonourWarClass NewClass);
@@ -48,4 +59,7 @@ private:
     UPROPERTY() FString LastCombatMessage = TEXT("Ready");
     UPROPERTY() EHonourWarClass CharacterClass = EHonourWarClass::Warrior;
     UPROPERTY() FVector RespawnPoint = FVector(900.0f, 900.0f, 180.0f);
+    UPROPERTY() AHonourWarMonster* MouseTarget = nullptr;
+    UPROPERTY() FVector MouseDestination = FVector::ZeroVector;
+    UPROPERTY() bool bMouseMoveActive = false;
 };

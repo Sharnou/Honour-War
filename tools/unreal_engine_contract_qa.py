@@ -33,6 +33,8 @@ required=[
     ROOT/"data"/"honour_war_class_tiers.json",
     ROOT/"data"/"honour_war_maps.json",
     ROOT/"docs"/"MMORPG_MOUSE_CONTROL_SPEC.md",
+    ROOT/"docs"/"VISUAL_DEVELOPMENT_CYCLE_CONTRACT.md",
+    ROOT/"assets"/"3d"/"visual_rag"/"LATEST_VISUAL_BRIEF.json",
 ]
 for path in required:
     if not path.is_file():
@@ -63,7 +65,7 @@ for phrase in ["EHonourWarClassTier","Tier5","EHonourWarFifthTierArchetype","Nat
         sys.exit(1)
 
 controller=(ROOT/"Source"/"HonourWar"/"HonourWarPlayerController.cpp").read_text(encoding="utf-8")
-for phrase in ["HandleMouseClick","GetHitResultUnderCursorByChannel","SetMouseTarget","SetMouseDestination","HandleMouseWheel","RotateCameraFromMouse"]:
+for phrase in ["HandleMouseClick","GetHitResultUnderCursorByChannel","SetMouseTarget","SetMouseDestination","HandleMouseWheel","RotateCameraFromMouse","bHasLastMousePosition"]:
     if phrase not in controller:
         print(f"UNREAL_CONTRACT_FAIL: MMORPG mouse control missing: {phrase}")
         sys.exit(1)
@@ -77,6 +79,17 @@ for phrase in ["BuildBiomeRegions","ForestRegion","MountainRegion","DesertRegion
 capture=(ROOT/"Source"/"HonourWar"/"HonourWarScreenshotDirector.cpp").read_text(encoding="utf-8")
 if "FScreenshotRequest::RequestScreenshot(Output,true,false,false,FIntRect(),true)" not in capture:
     print("UNREAL_CONTRACT_FAIL: real screenshot must capture actual game viewport with HUD visible")
+    sys.exit(1)
+
+visual=(ROOT/"assets"/"3d"/"visual_rag"/"LATEST_VISUAL_BRIEF.json").read_text(encoding="utf-8")
+for phrase in ["HD anime-inspired isometric MMORPG","Unreal Engine 5.8","FBX","OBJ","Screenshot/"]:
+    if phrase not in visual:
+        print(f"UNREAL_CONTRACT_FAIL: visual cycle identity missing: {phrase}")
+        sys.exit(1)
+
+cycle=(ROOT/"docs"/"VISUAL_DEVELOPMENT_CYCLE_CONTRACT.md").read_text(encoding="utf-8")
+if "Every completed visual cycle" not in cycle or "does not restore" not in cycle:
+    print("UNREAL_CONTRACT_FAIL: development-cycle visual contract missing or unsafe")
     sys.exit(1)
 
 for path in ROOT.rglob("*"):

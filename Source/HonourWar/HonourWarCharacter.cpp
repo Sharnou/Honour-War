@@ -1,6 +1,7 @@
 #include "HonourWarCharacter.h"
 #include "HonourWarCombatComponent.h"
 #include "HonourWarSaveGame.h"
+#include "HonourWarMonster.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SceneComponent.h"
 #include "Components/StaticMeshComponent.h"
@@ -13,7 +14,7 @@
 
 namespace
 {
-    UStaticMesh* LoadMesh(const TCHAR* Path){return LoadObject<UStaticMesh>(nullptr,Path);}
+    UStaticMesh* LoadMesh(const TCHAR* Path){ return LoadObject<UStaticMesh>(nullptr,Path); }
 
     void ApplyColor(UStaticMeshComponent* Component,const FLinearColor& Color)
     {
@@ -25,6 +26,7 @@ namespace
             if (UMaterialInstanceDynamic* MID=UMaterialInstanceDynamic::Create(BaseMaterial,Component))
             {
                 MID->SetVectorParameterValue(TEXT("Color"),Color);
+                MID->SetScalarParameterValue(TEXT("Roughness"),0.62f);
                 Component->SetMaterial(0,MID);
             }
         }
@@ -33,7 +35,7 @@ namespace
     UStaticMeshComponent* AddPart(AActor* Owner,USceneComponent* Parent,UStaticMesh* Mesh,const TCHAR* Name,
         const FVector& Location,const FVector& Scale,const FRotator& Rotation,const FLinearColor& Color)
     {
-        if (!Owner||!Parent||!Mesh) return nullptr;
+        if(!Owner||!Parent||!Mesh) return nullptr;
         UStaticMeshComponent* Part=NewObject<UStaticMeshComponent>(Owner,FName(Name));
         Owner->AddInstanceComponent(Part);
         Part->SetStaticMesh(Mesh);
@@ -50,12 +52,15 @@ namespace
 
 AHonourWarCharacter::AHonourWarCharacter()
 {
-    PrimaryActorTick.bCanEverTick=false;
+    PrimaryActorTick.bCanEverTick=true;
+    PrimaryActorTick.bStartWithTickEnabled=true;
     bReplicates=true;
 
     GetCapsuleComponent()->InitCapsuleSize(42.0f,96.0f);
     GetCharacterMovement()->MaxWalkSpeed=500.0f;
     GetCharacterMovement()->BrakingDecelerationWalking=1800.0f;
+    GetCharacterMovement()->bOrientRotationToMovement=true;
+    bUseControllerRotationYaw=false;
 
     CameraBoom=CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
     CameraBoom->SetupAttachment(RootComponent);
@@ -84,9 +89,84 @@ void AHonourWarCharacter::BeginPlay()
     LoadProgress();
 }
 
+void AHonourWarCharacter::Tick(float DeltaSeconds)
+{
+    Super::Tick(DeltaSeconds);
+    if(!bMouseMoveActive || !GetCharacterMovement()) return;
+
+    AHonourWarMonster* Target=MouseTarget;
+    if(Target && Target->IsDead())
+    {
+        MouseTarget=nullptr;
+        Target=nullptr;
+    }
+
+    FVector Destination=MouseDestination;
+    if(Target)
+    {
+        const float Range=CombatComponent?CombatComponent->GetEngagementRange():220.0f;
+        const FVector ToTarget=Target->GetActorLocation()-GetActorLocation();
+        if(ToTarget.Size2D()<=Range)
+        {
+            GetCharacterMovement()->StopMovementImmediately();
+            bMouseMoveActive=false;
+            ActivateSkill(0);
+            return;
+        }
+        Destination=Target->GetActorLocation();
+    }
+
+    const FVector ToDestination=Destination-GetActorLocation();
+    const FVector FlatDirection=FVector(ToDestination.X,ToDestination.Y,0.0f).GetSafeNormal();
+    if(ToDestination.Size2D()<=32.0f)
+    {
+        GetCharacterMovement()->StopMovementImmediately();
+        bMouseMoveActive=false;
+        return;
+    }
+
+    if(!FlatDirection.IsNearlyZero())
+    {
+        AddMovementInput(FlatDirection,1.0f);
+        SetActorRotation(FMath::RInterpTo(GetActorRotation(),FlatDirection.Rotation(),DeltaSeconds,12.0f));
+    }
+}
+
+void AHonourWarCharacter::SetMouseDestination(const FVector& Destination)
+{
+    MouseTarget=nullptr;
+    MouseDestination=Destination;
+    MouseDestination.Z=GetActorLocation().Z;
+    bMouseMoveActive=true;
+}
+
+void AHonourWarCharacter::SetMouseTarget(AHonourWarMonster* Target)
+{
+    MouseTarget=Target;
+    if(Target)
+    {
+        MouseDestination=Target->GetActorLocation();
+        MouseDestination.Z=GetActorLocation().Z;
+        bMouseMoveActive=true;
+    }
+}
+
+void AHonourWarCharacter::ClearMouseCommand()
+{
+    MouseTarget=nullptr;
+    bMouseMoveActive=false;
+    if(GetCharacterMovement()) GetCharacterMovement()->StopMovementImmediately();
+}
+
+void AHonourWarCharacter::AdjustCameraZoom(float WheelDelta)
+{
+    if(!CameraBoom) return;
+    CameraBoom->TargetArmLength=FMath::Clamp(CameraBoom->TargetArmLength-WheelDelta*120.0f,600.0f,1500.0f);
+}
+
 void AHonourWarCharacter::MoveForward(float Value)
 {
-    if (!Controller||FMath::IsNearlyZero(Value)) return;
+    if(!Controller||FMath::IsNearlyZero(Value)) return;
     const FRotator ControlRotation=Controller->GetControlRotation();
     const FVector Forward=FRotationMatrix(FRotator(0,ControlRotation.Yaw,0)).GetUnitAxis(EAxis::X);
     AddMovementInput(Forward,Value);
@@ -94,7 +174,7 @@ void AHonourWarCharacter::MoveForward(float Value)
 
 void AHonourWarCharacter::MoveRight(float Value)
 {
-    if (!Controller||FMath::IsNearlyZero(Value)) return;
+    if(!Controller||FMath::IsNearlyZero(Value)) return;
     const FRotator ControlRotation=Controller->GetControlRotation();
     const FVector Right=FRotationMatrix(FRotator(0,ControlRotation.Yaw,0)).GetUnitAxis(EAxis::Y);
     AddMovementInput(Right,Value);
@@ -102,25 +182,25 @@ void AHonourWarCharacter::MoveRight(float Value)
 
 void AHonourWarCharacter::CameraTurn(float Value)
 {
-    if (FMath::Abs(Value)>KINDA_SMALL_NUMBER) AddControllerYawInput(Value);
+    if(FMath::Abs(Value)>KINDA_SMALL_NUMBER) AddControllerYawInput(Value);
 }
 
 void AHonourWarCharacter::CameraLookUp(float Value)
 {
-    if (!Controller||FMath::IsNearlyZero(Value)) return;
+    if(!Controller||FMath::IsNearlyZero(Value)) return;
     const FRotator Control=Controller->GetControlRotation();
     const float NewPitch=FMath::ClampAngle(Control.Pitch+Value,-62.0f,-28.0f);
     Controller->SetControlRotation(FRotator(NewPitch,Control.Yaw,0.0f));
 }
 
-void AHonourWarCharacter::Attack(){ActivateSkill(0);}
+void AHonourWarCharacter::Attack(){ ActivateSkill(0); }
 
 void AHonourWarCharacter::ActivateSkill(int32 SkillIndex)
 {
-    if (!CombatComponent) return;
-    if (CombatComponent->UseSkill(FMath::Clamp(SkillIndex,0,7)))
+    if(!CombatComponent) return;
+    if(CombatComponent->UseSkill(FMath::Clamp(SkillIndex,0,7)))
     {
-        const TCHAR* Names[]={
+        static const TCHAR* Names[]={
             TEXT("Basic Attack"),TEXT("Class Skill"),TEXT("Power Strike"),TEXT("Arcane Burst"),
             TEXT("Rapid Volley"),TEXT("Guardian Light"),TEXT("Shadow Step"),TEXT("Finisher")
         };
@@ -130,14 +210,14 @@ void AHonourWarCharacter::ActivateSkill(int32 SkillIndex)
 
 void AHonourWarCharacter::ReceiveMonsterDamage(float Damage)
 {
-    if (CombatComponent) CombatComponent->ReceiveDamage(Damage);
+    if(CombatComponent) CombatComponent->ReceiveDamage(Damage);
 }
 
 void AHonourWarCharacter::HandleDeathAndRespawn()
 {
     SetActorLocation(RespawnPoint);
     GetCharacterMovement()->StopMovementImmediately();
-    if (CombatComponent) CombatComponent->RestoreVitals();
+    if(CombatComponent) CombatComponent->RestoreVitals();
     LastCombatMessage=TEXT("Respawned at the city point");
 }
 
@@ -150,32 +230,37 @@ void AHonourWarCharacter::CycleClass()
 
 EHonourWarClass AHonourWarCharacter::GetClassId() const{return CharacterClass;}
 FString AHonourWarCharacter::GetClassName() const{return HonourWarClassName(CharacterClass);}
+EHonourWarClassTier AHonourWarCharacter::GetClassTier() const
+{
+    return CombatComponent?HonourWarClassProgression::TierForLevel(CombatComponent->GetLevel()):EHonourWarClassTier::Tier1;
+}
+FString AHonourWarCharacter::GetClassTierName() const{return HonourWarClassProgression::TierName(GetClassTier());}
+FString AHonourWarCharacter::GetFifthTierClassName() const{return HonourWarClassProgression::FifthTierName(CharacterClass);}
 
 void AHonourWarCharacter::SetClassId(EHonourWarClass NewClass)
 {
     CharacterClass=NewClass;
-    if (CombatComponent) CombatComponent->SetClassId(NewClass);
+    if(CombatComponent) CombatComponent->SetClassId(NewClass);
     BuildHeroVisual();
 }
 
 void AHonourWarCharacter::BuildHeroVisual()
 {
-    if (!VisualRoot) return;
+    if(!VisualRoot) return;
 
     TArray<USceneComponent*> ExistingChildren;
     VisualRoot->GetChildrenComponents(true,ExistingChildren);
-    for (USceneComponent* Child:ExistingChildren)
-        if (Child&&Child!=VisualRoot) Child->DestroyComponent();
+    for(USceneComponent* Child:ExistingChildren) if(Child) Child->DestroyComponent();
 
     UStaticMesh* Cube=LoadMesh(TEXT("/Engine/BasicShapes/Cube.Cube"));
     UStaticMesh* Sphere=LoadMesh(TEXT("/Engine/BasicShapes/Sphere.Sphere"));
     UStaticMesh* Cylinder=LoadMesh(TEXT("/Engine/BasicShapes/Cylinder.Cylinder"));
-    if (!Cube||!Sphere||!Cylinder) return;
+    if(!Cube||!Sphere||!Cylinder) return;
 
     const FHonourWarClassStyle Style=HonourWarClassStyle(CharacterClass);
-    const FLinearColor Skin(0.72f,0.48f,0.34f);
-    const FLinearColor Hair(0.08f,0.05f,0.03f);
-    const FLinearColor Metal(0.70f,0.66f,0.58f);
+    const FLinearColor Skin(0.76f,0.53f,0.40f);
+    const FLinearColor Hair(0.055f,0.035f,0.025f);
+    const FLinearColor Metal(0.62f,0.63f,0.64f);
 
     AddPart(this,VisualRoot,Cylinder,TEXT("Body"),FVector(0,0,75),FVector(0.62f,0.48f,0.82f),FRotator::ZeroRotator,Style.Primary);
     AddPart(this,VisualRoot,Cube,TEXT("ChestPlate"),FVector(0,0,112),FVector(0.68f,0.54f,0.28f),FRotator::ZeroRotator,Metal);
@@ -192,20 +277,21 @@ void AHonourWarCharacter::BuildHeroVisual()
     AddPart(this,VisualRoot,Sphere,TEXT("Hair"),FVector(-4,0,197),FVector(0.58f,0.54f,0.28f),FRotator::ZeroRotator,Hair);
     AddPart(this,VisualRoot,Sphere,TEXT("LeftEye"),FVector(38,-16,176),FVector(0.055f,0.055f,0.055f),FRotator::ZeroRotator,FLinearColor::Black);
     AddPart(this,VisualRoot,Sphere,TEXT("RightEye"),FVector(38,16,176),FVector(0.055f,0.055f,0.055f),FRotator::ZeroRotator,FLinearColor::Black);
+
     BuildWeaponVisual();
     BuildFifthTierVisual();
 }
 
 void AHonourWarCharacter::BuildFifthTierVisual()
 {
-    if (GetClassTier()!=EHonourWarClassTier::Tier5 || !VisualRoot) return;
+    if(GetClassTier()!=EHonourWarClassTier::Tier5||!VisualRoot) return;
 
     UStaticMesh* Sphere=LoadMesh(TEXT("/Engine/BasicShapes/Sphere.Sphere"));
-    UStaticMesh* Torus=LoadMesh(TEXT("/Engine/BasicShapes/Cylinder.Cylinder"));
-    if (!Sphere || !Torus) return;
+    UStaticMesh* Cylinder=LoadMesh(TEXT("/Engine/BasicShapes/Cylinder.Cylinder"));
+    if(!Sphere||!Cylinder) return;
 
     const FHonourWarClassStyle Style=HonourWarClassStyle(CharacterClass);
-    AddPart(this,VisualRoot,Torus,TEXT("Tier5Mantle"),FVector(0,0,142),FVector(0.88f,0.70f,0.12f),FRotator::ZeroRotator,Style.Accent);
+    AddPart(this,VisualRoot,Cylinder,TEXT("Tier5Mantle"),FVector(0,0,142),FVector(0.88f,0.70f,0.12f),FRotator::ZeroRotator,Style.Accent);
     AddPart(this,VisualRoot,Sphere,TEXT("Tier5Crown"),FVector(-18,0,224),FVector(0.22f,0.22f,0.22f),FRotator::ZeroRotator,Style.Accent);
     AddPart(this,VisualRoot,Sphere,TEXT("Tier5ShoulderL"),FVector(8,-63,126),FVector(0.24f,0.24f,0.22f),FRotator::ZeroRotator,Style.Accent);
     AddPart(this,VisualRoot,Sphere,TEXT("Tier5ShoulderR"),FVector(8,63,126),FVector(0.24f,0.24f,0.22f),FRotator::ZeroRotator,Style.Accent);
@@ -216,7 +302,7 @@ void AHonourWarCharacter::BuildWeaponVisual()
     UStaticMesh* Cube=LoadMesh(TEXT("/Engine/BasicShapes/Cube.Cube"));
     UStaticMesh* Cylinder=LoadMesh(TEXT("/Engine/BasicShapes/Cylinder.Cylinder"));
     UStaticMesh* Sphere=LoadMesh(TEXT("/Engine/BasicShapes/Sphere.Sphere"));
-    if (!Cube||!Cylinder||!Sphere) return;
+    if(!Cube||!Cylinder||!Sphere) return;
 
     const FHonourWarClassStyle Style=HonourWarClassStyle(CharacterClass);
     const FLinearColor Steel(0.78f,0.82f,0.88f);
@@ -250,28 +336,29 @@ void AHonourWarCharacter::BuildWeaponVisual()
 
 void AHonourWarCharacter::SaveProgress()
 {
-    if (!CombatComponent) return;
+    if(!CombatComponent) return;
     UHonourWarSaveGame* Save=Cast<UHonourWarSaveGame>(
         UGameplayStatics::CreateSaveGameObject(UHonourWarSaveGame::StaticClass()));
-    if (!Save) return;
+    if(!Save) return;
 
     Save->Level=CombatComponent->GetLevel();
     Save->Experience=CombatComponent->GetExperience();
     Save->AgeDays=CombatComponent->GetAgeDays();
     Save->ClassId=CharacterClass;
+    Save->ClassTier=GetClassTier();
+    Save->FifthTierArchetype=HonourWarClassProgression::NaturalFifthTier(CharacterClass);
     Save->SavedAtUtc=FDateTime::UtcNow();
-
     UGameplayStatics::SaveGameToSlot(Save,TEXT("HonourWar_Profile"),0);
     LastCombatMessage=TEXT("Progress saved");
 }
 
 void AHonourWarCharacter::LoadProgress()
 {
-    if (!CombatComponent||!UGameplayStatics::DoesSaveGameExist(TEXT("HonourWar_Profile"),0)) return;
+    if(!CombatComponent||!UGameplayStatics::DoesSaveGameExist(TEXT("HonourWar_Profile"),0)) return;
 
     UHonourWarSaveGame* Save=Cast<UHonourWarSaveGame>(
         UGameplayStatics::LoadGameFromSlot(TEXT("HonourWar_Profile"),0));
-    if (!Save) return;
+    if(!Save) return;
 
     const int32 ElapsedDays=FMath::Max(0,static_cast<int32>((FDateTime::UtcNow()-Save->SavedAtUtc).GetTotalDays()));
     CharacterClass=Save->ClassId;

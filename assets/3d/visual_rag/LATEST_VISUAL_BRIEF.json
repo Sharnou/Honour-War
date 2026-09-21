@@ -1,39 +1,24 @@
 {
-  "tool": "Honour War Visual RAG preflight",
-  "version": 3,
+  "tool": "Honour War Visual RAG",
+  "version": 4,
   "engine": "Unreal Engine 5.8",
+  "identity": "HD anime-inspired isometric MMORPG",
   "direct_visual_source": "Screenshot/",
   "locked_detail_anchors": [
     "Screenshot/ChatGPT Image Sep 16, 2026, 12_22_47 AM.png",
     "Screenshot/image_a4469f29.jpg"
   ],
-  "pipeline": [
-    "Visual RAG",
-    "Neural4D or Blender",
-    "Substance 3D Painter",
-    "FBX/OBJ",
-    "Unreal Engine 5.8",
-    "runtime validation",
-    "real EXE screenshot"
-  ],
+  "cycle_gate": "visual RAG -> brief regeneration -> asset refresh -> Unreal runtime -> real EXE screenshot -> reference comparison",
   "runtime_formats": ["FBX", "OBJ"],
   "rejected_formats": ["GLB", "GLTF"],
-  "negative": [
-    "empty terrain",
-    "primitive-only final actors",
-    "uniform buildings",
-    "flat unlit materials",
-    "futuristic machinery",
-    "Transformers",
-    "Meshy",
-    "mystery materials"
-  ],
-  "targets": {
-    "characters": "full-body silhouettes, faces, hair, hands, layered equipment, visible legs and feet",
-    "environment": "dense medieval architecture, roads, terrain variation, vegetation, props and landmarks",
-    "materials": "physically plausible PBR response with texture-scale detail",
-    "lighting": "bright daylight with contact shadows and atmospheric depth",
-    "combat": "anticipation, contact, hit reaction, projectile travel, AOE and class-specific skill VFX",
-    "ui": "dark translucent panels, warm metallic/gold trim, readable typography, centered eight-slot combat skill bar, no developer toolbar"
+  "required": {
+    "characters": "full-body anime-inspired silhouettes with visible face, hair, hands, legs, feet, layered equipment and class weapons",
+    "classes": "six base professions plus advanced and fifth-tier progression",
+    "camera": "perspective isometric-style, readable full-body framing",
+    "world": "dense medieval town, forest field, mountain pass, river, desert ruins, snow region, arcane dungeon",
+    "lighting": "bright daylight, contact shadows, atmospheric depth",
+    "materials": "PBR base color, normal, roughness, metallic, AO and emissive where applicable",
+    "combat": "anticipation, contact, hit reaction, projectile travel and class-specific VFX",
+    "hud": "compact MMORPG profile, navigation, minimap, quests, chat and utility shortcuts; no center-bottom skill strip"
   }
 }

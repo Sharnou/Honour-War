@@ -40,4 +40,6 @@ private:
     void HandleMouseWheel(float Delta);
     void RotateCameraFromMouse();
     bool bRightMouseDown=false;
+    bool bHasLastMousePosition=false;
+    FVector2D LastMousePosition=FVector2D::ZeroVector;
 };

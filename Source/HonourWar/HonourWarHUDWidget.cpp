@@ -197,7 +197,7 @@ void UHonourWarHUDWidget::RefreshVitals()
     if (!Character||!Character->GetCombatComponent()) return;
     UHonourWarCombatComponent* Combat=Character->GetCombatComponent();
     ProfileName->SetText(FText::FromString(TEXT("Sharnou")));
-    ProfileMeta->SetText(FText::FromString(FString::Printf(TEXT("Lv. %d  •  %s"),Combat->GetLevel(),*Character->GetClassName())));
+    ProfileMeta->SetText(FText::FromString(FString::Printf(TEXT("Lv. %d  |  Tier %d %s  |  %s"),Combat->GetLevel(),static_cast<int32>(Character->GetClassTier()),*Character->GetClassTierName(),*Character->GetClassName())));
     HpBar->SetPercent(Combat->GetHealthPercent());
     SpBar->SetPercent(Combat->GetSpPercent());
     XpBar->SetPercent(Combat->GetXpPercent());
