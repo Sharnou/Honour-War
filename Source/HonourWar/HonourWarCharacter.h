@@ -50,6 +50,8 @@ public:
     UFUNCTION(BlueprintCallable) FString GetFifthTierClassName() const;
     UFUNCTION(BlueprintCallable) UHonourWarCombatComponent* GetCombatComponent() const { return CombatComponent; }
     UFUNCTION(BlueprintCallable) FString GetLastCombatMessage() const { return LastCombatMessage; }
+    UFUNCTION(BlueprintCallable) bool GetBaseSightActive() const { return bBaseSightActive; }
+    void SetBaseSightActive(bool bActive) { bBaseSightActive=bActive; }
     void SetClassId(EHonourWarClass NewClass);
 
 private:
@@ -67,6 +69,7 @@ private:
     UPROPERTY() AHonourWarMonster* MouseTarget = nullptr;
     UPROPERTY() FVector MouseDestination = FVector::ZeroVector;
     UPROPERTY() bool bMouseMoveActive = false;
+    UPROPERTY(Replicated) bool bBaseSightActive = false;
     UPROPERTY() int64 OnlineSeconds = 0;
     float AutoSaveAccumulator = 0.0f;
 };
