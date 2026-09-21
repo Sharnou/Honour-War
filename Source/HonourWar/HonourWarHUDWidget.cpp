@@ -9,6 +9,8 @@
 #include "Components/TextBlock.h"
 #include "Components/VerticalBox.h"
 #include "Components/HorizontalBox.h"
+#include "GameFramework/GameStateBase.h"
+#include "HonourWarPlayerState.h"
 #include "Blueprint/WidgetTree.h"
 
 namespace
@@ -85,6 +87,8 @@ void UHonourWarHUDWidget::BuildProfileCluster(UCanvasPanel* Root)
     Stack->AddChildToVerticalBox(ProfileName);
     ProfileMeta=Text(WidgetTree,TEXT("ProfileMeta"),TEXT("Lv. 1  •  Warrior"),16.0f,Gold);
     Stack->AddChildToVerticalBox(ProfileMeta);
+    TeamText=Text(WidgetTree,TEXT("TeamText"),TEXT("Team 1  |  Party Slot 1"),13.0f,Gold);
+    Stack->AddChildToVerticalBox(TeamText);
 
     HpBar=WidgetTree->ConstructWidget<UProgressBar>(UProgressBar::StaticClass(),TEXT("HP"));
     HpBar->SetFillColorAndOpacity(FLinearColor(0.68f,0.10f,0.12f,1.0f));
@@ -280,7 +284,22 @@ void UHonourWarHUDWidget::OpenShop()
 
 void UHonourWarHUDWidget::OpenParty()
 {
-    ShowSection(TEXT("Party"),TEXT("Online party support: 2v1 through 4v4.\nTarget selection, combat skills and rewards are server-authoritative."));
+    FString Body=FString::Printf(TEXT("Online party combat: 2v1 through 4v4\n\n"));
+    if(UWorld* World=GetWorld())
+    {
+        if(AGameStateBase* State=World->GetGameState())
+        {
+            for(APlayerState* PlayerState:State->PlayerArray)
+            {
+                if(AHonourWarPlayerState* PS=Cast<AHonourWarPlayerState>(PlayerState))
+                {
+                    Body+=FString::Printf(TEXT("Team %d | Slot %d | %s\n"),PS->GetTeamId()+1,PS->GetPartySlot()+1,*PS->GetPlayerName());
+                }
+            }
+        }
+    }
+    Body+=TEXT("\nLeft-click an opposing player to target. Friendly party members are protected.");
+    ShowSection(TEXT("Party"),Body);
 }
 
 void UHonourWarHUDWidget::OpenGuild()
@@ -305,6 +324,8 @@ void UHonourWarHUDWidget::RefreshVitals()
     XpBar->SetPercent(Combat->GetXpPercent());
     if (EconomyText)
         EconomyText->SetText(FText::FromString(FString::Printf(TEXT("Age %d days  |  Zeny %lld  |  Honours %d"),Combat->GetAgeDays(),Combat->GetZeny(),Combat->GetHonours())));
+    if (TeamText)
+        TeamText->SetText(FText::FromString(FString::Printf(TEXT("Team %d  |  Party Slot %d"),Character->GetTeamId()+1,Character->GetPartySlot()+1)));
     if (BaseSightText)
         BaseSightText->SetText(FText::FromString(Character->GetBaseSightActive()?TEXT("Base Sight  •  ONLINE  •  minimap overlay"):TEXT("Base Sight  •  offline")));
     if (RefinementText)
