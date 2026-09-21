@@ -151,6 +151,59 @@ void UHonourWarCombatComponent::SetLevel(int32 NewLevel)
 void UHonourWarCombatComponent::SetExperience(int32 NewExperience){ Experience = FMath::Max(0, NewExperience); }
 void UHonourWarCombatComponent::SetAgeDays(int32 NewAgeDays){ AgeDays = FMath::Max(0, NewAgeDays); }
 void UHonourWarCombatComponent::SetZeny(int64 NewZeny){ Zeny = FMath::Max<int64>(0, NewZeny); }
+void UHonourWarCombatComponent::SetEquipmentRefineLevel(int32 NewRefine){ EquipmentRefineLevel = FMath::Clamp(NewRefine,0,15); }
+void UHonourWarCombatComponent::SetPhracon(int32 Value){ Phracon = FMath::Max(0,Value); }
+void UHonourWarCombatComponent::SetEmveretarcon(int32 Value){ Emveretarcon = FMath::Max(0,Value); }
+void UHonourWarCombatComponent::SetOridecon(int32 Value){ Oridecon = FMath::Max(0,Value); }
+
+float UHonourWarCombatComponent::GetRefineSuccessPercent() const
+{
+    if (EquipmentRefineLevel>=15) return 0.0f;
+    const float BaseSuccess=100.0f-static_cast<float>(EquipmentRefineLevel+1)*5.5f;
+    const float AgeBonus=FMath::Min(25.0f,static_cast<float>(AgeDays)*0.25f);
+    return FMath::Clamp(BaseSuccess+AgeBonus,5.0f,99.5f);
+}
+
+int64 UHonourWarCombatComponent::GetRefineZenyCost() const
+{
+    const float AgeDiscount=FMath::Clamp(static_cast<float>(AgeDays)*0.005f,0.0f,0.60f);
+    const int64 BaseCost=1000LL+static_cast<int64>(EquipmentRefineLevel)*1500LL;
+    return FMath::Max<int64>(1,static_cast<int64>(FMath::RoundToFloat(static_cast<float>(BaseCost)*(1.0f-AgeDiscount))));
+}
+
+bool UHonourWarCombatComponent::TryRefineEquipment()
+{
+    if (EquipmentRefineLevel>=15)
+    {
+        LastLootMessage=TEXT("Equipment is already at maximum refinement +15.");
+        return false;
+    }
+
+    const float AgeDiscount=FMath::Clamp(static_cast<float>(AgeDays)*0.005f,0.0f,0.60f);
+    const int32 OreCost=FMath::Max(1,FMath::CeilToInt((1.0f+static_cast<float>(EquipmentRefineLevel)/4.0f)*(1.0f-AgeDiscount)));
+    int32& PrimaryMaterial = EquipmentRefineLevel<5 ? Phracon : (EquipmentRefineLevel<10 ? Emveretarcon : Oridecon);
+
+    if (Zeny<GetRefineZenyCost() || PrimaryMaterial<OreCost)
+    {
+        LastLootMessage=FString::Printf(TEXT("Refine +%d blocked | need %lld Zeny + %d ore."),EquipmentRefineLevel+1,GetRefineZenyCost(),OreCost);
+        return false;
+    }
+
+    Zeny-=GetRefineZenyCost();
+    PrimaryMaterial-=OreCost;
+
+    const float Roll=FMath::FRandRange(0.0f,100.0f);
+    const float Success=GetRefineSuccessPercent();
+    if (Roll<=Success)
+    {
+        ++EquipmentRefineLevel;
+        LastLootMessage=FString::Printf(TEXT("Refinement SUCCESS | equipment +%d | %.1f%% success | age discount %.0f%%"),EquipmentRefineLevel,Success,AgeDiscount*100.0f);
+        return true;
+    }
+
+    LastLootMessage=FString::Printf(TEXT("Refinement FAILED | equipment remains +%d | %.1f%% success | materials consumed"),EquipmentRefineLevel,Success);
+    return false;
+}
 void UHonourWarCombatComponent::SetHonours(int32 NewHonours){ Honours = FMath::Max(0, NewHonours); }
 void UHonourWarCombatComponent::SetInventoryItems(const TArray<FString>& NewItems){ InventoryItems = NewItems; }
 void UHonourWarCombatComponent::SetCards(const TArray<FString>& NewCards){ Cards = NewCards; }
