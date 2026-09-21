@@ -32,10 +32,6 @@ required=[
     ROOT/"Source"/"HonourWar"/"HonourWarGameState.h",
     ROOT/"Source"/"HonourWar"/"HonourWarGameState.cpp",
     ROOT/"Source"/"HonourWar"/"HonourWarPlayerState.cpp",
-    ROOT/"Source"/"HonourWar"/"HonourWarSoldier.h",
-    ROOT/"Source"/"HonourWar"/"HonourWarSoldier.cpp",
-    ROOT/"Source"/"HonourWar"/"HonourWarIncomeBank.h",
-    ROOT/"Source"/"HonourWar"/"HonourWarIncomeBank.cpp",
     ROOT/"Source"/"HonourWar"/"HonourWarLootDatabase.h",
     ROOT/"Source"/"HonourWar"/"HonourWarQuestComponent.h",
     ROOT/"Source"/"HonourWar"/"HonourWarQuestComponent.cpp",
@@ -51,6 +47,8 @@ required=[
     ROOT/"docs"/"VISUAL_DEVELOPMENT_CYCLE_CONTRACT.md",
     ROOT/"docs"/"HONOUR_WAR_HD_MMO_ANIME_STYLE_CONTRACT.md",
     ROOT/"assets"/"3d"/"visual_rag"/"LATEST_VISUAL_BRIEF.json",
+    ROOT/"docs"/"HONOUR_WAR_PERMANENT_EXCLUSIONS.md",
+    ROOT/"tools"/"rejected_systems_qa.py",
 ]
 for path in required:
     if not path.is_file():
@@ -97,13 +95,6 @@ for phrase in ["SetText","SetTextRenderColor","SetXScale","SetLifeSpan"]:
         print(f"UNREAL_CONTRACT_FAIL: damage popup missing: {phrase}")
         sys.exit(1)
 
-soldier=(ROOT/"Source"/"HonourWar"/"HonourWarSoldier.cpp").read_text(encoding="utf-8")
-for phrase in ["SetLevel","SetSoldierClass","AutoSkillIndex","RegisterSoldierDeath","HandleMonsterDefeat"]:
-
-    if phrase not in soldier:
-        print(f"UNREAL_CONTRACT_FAIL: soldier system missing: {phrase}")
-        sys.exit(1)
-
 quest=(ROOT/"Source"/"HonourWar"/"HonourWarQuestComponent.cpp").read_text(encoding="utf-8")
 for phrase in ["RecordMonsterDefeat","The Lost Scroll","QuestProgress","QuestGoal","DOREPLIFETIME"]:
     if phrase not in quest:
@@ -122,12 +113,6 @@ for phrase in ["AddWorldMessage","WorldMessages","DOREPLIFETIME"]:
         print(f"UNREAL_CONTRACT_FAIL: world chat state missing: {phrase}")
         sys.exit(1)
 
-player_state=(ROOT/"Source"/"HonourWar"/"HonourWarPlayerState.cpp").read_text(encoding="utf-8")
-for phrase in ["TeamId","PartySlot","DOREPLIFETIME"]:
-    if phrase not in player_state:
-        print(f"UNREAL_CONTRACT_FAIL: player state missing: {phrase}")
-        sys.exit(1)
-
 character=(ROOT/"Source"/"HonourWar"/"HonourWarCharacter.cpp").read_text(encoding="utf-8")
 for phrase in ["ServerSetClassId_Implementation","OnRepCharacterClass","DOREPLIFETIME(AHonourWarCharacter,CharacterClass)"]:
     if phrase not in character:
@@ -138,12 +123,6 @@ combat=(ROOT/"Source"/"HonourWar"/"HonourWarCombatComponent.cpp").read_text(enco
 for phrase in ["ServerUseSkillOnPlayer","ServerTryRefineEquipment","ServerTryMixCards","ServerTryUpgradeBasicSkill"]:
     if phrase not in combat:
         print(f"UNREAL_CONTRACT_FAIL: combat RPC missing: {phrase}")
-        sys.exit(1)
-
-bank=(ROOT/"Source"/"HonourWar"/"HonourWarIncomeBank.cpp").read_text(encoding="utf-8")
-for phrase in ["HasOccupyingSoldier","Guardian->IsDead()","AddZeny(ZenyPerSecond)"]:
-    if phrase not in bank:
-        print(f"UNREAL_CONTRACT_FAIL: guarded income bank system missing: {phrase}")
         sys.exit(1)
 
 world=(ROOT/"Source"/"HonourWar"/"HonourWarWorldDirector.cpp").read_text(encoding="utf-8")
