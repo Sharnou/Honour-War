@@ -32,6 +32,7 @@ public:
     void HandleDeathAndRespawn();
     void ReceiveMonsterDamage(float Damage);
     void HandleMonsterDefeat(int32 MonsterLevel);
+    void RefineEquipment();
     void CycleClass();
 
     void SetMouseDestination(const FVector& Destination);
