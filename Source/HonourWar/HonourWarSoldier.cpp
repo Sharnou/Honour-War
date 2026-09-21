@@ -126,7 +126,7 @@ AHonourWarMonster* AHonourWarSoldier::FindNearestMonster(float Range) const
 void AHonourWarSoldier::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
-    if (bDead) return;
+    if (bDead || !HasAuthority()) return;
 
     AttackTimer=FMath::Max(0.0f,AttackTimer-DeltaSeconds);
     APawn* Player=UGameplayStatics::GetPlayerPawn(this,0);
