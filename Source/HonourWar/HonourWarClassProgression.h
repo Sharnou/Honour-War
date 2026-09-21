@@ -22,7 +22,8 @@ enum class EHonourWarFifthTierArchetype : uint8
     CausalityMarksman,
     AbsoluteShadow,
     EternalBenediction,
-    InfiniteQuartermaster
+    InfiniteQuartermaster,
+    VerdantParagon
 };
 
 USTRUCT(BlueprintType)
@@ -83,6 +84,7 @@ namespace HonourWarClassProgression
             case EHonourWarClass::Thief: return EHonourWarFifthTierArchetype::AbsoluteShadow;
             case EHonourWarClass::Acolyte: return EHonourWarFifthTierArchetype::EternalBenediction;
             case EHonourWarClass::Merchant: return EHonourWarFifthTierArchetype::InfiniteQuartermaster;
+            case EHonourWarClass::Ranger: return EHonourWarFifthTierArchetype::VerdantParagon;
             default: return EHonourWarFifthTierArchetype::AbyssalWarlord;
         }
     }
@@ -96,6 +98,7 @@ namespace HonourWarClassProgression
             case EHonourWarClass::Thief: return TEXT("Thief — Absolute Shadow");
             case EHonourWarClass::Acolyte: return TEXT("Acolyte — Eternal Benediction");
             case EHonourWarClass::Merchant: return TEXT("Merchant — Infinite Quartermaster");
+            case EHonourWarClass::Ranger: return TEXT("Ranger — Verdant Paragon");
             default: return TEXT("Warrior — Abyssal Warlord");
         }
     }
@@ -133,6 +136,11 @@ namespace HonourWarClassProgression
                 P.Title = TEXT("The Infinite Quartermaster");
                 P.PrimaryWeapon = TEXT("Matrix Forged Axe");
                 P.SecondaryWeapon = TEXT("Fabricator Ledger");
+                break;
+            case EHonourWarClass::Ranger:
+                P.Title = TEXT("The Verdant Paragon");
+                P.PrimaryWeapon = TEXT("Worldroot Longbow");
+                P.SecondaryWeapon = TEXT("Verdant Spirit Quiver");
                 break;
             default:
                 P.Title = TEXT("The Gravitational Vanguard");
