@@ -80,9 +80,10 @@ The Unreal implementation must preserve the five-tier progression and expose Tie
 Mouse-first desktop MMORPG controls are mandatory: left-click ground movement, left-click target selection/approach/attack, right-drag camera orbit, and wheel zoom.
 
 
-## City, base and soldier gameplay
+## City gameplay
 
-Cities are RPG progression hubs rather than a strategy-game HUD. A developed city can contain hero services for weapon refinement, card mixing, storage, skills and 
+Cities are RPG service hubs only. The active city layer supports weapon refinement, card mixing, storage and hero skill progression. There is no soldier, squad, tower-defense, base-building or strategy-war gameplay in cities.
+
 ## Rewards
 
 Monster defeat is a complete reward event:
