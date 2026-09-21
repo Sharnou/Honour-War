@@ -126,6 +126,7 @@ void AHonourWarCharacter::Tick(float DeltaSeconds)
     }
     if(!bMouseMoveActive || !GetCharacterMovement()) return;
 
+    FVector Destination=MouseDestination;
     AHonourWarMonster* Target=MouseTarget;
     if(PlayerTarget && !CanAttackPlayer(PlayerTarget))
     {
@@ -152,7 +153,6 @@ void AHonourWarCharacter::Tick(float DeltaSeconds)
         Target=nullptr;
     }
 
-    FVector Destination=MouseDestination;
     if(Target)
     {
         const float Range=CombatComponent?CombatComponent->GetEngagementRange():220.0f;
