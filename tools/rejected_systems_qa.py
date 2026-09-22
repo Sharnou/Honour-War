@@ -46,6 +46,22 @@ def scan_non_validator_tooling() -> None:
 def check_removed_files() -> None:
     for relative in REMOVED_FILES:
         if (ROOT/relative).exists(): fail(f"rejected file remains: {relative}")
+TEXT_SCAN_ROOTS = ("Source", "tools", "data", "Config", "Build", "Content")
+TEXT_SUFFIXES = frozenset({".h", ".hpp", ".cpp", ".c", ".cc", ".py", ".ini", ".json", ".csv", ".md", ".txt", ".uasset", ".umap"})
+
+def scan_active_project_data() -> None:
+    """Reject prohibited city systems in active project/data/generation surfaces."""
+    for relative in TEXT_SCAN_ROOTS:
+        base = ROOT / relative
+        if not base.exists():
+            continue
+        for path in base.rglob("*"):
+            if not path.is_file() or path.suffix.lower() not in TEXT_SUFFIXES:
+                continue
+            if relative == "tools" and path.name in VALIDATOR_FILES:
+                continue
+            scan(path, FORBIDDEN_CITY_FEATURES + EXCLUDED_SYMBOLS + EXCLUDED_TERMS + (FORBIDDEN_ENGINE,))
+
 def check_no_forbidden_artifacts() -> None:
     for path in ROOT.rglob("*"):
         if ".git" in path.parts: continue
@@ -68,7 +84,7 @@ def check_city_monster_exclusion() -> None:
         x,y=map(float,xyz)
         if (x*x+y*y)**0.5<7800.0: fail(f"monster spawn remains inside city exclusion radius: {x},{y}")
 def main() -> int:
-    check_validator_allowlist(); scan_runtime(); scan_active_generators(); scan_non_validator_tooling(); check_removed_files(); check_no_forbidden_artifacts(); check_city_monster_exclusion()
-    print("EXCLUSION_QA_PASS: Unreal-only; Godot, GLB/GLTF, and rejected city-building systems are permanently excluded.")
+    check_validator_allowlist(); scan_runtime(); scan_active_generators(); scan_non_validator_tooling(); scan_active_project_data(); check_removed_files(); check_no_forbidden_artifacts(); check_city_monster_exclusion()
+    print("EXCLUSION_QA_PASS: Unreal-only; Godot, GLB/GLTF, soldier systems, and rejected city-building systems are permanently excluded from runtime and generation surfaces.")
     return 0
 if __name__ == "__main__": raise SystemExit(main())
