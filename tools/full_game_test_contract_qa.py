@@ -33,6 +33,8 @@ for rel in required:
 controller = (ROOT / "Source/HonourWar/HonourWarPlayerController.cpp").read_text(encoding="utf-8")
 world = (ROOT / "Source/HonourWar/HonourWarWorldDirector.cpp").read_text(encoding="utf-8")
 character = (ROOT / "Source/HonourWar/HonourWarCharacter.cpp").read_text(encoding="utf-8")
+account_save = (ROOT / "Source/HonourWar/HonourWarAccountSaveGame.h").read_text(encoding="utf-8")
+input_config = (ROOT / "Config/DefaultInput.ini").read_text(encoding="utf-8")
 capture = (ROOT / "Build/Capture-HonourWar.ps1").read_text(encoding="utf-8")
 
 checks = {
@@ -41,7 +43,13 @@ checks = {
     "monster level 300": "300" in world,
     "eight monster species": "EHonourWarMonsterSpecies::Dragon" in world,
     "real monster SpawnActor": "SpawnActor<AHonourWarMonster>" in world,
-    "autosave": "SaveProgress" in character,
+    "automatic save": "SaveProgress" in character and "AutoSaveAccumulator >= 5.0f" in character and "EndPlay" in character,
+    "automatic save contains location": "PlayerLocation=GetActorLocation()" in character,
+    "automatic save contains economy": "Zeny=CombatComponent->GetZeny()" in character,
+    "automatic save contains inventory": "InventoryItems=CombatComponent->GetInventoryItems()" in character and "Cards=CombatComponent->GetCards()" in character,
+    "single account persistence": "HonourWarAccount" in controller and "SaveActiveCharacterData" in controller and "LoadActiveCharacterData" in controller,
+    "no profile save slots": "HonourWar_Profile_" not in controller and "CharacterSlotName" not in controller,
+    "no manual save option": 'ActionName="SaveGame"' not in input_config and 'ActionName="LoadGame"' not in input_config and "void AHonourWarPlayerController::SaveGame" not in controller and "void AHonourWarPlayerController::LoadGame" not in controller,
     "load/resume": "LoadProgress" in character,
     "real capture flag": "-HonourWarCapture" in capture,
     "1920x1080 capture": "ResX=1920" in capture and "ResY=1080" in capture,
