@@ -4,6 +4,7 @@
 #include "HonourWarCombatComponent.h"
 #include "HonourWarQuestComponent.h"
 #include "HonourWarSaveGame.h"
+#include "HonourWarPlayerController.h"
 #include "HonourWarMonster.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SceneComponent.h"
@@ -491,16 +492,22 @@ void AHonourWarCharacter::SaveProgress()
         Save->QuestProgress=QuestComponent->GetQuestProgress();
         Save->QuestComplete=QuestComponent->IsQuestComplete();
     }
-    UGameplayStatics::SaveGameToSlot(Save,TEXT("HonourWar_Profile"),0);
+    FString SaveSlot=TEXT("HonourWar_Profile_0");
+    if(AHonourWarPlayerController* PC=Cast<AHonourWarPlayerController>(GetController()))
+        SaveSlot=FString::Printf(TEXT("HonourWar_Profile_%d"),PC->GetActiveCharacterSlot()>=0?PC->GetActiveCharacterSlot():0);
+    UGameplayStatics::SaveGameToSlot(Save,*SaveSlot,0);
     LastCombatMessage=TEXT("Progress saved");
 }
 
 void AHonourWarCharacter::LoadProgress()
 {
-    if(!CombatComponent||!UGameplayStatics::DoesSaveGameExist(TEXT("HonourWar_Profile"),0)) return;
+    FString SaveSlot=TEXT("HonourWar_Profile_0");
+    if(AHonourWarPlayerController* PC=Cast<AHonourWarPlayerController>(GetController()))
+        SaveSlot=FString::Printf(TEXT("HonourWar_Profile_%d"),PC->GetActiveCharacterSlot()>=0?PC->GetActiveCharacterSlot():0);
+    if(!CombatComponent||!UGameplayStatics::DoesSaveGameExist(*SaveSlot,0)) return;
 
     UHonourWarSaveGame* Save=Cast<UHonourWarSaveGame>(
-        UGameplayStatics::LoadGameFromSlot(TEXT("HonourWar_Profile"),0));
+        UGameplayStatics::LoadGameFromSlot(*SaveSlot,0));
     if(!Save) return;
 
     OnlineSeconds=FMath::Max<int64>(0,Save->OnlineSeconds);
