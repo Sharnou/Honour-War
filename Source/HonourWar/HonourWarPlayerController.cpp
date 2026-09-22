@@ -5,6 +5,7 @@
 #include "HonourWarMonster.h"
 #include "HonourWarGameMode.h"
 #include "HonourWarGameState.h"
+#include "HonourWarPlayerState.h"
 #include "InputCoreTypes.h"
 #include "GameFramework/Actor.h"
 #include "Misc/Parse.h"
