@@ -157,10 +157,26 @@ void AHonourWarCharacter::Tick(float DeltaSeconds)
         BuildHeroVisual();
     }
     AutoSaveAccumulator += DeltaSeconds;
+    HitStutterTimer=FMath::Max(0.0f,HitStutterTimer-DeltaSeconds);
+    HitVisualTimer=FMath::Max(0.0f,HitVisualTimer-DeltaSeconds);
+    if(HitVisualTimer>0.0f && VisualRoot)
+    {
+        const float Pulse=FMath::Sin(HitVisualTimer*55.0f)*0.10f;
+        VisualRoot->SetRelativeRotation(HitVisualBaseRotation+FRotator(0.0f,0.0f,Pulse*35.0f));
+    }
+    else if(VisualRoot)
+    {
+        VisualRoot->SetRelativeRotation(HitVisualBaseRotation);
+    }
     if (AutoSaveAccumulator >= 5.0f)
     {
         AutoSaveAccumulator = 0.0f;
         SaveProgress();
+    }
+    if(HitStutterTimer>0.0f)
+    {
+        if(GetCharacterMovement()) GetCharacterMovement()->StopMovementImmediately();
+        return;
     }
     if(!bMouseMoveActive || !GetCharacterMovement()) return;
 
@@ -290,6 +306,16 @@ void AHonourWarCharacter::ActivateSkill(int32 SkillIndex)
 void AHonourWarCharacter::ReceiveMonsterDamage(float Damage,int32 AttackerLevel)
 {
     if(CombatComponent) CombatComponent->ReceiveMonsterAttack(Damage,AttackerLevel);
+}
+
+void AHonourWarCharacter::PlayIncomingAttackReaction(bool bCritical)
+{
+    HitVisualTimer=bCritical?0.20f:0.28f;
+    HitVisualBaseRotation=FRotator::ZeroRotator;
+    if(!bCritical)
+    {
+        HitStutterTimer=0.25f;
+    }
 }
 
 void AHonourWarCharacter::RefineEquipment()
