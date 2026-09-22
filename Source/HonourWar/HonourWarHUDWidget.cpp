@@ -68,6 +68,7 @@ void UHonourWarHUDWidget::BuildSurface()
     BuildMiniMap(RootCanvas);
     BuildQuestTracker(RootCanvas);
     BuildChatDock(RootCanvas);
+    BuildAuthenticationPanel(RootCanvas);
 }
 
 void UHonourWarHUDWidget::BuildProfileCluster(UCanvasPanel* Root)
@@ -165,6 +166,42 @@ void UHonourWarHUDWidget::BuildChatDock(UCanvasPanel* Root)
     Stack->AddChildToVerticalBox(InputRow);
 }
 
+
+void UHonourWarHUDWidget::BuildAuthenticationPanel(UCanvasPanel* Root)
+{
+    AuthPanel=Panel(WidgetTree,TEXT("AuthenticationPanel"),FLinearColor(0.015f,0.022f,0.035f,0.96f),FMargin(18.0f));
+    Place(Root,AuthPanel,FVector2D(-330,210),FVector2D(300,300),FAnchors(1.0f,0.5f,1.0f,0.5f),FVector2D(1.0f,0.5f));
+
+    UVerticalBox* Stack=WidgetTree->ConstructWidget<UVerticalBox>(UVerticalBox::StaticClass(),TEXT("AuthenticationStack"));
+    AuthPanel->SetContent(Stack);
+    Stack->AddChildToVerticalBox(Text(WidgetTree,TEXT("AuthTitle"),TEXT("HONOUR WAR ACCOUNT"),22.0f,Gold));
+    Stack->AddChildToVerticalBox(Text(WidgetTree,TEXT("AuthHint"),TEXT("Register or log in before gameplay."),13.0f,Muted));
+
+    AuthUsername=WidgetTree->ConstructWidget<UEditableTextBox>(UEditableTextBox::StaticClass(),TEXT("AuthUsername"));
+    AuthUsername->SetHintText(FText::FromString(TEXT("Username")));
+    Stack->AddChildToVerticalBox(AuthUsername);
+
+    AuthPassword=WidgetTree->ConstructWidget<UEditableTextBox>(UEditableTextBox::StaticClass(),TEXT("AuthPassword"));
+    AuthPassword->SetHintText(FText::FromString(TEXT("Password (6+ characters)")));
+    AuthPassword->SetIsPassword(true);
+    Stack->AddChildToVerticalBox(AuthPassword);
+
+    UHorizontalBox* Buttons=WidgetTree->ConstructWidget<UHorizontalBox>(UHorizontalBox::StaticClass(),TEXT("AuthButtons"));
+    AuthRegisterButton=WidgetTree->ConstructWidget<UButton>(UButton::StaticClass(),TEXT("AuthRegisterButton"));
+    AuthRegisterButton->SetContent(Text(WidgetTree,TEXT("AuthRegisterLabel"),TEXT("REGISTER"),13.0f,Gold));
+    AuthRegisterButton->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::SubmitRegister);
+    AuthLoginButton=WidgetTree->ConstructWidget<UButton>(UButton::StaticClass(),TEXT("AuthLoginButton"));
+    AuthLoginButton->SetContent(Text(WidgetTree,TEXT("AuthLoginLabel"),TEXT("LOGIN"),13.0f,Gold));
+    AuthLoginButton->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::SubmitLogin);
+    Buttons->AddChildToHorizontalBox(AuthRegisterButton);
+    Buttons->AddChildToHorizontalBox(AuthLoginButton);
+    Stack->AddChildToVerticalBox(Buttons);
+
+    AuthStatus=Text(WidgetTree,TEXT("AuthStatus"),TEXT("Not authenticated."),13.0f,White);
+    Stack->AddChildToVerticalBox(AuthStatus);
+    Stack->AddChildToVerticalBox(Text(WidgetTree,TEXT("AuthConsoleHint"),TEXT("Console: @register name password  |  @login name password"),11.0f,Muted));
+}
+
 UButton* UHonourWarHUDWidget::MakeShortcut(UCanvasPanel* Root,const FString& Icon,const FString& LabelText,float X)
 {
     UButton* Button=WidgetTree->ConstructWidget<UButton>(UButton::StaticClass(),*FString::Printf(TEXT("Shortcut_%s"),*LabelText));
@@ -227,7 +264,17 @@ void UHonourWarHUDWidget::RefreshVitals()
     CombatText->SetText(FText::FromString(FString::Printf(TEXT("[Combat] %s"),*Character->GetLastCombatMessage())));
 }
 
-void UHonourWarHUDWidget::NativeTick(const FGeometry& MyGeometry,float InDeltaTime)
+    if (AuthPanel)
+    {
+        if (AHonourWarPlayerController* PC=Cast<AHonourWarPlayerController>(GetOwningPlayer()))
+        {
+            const bool bLoggedIn=PC->IsAuthenticated();
+            AuthPanel->SetVisibility(bLoggedIn?ESlateVisibility::Collapsed:ESlateVisibility::Visible);
+            if (AuthStatus)
+                AuthStatus->SetText(FText::FromString(bLoggedIn?FString::Printf(TEXT("Authenticated as %s."),*PC->GetAccountUsername()):TEXT("Not authenticated.")));
+        }
+    }
+\nvoid UHonourWarHUDWidget::NativeTick(const FGeometry& MyGeometry,float InDeltaTime)
 {
     Super::NativeTick(MyGeometry,InDeltaTime);
     RefreshVitals();
@@ -242,3 +289,26 @@ void UHonourWarHUDWidget::SubmitChat()
         PC->SendChatMessage(Message);
     ChatInput->SetText(FText::GetEmpty());
 }
+
+void UHonourWarHUDWidget::SubmitRegister()
+{
+    if(!AuthUsername || !AuthPassword) return;
+    if(AHonourWarPlayerController* PC=Cast<AHonourWarPlayerController>(GetOwningPlayer()))
+    {
+        FString Message;
+        PC->RegisterAccount(AuthUsername->GetText().ToString(),AuthPassword->GetText().ToString(),Message);
+        if(AuthStatus) AuthStatus->SetText(FText::FromString(Message));
+    }
+}
+
+void UHonourWarHUDWidget::SubmitLogin()
+{
+    if(!AuthUsername || !AuthPassword) return;
+    if(AHonourWarPlayerController* PC=Cast<AHonourWarPlayerController>(GetOwningPlayer()))
+    {
+        FString Message;
+        PC->LoginAccount(AuthUsername->GetText().ToString(),AuthPassword->GetText().ToString(),Message);
+        if(AuthStatus) AuthStatus->SetText(FText::FromString(Message));
+    }
+}
+
