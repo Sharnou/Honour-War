@@ -105,7 +105,7 @@ def main() -> int:
         ("OnlineTimeAccumulator += DeltaSeconds", "online session accumulator"),
         ("OnlineSeconds += WholeSeconds", "online session counter"),
         ("86400", "online day boundary"),
-        ("AutoSaveAccumulator >= 60.0f", "60-second autosave"),
+        ("AutoSaveAccumulator >= 5.0f", "automatic autosave every few seconds"),
         ("Save->PlayerLocation=GetActorLocation()", "autosave player location"),
         ("SetAgeDays", "online age update"),
     ]:
