@@ -1,5 +1,6 @@
 #include "HonourWarPlayerController.h"
 #include "HonourWarAccountSaveGame.h"
+#include "HonourWarSaveGame.h"
 #include "HonourWarCharacter.h"
 #include "HonourWarMonster.h"
 #include "HonourWarGameMode.h"
@@ -38,20 +39,20 @@ void AHonourWarPlayerController::BeginPlay()
 void AHonourWarPlayerController::PlayerTick(float DeltaTime)
 {
     Super::PlayerTick(DeltaTime);
-    if (bRightMouseDown && bAuthenticated) RotateCameraFromMouse();
+    if (bRightMouseDown && IsReadyForGameplay()) RotateCameraFromMouse();
 }
 
 bool AHonourWarPlayerController::InputKey(const FInputKeyEventArgs& Params)
 {
     if (Params.Key==EKeys::LeftMouseButton && Params.Event==IE_Pressed)
     {
-        if (bAuthenticated) HandleMouseClick();
+        if (IsReadyForGameplay()) HandleMouseClick();
         return true;
     }
     if (Params.Key==EKeys::RightMouseButton)
     {
         bRightMouseDown=(Params.Event==IE_Pressed);
-        if (bRightMouseDown && bAuthenticated)
+        if (bRightMouseDown && IsReadyForGameplay())
         {
             float X=0.0f,Y=0.0f;
             if (GetMousePosition(X,Y)){LastMousePosition=FVector2D(X,Y);bHasLastMousePosition=true;}
@@ -61,12 +62,12 @@ bool AHonourWarPlayerController::InputKey(const FInputKeyEventArgs& Params)
     }
     if (Params.Key==EKeys::MouseScrollUp && Params.Event==IE_Pressed)
     {
-        if (bAuthenticated) HandleMouseWheel(1.0f);
+        if (IsReadyForGameplay()) HandleMouseWheel(1.0f);
         return true;
     }
     if (Params.Key==EKeys::MouseScrollDown && Params.Event==IE_Pressed)
     {
-        if (bAuthenticated) HandleMouseWheel(-1.0f);
+        if (IsReadyForGameplay()) HandleMouseWheel(-1.0f);
         return true;
     }
     return Super::InputKey(Params);
@@ -127,26 +128,26 @@ void AHonourWarPlayerController::SetupInputComponent()
     InputComponent->BindAction(TEXT("UpgradeBasicSkill"),IE_Pressed,this,&AHonourWarPlayerController::UpgradeBasicSkill);
 }
 
-void AHonourWarPlayerController::MoveForward(float V){if(bAuthenticated)if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->MoveForward(V);}
-void AHonourWarPlayerController::MoveRight(float V){if(bAuthenticated)if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->MoveRight(V);}
-void AHonourWarPlayerController::Turn(float V){if(bAuthenticated)if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->CameraTurn(V);}
-void AHonourWarPlayerController::LookUp(float V){if(bAuthenticated)if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->CameraLookUp(V);}
-void AHonourWarPlayerController::Attack(){if(bAuthenticated)if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->Attack();}
-void AHonourWarPlayerController::ResetCamera(){if(bAuthenticated)SetControlRotation(FRotator(-50.0f,45.0f,0.0f));}
-void AHonourWarPlayerController::SaveGame(){if(bAuthenticated)if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->SaveProgress();}
-void AHonourWarPlayerController::LoadGame(){if(bAuthenticated)if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->LoadProgress();}
-void AHonourWarPlayerController::NextClass(){if(bAuthenticated)if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->CycleClass();}
-void AHonourWarPlayerController::Skill1(){if(bAuthenticated)if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->ActivateSkill(0);}
-void AHonourWarPlayerController::Skill2(){if(bAuthenticated)if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->ActivateSkill(1);}
-void AHonourWarPlayerController::Skill3(){if(bAuthenticated)if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->ActivateSkill(2);}
-void AHonourWarPlayerController::Skill4(){if(bAuthenticated)if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->ActivateSkill(3);}
-void AHonourWarPlayerController::Skill5(){if(bAuthenticated)if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->ActivateSkill(4);}
-void AHonourWarPlayerController::Skill6(){if(bAuthenticated)if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->ActivateSkill(5);}
-void AHonourWarPlayerController::Skill7(){if(bAuthenticated)if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->ActivateSkill(6);}
-void AHonourWarPlayerController::Skill8(){if(bAuthenticated)if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->ActivateSkill(7);}
-void AHonourWarPlayerController::RefineEquipment(){if(bAuthenticated)if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->RefineEquipment();}
-void AHonourWarPlayerController::MixCards(){if(bAuthenticated)if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->MixCards();}
-void AHonourWarPlayerController::UpgradeBasicSkill(){if(bAuthenticated)if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->UpgradeBasicSkill();}
+void AHonourWarPlayerController::MoveForward(float V){if(IsReadyForGameplay())if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->MoveForward(V);}
+void AHonourWarPlayerController::MoveRight(float V){if(IsReadyForGameplay())if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->MoveRight(V);}
+void AHonourWarPlayerController::Turn(float V){if(IsReadyForGameplay())if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->CameraTurn(V);}
+void AHonourWarPlayerController::LookUp(float V){if(IsReadyForGameplay())if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->CameraLookUp(V);}
+void AHonourWarPlayerController::Attack(){if(IsReadyForGameplay())if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->Attack();}
+void AHonourWarPlayerController::ResetCamera(){if(IsReadyForGameplay())SetControlRotation(FRotator(-50.0f,45.0f,0.0f));}
+void AHonourWarPlayerController::SaveGame(){if(IsReadyForGameplay())if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->SaveProgress();}
+void AHonourWarPlayerController::LoadGame(){if(IsReadyForGameplay())if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->LoadProgress();}
+void AHonourWarPlayerController::NextClass(){if(IsReadyForGameplay())if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->CycleClass();}
+void AHonourWarPlayerController::Skill1(){if(IsReadyForGameplay())if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->ActivateSkill(0);}
+void AHonourWarPlayerController::Skill2(){if(IsReadyForGameplay())if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->ActivateSkill(1);}
+void AHonourWarPlayerController::Skill3(){if(IsReadyForGameplay())if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->ActivateSkill(2);}
+void AHonourWarPlayerController::Skill4(){if(IsReadyForGameplay())if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->ActivateSkill(3);}
+void AHonourWarPlayerController::Skill5(){if(IsReadyForGameplay())if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->ActivateSkill(4);}
+void AHonourWarPlayerController::Skill6(){if(IsReadyForGameplay())if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->ActivateSkill(5);}
+void AHonourWarPlayerController::Skill7(){if(IsReadyForGameplay())if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->ActivateSkill(6);}
+void AHonourWarPlayerController::Skill8(){if(IsReadyForGameplay())if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->ActivateSkill(7);}
+void AHonourWarPlayerController::RefineEquipment(){if(IsReadyForGameplay())if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->RefineEquipment();}
+void AHonourWarPlayerController::MixCards(){if(IsReadyForGameplay())if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->MixCards();}
+void AHonourWarPlayerController::UpgradeBasicSkill(){if(IsReadyForGameplay())if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->UpgradeBasicSkill();}
 
 FString AHonourWarPlayerController::HashPassword(const FString& Password) const
 {
@@ -187,8 +188,11 @@ bool AHonourWarPlayerController::RegisterAccount(const FString& Username,const F
     if(LoadAccount(Existing)){OutMessage=TEXT("An Honour War account is already registered on this local installation. Use @login.");return false;}
     if(!SaveAccount(Username.TrimStartAndEnd(),HashPassword(Password),FDateTime::UtcNow(),OutMessage)) return false;
     bAuthenticated=true;
+    bCharacterSelected=false;
+    ActiveCharacterSlot=-1;
     AccountUsername=Username.TrimStartAndEnd();
-    OutMessage=FString::Printf(TEXT("Registration successful. Logged in as %s."),*AccountUsername);
+    EnsureCharacterRoster();
+    OutMessage=FString::Printf(TEXT("Registration successful. Logged in as %s. Select or create a character."),*AccountUsername);
     return true;
 }
 
@@ -206,8 +210,11 @@ bool AHonourWarPlayerController::LoginAccount(const FString& Username,const FStr
     Account->LastLoginAtUtc=FDateTime::UtcNow();
     UGameplayStatics::SaveGameToSlot(Account,AccountSlot,0);
     bAuthenticated=true;
+    bCharacterSelected=false;
+    ActiveCharacterSlot=-1;
     AccountUsername=Account->Username;
-    OutMessage=FString::Printf(TEXT("Login successful. Welcome, %s."),*AccountUsername);
+    EnsureCharacterRoster();
+    OutMessage=FString::Printf(TEXT("Login successful. Welcome, %s. Select a character to continue."),*AccountUsername);
     return true;
 }
 
@@ -215,7 +222,7 @@ void AHonourWarPlayerController::AuthenticateCaptureAccount()
 {
     if(!FParse::Param(FCommandLine::Get(),TEXT("HonourWarCapture"))) return;
     FString Result;
-    if(!bAuthenticated)
+    if(!IsReadyForGameplay())
     {
         UHonourWarAccountSaveGame* Existing=nullptr;
         if(!LoadAccount(Existing))
@@ -226,12 +233,99 @@ void AHonourWarPlayerController::AuthenticateCaptureAccount()
         {
             LoginAccount(Existing->Username,TEXT("HonourWarCapture2026"),Result);
         }
+        if(bAuthenticated)
+        {
+            if(OwnedCharacters.Num()>0 && OwnedCharacters[0].bOwned)
+                SelectCharacter(0,Result);
+            else
+                CreateCharacter(TEXT("CaptureHero"),EHonourWarClass::Warrior,Result);
+        }
     }
+}
+
+
+const TArray<FHonourWarCharacterSlot>& AHonourWarPlayerController::GetOwnedCharacters() const
+{
+    return OwnedCharacters;
+}
+
+FString AHonourWarPlayerController::CharacterSlotName(int32 SlotIndex) const
+{
+    return FString::Printf(TEXT("HonourWar_Profile_%d"),FMath::Clamp(SlotIndex,0,3));
+}
+
+void AHonourWarPlayerController::EnsureCharacterRoster()
+{
+    UHonourWarAccountSaveGame* Account=nullptr;
+    if(!LoadAccount(Account)) return;
+    OwnedCharacters=Account->Characters;
+    while(OwnedCharacters.Num()<4) OwnedCharacters.Add(FHonourWarCharacterSlot());
+    if(SaveCharacterRoster()) return;
+}
+
+bool AHonourWarPlayerController::SaveCharacterRoster()
+{
+    UHonourWarAccountSaveGame* Account=nullptr;
+    if(!LoadAccount(Account)) return false;
+    Account->Characters=OwnedCharacters;
+    return UGameplayStatics::SaveGameToSlot(Account,AccountSlot,0);
+}
+
+bool AHonourWarPlayerController::SelectCharacter(int32 SlotIndex,FString& OutMessage)
+{
+    if(!bAuthenticated){OutMessage=TEXT("Login required before character selection.");return false;}
+    if(SlotIndex<0 || SlotIndex>=OwnedCharacters.Num() || !OwnedCharacters[SlotIndex].bOwned)
+    {OutMessage=TEXT("That character slot is empty.");return false;}
+    ActiveCharacterSlot=SlotIndex;
+    if(AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(GetPawn()))
+    {
+        Character->LoadProgress();
+        Character->SetClassId(OwnedCharacters[SlotIndex].ClassId);
+        if(AHonourWarPlayerState* PS=GetPlayerState<AHonourWarPlayerState>()) PS->SetPlayerName(OwnedCharacters[SlotIndex].CharacterName);
+    }
+    bCharacterSelected=true;
+    OutMessage=FString::Printf(TEXT("Character selected: %s  |  Lv.%d  |  %s"),*OwnedCharacters[SlotIndex].CharacterName,OwnedCharacters[SlotIndex].Level,*HonourWarClassName(OwnedCharacters[SlotIndex].ClassId));
+    return true;
+}
+
+bool AHonourWarPlayerController::CreateCharacter(const FString& CharacterName,EHonourWarClass ClassId,FString& OutMessage)
+{
+    if(!bAuthenticated){OutMessage=TEXT("Login required before creating a character.");return false;}
+    const FString Clean=CharacterName.TrimStartAndEnd();
+    if(Clean.Len()<3 || Clean.Len()>20){OutMessage=TEXT("Character name must be 3-20 characters.");return false;}
+    for(const TCHAR C:Clean) if(!(FChar::IsAlnum(C)||C==TEXT('_')||C==TEXT('-'))){OutMessage=TEXT("Character name may contain letters, numbers, _ and -.");return false;}
+    for(int32 i=0;i<OwnedCharacters.Num();++i) if(OwnedCharacters[i].bOwned && OwnedCharacters[i].CharacterName.Equals(Clean,ESearchCase::IgnoreCase)){OutMessage=TEXT("That character name is already owned.");return false;}
+    int32 Slot=-1;
+    for(int32 i=0;i<4;++i){if(i>=OwnedCharacters.Num()) OwnedCharacters.Add(FHonourWarCharacterSlot()); if(!OwnedCharacters[i].bOwned){Slot=i;break;}}
+    if(Slot<0){OutMessage=TEXT("All four character slots are occupied.");return false;}
+    UHonourWarSaveGame* Save=Cast<UHonourWarSaveGame>(UGameplayStatics::CreateSaveGameObject(UHonourWarSaveGame::StaticClass()));
+    if(!Save){OutMessage=TEXT("Character save could not be created.");return false;}
+    Save->ClassId=ClassId;
+    Save->ClassTier=EHonourWarClassTier::Tier1;
+    Save->PlayerLocation=FVector(900,900,180);
+    Save->SavedAtUtc=FDateTime::UtcNow();
+    if(!UGameplayStatics::SaveGameToSlot(Save,*CharacterSlotName(Slot),0)){OutMessage=TEXT("Character could not be saved.");return false;}
+    OwnedCharacters[Slot].bOwned=true;
+    OwnedCharacters[Slot].CharacterName=Clean;
+    OwnedCharacters[Slot].ClassId=ClassId;
+    OwnedCharacters[Slot].Level=1;
+    OwnedCharacters[Slot].EquipmentRefineLevel=0;
+    SaveCharacterRoster();
+    ActiveCharacterSlot=Slot;
+    if(AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(GetPawn()))
+    {
+        Character->SetClassId(ClassId);
+        Character->LoadProgress();
+        if(AHonourWarPlayerState* PS=GetPlayerState<AHonourWarPlayerState>()) PS->SetPlayerName(Clean);
+    }
+    bCharacterSelected=true;
+    OutMessage=FString::Printf(TEXT("New character created: %s  |  %s"),*Clean,*HonourWarClassName(ClassId));
+    return true;
 }
 
 void AHonourWarPlayerController::SendChatMessage(const FString& Message)
 {
-    if(!bAuthenticated) return;
+    if(!IsReadyForGameplay()) return;
     FString Clean=Message;
     Clean.TrimStartAndEndInline();
     Clean.LeftInline(180,true);
@@ -251,7 +345,7 @@ void AHonourWarPlayerController::ServerSendChat_Implementation(const FString& Me
 
 bool AHonourWarPlayerController::ExecuteGoCommand(const FString& Command)
 {
-    if(!bAuthenticated) return false;
+    if(!IsReadyForGameplay()) return false;
     TArray<FString> Tokens;
     Command.ParseIntoArrayWS(Tokens);
     if(Tokens.Num()<3 || Tokens[0].Compare(TEXT("@go"),ESearchCase::IgnoreCase)!=0) return false;
@@ -295,13 +389,13 @@ bool AHonourWarPlayerController::Exec(UWorld* InWorld,const TCHAR* Cmd,FOutputDe
     }
     if(Command.Equals(TEXT("@auth"),ESearchCase::IgnoreCase))
     {
-        ClientMessage(bAuthenticated?FString::Printf(TEXT("Authenticated as %s."),*AccountUsername):TEXT("Not authenticated. Use @register or @login."));
+        ClientMessage(!bAuthenticated?TEXT("Not authenticated. Use @register or @login."):IsReadyForGameplay()?FString::Printf(TEXT("Authenticated as %s. Character slot %d selected."),*AccountUsername,ActiveCharacterSlot+1):FString::Printf(TEXT("Authenticated as %s. Character selection required."),*AccountUsername));
         return true;
     }
 
     if(ExecuteGoCommand(Command)) return true;
 
-    if(!bAuthenticated)
+    if(!IsReadyForGameplay())
     {
         if(Command.StartsWith(TEXT("@say"),ESearchCase::IgnoreCase) || Command.StartsWith(TEXT("@guild"),ESearchCase::IgnoreCase))
         {
