@@ -25,7 +25,7 @@ AHonourWarPlayerController::AHonourWarPlayerController()
 void AHonourWarPlayerController::BeginPlay()
 {
     Super::BeginPlay();
-    SetControlRotation(FRotator(-50.0f,45.0f,0.0f));
+    // Persistent camera identity: Ragnarok Online-inspired elevated isometric MMORPG view.\n    SetControlRotation(FRotator(-50.0f,45.0f,0.0f));
 
     FInputModeGameAndUI InputMode;
     InputMode.SetHideCursorDuringCapture(false);
