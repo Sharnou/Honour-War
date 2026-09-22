@@ -21,7 +21,7 @@ void AHonourWarDamagePopup::BeginPlay(){Super::BeginPlay();}
 void AHonourWarDamagePopup::Initialize(float Damage,const FLinearColor& Color,bool bCritical)
 {
     const int32 Value=FMath::Max(1,FMath::RoundToInt(Damage));
-    Text->SetText(FText::FromString(FString::FromInt(Value)));
+    Text->SetText(FText::FromString(bCritical?FString::Printf(TEXT("◆ CRITICAL ◆\\n%d"),Value):FString::FromInt(Value)));
     Text->SetTextRenderColor(Color.ToFColor(true));
     Text->SetWorldSize(bCritical?42.0f:34.0f);
     Life=bCritical?1.0f:0.80f;
