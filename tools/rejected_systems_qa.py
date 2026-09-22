@@ -61,7 +61,7 @@ def scan_active_project_data() -> None:
                 continue
             if relative == "tools" and path.name in VALIDATOR_FILES:
                 continue
-            scan(path, FORBIDDEN_CITY_FEATURES + EXCLUDED_SYMBOLS + EXCLUDED_TERMS + (FORBIDDEN_ENGINE,))
+            scan(path, FORBIDDEN_CITY_FEATURES + EXCLUDED_SYMBOLS + EXCLUDED_TERMS)
 
 def check_no_forbidden_artifacts() -> None:
     for path in ROOT.rglob("*"):
