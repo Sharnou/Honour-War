@@ -1,9 +1,6 @@
 import json
 from pathlib import Path
 
-# Honour War Visual RAG preflight.
-# The repository Screenshot/ folder is the DIRECT visual source. No external
-# stock/game images are downloaded or substituted.
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "assets" / "3d" / "visual_rag"
 OUT.mkdir(parents=True, exist_ok=True)
@@ -27,7 +24,7 @@ TARGET = {
     "characters": "Derive full-body proportions, face/head visibility, clothing, armor, weapons, pets, silhouettes and progression presentation from the Screenshot reference set.",
     "environment": "Derive terrain, architecture, vegetation, roads, props, town composition and world density from the Screenshot reference set.",
     "materials": "Derive material appearance from the reference images, then author known plausible PBR materials in Blender/Substance 3D Painter; never use mystery materials.",
-    "pipeline": "Screenshot → Blender → Substance 3D Painter → GLB/GLTF → Godot 4.7 Forward+",
+    "pipeline": "Screenshot → Blender → Substance 3D Painter → FBX/OBJ → Unreal Engine 5.8",
     "negative": [
         "generic external reference images",
         "stock MMORPG screenshots",
@@ -61,7 +58,7 @@ def main() -> None:
 
     manifest = {
         "tool": "Honour War Visual RAG preflight",
-        "version": 2,
+        "version": 3,
         "direct_visual_source": "Screenshot/",
         "external_reference_downloads": False,
         "target": TARGET,
@@ -101,7 +98,7 @@ def main() -> None:
     print("EXTERNAL REFERENCE DOWNLOADS: DISABLED")
     for item in references:
         print("SOURCE :: " + item["source_path"])
-    print("Brief: " + str(OUT / "LATEST_VISUAL_BRIEF.json"))
+    print("Brief: " + str(OUT / "assets" / "3d" / "visual_rag" / "LATEST_VISUAL_BRIEF.json"))
 
 
 if __name__ == "__main__":
