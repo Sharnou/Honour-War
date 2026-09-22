@@ -13,7 +13,7 @@ permissions:
 jobs:
   runtime:
     runs-on: [self-hosted, windows, unreal-engine-5.8]
-    timeout-minutes: 30
+    timeout-minutes: 3
     steps:
       - uses: actions/checkout@v4
 
