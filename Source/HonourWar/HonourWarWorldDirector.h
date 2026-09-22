@@ -56,8 +56,6 @@ private:
     void BuildTownCenter();
     void BuildHouses();
     void BuildWalls();
-    void BuildMarket();
-    void BuildTownServices();
     void BuildRoadFurniture();
     void BuildVegetation();
     void BuildDistantLandmarks();
@@ -65,7 +63,6 @@ private:
 
     void BuildHouse(const FVector& Center,float Yaw,const FLinearColor& WallColor,const FLinearColor& RoofColor);
     void BuildTree(const FVector& Center,float Scale,int32 Variant);
-    void BuildMarketStall(const FVector& Center,float Yaw);
     void BuildLamp(const FVector& Center);
     void BuildBanner(const FVector& Center,float Yaw,const FLinearColor& ClothColor);
     void BuildFence(const FVector& Center,float Yaw,float Length);
