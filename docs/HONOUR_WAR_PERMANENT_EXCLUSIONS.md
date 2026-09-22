@@ -31,3 +31,7 @@ This exclusion document is authoritative for future implementation and art gener
   6. City resources
   7. City upgrades
 - Permanent exclusion QA must hard-fail if any rejected city feature or Godot artifact returns to an active runtime, data, generator, or project surface.
+
+
+## 2026-09-22 validation pass
+Monster runtime now uses the explicit eight-species level roster and enforces the city exclusion radius before spawn.
