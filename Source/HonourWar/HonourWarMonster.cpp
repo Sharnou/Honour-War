@@ -303,6 +303,16 @@ void AHonourWarMonster::Tick(float DeltaSeconds)
     if (bDead) return;
 
     AttackTimer=FMath::Max(0.0f,AttackTimer-DeltaSeconds);
+    FlinchTimer=FMath::Max(0.0f,FlinchTimer);
+    if(FlinchTimer>0.0f)
+    {
+        const float Pulse=1.0f+FMath::Sin(FlinchTimer*65.0f)*0.06f;
+        Body->SetRelativeScale3D(ReactionBaseScale*Pulse);
+    }
+    else if(!ReactionBaseScale.IsNearlyZero())
+    {
+        Body->SetRelativeScale3D(ReactionBaseScale);
+    }
     APawn* Player=UGameplayStatics::GetPlayerPawn(this,0);
     if (!Player) return;
 
@@ -320,12 +330,46 @@ void AHonourWarMonster::Tick(float DeltaSeconds)
     if (Distance<=330.0f && AttackTimer<=0.0f)
     {
         if (AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(Player))
-            Character->ReceiveMonsterDamage(45.0f+Level*2.0f);
+            Character->ReceiveMonsterDamage(45.0f+Level*2.0f,Level);
         AttackTimer=1.2f;
     }
 }
 
-void AHonourWarMonster::ReceiveCombatHit(float Damage,EHonourWarClass SourceClass)
+void AHonourWarMonster::PlayCombatReaction(bool bHit,bool bCritical,bool bLucky,float Damage,EHonourWarClass SourceClass)
+{
+    if(UWorld* World=GetWorld())
+    {
+        if(!bHit)
+        {
+            if(AHonourWarDamagePopup* Popup=World->SpawnActor<AHonourWarDamagePopup>(
+                AHonourWarDamagePopup::StaticClass(),GetActorLocation()+FVector(0,0,240),FRotator(0,180,0)))
+            {
+                Popup->InitializeReaction(
+                    bLucky?TEXT("Lucky!"):TEXT("MISS"),
+                    bLucky?FLinearColor(0.25f,0.65f,1.0f):FLinearColor(0.80f,0.82f,0.86f),
+                    bLucky?38.0f:34.0f,0.72f);
+            }
+            return;
+        }
+
+        FlinchTimer=bCritical?0.16f:0.25f;
+        ReactionBaseScale=Body->GetRelativeScale3D();
+        const FLinearColor ImpactColor=bCritical?FLinearColor(1.0f,0.08f,0.03f):FLinearColor(1.0f,0.25f,0.20f);
+        if(AHonourWarCombatEffect* Effect=World->SpawnActor<AHonourWarCombatEffect>(
+            AHonourWarCombatEffect::StaticClass(),GetActorLocation()+FVector(0,0,145),FRotator::ZeroRotator))
+        {
+            Effect->Initialize(ImpactColor,FMath::Clamp(Damage/80.0f,0.8f,2.2f),bCritical);
+        }
+        if(AHonourWarDamagePopup* Popup=World->SpawnActor<AHonourWarDamagePopup>(
+            AHonourWarDamagePopup::StaticClass(),GetActorLocation()+FVector(0,0,235),FRotator(0,180,0)))
+        {
+            const FLinearColor NumberColor=bCritical?FLinearColor(1.0f,0.12f,0.08f):HonourWarClassStyle(SourceClass).Accent;
+            Popup->Initialize(Damage,NumberColor,bCritical);
+        }
+    }
+}
+
+void AHonourWarMonster::ReceiveCombatHit(float Damage,EHonourWarClass SourceClass,bool bCritical)
 {
     if (bDead) return;
 
@@ -334,23 +378,10 @@ void AHonourWarMonster::ReceiveCombatHit(float Damage,EHonourWarClass SourceClas
         SourceClass==EHonourWarClass::Archer ? 1.06f :
         SourceClass==EHonourWarClass::Ranger ? 1.08f : 1.0f;
 
-    const float FinalDamage=FMath::Max(0.0f,Damage*Multiplier);
+    const float CriticalMultiplier=bCritical?1.40f:1.0f;
+    const float FinalDamage=FMath::Max(0.0f,Damage*Multiplier*CriticalMultiplier);
     CurrentHealth=FMath::Max(0.0f,CurrentHealth-FinalDamage);
-
-    if(UWorld* World=GetWorld())
-    {
-        const FHonourWarClassStyle Style=HonourWarClassStyle(SourceClass);
-        if(AHonourWarCombatEffect* Effect=World->SpawnActor<AHonourWarCombatEffect>(
-            AHonourWarCombatEffect::StaticClass(),GetActorLocation()+FVector(0,0,130),FRotator::ZeroRotator))
-        {
-            Effect->Initialize(Style.Accent,FMath::Clamp(FinalDamage/80.0f,0.8f,2.2f),FinalDamage>=85.0f);
-        }
-        if(AHonourWarDamagePopup* Popup=World->SpawnActor<AHonourWarDamagePopup>(
-            AHonourWarDamagePopup::StaticClass(),GetActorLocation()+FVector(0,0,230),FRotator(0,180,0)))
-        {
-            Popup->Initialize(FinalDamage,Style.Accent,FinalDamage>=85.0f);
-        }
-    }
+    PlayCombatReaction(true,bCritical,false,FinalDamage,SourceClass);
 
     if (CurrentHealth<=0.0f)
     {
