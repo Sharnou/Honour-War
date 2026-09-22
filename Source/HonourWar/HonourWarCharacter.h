@@ -36,6 +36,7 @@ public:
     void LoadProgress();
     void HandleDeathAndRespawn();
     void ReceiveMonsterDamage(float Damage,int32 AttackerLevel=1);
+    void PlayIncomingAttackReaction(bool bCritical);
     void HandleMonsterDefeat(int32 MonsterLevel);
     UFUNCTION(BlueprintCallable) UHonourWarQuestComponent* GetQuestComponent() const { return QuestComponent; }
     void RefineEquipment();
@@ -80,4 +81,7 @@ private:
     UPROPERTY() bool bMouseMoveActive = false;
     UPROPERTY() int64 OnlineSeconds = 0;
     float AutoSaveAccumulator = 0.0f;
+    float HitStutterTimer = 0.0f;
+    float HitVisualTimer = 0.0f;
+    FRotator HitVisualBaseRotation = FRotator::ZeroRotator;
 };
