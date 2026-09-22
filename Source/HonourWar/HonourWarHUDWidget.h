@@ -28,9 +28,12 @@ private:
     void BuildMiniMap(UCanvasPanel* Root);
     void BuildQuestTracker(UCanvasPanel* Root);
     void BuildChatDock(UCanvasPanel* Root);
+    void BuildAuthenticationPanel(UCanvasPanel* Root);
 
     void RefreshVitals();
     UFUNCTION() void SubmitChat();
+    UFUNCTION() void SubmitRegister();
+    UFUNCTION() void SubmitLogin();
 
     UPROPERTY() UCanvasPanel* RootCanvas = nullptr;
     UPROPERTY() UProgressBar* HpBar = nullptr;
@@ -45,4 +48,10 @@ private:
     UPROPERTY() UTextBlock* RefinementText = nullptr;
     UPROPERTY() UTextBlock* QuestText = nullptr;
     UPROPERTY() UTextBlock* CombatText = nullptr;
+    UPROPERTY() UBorder* AuthPanel = nullptr;
+    UPROPERTY() UEditableTextBox* AuthUsername = nullptr;
+    UPROPERTY() UEditableTextBox* AuthPassword = nullptr;
+    UPROPERTY() UTextBlock* AuthStatus = nullptr;
+    UPROPERTY() UButton* AuthRegisterButton = nullptr;
+    UPROPERTY() UButton* AuthLoginButton = nullptr;
 };
