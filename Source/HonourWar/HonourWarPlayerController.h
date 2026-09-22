@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "HonourWarAccountSaveGame.h"
 #include "HonourWarPlayerController.generated.h"
 
 UCLASS()
