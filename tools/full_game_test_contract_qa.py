@@ -18,6 +18,8 @@ required = [
     "Build/Capture-HonourWar.ps1",
     "Source/HonourWar/HonourWarGameMode.cpp",
     "Source/HonourWar/HonourWarPlayerController.cpp",
+    "Source/HonourWar/HonourWarAccountSaveGame.h",
+    "Source/HonourWar/HonourWarHUDWidget.cpp",
     "Source/HonourWar/HonourWarCharacter.cpp",
     "Source/HonourWar/HonourWarWorldDirector.cpp",
     "Source/HonourWar/HonourWarScreenshotDirector.cpp",
@@ -43,6 +45,10 @@ checks = {
     "load/resume": "LoadProgress" in character,
     "real capture flag": "-HonourWarCapture" in capture,
     "1920x1080 capture": "ResX=1920" in capture and "ResY=1080" in capture,
+    "registration": "RegisterAccount" in controller and "@register" in controller,
+    "login": "LoginAccount" in controller and "@login" in controller,
+    "persistent account slot": "HonourWarAccount" in controller and "SaveGameToSlot" in controller,
+    "capture account authentication": "AuthenticateCaptureAccount" in controller and "HonourWarCapture" in controller,
 }
 
 for name, ok in checks.items():
