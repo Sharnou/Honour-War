@@ -15,6 +15,7 @@ public:
     AHonourWarDamagePopup();
     virtual void Tick(float DeltaSeconds) override;
     void Initialize(float Damage,const FLinearColor& Color,bool bCritical);
+    void InitializeReaction(const FString& Reaction,const FLinearColor& Color,float WorldSize,float InLife);
 
 protected:
     virtual void BeginPlay() override;
