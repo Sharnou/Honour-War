@@ -36,6 +36,9 @@ character = (ROOT / "Source/HonourWar/HonourWarCharacter.cpp").read_text(encodin
 account_save = (ROOT / "Source/HonourWar/HonourWarAccountSaveGame.h").read_text(encoding="utf-8")
 input_config = (ROOT / "Config/DefaultInput.ini").read_text(encoding="utf-8")
 capture = (ROOT / "Build/Capture-HonourWar.ps1").read_text(encoding="utf-8")
+combat = (ROOT / "Source/HonourWar/HonourWarCombatComponent.cpp").read_text(encoding="utf-8")
+monster = (ROOT / "Source/HonourWar/HonourWarMonster.cpp").read_text(encoding="utf-8")
+character_reaction = (ROOT / "Source/HonourWar/HonourWarCharacter.cpp").read_text(encoding="utf-8")
 
 checks = {
     "@go coordinate command": re.search(r'Compare\(TEXT\("@go"\)', controller) and "FVector(X\*10.0f,Y\*10.0f" in controller,
@@ -57,6 +60,11 @@ checks = {
     "login": "LoginAccount" in controller and "@login" in controller,
     "persistent account slot": "HonourWarAccount" in controller and "SaveGameToSlot" in controller,
     "capture account authentication": "AuthenticateCaptureAccount" in controller and "HonourWarCapture" in controller,
+    "attack reaction stats": all(x in combat for x in ["GetHitRating", "GetFleeRating", "GetCriticalRate", "GetLuck"]),
+    "normal hit reaction branch": all(x in combat for x in ["Target->GetFleeRating()", "Target->GetLuck()", "Target->GetCritResistance()", "bCritical"]),
+    "miss and lucky feedback": "InitializeReaction(TEXT(\"MISS\")" in combat and "InitializeReaction(TEXT(\"Lucky!\")" in combat,
+    "monster flinch": "FlinchTimer=bCritical?0.16f:0.25f" in monster and "ReceiveCombatHit(float Damage,EHonourWarClass SourceClass,bool bCritical)" in monster,
+    "player hit stutter": "HitStutterTimer=0.25f" in character_reaction and "PlayIncomingAttackReaction(bool bCritical)" in character_reaction,
 }
 
 for name, ok in checks.items():
