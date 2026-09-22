@@ -2,7 +2,13 @@ name: CHATGPT New Issue Annotations
 
 on:
   issues:
-    types: [opened]
+    types: [opened, reopened]
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: "Existing issue number to annotate"
+        required: true
+        type: number
 
 permissions:
   contents: read
@@ -13,7 +19,7 @@ env:
 
 jobs:
   annotate-new-issue:
-    if: github.event.issue.repository.full_name == github.repository
+    if: github.event_name == 'workflow_dispatch' || github.event.issue.repository.full_name == github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -26,18 +32,39 @@ jobs:
           script: |
             const owner = context.repo.owner;
             const repo = context.repo.repo;
-            const issue = context.payload.issue;
             const channelNumber = Number(process.env.ANNOTATION_ISSUE_NUMBER);
 
-            if (issue.number === channelNumber) {
+            let issueNumber;
+            if (context.eventName === 'workflow_dispatch') {
+              issueNumber = Number(context.payload.inputs?.issue_number);
+            } else {
+              issueNumber = context.payload.issue?.number;
+            }
+
+            if (!Number.isInteger(issueNumber) || issueNumber < 1) {
+              core.setFailed('A valid issue number is required.');
+              return;
+            }
+
+            if (issueNumber === channelNumber) {
               core.info(`Skipping annotation channel issue #${channelNumber} itself.`);
               return;
             }
 
+            const issueResponse = await github.rest.issues.get({
+              owner,
+              repo,
+              issue_number: issueNumber
+            });
+            const issue = issueResponse.data;
+
             const actor = issue.user?.login ?? 'unknown';
-            const labels = (issue.labels || []).map(label => typeof label === 'string' ? label : label.name).filter(Boolean);
+            const labels = (issue.labels || [])
+              .map(label => typeof label === 'string' ? label : label.name)
+              .filter(Boolean);
             const body = String(issue.body ?? '').replace(/\r/g, '');
-            const compact = (text, max = 2000) => text.length <= max ? text : text.slice(0, max) + '\n[TRUNCATED]';
+            const compact = (text, max = 2000) =>
+              text.length <= max ? text : text.slice(0, max) + '\n[TRUNCATED]';
 
             const annotation = [
               '## CHATGPT ANNOTATION — HONOUR WAR NEW ISSUE',
@@ -54,16 +81,10 @@ jobs:
               '',
               '### ChatGPT handling rule',
               '',
-              'Treat this annotation as a one-time project notification for the newly opened issue. Inspect the current repository state and related workflows before changing code; keep the issue history auditable and repair root causes rather than bypassing validation.',
+              'Treat this annotation as a one-time project notification for the newly opened or manually selected issue. Inspect the current repository state and related workflows before changing code; keep the issue history auditable and repair root causes rather than bypassing validation.',
               '',
               `<!-- CHATGPT_NEW_ISSUE_ID:${issue.id} -->`
             ].join('\n');
-
-            const channel = await github.rest.issues.get({
-              owner,
-              repo,
-              issue_number: channelNumber
-            });
 
             const comments = await github.paginate(
               github.rest.issues.listComments,
@@ -77,7 +98,7 @@ jobs:
 
             const marker = `<!-- CHATGPT_NEW_ISSUE_ID:${issue.id} -->`;
             if (comments.some(comment => comment.body && comment.body.includes(marker))) {
-              core.info(`Issue #${issue.number} is already annotated in ${channel.data.html_url}.`);
+              core.info(`Issue #${issue.number} is already annotated in issue #${channelNumber}.`);
               return;
             }
 
