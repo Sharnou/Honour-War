@@ -21,10 +21,22 @@ void AHonourWarDamagePopup::BeginPlay(){Super::BeginPlay();}
 void AHonourWarDamagePopup::Initialize(float Damage,const FLinearColor& Color,bool bCritical)
 {
     const int32 Value=FMath::Max(1,FMath::RoundToInt(Damage));
-    Text->SetText(FText::FromString(bCritical?FString::Printf(TEXT("CRIT %d"),Value):FString::FromInt(Value)));
+    Text->SetText(FText::FromString(FString::FromInt(Value)));
     Text->SetTextRenderColor(Color.ToFColor(true));
     Text->SetWorldSize(bCritical?42.0f:34.0f);
-    SetLifeSpan(bCritical?1.0f:Life);
+    Life=bCritical?1.0f:0.80f;
+    Age=0.0f;
+    SetLifeSpan(Life);
+}
+
+void AHonourWarDamagePopup::InitializeReaction(const FString& Reaction,const FLinearColor& Color,float WorldSize,float InLife)
+{
+    Text->SetText(FText::FromString(Reaction));
+    Text->SetTextRenderColor(Color.ToFColor(true));
+    Text->SetWorldSize(WorldSize);
+    Life=FMath::Max(0.20f,InLife);
+    Age=0.0f;
+    SetLifeSpan(Life);
 }
 void AHonourWarDamagePopup::Tick(float DeltaSeconds)
 {
@@ -32,5 +44,5 @@ void AHonourWarDamagePopup::Tick(float DeltaSeconds)
     Age+=DeltaSeconds;
     AddActorWorldOffset(FVector(0,0,85.0f*DeltaSeconds));
     const float T=FMath::Clamp(Age/Life,0.0f,1.0f);
-    Text->SetWorldSize(FMath::Lerp(34.0f,28.0f,T));
+    Text->SetWorldSize(FMath::Max(20.0f,Text->GetWorldSize()*(1.0f-0.12f*T)));
 }
