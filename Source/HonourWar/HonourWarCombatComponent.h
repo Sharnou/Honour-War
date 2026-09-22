@@ -20,6 +20,7 @@ public:
 
     bool UseSkill(int32 SkillIndex);
     void ReceiveDamage(float Damage);
+    void ReceiveMonsterAttack(float Damage,int32 AttackerLevel);
     void RestoreVitals();
 
     float GetHealthPercent() const { return MaxHealth > 0.0f ? CurrentHealth / MaxHealth : 0.0f; }
@@ -44,6 +45,10 @@ public:
     const TArray<FString>& GetInventoryItems() const { return InventoryItems; }
     const TArray<FString>& GetCards() const { return Cards; }
     float GetEngagementRange() const { return SkillRangeForClass(); }
+    int32 GetHitRating() const;
+    int32 GetFleeRating() const;
+    int32 GetCriticalRate() const;
+    int32 GetLuck() const;
 
     void SetClassId(EHonourWarClass NewClass);
     void SetLevel(int32 NewLevel);
