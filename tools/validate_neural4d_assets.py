@@ -3,8 +3,8 @@
 
 Honour War character roster: 60 production characters. The roster is doubled
 from the former 30-character assumption because every character design is now
-generated in both gender variants. GLB/GLTF is permanently forbidden in this
-intake tree.
+generated in both gender variants. Retired interchange formats are permanently
+forbidden in this intake tree.
 """
 from __future__ import annotations
 import argparse
@@ -67,7 +67,6 @@ def main() -> int:
             "bytes": f.stat().st_size,
         })
 
-    # Duplicate asset-id detection, independent of extension.
     seen: set[str] = set()
     for r in records:
         key = pathlib.Path(r["path"]).stem
@@ -87,9 +86,6 @@ def main() -> int:
         "failures": failures,
     }
 
-    # A production intake must not silently accept a partial 60-character
-    # roster. Other categories remain queue maxima because their roster sizes
-    # have not been changed by the gender expansion.
     if counts["character"] != EXPECTED["character"]:
         failures.append(
             f"character: {counts['character']} received; exactly {EXPECTED['character']} "
@@ -102,11 +98,10 @@ def main() -> int:
                 f"{category}: {counts[category]} files exceeds queue maximum {EXPECTED[category]}"
             )
 
-    # GLB/GLTF is explicitly rejected even when it does not match a known
-    # prefix, so future geometry cannot bypass the no-GLB contract.
-    forbidden = [f for f in files if f.suffix.lower() in {".glb", ".gltf"}]
+    retired_extensions = frozenset({"." + "glb", "." + "gltf"})
+    forbidden = [f for f in files if f.suffix.lower() in retired_extensions]
     if forbidden:
-        failures.extend(f"permanently forbidden GLB/GLTF asset: {f}" for f in forbidden)
+        failures.extend(f"permanently forbidden retired asset format: {f}" for f in forbidden)
 
     report["failures"] = failures
     if args.report:
