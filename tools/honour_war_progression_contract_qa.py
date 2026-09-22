@@ -108,6 +108,9 @@ def main() -> int:
         ("AutoSaveAccumulator >= 5.0f", "automatic autosave every few seconds"),
         ("Save->PlayerLocation=GetActorLocation()", "autosave player location"),
         ("SetAgeDays", "online age update"),
+        ("SaveProgress();", "automatic persistence entry point"),
+        ("void AHonourWarCharacter::EndPlay", "automatic persistence on exit"),
+        ("SaveActiveCharacterData", "seamless active-character persistence"),
     ]:
         require(char, needle, label)
 
