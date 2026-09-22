@@ -13,7 +13,12 @@ public:
     AHonourWarPlayerController();
     void SendChatMessage(const FString& Message);
     bool IsAuthenticated() const { return bAuthenticated; }
+    bool IsReadyForGameplay() const { return bAuthenticated && bCharacterSelected; }
     FString GetAccountUsername() const { return AccountUsername; }
+    int32 GetActiveCharacterSlot() const { return ActiveCharacterSlot; }
+    const TArray<struct FHonourWarCharacterSlot>& GetOwnedCharacters() const;
+    bool SelectCharacter(int32 SlotIndex, FString& OutMessage);
+    bool CreateCharacter(const FString& CharacterName, EHonourWarClass ClassId, FString& OutMessage);
     bool RegisterAccount(const FString& Username,const FString& Password,FString& OutMessage);
     bool LoginAccount(const FString& Username,const FString& Password,FString& OutMessage);
 
@@ -57,8 +62,14 @@ private:
     bool LoadAccount(class UHonourWarAccountSaveGame*& OutAccount) const;
     bool SaveAccount(const FString& Username,const FString& PasswordHash,const FDateTime& CreatedAtUtc,FString& OutMessage);
     void AuthenticateCaptureAccount();
+    void EnsureCharacterRoster();
+    bool SaveCharacterRoster();
+    FString CharacterSlotName(int32 SlotIndex) const;
 
     bool bAuthenticated=false;
+    bool bCharacterSelected=false;
+    int32 ActiveCharacterSlot=-1;
+    TArray<struct FHonourWarCharacterSlot> OwnedCharacters;
     bool bRightMouseDown=false;
     bool bHasLastMousePosition=false;
     FString AccountUsername;
