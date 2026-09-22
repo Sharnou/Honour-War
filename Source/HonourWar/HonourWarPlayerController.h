@@ -16,11 +16,12 @@ public:
     bool IsAuthenticated() const { return bAuthenticated; }
     bool IsReadyForGameplay() const { return bAuthenticated && bCharacterSelected; }
     FString GetAccountUsername() const { return AccountUsername; }
-    int32 GetActiveCharacterSlot() const { return ActiveCharacterSlot; }
     const TArray<struct FHonourWarCharacterSlot>& GetOwnedCharacters() const;
     bool SelectCharacter(int32 SlotIndex, FString& OutMessage);
     bool CreateCharacter(const FString& CharacterName, EHonourWarClass ClassId, FString& OutMessage);
     void SyncActiveCharacterSummary(class AHonourWarCharacter* Character);
+    bool SaveActiveCharacterData(const class UHonourWarSaveGame& SaveData);
+    bool LoadActiveCharacterData(class UHonourWarSaveGame& OutSaveData) const;
     bool RegisterAccount(const FString& Username,const FString& Password,FString& OutMessage);
     bool LoginAccount(const FString& Username,const FString& Password,FString& OutMessage);
 
@@ -41,8 +42,6 @@ private:
     void LookUp(float Value);
     void Attack();
     void ResetCamera();
-    void SaveGame();
-    void LoadGame();
     void NextClass();
     void Skill1();
     void Skill2();
@@ -66,7 +65,6 @@ private:
     void AuthenticateCaptureAccount();
     void EnsureCharacterRoster();
     bool SaveCharacterRoster();
-    FString CharacterSlotName(int32 SlotIndex) const;
 
     bool bAuthenticated=false;
     bool bCharacterSelected=false;
