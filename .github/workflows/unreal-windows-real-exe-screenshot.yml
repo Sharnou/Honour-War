@@ -2,15 +2,6 @@ name: Honour War Unreal 5.8 Real EXE Screenshot
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - "HonourWar.uproject"
-      - "Config/**"
-      - "Source/**"
-      - "Content/**"
-      - "Build/**"
-      - ".github/workflows/unreal-windows-real-exe-screenshot.yml"
 
 concurrency:
   group: honour-war-unreal-windows-real-exe-screenshot.yml
