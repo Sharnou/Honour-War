@@ -3,6 +3,7 @@
 #include "HonourWarMonster.h"
 #include "HonourWarLootDatabase.h"
 #include "HonourWarDamagePopup.h"
+#include "HonourWarCombatEffect.h"
 #include "Kismet/GameplayStatics.h"
 
 UHonourWarCombatComponent::UHonourWarCombatComponent()
@@ -180,7 +181,20 @@ void UHonourWarCombatComponent::ReceiveMonsterAttack(float Damage,int32 Attacker
         return;
     }
 
-    ReceiveDamage(Damage);
+    const bool bCritical=FMath::FRandRange(0.0f,100.0f)<FMath::Clamp(4.0f+AttackerLevel/8.0f,1.0f,35.0f);
+    const float FinalDamage=Damage*(bCritical?1.40f:1.0f);
+    ReceiveDamage(FinalDamage);
+    if(AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(GetOwner()))
+        Character->PlayIncomingAttackReaction(bCritical);
+
+    if(UWorld* World=GetWorld())
+    {
+        const FLinearColor Color=bCritical?FLinearColor(1.0f,0.10f,0.05f):FLinearColor(0.95f,0.30f,0.25f);
+        if(AHonourWarCombatEffect* Effect=World->SpawnActor<AHonourWarCombatEffect>(AHonourWarCombatEffect::StaticClass(),GetOwner()->GetActorLocation()+FVector(0,0,150),FRotator::ZeroRotator))
+            Effect->Initialize(Color,FMath::Clamp(FinalDamage/80.0f,0.8f,2.2f),bCritical);
+        if(AHonourWarDamagePopup* Popup=World->SpawnActor<AHonourWarDamagePopup>(AHonourWarDamagePopup::StaticClass(),GetOwner()->GetActorLocation()+FVector(0,0,235),FRotator(0,180,0)))
+            Popup->Initialize(FinalDamage,Color,bCritical);
+    }
 }
 
 void UHonourWarCombatComponent::ReceiveDamage(float Damage)
