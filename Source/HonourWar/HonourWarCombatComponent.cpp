@@ -2,6 +2,7 @@
 #include "HonourWarCharacter.h"
 #include "HonourWarMonster.h"
 #include "HonourWarLootDatabase.h"
+#include "HonourWarDamagePopup.h"
 #include "Kismet/GameplayStatics.h"
 
 UHonourWarCombatComponent::UHonourWarCombatComponent()
@@ -93,11 +94,35 @@ bool UHonourWarCombatComponent::UseSkill(int32 SkillIndex)
     if (!Target) return false;
 
     const float Damage = BaseDamageForClass() * (1.0f + SkillIndex * 0.18f);
+    bool bCritical=false;
+    if(SkillIndex==0)
+    {
+        const bool bLucky=FMath::FRandRange(0.0f,100.0f)<FMath::Clamp(static_cast<float>(Target->GetLuck())*0.35f,1.0f,18.0f);
+        if(bLucky)
+        {
+            if(UWorld* World=GetWorld())
+                if(AHonourWarDamagePopup* Popup=World->SpawnActor<AHonourWarDamagePopup>(AHonourWarDamagePopup::StaticClass(),Target->GetActorLocation()+FVector(0,0,240),FRotator(0,180,0)))
+                    Popup->InitializeReaction(TEXT("Lucky!"),FLinearColor(0.25f,0.65f,1.0f),38.0f,0.72f);
+            return false;
+        }
+        bCritical=FMath::FRandRange(0.0f,100.0f)<FMath::Clamp(static_cast<float>(GetCriticalRate()-Target->GetCritResistance()),1.0f,95.0f);
+        if(!bCritical)
+        {
+            const float HitChance=FMath::Clamp(75.0f+(GetHitRating()-Target->GetFleeRating())*0.50f,5.0f,95.0f);
+            if(FMath::FRandRange(0.0f,100.0f)>HitChance)
+            {
+                if(UWorld* World=GetWorld())
+                    if(AHonourWarDamagePopup* Popup=World->SpawnActor<AHonourWarDamagePopup>(AHonourWarDamagePopup::StaticClass(),Target->GetActorLocation()+FVector(0,0,240),FRotator(0,180,0)))
+                        Popup->InitializeReaction(TEXT("MISS"),FLinearColor(0.80f,0.82f,0.86f),34.0f,0.62f);
+                return false;
+            }
+        }
+    }
     CurrentSp -= ManaCost;
     SkillCooldowns[SkillIndex] = 0.45f + SkillIndex * 0.08f;
     LastTarget = Target;
 
-    Target->ReceiveCombatHit(Damage, CharacterClass);
+    Target->ReceiveCombatHit(Damage, CharacterClass,bCritical);
     if (Target->IsDead())
     {
         if (AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(GetOwner()))
@@ -109,6 +134,53 @@ bool UHonourWarCombatComponent::UseSkill(int32 SkillIndex)
     }
     OnSkillUsed.Broadcast(SkillIndex, Damage);
     return true;
+}
+
+int32 UHonourWarCombatComponent::GetHitRating() const
+{
+    const int32 ClassBonus=(CharacterClass==EHonourWarClass::Archer||CharacterClass==EHonourWarClass::Ranger)?18:(CharacterClass==EHonourWarClass::Thief?10:6);
+    return 70+Level*2+BasicSkillLevel*3+ClassBonus+EquipmentRefineLevel;
+}
+
+int32 UHonourWarCombatComponent::GetFleeRating() const
+{
+    const int32 ClassBonus=CharacterClass==EHonourWarClass::Thief?24:((CharacterClass==EHonourWarClass::Archer||CharacterClass==EHonourWarClass::Ranger)?14:(CharacterClass==EHonourWarClass::Mage?8:4));
+    return 35+Level+AgeDays/20+ClassBonus;
+}
+
+int32 UHonourWarCombatComponent::GetCriticalRate() const
+{
+    const int32 ClassBonus=CharacterClass==EHonourWarClass::Thief?12:((CharacterClass==EHonourWarClass::Archer||CharacterClass==EHonourWarClass::Ranger)?8:4);
+    return FMath::Clamp(4+Level/8+AgeDays/30+ClassBonus+EquipmentRefineLevel/2,1,95);
+}
+
+int32 UHonourWarCombatComponent::GetLuck() const
+{
+    return 8+Level/12+AgeDays/45+BasicSkillLevel/2;
+}
+
+void UHonourWarCombatComponent::ReceiveMonsterAttack(float Damage,int32 AttackerLevel)
+{
+    const float LuckyChance=FMath::Clamp(static_cast<float>(GetLuck())*0.35f,1.0f,18.0f);
+    if(FMath::FRandRange(0.0f,100.0f)<LuckyChance)
+    {
+        if(UWorld* World=GetWorld())
+            if(AHonourWarDamagePopup* Popup=World->SpawnActor<AHonourWarDamagePopup>(AHonourWarDamagePopup::StaticClass(),GetOwner()->GetActorLocation()+FVector(0,0,240),FRotator(0,180,0)))
+                Popup->InitializeReaction(TEXT("Lucky!"),FLinearColor(0.25f,0.65f,1.0f),38.0f,0.72f);
+        return;
+    }
+
+    const int32 AttackerHit=75+AttackerLevel*2;
+    const float HitChance=FMath::Clamp(75.0f+(AttackerHit-GetFleeRating())*0.50f,5.0f,95.0f);
+    if(FMath::FRandRange(0.0f,100.0f)>HitChance)
+    {
+        if(UWorld* World=GetWorld())
+            if(AHonourWarDamagePopup* Popup=World->SpawnActor<AHonourWarDamagePopup>(AHonourWarDamagePopup::StaticClass(),GetOwner()->GetActorLocation()+FVector(0,0,240),FRotator(0,180,0)))
+                Popup->InitializeReaction(TEXT("MISS"),FLinearColor(0.80f,0.82f,0.86f),34.0f,0.62f);
+        return;
+    }
+
+    ReceiveDamage(Damage);
 }
 
 void UHonourWarCombatComponent::ReceiveDamage(float Damage)
