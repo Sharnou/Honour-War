@@ -16,3 +16,18 @@ Honour War is an HD 3D anime-inspired MMORPG/ARPG. The following systems and des
 - GLB and GLTF assets/exporters/runtime intake. Approved runtime interchange remains FBX and OBJ.
 
 This exclusion document is authoritative for future implementation and art generation. A future change that conflicts with it must fail QA instead of silently reintroducing the rejected feature.
+
+
+## Engine and city-building hard exclusion
+
+- Unreal Engine 5.8 is the only supported engine for Honour War.
+- Godot of any version is permanently removed. Godot project files, scenes, scripts, shaders, export presets, generated artifacts, and Godot-specific runtime/generation tooling must not exist or be regenerated.
+- The following city-building options are permanently rejected and must never be generated, restored, or exposed in runtime/UI/data/generators:
+  1. Town Hall
+  2. Blacksmith
+  3. Market
+  4. Barracks
+  5. Magic Tower
+  6. City resources
+  7. City upgrades
+- Permanent exclusion QA must hard-fail if any rejected city feature or Godot artifact returns to an active runtime, data, generator, or project surface.
