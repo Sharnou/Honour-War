@@ -1,4 +1,4 @@
-"""Honour War environment source/GLB builder.
+"""Honour War environment source builder.
 
 Creates repeatable game-ready environment packages for every TeleportSystem map:
 10 towns, 10 dungeons, and 10 fields. Geometry is organized for later sculpting and
