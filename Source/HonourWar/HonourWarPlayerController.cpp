@@ -113,8 +113,6 @@ void AHonourWarPlayerController::SetupInputComponent()
     InputComponent->BindAxis(TEXT("LookUp"),this,&AHonourWarPlayerController::LookUp);
     InputComponent->BindAction(TEXT("Attack"),IE_Pressed,this,&AHonourWarPlayerController::Attack);
     InputComponent->BindAction(TEXT("CameraReset"),IE_Pressed,this,&AHonourWarPlayerController::ResetCamera);
-    InputComponent->BindAction(TEXT("SaveGame"),IE_Pressed,this,&AHonourWarPlayerController::SaveGame);
-    InputComponent->BindAction(TEXT("LoadGame"),IE_Pressed,this,&AHonourWarPlayerController::LoadGame);
     InputComponent->BindAction(TEXT("NextClass"),IE_Pressed,this,&AHonourWarPlayerController::NextClass);
     InputComponent->BindAction(TEXT("Skill1"),IE_Pressed,this,&AHonourWarPlayerController::Skill1);
     InputComponent->BindAction(TEXT("Skill2"),IE_Pressed,this,&AHonourWarPlayerController::Skill2);
@@ -135,8 +133,6 @@ void AHonourWarPlayerController::Turn(float V){if(IsReadyForGameplay())if(auto*C
 void AHonourWarPlayerController::LookUp(float V){if(IsReadyForGameplay())if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->CameraLookUp(V);}
 void AHonourWarPlayerController::Attack(){if(IsReadyForGameplay())if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->Attack();}
 void AHonourWarPlayerController::ResetCamera(){if(IsReadyForGameplay())SetControlRotation(FRotator(-50.0f,45.0f,0.0f));}
-void AHonourWarPlayerController::SaveGame(){if(IsReadyForGameplay())if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->SaveProgress();}
-void AHonourWarPlayerController::LoadGame(){if(IsReadyForGameplay())if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->LoadProgress();}
 void AHonourWarPlayerController::NextClass(){if(IsReadyForGameplay())if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->CycleClass();}
 void AHonourWarPlayerController::Skill1(){if(IsReadyForGameplay())if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->ActivateSkill(0);}
 void AHonourWarPlayerController::Skill2(){if(IsReadyForGameplay())if(auto*C=Cast<AHonourWarCharacter>(GetPawn()))C->ActivateSkill(1);}
@@ -248,11 +244,6 @@ void AHonourWarPlayerController::AuthenticateCaptureAccount()
 const TArray<FHonourWarCharacterSlot>& AHonourWarPlayerController::GetOwnedCharacters() const
 {
     return OwnedCharacters;
-}
-
-FString AHonourWarPlayerController::CharacterSlotName(int32 SlotIndex) const
-{
-    return FString::Printf(TEXT("HonourWar_Profile_%d"),FMath::Clamp(SlotIndex,0,3));
 }
 
 void AHonourWarPlayerController::EnsureCharacterRoster()
