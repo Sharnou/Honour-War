@@ -21,6 +21,10 @@ jobs:
         shell: pwsh
         run: python tools/rejected_systems_qa.py
 
+      - name: Validate full-game runtime readiness contract
+        shell: pwsh
+        run: python tools/full_game_test_contract_qa.py
+
       - name: Validate repository contract
         shell: pwsh
         run: |
