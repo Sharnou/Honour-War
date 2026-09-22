@@ -79,7 +79,7 @@ def create_export_metadata():
     scene = bpy.context.scene
     scene["HW_pipeline"] = "Blender/Neural4D -> Substance 3D Painter -> FBX/OBJ -> Unreal Engine 5.8"
     scene["HW_asset_status"] = "SCAFFOLD_ONLY"
-    scene["HW_target_renderer"] = "Godot 4 Forward+"
+    scene["HW_target_renderer"] = "Unreal Engine 5.8"
     scene["HW_texture_policy"] = "PBR: BaseColor / Normal / Roughness / Metallic / AO"
     scene["HW_units"] = "meters"
     scene["HW_export_rule"] = "Only export approved authored assets; scaffold guides are not final art."
