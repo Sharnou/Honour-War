@@ -79,7 +79,7 @@ def check_city_monster_exclusion() -> None:
     if not world.is_file(): fail("HonourWarWorldDirector.cpp is missing")
     text=world.read_text(encoding="utf-8")
     if "FVector2D(Slot.Location.X,Slot.Location.Y).Size()<7800.0f" not in text: fail("permanent city monster exclusion radius is missing")
-    match=re.search(r"const FVector MonsterLocations\[\]=\{(.*?)\};",text,re.S)
+    match=re.search(r"const FVector MonsterLocations\[\]\s*=\s*\{(.*?)\};",text,re.S)
     if not match: fail("monster location array is missing")
     for xyz in re.findall(r"FVector\(([-+]?\d+(?:\.\d+)?),([-+]?\d+(?:\.\d+)?),",match.group(1)):
         x,y=map(float,xyz)
