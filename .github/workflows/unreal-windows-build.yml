@@ -32,8 +32,22 @@ jobs:
         env:
           UNREAL_ENGINE_ROOT: C:\Program Files\Epic Games\UE_5.8
         run: powershell -ExecutionPolicy Bypass -File Build/Build-HonourWar.ps1 -Package
+      - name: Create Windows 10 distribution ZIP
+        shell: pwsh
+        run: |
+          $zip = "Build/HonourWar-Windows10.zip"
+          if (Test-Path $zip) { Remove-Item $zip -Force }
+          Compress-Archive -Path "Build/Windows/HonourWar/*" -DestinationPath $zip -CompressionLevel Optimal
+          if (!(Test-Path $zip)) { throw "Windows 10 ZIP was not created." }
+          Write-Host "WINDOWS10_ZIP_PASS: $zip"
       - name: Upload packaged build
         uses: actions/upload-artifact@v4
         with:
           name: honour-war-unreal-5-8-windows
           path: Build/Windows/HonourWar/
+      - name: Upload Windows 10 ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: honour-war-windows-10-zip
+          path: Build/HonourWar-Windows10.zip
+          if-no-files-found: error
