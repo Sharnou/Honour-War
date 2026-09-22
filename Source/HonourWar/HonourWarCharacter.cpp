@@ -287,9 +287,9 @@ void AHonourWarCharacter::ActivateSkill(int32 SkillIndex)
     }
 }
 
-void AHonourWarCharacter::ReceiveMonsterDamage(float Damage)
+void AHonourWarCharacter::ReceiveMonsterDamage(float Damage,int32 AttackerLevel)
 {
-    if(CombatComponent) CombatComponent->ReceiveDamage(Damage);
+    if(CombatComponent) CombatComponent->ReceiveMonsterAttack(Damage,AttackerLevel);
 }
 
 void AHonourWarCharacter::RefineEquipment()
