@@ -5,8 +5,7 @@ Production rule:
 Blender/Neural4D -> Substance 3D Painter -> FBX/OBJ -> Unreal Engine 5.8
 
 This script is a repeatable starting point for production asset generation.
-It intentionally creates a clean game-ready source scene rather than making
-Godot responsible for modeling. Artists can replace the generated geometry
+It intentionally creates a clean game-ready source scene for Unreal runtime integration. Artists can replace the generated geometry
 with sculpted/high-poly meshes and keep the same object names, material slots,
 armature and export contract.
 
