@@ -12,6 +12,10 @@ class HONOURWAR_API AHonourWarPlayerController : public APlayerController
 public:
     AHonourWarPlayerController();
     void SendChatMessage(const FString& Message);
+    bool IsAuthenticated() const { return bAuthenticated; }
+    FString GetAccountUsername() const { return AccountUsername; }
+    bool RegisterAccount(const FString& Username,const FString& Password,FString& OutMessage);
+    bool LoginAccount(const FString& Username,const FString& Password,FString& OutMessage);
 
 protected:
     virtual void BeginPlay() override;
@@ -48,7 +52,15 @@ private:
     void HandleMouseWheel(float Delta);
     void RotateCameraFromMouse();
     bool ExecuteGoCommand(const FString& Command);
+    bool ValidateAccountInput(const FString& Username,const FString& Password,FString& OutMessage) const;
+    FString HashPassword(const FString& Password) const;
+    bool LoadAccount(class UHonourWarAccountSaveGame*& OutAccount) const;
+    bool SaveAccount(const FString& Username,const FString& PasswordHash,const FDateTime& CreatedAtUtc,FString& OutMessage);
+    void AuthenticateCaptureAccount();
+
+    bool bAuthenticated=false;
     bool bRightMouseDown=false;
     bool bHasLastMousePosition=false;
+    FString AccountUsername;
     FVector2D LastMousePosition=FVector2D::ZeroVector;
 };
