@@ -496,6 +496,7 @@ void AHonourWarCharacter::SaveProgress()
     if(AHonourWarPlayerController* PC=Cast<AHonourWarPlayerController>(GetController()))
         SaveSlot=FString::Printf(TEXT("HonourWar_Profile_%d"),PC->GetActiveCharacterSlot()>=0?PC->GetActiveCharacterSlot():0);
     UGameplayStatics::SaveGameToSlot(Save,*SaveSlot,0);
+    if(AHonourWarPlayerController* PC=Cast<AHonourWarPlayerController>(GetController())) PC->SyncActiveCharacterSummary(this);
     LastCombatMessage=TEXT("Progress saved");
 }
 
