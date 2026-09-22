@@ -20,6 +20,7 @@ public:
     const TArray<struct FHonourWarCharacterSlot>& GetOwnedCharacters() const;
     bool SelectCharacter(int32 SlotIndex, FString& OutMessage);
     bool CreateCharacter(const FString& CharacterName, EHonourWarClass ClassId, FString& OutMessage);
+    void SyncActiveCharacterSummary(class AHonourWarCharacter* Character);
     bool RegisterAccount(const FString& Username,const FString& Password,FString& OutMessage);
     bool LoginAccount(const FString& Username,const FString& Password,FString& OutMessage);
 
