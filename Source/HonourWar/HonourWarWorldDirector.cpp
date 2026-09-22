@@ -104,5 +104,56 @@ void AHonourWarWorldDirector::BuildFence(const FVector& C,float Yaw,float Length
 void AHonourWarWorldDirector::BuildRock(const FVector& C,float Scale){AddPart(CubeMesh,TEXT("Rock"),C+FVector(0,0,90*Scale),FVector(1.2f*Scale,1.0f*Scale,0.9f*Scale),FRotator(0,17,0),FLinearColor(0.28f,0.29f,0.27f));}
 void AHonourWarWorldDirector::BuildDungeonGate(const FVector& C){AddPart(CubeMesh,TEXT("DungeonPillarL"),C+FVector(-920,0,500),FVector(2,5,5.5f),FRotator::ZeroRotator,FLinearColor(0.22f,0.23f,0.23f),true);AddPart(CubeMesh,TEXT("DungeonPillarR"),C+FVector(920,0,500),FVector(2,5,5.5f),FRotator::ZeroRotator,FLinearColor(0.22f,0.23f,0.23f),true);AddPart(CubeMesh,TEXT("DungeonLintel"),C+FVector(0,0,1060),FVector(20,5.2f,2),FRotator::ZeroRotator,FLinearColor(0.22f,0.23f,0.23f),true);AddPart(CubeMesh,TEXT("DungeonDoor"),C+FVector(0,-160,500),FVector(7,0.6f,5),FRotator::ZeroRotator,FLinearColor(0.10f,0.075f,0.055f));}
 void AHonourWarWorldDirector::BuildRiverBridge(const FVector& C){AddPart(CubeMesh,TEXT("RiverWater"),C+FVector(0,0,8),FVector(5.5f,72,0.08f),FRotator::ZeroRotator,FLinearColor(0.12f,0.36f,0.62f));AddPart(CubeMesh,TEXT("BridgeDeck"),C+FVector(0,0,42),FVector(7,28,0.38f),FRotator::ZeroRotator,FLinearColor(0.30f,0.17f,0.075f),true);}
-void AHonourWarWorldDirector::SpawnMonsters(){MonsterSlots.Reset();const FVector MonsterLocations[]={FVector(9200,9200,120),FVector(-9200,9200,120),FVector(9200,-9200,120),FVector(-9200,-9200,120),FVector(12000,0,120),FVector(-12000,0,120)};for(int32 I=0;I<UE_ARRAY_COUNT(MonsterLocations);++I){FMonsterSlot& Slot=MonsterSlots.AddDefaulted_GetRef();Slot.Location=MonsterLocations[I];if(FVector2D(Slot.Location.X,Slot.Location.Y).Size()<7800.0f){MonsterSlots.RemoveAt(MonsterSlots.Num()-1);continue;}Slot.Level=FMath::Clamp(20+I*20,1,300);Slot.Species=EHonourWarMonsterSpecies::Goblin;Slot.RespawnTimer=0.0f;}}
+void AHonourWarWorldDirector::SpawnMonsters()
+{
+    MonsterSlots.Reset();
+
+    const int32 MonsterLevels[] = {20,40,60,90,120,160,220,300};
+    const EHonourWarMonsterSpecies MonsterSpecies[] = {
+        EHonourWarMonsterSpecies::Poring,
+        EHonourWarMonsterSpecies::Goblin,
+        EHonourWarMonsterSpecies::Wolf,
+        EHonourWarMonsterSpecies::Skeleton,
+        EHonourWarMonsterSpecies::Orc,
+        EHonourWarMonsterSpecies::Mantis,
+        EHonourWarMonsterSpecies::Golem,
+        EHonourWarMonsterSpecies::Dragon
+    };
+    const FVector MonsterLocations[] = {
+        FVector(9200,9200,120), FVector(-9200,9200,120),
+        FVector(9200,-9200,120), FVector(-9200,-9200,120),
+        FVector(12000,0,120), FVector(-12000,0,120),
+        FVector(0,12500,120), FVector(0,-12500,120)
+    };
+
+    for(int32 I=0; I<UE_ARRAY_COUNT(MonsterLocations); ++I)
+    {
+        FMonsterSlot& Slot=MonsterSlots.AddDefaulted_GetRef();
+        Slot.Location=MonsterLocations[I];
+        if(FVector2D(Slot.Location.X,Slot.Location.Y).Size()<7800.0f)
+        {
+            MonsterSlots.RemoveAt(MonsterSlots.Num()-1);
+            continue;
+        }
+
+        Slot.Level=FMath::Clamp(MonsterLevels[I],1,300);
+        Slot.Species=MonsterSpecies[I];
+        Slot.RespawnTimer=0.0f;
+
+        if(UWorld* World=GetWorld())
+        {
+            FActorSpawnParameters Params;
+            Params.Owner=this;
+            Params.SpawnCollisionHandlingOverride=ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+            AHonourWarMonster* Monster=World->SpawnActor<AHonourWarMonster>(
+                AHonourWarMonster::StaticClass(),Slot.Location,FRotator::ZeroRotator,Params);
+            if(Monster)
+            {
+                Monster->SetLevel(Slot.Level);
+                Monster->SetSpecies(Slot.Species);
+                Slot.Active=Monster;
+            }
+        }
+    }
+}
 void AHonourWarWorldDirector::SpawnMonsterSlot(int32 SlotIndex){if(MonsterSlots.IsValidIndex(SlotIndex))MonsterSlots[SlotIndex].RespawnTimer=0.0f;}
