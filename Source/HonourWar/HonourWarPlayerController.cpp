@@ -289,6 +289,18 @@ bool AHonourWarPlayerController::SelectCharacter(int32 SlotIndex,FString& OutMes
     return true;
 }
 
+void AHonourWarPlayerController::SyncActiveCharacterSummary(AHonourWarCharacter* Character)
+{
+    if(!Character || ActiveCharacterSlot<0 || ActiveCharacterSlot>=OwnedCharacters.Num()) return;
+    if(!Character->GetCombatComponent()) return;
+    OwnedCharacters[ActiveCharacterSlot].bOwned=true;
+    if(OwnedCharacters[ActiveCharacterSlot].CharacterName.IsEmpty()) OwnedCharacters[ActiveCharacterSlot].CharacterName=AccountUsername;
+    OwnedCharacters[ActiveCharacterSlot].ClassId=Character->GetClassId();
+    OwnedCharacters[ActiveCharacterSlot].Level=Character->GetCombatComponent()->GetLevel();
+    OwnedCharacters[ActiveCharacterSlot].EquipmentRefineLevel=Character->GetCombatComponent()->GetEquipmentRefineLevel();
+    SaveCharacterRoster();
+}
+
 bool AHonourWarPlayerController::CreateCharacter(const FString& CharacterName,EHonourWarClass ClassId,FString& OutMessage)
 {
     if(!bAuthenticated){OutMessage=TEXT("Login required before creating a character.");return false;}
