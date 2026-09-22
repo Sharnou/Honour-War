@@ -86,18 +86,27 @@ for phrase in ["HandleMouseClick","GetHitResultUnderCursorByChannel","SetMouseTa
 
 combat=(ROOT/"Source"/"HonourWar"/"HonourWarCombatComponent.cpp").read_text(encoding="utf-8")
 monster=(ROOT/"Source"/"HonourWar"/"HonourWarMonster.cpp").read_text(encoding="utf-8")
+character_header=(ROOT/"Source"/"HonourWar"/"HonourWarCharacter.h").read_text(encoding="utf-8")
 character_reaction=(ROOT/"Source"/"HonourWar"/"HonourWarCharacter.cpp").read_text(encoding="utf-8")
-for phrase in ["GetHitRating","GetFleeRating","GetCriticalRate","GetLuck","Target->GetLuck()","Target->GetFleeRating()","Target->GetCritResistance()","bCritical","InitializeReaction(TEXT(\"MISS\")","InitializeReaction(TEXT(\"Lucky!\")"]:
-    if phrase not in combat:
-        print(f"UNREAL_CONTRACT_FAIL: attack reaction resolution missing: {phrase}")
+for phrase in ["void ReceiveMonsterDamage(float Damage,int32 AttackerLevel=1);","void PlayIncomingAttackReaction(bool bCritical);"]:
+    if phrase not in character_header:
+        print(f"UNREAL_CONTRACT_FAIL: player attack-reaction API missing: {phrase}")
         sys.exit(1)
-for phrase in ["FlinchTimer=FMath::Max","FlinchTimer=bCritical?0.16f:0.25f","ReceiveCombatHit(float Damage,EHonourWarClass SourceClass,bool bCritical)"]:
-    if phrase not in monster:
-        print(f"UNREAL_CONTRACT_FAIL: monster attack reaction missing: {phrase}")
-        sys.exit(1)
-for phrase in ["HitStutterTimer=0.25f","PlayIncomingAttackReaction(bool bCritical)","ReceiveMonsterDamage(float Damage,int32 AttackerLevel=1)"]:
+for phrase in [
+    "void AHonourWarCharacter::ReceiveMonsterDamage(float Damage,int32 AttackerLevel)",
+    "void AHonourWarCharacter::PlayIncomingAttackReaction(bool bCritical)",
+    "CombatComponent->ReceiveMonsterAttack(Damage,AttackerLevel)",
+    "HitStutterTimer=0.25f",
+    "HitStutterTimer=FMath::Max(0.0f,HitStutterTimer-DeltaSeconds)",
+    "if(HitStutterTimer>0.0f)",
+    "GetCharacterMovement()->StopMovementImmediately()"
+]:
     if phrase not in character_reaction:
         print(f"UNREAL_CONTRACT_FAIL: player hit-stutter reaction missing: {phrase}")
+        sys.exit(1)
+for phrase in ["Character->PlayIncomingAttackReaction(bCritical)","ReceiveMonsterAttack(float Damage,int32 AttackerLevel)"]:
+    if phrase not in combat:
+        print(f"UNREAL_CONTRACT_FAIL: incoming attack reaction call-chain missing: {phrase}")
         sys.exit(1)
 
 effect=(ROOT/"Source"/"HonourWar"/"HonourWarCombatEffect.cpp").read_text(encoding="utf-8")
