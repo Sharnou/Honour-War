@@ -35,7 +35,7 @@ public:
     void SaveProgress();
     void LoadProgress();
     void HandleDeathAndRespawn();
-    void ReceiveMonsterDamage(float Damage);
+    void ReceiveMonsterDamage(float Damage,int32 AttackerLevel=1);
     void HandleMonsterDefeat(int32 MonsterLevel);
     UFUNCTION(BlueprintCallable) UHonourWarQuestComponent* GetQuestComponent() const { return QuestComponent; }
     void RefineEquipment();
