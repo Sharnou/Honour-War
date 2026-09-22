@@ -13,9 +13,11 @@ FILES = [
     ROOT / "tools/blender/run_visual_max_assets.py",
 ]
 
+# Build retired exporter markers at runtime so this validator's detection
+# vocabulary cannot itself be mistaken for an active exporter invocation.
 FORBIDDEN = (
-    "bpy.ops.export_scene.gltf",
-    "bpy.ops.wm.gltf_export",
+    "bpy.ops.export_scene." + "gltf",
+    "bpy.ops.wm." + "gltf_export",
 )
 
 errors = []
