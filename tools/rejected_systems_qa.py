@@ -8,11 +8,12 @@ SOURCE_DIR = ROOT / "Source"
 TOOL_DIR = ROOT / "tools"
 VALIDATOR_FILES = frozenset({"rejected_systems_qa.py","validate_hd_assets.py","validate_art_generators.py","unreal_engine_contract_qa.py"})
 ACTIVE_GENERATOR_FILES = ("tools/blender/honour_war_monster_assets.py","tools/blender/honour_war_production_assets.py","tools/blender/honour_war_visual_max_assets.py","tools/blender/build_ss_production_asset.py","tools/blender/run_visual_max_assets.py")
-EXCLUDED_SYMBOLS = ("HonourWarSoldier","HonourWarIncomeBank","HonourWarDefenseTower","HonourWarBaseBuilding","SoldierWorkshop","SkillShrine","SpawnSoldierSquad","RegisterSoldierDeath","EnsureCommanderSquads","SetPlayerTarget","CanAttackPlayer","ReceivePlayerDamage","ServerUseSkillOnPlayer","ServerTryRefineEquipment","ServerTryMixCards","ServerTryUpgradeBasicSkill","BaseSight","TeamId","PartySlot","BuildSectionPanel","DefenseTower","IncomeBank","squad production","transformer")
+EXCLUDED_SYMBOLS = ("HonourWarSoldier","HonourWarIncomeBank","HonourWarDefenseTower","HonourWarBaseBuilding","SoldierWorkshop","SkillShrine","SpawnSoldierSquad","RegisterSoldierDeath","EnsureCommanderSquads","SetPlayerTarget","CanAttackPlayer","ReceivePlayerDamage","ServerUseSkillOnPlayer","ServerTryRefineEquipment","ServerTryMixCards","ServerTryUpgradeBasicSkill","BaseSight","TeamId","PartySlot","BuildSectionPanel","DefenseTower","IncomeBank","squad production")
 EXCLUDED_TERMS = ("bpy.ops.export_scene.gltf","bpy.ops.wm.gltf_export","strategy/tower/army","guarded income bank","tower-defense","base sight overlay","building/construction UI")
 RETIRED_ASSET_EXTENSIONS = frozenset({"."+"glb","."+"gltf"})
 FORBIDDEN_ENGINE = "God"+"ot"
 FORBIDDEN_GODOT_SUFFIXES = frozenset({"."+"gd","."+"tscn","."+"tres"})
+FORBIDDEN_GENERATOR_TERMS = ("transformer",)
 FORBIDDEN_CITY_FEATURES = ("Town"+" Hall","Black"+"smith","Mar"+"ket","Bar"+"racks","Magic"+" Tower","City"+" resources","City"+" upgrades")
 REMOVED_FILES = ("Source/HonourWar/HonourWarSoldier.h","Source/HonourWar/HonourWarSoldier.cpp","Source/HonourWar/HonourWarIncomeBank.h","Source/HonourWar/HonourWarIncomeBank.cpp","Source/HonourWar/HonourWarDefenseTower.h","Source/HonourWar/HonourWarDefenseTower.cpp","Source/HonourWar/HonourWarBaseBuilding.h","Source/HonourWar/HonourWarBaseBuilding.cpp","Source/HonourWar/HonourWarPlayerState.cpp.tmp")
 
@@ -32,14 +33,14 @@ def scan_active_generators() -> None:
     for relative in ACTIVE_GENERATOR_FILES:
         path=ROOT/relative
         if not path.is_file(): fail(f"active generator is missing: {relative}")
-        scan(path, EXCLUDED_SYMBOLS + EXCLUDED_TERMS + FORBIDDEN_CITY_FEATURES + (FORBIDDEN_ENGINE,))
+        scan(path, EXCLUDED_SYMBOLS + EXCLUDED_TERMS + FORBIDDEN_CITY_FEATURES + FORBIDDEN_GENERATOR_TERMS + (FORBIDDEN_ENGINE,))
         text=path.read_text(encoding="utf-8",errors="ignore").lower()
         for ext in RETIRED_ASSET_EXTENSIONS:
             if ext in text: fail(f"retired asset extension remains in active generator {relative}: {ext}")
 def scan_non_validator_tooling() -> None:
     for path in TOOL_DIR.rglob("*.py"):
         if path.name in VALIDATOR_FILES: continue
-        scan(path, EXCLUDED_SYMBOLS + EXCLUDED_TERMS + FORBIDDEN_CITY_FEATURES + (FORBIDDEN_ENGINE,))
+        scan(path, EXCLUDED_SYMBOLS + EXCLUDED_TERMS + FORBIDDEN_CITY_FEATURES + FORBIDDEN_GENERATOR_TERMS + (FORBIDDEN_ENGINE,))
         text=path.read_text(encoding="utf-8",errors="ignore").lower()
         for ext in RETIRED_ASSET_EXTENSIONS:
             if ext in text: fail(f"retired asset extension remains in tool {path.relative_to(ROOT)}: {ext}")
