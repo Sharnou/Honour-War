@@ -300,6 +300,70 @@ void AHonourWarPlayerController::SyncActiveCharacterSummary(AHonourWarCharacter*
     OwnedCharacters[ActiveCharacterSlot].EquipmentRefineLevel=Character->GetCombatComponent()->GetEquipmentRefineLevel();
     SaveCharacterRoster();
 }
+bool AHonourWarPlayerController::SaveActiveCharacterData(const UHonourWarSaveGame& SaveData)
+{
+    if(!bAuthenticated || ActiveCharacterSlot<0 || ActiveCharacterSlot>=OwnedCharacters.Num()) return false;
+    UHonourWarAccountSaveGame* Account=nullptr;
+    if(!LoadAccount(Account)) return false;
+    FHonourWarCharacterSlot& Slot=OwnedCharacters[ActiveCharacterSlot];
+    Slot.bOwned=true;
+    Slot.ClassId=SaveData.ClassId;
+    Slot.ClassTier=SaveData.ClassTier;
+    Slot.FifthTierArchetype=SaveData.FifthTierArchetype;
+    Slot.Level=SaveData.Level;
+    Slot.Experience=SaveData.Experience;
+    Slot.AgeDays=SaveData.AgeDays;
+    Slot.OnlineSeconds=SaveData.OnlineSeconds;
+    Slot.PlayerLocation=SaveData.PlayerLocation;
+    Slot.Zeny=SaveData.Zeny;
+    Slot.EquipmentRefineLevel=SaveData.EquipmentRefineLevel;
+    Slot.Phracon=SaveData.Phracon;
+    Slot.Emveretarcon=SaveData.Emveretarcon;
+    Slot.Oridecon=SaveData.Oridecon;
+    Slot.BasicSkillLevel=SaveData.BasicSkillLevel;
+    Slot.Honours=SaveData.Honours;
+    Slot.InventoryItems=SaveData.InventoryItems;
+    Slot.Cards=SaveData.Cards;
+    Slot.QuestId=SaveData.QuestId;
+    Slot.QuestProgress=SaveData.QuestProgress;
+    Slot.QuestComplete=SaveData.QuestComplete;
+    Slot.GuildName=SaveData.GuildName;
+    Slot.GuildRank=SaveData.GuildRank;
+    Slot.SavedAtUtc=FDateTime::UtcNow();
+    Account->Characters=OwnedCharacters;
+    return UGameplayStatics::SaveGameToSlot(Account,AccountSlot,0);
+}
+
+bool AHonourWarPlayerController::LoadActiveCharacterData(UHonourWarSaveGame& OutSaveData) const
+{
+    if(!bAuthenticated || ActiveCharacterSlot<0 || ActiveCharacterSlot>=OwnedCharacters.Num() || !OwnedCharacters[ActiveCharacterSlot].bOwned) return false;
+    const FHonourWarCharacterSlot& Slot=OwnedCharacters[ActiveCharacterSlot];
+    OutSaveData.Level=Slot.Level;
+    OutSaveData.Experience=Slot.Experience;
+    OutSaveData.AgeDays=Slot.AgeDays;
+    OutSaveData.ClassId=Slot.ClassId;
+    OutSaveData.ClassTier=Slot.ClassTier;
+    OutSaveData.FifthTierArchetype=Slot.FifthTierArchetype;
+    OutSaveData.OnlineSeconds=Slot.OnlineSeconds;
+    OutSaveData.PlayerLocation=Slot.PlayerLocation;
+    OutSaveData.Zeny=Slot.Zeny;
+    OutSaveData.EquipmentRefineLevel=Slot.EquipmentRefineLevel;
+    OutSaveData.Phracon=Slot.Phracon;
+    OutSaveData.Emveretarcon=Slot.Emveretarcon;
+    OutSaveData.Oridecon=Slot.Oridecon;
+    OutSaveData.BasicSkillLevel=Slot.BasicSkillLevel;
+    OutSaveData.Honours=Slot.Honours;
+    OutSaveData.InventoryItems=Slot.InventoryItems;
+    OutSaveData.Cards=Slot.Cards;
+    OutSaveData.QuestId=Slot.QuestId;
+    OutSaveData.QuestProgress=Slot.QuestProgress;
+    OutSaveData.QuestComplete=Slot.QuestComplete;
+    OutSaveData.GuildName=Slot.GuildName;
+    OutSaveData.GuildRank=Slot.GuildRank;
+    OutSaveData.SavedAtUtc=Slot.SavedAtUtc;
+    return true;
+}
+
 
 bool AHonourWarPlayerController::CreateCharacter(const FString& CharacterName,EHonourWarClass ClassId,FString& OutMessage)
 {
@@ -311,14 +375,30 @@ bool AHonourWarPlayerController::CreateCharacter(const FString& CharacterName,EH
     int32 Slot=-1;
     for(int32 i=0;i<4;++i){if(i>=OwnedCharacters.Num()) OwnedCharacters.Add(FHonourWarCharacterSlot()); if(!OwnedCharacters[i].bOwned){Slot=i;break;}}
     if(Slot<0){OutMessage=TEXT("All four character slots are occupied.");return false;}
-    UHonourWarSaveGame* Save=Cast<UHonourWarSaveGame>(UGameplayStatics::CreateSaveGameObject(UHonourWarSaveGame::StaticClass()));
-    if(!Save){OutMessage=TEXT("Character save could not be created.");return false;}
-    Save->ClassId=ClassId;
-    Save->ClassTier=EHonourWarClassTier::Tier1;
-    Save->PlayerLocation=FVector(900,900,180);
-    Save->SavedAtUtc=FDateTime::UtcNow();
-    if(!UGameplayStatics::SaveGameToSlot(Save,*CharacterSlotName(Slot),0)){OutMessage=TEXT("Character could not be saved.");return false;}
     OwnedCharacters[Slot].bOwned=true;
+    OwnedCharacters[Slot].CharacterName=Clean;
+    OwnedCharacters[Slot].ClassId=ClassId;
+    OwnedCharacters[Slot].ClassTier=EHonourWarClassTier::Tier1;
+    OwnedCharacters[Slot].Level=1;
+    OwnedCharacters[Slot].Experience=0;
+    OwnedCharacters[Slot].AgeDays=0;
+    OwnedCharacters[Slot].OnlineSeconds=0;
+    OwnedCharacters[Slot].PlayerLocation=FVector(900,900,180);
+    OwnedCharacters[Slot].Zeny=0;
+    OwnedCharacters[Slot].EquipmentRefineLevel=0;
+    OwnedCharacters[Slot].Phracon=20;
+    OwnedCharacters[Slot].Emveretarcon=10;
+    OwnedCharacters[Slot].Oridecon=5;
+    OwnedCharacters[Slot].BasicSkillLevel=1;
+    OwnedCharacters[Slot].Honours=0;
+    OwnedCharacters[Slot].InventoryItems.Reset();
+    OwnedCharacters[Slot].Cards.Reset();
+    OwnedCharacters[Slot].QuestId=1;
+    OwnedCharacters[Slot].QuestProgress=0;
+    OwnedCharacters[Slot].QuestComplete=false;
+    OwnedCharacters[Slot].GuildName.Reset();
+    OwnedCharacters[Slot].GuildRank=TEXT("Member");
+    OwnedCharacters[Slot].SavedAtUtc=FDateTime::UtcNow();
     OwnedCharacters[Slot].CharacterName=Clean;
     OwnedCharacters[Slot].ClassId=ClassId;
     OwnedCharacters[Slot].Level=1;
