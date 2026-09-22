@@ -84,6 +84,22 @@ for phrase in ["HandleMouseClick","GetHitResultUnderCursorByChannel","SetMouseTa
         print(f"UNREAL_CONTRACT_FAIL: MMORPG mouse control missing: {phrase}")
         sys.exit(1)
 
+combat=(ROOT/"Source"/"HonourWar"/"HonourWarCombatComponent.cpp").read_text(encoding="utf-8")
+monster=(ROOT/"Source"/"HonourWar"/"HonourWarMonster.cpp").read_text(encoding="utf-8")
+character_reaction=(ROOT/"Source"/"HonourWar"/"HonourWarCharacter.cpp").read_text(encoding="utf-8")
+for phrase in ["GetHitRating","GetFleeRating","GetCriticalRate","GetLuck","Target->GetLuck()","Target->GetFleeRating()","Target->GetCritResistance()","bCritical","InitializeReaction(TEXT(\"MISS\")","InitializeReaction(TEXT(\"Lucky!\")"]:
+    if phrase not in combat:
+        print(f"UNREAL_CONTRACT_FAIL: attack reaction resolution missing: {phrase}")
+        sys.exit(1)
+for phrase in ["FlinchTimer=FMath::Max","FlinchTimer=bCritical?0.16f:0.25f","ReceiveCombatHit(float Damage,EHonourWarClass SourceClass,bool bCritical)"]:
+    if phrase not in monster:
+        print(f"UNREAL_CONTRACT_FAIL: monster attack reaction missing: {phrase}")
+        sys.exit(1)
+for phrase in ["HitStutterTimer=0.25f","PlayIncomingAttackReaction(bool bCritical)","ReceiveMonsterDamage(float Damage,int32 AttackerLevel=1)"]:
+    if phrase not in character_reaction:
+        print(f"UNREAL_CONTRACT_FAIL: player hit-stutter reaction missing: {phrase}")
+        sys.exit(1)
+
 effect=(ROOT/"Source"/"HonourWar"/"HonourWarCombatEffect.cpp").read_text(encoding="utf-8")
 popup=(ROOT/"Source"/"HonourWar"/"HonourWarDamagePopup.cpp").read_text(encoding="utf-8")
 for phrase in ["Initialize","SetLifeSpan","SetLightColor"]:
