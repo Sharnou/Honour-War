@@ -459,6 +459,9 @@ void AHonourWarCharacter::BuildWeaponVisual()
 void AHonourWarCharacter::SaveProgress()
 {
     if(!CombatComponent) return;
+    AHonourWarPlayerController* PC=Cast<AHonourWarPlayerController>(GetController());
+    if(!PC || !PC->IsReadyForGameplay()) return;
+
     UHonourWarSaveGame* Save=Cast<UHonourWarSaveGame>(
         UGameplayStatics::CreateSaveGameObject(UHonourWarSaveGame::StaticClass()));
     if(!Save) return;
@@ -492,24 +495,17 @@ void AHonourWarCharacter::SaveProgress()
         Save->QuestProgress=QuestComponent->GetQuestProgress();
         Save->QuestComplete=QuestComponent->IsQuestComplete();
     }
-    FString SaveSlot=TEXT("HonourWar_Profile_0");
-    if(AHonourWarPlayerController* PC=Cast<AHonourWarPlayerController>(GetController()))
-        SaveSlot=FString::Printf(TEXT("HonourWar_Profile_%d"),PC->GetActiveCharacterSlot()>=0?PC->GetActiveCharacterSlot():0);
-    UGameplayStatics::SaveGameToSlot(Save,*SaveSlot,0);
-    if(AHonourWarPlayerController* PC=Cast<AHonourWarPlayerController>(GetController())) PC->SyncActiveCharacterSummary(this);
-    LastCombatMessage=TEXT("Progress saved");
+    if(PC->SaveActiveCharacterData(*Save))
+        PC->SyncActiveCharacterSummary(this);
 }
-
 void AHonourWarCharacter::LoadProgress()
 {
-    FString SaveSlot=TEXT("HonourWar_Profile_0");
-    if(AHonourWarPlayerController* PC=Cast<AHonourWarPlayerController>(GetController()))
-        SaveSlot=FString::Printf(TEXT("HonourWar_Profile_%d"),PC->GetActiveCharacterSlot()>=0?PC->GetActiveCharacterSlot():0);
-    if(!CombatComponent||!UGameplayStatics::DoesSaveGameExist(*SaveSlot,0)) return;
+    AHonourWarPlayerController* PC=Cast<AHonourWarPlayerController>(GetController());
+    if(!PC || !CombatComponent || !PC->IsAuthenticated()) return;
 
     UHonourWarSaveGame* Save=Cast<UHonourWarSaveGame>(
-        UGameplayStatics::LoadGameFromSlot(*SaveSlot,0));
-    if(!Save) return;
+        UGameplayStatics::CreateSaveGameObject(UHonourWarSaveGame::StaticClass()));
+    if(!Save || !PC->LoadActiveCharacterData(*Save)) return;
 
     OnlineSeconds=FMath::Max<int64>(0,Save->OnlineSeconds);
     CharacterClass=Save->ClassId;
