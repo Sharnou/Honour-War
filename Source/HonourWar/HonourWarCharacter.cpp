@@ -157,7 +157,7 @@ void AHonourWarCharacter::Tick(float DeltaSeconds)
         BuildHeroVisual();
     }
     AutoSaveAccumulator += DeltaSeconds;
-    if (AutoSaveAccumulator >= 60.0f)
+    if (AutoSaveAccumulator >= 5.0f)
     {
         AutoSaveAccumulator = 0.0f;
         SaveProgress();
@@ -200,6 +200,15 @@ void AHonourWarCharacter::Tick(float DeltaSeconds)
         AddMovementInput(FlatDirection,1.0f);
         SetActorRotation(FMath::RInterpTo(GetActorRotation(),FlatDirection.Rotation(),DeltaSeconds,12.0f));
     }
+}
+
+void AHonourWarCharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+    if(EndPlayReason!=EEndPlayReason::Quit)
+        SaveProgress();
+    else
+        SaveProgress();
+    Super::EndPlay(EndPlayReason);
 }
 
 void AHonourWarCharacter::SetMouseDestination(const FVector& Destination)
