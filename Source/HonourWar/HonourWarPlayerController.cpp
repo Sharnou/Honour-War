@@ -1,4 +1,5 @@
 #include "HonourWarPlayerController.h"
+#include "HonourWarContentCatalog.h"
 #include "HonourWarAccountSaveGame.h"
 #include "HonourWarSaveGame.h"
 #include "HonourWarCharacter.h"
@@ -433,19 +434,33 @@ bool AHonourWarPlayerController::ExecuteGoCommand(const FString& Command)
     TArray<FString> Tokens;
     Command.ParseIntoArrayWS(Tokens);
     if(Tokens.Num()<3 || Tokens[0].Compare(TEXT("@go"),ESearchCase::IgnoreCase)!=0) return false;
-    FString MapId=Tokens[1].ToLower();
-    static const TArray<FString> MapNames={TEXT("prontera_like_town"),TEXT("forest_field"),TEXT("mountain_pass"),TEXT("desert_ruins"),TEXT("snow_region"),TEXT("arcane_dungeon")};
-    int32 MapIndex=MapId.IsNumeric()?FCString::Atoi(*MapId):MapNames.IndexOfByKey(MapId);
-    if(MapIndex<0 || MapIndex>=MapNames.Num()) return false;
+
+    const TArray<HonourWarContentCatalog::FMapTemplate>& Maps = HonourWarContentCatalog::Maps();
+    const FString Requested = Tokens[1].ToLower();
+    int32 MapIndex = Requested.IsNumeric() ? FCString::Atoi(*Requested) : INDEX_NONE;
+    if (MapIndex == INDEX_NONE)
+    {
+        for (int32 I=0; I<Maps.Num(); ++I)
+        {
+            if (Maps[I].Id.Equals(Requested,ESearchCase::IgnoreCase))
+            {
+                MapIndex = I;
+                break;
+            }
+        }
+    }
+    if(MapIndex<0 || MapIndex>=Maps.Num()) return false;
+
     TArray<FString> Coordinates;
     Tokens[2].ParseIntoArray(Coordinates,TEXT(":"),true);
     if(Coordinates.Num()!=2) return false;
     const float X=FCString::Atof(*Coordinates[0]);
     const float Y=FCString::Atof(*Coordinates[1]);
-    static const FVector Anchors[]={FVector(0,0,180),FVector(-2600,-2200,180),FVector(-2700,1700,180),FVector(2850,-1750,180),FVector(-2850,-2100,180),FVector(0,2850,180)};
+    const FVector Offset=FVector(X*10.0f,Y*10.0f,0.0f);
+
     APawn* Pawn=GetPawn();
     if(!Pawn) return false;
-    Pawn->SetActorLocation(Anchors[MapIndex]+FVector(X*10.0f,Y*10.0f,0.0f));
+    Pawn->SetActorLocation(Maps[MapIndex].Anchor+Offset);
     if(AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(Pawn)) Character->ClearMouseCommand();
     return true;
 }
