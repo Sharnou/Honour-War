@@ -28,6 +28,9 @@ jobs:
       - name: Validate complete content catalog
         run: python tools/content_catalog_qa.py
 
+      - name: Validate all 60 character profiles
+        run: python tools/character_profile_qa.py
+
       - name: Validate canonical game rules
         run: python tools/game_rules_qa.py
 
