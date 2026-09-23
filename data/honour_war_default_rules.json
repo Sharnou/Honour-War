@@ -441,7 +441,8 @@
     "card_policy": "Cards can drop across the full 300-rank production pool; specific monster families and level bands resolve the canonical card ID.",
     "general_item_policy": "Every monster defeat resolves one rotating general-item slot across all 76 canonical general item IDs.",
     "pet_equipment_policy": "100 pet-equipment IDs are data-driven, source-tracked and searchable through /help.",
-    "level_300_rewards": "EQUIP_300 Transcendent Monster Suit and CARD_300 World Monarch Card."
+    "level_300_rewards": "EQUIP_300 Transcendent Monster Suit and CARD_300 World Monarch Card.",
+    "tier5_worldbreaker_drop_chance_percent": 5
   },
   "ranger_rules": {
     "profession": "Ranger",
