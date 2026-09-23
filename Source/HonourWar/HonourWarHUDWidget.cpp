@@ -24,7 +24,7 @@ namespace
     const FLinearColor Gold(0.95f,0.76f,0.30f,1.0f);
     const FLinearColor White(0.92f,0.92f,0.96f,1.0f);
     const FLinearColor Muted(0.66f,0.70f,0.76f,1.0f);
-    const FLinearColor Glass(0.015f,0.022f,0.035f,0.88f);
+    const FLinearColor Glass(0.012f,0.018f,0.028f,0.92f);
 
     UBorder* Panel(UWidgetTree* Tree,const TCHAR* Name,const FLinearColor& Color,const FMargin& Padding=FMargin(8.0f))
     {
@@ -93,7 +93,9 @@ void UHonourWarHUDWidget::BuildSurface()
     WidgetTree->RootWidget=RootCanvas;
     BuildProfileCluster(RootCanvas);
     BuildMiniMap(RootCanvas);
+    BuildWorldEventPanel(RootCanvas);
     BuildQuestTracker(RootCanvas);
+    BuildSkillBar(RootCanvas);
     BuildChatDock(RootCanvas);
     BuildAuthenticationPanel(RootCanvas);
     BuildCharacterSelectionPanel(RootCanvas);
@@ -248,10 +250,41 @@ void UHonourWarHUDWidget::BuildMiniMap(UCanvasPanel* Root)
     UBorder* Map=Panel(WidgetTree,TEXT("MMORPGMiniMap"),FLinearColor(0.025f,0.035f,0.050f,0.94f),FMargin(10));
     Place(Root,Map,FVector2D(-300,90),FVector2D(276,276),FAnchors(1,0,1,0),FVector2D(1,0));
     UVerticalBox* Stack=WidgetTree->ConstructWidget<UVerticalBox>(UVerticalBox::StaticClass(),TEXT("MapStack")); Map->SetContent(Stack);
-    Stack->AddChildToVerticalBox(Text(WidgetTree,TEXT("MapTitle"),TEXT("Prontera City"),20,White));
-    Stack->AddChildToVerticalBox(Text(WidgetTree,TEXT("MapCoords"),TEXT("(128, 214)   •   N"),13,Muted));
+    Stack->AddChildToVerticalBox(Text(WidgetTree,TEXT("MapTitle"),TEXT("Crownfall Capital"),20,White));
+    MapCoordsText=Text(WidgetTree,TEXT("MapCoords"),TEXT("(900, 900)   •   N"),13,Muted);
+    MapStatusText=Text(WidgetTree,TEXT("MapStatus"),TEXT("Daylight • World ready"),14,White);
+    Stack->AddChildToVerticalBox(MapCoordsText);
     Stack->AddChildToVerticalBox(Text(WidgetTree,TEXT("MapCompass"),TEXT("        N\n     W  ✦  E\n        S"),24,Gold));
-    Stack->AddChildToVerticalBox(Text(WidgetTree,TEXT("MapStatus"),TEXT("Daylight  •  14:32"),14,White));
+    Stack->AddChildToVerticalBox(MapStatusText);
+}
+
+void UHonourWarHUDWidget::BuildWorldEventPanel(UCanvasPanel* Root)
+{
+    UBorder* EventPanel=Panel(WidgetTree,TEXT("WorldEventPanel"),FLinearColor(0.018f,0.024f,0.036f,0.92f),FMargin(10));
+    Place(Root,EventPanel,FVector2D(0,-18),FVector2D(560,88),FAnchors(0.5f,0,0.5f,0),FVector2D(0.5f,0));
+    UVerticalBox* Stack=WidgetTree->ConstructWidget<UVerticalBox>(UVerticalBox::StaticClass(),TEXT("WorldEventStack"));
+    EventPanel->SetContent(Stack);
+    Stack->AddChildToVerticalBox(Text(WidgetTree,TEXT("WorldEventHeader"),TEXT("◆ LIVE WORLD EVENT"),12,Muted));
+    EventText=Text(WidgetTree,TEXT("WorldEventText"),TEXT("Royal Hunt • +25% XP • +10% Zeny"),17,Gold);
+    Stack->AddChildToVerticalBox(EventText);
+}
+
+void UHonourWarHUDWidget::BuildSkillBar(UCanvasPanel* Root)
+{
+    UBorder* Outer=Panel(WidgetTree,TEXT("SkillBar"),FLinearColor(0.012f,0.018f,0.028f,0.90f),FMargin(6));
+    Place(Root,Outer,FVector2D(0,-26),FVector2D(760,92),FAnchors(0.5f,1,0.5f,1),FVector2D(0.5f,1));
+    UHorizontalBox* Row=WidgetTree->ConstructWidget<UHorizontalBox>(UHorizontalBox::StaticClass(),TEXT("SkillBarRow"));
+    Outer->SetContent(Row);
+
+    const TCHAR* Keys[]={TEXT("1"),TEXT("2"),TEXT("3"),TEXT("4"),TEXT("5"),TEXT("6"),TEXT("7"),TEXT("8")};
+    const TCHAR* Names[]={TEXT("Basic"),TEXT("Class"),TEXT("Power"),TEXT("Arcane"),TEXT("Volley"),TEXT("Guard"),TEXT("Shadow"),TEXT("Finish")};
+    for(int32 Index=0;Index<8;++Index)
+    {
+        UBorder* Slot=Panel(WidgetTree,*FString::Printf(TEXT("SkillSlot_%d"),Index),FLinearColor(0.035f,0.045f,0.060f,0.96f),FMargin(5));
+        Slot->SetContent(Text(WidgetTree,*FString::Printf(TEXT("SkillLabel_%d"),Index),
+            FString::Printf(TEXT("%s\n%s"),Keys[Index],Names[Index]),13.0f,Gold));
+        Row->AddChildToHorizontalBox(Slot);
+    }
 }
 
 void UHonourWarHUDWidget::BuildQuestTracker(UCanvasPanel* Root)
@@ -325,6 +358,28 @@ void UHonourWarHUDWidget::RefreshVitals()
     }
     if(QuestText && Character->GetQuestComponent())
         QuestText->SetText(FText::FromString(FString::Printf(TEXT("%s\n%s"),*Character->GetQuestComponent()->GetQuestTitle(),*Character->GetQuestComponent()->GetQuestBody())));
+
+    if(const AHonourWarGameState* State=GetWorld()?GetWorld()->GetGameState<AHonourWarGameState>():nullptr)
+    {
+        if(EventText)
+        {
+            EventText->SetText(FText::FromString(FString::Printf(
+                TEXT("%s  •  %ds remaining\n%s"),
+                *State->GetActiveWorldEventTitle(),
+                State->GetEventSecondsRemaining(),
+                *State->GetActiveWorldEventBody())));
+        }
+        if(MapCoordsText)
+        {
+            const FVector P=Character->GetActorLocation();
+            MapCoordsText->SetText(FText::FromString(FString::Printf(
+                TEXT("(%.0f, %.0f)   •   LIVE POSITION"),P.X,P.Y)));
+        }
+        if(MapStatusText)
+            MapStatusText->SetText(FText::FromString(FString::Printf(
+                TEXT("Daylight  •  Event cycle %ds"),State->GetEventSecondsRemaining())));
+    }
+
     if(CombatText) CombatText->SetText(FText::FromString(FString::Printf(TEXT("[Combat] %s"),*Character->GetLastCombatMessage())));
 }
 
