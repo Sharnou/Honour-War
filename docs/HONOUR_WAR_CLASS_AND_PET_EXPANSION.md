@@ -40,8 +40,8 @@ Canonical content expansion for the Unreal Engine 5.8 MMORPG/ARPG. The roster is
 - Tier 4 — Master Smith — Grand Master Smith — unlock Lv.150 — power 154 — STR/DEX — Master Smith Axe
 - Tier 5 — Infinite Quartermaster — The Infinite Quartermaster — unlock Lv.200 — power 166 — STR/DEX — Matrix Forged Axe
 ### Ranger
-- Tier 1 — Ranger — Trail Warden — unlock Lv.1 — power 118 — DEX/AGI — Trail Arquebus — ammo rune_bolt
-- Tier 2 — Beastmaster — Spirit Beastmaster — unlock Lv.25 — power 130 — DEX/AGI — Spirit Carbine — ammo rune_bolt
+- Tier 1 — Ranger — Trail Warden — unlock Lv.1 — power 118 — DEX/AGI — Trail Arquebus — ammo Machine Gun Bolts (ITEM_075)
+- Tier 2 — Beastmaster — Spirit Beastmaster — unlock Lv.25 — power 130 — DEX/AGI — Spirit Carbine — ammo Machine Gun Bolts (ITEM_075)
 - Tier 3 — Forest Warden — Grand Forest Warden — unlock Lv.50 — power 142 — DEX/AGI — Bramble Repeater Gun — ammo machine_gun_bolt
 - Tier 4 — Wild Sovereign — Wildheart Sovereign — unlock Lv.150 — power 154 — DEX/AGI — Wildheart Bolt Machine Gun — ammo machine_gun_bolt
 - Tier 5 — Verdant Paragon — The Verdant Paragon — unlock Lv.200 — power 166 — DEX/AGI — Verdant Paragon Bolt Gun — ammo machine_gun_bolt
@@ -50,7 +50,7 @@ Canonical content expansion for the Unreal Engine 5.8 MMORPG/ARPG. The roster is
 Ranger is a ranged firearm class across all five tiers. Tiers 1–2 use handcrafted fantasy guns, while tiers 3–5 use rune-powered high-rate bolt machine guns. All Ranger tiers use the canonical Machine Gun Bolt family (ITEM_075). Visuals remain medieval-fantasy and do not use futuristic machinery.
 
 ## Content counts
-70 character profiles; 300 equipment; 300 cards; 76 general items; 20 pets; 120 pet skills; 100 pet equipment; searchable item encyclopedia entries include source monster, source map and availability/when metadata.
+70 character profiles; 35 jobs; 300 equipment; 300 cards; 76 general items; 20 pets; 120 pet skills; 100 pet equipment; searchable encyclopedia entries include source monster, source map and availability/when metadata.
 
 ## /help identity
 `/help [ID or name]` and `@help [ID or name]` perform exact then partial lookup. Results expose item/card ID, item type, stats/details, source monster, source map and when/availability information. IDs are globally stable within their catalog family.
