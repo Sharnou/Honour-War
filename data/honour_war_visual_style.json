@@ -63,5 +63,13 @@
     "GLB",
     "GLTF",
     "Meshy"
-  ]
+  ],
+  "rendering_detail": {
+    "geometry": "layered silhouettes with secondary trims, seams, ornaments, foliage clusters and readable environmental props",
+    "materials": "physically-inspired roughness/specular variation across stone, wood, cloth, leather, metal, skin, foliage and water",
+    "lighting": "bright daylight with soft atmospheric depth, contact shadows, controlled bloom and cinematic tone mapping",
+    "composition": "clear hero readability, strong monster silhouettes, depth separation and dense but uncluttered MMORPG framing",
+    "quality_target": "high-resolution 3D presentation; no flat unshaded placeholder look",
+    "progression": "visual complexity increases for higher class tiers and monster levels"
+  }
 }
