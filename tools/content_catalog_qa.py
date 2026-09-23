@@ -15,6 +15,7 @@ for k in ("characters","monsters","maps","equipment","items","cards"):
     names=[x["name"] for x in c[k]]
     if any(not n.strip() for n in names): raise SystemExit(f"CONTENT_CATALOG_FAIL: empty {k} name")
 if len({x["name"] for x in c["characters"]})!=60: raise SystemExit("CONTENT_CATALOG_FAIL: character names are not unique")
+if len({x["name"] for x in c["monsters"]})!=256: raise SystemExit("CONTENT_CATALOG_FAIL: monster names are not unique")
 controller_text=(ROOT/"Source/HonourWar/HonourWarPlayerController.cpp").read_text(encoding="utf-8")
 hud_header=(ROOT/"Source/HonourWar/HonourWarHUDWidget.h").read_text(encoding="utf-8")
 hud_cpp=(ROOT/"Source/HonourWar/HonourWarHUDWidget.cpp").read_text(encoding="utf-8")
