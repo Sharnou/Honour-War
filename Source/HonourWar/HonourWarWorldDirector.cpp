@@ -80,13 +80,26 @@ void AHonourWarWorldDirector::BuildLighting()
 
     UExponentialHeightFogComponent* Fog=NewObject<UExponentialHeightFogComponent>(this,TEXT("WorldFog")); AddInstanceComponent(Fog); Fog->SetMobility(EComponentMobility::Movable); Fog->FogDensity=0.0025f; Fog->FogHeightFalloff=0.28f; Fog->AttachToComponent(RootComponent,FAttachmentTransformRules::KeepRelativeTransform); Fog->RegisterComponent();
 
-    APostProcessVolume* Post=NewObject<APostProcessVolume>(this,TEXT("CinematicPostProcess")); AddInstanceComponent(Post);
-    Post->bUnbound=true; Post->Priority=10.0f;
-    Post->Settings.bOverride_BloomIntensity=true; Post->Settings.BloomIntensity=0.55f;
-    Post->Settings.bOverride_BloomThreshold=true; Post->Settings.BloomThreshold=1.2f;
-    Post->Settings.bOverride_VignetteIntensity=true; Post->Settings.VignetteIntensity=0.18f;
-    Post->Settings.bOverride_MotionBlurAmount=true; Post->Settings.MotionBlurAmount=0.0f;
-    Post->RegisterComponent();
+    if(UWorld* World=GetWorld())
+    {
+        FActorSpawnParameters Params;
+        Params.SpawnCollisionHandlingOverride=ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+        APostProcessVolume* Post=World->SpawnActor<APostProcessVolume>(
+            APostProcessVolume::StaticClass(),FVector::ZeroVector,FRotator::ZeroRotator,Params);
+        if(Post)
+        {
+            Post->bUnbound=true;
+            Post->Priority=10.0f;
+            Post->Settings.bOverride_BloomIntensity=true;
+            Post->Settings.BloomIntensity=0.55f;
+            Post->Settings.bOverride_BloomThreshold=true;
+            Post->Settings.BloomThreshold=1.2f;
+            Post->Settings.bOverride_VignetteIntensity=true;
+            Post->Settings.VignetteIntensity=0.18f;
+            Post->Settings.bOverride_MotionBlurAmount=true;
+            Post->Settings.MotionBlurAmount=0.0f;
+        }
+    }
 }
 
 void AHonourWarWorldDirector::BuildGround()
