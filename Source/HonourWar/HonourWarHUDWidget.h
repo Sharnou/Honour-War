@@ -67,6 +67,7 @@ private:
 
     UPROPERTY() UBorder* CharacterSelectPanel=nullptr;
     UPROPERTY() UTextBlock* CharacterListText=nullptr;
+    UPROPERTY() UEditableTextBox* CharacterSlotInput=nullptr;
     UPROPERTY() UTextBlock* CharacterSelectStatus=nullptr;
     UPROPERTY() UButton* CharacterSelectButton=nullptr;
     UPROPERTY() UButton* CharacterCreateButton=nullptr;
