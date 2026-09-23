@@ -449,6 +449,65 @@ void AHonourWarPlayerController::SendChatMessage(const FString& Message)
 
 void AHonourWarPlayerController::ServerSendChat_Implementation(const FString& Message){SendChatMessage(Message);}
 
+bool AHonourWarPlayerController::ExecuteStatCommand(const FString& Command)
+{
+    if(!IsReadyForGameplay()) return false;
+    AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(GetPawn());
+    if(!Character || !Character->GetCombatComponent()) return false;
+    UHonourWarCombatComponent* Combat=Character->GetCombatComponent();
+
+    TArray<FString> Tokens;
+    Command.ParseIntoArrayWS(Tokens);
+    if(Tokens.Num()<=0 || Tokens[0].Compare(TEXT("@stat"),ESearchCase::IgnoreCase)!=0) return false;
+
+    if(Tokens.Num()==1 || Tokens[1].Compare(TEXT("help"),ESearchCase::IgnoreCase)==0 || Tokens[1].Compare(TEXT("all"),ESearchCase::IgnoreCase)==0)
+    {
+        ClientMessage(FString::Printf(
+            TEXT("Stats | Points %d | STR %d AGI %d VIT %d INT %d DEX %d LUK %d | Use @stat STR 1"),
+            Combat->GetStatusPoints(),Combat->GetStrength(),Combat->GetAgility(),Combat->GetVitality(),
+            Combat->GetIntelligence(),Combat->GetDexterity(),Combat->GetLuckStat()));
+        return true;
+    }
+
+    if(Tokens.Num()<3) return true;
+    const FString Name=Tokens[1].ToUpper();
+    const int32 Amount=FMath::Clamp(FCString::Atoi(*Tokens[2]),1,20);
+    EHonourWarStatusStat Stat=EHonourWarStatusStat::Strength;
+    bool bValid=true;
+    if(Name==TEXT("STR")) Stat=EHonourWarStatusStat::Strength;
+    else if(Name==TEXT("AGI")) Stat=EHonourWarStatusStat::Agility;
+    else if(Name==TEXT("VIT")) Stat=EHonourWarStatusStat::Vitality;
+    else if(Name==TEXT("INT")) Stat=EHonourWarStatusStat::Intelligence;
+    else if(Name==TEXT("DEX")) Stat=EHonourWarStatusStat::Dexterity;
+    else if(Name==TEXT("LUK")) Stat=EHonourWarStatusStat::Luck;
+    else bValid=false;
+
+    if(!bValid){ ClientMessage(TEXT("Unknown stat. Use STR AGI VIT INT DEX LUK.")); return true; }
+
+    if(Combat->SpendStatusPoint(Stat,Amount))
+    {
+        Character->SaveProgress();
+        int32 NewValue=Combat->GetLuckStat();
+        switch(Stat)
+        {
+            case EHonourWarStatusStat::Strength: NewValue=Combat->GetStrength(); break;
+            case EHonourWarStatusStat::Agility: NewValue=Combat->GetAgility(); break;
+            case EHonourWarStatusStat::Vitality: NewValue=Combat->GetVitality(); break;
+            case EHonourWarStatusStat::Intelligence: NewValue=Combat->GetIntelligence(); break;
+            case EHonourWarStatusStat::Dexterity: NewValue=Combat->GetDexterity(); break;
+            case EHonourWarStatusStat::Luck: NewValue=Combat->GetLuckStat(); break;
+        }
+        ClientMessage(FString::Printf(
+            TEXT("STAT ALLOCATION | %s +%d | remaining %d | new value %d"),
+            *HonourWarStatusStatName(Stat),Amount,Combat->GetStatusPoints(),NewValue));
+    }
+    else
+    {
+        ClientMessage(TEXT("STAT ALLOCATION BLOCKED | insufficient points, invalid cap, or too-high cost."));
+    }
+    return true;
+}
+
 bool AHonourWarPlayerController::ExecuteGoCommand(const FString& Command)
 {
     if(!IsReadyForGameplay()) return false;
@@ -514,6 +573,7 @@ bool AHonourWarPlayerController::Exec(UWorld* InWorld,const TCHAR* Cmd,FOutputDe
     }
 
     if(ExecuteGoCommand(Command)) return true;
+    if(ExecuteStatCommand(Command)) return true;
 
     if(!IsReadyForGameplay())
     {
