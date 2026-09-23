@@ -58,6 +58,7 @@ private:
     void HandleMouseWheel(float Delta);
     void RotateCameraFromMouse();
     bool ExecuteGoCommand(const FString& Command);
+    bool ExecuteStatCommand(const FString& Command);
     bool ValidateAccountInput(const FString& Username,const FString& Password,FString& OutMessage) const;
     FString HashPassword(const FString& Password) const;
     bool LoadAccount(class UHonourWarAccountSaveGame*& OutAccount) const;
