@@ -49,6 +49,18 @@ public:
     int32 GetFleeRating() const;
     int32 GetCriticalRate() const;
     int32 GetLuck() const;
+    int32 GetStatusPoints() const { return StatusPoints; }
+    int32 GetStrength() const { return Strength; }
+    int32 GetAgility() const { return Agility; }
+    int32 GetVitality() const { return Vitality; }
+    int32 GetIntelligence() const { return Intelligence; }
+    int32 GetDexterity() const { return Dexterity; }
+    int32 GetLuckStat() const { return LuckStat; }
+    int32 GetStatusPointCost(EHonourWarStatusStat Stat) const;
+    bool SpendStatusPoint(EHonourWarStatusStat Stat,int32 Amount=1);
+    void SetStatusState(int32 InStatusPoints,int32 InStrength,int32 InAgility,int32 InVitality,int32 InIntelligence,int32 InDexterity,int32 InLuck);
+    float GetDamageReductionPercent() const;
+    float GetSkillCooldownMultiplier() const;
 
     void SetClassId(EHonourWarClass NewClass);
     void SetLevel(int32 NewLevel);
@@ -82,6 +94,7 @@ private:
     float SkillRangeForClass() const;
     float BaseDamageForClass() const;
     void GainExperience(int32 Amount);
+    void RecalculateVitals();
 
     UPROPERTY() AHonourWarMonster* LastTarget = nullptr;
     UPROPERTY(EditAnywhere) EHonourWarClass CharacterClass = EHonourWarClass::Warrior;
@@ -99,6 +112,13 @@ private:
     UPROPERTY(EditAnywhere) int32 Oridecon = 5;
     UPROPERTY(EditAnywhere) int32 BasicSkillLevel = 1;
     UPROPERTY(EditAnywhere) int32 Honours = 0;
+    UPROPERTY(EditAnywhere) int32 StatusPoints = 30;
+    UPROPERTY(EditAnywhere) int32 Strength = 10;
+    UPROPERTY(EditAnywhere) int32 Agility = 10;
+    UPROPERTY(EditAnywhere) int32 Vitality = 10;
+    UPROPERTY(EditAnywhere) int32 Intelligence = 10;
+    UPROPERTY(EditAnywhere) int32 Dexterity = 10;
+    UPROPERTY(EditAnywhere) int32 LuckStat = 10;
     UPROPERTY() TArray<FString> InventoryItems;
     UPROPERTY() TArray<FString> Cards;
     UPROPERTY() FString LastLootMessage = TEXT("No loot yet");
