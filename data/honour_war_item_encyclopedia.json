@@ -21001,7 +21001,7 @@
     },
     {
       "id": "JOBEQ_RAN_001",
-      "name": "Worldroot Longbow",
+      "name": "Verdant Paragon Bolt Gun",
       "type": "job_equipment",
       "class": "Ranger",
       "job": "Verdant Paragon",
@@ -21022,7 +21022,7 @@
         "DEX": 42,
         "AGI": 30
       },
-      "description": "Tier 5 Ranger signature equipment for Verdant Paragon; preserves the profession's weapon identity and is soulbound on claim.",
+      "description": "Tier 5 Ranger signature firearm for Verdant Paragon; preserves the Ranger firearm lineage and uses Machine Gun Bolts (ITEM_075).",
       "ammo_type": "machine_gun_bolt",
       "ammo_name": "Machine Gun Bolts"
     },
