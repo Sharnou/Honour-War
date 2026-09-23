@@ -42,7 +42,7 @@ if "HonourWarContentCatalog::Monsters()" not in world: raise SystemExit("CONTENT
 if "SpawnActor<AHonourWarMonster>" not in world: raise SystemExit("CONTENT_CATALOG_FAIL: monster SpawnActor integration")
 if "EquipmentForRank" not in loot: raise SystemExit("CONTENT_CATALOG_FAIL: equipment rank API missing")
 if 'TEXT("Transcendent Monster Suit")' not in loot or 'TEXT("World Monarch Card")' not in loot: raise SystemExit("CONTENT_CATALOG_FAIL: runtime level-300 rewards missing")
-if "LootRank = FMath::Clamp(1 + FMath::RoundToInt" not in combat or ", 1, 240)" not in combat: raise SystemExit("CONTENT_CATALOG_FAIL: full loot rank mapping missing")
+if "LootRank = FMath::Clamp(MonsterTier*30+MonsterFamilySlot+1,1,240)" not in combat: raise SystemExit("CONTENT_CATALOG_FAIL: full loot rank mapping missing")
 enc=json.loads((ROOT/"data/honour_war_item_encyclopedia.json").read_text(encoding="utf-8"))
 if len(enc.get("entries",[]))!=575: raise SystemExit("CONTENT_CATALOG_FAIL: item encyclopedia count")
 if len({x["id"] for x in enc["entries"]})!=575: raise SystemExit("CONTENT_CATALOG_FAIL: item encyclopedia IDs are not unique")
