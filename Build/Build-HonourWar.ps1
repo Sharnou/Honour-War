@@ -1,6 +1,6 @@
 param(
     [string]$UnrealRoot = $env:UNREAL_ENGINE_ROOT,
-    [string]$Configuration = "Development",
+    [string]$Configuration = "Shipping",
     [switch]$Package
 )
 
