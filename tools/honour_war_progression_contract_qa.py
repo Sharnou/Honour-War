@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 RULES = ROOT / "data" / "honour_war_default_rules.json"
 COMBAT = ROOT / "Source" / "HonourWar" / "HonourWarCombatComponent.cpp"
 COMBAT_H = ROOT / "Source" / "HonourWar" / "HonourWarCombatComponent.h"
+LOOT = ROOT / "Source" / "HonourWar" / "HonourWarLootDatabase.h"
 MONSTER = ROOT / "Source" / "HonourWar" / "HonourWarMonster.h"
 WORLD = ROOT / "Source" / "HonourWar" / "HonourWarWorldDirector.cpp"
 SAVE = ROOT / "Source" / "HonourWar" / "HonourWarSaveGame.h"
@@ -38,19 +39,22 @@ def main() -> int:
     save = SAVE.read_text(encoding="utf-8")
     char = CHAR.read_text(encoding="utf-8")
     hud = HUD.read_text(encoding="utf-8")
+    loot = LOOT.read_text(encoding="utf-8")
 
     for needle, label in [
         ("RewardMonsterDefeat", "monster defeat reward function"),
         ("50000", "level-300 XP reward"),
         ("250000", "level-300 Zeny reward"),
         ("World Monarch Card", "level-300 card reward"),
-        ("Transcendent Monster Suit", "level-300 suit reward"),
         ("AgeYears", "online-age combat scaling"),
         ("Zeny", "economy state"),
         ("InventoryItems", "inventory state"),
         ("Cards", "card state"),
     ]:
         require(combat, needle, label)
+
+    require(loot, "Transcendent Monster Suit", "level-300 suit reward")
+    require(loot, "World Monarch Card", "level-300 card database reward")
 
     for needle, label in [
         ("GetMonsterLevel", "monster level getter"),
