@@ -44,6 +44,7 @@ struct FHonourWarJobProfile
     UPROPERTY(EditAnywhere, BlueprintReadOnly) int32 PowerRating=100;
     UPROPERTY(EditAnywhere, BlueprintReadOnly) FString Clothing;
     UPROPERTY(EditAnywhere, BlueprintReadOnly) FString EmotionProfile;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly) FString SkillList;
     UPROPERTY(EditAnywhere, BlueprintReadOnly) FString SignatureWeapon;
     UPROPERTY(EditAnywhere, BlueprintReadOnly) FString Offhand;
 };
