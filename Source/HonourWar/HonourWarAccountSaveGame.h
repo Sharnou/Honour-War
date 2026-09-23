@@ -27,6 +27,13 @@ struct FHonourWarCharacterSlot
     UPROPERTY() int32 Oridecon=5;
     UPROPERTY() int32 BasicSkillLevel=1;
     UPROPERTY() int32 Honours=0;
+    UPROPERTY() int32 StatusPoints=30;
+    UPROPERTY() int32 Strength=10;
+    UPROPERTY() int32 Agility=10;
+    UPROPERTY() int32 Vitality=10;
+    UPROPERTY() int32 Intelligence=10;
+    UPROPERTY() int32 Dexterity=10;
+    UPROPERTY() int32 LuckStat=10;
     UPROPERTY() TArray<FString> InventoryItems;
     UPROPERTY() TArray<FString> Cards;
     UPROPERTY() int32 QuestId=1;
