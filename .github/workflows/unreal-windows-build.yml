@@ -19,6 +19,10 @@ jobs:
         shell: pwsh
         run: python tools/rejected_systems_qa.py
 
+      - name: Validate content catalog
+        shell: pwsh
+        run: python tools/content_catalog_qa.py
+
       - name: Validate repository contract
         shell: pwsh
         run: python tools/unreal_engine_contract_qa.py
