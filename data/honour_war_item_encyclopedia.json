@@ -24429,7 +24429,39 @@
       "availability": "Monster defeat",
       "when": "Any time; permanent daylight; source respawns after 12 seconds",
       "visual": "Pet gear silhouette for Star Deer; high-readability anime MMO rig"
+    },
+    {
+      "id": "ITEM_075",
+      "name": "Machine Gun Bolts",
+      "type": "ammunition",
+      "source": {
+        "monster_id": "MON_169",
+        "monster_name": "Wild Hunter Fly Scout",
+        "monster_level": 10,
+        "map_id": "coastal_cliffs",
+        "map_name": "Azure Coast"
+      },
+      "when": "Any time; dropped by Ranger-compatible hunting grounds; source respawns after 12 seconds",
+      "availability": "Monster defeat",
+      "drop_condition": "Eligible from Wild Hunter Fly Scout (Lv.10)",
+      "details": "Ammunition | ID ITEM_075 | Ranger | Machine Gun Bolt family | Stack 999 | Price 12"
+    },
+    {
+      "id": "ITEM_076",
+      "name": "Rune Bolts",
+      "type": "ammunition",
+      "source": {
+        "monster_id": "MON_065",
+        "monster_name": "Wild Wolf Scout",
+        "monster_level": 10,
+        "map_id": "forest_field",
+        "map_name": "Whispering Forest"
+      },
+      "when": "Any time; dropped by early Ranger hunting grounds; source respawns after 12 seconds",
+      "availability": "Monster defeat",
+      "drop_condition": "Eligible from Wild Wolf Scout (Lv.10)",
+      "details": "Ammunition | ID ITEM_076 | Ranger | Rune Bolt family | Stack 999 | Price 8"
     }
   ],
-  "entry_count": 795
+  "entry_count": 797
 }
