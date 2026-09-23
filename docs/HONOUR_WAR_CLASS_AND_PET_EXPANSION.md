@@ -50,7 +50,7 @@ Canonical content expansion for the Unreal Engine 5.8 MMORPG/ARPG. The roster is
 Ranger is a ranged firearm class. Tiers 1–2 use handcrafted fantasy guns; tiers 3–5 use rune-powered high-rate bolt weapons described as bolt-machine guns. Their ammunition is the canonical Machine Gun Bolt family. Visuals remain medieval-fantasy and do not use futuristic machinery.
 
 ## Content counts
-70 character profiles; 300 equipment; 300 cards; 80 general items; 20 pets; 120 pet skills; 100 pet equipment; searchable item encyclopedia entries include source monster, source map and availability/when metadata.
+70 character profiles; 300 equipment; 300 cards; 76 general items; 20 pets; 120 pet skills; 100 pet equipment; searchable item encyclopedia entries include source monster, source map and availability/when metadata.
 
 ## /help identity
 `/help [ID or name]` and `@help [ID or name]` perform exact then partial lookup. Results expose item/card ID, item type, stats/details, source monster, source map and when/availability information. IDs are globally stable within their catalog family.
