@@ -1,5 +1,5 @@
 {
-  "schema_version": "2.0.0",
+  "schema_version": "3.0.0",
   "game": "Honour War",
   "canonical": true,
   "runtime_engine": "Unreal Engine 5.8",
@@ -64,16 +64,6 @@
     "online": true,
     "player_vs_player": false
   },
-  "city_system": {
-    "purpose": "RPG service hubs",
-    "services": [
-      "weapon_refinement",
-      "card_mixing",
-      "storage",
-      "hero_skill_upgrade"
-    ],
-    "fast_travel": "@go [map] [x]:[y]"
-  },
   "reward_loop": {
     "on_monster_defeat": [
       "experience",
@@ -117,5 +107,149 @@
     "city_monsters": false,
     "glb": false,
     "gltf": false
+  },
+  "monster_variant_count": 256,
+  "status_points": {
+    "starting_status_points": 30,
+    "starting_stat_value": 10,
+    "stat_cap": 120,
+    "per_level_gain": 3,
+    "milestone_bonus": {
+      "every_levels": 25,
+      "bonus_points": 5
+    },
+    "allocation_costs": [
+      {
+        "stat_value_range": "10-79",
+        "points_per_stat": 1
+      },
+      {
+        "stat_value_range": "80-99",
+        "points_per_stat": 2
+      },
+      {
+        "stat_value_range": "100-120",
+        "points_per_stat": 3
+      }
+    ],
+    "attributes": {
+      "STR": "+2 attack per point",
+      "AGI": "+1 flee per point and reduces skill cooldowns up to 20%",
+      "VIT": "+25 maximum HP per point and up to 25% damage mitigation",
+      "INT": "+15 maximum SP per point and skill scaling contribution",
+      "DEX": "+1 hit rating per point and +0.80 attack scaling per point",
+      "LUK": "critical and lucky-defense contribution"
+    },
+    "allocation": "HUD stat buttons or @stat STR 1 / @stat AGI 1 / @stat VIT 1 / @stat INT 1 / @stat DEX 1 / @stat LUK 1",
+    "persistence": "single HonourWarAccount character record; autosaved every 5 seconds"
+  },
+  "progression_rules": {
+    "level_cap": 250,
+    "monster_level_cap": 300,
+    "level_up": "XP carries over; level-up restores HP/SP and awards status points",
+    "milestone_status_bonus": "Every 25 levels awards +5 additional status points",
+    "age_system": "Online days affect appearance, basic-skill scaling and refinement/cost rules",
+    "level_300_path": "Level-300 monster defeats can grant the highest equipment/card rewards"
+  },
+  "combat_rules": {
+    "normal_attack": "Hit versus target Flee",
+    "critical": "Critical checks against target resistance and deals 1.40x damage",
+    "lucky_defense": "Luck can produce Lucky! avoidance",
+    "miss": "MISS deals no damage and no flinch",
+    "player_hit_reaction": "Normal hits cause 0.25s movement stutter; critical reactions are shorter",
+    "monster_hit_reaction": "Normal flinch 0.25s; critical flinch 0.16s",
+    "mitigation": "VIT reduces incoming damage up to 25%",
+    "skill_cost": "18 SP + 4 SP per skill index",
+    "skill_cooldown": "AGI reduces base cooldown up to 20%"
+  },
+  "monster_population": {
+    "variants": 256,
+    "families": 32,
+    "archetypes": [
+      "Poring",
+      "Goblin",
+      "Wolf",
+      "Skeleton",
+      "Orc",
+      "Mantis",
+      "Golem",
+      "Dragon"
+    ],
+    "levels": [
+      10,
+      30,
+      50,
+      80,
+      120,
+      170,
+      230,
+      300
+    ],
+    "respawn_seconds": 12,
+    "city_exclusion_radius": 7800,
+    "reward_loop": [
+      "experience",
+      "zeny",
+      "honour",
+      "equipment",
+      "card"
+    ]
+  },
+  "quest_rules": {
+    "active_quests": 12,
+    "sequence": "Completed quest advances to next quest",
+    "targeting": "Monster family and minimum-level requirements",
+    "completion": "Progression, rewards and persistence",
+    "rewards": [
+      "Zeny",
+      "Honours",
+      "quest item"
+    ]
+  },
+  "world_event_rules": {
+    "events": 6,
+    "rotation_seconds": 180,
+    "modifiers": [
+      "damage",
+      "XP",
+      "Zeny",
+      "Honour",
+      "SP regeneration"
+    ],
+    "daylight_only": true
+  },
+  "map_rules": {
+    "maps": 24,
+    "fast_travel": "@go [map] [x]:[y]",
+    "coordinate_scale": 10,
+    "collision_safe_spawn": true
+  },
+  "ui_rules": {
+    "target_resolution": "1440p+",
+    "fixed_surfaces": [
+      "profile",
+      "HP/SP/XP",
+      "status points",
+      "minimap",
+      "live world event",
+      "active quest",
+      "chat/combat feed",
+      "refinement/economy"
+    ],
+    "live_updates": [
+      "coordinates",
+      "event timer",
+      "quest progress",
+      "combat reaction",
+      "status point availability"
+    ],
+    "interaction": [
+      "mouse ground click",
+      "mouse monster click",
+      "right-drag camera",
+      "wheel zoom",
+      "WASD",
+      "1-8 skills"
+    ]
   }
 }
