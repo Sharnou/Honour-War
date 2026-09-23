@@ -5308,7 +5308,7 @@
     },
     {
       "id": "EQUIP_240",
-      "name": "Ironroot Seal 5",
+      "name": "Transcendent Monster Suit",
       "slot": "Accessory",
       "class": "Mage",
       "tier": 5,
@@ -7922,7 +7922,7 @@
     },
     {
       "id": "CARD_240",
-      "name": "Abyss Ascendant Card 5",
+      "name": "World Monarch Card",
       "tier": 5,
       "slot": "Accessory",
       "socketable": true,
