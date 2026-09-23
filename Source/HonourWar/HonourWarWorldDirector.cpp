@@ -1,4 +1,5 @@
 #include "HonourWarWorldDirector.h"
+#include "HonourWarContentCatalog.h"
 #include "Components/SceneComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/DirectionalLightComponent.h"
@@ -107,53 +108,32 @@ void AHonourWarWorldDirector::BuildRiverBridge(const FVector& C){AddPart(CubeMes
 void AHonourWarWorldDirector::SpawnMonsters()
 {
     MonsterSlots.Reset();
+    const TArray<HonourWarContentCatalog::FMonsterTemplate>& Catalog = HonourWarContentCatalog::Monsters();
+    MonsterSlots.Reserve(Catalog.Num());
 
-    const int32 MonsterLevels[] = {20,40,60,90,120,160,220,300};
-    const EHonourWarMonsterSpecies MonsterSpecies[] = {
-        EHonourWarMonsterSpecies::Poring,
-        EHonourWarMonsterSpecies::Goblin,
-        EHonourWarMonsterSpecies::Wolf,
-        EHonourWarMonsterSpecies::Skeleton,
-        EHonourWarMonsterSpecies::Orc,
-        EHonourWarMonsterSpecies::Mantis,
-        EHonourWarMonsterSpecies::Golem,
-        EHonourWarMonsterSpecies::Dragon
-    };
-    const FVector MonsterLocations[] = {
-        FVector(9200,9200,120), FVector(-9200,9200,120),
-        FVector(9200,-9200,120), FVector(-9200,-9200,120),
-        FVector(12000,0,120), FVector(-12000,0,120),
-        FVector(0,12500,120), FVector(0,-12500,120)
-    };
-
-    for(int32 I=0; I<UE_ARRAY_COUNT(MonsterLocations); ++I)
+    for (const HonourWarContentCatalog::FMonsterTemplate& Entry : Catalog)
     {
-        FMonsterSlot& Slot=MonsterSlots.AddDefaulted_GetRef();
-        Slot.Location=MonsterLocations[I];
-        if(FVector2D(Slot.Location.X,Slot.Location.Y).Size()<7800.0f)
-        {
-            MonsterSlots.RemoveAt(MonsterSlots.Num()-1);
-            continue;
-        }
+        FMonsterSlot& Slot = MonsterSlots.AddDefaulted_GetRef();
+        Slot.Location = Entry.Location;
+        Slot.Level = FMath::Clamp(Entry.Level, 1, 300);
+        Slot.Species = Entry.Species;
+        Slot.RespawnTimer = 0.0f;
 
-        Slot.Level=FMath::Clamp(MonsterLevels[I],1,300);
-        Slot.Species=MonsterSpecies[I];
-        Slot.RespawnTimer=0.0f;
-
-        if(UWorld* World=GetWorld())
+        if (UWorld* World = GetWorld())
         {
             FActorSpawnParameters Params;
-            Params.Owner=this;
-            Params.SpawnCollisionHandlingOverride=ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
-            AHonourWarMonster* Monster=World->SpawnActor<AHonourWarMonster>(
-                AHonourWarMonster::StaticClass(),Slot.Location,FRotator::ZeroRotator,Params);
-            if(Monster)
+            Params.Owner = this;
+            Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+            AHonourWarMonster* Monster = World->SpawnActor<AHonourWarMonster>(
+                AHonourWarMonster::StaticClass(), Slot.Location, FRotator::ZeroRotator, Params);
+            if (Monster)
             {
                 Monster->SetLevel(Slot.Level);
                 Monster->SetSpecies(Slot.Species);
-                Slot.Active=Monster;
+                Slot.Active = Monster;
             }
         }
     }
 }
+
 void AHonourWarWorldDirector::SpawnMonsterSlot(int32 SlotIndex){if(MonsterSlots.IsValidIndex(SlotIndex))MonsterSlots[SlotIndex].RespawnTimer=0.0f;}
