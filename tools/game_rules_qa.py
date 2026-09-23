@@ -30,5 +30,6 @@ if len(jobs.get("classes",{}))!=7: raise SystemExit("GAME_RULES_QA_FAIL: seven c
 if sum(len(v.get("tiers",[])) for v in jobs["classes"].values())!=35: raise SystemExit("GAME_RULES_QA_FAIL: 35 jobs")
 if rules.get("class_job_architecture",{}).get("jobs")!=35: raise SystemExit("GAME_RULES_QA_FAIL: canonical job count")
 loot_rules=rules.get("loot_rules",{})
-if loot_rules.get("equipment_ranks")!=300 or loot_rules.get("general_items")!=76 or loot_rules.get("card_ranks")!=300: raise SystemExit("GAME_RULES_QA_FAIL: loot counts")
-print("GAME_RULES_QA_PASS: canonical rules, 256 monsters, six-stat allocation, combat, death, refinement, equipment, maps and network restrictions are coherent.")
+if loot_rules.get("equipment_ranks")!=300 or loot_rules.get("general_items")!=76 or loot_rules.get("card_ranks")!=300 or loot_rules.get("pet_equipment")!=100: raise SystemExit("GAME_RULES_QA_FAIL: loot counts")
+if rules.get("ranger_rules",{}).get("ammo_id")!="ITEM_075" or rules.get("ranger_rules",{}).get("ammo_name")!="Machine Gun Bolts": raise SystemExit("GAME_RULES_QA_FAIL: Ranger ammunition rule")
+print("GAME_RULES_QA_PASS: canonical rules, 256 monsters, seven five-tier professions, 300/300 loot, Ranger ammunition, six-stat allocation, combat, death, refinement, equipment, maps and network restrictions are coherent.")
