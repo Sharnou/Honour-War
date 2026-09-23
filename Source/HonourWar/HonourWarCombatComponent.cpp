@@ -516,7 +516,11 @@ void UHonourWarCombatComponent::SetHonours(int32 NewHonours){ Honours = FMath::M
 void UHonourWarCombatComponent::SetInventoryItems(const TArray<FString>& NewItems){ InventoryItems = NewItems; }
 void UHonourWarCombatComponent::SetCards(const TArray<FString>& NewCards){ Cards = NewCards; }
 
-namespace { int32 HonourWarMonsterTier(int32 Level){if(Level>=300)return 7;if(Level>=230)return 6;if(Level>=170)return 5;if(Level>=120)return 4;if(Level>=80)return 3;if(Level>=50)return 2;if(Level>=30)return 1;return 0;} int32 HonourWarMonsterFamilyIndex(const FString& Name){static const TCHAR* F[]={TEXT("Poring"),TEXT("Poporing"),TEXT("Drops"),TEXT("Marin"),TEXT("Goblin"),TEXT("Kobold"),TEXT("Hobgoblin"),TEXT("Orclet"),TEXT("Wolf"),TEXT("Desert Wolf"),TEXT("Warg"),TEXT("Dire Wolf"),TEXT("Skeleton"),TEXT("Zombie Guard"),TEXT("Bone Archer"),TEXT("Skull Knight"),TEXT("Orc"),TEXT("Orc Warrior"),TEXT("Orc Champion"),TEXT("Orc Warlord"),TEXT("Mantis"),TEXT("Hunter Fly"),TEXT("Scorpion"),TEXT("Venom Beetle"),TEXT("Golem"),TEXT("Stone Golem"),TEXT("Crystal Golem"),TEXT("Iron Golem"),TEXT("Dragon"),TEXT("Drake"),TEXT("Wyvern"),TEXT("Elder Dragon")};for(int32 I=0;I<32;++I)if(Name.Contains(F[I]))return I;return 0;} }
+namespace { int32 HonourWarMonsterTier(int32 Level){if(Level>=300)return 7;if(Level>=230)return 6;if(Level>=170)return 5;if(Level>=120)return 4;if(Level>=80)return 3;if(Level>=50)return 2;if(Level>=30)return 1;return 0;} int32 HonourWarMonsterFamilyIndex(const FString& Name){struct FFamilyToken{const TCHAR* Name;int32 Index;};
+static const FFamilyToken F[]={
+ {TEXT("Zombie Guard"),13},{TEXT("Skull Knight"),15},{TEXT("Bone Archer"),14},{TEXT("Orc Warlord"),19},{TEXT("Orc Champion"),18},{TEXT("Orc Warrior"),17},{TEXT("Desert Wolf"),9},{TEXT("Dire Wolf"),11},{TEXT("Poporing"),1},{TEXT("Venom Beetle"),23},{TEXT("Hunter Fly"),21},{TEXT("Stone Golem"),25},{TEXT("Crystal Golem"),26},{TEXT("Iron Golem"),27},{TEXT("Elder Dragon"),31},
+ {TEXT("Poring"),0},{TEXT("Drops"),2},{TEXT("Marin"),3},{TEXT("Goblin"),4},{TEXT("Kobold"),5},{TEXT("Hobgoblin"),6},{TEXT("Orclet"),7},{TEXT("Wolf"),8},{TEXT("Warg"),10},{TEXT("Skeleton"),12},{TEXT("Orc"),16},{TEXT("Mantis"),20},{TEXT("Scorpion"),22},{TEXT("Golem"),24},{TEXT("Dragon"),28},{TEXT("Drake"),29},{TEXT("Wyvern"),30}
+};for(const FFamilyToken& Token:F)if(Name.Contains(Token.Name))return Token.Index;return 0;} }
 
 void UHonourWarCombatComponent::RewardMonsterDefeat(int32 MonsterLevel,const FString& MonsterName)
 {

@@ -1,0 +1,14 @@
+#!/usr/bin/env python3
+from pathlib import Path
+import json
+ROOT=Path(__file__).resolve().parents[1]
+d=json.loads((ROOT/"data/honour_war_item_encyclopedia.json").read_text(encoding="utf-8")); e=d["entries"]
+if len(e)!=575 or len({x["id"] for x in e})!=575: raise SystemExit("ITEM_HELP_QA_FAIL: unique entries")
+for prefix,count in [("EQUIP_",240),("ITEM_",74),("CARD_",240)]:
+    if len([x for x in e if x["id"].startswith(prefix)])!=count: raise SystemExit(f"ITEM_HELP_QA_FAIL: {prefix} count")
+for x in e:
+    if x["id"].startswith(("EQUIP_","ITEM_","CARD_")) and (not x.get("source") or not x["source"].get("monster_id") or not x["source"].get("map_name") or not x.get("when")): raise SystemExit(f"ITEM_HELP_QA_FAIL: source/availability {x['id']}")
+pc=(ROOT/"Source/HonourWar/HonourWarPlayerController.cpp").read_text(encoding="utf-8")
+ec=(ROOT/"Source/HonourWar/HonourWarItemEncyclopedia.cpp").read_text(encoding="utf-8")
+if "ExecuteHelpCommand" not in pc or "/help" not in pc or "BuildHelpLines" not in ec: raise SystemExit("ITEM_HELP_QA_FAIL: runtime help")
+print("ITEM_HELP_QA_PASS: 575 searchable IDs with source monster, map and availability metadata.")

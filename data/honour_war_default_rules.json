@@ -407,5 +407,36 @@
     ],
     "loop_seconds": 8,
     "policy": "No copied Ragnarok Online recordings, melodies, samples or extracted assets; all included audio is newly synthesized for Honour War."
+  },
+  "class_job_architecture": {
+    "source": "data/honour_war_class_jobs.json",
+    "classes": 7,
+    "jobs": 35,
+    "tier_levels": [
+      1,
+      25,
+      50,
+      150,
+      200
+    ],
+    "job_selection": "Current job resolves from base class and level; player six-stat allocation remains free.",
+    "fifth_tiers": {
+      "Warrior": "Abyssal Warlord",
+      "Mage": "Eternal Spellwright",
+      "Archer": "Causality Marksman",
+      "Thief": "Absolute Shadow",
+      "Acolyte": "Eternal Benediction",
+      "Merchant": "Infinite Quartermaster",
+      "Ranger": "Verdant Paragon"
+    }
+  },
+  "loot_rules": {
+    "equipment_ranks": 240,
+    "general_items": 74,
+    "card_ranks": 240,
+    "rank_layout": "8 monster level bands x 30 loot ranks; specific monster family selects the rank.",
+    "card_policy": "Cards can drop in every monster level band so all 240 card IDs are reachable.",
+    "general_item_policy": "Every monster defeat resolves one rotating general-item slot; all 74 general item IDs are reachable.",
+    "level_300_rewards": "EQUIP_240 Transcendent Monster Suit and CARD_240 World Monarch Card."
   }
 }
