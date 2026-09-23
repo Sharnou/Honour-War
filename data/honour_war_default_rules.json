@@ -378,7 +378,7 @@
       0,
       4
     ],
-    "reward_rank_mapping": "Monster level 1-300 maps into 240 equipment/card reward ranks; level 300 reaches the highest rank."
+    "reward_rank_mapping": "Monster level 1-300 resolves into the 300-entry equipment/card production pools; rank 300 is the highest canonical reward."
   },
   "audio_rules": {
     "source_format": "WAV PCM",
