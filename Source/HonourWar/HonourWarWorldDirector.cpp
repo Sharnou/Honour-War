@@ -119,6 +119,8 @@ void AHonourWarWorldDirector::SpawnMonsters()
         Slot.Species = Entry.Species;
         Slot.RespawnTimer = 0.0f;
 
+        if(FVector2D(Slot.Location.X,Slot.Location.Y).Size()<7800.0f) continue;
+
         if (UWorld* World = GetWorld())
         {
             FActorSpawnParameters Params;
