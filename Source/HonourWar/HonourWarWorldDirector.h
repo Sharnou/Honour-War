@@ -38,6 +38,7 @@ private:
     {
         FVector Location=FVector::ZeroVector;
         int32 Level=1;
+        FString Name;
         EHonourWarMonsterSpecies Species=EHonourWarMonsterSpecies::Goblin;
         TWeakObjectPtr<AHonourWarMonster> Active;
         float RespawnTimer=0.0f;
