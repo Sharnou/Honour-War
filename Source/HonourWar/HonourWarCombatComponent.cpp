@@ -558,8 +558,8 @@ void UHonourWarCombatComponent::RewardMonsterDefeat(int32 MonsterLevel,const FSt
     InventoryItems.Add(FString::Printf(TEXT("General | %s"),*HonourWarLootDatabase::Items()[300+GeneralItemIndex]));
 
     const FString DatabaseItem = HonourWarLootDatabase::EquipmentForRank(LootRank);
-    const bool bRangerBoltWeapon = CharacterClass==EHonourWarClass::Ranger && Level>=50;
-    const FString RangerAmmoTag = bRangerBoltWeapon ? TEXT("Machine Gun Bolts | ITEM_075") : TEXT("Rune Bolts | ITEM_076");
+    const bool bRangerBoltWeapon = CharacterClass==EHonourWarClass::Ranger;
+    const FString RangerAmmoTag = bRangerBoltWeapon ? TEXT("Machine Gun Bolts | ITEM_075") : TEXT("");
     const FString ItemName = CharacterClass==EHonourWarClass::Ranger ? FString::Printf(TEXT("%s | %s | %s"), *Rarity, *DatabaseItem, *RangerAmmoTag) : FString::Printf(TEXT("%s | %s"), *Rarity, *DatabaseItem);
     InventoryItems.Add(ItemName);
 
