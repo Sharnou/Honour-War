@@ -58,11 +58,17 @@ def main() -> int:
     ]:
         require(monster, needle, label)
 
-    require(world, "const int32 MonsterLevels[]", "monster level array")
-    require(world, "300", "level-300 monster")
-    require(world, "const FVector MonsterLocations[]", "monster spawn locations")
+    catalog = json.loads((ROOT/"data"/"honour_war_content_catalog.json").read_text(encoding="utf-8"))
+    if len(catalog.get("monsters", [])) != 64:
+        raise SystemExit("PROGRESSION_QA_FAIL: monster catalog must contain 64 entries")
+    if 300 not in {m.get("level") for m in catalog["monsters"]}:
+        raise SystemExit("PROGRESSION_QA_FAIL: level-300 monster missing from catalog")
+    if not all("location" in m for m in catalog["monsters"]):
+        raise SystemExit("PROGRESSION_QA_FAIL: monster catalog location missing")
     for species in ["Poring","Goblin","Wolf","Skeleton","Orc","Mantis","Golem","Dragon"]:
-        require(world, "EHonourWarMonsterSpecies::"+species, species+" world spawn roster")
+        if species not in {m.get("visual_archetype") for m in catalog["monsters"]}:
+            raise SystemExit(f"PROGRESSION_QA_FAIL: {species} monster archetype missing")
+    require(world, "HonourWarContentCatalog::Monsters()", "catalog-driven monster world spawn")
     require((ROOT / "Config" / "DefaultInput.ini").read_text(encoding="utf-8"), 'ActionName="RefineEquipment"', "refinement input")
 
     quest_cpp=(ROOT/"Source"/"HonourWar"/"HonourWarQuestComponent.cpp").read_text(encoding="utf-8")
