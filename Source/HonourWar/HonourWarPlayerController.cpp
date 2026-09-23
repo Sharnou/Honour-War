@@ -381,7 +381,7 @@ bool AHonourWarPlayerController::CreateCharacter(const FString& CharacterName,EH
     for(int32 i=0;i<OwnedCharacters.Num();++i) if(OwnedCharacters[i].bOwned && OwnedCharacters[i].CharacterName.Equals(Clean,ESearchCase::IgnoreCase)){OutMessage=TEXT("That character name is already owned.");return false;}
     int32 Slot=-1;
     for(int32 i=0;i<70;++i){if(i>=OwnedCharacters.Num()) OwnedCharacters.Add(FHonourWarCharacterSlot()); if(!OwnedCharacters[i].bOwned){Slot=i;break;}}
-    if(Slot<0){OutMessage=TEXT("All 60 character slots are occupied.");return false;}
+    if(Slot<0){OutMessage=TEXT("All 70 character slots are occupied.");return false;}
     OwnedCharacters[Slot].bOwned=true;
     OwnedCharacters[Slot].CharacterName=Clean;
     OwnedCharacters[Slot].ClassId=ClassId;
@@ -461,7 +461,7 @@ bool AHonourWarPlayerController::ExecuteHelpCommand(const FString& Command)
     if(Tokens.Num()==1)
     {
         ClientMessage(TEXT("HELP: /help [item/card/pet ID or name] | examples: /help EQUIP_300, /help CARD_300, /help PETEQ_001, /help Machine Gun Bolts"));
-        ClientMessage(TEXT("IDs: EQUIP_001-240 | ITEM_001-074 | CARD_001-240 | JOBEQ_* | JOBCARD_*"));
+        ClientMessage(TEXT("IDs: EQUIP_001-300 | ITEM_001-076 | CARD_001-300 | JOBEQ_* | JOBCARD_* | PETEQ_001-100"));
         return true;
     }
 
