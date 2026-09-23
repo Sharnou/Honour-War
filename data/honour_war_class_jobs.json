@@ -179,6 +179,38 @@
             "headgear": "Foundation Warrior headgear",
             "garment": "Foundation Warrior mantle",
             "footgear": "Foundation Warrior greaves"
+          },
+          "gender_variants": {
+            "male": "Male: layered steel cuirass, greatblade arcs, Ember Vanguard insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: lamellar skirt or plated battle-kilt, greatblade arcs, Ember Vanguard insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Warrior Tier 1 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 1 Swordsman Blade silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Ironclad Wolf",
+            "focus": "guard, taunt, interception",
+            "gear": "collar + armor"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Ember Slash",
+            "finisher": "Ember Guard",
+            "resource": "SP",
+            "attack_range": 260,
+            "power_rating": 118,
+            "recommended_stats": [
+              "STR",
+              "VIT"
+            ]
           }
         },
         {
@@ -346,6 +378,38 @@
             "headgear": "Specialization Warrior headgear",
             "garment": "Specialization Warrior mantle",
             "footgear": "Specialization Warrior greaves"
+          },
+          "gender_variants": {
+            "male": "Male: layered steel cuirass, greatblade arcs, Iron Oath Knight insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: lamellar skirt or plated battle-kilt, greatblade arcs, Iron Oath Knight insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Warrior Tier 2 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 2 Oath Knight Sword silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Ironclad Wolf",
+            "focus": "guard, taunt, interception",
+            "gear": "collar + armor"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Oath Strike",
+            "finisher": "Iron Halo",
+            "resource": "SP",
+            "attack_range": 285,
+            "power_rating": 130,
+            "recommended_stats": [
+              "STR",
+              "VIT"
+            ]
           }
         },
         {
@@ -513,6 +577,38 @@
             "headgear": "Advanced Warrior headgear",
             "garment": "Advanced Warrior mantle",
             "footgear": "Advanced Warrior greaves"
+          },
+          "gender_variants": {
+            "male": "Male: layered steel cuirass, greatblade arcs, Dawnsteel Paladin insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: lamellar skirt or plated battle-kilt, greatblade arcs, Dawnsteel Paladin insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Warrior Tier 3 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 3 Dawnsteel Sword silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Ironclad Wolf",
+            "focus": "guard, taunt, interception",
+            "gear": "collar + armor"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Dawn Verdict",
+            "finisher": "Paladin Vow",
+            "resource": "SP",
+            "attack_range": 310,
+            "power_rating": 142,
+            "recommended_stats": [
+              "STR",
+              "VIT"
+            ]
           }
         },
         {
@@ -680,6 +776,38 @@
             "headgear": "Mastery Warrior headgear",
             "garment": "Mastery Warrior mantle",
             "footgear": "Mastery Warrior greaves"
+          },
+          "gender_variants": {
+            "male": "Male: layered steel cuirass, greatblade arcs, Battlefield Warlord insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: lamellar skirt or plated battle-kilt, greatblade arcs, Battlefield Warlord insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Warrior Tier 4 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 4 Warlord Greatblade silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Ironclad Wolf",
+            "focus": "guard, taunt, interception",
+            "gear": "collar + armor"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Warlord Cleave",
+            "finisher": "Battlefield Dominion",
+            "resource": "SP",
+            "attack_range": 335,
+            "power_rating": 154,
+            "recommended_stats": [
+              "STR",
+              "VIT"
+            ]
           }
         },
         {
@@ -847,6 +975,38 @@
             "headgear": "Transcendence Warrior headgear",
             "garment": "Transcendence Warrior mantle",
             "footgear": "Transcendence Warrior greaves"
+          },
+          "gender_variants": {
+            "male": "Male: layered steel cuirass, greatblade arcs, The Gravitational Vanguard insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: lamellar skirt or plated battle-kilt, greatblade arcs, The Gravitational Vanguard insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Warrior Tier 5 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 5 Transcendent Greatsword silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Ironclad Wolf",
+            "focus": "guard, taunt, interception",
+            "gear": "collar + armor"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Abyssal Cleave",
+            "finisher": "Abyssal Dominion",
+            "resource": "SP",
+            "attack_range": 360,
+            "power_rating": 166,
+            "recommended_stats": [
+              "STR",
+              "VIT"
+            ]
           }
         }
       ],
@@ -1030,6 +1190,38 @@
             "headgear": "Foundation Mage headgear",
             "garment": "Foundation Mage mantle",
             "footgear": "Foundation Mage greaves"
+          },
+          "gender_variants": {
+            "male": "Male: rune-lined long coat, staff sigils, Azure Apprentice insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: ribboned spell mantle, staff sigils, Azure Apprentice insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Mage Tier 1 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 1 Rune Staff silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Astral Owl",
+            "focus": "spell amplification, mana recovery, arcane control",
+            "gear": "charm + pack"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Arcane Bolt",
+            "finisher": "Arcane Veil",
+            "resource": "SP",
+            "attack_range": 780,
+            "power_rating": 118,
+            "recommended_stats": [
+              "INT",
+              "DEX"
+            ]
           }
         },
         {
@@ -1197,6 +1389,38 @@
             "headgear": "Specialization Mage headgear",
             "garment": "Specialization Mage mantle",
             "footgear": "Specialization Mage greaves"
+          },
+          "gender_variants": {
+            "male": "Male: rune-lined long coat, staff sigils, Astral Wizard insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: ribboned spell mantle, staff sigils, Astral Wizard insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Mage Tier 2 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 2 Astral Staff silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Astral Owl",
+            "focus": "spell amplification, mana recovery, arcane control",
+            "gear": "charm + pack"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Astral Lance",
+            "finisher": "Astral Barrier",
+            "resource": "SP",
+            "attack_range": 805,
+            "power_rating": 130,
+            "recommended_stats": [
+              "INT",
+              "DEX"
+            ]
           }
         },
         {
@@ -1364,6 +1588,38 @@
             "headgear": "Advanced Mage headgear",
             "garment": "Advanced Mage mantle",
             "footgear": "Advanced Mage greaves"
+          },
+          "gender_variants": {
+            "male": "Male: rune-lined long coat, staff sigils, Celestial High Wizard insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: ribboned spell mantle, staff sigils, Celestial High Wizard insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Mage Tier 3 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 3 Celestial Staff silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Astral Owl",
+            "focus": "spell amplification, mana recovery, arcane control",
+            "gear": "charm + pack"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Celestial Ray",
+            "finisher": "Arcane Cataclysm",
+            "resource": "SP",
+            "attack_range": 830,
+            "power_rating": 142,
+            "recommended_stats": [
+              "INT",
+              "DEX"
+            ]
           }
         },
         {
@@ -1531,6 +1787,38 @@
             "headgear": "Mastery Mage headgear",
             "garment": "Mastery Mage mantle",
             "footgear": "Mastery Mage greaves"
+          },
+          "gender_variants": {
+            "male": "Male: rune-lined long coat, staff sigils, Grand Arcane Sage insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: ribboned spell mantle, staff sigils, Grand Arcane Sage insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Mage Tier 4 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 4 Chrono Staff silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Astral Owl",
+            "focus": "spell amplification, mana recovery, arcane control",
+            "gear": "charm + pack"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Sage Comet",
+            "finisher": "Grand Spellstorm",
+            "resource": "SP",
+            "attack_range": 855,
+            "power_rating": 154,
+            "recommended_stats": [
+              "INT",
+              "DEX"
+            ]
           }
         },
         {
@@ -1698,6 +1986,38 @@
             "headgear": "Transcendence Mage headgear",
             "garment": "Transcendence Mage mantle",
             "footgear": "Transcendence Mage greaves"
+          },
+          "gender_variants": {
+            "male": "Male: rune-lined long coat, staff sigils, The Eternal Spellwright insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: ribboned spell mantle, staff sigils, The Eternal Spellwright insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Mage Tier 5 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 5 Chrono Arcane Staff silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Astral Owl",
+            "focus": "spell amplification, mana recovery, arcane control",
+            "gear": "charm + pack"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Eternal Spellstorm",
+            "finisher": "Spellwright Ascension",
+            "resource": "SP",
+            "attack_range": 880,
+            "power_rating": 166,
+            "recommended_stats": [
+              "INT",
+              "DEX"
+            ]
           }
         }
       ],
@@ -1881,6 +2201,38 @@
             "headgear": "Foundation Archer headgear",
             "garment": "Foundation Archer mantle",
             "footgear": "Foundation Archer greaves"
+          },
+          "gender_variants": {
+            "male": "Male: windproof leather jerkin, feathered bow tracers, Windrunner Bowman insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: split-tail ranger coat, feathered bow tracers, Windrunner Bowman insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Archer Tier 1 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 1 Windrunner Bow silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Sky Hawk",
+            "focus": "marking, scouting, ranged accuracy",
+            "gear": "weapon + pack"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Double Shot",
+            "finisher": "Windguard",
+            "resource": "SP",
+            "attack_range": 1250,
+            "power_rating": 118,
+            "recommended_stats": [
+              "DEX",
+              "AGI"
+            ]
           }
         },
         {
@@ -2048,6 +2400,38 @@
             "headgear": "Specialization Archer headgear",
             "garment": "Specialization Archer mantle",
             "footgear": "Specialization Archer greaves"
+          },
+          "gender_variants": {
+            "male": "Male: windproof leather jerkin, feathered bow tracers, Beast Hunter insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: split-tail ranger coat, feathered bow tracers, Beast Hunter insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Archer Tier 2 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 2 Beast Hunter Bow silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Sky Hawk",
+            "focus": "marking, scouting, ranged accuracy",
+            "gear": "weapon + pack"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Triple Shot",
+            "finisher": "Predator Sense",
+            "resource": "SP",
+            "attack_range": 1275,
+            "power_rating": 130,
+            "recommended_stats": [
+              "DEX",
+              "AGI"
+            ]
           }
         },
         {
@@ -2215,6 +2599,38 @@
             "headgear": "Advanced Archer headgear",
             "garment": "Advanced Archer mantle",
             "footgear": "Advanced Archer greaves"
+          },
+          "gender_variants": {
+            "male": "Male: windproof leather jerkin, feathered bow tracers, Star Sniper insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: split-tail ranger coat, feathered bow tracers, Star Sniper insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Archer Tier 3 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 3 Star Sniper Bow silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Sky Hawk",
+            "focus": "marking, scouting, ranged accuracy",
+            "gear": "weapon + pack"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Star Arrow",
+            "finisher": "Astral Arrow",
+            "resource": "SP",
+            "attack_range": 1300,
+            "power_rating": 142,
+            "recommended_stats": [
+              "DEX",
+              "AGI"
+            ]
           }
         },
         {
@@ -2382,6 +2798,38 @@
             "headgear": "Mastery Archer headgear",
             "garment": "Mastery Archer mantle",
             "footgear": "Mastery Archer greaves"
+          },
+          "gender_variants": {
+            "male": "Male: windproof leather jerkin, feathered bow tracers, Horizon Deadeye insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: split-tail ranger coat, feathered bow tracers, Horizon Deadeye insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Archer Tier 4 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 4 Horizon Longbow silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Sky Hawk",
+            "focus": "marking, scouting, ranged accuracy",
+            "gear": "weapon + pack"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Deadeye Barrage",
+            "finisher": "Horizon Break",
+            "resource": "SP",
+            "attack_range": 1325,
+            "power_rating": 154,
+            "recommended_stats": [
+              "DEX",
+              "AGI"
+            ]
           }
         },
         {
@@ -2549,6 +2997,38 @@
             "headgear": "Transcendence Archer headgear",
             "garment": "Transcendence Archer mantle",
             "footgear": "Transcendence Archer greaves"
+          },
+          "gender_variants": {
+            "male": "Male: windproof leather jerkin, feathered bow tracers, The Causality Marksman insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: split-tail ranger coat, feathered bow tracers, The Causality Marksman insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Archer Tier 5 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 5 Doomsday Longbow silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Sky Hawk",
+            "focus": "marking, scouting, ranged accuracy",
+            "gear": "weapon + pack"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Causality Arrow",
+            "finisher": "Causality Finale",
+            "resource": "SP",
+            "attack_range": 1350,
+            "power_rating": 166,
+            "recommended_stats": [
+              "DEX",
+              "AGI"
+            ]
           }
         }
       ],
@@ -2732,6 +3212,38 @@
             "headgear": "Foundation Thief headgear",
             "garment": "Foundation Thief mantle",
             "footgear": "Foundation Thief greaves"
+          },
+          "gender_variants": {
+            "male": "Male: shadow leather harness, smoke-blade afterimages, Nightblade Initiate insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: asymmetric cloak and sash, smoke-blade afterimages, Nightblade Initiate insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Thief Tier 1 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 1 Initiate Daggers silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Abyss Bat",
+            "focus": "stealth, critical strikes, poison",
+            "gear": "collar + charm"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Quick Slash",
+            "finisher": "Cheap Shot",
+            "resource": "SP",
+            "attack_range": 260,
+            "power_rating": 118,
+            "recommended_stats": [
+              "AGI",
+              "LUK"
+            ]
           }
         },
         {
@@ -2899,6 +3411,38 @@
             "headgear": "Specialization Thief headgear",
             "garment": "Specialization Thief mantle",
             "footgear": "Specialization Thief greaves"
+          },
+          "gender_variants": {
+            "male": "Male: shadow leather harness, smoke-blade afterimages, Veil Assassin insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: asymmetric cloak and sash, smoke-blade afterimages, Veil Assassin insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Thief Tier 2 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 2 Veil Daggers silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Abyss Bat",
+            "focus": "stealth, critical strikes, poison",
+            "gear": "collar + charm"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Assassin Cut",
+            "finisher": "Shadow Feast",
+            "resource": "SP",
+            "attack_range": 285,
+            "power_rating": 130,
+            "recommended_stats": [
+              "AGI",
+              "LUK"
+            ]
           }
         },
         {
@@ -3066,6 +3610,38 @@
             "headgear": "Advanced Thief headgear",
             "garment": "Advanced Thief mantle",
             "footgear": "Advanced Thief greaves"
+          },
+          "gender_variants": {
+            "male": "Male: shadow leather harness, smoke-blade afterimages, Umbral Shadowlord insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: asymmetric cloak and sash, smoke-blade afterimages, Umbral Shadowlord insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Thief Tier 3 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 3 Shadowlord Blades silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Abyss Bat",
+            "focus": "stealth, critical strikes, poison",
+            "gear": "collar + charm"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Shadowlord Cut",
+            "finisher": "Void Assault",
+            "resource": "SP",
+            "attack_range": 310,
+            "power_rating": 142,
+            "recommended_stats": [
+              "AGI",
+              "LUK"
+            ]
           }
         },
         {
@@ -3233,6 +3809,38 @@
             "headgear": "Mastery Thief headgear",
             "garment": "Mastery Thief mantle",
             "footgear": "Mastery Thief greaves"
+          },
+          "gender_variants": {
+            "male": "Male: shadow leather harness, smoke-blade afterimages, Perfect Nightblade insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: asymmetric cloak and sash, smoke-blade afterimages, Perfect Nightblade insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Thief Tier 4 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 4 Nightblade Blades silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Abyss Bat",
+            "focus": "stealth, critical strikes, poison",
+            "gear": "collar + charm"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Nightblade Storm",
+            "finisher": "Night Rift",
+            "resource": "SP",
+            "attack_range": 335,
+            "power_rating": 154,
+            "recommended_stats": [
+              "AGI",
+              "LUK"
+            ]
           }
         },
         {
@@ -3400,6 +4008,38 @@
             "headgear": "Transcendence Thief headgear",
             "garment": "Transcendence Thief mantle",
             "footgear": "Transcendence Thief greaves"
+          },
+          "gender_variants": {
+            "male": "Male: shadow leather harness, smoke-blade afterimages, The Absolute Shadow insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: asymmetric cloak and sash, smoke-blade afterimages, The Absolute Shadow insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Thief Tier 5 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 5 Causality Twin Daggers silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Abyss Bat",
+            "focus": "stealth, critical strikes, poison",
+            "gear": "collar + charm"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Absolute Silence",
+            "finisher": "Absolute Shadow",
+            "resource": "SP",
+            "attack_range": 360,
+            "power_rating": 166,
+            "recommended_stats": [
+              "AGI",
+              "LUK"
+            ]
           }
         }
       ],
@@ -3583,6 +4223,38 @@
             "headgear": "Foundation Acolyte headgear",
             "garment": "Foundation Acolyte mantle",
             "footgear": "Foundation Acolyte greaves"
+          },
+          "gender_variants": {
+            "male": "Male: sanctified robe armor, halo/rune light, Prayer Keeper insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: hooded prayer mantle, halo/rune light, Prayer Keeper insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Acolyte Tier 1 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 1 Prayer Mace silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Dawn Faun",
+            "focus": "healing, barriers, cleansing",
+            "gear": "charm + armor"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Heal",
+            "finisher": "Holy Water",
+            "resource": "SP",
+            "attack_range": 540,
+            "power_rating": 110,
+            "recommended_stats": [
+              "INT",
+              "VIT"
+            ]
           }
         },
         {
@@ -3750,6 +4422,38 @@
             "headgear": "Specialization Acolyte headgear",
             "garment": "Specialization Acolyte mantle",
             "footgear": "Specialization Acolyte greaves"
+          },
+          "gender_variants": {
+            "male": "Male: sanctified robe armor, halo/rune light, Radiant Priest insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: hooded prayer mantle, halo/rune light, Radiant Priest insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Acolyte Tier 2 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 2 Radiant Mace silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Dawn Faun",
+            "focus": "healing, barriers, cleansing",
+            "gear": "charm + armor"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Greater Heal",
+            "finisher": "Priest's Grace",
+            "resource": "SP",
+            "attack_range": 565,
+            "power_rating": 122,
+            "recommended_stats": [
+              "INT",
+              "VIT"
+            ]
           }
         },
         {
@@ -3917,6 +4621,38 @@
             "headgear": "Advanced Acolyte headgear",
             "garment": "Advanced Acolyte mantle",
             "footgear": "Advanced Acolyte greaves"
+          },
+          "gender_variants": {
+            "male": "Male: sanctified robe armor, halo/rune light, Seraph High Priest insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: hooded prayer mantle, halo/rune light, Seraph High Priest insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Acolyte Tier 3 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 3 Seraph Mace silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Dawn Faun",
+            "focus": "healing, barriers, cleansing",
+            "gear": "charm + armor"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Mass Heal",
+            "finisher": "Heavenfall",
+            "resource": "SP",
+            "attack_range": 590,
+            "power_rating": 134,
+            "recommended_stats": [
+              "INT",
+              "VIT"
+            ]
           }
         },
         {
@@ -4084,6 +4820,38 @@
             "headgear": "Mastery Acolyte headgear",
             "garment": "Mastery Acolyte mantle",
             "footgear": "Mastery Acolyte greaves"
+          },
+          "gender_variants": {
+            "male": "Male: sanctified robe armor, halo/rune light, Dawn Saint insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: hooded prayer mantle, halo/rune light, Dawn Saint insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Acolyte Tier 4 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 4 Saint Mace silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Dawn Faun",
+            "focus": "healing, barriers, cleansing",
+            "gear": "charm + armor"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Eternal Grace",
+            "finisher": "Radiant Dominion",
+            "resource": "SP",
+            "attack_range": 615,
+            "power_rating": 146,
+            "recommended_stats": [
+              "INT",
+              "VIT"
+            ]
           }
         },
         {
@@ -4251,6 +5019,38 @@
             "headgear": "Transcendence Acolyte headgear",
             "garment": "Transcendence Acolyte mantle",
             "footgear": "Transcendence Acolyte greaves"
+          },
+          "gender_variants": {
+            "male": "Male: sanctified robe armor, halo/rune light, The Eternal Benediction insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: hooded prayer mantle, halo/rune light, The Eternal Benediction insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Acolyte Tier 5 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 5 Chrono Sanctified Mace silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Dawn Faun",
+            "focus": "healing, barriers, cleansing",
+            "gear": "charm + armor"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Eternal Benediction",
+            "finisher": "Benediction of Ages",
+            "resource": "SP",
+            "attack_range": 640,
+            "power_rating": 158,
+            "recommended_stats": [
+              "INT",
+              "VIT"
+            ]
           }
         }
       ],
@@ -4434,6 +5234,38 @@
             "headgear": "Foundation Merchant headgear",
             "garment": "Foundation Merchant mantle",
             "footgear": "Foundation Merchant greaves"
+          },
+          "gender_variants": {
+            "male": "Male: reinforced guild coat, forged impact trails, Guild Trader insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: tool belt and trade sash, forged impact trails, Guild Trader insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Merchant Tier 1 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 1 Trader Axe silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Clockwork Paca",
+            "focus": "carry capacity, crafting, appraisal",
+            "gear": "pack + armor"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Mammonite",
+            "finisher": "Trader's Guard",
+            "resource": "SP",
+            "attack_range": 320,
+            "power_rating": 118,
+            "recommended_stats": [
+              "STR",
+              "DEX"
+            ]
           }
         },
         {
@@ -4601,6 +5433,38 @@
             "headgear": "Specialization Merchant headgear",
             "garment": "Specialization Merchant mantle",
             "footgear": "Specialization Merchant greaves"
+          },
+          "gender_variants": {
+            "male": "Male: reinforced guild coat, forged impact trails, Master Ironforger insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: tool belt and trade sash, forged impact trails, Master Ironforger insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Merchant Tier 2 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 2 Ironforger Hammeraxe silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Clockwork Paca",
+            "focus": "carry capacity, crafting, appraisal",
+            "gear": "pack + armor"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Royal Mammonite",
+            "finisher": "Merchant's Rush",
+            "resource": "SP",
+            "attack_range": 345,
+            "power_rating": 130,
+            "recommended_stats": [
+              "STR",
+              "DEX"
+            ]
           }
         },
         {
@@ -4768,6 +5632,38 @@
             "headgear": "Advanced Merchant headgear",
             "garment": "Advanced Merchant mantle",
             "footgear": "Advanced Merchant greaves"
+          },
+          "gender_variants": {
+            "male": "Male: reinforced guild coat, forged impact trails, Royal Trade Artisan insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: tool belt and trade sash, forged impact trails, Royal Trade Artisan insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Merchant Tier 3 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 3 Royal Smith Axe silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Clockwork Paca",
+            "focus": "carry capacity, crafting, appraisal",
+            "gear": "pack + armor"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Smithing Burst",
+            "finisher": "Guild Hammer",
+            "resource": "SP",
+            "attack_range": 370,
+            "power_rating": 142,
+            "recommended_stats": [
+              "STR",
+              "DEX"
+            ]
           }
         },
         {
@@ -4935,6 +5831,38 @@
             "headgear": "Mastery Merchant headgear",
             "garment": "Mastery Merchant mantle",
             "footgear": "Mastery Merchant greaves"
+          },
+          "gender_variants": {
+            "male": "Male: reinforced guild coat, forged impact trails, Grand Master Smith insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: tool belt and trade sash, forged impact trails, Grand Master Smith insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Merchant Tier 4 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 4 Master Smith Axe silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Clockwork Paca",
+            "focus": "carry capacity, crafting, appraisal",
+            "gear": "pack + armor"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Grand Mammonite",
+            "finisher": "Quartermaster's Call",
+            "resource": "SP",
+            "attack_range": 395,
+            "power_rating": 154,
+            "recommended_stats": [
+              "STR",
+              "DEX"
+            ]
           }
         },
         {
@@ -5102,6 +6030,38 @@
             "headgear": "Transcendence Merchant headgear",
             "garment": "Transcendence Merchant mantle",
             "footgear": "Transcendence Merchant greaves"
+          },
+          "gender_variants": {
+            "male": "Male: reinforced guild coat, forged impact trails, The Infinite Quartermaster insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: tool belt and trade sash, forged impact trails, The Infinite Quartermaster insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Merchant Tier 5 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 5 Matrix Forged Axe silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Clockwork Paca",
+            "focus": "carry capacity, crafting, appraisal",
+            "gear": "pack + armor"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Infinite Supply",
+            "finisher": "Quartermaster's Legacy",
+            "resource": "SP",
+            "attack_range": 420,
+            "power_rating": 166,
+            "recommended_stats": [
+              "STR",
+              "DEX"
+            ]
           }
         }
       ],
@@ -5277,7 +6237,7 @@
           "defense_multiplier": 1,
           "cooldown_multiplier": 1,
           "weapon_family": "Fantasy Gun",
-          "ammo_type": "rune_bolt",
+          "ammo_type": "machine_gun_bolt",
           "equipment_progression": {
             "primary": "Trail Arquebus",
             "offhand": "Bolt Pouch",
@@ -5285,7 +6245,46 @@
             "headgear": "Foundation Ranger headgear",
             "garment": "Foundation Ranger mantle",
             "footgear": "Foundation Ranger greaves"
-          }
+          },
+          "gender_variants": {
+            "male": "Male: forest scout coat with brass fasteners, muzzle-flash and bolt-tracer VFX, Trail Warden insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: hooded machine-bolt harness, muzzle-flash and bolt-tracer VFX, Trail Warden insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Ranger Tier 1 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 1 Trail Arquebus silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Verdant Lynx",
+            "focus": "marking, mobility, machine-bolt support",
+            "gear": "weapon + pack"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Trail Shot",
+            "finisher": "Field Dressing",
+            "resource": "SP",
+            "attack_range": 1450,
+            "power_rating": 118,
+            "recommended_stats": [
+              "DEX",
+              "AGI"
+            ]
+          },
+          "ammo_name": "Machine Gun Bolts",
+          "ammo_stack": 999,
+          "weapon_tags": [
+            "fantasy firearm",
+            "rune-fed gun",
+            "high-rate bolt weapon"
+          ]
         },
         {
           "id": "JOB_RANGER_T2",
@@ -5444,7 +6443,7 @@
           "defense_multiplier": 1.035,
           "cooldown_multiplier": 0.975,
           "weapon_family": "Fantasy Gun",
-          "ammo_type": "rune_bolt",
+          "ammo_type": "machine_gun_bolt",
           "equipment_progression": {
             "primary": "Spirit Carbine",
             "offhand": "Spirit Bolt Pouch",
@@ -5452,7 +6451,46 @@
             "headgear": "Specialization Ranger headgear",
             "garment": "Specialization Ranger mantle",
             "footgear": "Specialization Ranger greaves"
-          }
+          },
+          "gender_variants": {
+            "male": "Male: forest scout coat with brass fasteners, muzzle-flash and bolt-tracer VFX, Spirit Beastmaster insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: hooded machine-bolt harness, muzzle-flash and bolt-tracer VFX, Spirit Beastmaster insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Ranger Tier 2 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 2 Spirit Carbine silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Verdant Lynx",
+            "focus": "marking, mobility, machine-bolt support",
+            "gear": "weapon + pack"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Carbine Burst",
+            "finisher": "Beastguard",
+            "resource": "SP",
+            "attack_range": 1475,
+            "power_rating": 130,
+            "recommended_stats": [
+              "DEX",
+              "AGI"
+            ]
+          },
+          "ammo_name": "Machine Gun Bolts",
+          "ammo_stack": 999,
+          "weapon_tags": [
+            "fantasy firearm",
+            "rune-fed gun",
+            "high-rate bolt weapon"
+          ]
         },
         {
           "id": "JOB_RANGER_T3",
@@ -5619,7 +6657,46 @@
             "headgear": "Advanced Ranger headgear",
             "garment": "Advanced Ranger mantle",
             "footgear": "Advanced Ranger greaves"
-          }
+          },
+          "gender_variants": {
+            "male": "Male: forest scout coat with brass fasteners, muzzle-flash and bolt-tracer VFX, Grand Forest Warden insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: hooded machine-bolt harness, muzzle-flash and bolt-tracer VFX, Grand Forest Warden insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Ranger Tier 3 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 3 Bramble Repeater Gun silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Verdant Lynx",
+            "focus": "marking, mobility, machine-bolt support",
+            "gear": "weapon + pack"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Repeater Barrage",
+            "finisher": "Forest Sight",
+            "resource": "SP",
+            "attack_range": 1500,
+            "power_rating": 142,
+            "recommended_stats": [
+              "DEX",
+              "AGI"
+            ]
+          },
+          "ammo_name": "Machine Gun Bolts",
+          "ammo_stack": 999,
+          "weapon_tags": [
+            "fantasy firearm",
+            "rune-fed gun",
+            "high-rate bolt weapon"
+          ]
         },
         {
           "id": "JOB_RANGER_T4",
@@ -5786,7 +6863,46 @@
             "headgear": "Mastery Ranger headgear",
             "garment": "Mastery Ranger mantle",
             "footgear": "Mastery Ranger greaves"
-          }
+          },
+          "gender_variants": {
+            "male": "Male: forest scout coat with brass fasteners, muzzle-flash and bolt-tracer VFX, Wildheart Sovereign insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: hooded machine-bolt harness, muzzle-flash and bolt-tracer VFX, Wildheart Sovereign insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Ranger Tier 4 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 4 Wildheart Bolt Machine Gun silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Verdant Lynx",
+            "focus": "marking, mobility, machine-bolt support",
+            "gear": "weapon + pack"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Bolt Machine Burst",
+            "finisher": "Wildheart Barrage",
+            "resource": "SP",
+            "attack_range": 1525,
+            "power_rating": 154,
+            "recommended_stats": [
+              "DEX",
+              "AGI"
+            ]
+          },
+          "ammo_name": "Machine Gun Bolts",
+          "ammo_stack": 999,
+          "weapon_tags": [
+            "fantasy firearm",
+            "rune-fed gun",
+            "high-rate bolt weapon"
+          ]
         },
         {
           "id": "JOB_RANGER_T5",
@@ -5953,7 +7069,46 @@
             "headgear": "Transcendence Ranger headgear",
             "garment": "Transcendence Ranger mantle",
             "footgear": "Transcendence Ranger greaves"
-          }
+          },
+          "gender_variants": {
+            "male": "Male: forest scout coat with brass fasteners, muzzle-flash and bolt-tracer VFX, The Verdant Paragon insignia; athletic masculine silhouette with tier-specific armor/accessory scaling.",
+            "female": "Female: hooded machine-bolt harness, muzzle-flash and bolt-tracer VFX, The Verdant Paragon insignia; athletic feminine silhouette with tier-specific armor/accessory scaling."
+          },
+          "visual_identity": {
+            "silhouette": "Ranger Tier 5 elevated-MMORPG silhouette",
+            "weapon_readability": "Unique Tier 5 Verdant Paragon Bolt Gun silhouette readable at combat camera distance",
+            "emotion_set": "idle/calm, combat/focused, critical/fierce, damage/pained, victory/proud, defeat/weary"
+          },
+          "pet_affinity": {
+            "pet": "Verdant Lynx",
+            "focus": "marking, mobility, machine-bolt support",
+            "gear": "weapon + pack"
+          },
+          "loot_categories": [
+            "class equipment",
+            "class card",
+            "monster cards",
+            "refinement materials",
+            "visual wardrobe"
+          ],
+          "combat_identity": {
+            "attack_style": "Verdant Paragon Gun",
+            "finisher": "Verdant Finale",
+            "resource": "SP",
+            "attack_range": 1550,
+            "power_rating": 166,
+            "recommended_stats": [
+              "DEX",
+              "AGI"
+            ]
+          },
+          "ammo_name": "Machine Gun Bolts",
+          "ammo_stack": 999,
+          "weapon_tags": [
+            "fantasy firearm",
+            "rune-fed gun",
+            "high-rate bolt weapon"
+          ]
         }
       ],
       "class_identity": {
