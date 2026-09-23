@@ -20707,7 +20707,7 @@
       "job": "Abyssal Warlord",
       "slot": "Weapon",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Upon Tier 5 transition at Lv.200 minimum",
+      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
       "source": {
         "monster_id": "MON_160",
         "monster_name": "Night Orc Warlord Worldbreaker",
@@ -20715,7 +20715,7 @@
         "map_id": "worldboss_plains",
         "map_name": "Worldboss Plains"
       },
-      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "availability": "Tier 5 progression reward and rare Worldbreaker drop.",
       "rarity": "Mythic",
       "power": 2350,
       "stats": {
@@ -20732,7 +20732,7 @@
       "job": "Abyssal Warlord",
       "slot": "Shield",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Upon Tier 5 transition at Lv.200 minimum",
+      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
       "source": {
         "monster_id": "MON_160",
         "monster_name": "Night Orc Warlord Worldbreaker",
@@ -20740,7 +20740,7 @@
         "map_id": "worldboss_plains",
         "map_name": "Worldboss Plains"
       },
-      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "availability": "Tier 5 progression reward and rare Worldbreaker drop.",
       "rarity": "Mythic",
       "power": 2350,
       "stats": {
@@ -20757,15 +20757,15 @@
       "job": "Eternal Spellwright",
       "slot": "Weapon",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Upon Tier 5 transition at Lv.200 minimum",
+      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
       "source": {
         "monster_id": "MON_008",
         "monster_name": "Night Poring Worldbreaker",
         "monster_level": 300,
-        "map_id": "dragon_sanctum",
-        "map_name": "Dragon Sanctum"
+        "map_id": "ruined_citadel",
+        "map_name": "Fallen Citadel"
       },
-      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "availability": "Tier 5 progression reward and rare Worldbreaker drop.",
       "rarity": "Mythic",
       "power": 2280,
       "stats": {
@@ -20782,15 +20782,15 @@
       "job": "Eternal Spellwright",
       "slot": "Focus",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Upon Tier 5 transition at Lv.200 minimum",
+      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
       "source": {
         "monster_id": "MON_008",
         "monster_name": "Night Poring Worldbreaker",
         "monster_level": 300,
-        "map_id": "dragon_sanctum",
-        "map_name": "Dragon Sanctum"
+        "map_id": "ruined_citadel",
+        "map_name": "Fallen Citadel"
       },
-      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "availability": "Tier 5 progression reward and rare Worldbreaker drop.",
       "rarity": "Mythic",
       "power": 2280,
       "stats": {
@@ -20807,15 +20807,15 @@
       "job": "Causality Marksman",
       "slot": "Weapon",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Upon Tier 5 transition at Lv.200 minimum",
+      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
       "source": {
         "monster_id": "MON_120",
         "monster_name": "Night Bone Archer Worldbreaker",
         "monster_level": 300,
-        "map_id": "frostveil",
-        "map_name": "Frostveil"
+        "map_id": "dragon_sanctum",
+        "map_name": "Dragon Sanctum"
       },
-      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "availability": "Tier 5 progression reward and rare Worldbreaker drop.",
       "rarity": "Mythic",
       "power": 2320,
       "stats": {
@@ -20832,15 +20832,15 @@
       "job": "Causality Marksman",
       "slot": "Quiver",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Upon Tier 5 transition at Lv.200 minimum",
+      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
       "source": {
         "monster_id": "MON_120",
         "monster_name": "Night Bone Archer Worldbreaker",
         "monster_level": 300,
-        "map_id": "frostveil",
-        "map_name": "Frostveil"
+        "map_id": "dragon_sanctum",
+        "map_name": "Dragon Sanctum"
       },
-      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "availability": "Tier 5 progression reward and rare Worldbreaker drop.",
       "rarity": "Mythic",
       "power": 2320,
       "stats": {
@@ -20857,15 +20857,15 @@
       "job": "Absolute Shadow",
       "slot": "Weapon",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Upon Tier 5 transition at Lv.200 minimum",
+      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
       "source": {
-        "monster_id": "MON_208",
+        "monster_id": "MON_192",
         "monster_name": "Night Venom Beetle Worldbreaker",
         "monster_level": 300,
-        "map_id": "abyssal_depths",
-        "map_name": "Abyssal Depths"
+        "map_id": "swamp_marsh",
+        "map_name": "Blackwater Marsh"
       },
-      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "availability": "Tier 5 progression reward and rare Worldbreaker drop.",
       "rarity": "Mythic",
       "power": 2340,
       "stats": {
@@ -20882,15 +20882,15 @@
       "job": "Absolute Shadow",
       "slot": "Offhand",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Upon Tier 5 transition at Lv.200 minimum",
+      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
       "source": {
-        "monster_id": "MON_208",
+        "monster_id": "MON_192",
         "monster_name": "Night Venom Beetle Worldbreaker",
         "monster_level": 300,
-        "map_id": "abyssal_depths",
-        "map_name": "Abyssal Depths"
+        "map_id": "swamp_marsh",
+        "map_name": "Blackwater Marsh"
       },
-      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "availability": "Tier 5 progression reward and rare Worldbreaker drop.",
       "rarity": "Mythic",
       "power": 2340,
       "stats": {
@@ -20907,15 +20907,15 @@
       "job": "Eternal Benediction",
       "slot": "Weapon",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Upon Tier 5 transition at Lv.200 minimum",
+      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
       "source": {
-        "monster_id": "MON_232",
-        "monster_name": "Night Elder Dragon Worldbreaker",
+        "monster_id": "MON_240",
+        "monster_name": "Night Drake Worldbreaker",
         "monster_level": 300,
-        "map_id": "ancient_greenwood",
-        "map_name": "Ancient Greenwood"
+        "map_id": "desert_dungeon",
+        "map_name": "Buried Sun Temple"
       },
-      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "availability": "Tier 5 progression reward and rare Worldbreaker drop.",
       "rarity": "Mythic",
       "power": 2180,
       "stats": {
@@ -20932,15 +20932,15 @@
       "job": "Eternal Benediction",
       "slot": "Scripture",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Upon Tier 5 transition at Lv.200 minimum",
+      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
       "source": {
-        "monster_id": "MON_232",
-        "monster_name": "Night Elder Dragon Worldbreaker",
+        "monster_id": "MON_240",
+        "monster_name": "Night Drake Worldbreaker",
         "monster_level": 300,
-        "map_id": "ancient_greenwood",
-        "map_name": "Ancient Greenwood"
+        "map_id": "desert_dungeon",
+        "map_name": "Buried Sun Temple"
       },
-      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "availability": "Tier 5 progression reward and rare Worldbreaker drop.",
       "rarity": "Mythic",
       "power": 2180,
       "stats": {
@@ -20957,15 +20957,15 @@
       "job": "Infinite Quartermaster",
       "slot": "Weapon",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Upon Tier 5 transition at Lv.200 minimum",
+      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
       "source": {
-        "monster_id": "MON_200",
+        "monster_id": "MON_224",
         "monster_name": "Night Iron Golem Worldbreaker",
         "monster_level": 300,
-        "map_id": "ironheart_vault",
-        "map_name": "Ironheart Vault"
+        "map_id": "abyss_dungeon",
+        "map_name": "Abyssal Depths"
       },
-      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "availability": "Tier 5 progression reward and rare Worldbreaker drop.",
       "rarity": "Mythic",
       "power": 2310,
       "stats": {
@@ -20982,15 +20982,15 @@
       "job": "Infinite Quartermaster",
       "slot": "Offhand",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Upon Tier 5 transition at Lv.200 minimum",
+      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
       "source": {
-        "monster_id": "MON_200",
+        "monster_id": "MON_224",
         "monster_name": "Night Iron Golem Worldbreaker",
         "monster_level": 300,
-        "map_id": "ironheart_vault",
-        "map_name": "Ironheart Vault"
+        "map_id": "abyss_dungeon",
+        "map_name": "Abyssal Depths"
       },
-      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "availability": "Tier 5 progression reward and rare Worldbreaker drop.",
       "rarity": "Mythic",
       "power": 2310,
       "stats": {
@@ -21007,15 +21007,15 @@
       "job": "Verdant Paragon",
       "slot": "Weapon",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Upon Tier 5 transition at Lv.200 minimum",
+      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
       "source": {
-        "monster_id": "MON_216",
+        "monster_id": "MON_176",
         "monster_name": "Night Hunter Fly Worldbreaker",
         "monster_level": 300,
-        "map_id": "coastal_cliffs",
-        "map_name": "Azure Coast"
+        "map_id": "mountain_dungeon",
+        "map_name": "Ironheart Vault"
       },
-      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "availability": "Tier 5 progression reward and rare Worldbreaker drop.",
       "rarity": "Mythic",
       "power": 2360,
       "stats": {
@@ -21034,15 +21034,15 @@
       "job": "Verdant Paragon",
       "slot": "Quiver",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Upon Tier 5 transition at Lv.200 minimum",
+      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
       "source": {
-        "monster_id": "MON_216",
+        "monster_id": "MON_176",
         "monster_name": "Night Hunter Fly Worldbreaker",
         "monster_level": 300,
-        "map_id": "coastal_cliffs",
-        "map_name": "Azure Coast"
+        "map_id": "mountain_dungeon",
+        "map_name": "Ironheart Vault"
       },
-      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "availability": "Tier 5 progression reward and rare Worldbreaker drop.",
       "rarity": "Mythic",
       "power": 2360,
       "stats": {
@@ -21061,7 +21061,7 @@
       "job": "Abyssal Warlord",
       "slot": "Accessory",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Upon Tier 5 transition at Lv.200 minimum",
+      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
       "source": {
         "monster_id": "MON_160",
         "monster_name": "Night Orc Warlord Worldbreaker",
@@ -21069,7 +21069,7 @@
         "map_id": "worldboss_plains",
         "map_name": "Worldboss Plains"
       },
-      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "availability": "Tier 5 progression reward and rare Worldbreaker drop.",
       "rarity": "Mythic",
       "effect": "+12% physical power; +8% Guard; +6% damage reduction while guarding.",
       "description": "Tier 5 Warrior signature card for Abyssal Warlord; amplifies the profession's intended combat identity."
@@ -21082,15 +21082,15 @@
       "job": "Eternal Spellwright",
       "slot": "Accessory",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Upon Tier 5 transition at Lv.200 minimum",
+      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
       "source": {
         "monster_id": "MON_008",
         "monster_name": "Night Poring Worldbreaker",
         "monster_level": 300,
-        "map_id": "dragon_sanctum",
-        "map_name": "Dragon Sanctum"
+        "map_id": "ruined_citadel",
+        "map_name": "Fallen Citadel"
       },
-      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "availability": "Tier 5 progression reward and rare Worldbreaker drop.",
       "rarity": "Mythic",
       "effect": "+14% magic power; +8% SP efficiency; +6% spell critical effect.",
       "description": "Tier 5 Mage signature card for Eternal Spellwright; amplifies the profession's intended combat identity."
@@ -21103,15 +21103,15 @@
       "job": "Causality Marksman",
       "slot": "Accessory",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Upon Tier 5 transition at Lv.200 minimum",
+      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
       "source": {
         "monster_id": "MON_120",
         "monster_name": "Night Bone Archer Worldbreaker",
         "monster_level": 300,
-        "map_id": "frostveil",
-        "map_name": "Frostveil"
+        "map_id": "dragon_sanctum",
+        "map_name": "Dragon Sanctum"
       },
-      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "availability": "Tier 5 progression reward and rare Worldbreaker drop.",
       "rarity": "Mythic",
       "effect": "+12% ranged power; +8% hit; +6% critical damage at long range.",
       "description": "Tier 5 Archer signature card for Causality Marksman; amplifies the profession's intended combat identity."
@@ -21124,15 +21124,15 @@
       "job": "Absolute Shadow",
       "slot": "Accessory",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Upon Tier 5 transition at Lv.200 minimum",
+      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
       "source": {
-        "monster_id": "MON_208",
+        "monster_id": "MON_192",
         "monster_name": "Night Venom Beetle Worldbreaker",
         "monster_level": 300,
-        "map_id": "abyssal_depths",
-        "map_name": "Abyssal Depths"
+        "map_id": "swamp_marsh",
+        "map_name": "Blackwater Marsh"
       },
-      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "availability": "Tier 5 progression reward and rare Worldbreaker drop.",
       "rarity": "Mythic",
       "effect": "+14% critical power; +10% Flee; +6% poison duration.",
       "description": "Tier 5 Thief signature card for Absolute Shadow; amplifies the profession's intended combat identity."
@@ -21145,15 +21145,15 @@
       "job": "Eternal Benediction",
       "slot": "Accessory",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Upon Tier 5 transition at Lv.200 minimum",
+      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
       "source": {
-        "monster_id": "MON_232",
-        "monster_name": "Night Elder Dragon Worldbreaker",
+        "monster_id": "MON_240",
+        "monster_name": "Night Drake Worldbreaker",
         "monster_level": 300,
-        "map_id": "ancient_greenwood",
-        "map_name": "Ancient Greenwood"
+        "map_id": "desert_dungeon",
+        "map_name": "Buried Sun Temple"
       },
-      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "availability": "Tier 5 progression reward and rare Worldbreaker drop.",
       "rarity": "Mythic",
       "effect": "+12% healing power; +8% barrier strength; +6% cleanse resistance.",
       "description": "Tier 5 Acolyte signature card for Eternal Benediction; amplifies the profession's intended combat identity."
@@ -21166,15 +21166,15 @@
       "job": "Infinite Quartermaster",
       "slot": "Accessory",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Upon Tier 5 transition at Lv.200 minimum",
+      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
       "source": {
-        "monster_id": "MON_200",
+        "monster_id": "MON_224",
         "monster_name": "Night Iron Golem Worldbreaker",
         "monster_level": 300,
-        "map_id": "ironheart_vault",
-        "map_name": "Ironheart Vault"
+        "map_id": "abyss_dungeon",
+        "map_name": "Abyssal Depths"
       },
-      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "availability": "Tier 5 progression reward and rare Worldbreaker drop.",
       "rarity": "Mythic",
       "effect": "+10% physical power; +10% crafting/refine efficiency; +8% Zeny gain.",
       "description": "Tier 5 Merchant signature card for Infinite Quartermaster; amplifies the profession's intended combat identity."
@@ -21187,15 +21187,15 @@
       "job": "Verdant Paragon",
       "slot": "Accessory",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Upon Tier 5 transition at Lv.200 minimum",
+      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
       "source": {
-        "monster_id": "MON_216",
+        "monster_id": "MON_176",
         "monster_name": "Night Hunter Fly Worldbreaker",
         "monster_level": 300,
-        "map_id": "coastal_cliffs",
-        "map_name": "Azure Coast"
+        "map_id": "mountain_dungeon",
+        "map_name": "Ironheart Vault"
       },
-      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "availability": "Tier 5 progression reward and rare Worldbreaker drop.",
       "rarity": "Mythic",
       "effect": "+14% ranged firearm power; +10% bolt throughput; +6% machine-gun critical damage.",
       "description": "Tier 5 Ranger signature card for Verdant Paragon; amplifies the profession's intended combat identity."
