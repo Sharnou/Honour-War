@@ -83,7 +83,7 @@ public:
     void SetHonours(int32 NewHonours);
     void SetInventoryItems(const TArray<FString>& NewItems);
     void SetCards(const TArray<FString>& NewCards);
-    void RewardMonsterDefeat(int32 MonsterLevel);
+    void RewardMonsterDefeat(int32 MonsterLevel,const FString& MonsterName=TEXT(""));
 
 protected:
     virtual void BeginPlay() override;
