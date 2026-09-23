@@ -50,8 +50,21 @@ void AHonourWarWorldDirector::BeginPlay()
 void AHonourWarWorldDirector::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
-    for(FMonsterSlot& Slot:MonsterSlots)
-        if(!Slot.Active.IsValid() && Slot.RespawnTimer>0.0f) Slot.RespawnTimer=FMath::Max(0.0f,Slot.RespawnTimer-DeltaSeconds);
+    for(int32 Index=0;Index<MonsterSlots.Num();++Index)
+    {
+        FMonsterSlot& Slot=MonsterSlots[Index];
+        if(Slot.Active.IsValid()) continue;
+
+        if(Slot.RespawnTimer==0.0f)
+        {
+            Slot.RespawnTimer=12.0f;
+            continue;
+        }
+
+        Slot.RespawnTimer-=DeltaSeconds;
+        if(Slot.RespawnTimer<=0.0f)
+            SpawnMonsterSlot(Index);
+    }
 }
 
 UMaterialInstanceDynamic* AHonourWarWorldDirector::MaterialFor(const FLinearColor& Color)
@@ -218,4 +231,27 @@ void AHonourWarWorldDirector::SpawnMonsters()
     }
 }
 
-void AHonourWarWorldDirector::SpawnMonsterSlot(int32 SlotIndex){if(MonsterSlots.IsValidIndex(SlotIndex))MonsterSlots[SlotIndex].RespawnTimer=0.0f;}
+void AHonourWarWorldDirector::SpawnMonsterSlot(int32 SlotIndex)
+{
+    if(!MonsterSlots.IsValidIndex(SlotIndex)) return;
+
+    FMonsterSlot& Slot=MonsterSlots[SlotIndex];
+    if(Slot.Active.IsValid()) return;
+    if(FVector2D(Slot.Location.X,Slot.Location.Y).Size()<7800.0f) return;
+
+    if(UWorld* World=GetWorld())
+    {
+        FActorSpawnParameters Params;
+        Params.Owner=this;
+        Params.SpawnCollisionHandlingOverride=ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+        AHonourWarMonster* Monster=World->SpawnActor<AHonourWarMonster>(
+            AHonourWarMonster::StaticClass(),Slot.Location,FRotator::ZeroRotator,Params);
+        if(Monster)
+        {
+            Monster->SetLevel(Slot.Level);
+            Monster->SetSpecies(Slot.Species);
+            Slot.Active=Monster;
+            Slot.RespawnTimer=-1.0f;
+        }
+    }
+}
