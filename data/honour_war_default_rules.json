@@ -160,7 +160,18 @@
     "monster_hit_reaction": "Normal flinch 0.25s; critical flinch 0.16s",
     "mitigation": "VIT reduces incoming damage up to 25%",
     "skill_cost": "18 SP + 4 SP per skill index",
-    "skill_cooldown": "AGI reduces base cooldown up to 20%"
+    "skill_cooldown": "AGI reduces base cooldown up to 20%",
+    "monster_archetype_behavior": {
+      "Poring": "balanced movement and short-range attacks",
+      "Goblin": "medium pursuit with frequent attacks",
+      "Wolf": "fast pursuit and fast attacks",
+      "Skeleton": "slow pursuit with measured attacks",
+      "Orc": "slow heavy pursuit and higher damage",
+      "Mantis": "fast pursuit with mid-range attacks",
+      "Golem": "slow heavy movement, long reach and high damage",
+      "Dragon": "long reach, high damage and slower cadence"
+    },
+    "low_health_enrage": "Monsters at 25% HP or below deal +20% damage."
   },
   "monster_population": {
     "variants": 256,
@@ -251,5 +262,38 @@
       "WASD",
       "1-8 skills"
     ]
+  },
+  "death_rules": {
+    "respawn_location": "starting-town respawn point",
+    "death_limit": false,
+    "restore_vitals": true,
+    "lose_inventory": false,
+    "lose_zeny": false
+  },
+  "refinement_rules": {
+    "cap": 15,
+    "materials": [
+      "Phracon",
+      "Emveretarcon",
+      "Oridecon",
+      "Zeny"
+    ],
+    "age_effects": [
+      "higher success",
+      "lower material use",
+      "lower Zeny cost"
+    ],
+    "failure": "refinement remains at current level; consumed refinement inputs are not restored"
+  },
+  "equipment_rules": {
+    "level_requirement_range": [
+      1,
+      250
+    ],
+    "rune_socket_range": [
+      0,
+      4
+    ],
+    "reward_rank_mapping": "Monster level 1-300 maps into 240 equipment/card reward ranks; level 300 reaches the highest rank."
   }
 }
