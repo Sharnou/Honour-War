@@ -32,6 +32,11 @@ def main() -> int:
         raise SystemExit("PROGRESSION_QA_FAIL: monster level cap must be 300")
     if rules.get("visual_runtime", {}).get("approved_asset_intake") != ["FBX", "OBJ"]:
         raise SystemExit("PROGRESSION_QA_FAIL: approved runtime intake must remain FBX/OBJ")
+    status_rules=rules.get("status_points",{})
+    if status_rules.get("starting_status_points") != 30 or status_rules.get("starting_stat_value") != 10 or status_rules.get("stat_cap") != 120:
+        raise SystemExit("PROGRESSION_QA_FAIL: status-point baseline rules are incomplete")
+    if status_rules.get("per_level_gain") != 3 or status_rules.get("milestone_bonus",{}).get("bonus_points") != 5:
+        raise SystemExit("PROGRESSION_QA_FAIL: status-point level rules are incomplete")
 
     combat = COMBAT.read_text(encoding="utf-8")
     monster = MONSTER.read_text(encoding="utf-8")
@@ -42,6 +47,10 @@ def main() -> int:
     loot = LOOT.read_text(encoding="utf-8")
 
     for needle, label in [
+        ("SpendStatusPoint", "status-point allocation runtime"),
+        ("GetStatusPointCost", "status-point cost runtime"),
+        ("GetDamageReductionPercent", "VIT mitigation runtime"),
+        ("GetSkillCooldownMultiplier", "AGI cooldown runtime"),
         ("RewardMonsterDefeat", "monster defeat reward function"),
         ("50000", "level-300 XP reward"),
         ("250000", "level-300 Zeny reward"),
@@ -97,6 +106,13 @@ def main() -> int:
         ("Oridecon", "save Oridecon"),
         ("QuestProgress", "save quest progress"),
         ("QuestComplete", "save quest completion"),
+        ("StatusPoints", "save status points"),
+        ("Strength", "save STR"),
+        ("Agility", "save AGI"),
+        ("Vitality", "save VIT"),
+        ("Intelligence", "save INT"),
+        ("Dexterity", "save DEX"),
+        ("LuckStat", "save LUK"),
     ]:
         require(save, needle, label)
 
@@ -128,6 +144,9 @@ def main() -> int:
         ("GetZeny", "HUD Zeny display"),
         ("GetHonours", "HUD honours display"),
         ("Age %d days", "HUD age display"),
+        ("Status Points", "HUD status-point display"),
+        ("GetStrength()", "HUD/runtime STR getter"),
+        ("GetLuckStat()", "HUD/runtime LUK getter"),
     ]:
         require(hud, needle, label)
 
