@@ -17,9 +17,8 @@ UHonourWarCombatComponent::UHonourWarCombatComponent()
 void UHonourWarCombatComponent::BeginPlay()
 {
     Super::BeginPlay();
-    MaxHealth = 1200.0f + (Level - 1) * 120.0f;
+    RecalculateVitals();
     CurrentHealth = MaxHealth;
-    MaxSp = 500.0f + (Level - 1) * 45.0f;
     CurrentSp = MaxSp;
     XpToNextLevel = FMath::Max(100, Level * 120);
 }
@@ -51,7 +50,9 @@ float UHonourWarCombatComponent::BaseDamageForClass() const
 {
     const float AgeYears = 18.0f + static_cast<float>(AgeDays) / 3.0f;
     const float AgeMultiplier = 1.0f + FMath::Clamp((AgeYears - 18.0f) * 0.005f, 0.0f, 1.0f);
-    const float LevelScale = (30.0f + Level * 8.0f) * AgeMultiplier * (1.0f + BasicSkillLevel * 0.06f);
+    const float StatusAttack = static_cast<float>(Strength) * 2.0f + static_cast<float>(Dexterity) * 0.80f;
+    const float MagicAttack = static_cast<float>(Intelligence) * 0.45f;
+    const float LevelScale = (30.0f + Level * 8.0f + StatusAttack + MagicAttack) * AgeMultiplier * (1.0f + BasicSkillLevel * 0.06f);
     switch (CharacterClass)
     {
         case EHonourWarClass::Mage: return LevelScale * 1.35f;
@@ -127,7 +128,7 @@ bool UHonourWarCombatComponent::UseSkill(int32 SkillIndex)
         }
     }
     CurrentSp -= ManaCost;
-    SkillCooldowns[SkillIndex] = 0.45f + SkillIndex * 0.08f;
+    SkillCooldowns[SkillIndex] = (0.45f + SkillIndex * 0.08f) * GetSkillCooldownMultiplier();
     LastTarget = Target;
 
     Target->ReceiveCombatHit(Damage, CharacterClass,bCritical);
@@ -147,24 +148,24 @@ bool UHonourWarCombatComponent::UseSkill(int32 SkillIndex)
 int32 UHonourWarCombatComponent::GetHitRating() const
 {
     const int32 ClassBonus=(CharacterClass==EHonourWarClass::Archer||CharacterClass==EHonourWarClass::Ranger)?18:(CharacterClass==EHonourWarClass::Thief?10:6);
-    return 70+Level*2+BasicSkillLevel*3+ClassBonus+EquipmentRefineLevel;
+    return 70+Level*2+BasicSkillLevel*3+Dexterity+ClassBonus+EquipmentRefineLevel;
 }
 
 int32 UHonourWarCombatComponent::GetFleeRating() const
 {
     const int32 ClassBonus=CharacterClass==EHonourWarClass::Thief?24:((CharacterClass==EHonourWarClass::Archer||CharacterClass==EHonourWarClass::Ranger)?14:(CharacterClass==EHonourWarClass::Mage?8:4));
-    return 35+Level+AgeDays/20+ClassBonus;
+    return 35+Level+AgeDays/20+Agility+ClassBonus;
 }
 
 int32 UHonourWarCombatComponent::GetCriticalRate() const
 {
     const int32 ClassBonus=CharacterClass==EHonourWarClass::Thief?12:((CharacterClass==EHonourWarClass::Archer||CharacterClass==EHonourWarClass::Ranger)?8:4);
-    return FMath::Clamp(4+Level/8+AgeDays/30+ClassBonus+EquipmentRefineLevel/2,1,95);
+    return FMath::Clamp(4+Level/8+AgeDays/30+LuckStat/4+ClassBonus+EquipmentRefineLevel/2,1,95);
 }
 
 int32 UHonourWarCombatComponent::GetLuck() const
 {
-    return 8+Level/12+AgeDays/45+BasicSkillLevel/2;
+    return 8+Level/12+AgeDays/45+BasicSkillLevel/2+LuckStat/5;
 }
 
 void UHonourWarCombatComponent::ReceiveMonsterAttack(float Damage,int32 AttackerLevel)
@@ -189,8 +190,8 @@ void UHonourWarCombatComponent::ReceiveMonsterAttack(float Damage,int32 Attacker
     }
 
     const bool bCritical=FMath::FRandRange(0.0f,100.0f)<FMath::Clamp(4.0f+AttackerLevel/8.0f,1.0f,35.0f);
-    const float FinalDamage=Damage*(bCritical?1.40f:1.0f);
-    ReceiveDamage(FinalDamage);
+    const float MitigatedDamage=Damage*(bCritical?1.40f:1.0f)*(1.0f-GetDamageReductionPercent());
+    ReceiveDamage(MitigatedDamage);
     if(AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(GetOwner()))
         Character->PlayIncomingAttackReaction(bCritical);
 
@@ -216,8 +217,101 @@ void UHonourWarCombatComponent::ReceiveDamage(float Damage)
 
 void UHonourWarCombatComponent::RestoreVitals()
 {
+    RecalculateVitals();
     CurrentHealth=MaxHealth;
     CurrentSp=MaxSp;
+}
+
+float UHonourWarCombatComponent::GetDamageReductionPercent() const
+{
+    return FMath::Clamp(static_cast<float>(Vitality)*0.0015f,0.0f,0.25f);
+}
+
+float UHonourWarCombatComponent::GetSkillCooldownMultiplier() const
+{
+    return 1.0f-FMath::Clamp(static_cast<float>(Agility)*0.0015f,0.0f,0.20f);
+}
+
+int32 UHonourWarCombatComponent::GetStatusPointCost(EHonourWarStatusStat Stat) const
+{
+    int32 Value=10;
+    switch(Stat)
+    {
+        case EHonourWarStatusStat::Strength: Value=Strength; break;
+        case EHonourWarStatusStat::Agility: Value=Agility; break;
+        case EHonourWarStatusStat::Vitality: Value=Vitality; break;
+        case EHonourWarStatusStat::Intelligence: Value=Intelligence; break;
+        case EHonourWarStatusStat::Dexterity: Value=Dexterity; break;
+        case EHonourWarStatusStat::Luck: Value=LuckStat; break;
+    }
+    return Value<80?1:(Value<100?2:3);
+}
+
+bool UHonourWarCombatComponent::SpendStatusPoint(EHonourWarStatusStat Stat,int32 Amount)
+{
+    if(Amount<=0) return false;
+
+    int32 Value=10;
+    switch(Stat)
+    {
+        case EHonourWarStatusStat::Strength: Value=Strength; break;
+        case EHonourWarStatusStat::Agility: Value=Agility; break;
+        case EHonourWarStatusStat::Vitality: Value=Vitality; break;
+        case EHonourWarStatusStat::Intelligence: Value=Intelligence; break;
+        case EHonourWarStatusStat::Dexterity: Value=Dexterity; break;
+        case EHonourWarStatusStat::Luck: Value=LuckStat; break;
+    }
+
+    const int32 Allowed=FMath::Max(0,120-Value);
+    const int32 Spend=FMath::Min(Amount,Allowed);
+    if(Spend<=0) return false;
+
+    int32 TotalCost=0;
+    int32 Temp=Value;
+    for(int32 I=0;I<Spend;++I)
+    {
+        const int32 Cost=Temp<80?1:(Temp<100?2:3);
+        TotalCost+=Cost;
+        ++Temp;
+    }
+    if(StatusPoints<TotalCost) return false;
+
+    StatusPoints-=TotalCost;
+    switch(Stat)
+    {
+        case EHonourWarStatusStat::Strength: Strength+=Spend; break;
+        case EHonourWarStatusStat::Agility: Agility+=Spend; break;
+        case EHonourWarStatusStat::Vitality: Vitality+=Spend; break;
+        case EHonourWarStatusStat::Intelligence: Intelligence+=Spend; break;
+        case EHonourWarStatusStat::Dexterity: Dexterity+=Spend; break;
+        case EHonourWarStatusStat::Luck: LuckStat+=Spend; break;
+    }
+    const float HealthRatio=MaxHealth>0.0f?CurrentHealth/MaxHealth:1.0f;
+    const float SpRatio=MaxSp>0.0f?CurrentSp/MaxSp:1.0f;
+    RecalculateVitals();
+    CurrentHealth=FMath::Clamp(MaxHealth*HealthRatio,0.0f,MaxHealth);
+    CurrentSp=FMath::Clamp(MaxSp*SpRatio,0.0f,MaxSp);
+    return true;
+}
+
+void UHonourWarCombatComponent::SetStatusState(int32 InStatusPoints,int32 InStrength,int32 InAgility,int32 InVitality,int32 InIntelligence,int32 InDexterity,int32 InLuck)
+{
+    StatusPoints=FMath::Max(0,InStatusPoints);
+    Strength=FMath::Clamp(InStrength,10,120);
+    Agility=FMath::Clamp(InAgility,10,120);
+    Vitality=FMath::Clamp(InVitality,10,120);
+    Intelligence=FMath::Clamp(InIntelligence,10,120);
+    Dexterity=FMath::Clamp(InDexterity,10,120);
+    LuckStat=FMath::Clamp(InLuck,10,120);
+    RecalculateVitals();
+    CurrentHealth=MaxHealth;
+    CurrentSp=MaxSp;
+}
+
+void UHonourWarCombatComponent::RecalculateVitals()
+{
+    MaxHealth=1200.0f+(Level-1)*120.0f+Vitality*25.0f;
+    MaxSp=500.0f+(Level-1)*45.0f+Intelligence*15.0f;
 }
 
 void UHonourWarCombatComponent::GainExperience(int32 Amount)
@@ -227,8 +321,9 @@ void UHonourWarCombatComponent::GainExperience(int32 Amount)
     {
         Experience-=XpToNextLevel;
         ++Level;
-        MaxHealth+=120.0f;
-        MaxSp+=45.0f;
+        StatusPoints+=3;
+        if(Level%25==0) StatusPoints+=5;
+        RecalculateVitals();
         RestoreVitals();
         XpToNextLevel=FMath::Max(100,Level*120);
     }
@@ -239,8 +334,7 @@ void UHonourWarCombatComponent::SetClassId(EHonourWarClass NewClass){ CharacterC
 void UHonourWarCombatComponent::SetLevel(int32 NewLevel)
 {
     Level=FMath::Clamp(NewLevel,1,250);
-    MaxHealth=1200.0f+(Level-1)*120.0f;
-    MaxSp=500.0f+(Level-1)*45.0f;
+    RecalculateVitals();
     XpToNextLevel=FMath::Max(100,Level*120);
     RestoreVitals();
 }
