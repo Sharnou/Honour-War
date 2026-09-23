@@ -572,9 +572,17 @@ void AHonourWarCharacter::LoadProgress()
     CombatComponent->SetEmveretarcon(Save->Emveretarcon);
     CombatComponent->SetOridecon(Save->Oridecon);
     CombatComponent->SetHonours(Save->Honours);
+    const bool bLegacyStatusData=
+        Save->Strength<=0 && Save->Agility<=0 && Save->Vitality<=0 &&
+        Save->Intelligence<=0 && Save->Dexterity<=0 && Save->LuckStat<=0;
     CombatComponent->SetStatusState(
-        Save->StatusPoints,Save->Strength,Save->Agility,Save->Vitality,
-        Save->Intelligence,Save->Dexterity,Save->LuckStat);
+        bLegacyStatusData?30:Save->StatusPoints,
+        bLegacyStatusData?10:Save->Strength,
+        bLegacyStatusData?10:Save->Agility,
+        bLegacyStatusData?10:Save->Vitality,
+        bLegacyStatusData?10:Save->Intelligence,
+        bLegacyStatusData?10:Save->Dexterity,
+        bLegacyStatusData?10:Save->LuckStat);
     CombatComponent->SetBasicSkillLevel(Save->BasicSkillLevel);
     CombatComponent->SetInventoryItems(Save->InventoryItems);
     CombatComponent->SetCards(Save->Cards);
