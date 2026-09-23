@@ -12,6 +12,7 @@ pet=[x for x in e if x["id"].startswith("PETEQ_")]
 if len(pet)!=100 or any(not x.get("source") or not x["source"].get("monster_id") or not x["source"].get("map_name") or not x.get("when") for x in pet): raise SystemExit("ITEM_HELP_QA_FAIL: pet equipment source/availability")
 pc=(ROOT/"Source/HonourWar/HonourWarPlayerController.cpp").read_text(encoding="utf-8")
 ec=(ROOT/"Source/HonourWar/HonourWarItemEncyclopedia.cpp").read_text(encoding="utf-8")
+combat=(ROOT/"Source/HonourWar/HonourWarCombatComponent.cpp").read_text(encoding="utf-8")
 if "ExecuteHelpCommand" not in pc or "/help" not in pc or "BuildHelpLines" not in ec: raise SystemExit("ITEM_HELP_QA_FAIL: runtime help")
-if "EQUIP_%03d" not in pc or "CARD_%03d" not in ec and "CARD_%03d" not in pc or "ITEM_%03d" not in ec and "ITEM_%03d" not in pc: raise SystemExit("ITEM_HELP_QA_FAIL: runtime drops must expose canonical IDs")
+if "EQUIP_%03d" not in combat or "CARD_%03d" not in combat or "ITEM_%03d" not in combat: raise SystemExit("ITEM_HELP_QA_FAIL: runtime drops must expose canonical IDs")
 print("ITEM_HELP_QA_PASS: 797 searchable catalog entries; every equipment/item/card/job reward/pet equipment entry has source monster, map and availability metadata.")
