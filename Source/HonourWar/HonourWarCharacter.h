@@ -37,7 +37,7 @@ public:
     void HandleDeathAndRespawn();
     void ReceiveMonsterDamage(float Damage,int32 AttackerLevel=1);
     void PlayIncomingAttackReaction(bool bCritical);
-    void HandleMonsterDefeat(int32 MonsterLevel,const FString& MonsterSpecies);
+    void HandleMonsterDefeat(int32 MonsterLevel,const FString& MonsterSpecies,const FString& MonsterName=TEXT(""));
     UFUNCTION(BlueprintCallable) UHonourWarQuestComponent* GetQuestComponent() const { return QuestComponent; }
     void RefineEquipment();
     void MixCards();

@@ -337,11 +337,11 @@ void AHonourWarCharacter::UpgradeBasicSkill()
         LastCombatMessage = CombatComponent->TryUpgradeBasicSkill() ? CombatComponent->GetLastLootMessage() : CombatComponent->GetLastLootMessage();
 }
 
-void AHonourWarCharacter::HandleMonsterDefeat(int32 MonsterLevel,const FString& MonsterSpecies)
+void AHonourWarCharacter::HandleMonsterDefeat(int32 MonsterLevel,const FString& MonsterSpecies,const FString& MonsterName)
 {
     if(CombatComponent)
     {
-        CombatComponent->RewardMonsterDefeat(MonsterLevel);
+        CombatComponent->RewardMonsterDefeat(MonsterLevel,MonsterName.IsEmpty()?MonsterSpecies:MonsterName);
         if(QuestComponent)
             QuestComponent->RecordMonsterDefeat(MonsterLevel,MonsterSpecies);
         LastCombatMessage = CombatComponent->GetLastLootMessage();

@@ -34,6 +34,7 @@ public:
     void SetSpecies(EHonourWarMonsterSpecies NewSpecies);
     void SetDisplayName(const FString& NewDisplayName);
     FString GetSpeciesName() const;
+    FString GetDisplayName() const { return DisplayName; }
     int32 GetMonsterLevel() const { return Level; }
     bool IsDead() const { return bDead; }
     int32 GetHitRating() const { return 80 + Level / 3; }

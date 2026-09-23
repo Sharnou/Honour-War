@@ -516,7 +516,9 @@ void UHonourWarCombatComponent::SetHonours(int32 NewHonours){ Honours = FMath::M
 void UHonourWarCombatComponent::SetInventoryItems(const TArray<FString>& NewItems){ InventoryItems = NewItems; }
 void UHonourWarCombatComponent::SetCards(const TArray<FString>& NewCards){ Cards = NewCards; }
 
-void UHonourWarCombatComponent::RewardMonsterDefeat(int32 MonsterLevel)
+namespace { int32 HonourWarMonsterTier(int32 Level){if(Level>=300)return 7;if(Level>=230)return 6;if(Level>=170)return 5;if(Level>=120)return 4;if(Level>=80)return 3;if(Level>=50)return 2;if(Level>=30)return 1;return 0;} int32 HonourWarMonsterFamilyIndex(const FString& Name){static const TCHAR* F[]={TEXT("Poring"),TEXT("Poporing"),TEXT("Drops"),TEXT("Marin"),TEXT("Goblin"),TEXT("Kobold"),TEXT("Hobgoblin"),TEXT("Orclet"),TEXT("Wolf"),TEXT("Desert Wolf"),TEXT("Warg"),TEXT("Dire Wolf"),TEXT("Skeleton"),TEXT("Zombie Guard"),TEXT("Bone Archer"),TEXT("Skull Knight"),TEXT("Orc"),TEXT("Orc Warrior"),TEXT("Orc Champion"),TEXT("Orc Warlord"),TEXT("Mantis"),TEXT("Hunter Fly"),TEXT("Scorpion"),TEXT("Venom Beetle"),TEXT("Golem"),TEXT("Stone Golem"),TEXT("Crystal Golem"),TEXT("Iron Golem"),TEXT("Dragon"),TEXT("Drake"),TEXT("Wyvern"),TEXT("Elder Dragon")};for(int32 I=0;I<32;++I)if(Name.Contains(F[I]))return I;return 0;} }
+
+void UHonourWarCombatComponent::RewardMonsterDefeat(int32 MonsterLevel,const FString& MonsterName)
 {
     const int32 SafeLevel = FMath::Clamp(MonsterLevel, 1, 300);
     const int32 BaseKillXp = SafeLevel >= 300 ? 50000 : FMath::Max(25, SafeLevel * 35);
@@ -544,11 +546,16 @@ void UHonourWarCombatComponent::RewardMonsterDefeat(int32 MonsterLevel)
     Honours += HonourReward;
 
     FString Rarity = TEXT("Rare");
+    const int32 GeneralItemIndex=(MonsterTier*30+MonsterFamilySlot)%74;
+    InventoryItems.Add(FString::Printf(TEXT("General | %s"),*HonourWarLootDatabase::Items()[240+GeneralItemIndex]));
+
     if (SafeLevel >= 300) Rarity = TEXT("Mythic");
     else if (SafeLevel >= 200) Rarity = TEXT("Legendary");
-    else if (SafeLevel >= 100) Rarity = TEXT("Epic");
+    else if (true) Rarity = TEXT("Epic");
 
-    const int32 LootRank = FMath::Clamp(1 + FMath::RoundToInt(static_cast<float>(SafeLevel - 1) * 239.0f / 299.0f), 1, 240);
+    const int32 MonsterTier = HonourWarMonsterTier(SafeLevel);
+    const int32 MonsterFamilySlot = FMath::Clamp(HonourWarMonsterFamilyIndex(MonsterName),0,29);
+    const int32 LootRank = FMath::Clamp(MonsterTier*30+MonsterFamilySlot+1,1,240);
     const FString DatabaseItem = HonourWarLootDatabase::EquipmentForRank(LootRank);
     const FString ItemName = FString::Printf(TEXT("%s | %s"), *Rarity, *DatabaseItem);
     InventoryItems.Add(ItemName);
