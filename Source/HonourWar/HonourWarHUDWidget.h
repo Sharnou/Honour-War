@@ -64,6 +64,7 @@ private:
     UPROPERTY() UTextBlock* MapStatusText=nullptr;
     UPROPERTY() UTextBlock* StatusText=nullptr;
     UPROPERTY() UTextBlock* StatusRulesText=nullptr;
+    UPROPERTY() UTextBlock* StatusDerivedText=nullptr;
     UPROPERTY() UButton* StrengthButton=nullptr;
     UPROPERTY() UButton* AgilityButton=nullptr;
     UPROPERTY() UButton* VitalityButton=nullptr;
