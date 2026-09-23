@@ -37,8 +37,11 @@ jobs:
       - name: Validate Unreal 5.8 + HD MMORPG contract
         run: python tools/unreal_engine_contract_qa.py
 
-      - name: Validate MMORPG camera and controls
+      - name: Validate locked MMORPG camera, sky and fog
         run: python tools/validate_camera_controls.py
+
+      - name: Validate original audio pack
+        run: python tools/audio_asset_qa.py
 
       - name: Validate core progression, rewards, economy and autosave
         run: python tools/honour_war_progression_contract_qa.py

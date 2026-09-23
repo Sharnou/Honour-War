@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0.0",
+  "source_format": "WAV PCM",
+  "sample_rate_hz": 11025,
+  "channels": 1,
+  "bit_depth": 16,
+  "original_content_only": true,
+  "gameplay_sfx": [
+    {
+      "name": "ui_confirm",
+      "path": "Content/Audio/SFX/ui_confirm.wav",
+      "original": true
+    },
+    {
+      "name": "target_select",
+      "path": "Content/Audio/SFX/target_select.wav",
+      "original": true
+    },
+    {
+      "name": "basic_hit",
+      "path": "Content/Audio/SFX/basic_hit.wav",
+      "original": true
+    },
+    {
+      "name": "critical_hit",
+      "path": "Content/Audio/SFX/critical_hit.wav",
+      "original": true
+    },
+    {
+      "name": "skill_cast",
+      "path": "Content/Audio/SFX/skill_cast.wav",
+      "original": true
+    },
+    {
+      "name": "heal_chime",
+      "path": "Content/Audio/SFX/heal_chime.wav",
+      "original": true
+    },
+    {
+      "name": "item_pickup",
+      "path": "Content/Audio/SFX/item_pickup.wav",
+      "original": true
+    },
+    {
+      "name": "teleport_whoosh",
+      "path": "Content/Audio/SFX/teleport_whoosh.wav",
+      "original": true
+    }
+  ],
+  "class_music": [
+    {
+      "name": "warrior_piano",
+      "path": "Content/Audio/Piano/warrior_piano.wav",
+      "loop_seconds": 8,
+      "original": true
+    },
+    {
+      "name": "mage_piano",
+      "path": "Content/Audio/Piano/mage_piano.wav",
+      "loop_seconds": 8,
+      "original": true
+    },
+    {
+      "name": "archer_piano",
+      "path": "Content/Audio/Piano/archer_piano.wav",
+      "loop_seconds": 8,
+      "original": true
+    },
+    {
+      "name": "thief_piano",
+      "path": "Content/Audio/Piano/thief_piano.wav",
+      "loop_seconds": 8,
+      "original": true
+    },
+    {
+      "name": "acolyte_piano",
+      "path": "Content/Audio/Piano/acolyte_piano.wav",
+      "loop_seconds": 8,
+      "original": true
+    },
+    {
+      "name": "merchant_piano",
+      "path": "Content/Audio/Piano/merchant_piano.wav",
+      "loop_seconds": 8,
+      "original": true
+    },
+    {
+      "name": "ranger_piano",
+      "path": "Content/Audio/Piano/ranger_piano.wav",
+      "loop_seconds": 8,
+      "original": true
+    }
+  ],
+  "note": "All included audio is newly synthesized for Honour War; no game soundtrack recordings, extracted samples or copied melodies are included."
+}

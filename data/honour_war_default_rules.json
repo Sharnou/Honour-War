@@ -86,7 +86,91 @@
       "1-8_skills"
     ],
     "cycle": "Visual RAG -> regenerated brief -> 3D asset refresh -> Unreal 5.8 runtime -> real EXE screenshot",
-    "daily_unattended_upgrade": false
+    "daily_unattended_upgrade": false,
+    "camera_lock": {
+      "locked": true,
+      "source_of_truth": "Existing Unreal 5.8 PlayerController + Character camera implementation",
+      "default_pitch_degrees": -50,
+      "default_yaw_degrees": 45,
+      "default_roll_degrees": 0,
+      "target_arm_length": 900,
+      "zoom_min": 550,
+      "zoom_max": 1350,
+      "zoom_step_per_wheel": 120,
+      "right_drag_rotation": true,
+      "mouse_wheel_zoom": true,
+      "wasd_movement": true,
+      "left_click_ground_move": true,
+      "left_click_monster_target": true,
+      "q_reset": true,
+      "forbidden_changes": [
+        "Do not change camera pitch/yaw defaults",
+        "Do not change right-drag behavior",
+        "Do not change wheel zoom bounds or step",
+        "Do not replace WASD movement",
+        "Do not replace left-click ground/monster interaction"
+      ]
+    },
+    "map_sky_fog_lock": {
+      "locked": true,
+      "permanent_daylight": true,
+      "sky_atmosphere_component": "USkyAtmosphereComponent",
+      "sky_light": {
+        "mobility": "Movable",
+        "source_type": "SLS_CapturedScene",
+        "intensity": 1.9
+      },
+      "sun": {
+        "mobility": "Movable",
+        "intensity": 9.5,
+        "light_color_rgb": [
+          1,
+          0.94,
+          0.84
+        ],
+        "rotation_degrees": [
+          -52,
+          -32,
+          0
+        ]
+      },
+      "fog": {
+        "component": "UExponentialHeightFogComponent",
+        "mobility": "Movable",
+        "density": 0.0025,
+        "height_falloff": 0.28
+      },
+      "post_process": {
+        "priority": 10,
+        "bloom_intensity": 0.55,
+        "bloom_threshold": 1.2,
+        "vignette_intensity": 0.18,
+        "motion_blur_amount": 0
+      },
+      "forbidden_changes": [
+        "Do not alter the sky component",
+        "Do not alter daylight mode",
+        "Do not alter sun rotation/intensity/color",
+        "Do not alter fog density/height falloff",
+        "Do not add weather or night-cycle changes"
+      ]
+    },
+    "art_direction_lock": {
+      "target": "High-resolution 3D anime MMORPG/ARPG with classic Ragnarok Online-style readability and proportions",
+      "implementation": "Original Honour War assets and materials; do not copy source game assets, textures, characters, maps, logos, UI art or music",
+      "rendering": [
+        "1440p+ presentation target",
+        "clean silhouettes readable from the locked elevated camera",
+        "rich hand-authored color variation",
+        "stylized-PBR materials with controlled roughness/specular response",
+        "soft ambient occlusion",
+        "subtle bloom only",
+        "clear contact shadows",
+        "layered terrain, roads, foliage and architectural trims",
+        "distinct class silhouettes and equipment accents",
+        "monster families with readable scale, posture and attack cues"
+      ]
+    }
   },
   "permanent_exclusions": {
     "soldier_system": false,
@@ -295,5 +379,33 @@
       4
     ],
     "reward_rank_mapping": "Monster level 1-300 maps into 240 equipment/card reward ranks; level 300 reaches the highest rank."
+  },
+  "audio_rules": {
+    "source_format": "WAV PCM",
+    "source_rate_hz": 11025,
+    "source_channels": 1,
+    "source_bit_depth": 16,
+    "original_content_only": true,
+    "gameplay_sfx": [
+      "ui_confirm",
+      "target_select",
+      "basic_hit",
+      "critical_hit",
+      "skill_cast",
+      "heal_chime",
+      "item_pickup",
+      "teleport_whoosh"
+    ],
+    "class_music": [
+      "warrior_piano",
+      "mage_piano",
+      "archer_piano",
+      "thief_piano",
+      "acolyte_piano",
+      "merchant_piano",
+      "ranger_piano"
+    ],
+    "loop_seconds": 8,
+    "policy": "No copied Ragnarok Online recordings, melodies, samples or extracted assets; all included audio is newly synthesized for Honour War."
   }
 }
