@@ -32,6 +32,7 @@ public:
     void ReceiveCombatHit(float Damage, EHonourWarClass SourceClass, bool bCritical=false);
     void SetLevel(int32 NewLevel);
     void SetSpecies(EHonourWarMonsterSpecies NewSpecies);
+    void SetDisplayName(const FString& NewDisplayName);
     FString GetSpeciesName() const;
     int32 GetMonsterLevel() const { return Level; }
     bool IsDead() const { return bDead; }
@@ -56,6 +57,7 @@ private:
 
     UPROPERTY(EditAnywhere) int32 Level = 12;
     UPROPERTY(EditAnywhere) EHonourWarMonsterSpecies Species = EHonourWarMonsterSpecies::Goblin;
+    UPROPERTY() FString DisplayName=TEXT("Monster");
     float MaxHealth = 800.0f;
     float CurrentHealth = 800.0f;
     float AttackTimer = 0.0f;
