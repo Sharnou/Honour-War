@@ -92,6 +92,7 @@ void UHonourWarHUDWidget::BuildSurface()
     RootCanvas=WidgetTree->ConstructWidget<UCanvasPanel>(UCanvasPanel::StaticClass(),TEXT("MMORPGRoot"));
     WidgetTree->RootWidget=RootCanvas;
     BuildProfileCluster(RootCanvas);
+    BuildStatusPanel(RootCanvas);
     BuildMiniMap(RootCanvas);
     BuildWorldEventPanel(RootCanvas);
     BuildQuestTracker(RootCanvas);
@@ -244,6 +245,46 @@ void UHonourWarHUDWidget::BuildProfileCluster(UCanvasPanel* Root)
     RefinementText=Text(WidgetTree,TEXT("RefinementText"),TEXT("Equip +0"),12,Muted); Stack->AddChildToVerticalBox(RefinementText);
 }
 
+void UHonourWarHUDWidget::BuildStatusPanel(UCanvasPanel* Root)
+{
+    UBorder* PanelRoot=Panel(WidgetTree,TEXT("StatusPanel"),FLinearColor(0.012f,0.018f,0.028f,0.94f),FMargin(10));
+    Place(Root,PanelRoot,FVector2D(28,142),FVector2D(500,238));
+    UVerticalBox* Stack=WidgetTree->ConstructWidget<UVerticalBox>(UVerticalBox::StaticClass(),TEXT("StatusStack"));
+    PanelRoot->SetContent(Stack);
+    Stack->AddChildToVerticalBox(Text(WidgetTree,TEXT("StatusHeader"),TEXT("◆ STATUS ATTRIBUTES"),17,Gold));
+
+    StatusText=Text(WidgetTree,TEXT("StatusText"),TEXT("STR 10 • AGI 10 • VIT 10\nINT 10 • DEX 10 • LUK 10\nStatus Points 30"),14,White);
+    Stack->AddChildToVerticalBox(StatusText);
+
+    UHorizontalBox* Row=WidgetTree->ConstructWidget<UHorizontalBox>(UHorizontalBox::StaticClass(),TEXT("StatusButtonRow"));
+    StrengthButton=Button(WidgetTree,TEXT("STRButton"),TEXT("+ STR"),FLinearColor(0.10f,0.045f,0.035f,0.96f));
+    AgilityButton=Button(WidgetTree,TEXT("AGIButton"),TEXT("+ AGI"),FLinearColor(0.035f,0.10f,0.055f,0.96f));
+    VitalityButton=Button(WidgetTree,TEXT("VITButton"),TEXT("+ VIT"),FLinearColor(0.12f,0.07f,0.035f,0.96f));
+    IntelligenceButton=Button(WidgetTree,TEXT("INTButton"),TEXT("+ INT"),FLinearColor(0.04f,0.06f,0.13f,0.96f));
+    DexterityButton=Button(WidgetTree,TEXT("DEXButton"),TEXT("+ DEX"),FLinearColor(0.08f,0.11f,0.04f,0.96f));
+    LuckButton=Button(WidgetTree,TEXT("LUKButton"),TEXT("+ LUK"),FLinearColor(0.10f,0.06f,0.13f,0.96f));
+
+    StrengthButton->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::AddStrength);
+    AgilityButton->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::AddAgility);
+    VitalityButton->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::AddVitality);
+    IntelligenceButton->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::AddIntelligence);
+    DexterityButton->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::AddDexterity);
+    LuckButton->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::AddLuck);
+
+    Row->AddChildToHorizontalBox(StrengthButton);
+    Row->AddChildToHorizontalBox(AgilityButton);
+    Row->AddChildToHorizontalBox(VitalityButton);
+    Row->AddChildToHorizontalBox(IntelligenceButton);
+    Row->AddChildToHorizontalBox(DexterityButton);
+    Row->AddChildToHorizontalBox(LuckButton);
+    Stack->AddChildToVerticalBox(Row);
+
+    StatusRulesText=Text(WidgetTree,TEXT("StatusRulesText"),
+        TEXT("Per level: +3 Status Points; every 25th level: +5 bonus.\n10-79 costs 1 point • 80-99 costs 2 • 100-120 costs 3.\nSTR ATK • AGI FLEE/CD • VIT HP/mitigation • INT SP/skill damage • DEX HIT • LUK critical/lucky."),
+        12,Muted);
+    Stack->AddChildToVerticalBox(StatusRulesText);
+}
+
 void UHonourWarHUDWidget::BuildMiniMap(UCanvasPanel* Root)
 {
     UBorder* Map=Panel(WidgetTree,TEXT("MMORPGMiniMap"),FLinearColor(0.025f,0.035f,0.050f,0.94f),FMargin(10));
@@ -362,6 +403,43 @@ void UHonourWarHUDWidget::RefreshVitals()
     }
 
     if(CombatText) CombatText->SetText(FText::FromString(FString::Printf(TEXT("[Combat] %s"),*Character->GetLastCombatMessage())));
+}
+
+void UHonourWarHUDWidget::AddStrength()
+{
+    if(AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(GetOwningPlayerPawn()))
+        if(UHonourWarCombatComponent* Combat=Character->GetCombatComponent())
+            if(Combat->SpendStatusPoint(EHonourWarStatusStat::Strength)) Character->SaveProgress();
+}
+void UHonourWarHUDWidget::AddAgility()
+{
+    if(AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(GetOwningPlayerPawn()))
+        if(UHonourWarCombatComponent* Combat=Character->GetCombatComponent())
+            if(Combat->SpendStatusPoint(EHonourWarStatusStat::Agility)) Character->SaveProgress();
+}
+void UHonourWarHUDWidget::AddVitality()
+{
+    if(AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(GetOwningPlayerPawn()))
+        if(UHonourWarCombatComponent* Combat=Character->GetCombatComponent())
+            if(Combat->SpendStatusPoint(EHonourWarStatusStat::Vitality)) Character->SaveProgress();
+}
+void UHonourWarHUDWidget::AddIntelligence()
+{
+    if(AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(GetOwningPlayerPawn()))
+        if(UHonourWarCombatComponent* Combat=Character->GetCombatComponent())
+            if(Combat->SpendStatusPoint(EHonourWarStatusStat::Intelligence)) Character->SaveProgress();
+}
+void UHonourWarHUDWidget::AddDexterity()
+{
+    if(AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(GetOwningPlayerPawn()))
+        if(UHonourWarCombatComponent* Combat=Character->GetCombatComponent())
+            if(Combat->SpendStatusPoint(EHonourWarStatusStat::Dexterity)) Character->SaveProgress();
+}
+void UHonourWarHUDWidget::AddLuck()
+{
+    if(AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(GetOwningPlayerPawn()))
+        if(UHonourWarCombatComponent* Combat=Character->GetCombatComponent())
+            if(Combat->SpendStatusPoint(EHonourWarStatusStat::Luck)) Character->SaveProgress();
 }
 
 void UHonourWarHUDWidget::NativeTick(const FGeometry& MyGeometry,float InDeltaTime)
