@@ -72,7 +72,7 @@ def main() -> int:
         require(monster, needle, label)
 
     catalog = json.loads((ROOT/"data"/"honour_war_content_catalog.json").read_text(encoding="utf-8"))
-    if len(catalog.get("monsters", [])) != 64:
+    if len(catalog.get("monsters", [])) != 256:
         raise SystemExit("PROGRESSION_QA_FAIL: monster catalog must contain 256 entries")
     if 300 not in {m.get("level") for m in catalog["monsters"]}:
         raise SystemExit("PROGRESSION_QA_FAIL: level-300 monster missing from catalog")
