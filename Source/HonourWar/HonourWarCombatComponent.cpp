@@ -512,6 +512,8 @@ void UHonourWarCombatComponent::SetHonours(int32 NewHonours){ Honours = FMath::M
 void UHonourWarCombatComponent::SetInventoryItems(const TArray<FString>& NewItems){ InventoryItems = NewItems; }
 void UHonourWarCombatComponent::SetCards(const TArray<FString>& NewCards){ Cards = NewCards; }
 
+namespace { struct FHonourWarTier5Drop { const TCHAR* EquipmentId; const TCHAR* EquipmentName; const TCHAR* CardId; const TCHAR* CardName; }; FHonourWarTier5Drop HonourWarTier5Drop(EHonourWarClass ClassId){ switch(ClassId){ case EHonourWarClass::Mage:return {TEXT("JOBEQ_MAG_001"),TEXT("Chrono Arcane Staff"),TEXT("JOBCARD_MAG_001"),TEXT("Eternal Spellwright Card")}; case EHonourWarClass::Archer:return {TEXT("JOBEQ_ARC_001"),TEXT("Doomsday Longbow"),TEXT("JOBCARD_ARC_001"),TEXT("Causality Marksman Card")}; case EHonourWarClass::Thief:return {TEXT("JOBEQ_THI_001"),TEXT("Causality Twin Daggers"),TEXT("JOBCARD_THI_001"),TEXT("Absolute Shadow Card")}; case EHonourWarClass::Acolyte:return {TEXT("JOBEQ_ACO_001"),TEXT("Chrono Sanctified Mace"),TEXT("JOBCARD_ACO_001"),TEXT("Eternal Benediction Card")}; case EHonourWarClass::Merchant:return {TEXT("JOBEQ_MER_001"),TEXT("Matrix Forged Axe"),TEXT("JOBCARD_MER_001"),TEXT("Infinite Quartermaster Card")}; case EHonourWarClass::Ranger:return {TEXT("JOBEQ_RAN_001"),TEXT("Worldroot Longbow"),TEXT("JOBCARD_RAN_001"),TEXT("Verdant Paragon Card")}; default:return {TEXT("JOBEQ_WAR_001"),TEXT("Transcendent Greatsword"),TEXT("JOBCARD_WAR_001"),TEXT("Abyssal Warlord Card")}; }} 
+
 namespace { int32 HonourWarMonsterTier(int32 Level){if(Level>=300)return 7;if(Level>=230)return 6;if(Level>=170)return 5;if(Level>=120)return 4;if(Level>=80)return 3;if(Level>=50)return 2;if(Level>=30)return 1;return 0;} int32 HonourWarMonsterFamilyIndex(const FString& Name){struct FFamilyToken{const TCHAR* Name;int32 Index;};
 static const FFamilyToken F[]={
  {TEXT("Zombie Guard"),13},{TEXT("Skull Knight"),15},{TEXT("Bone Archer"),14},{TEXT("Orc Warlord"),19},{TEXT("Orc Champion"),18},{TEXT("Orc Warrior"),17},{TEXT("Desert Wolf"),9},{TEXT("Dire Wolf"),11},{TEXT("Poporing"),1},{TEXT("Venom Beetle"),23},{TEXT("Hunter Fly"),21},{TEXT("Stone Golem"),25},{TEXT("Crystal Golem"),26},{TEXT("Iron Golem"),27},{TEXT("Elder Dragon"),31},
@@ -575,5 +577,13 @@ void UHonourWarCombatComponent::RewardMonsterDefeat(int32 MonsterLevel,const FSt
     else
     {
         LastLootMessage = FString::Printf(TEXT("Lv.%d defeated | %lld Zeny | %s | +%d XP | %s"), SafeLevel, ZenyReward, *ItemName, KillXp, *EventName);
+    }
+
+    if (SafeLevel >= 300 && FMath::FRand() <= 0.05f)
+    {
+        const FHonourWarTier5Drop Reward = HonourWarTier5Drop(CharacterClass);
+        InventoryItems.Add(FString::Printf(TEXT("Tier 5 Worldbreaker Drop | %s | %s"), Reward.EquipmentId, Reward.EquipmentName));
+        Cards.Add(FString::Printf(TEXT("Tier 5 Worldbreaker Drop | %s | %s"), Reward.CardId, Reward.CardName));
+        LastLootMessage += FString::Printf(TEXT(" | T5 DROP 5%%: %s + %s"), Reward.EquipmentId, Reward.CardId);
     }
 }
