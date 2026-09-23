@@ -428,15 +428,34 @@
       "Acolyte": "Eternal Benediction",
       "Merchant": "Infinite Quartermaster",
       "Ranger": "Verdant Paragon"
-    }
+    },
+    "gendered_profiles": 70,
+    "profession_rule": "Warrior, Mage, Archer, Thief, Acolyte, Merchant and Ranger are seven equal professions, each with five tiers and male/female profiles."
   },
   "loot_rules": {
-    "equipment_ranks": 240,
-    "general_items": 74,
-    "card_ranks": 240,
+    "equipment_ranks": 300,
+    "general_items": 76,
+    "card_ranks": 300,
+    "pet_equipment": 100,
     "rank_layout": "8 monster level bands x 30 loot ranks; specific monster family selects the rank.",
-    "card_policy": "Cards can drop in every monster level band so all 240 card IDs are reachable.",
-    "general_item_policy": "Every monster defeat resolves one rotating general-item slot; all 74 general item IDs are reachable.",
-    "level_300_rewards": "EQUIP_240 Transcendent Monster Suit and CARD_240 World Monarch Card."
+    "card_policy": "Cards can drop across the full 300-rank production pool; specific monster families and level bands resolve the canonical card ID.",
+    "general_item_policy": "Every monster defeat resolves one rotating general-item slot across all 76 canonical general item IDs.",
+    "pet_equipment_policy": "100 pet-equipment IDs are data-driven, source-tracked and searchable through /help.",
+    "level_300_rewards": "EQUIP_300 Transcendent Monster Suit and CARD_300 World Monarch Card."
+  },
+  "ranger_rules": {
+    "profession": "Ranger",
+    "tiers": 5,
+    "firearm_progression": [
+      "Fantasy Gun",
+      "Fantasy Gun",
+      "Bolt Machine Gun",
+      "Bolt Machine Gun",
+      "Bolt Machine Gun"
+    ],
+    "ammo_id": "ITEM_075",
+    "ammo_name": "Machine Gun Bolts",
+    "legacy_bolt_id": "ITEM_076",
+    "legacy_bolt_name": "Rune Bolts"
   }
 }
