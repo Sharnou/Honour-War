@@ -1,0 +1,4268 @@
+{
+  "schema_version": "1.0.0",
+  "game": "Honour War",
+  "count": 60,
+  "description": "Per-character presentation and combat identity layer for all 60 catalog characters.",
+  "profiles": [
+    {
+      "id": "CHAR_PROFILE_001",
+      "character_id": "CHAR_001",
+      "name": "Alden Flameward of Ember",
+      "class": "Warrior",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_WARRIOR_T1",
+      "job_name": "Swordsman",
+      "title": "Ember Vanguard",
+      "gender": "male",
+      "body_style": "athletic-masculine anime silhouette",
+      "face": "square jaw",
+      "hair": "ember black",
+      "eye_style": "large bright",
+      "skin_tone": "warm ivory",
+      "clothing": "scarlet cuirass; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Swordsman Weapon",
+        "offhand": "Training Shield",
+        "armor_set": "Swordsman attire",
+        "accessory": "Honour crest 1"
+      },
+      "combat": {
+        "basic_attack": "Cross Slash",
+        "signature_skills": [
+          "Cleave",
+          "Guard Break",
+          "Shield Bash",
+          "Meteor Charge",
+          "Iron Resolve",
+          "Crimson Counter",
+          "Gravity Crush",
+          "Abyssal Dominion"
+        ],
+        "passive": "Oathbound Guard",
+        "power_rating": 118,
+        "primary_stat": "STR",
+        "secondary_stat": "VIT",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Warrior equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Swordsman; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "bright"
+    },
+    {
+      "id": "CHAR_PROFILE_002",
+      "character_id": "CHAR_002",
+      "name": "Lyra Greencrest of Ember",
+      "class": "Mage",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_MAGE_T1",
+      "job_name": "Novice Mage",
+      "title": "Azure Apprentice",
+      "gender": "male",
+      "body_style": "athletic-masculine anime silhouette",
+      "face": "calm scholarly",
+      "hair": "silver long",
+      "eye_style": "focused almond",
+      "skin_tone": "sun-kissed",
+      "clothing": "star mantle; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Novice Mage Weapon",
+        "offhand": "Rune Focus",
+        "armor_set": "Novice Mage attire",
+        "accessory": "Honour crest 8"
+      },
+      "combat": {
+        "basic_attack": "Arcane Bolt",
+        "signature_skills": [
+          "Arcane Bolt",
+          "Frost Nova",
+          "Chain Lightning",
+          "Meteor Rain",
+          "Time Weave",
+          "Astral Prison",
+          "Chrono Break",
+          "Eternal Spellstorm"
+        ],
+        "passive": "Mana Weave",
+        "power_rating": 116,
+        "primary_stat": "INT",
+        "secondary_stat": "DEX",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Mage equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Novice Mage; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "warm"
+    },
+    {
+      "id": "CHAR_PROFILE_003",
+      "character_id": "CHAR_003",
+      "name": "Kael Silversong of Ember",
+      "class": "Archer",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_ARCHER_T1",
+      "job_name": "Bowman",
+      "title": "Windrunner Bowman",
+      "gender": "male",
+      "body_style": "athletic-masculine anime silhouette",
+      "face": "hawk-eyed",
+      "hair": "silver ponytail",
+      "eye_style": "focused almond",
+      "skin_tone": "cool ivory",
+      "clothing": "hunter leathers; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Bowman Weapon",
+        "offhand": "Utility Quiver",
+        "armor_set": "Bowman attire",
+        "accessory": "Honour crest 15"
+      },
+      "combat": {
+        "basic_attack": "Double Shot",
+        "signature_skills": [
+          "Double Shot",
+          "Focused Arrow",
+          "Falcon Mark",
+          "Arrow Rain",
+          "Deadeye",
+          "Windstep",
+          "Causality Arrow",
+          "Doomsday Volley"
+        ],
+        "passive": "Deadeye Focus",
+        "power_rating": 114,
+        "primary_stat": "DEX",
+        "secondary_stat": "AGI",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Archer equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Bowman; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "firm"
+    },
+    {
+      "id": "CHAR_PROFILE_004",
+      "character_id": "CHAR_004",
+      "name": "Mira Moonveil of Ember",
+      "class": "Thief",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_THIEF_T1",
+      "job_name": "Dagger Initiate",
+      "title": "Nightblade Initiate",
+      "gender": "male",
+      "body_style": "athletic-masculine anime silhouette",
+      "face": "smirking",
+      "hair": "midnight black",
+      "eye_style": "large bright",
+      "skin_tone": "warm ivory",
+      "clothing": "shadow leathers; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Dagger Initiate Weapon",
+        "offhand": "Backup Blade",
+        "armor_set": "Dagger Initiate attire",
+        "accessory": "Honour crest 22"
+      },
+      "combat": {
+        "basic_attack": "Quick Slash",
+        "signature_skills": [
+          "Quick Slash",
+          "Poison Edge",
+          "Backstep",
+          "Shadow Veil",
+          "Venom Spiral",
+          "Phantom Rush",
+          "Absolute Silence",
+          "Voidstep Execution"
+        ],
+        "passive": "Silent Footwork",
+        "power_rating": 112,
+        "primary_stat": "AGI",
+        "secondary_stat": "LUK",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Thief equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Dagger Initiate; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "mysterious"
+    },
+    {
+      "id": "CHAR_PROFILE_005",
+      "character_id": "CHAR_005",
+      "name": "Darian Ashborne of Ember",
+      "class": "Acolyte",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_ACOLYTE_T1",
+      "job_name": "Acolyte",
+      "title": "Prayer Keeper",
+      "gender": "female",
+      "body_style": "athletic-feminine anime silhouette",
+      "face": "warm smile",
+      "hair": "white bob",
+      "eye_style": "focused almond",
+      "skin_tone": "sun-kissed",
+      "clothing": "gold stole; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Acolyte Weapon",
+        "offhand": "Prayer Book",
+        "armor_set": "Acolyte attire",
+        "accessory": "Honour crest 5"
+      },
+      "combat": {
+        "basic_attack": "Holy Strike",
+        "signature_skills": [
+          "Heal",
+          "Blessing",
+          "Holy Strike",
+          "Sanctuary",
+          "Resurrection",
+          "Divine Aegis",
+          "Seraphic Ray",
+          "Eternal Benediction"
+        ],
+        "passive": "Graceful Recovery",
+        "power_rating": 110,
+        "primary_stat": "INT",
+        "secondary_stat": "VIT",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Acolyte equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Acolyte; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "bright"
+    },
+    {
+      "id": "CHAR_PROFILE_006",
+      "character_id": "CHAR_006",
+      "name": "Selene Goldbranch of Ember",
+      "class": "Merchant",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_MERCHANT_T1",
+      "job_name": "Merchant",
+      "title": "Guild Trader",
+      "gender": "female",
+      "body_style": "athletic-feminine anime silhouette",
+      "face": "cheerful",
+      "hair": "gold sidecut",
+      "eye_style": "focused almond",
+      "skin_tone": "cool ivory",
+      "clothing": "traveler coat; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Merchant Tool",
+        "offhand": "Trade Ledger",
+        "armor_set": "Merchant attire",
+        "accessory": "Honour crest 12"
+      },
+      "combat": {
+        "basic_attack": "Trade Impact",
+        "signature_skills": [
+          "Mammonite",
+          "Trade Insight",
+          "Forge Edge",
+          "Cart Impact",
+          "Refine Mastery",
+          "Trade Sense",
+          "Overcharge Burst",
+          "Infinite Supply"
+        ],
+        "passive": "Appraiser's Eye",
+        "power_rating": 109,
+        "primary_stat": "STR",
+        "secondary_stat": "DEX",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Merchant equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Merchant; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "warm"
+    },
+    {
+      "id": "CHAR_PROFILE_007",
+      "character_id": "CHAR_007",
+      "name": "Rowan Stormhart of Ember",
+      "class": "Ranger",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_RANGER_T1",
+      "job_name": "Ranger",
+      "title": "Trail Warden",
+      "gender": "female",
+      "body_style": "athletic-feminine anime silhouette",
+      "face": "gentle",
+      "hair": "forest green braid",
+      "eye_style": "large bright",
+      "skin_tone": "warm ivory",
+      "clothing": "leafscale coat; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Ranger Weapon",
+        "offhand": "Utility Quiver",
+        "armor_set": "Ranger attire",
+        "accessory": "Honour crest 19"
+      },
+      "combat": {
+        "basic_attack": "Vine Shot",
+        "signature_skills": [
+          "Vine Shot",
+          "Beast Call",
+          "Thorn Trap",
+          "Spirit Arrow",
+          "Worldroot Guard",
+          "Wild Hunt",
+          "Verdant Storm",
+          "Paragon's Arrow"
+        ],
+        "passive": "Wildheart Instinct",
+        "power_rating": 113,
+        "primary_stat": "DEX",
+        "secondary_stat": "AGI",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Ranger equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Ranger; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "firm"
+    },
+    {
+      "id": "CHAR_PROFILE_008",
+      "character_id": "CHAR_008",
+      "name": "Elara Frostmere of Ember",
+      "class": "Warrior",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_WARRIOR_T1",
+      "job_name": "Swordsman",
+      "title": "Ember Vanguard",
+      "gender": "female",
+      "body_style": "athletic-feminine anime silhouette",
+      "face": "soft determined",
+      "hair": "chestnut braid",
+      "eye_style": "focused almond",
+      "skin_tone": "sun-kissed",
+      "clothing": "dawnsteel coat; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Swordsman Weapon",
+        "offhand": "Training Shield",
+        "armor_set": "Swordsman attire",
+        "accessory": "Honour crest 2"
+      },
+      "combat": {
+        "basic_attack": "Cross Slash",
+        "signature_skills": [
+          "Cleave",
+          "Guard Break",
+          "Shield Bash",
+          "Meteor Charge",
+          "Iron Resolve",
+          "Crimson Counter",
+          "Gravity Crush",
+          "Abyssal Dominion"
+        ],
+        "passive": "Oathbound Guard",
+        "power_rating": 118,
+        "primary_stat": "STR",
+        "secondary_stat": "VIT",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Warrior equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Swordsman; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "mysterious"
+    },
+    {
+      "id": "CHAR_PROFILE_009",
+      "character_id": "CHAR_009",
+      "name": "Theron Thornwall of Ember",
+      "class": "Mage",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_MAGE_T1",
+      "job_name": "Novice Mage",
+      "title": "Azure Apprentice",
+      "gender": "female",
+      "body_style": "athletic-feminine anime silhouette",
+      "face": "mischievous",
+      "hair": "violet braid",
+      "eye_style": "focused almond",
+      "skin_tone": "cool ivory",
+      "clothing": "rune coat; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Novice Mage Weapon",
+        "offhand": "Rune Focus",
+        "armor_set": "Novice Mage attire",
+        "accessory": "Honour crest 9"
+      },
+      "combat": {
+        "basic_attack": "Arcane Bolt",
+        "signature_skills": [
+          "Arcane Bolt",
+          "Frost Nova",
+          "Chain Lightning",
+          "Meteor Rain",
+          "Time Weave",
+          "Astral Prison",
+          "Chrono Break",
+          "Eternal Spellstorm"
+        ],
+        "passive": "Mana Weave",
+        "power_rating": 116,
+        "primary_stat": "INT",
+        "secondary_stat": "DEX",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Mage equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Novice Mage; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "bright"
+    },
+    {
+      "id": "CHAR_PROFILE_010",
+      "character_id": "CHAR_010",
+      "name": "Nadia Dawnmere of Ember",
+      "class": "Archer",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_ARCHER_T1",
+      "job_name": "Bowman",
+      "title": "Windrunner Bowman",
+      "gender": "female",
+      "body_style": "athletic-feminine anime silhouette",
+      "face": "sharp-eyed",
+      "hair": "sand blond",
+      "eye_style": "large bright",
+      "skin_tone": "warm ivory",
+      "clothing": "wind tunic; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Bowman Weapon",
+        "offhand": "Utility Quiver",
+        "armor_set": "Bowman attire",
+        "accessory": "Honour crest 16"
+      },
+      "combat": {
+        "basic_attack": "Double Shot",
+        "signature_skills": [
+          "Double Shot",
+          "Focused Arrow",
+          "Falcon Mark",
+          "Arrow Rain",
+          "Deadeye",
+          "Windstep",
+          "Causality Arrow",
+          "Doomsday Volley"
+        ],
+        "passive": "Deadeye Focus",
+        "power_rating": 114,
+        "primary_stat": "DEX",
+        "secondary_stat": "AGI",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Archer equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Bowman; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "warm"
+    },
+    {
+      "id": "CHAR_PROFILE_011",
+      "character_id": "CHAR_011",
+      "name": "Lucan Sunforge of Ember",
+      "class": "Thief",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_THIEF_T1",
+      "job_name": "Dagger Initiate",
+      "title": "Nightblade Initiate",
+      "gender": "female",
+      "body_style": "athletic-feminine anime silhouette",
+      "face": "cool narrow-eyed",
+      "hair": "violet short",
+      "eye_style": "focused almond",
+      "skin_tone": "sun-kissed",
+      "clothing": "hooded mantle; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Dagger Initiate Weapon",
+        "offhand": "Backup Blade",
+        "armor_set": "Dagger Initiate attire",
+        "accessory": "Honour crest 23"
+      },
+      "combat": {
+        "basic_attack": "Quick Slash",
+        "signature_skills": [
+          "Quick Slash",
+          "Poison Edge",
+          "Backstep",
+          "Shadow Veil",
+          "Venom Spiral",
+          "Phantom Rush",
+          "Absolute Silence",
+          "Voidstep Execution"
+        ],
+        "passive": "Silent Footwork",
+        "power_rating": 112,
+        "primary_stat": "AGI",
+        "secondary_stat": "LUK",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Thief equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Dagger Initiate; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "firm"
+    },
+    {
+      "id": "CHAR_PROFILE_012",
+      "character_id": "CHAR_012",
+      "name": "Seren Skydancer of Ember",
+      "class": "Acolyte",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_ACOLYTE_T1",
+      "job_name": "Acolyte",
+      "title": "Prayer Keeper",
+      "gender": "male",
+      "body_style": "athletic-masculine anime silhouette",
+      "face": "concerned",
+      "hair": "rose brown",
+      "eye_style": "focused almond",
+      "skin_tone": "cool ivory",
+      "clothing": "sanctified mantle; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Acolyte Weapon",
+        "offhand": "Prayer Book",
+        "armor_set": "Acolyte attire",
+        "accessory": "Honour crest 6"
+      },
+      "combat": {
+        "basic_attack": "Holy Strike",
+        "signature_skills": [
+          "Heal",
+          "Blessing",
+          "Holy Strike",
+          "Sanctuary",
+          "Resurrection",
+          "Divine Aegis",
+          "Seraphic Ray",
+          "Eternal Benediction"
+        ],
+        "passive": "Graceful Recovery",
+        "power_rating": 110,
+        "primary_stat": "INT",
+        "secondary_stat": "VIT",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Acolyte equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Acolyte; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "mysterious"
+    },
+    {
+      "id": "CHAR_PROFILE_013",
+      "character_id": "CHAR_013",
+      "name": "Orin Nightbloom of Ember",
+      "class": "Merchant",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_MERCHANT_T1",
+      "job_name": "Merchant",
+      "title": "Guild Trader",
+      "gender": "male",
+      "body_style": "athletic-masculine anime silhouette",
+      "face": "friendly",
+      "hair": "copper short",
+      "eye_style": "large bright",
+      "skin_tone": "warm ivory",
+      "clothing": "tailored coat; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Merchant Tool",
+        "offhand": "Trade Ledger",
+        "armor_set": "Merchant attire",
+        "accessory": "Honour crest 13"
+      },
+      "combat": {
+        "basic_attack": "Trade Impact",
+        "signature_skills": [
+          "Mammonite",
+          "Trade Insight",
+          "Forge Edge",
+          "Cart Impact",
+          "Refine Mastery",
+          "Trade Sense",
+          "Overcharge Burst",
+          "Infinite Supply"
+        ],
+        "passive": "Appraiser's Eye",
+        "power_rating": 109,
+        "primary_stat": "STR",
+        "secondary_stat": "DEX",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Merchant equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Merchant; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "bright"
+    },
+    {
+      "id": "CHAR_PROFILE_014",
+      "character_id": "CHAR_014",
+      "name": "Vera Ravenmark of Ember",
+      "class": "Ranger",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_RANGER_T1",
+      "job_name": "Ranger",
+      "title": "Trail Warden",
+      "gender": "male",
+      "body_style": "athletic-masculine anime silhouette",
+      "face": "alert",
+      "hair": "leaf brown",
+      "eye_style": "focused almond",
+      "skin_tone": "sun-kissed",
+      "clothing": "woodland mantle; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Ranger Weapon",
+        "offhand": "Utility Quiver",
+        "armor_set": "Ranger attire",
+        "accessory": "Honour crest 20"
+      },
+      "combat": {
+        "basic_attack": "Vine Shot",
+        "signature_skills": [
+          "Vine Shot",
+          "Beast Call",
+          "Thorn Trap",
+          "Spirit Arrow",
+          "Worldroot Guard",
+          "Wild Hunt",
+          "Verdant Storm",
+          "Paragon's Arrow"
+        ],
+        "passive": "Wildheart Instinct",
+        "power_rating": 113,
+        "primary_stat": "DEX",
+        "secondary_stat": "AGI",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Ranger equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Ranger; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "warm"
+    },
+    {
+      "id": "CHAR_PROFILE_015",
+      "character_id": "CHAR_015",
+      "name": "Cassian Stoneheart of Ember",
+      "class": "Warrior",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_WARRIOR_T1",
+      "job_name": "Swordsman",
+      "title": "Ember Vanguard",
+      "gender": "male",
+      "body_style": "athletic-masculine anime silhouette",
+      "face": "scar-browed",
+      "hair": "copper short",
+      "eye_style": "focused almond",
+      "skin_tone": "cool ivory",
+      "clothing": "battle cloak; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Swordsman Weapon",
+        "offhand": "Training Shield",
+        "armor_set": "Swordsman attire",
+        "accessory": "Honour crest 3"
+      },
+      "combat": {
+        "basic_attack": "Cross Slash",
+        "signature_skills": [
+          "Cleave",
+          "Guard Break",
+          "Shield Bash",
+          "Meteor Charge",
+          "Iron Resolve",
+          "Crimson Counter",
+          "Gravity Crush",
+          "Abyssal Dominion"
+        ],
+        "passive": "Oathbound Guard",
+        "power_rating": 118,
+        "primary_stat": "STR",
+        "secondary_stat": "VIT",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Warrior equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Swordsman; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "firm"
+    },
+    {
+      "id": "CHAR_PROFILE_016",
+      "character_id": "CHAR_016",
+      "name": "Ilyra Ironvale of Ember",
+      "class": "Mage",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_MAGE_T1",
+      "job_name": "Novice Mage",
+      "title": "Azure Apprentice",
+      "gender": "male",
+      "body_style": "athletic-masculine anime silhouette",
+      "face": "bright-eyed",
+      "hair": "azure bob",
+      "eye_style": "large bright",
+      "skin_tone": "warm ivory",
+      "clothing": "azure robe; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Novice Mage Weapon",
+        "offhand": "Rune Focus",
+        "armor_set": "Novice Mage attire",
+        "accessory": "Honour crest 10"
+      },
+      "combat": {
+        "basic_attack": "Arcane Bolt",
+        "signature_skills": [
+          "Arcane Bolt",
+          "Frost Nova",
+          "Chain Lightning",
+          "Meteor Rain",
+          "Time Weave",
+          "Astral Prison",
+          "Chrono Break",
+          "Eternal Spellstorm"
+        ],
+        "passive": "Mana Weave",
+        "power_rating": 116,
+        "primary_stat": "INT",
+        "secondary_stat": "DEX",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Mage equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Novice Mage; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "mysterious"
+    },
+    {
+      "id": "CHAR_PROFILE_017",
+      "character_id": "CHAR_017",
+      "name": "Riven Brightshield of Ember",
+      "class": "Archer",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_ARCHER_T1",
+      "job_name": "Bowman",
+      "title": "Windrunner Bowman",
+      "gender": "male",
+      "body_style": "athletic-masculine anime silhouette",
+      "face": "gentle-eyed",
+      "hair": "forest brown",
+      "eye_style": "focused almond",
+      "skin_tone": "sun-kissed",
+      "clothing": "feather mantle; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Bowman Weapon",
+        "offhand": "Utility Quiver",
+        "armor_set": "Bowman attire",
+        "accessory": "Honour crest 17"
+      },
+      "combat": {
+        "basic_attack": "Double Shot",
+        "signature_skills": [
+          "Double Shot",
+          "Focused Arrow",
+          "Falcon Mark",
+          "Arrow Rain",
+          "Deadeye",
+          "Windstep",
+          "Causality Arrow",
+          "Doomsday Volley"
+        ],
+        "passive": "Deadeye Focus",
+        "power_rating": 114,
+        "primary_stat": "DEX",
+        "secondary_stat": "AGI",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Archer equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Bowman; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "bright"
+    },
+    {
+      "id": "CHAR_PROFILE_018",
+      "character_id": "CHAR_018",
+      "name": "Maelis Windmere of Ember",
+      "class": "Thief",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_THIEF_T1",
+      "job_name": "Dagger Initiate",
+      "title": "Nightblade Initiate",
+      "gender": "male",
+      "body_style": "athletic-masculine anime silhouette",
+      "face": "playful",
+      "hair": "silver undercut",
+      "eye_style": "focused almond",
+      "skin_tone": "cool ivory",
+      "clothing": "night scarf; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Dagger Initiate Weapon",
+        "offhand": "Backup Blade",
+        "armor_set": "Dagger Initiate attire",
+        "accessory": "Honour crest 24"
+      },
+      "combat": {
+        "basic_attack": "Quick Slash",
+        "signature_skills": [
+          "Quick Slash",
+          "Poison Edge",
+          "Backstep",
+          "Shadow Veil",
+          "Venom Spiral",
+          "Phantom Rush",
+          "Absolute Silence",
+          "Voidstep Execution"
+        ],
+        "passive": "Silent Footwork",
+        "power_rating": 112,
+        "primary_stat": "AGI",
+        "secondary_stat": "LUK",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Thief equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Dagger Initiate; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "warm"
+    },
+    {
+      "id": "CHAR_PROFILE_019",
+      "character_id": "CHAR_019",
+      "name": "Corin Starfall of Ember",
+      "class": "Acolyte",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_ACOLYTE_T1",
+      "job_name": "Acolyte",
+      "title": "Prayer Keeper",
+      "gender": "female",
+      "body_style": "athletic-feminine anime silhouette",
+      "face": "serene",
+      "hair": "gold braid",
+      "eye_style": "large bright",
+      "skin_tone": "warm ivory",
+      "clothing": "white vestments; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Acolyte Weapon",
+        "offhand": "Prayer Book",
+        "armor_set": "Acolyte attire",
+        "accessory": "Honour crest 7"
+      },
+      "combat": {
+        "basic_attack": "Holy Strike",
+        "signature_skills": [
+          "Heal",
+          "Blessing",
+          "Holy Strike",
+          "Sanctuary",
+          "Resurrection",
+          "Divine Aegis",
+          "Seraphic Ray",
+          "Eternal Benediction"
+        ],
+        "passive": "Graceful Recovery",
+        "power_rating": 110,
+        "primary_stat": "INT",
+        "secondary_stat": "VIT",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Acolyte equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Acolyte; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "firm"
+    },
+    {
+      "id": "CHAR_PROFILE_020",
+      "character_id": "CHAR_020",
+      "name": "Talia Emberwyn of Ember",
+      "class": "Merchant",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_MERCHANT_T1",
+      "job_name": "Merchant",
+      "title": "Guild Trader",
+      "gender": "female",
+      "body_style": "athletic-feminine anime silhouette",
+      "face": "calculating",
+      "hair": "brown ponytail",
+      "eye_style": "focused almond",
+      "skin_tone": "sun-kissed",
+      "clothing": "reinforced apron; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Merchant Tool",
+        "offhand": "Trade Ledger",
+        "armor_set": "Merchant attire",
+        "accessory": "Honour crest 14"
+      },
+      "combat": {
+        "basic_attack": "Trade Impact",
+        "signature_skills": [
+          "Mammonite",
+          "Trade Insight",
+          "Forge Edge",
+          "Cart Impact",
+          "Refine Mastery",
+          "Trade Sense",
+          "Overcharge Burst",
+          "Infinite Supply"
+        ],
+        "passive": "Appraiser's Eye",
+        "power_rating": 109,
+        "primary_stat": "STR",
+        "secondary_stat": "DEX",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Merchant equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Merchant; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "mysterious"
+    },
+    {
+      "id": "CHAR_PROFILE_021",
+      "character_id": "CHAR_021",
+      "name": "Alden Flameward of Dawn",
+      "class": "Ranger",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_RANGER_T1",
+      "job_name": "Ranger",
+      "title": "Trail Warden",
+      "gender": "female",
+      "body_style": "athletic-feminine anime silhouette",
+      "face": "commanding",
+      "hair": "silver long",
+      "eye_style": "focused almond",
+      "skin_tone": "cool ivory",
+      "clothing": "verdant cloak; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Ranger Weapon",
+        "offhand": "Utility Quiver",
+        "armor_set": "Ranger attire",
+        "accessory": "Honour crest 21"
+      },
+      "combat": {
+        "basic_attack": "Vine Shot",
+        "signature_skills": [
+          "Vine Shot",
+          "Beast Call",
+          "Thorn Trap",
+          "Spirit Arrow",
+          "Worldroot Guard",
+          "Wild Hunt",
+          "Verdant Storm",
+          "Paragon's Arrow"
+        ],
+        "passive": "Wildheart Instinct",
+        "power_rating": 113,
+        "primary_stat": "DEX",
+        "secondary_stat": "AGI",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Ranger equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Ranger; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "bright"
+    },
+    {
+      "id": "CHAR_PROFILE_022",
+      "character_id": "CHAR_022",
+      "name": "Lyra Greencrest of Dawn",
+      "class": "Warrior",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_WARRIOR_T1",
+      "job_name": "Swordsman",
+      "title": "Ember Vanguard",
+      "gender": "female",
+      "body_style": "athletic-feminine anime silhouette",
+      "face": "square jaw",
+      "hair": "ember black",
+      "eye_style": "large bright",
+      "skin_tone": "warm ivory",
+      "clothing": "scarlet cuirass; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Swordsman Weapon",
+        "offhand": "Training Shield",
+        "armor_set": "Swordsman attire",
+        "accessory": "Honour crest 4"
+      },
+      "combat": {
+        "basic_attack": "Cross Slash",
+        "signature_skills": [
+          "Cleave",
+          "Guard Break",
+          "Shield Bash",
+          "Meteor Charge",
+          "Iron Resolve",
+          "Crimson Counter",
+          "Gravity Crush",
+          "Abyssal Dominion"
+        ],
+        "passive": "Oathbound Guard",
+        "power_rating": 118,
+        "primary_stat": "STR",
+        "secondary_stat": "VIT",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Warrior equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Swordsman; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "warm"
+    },
+    {
+      "id": "CHAR_PROFILE_023",
+      "character_id": "CHAR_023",
+      "name": "Kael Silversong of Dawn",
+      "class": "Mage",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_MAGE_T1",
+      "job_name": "Novice Mage",
+      "title": "Azure Apprentice",
+      "gender": "female",
+      "body_style": "athletic-feminine anime silhouette",
+      "face": "calm scholarly",
+      "hair": "silver long",
+      "eye_style": "focused almond",
+      "skin_tone": "sun-kissed",
+      "clothing": "star mantle; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Novice Mage Weapon",
+        "offhand": "Rune Focus",
+        "armor_set": "Novice Mage attire",
+        "accessory": "Honour crest 11"
+      },
+      "combat": {
+        "basic_attack": "Arcane Bolt",
+        "signature_skills": [
+          "Arcane Bolt",
+          "Frost Nova",
+          "Chain Lightning",
+          "Meteor Rain",
+          "Time Weave",
+          "Astral Prison",
+          "Chrono Break",
+          "Eternal Spellstorm"
+        ],
+        "passive": "Mana Weave",
+        "power_rating": 116,
+        "primary_stat": "INT",
+        "secondary_stat": "DEX",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Mage equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Novice Mage; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "firm"
+    },
+    {
+      "id": "CHAR_PROFILE_024",
+      "character_id": "CHAR_024",
+      "name": "Mira Moonveil of Dawn",
+      "class": "Archer",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_ARCHER_T1",
+      "job_name": "Bowman",
+      "title": "Windrunner Bowman",
+      "gender": "female",
+      "body_style": "athletic-feminine anime silhouette",
+      "face": "hawk-eyed",
+      "hair": "silver ponytail",
+      "eye_style": "focused almond",
+      "skin_tone": "cool ivory",
+      "clothing": "hunter leathers; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Bowman Weapon",
+        "offhand": "Utility Quiver",
+        "armor_set": "Bowman attire",
+        "accessory": "Honour crest 18"
+      },
+      "combat": {
+        "basic_attack": "Double Shot",
+        "signature_skills": [
+          "Double Shot",
+          "Focused Arrow",
+          "Falcon Mark",
+          "Arrow Rain",
+          "Deadeye",
+          "Windstep",
+          "Causality Arrow",
+          "Doomsday Volley"
+        ],
+        "passive": "Deadeye Focus",
+        "power_rating": 114,
+        "primary_stat": "DEX",
+        "secondary_stat": "AGI",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Archer equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Bowman; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "mysterious"
+    },
+    {
+      "id": "CHAR_PROFILE_025",
+      "character_id": "CHAR_025",
+      "name": "Darian Ashborne of Dawn",
+      "class": "Thief",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_THIEF_T1",
+      "job_name": "Dagger Initiate",
+      "title": "Nightblade Initiate",
+      "gender": "female",
+      "body_style": "athletic-feminine anime silhouette",
+      "face": "smirking",
+      "hair": "midnight black",
+      "eye_style": "large bright",
+      "skin_tone": "warm ivory",
+      "clothing": "shadow leathers; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Dagger Initiate Weapon",
+        "offhand": "Backup Blade",
+        "armor_set": "Dagger Initiate attire",
+        "accessory": "Honour crest 1"
+      },
+      "combat": {
+        "basic_attack": "Quick Slash",
+        "signature_skills": [
+          "Quick Slash",
+          "Poison Edge",
+          "Backstep",
+          "Shadow Veil",
+          "Venom Spiral",
+          "Phantom Rush",
+          "Absolute Silence",
+          "Voidstep Execution"
+        ],
+        "passive": "Silent Footwork",
+        "power_rating": 112,
+        "primary_stat": "AGI",
+        "secondary_stat": "LUK",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Thief equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Dagger Initiate; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "bright"
+    },
+    {
+      "id": "CHAR_PROFILE_026",
+      "character_id": "CHAR_026",
+      "name": "Selene Goldbranch of Dawn",
+      "class": "Acolyte",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_ACOLYTE_T1",
+      "job_name": "Acolyte",
+      "title": "Prayer Keeper",
+      "gender": "male",
+      "body_style": "athletic-masculine anime silhouette",
+      "face": "warm smile",
+      "hair": "white bob",
+      "eye_style": "focused almond",
+      "skin_tone": "sun-kissed",
+      "clothing": "gold stole; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Acolyte Weapon",
+        "offhand": "Prayer Book",
+        "armor_set": "Acolyte attire",
+        "accessory": "Honour crest 8"
+      },
+      "combat": {
+        "basic_attack": "Holy Strike",
+        "signature_skills": [
+          "Heal",
+          "Blessing",
+          "Holy Strike",
+          "Sanctuary",
+          "Resurrection",
+          "Divine Aegis",
+          "Seraphic Ray",
+          "Eternal Benediction"
+        ],
+        "passive": "Graceful Recovery",
+        "power_rating": 110,
+        "primary_stat": "INT",
+        "secondary_stat": "VIT",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Acolyte equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Acolyte; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "warm"
+    },
+    {
+      "id": "CHAR_PROFILE_027",
+      "character_id": "CHAR_027",
+      "name": "Rowan Stormhart of Dawn",
+      "class": "Merchant",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_MERCHANT_T1",
+      "job_name": "Merchant",
+      "title": "Guild Trader",
+      "gender": "male",
+      "body_style": "athletic-masculine anime silhouette",
+      "face": "cheerful",
+      "hair": "gold sidecut",
+      "eye_style": "focused almond",
+      "skin_tone": "cool ivory",
+      "clothing": "traveler coat; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Merchant Tool",
+        "offhand": "Trade Ledger",
+        "armor_set": "Merchant attire",
+        "accessory": "Honour crest 15"
+      },
+      "combat": {
+        "basic_attack": "Trade Impact",
+        "signature_skills": [
+          "Mammonite",
+          "Trade Insight",
+          "Forge Edge",
+          "Cart Impact",
+          "Refine Mastery",
+          "Trade Sense",
+          "Overcharge Burst",
+          "Infinite Supply"
+        ],
+        "passive": "Appraiser's Eye",
+        "power_rating": 109,
+        "primary_stat": "STR",
+        "secondary_stat": "DEX",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Merchant equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Merchant; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "firm"
+    },
+    {
+      "id": "CHAR_PROFILE_028",
+      "character_id": "CHAR_028",
+      "name": "Elara Frostmere of Dawn",
+      "class": "Ranger",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_RANGER_T1",
+      "job_name": "Ranger",
+      "title": "Trail Warden",
+      "gender": "male",
+      "body_style": "athletic-masculine anime silhouette",
+      "face": "gentle",
+      "hair": "forest green braid",
+      "eye_style": "large bright",
+      "skin_tone": "warm ivory",
+      "clothing": "leafscale coat; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Ranger Weapon",
+        "offhand": "Utility Quiver",
+        "armor_set": "Ranger attire",
+        "accessory": "Honour crest 22"
+      },
+      "combat": {
+        "basic_attack": "Vine Shot",
+        "signature_skills": [
+          "Vine Shot",
+          "Beast Call",
+          "Thorn Trap",
+          "Spirit Arrow",
+          "Worldroot Guard",
+          "Wild Hunt",
+          "Verdant Storm",
+          "Paragon's Arrow"
+        ],
+        "passive": "Wildheart Instinct",
+        "power_rating": 113,
+        "primary_stat": "DEX",
+        "secondary_stat": "AGI",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Ranger equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Ranger; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "mysterious"
+    },
+    {
+      "id": "CHAR_PROFILE_029",
+      "character_id": "CHAR_029",
+      "name": "Theron Thornwall of Dawn",
+      "class": "Warrior",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_WARRIOR_T1",
+      "job_name": "Swordsman",
+      "title": "Ember Vanguard",
+      "gender": "male",
+      "body_style": "athletic-masculine anime silhouette",
+      "face": "soft determined",
+      "hair": "chestnut braid",
+      "eye_style": "focused almond",
+      "skin_tone": "sun-kissed",
+      "clothing": "dawnsteel coat; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Swordsman Weapon",
+        "offhand": "Training Shield",
+        "armor_set": "Swordsman attire",
+        "accessory": "Honour crest 5"
+      },
+      "combat": {
+        "basic_attack": "Cross Slash",
+        "signature_skills": [
+          "Cleave",
+          "Guard Break",
+          "Shield Bash",
+          "Meteor Charge",
+          "Iron Resolve",
+          "Crimson Counter",
+          "Gravity Crush",
+          "Abyssal Dominion"
+        ],
+        "passive": "Oathbound Guard",
+        "power_rating": 118,
+        "primary_stat": "STR",
+        "secondary_stat": "VIT",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Warrior equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Swordsman; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "bright"
+    },
+    {
+      "id": "CHAR_PROFILE_030",
+      "character_id": "CHAR_030",
+      "name": "Nadia Dawnmere of Dawn",
+      "class": "Mage",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_MAGE_T1",
+      "job_name": "Novice Mage",
+      "title": "Azure Apprentice",
+      "gender": "male",
+      "body_style": "athletic-masculine anime silhouette",
+      "face": "mischievous",
+      "hair": "violet braid",
+      "eye_style": "focused almond",
+      "skin_tone": "cool ivory",
+      "clothing": "rune coat; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Novice Mage Weapon",
+        "offhand": "Rune Focus",
+        "armor_set": "Novice Mage attire",
+        "accessory": "Honour crest 12"
+      },
+      "combat": {
+        "basic_attack": "Arcane Bolt",
+        "signature_skills": [
+          "Arcane Bolt",
+          "Frost Nova",
+          "Chain Lightning",
+          "Meteor Rain",
+          "Time Weave",
+          "Astral Prison",
+          "Chrono Break",
+          "Eternal Spellstorm"
+        ],
+        "passive": "Mana Weave",
+        "power_rating": 116,
+        "primary_stat": "INT",
+        "secondary_stat": "DEX",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Mage equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Novice Mage; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "warm"
+    },
+    {
+      "id": "CHAR_PROFILE_031",
+      "character_id": "CHAR_031",
+      "name": "Lucan Sunforge of Dawn",
+      "class": "Archer",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_ARCHER_T1",
+      "job_name": "Bowman",
+      "title": "Windrunner Bowman",
+      "gender": "male",
+      "body_style": "athletic-masculine anime silhouette",
+      "face": "sharp-eyed",
+      "hair": "sand blond",
+      "eye_style": "large bright",
+      "skin_tone": "warm ivory",
+      "clothing": "wind tunic; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Bowman Weapon",
+        "offhand": "Utility Quiver",
+        "armor_set": "Bowman attire",
+        "accessory": "Honour crest 19"
+      },
+      "combat": {
+        "basic_attack": "Double Shot",
+        "signature_skills": [
+          "Double Shot",
+          "Focused Arrow",
+          "Falcon Mark",
+          "Arrow Rain",
+          "Deadeye",
+          "Windstep",
+          "Causality Arrow",
+          "Doomsday Volley"
+        ],
+        "passive": "Deadeye Focus",
+        "power_rating": 114,
+        "primary_stat": "DEX",
+        "secondary_stat": "AGI",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Archer equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Bowman; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "firm"
+    },
+    {
+      "id": "CHAR_PROFILE_032",
+      "character_id": "CHAR_032",
+      "name": "Seren Skydancer of Dawn",
+      "class": "Thief",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_THIEF_T1",
+      "job_name": "Dagger Initiate",
+      "title": "Nightblade Initiate",
+      "gender": "male",
+      "body_style": "athletic-masculine anime silhouette",
+      "face": "cool narrow-eyed",
+      "hair": "violet short",
+      "eye_style": "focused almond",
+      "skin_tone": "sun-kissed",
+      "clothing": "hooded mantle; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Dagger Initiate Weapon",
+        "offhand": "Backup Blade",
+        "armor_set": "Dagger Initiate attire",
+        "accessory": "Honour crest 2"
+      },
+      "combat": {
+        "basic_attack": "Quick Slash",
+        "signature_skills": [
+          "Quick Slash",
+          "Poison Edge",
+          "Backstep",
+          "Shadow Veil",
+          "Venom Spiral",
+          "Phantom Rush",
+          "Absolute Silence",
+          "Voidstep Execution"
+        ],
+        "passive": "Silent Footwork",
+        "power_rating": 112,
+        "primary_stat": "AGI",
+        "secondary_stat": "LUK",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Thief equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Dagger Initiate; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "mysterious"
+    },
+    {
+      "id": "CHAR_PROFILE_033",
+      "character_id": "CHAR_033",
+      "name": "Orin Nightbloom of Dawn",
+      "class": "Acolyte",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_ACOLYTE_T1",
+      "job_name": "Acolyte",
+      "title": "Prayer Keeper",
+      "gender": "female",
+      "body_style": "athletic-feminine anime silhouette",
+      "face": "concerned",
+      "hair": "rose brown",
+      "eye_style": "focused almond",
+      "skin_tone": "cool ivory",
+      "clothing": "sanctified mantle; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Acolyte Weapon",
+        "offhand": "Prayer Book",
+        "armor_set": "Acolyte attire",
+        "accessory": "Honour crest 9"
+      },
+      "combat": {
+        "basic_attack": "Holy Strike",
+        "signature_skills": [
+          "Heal",
+          "Blessing",
+          "Holy Strike",
+          "Sanctuary",
+          "Resurrection",
+          "Divine Aegis",
+          "Seraphic Ray",
+          "Eternal Benediction"
+        ],
+        "passive": "Graceful Recovery",
+        "power_rating": 110,
+        "primary_stat": "INT",
+        "secondary_stat": "VIT",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Acolyte equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Acolyte; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "bright"
+    },
+    {
+      "id": "CHAR_PROFILE_034",
+      "character_id": "CHAR_034",
+      "name": "Vera Ravenmark of Dawn",
+      "class": "Merchant",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_MERCHANT_T1",
+      "job_name": "Merchant",
+      "title": "Guild Trader",
+      "gender": "female",
+      "body_style": "athletic-feminine anime silhouette",
+      "face": "friendly",
+      "hair": "copper short",
+      "eye_style": "large bright",
+      "skin_tone": "warm ivory",
+      "clothing": "tailored coat; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Merchant Tool",
+        "offhand": "Trade Ledger",
+        "armor_set": "Merchant attire",
+        "accessory": "Honour crest 16"
+      },
+      "combat": {
+        "basic_attack": "Trade Impact",
+        "signature_skills": [
+          "Mammonite",
+          "Trade Insight",
+          "Forge Edge",
+          "Cart Impact",
+          "Refine Mastery",
+          "Trade Sense",
+          "Overcharge Burst",
+          "Infinite Supply"
+        ],
+        "passive": "Appraiser's Eye",
+        "power_rating": 109,
+        "primary_stat": "STR",
+        "secondary_stat": "DEX",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Merchant equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Merchant; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "warm"
+    },
+    {
+      "id": "CHAR_PROFILE_035",
+      "character_id": "CHAR_035",
+      "name": "Cassian Stoneheart of Dawn",
+      "class": "Ranger",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_RANGER_T1",
+      "job_name": "Ranger",
+      "title": "Trail Warden",
+      "gender": "female",
+      "body_style": "athletic-feminine anime silhouette",
+      "face": "alert",
+      "hair": "leaf brown",
+      "eye_style": "focused almond",
+      "skin_tone": "sun-kissed",
+      "clothing": "woodland mantle; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Ranger Weapon",
+        "offhand": "Utility Quiver",
+        "armor_set": "Ranger attire",
+        "accessory": "Honour crest 23"
+      },
+      "combat": {
+        "basic_attack": "Vine Shot",
+        "signature_skills": [
+          "Vine Shot",
+          "Beast Call",
+          "Thorn Trap",
+          "Spirit Arrow",
+          "Worldroot Guard",
+          "Wild Hunt",
+          "Verdant Storm",
+          "Paragon's Arrow"
+        ],
+        "passive": "Wildheart Instinct",
+        "power_rating": 113,
+        "primary_stat": "DEX",
+        "secondary_stat": "AGI",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Ranger equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Ranger; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "firm"
+    },
+    {
+      "id": "CHAR_PROFILE_036",
+      "character_id": "CHAR_036",
+      "name": "Ilyra Ironvale of Dawn",
+      "class": "Warrior",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_WARRIOR_T1",
+      "job_name": "Swordsman",
+      "title": "Ember Vanguard",
+      "gender": "female",
+      "body_style": "athletic-feminine anime silhouette",
+      "face": "scar-browed",
+      "hair": "copper short",
+      "eye_style": "focused almond",
+      "skin_tone": "cool ivory",
+      "clothing": "battle cloak; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Swordsman Weapon",
+        "offhand": "Training Shield",
+        "armor_set": "Swordsman attire",
+        "accessory": "Honour crest 6"
+      },
+      "combat": {
+        "basic_attack": "Cross Slash",
+        "signature_skills": [
+          "Cleave",
+          "Guard Break",
+          "Shield Bash",
+          "Meteor Charge",
+          "Iron Resolve",
+          "Crimson Counter",
+          "Gravity Crush",
+          "Abyssal Dominion"
+        ],
+        "passive": "Oathbound Guard",
+        "power_rating": 118,
+        "primary_stat": "STR",
+        "secondary_stat": "VIT",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Warrior equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Swordsman; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "mysterious"
+    },
+    {
+      "id": "CHAR_PROFILE_037",
+      "character_id": "CHAR_037",
+      "name": "Riven Brightshield of Dawn",
+      "class": "Mage",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_MAGE_T1",
+      "job_name": "Novice Mage",
+      "title": "Azure Apprentice",
+      "gender": "female",
+      "body_style": "athletic-feminine anime silhouette",
+      "face": "bright-eyed",
+      "hair": "azure bob",
+      "eye_style": "large bright",
+      "skin_tone": "warm ivory",
+      "clothing": "azure robe; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Novice Mage Weapon",
+        "offhand": "Rune Focus",
+        "armor_set": "Novice Mage attire",
+        "accessory": "Honour crest 13"
+      },
+      "combat": {
+        "basic_attack": "Arcane Bolt",
+        "signature_skills": [
+          "Arcane Bolt",
+          "Frost Nova",
+          "Chain Lightning",
+          "Meteor Rain",
+          "Time Weave",
+          "Astral Prison",
+          "Chrono Break",
+          "Eternal Spellstorm"
+        ],
+        "passive": "Mana Weave",
+        "power_rating": 116,
+        "primary_stat": "INT",
+        "secondary_stat": "DEX",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Mage equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Novice Mage; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "bright"
+    },
+    {
+      "id": "CHAR_PROFILE_038",
+      "character_id": "CHAR_038",
+      "name": "Maelis Windmere of Dawn",
+      "class": "Archer",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_ARCHER_T1",
+      "job_name": "Bowman",
+      "title": "Windrunner Bowman",
+      "gender": "female",
+      "body_style": "athletic-feminine anime silhouette",
+      "face": "gentle-eyed",
+      "hair": "forest brown",
+      "eye_style": "focused almond",
+      "skin_tone": "sun-kissed",
+      "clothing": "feather mantle; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Bowman Weapon",
+        "offhand": "Utility Quiver",
+        "armor_set": "Bowman attire",
+        "accessory": "Honour crest 20"
+      },
+      "combat": {
+        "basic_attack": "Double Shot",
+        "signature_skills": [
+          "Double Shot",
+          "Focused Arrow",
+          "Falcon Mark",
+          "Arrow Rain",
+          "Deadeye",
+          "Windstep",
+          "Causality Arrow",
+          "Doomsday Volley"
+        ],
+        "passive": "Deadeye Focus",
+        "power_rating": 114,
+        "primary_stat": "DEX",
+        "secondary_stat": "AGI",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Archer equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Bowman; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "warm"
+    },
+    {
+      "id": "CHAR_PROFILE_039",
+      "character_id": "CHAR_039",
+      "name": "Corin Starfall of Dawn",
+      "class": "Thief",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_THIEF_T1",
+      "job_name": "Dagger Initiate",
+      "title": "Nightblade Initiate",
+      "gender": "female",
+      "body_style": "athletic-feminine anime silhouette",
+      "face": "playful",
+      "hair": "silver undercut",
+      "eye_style": "focused almond",
+      "skin_tone": "cool ivory",
+      "clothing": "night scarf; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Dagger Initiate Weapon",
+        "offhand": "Backup Blade",
+        "armor_set": "Dagger Initiate attire",
+        "accessory": "Honour crest 3"
+      },
+      "combat": {
+        "basic_attack": "Quick Slash",
+        "signature_skills": [
+          "Quick Slash",
+          "Poison Edge",
+          "Backstep",
+          "Shadow Veil",
+          "Venom Spiral",
+          "Phantom Rush",
+          "Absolute Silence",
+          "Voidstep Execution"
+        ],
+        "passive": "Silent Footwork",
+        "power_rating": 112,
+        "primary_stat": "AGI",
+        "secondary_stat": "LUK",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Thief equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Dagger Initiate; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "firm"
+    },
+    {
+      "id": "CHAR_PROFILE_040",
+      "character_id": "CHAR_040",
+      "name": "Talia Emberwyn of Dawn",
+      "class": "Acolyte",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_ACOLYTE_T1",
+      "job_name": "Acolyte",
+      "title": "Prayer Keeper",
+      "gender": "male",
+      "body_style": "athletic-masculine anime silhouette",
+      "face": "serene",
+      "hair": "gold braid",
+      "eye_style": "large bright",
+      "skin_tone": "warm ivory",
+      "clothing": "white vestments; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Acolyte Weapon",
+        "offhand": "Prayer Book",
+        "armor_set": "Acolyte attire",
+        "accessory": "Honour crest 10"
+      },
+      "combat": {
+        "basic_attack": "Holy Strike",
+        "signature_skills": [
+          "Heal",
+          "Blessing",
+          "Holy Strike",
+          "Sanctuary",
+          "Resurrection",
+          "Divine Aegis",
+          "Seraphic Ray",
+          "Eternal Benediction"
+        ],
+        "passive": "Graceful Recovery",
+        "power_rating": 110,
+        "primary_stat": "INT",
+        "secondary_stat": "VIT",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Acolyte equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Acolyte; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "mysterious"
+    },
+    {
+      "id": "CHAR_PROFILE_041",
+      "character_id": "CHAR_041",
+      "name": "Alden Flameward of Twilight",
+      "class": "Merchant",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_MERCHANT_T1",
+      "job_name": "Merchant",
+      "title": "Guild Trader",
+      "gender": "male",
+      "body_style": "athletic-masculine anime silhouette",
+      "face": "calculating",
+      "hair": "brown ponytail",
+      "eye_style": "focused almond",
+      "skin_tone": "sun-kissed",
+      "clothing": "reinforced apron; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Merchant Tool",
+        "offhand": "Trade Ledger",
+        "armor_set": "Merchant attire",
+        "accessory": "Honour crest 17"
+      },
+      "combat": {
+        "basic_attack": "Trade Impact",
+        "signature_skills": [
+          "Mammonite",
+          "Trade Insight",
+          "Forge Edge",
+          "Cart Impact",
+          "Refine Mastery",
+          "Trade Sense",
+          "Overcharge Burst",
+          "Infinite Supply"
+        ],
+        "passive": "Appraiser's Eye",
+        "power_rating": 109,
+        "primary_stat": "STR",
+        "secondary_stat": "DEX",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Merchant equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Merchant; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "bright"
+    },
+    {
+      "id": "CHAR_PROFILE_042",
+      "character_id": "CHAR_042",
+      "name": "Lyra Greencrest of Twilight",
+      "class": "Ranger",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_RANGER_T1",
+      "job_name": "Ranger",
+      "title": "Trail Warden",
+      "gender": "male",
+      "body_style": "athletic-masculine anime silhouette",
+      "face": "commanding",
+      "hair": "silver long",
+      "eye_style": "focused almond",
+      "skin_tone": "cool ivory",
+      "clothing": "verdant cloak; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Ranger Weapon",
+        "offhand": "Utility Quiver",
+        "armor_set": "Ranger attire",
+        "accessory": "Honour crest 24"
+      },
+      "combat": {
+        "basic_attack": "Vine Shot",
+        "signature_skills": [
+          "Vine Shot",
+          "Beast Call",
+          "Thorn Trap",
+          "Spirit Arrow",
+          "Worldroot Guard",
+          "Wild Hunt",
+          "Verdant Storm",
+          "Paragon's Arrow"
+        ],
+        "passive": "Wildheart Instinct",
+        "power_rating": 113,
+        "primary_stat": "DEX",
+        "secondary_stat": "AGI",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Ranger equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Ranger; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "warm"
+    },
+    {
+      "id": "CHAR_PROFILE_043",
+      "character_id": "CHAR_043",
+      "name": "Kael Silversong of Twilight",
+      "class": "Warrior",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_WARRIOR_T1",
+      "job_name": "Swordsman",
+      "title": "Ember Vanguard",
+      "gender": "male",
+      "body_style": "athletic-masculine anime silhouette",
+      "face": "square jaw",
+      "hair": "ember black",
+      "eye_style": "large bright",
+      "skin_tone": "warm ivory",
+      "clothing": "scarlet cuirass; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Swordsman Weapon",
+        "offhand": "Training Shield",
+        "armor_set": "Swordsman attire",
+        "accessory": "Honour crest 7"
+      },
+      "combat": {
+        "basic_attack": "Cross Slash",
+        "signature_skills": [
+          "Cleave",
+          "Guard Break",
+          "Shield Bash",
+          "Meteor Charge",
+          "Iron Resolve",
+          "Crimson Counter",
+          "Gravity Crush",
+          "Abyssal Dominion"
+        ],
+        "passive": "Oathbound Guard",
+        "power_rating": 118,
+        "primary_stat": "STR",
+        "secondary_stat": "VIT",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Warrior equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Swordsman; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "firm"
+    },
+    {
+      "id": "CHAR_PROFILE_044",
+      "character_id": "CHAR_044",
+      "name": "Mira Moonveil of Twilight",
+      "class": "Mage",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_MAGE_T1",
+      "job_name": "Novice Mage",
+      "title": "Azure Apprentice",
+      "gender": "male",
+      "body_style": "athletic-masculine anime silhouette",
+      "face": "calm scholarly",
+      "hair": "silver long",
+      "eye_style": "focused almond",
+      "skin_tone": "sun-kissed",
+      "clothing": "star mantle; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Novice Mage Weapon",
+        "offhand": "Rune Focus",
+        "armor_set": "Novice Mage attire",
+        "accessory": "Honour crest 14"
+      },
+      "combat": {
+        "basic_attack": "Arcane Bolt",
+        "signature_skills": [
+          "Arcane Bolt",
+          "Frost Nova",
+          "Chain Lightning",
+          "Meteor Rain",
+          "Time Weave",
+          "Astral Prison",
+          "Chrono Break",
+          "Eternal Spellstorm"
+        ],
+        "passive": "Mana Weave",
+        "power_rating": 116,
+        "primary_stat": "INT",
+        "secondary_stat": "DEX",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Mage equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Novice Mage; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "mysterious"
+    },
+    {
+      "id": "CHAR_PROFILE_045",
+      "character_id": "CHAR_045",
+      "name": "Darian Ashborne of Twilight",
+      "class": "Archer",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_ARCHER_T1",
+      "job_name": "Bowman",
+      "title": "Windrunner Bowman",
+      "gender": "male",
+      "body_style": "athletic-masculine anime silhouette",
+      "face": "hawk-eyed",
+      "hair": "silver ponytail",
+      "eye_style": "focused almond",
+      "skin_tone": "cool ivory",
+      "clothing": "hunter leathers; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Bowman Weapon",
+        "offhand": "Utility Quiver",
+        "armor_set": "Bowman attire",
+        "accessory": "Honour crest 21"
+      },
+      "combat": {
+        "basic_attack": "Double Shot",
+        "signature_skills": [
+          "Double Shot",
+          "Focused Arrow",
+          "Falcon Mark",
+          "Arrow Rain",
+          "Deadeye",
+          "Windstep",
+          "Causality Arrow",
+          "Doomsday Volley"
+        ],
+        "passive": "Deadeye Focus",
+        "power_rating": 114,
+        "primary_stat": "DEX",
+        "secondary_stat": "AGI",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Archer equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Bowman; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "bright"
+    },
+    {
+      "id": "CHAR_PROFILE_046",
+      "character_id": "CHAR_046",
+      "name": "Selene Goldbranch of Twilight",
+      "class": "Thief",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_THIEF_T1",
+      "job_name": "Dagger Initiate",
+      "title": "Nightblade Initiate",
+      "gender": "male",
+      "body_style": "athletic-masculine anime silhouette",
+      "face": "smirking",
+      "hair": "midnight black",
+      "eye_style": "large bright",
+      "skin_tone": "warm ivory",
+      "clothing": "shadow leathers; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Dagger Initiate Weapon",
+        "offhand": "Backup Blade",
+        "armor_set": "Dagger Initiate attire",
+        "accessory": "Honour crest 4"
+      },
+      "combat": {
+        "basic_attack": "Quick Slash",
+        "signature_skills": [
+          "Quick Slash",
+          "Poison Edge",
+          "Backstep",
+          "Shadow Veil",
+          "Venom Spiral",
+          "Phantom Rush",
+          "Absolute Silence",
+          "Voidstep Execution"
+        ],
+        "passive": "Silent Footwork",
+        "power_rating": 112,
+        "primary_stat": "AGI",
+        "secondary_stat": "LUK",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Thief equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Dagger Initiate; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "warm"
+    },
+    {
+      "id": "CHAR_PROFILE_047",
+      "character_id": "CHAR_047",
+      "name": "Rowan Stormhart of Twilight",
+      "class": "Acolyte",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_ACOLYTE_T1",
+      "job_name": "Acolyte",
+      "title": "Prayer Keeper",
+      "gender": "female",
+      "body_style": "athletic-feminine anime silhouette",
+      "face": "warm smile",
+      "hair": "white bob",
+      "eye_style": "focused almond",
+      "skin_tone": "sun-kissed",
+      "clothing": "gold stole; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Acolyte Weapon",
+        "offhand": "Prayer Book",
+        "armor_set": "Acolyte attire",
+        "accessory": "Honour crest 11"
+      },
+      "combat": {
+        "basic_attack": "Holy Strike",
+        "signature_skills": [
+          "Heal",
+          "Blessing",
+          "Holy Strike",
+          "Sanctuary",
+          "Resurrection",
+          "Divine Aegis",
+          "Seraphic Ray",
+          "Eternal Benediction"
+        ],
+        "passive": "Graceful Recovery",
+        "power_rating": 110,
+        "primary_stat": "INT",
+        "secondary_stat": "VIT",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Acolyte equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Acolyte; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "firm"
+    },
+    {
+      "id": "CHAR_PROFILE_048",
+      "character_id": "CHAR_048",
+      "name": "Elara Frostmere of Twilight",
+      "class": "Merchant",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_MERCHANT_T1",
+      "job_name": "Merchant",
+      "title": "Guild Trader",
+      "gender": "female",
+      "body_style": "athletic-feminine anime silhouette",
+      "face": "cheerful",
+      "hair": "gold sidecut",
+      "eye_style": "focused almond",
+      "skin_tone": "cool ivory",
+      "clothing": "traveler coat; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Merchant Tool",
+        "offhand": "Trade Ledger",
+        "armor_set": "Merchant attire",
+        "accessory": "Honour crest 18"
+      },
+      "combat": {
+        "basic_attack": "Trade Impact",
+        "signature_skills": [
+          "Mammonite",
+          "Trade Insight",
+          "Forge Edge",
+          "Cart Impact",
+          "Refine Mastery",
+          "Trade Sense",
+          "Overcharge Burst",
+          "Infinite Supply"
+        ],
+        "passive": "Appraiser's Eye",
+        "power_rating": 109,
+        "primary_stat": "STR",
+        "secondary_stat": "DEX",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Merchant equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Merchant; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "mysterious"
+    },
+    {
+      "id": "CHAR_PROFILE_049",
+      "character_id": "CHAR_049",
+      "name": "Theron Thornwall of Twilight",
+      "class": "Ranger",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_RANGER_T1",
+      "job_name": "Ranger",
+      "title": "Trail Warden",
+      "gender": "female",
+      "body_style": "athletic-feminine anime silhouette",
+      "face": "gentle",
+      "hair": "forest green braid",
+      "eye_style": "large bright",
+      "skin_tone": "warm ivory",
+      "clothing": "leafscale coat; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Ranger Weapon",
+        "offhand": "Utility Quiver",
+        "armor_set": "Ranger attire",
+        "accessory": "Honour crest 1"
+      },
+      "combat": {
+        "basic_attack": "Vine Shot",
+        "signature_skills": [
+          "Vine Shot",
+          "Beast Call",
+          "Thorn Trap",
+          "Spirit Arrow",
+          "Worldroot Guard",
+          "Wild Hunt",
+          "Verdant Storm",
+          "Paragon's Arrow"
+        ],
+        "passive": "Wildheart Instinct",
+        "power_rating": 113,
+        "primary_stat": "DEX",
+        "secondary_stat": "AGI",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Ranger equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Ranger; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "bright"
+    },
+    {
+      "id": "CHAR_PROFILE_050",
+      "character_id": "CHAR_050",
+      "name": "Nadia Dawnmere of Twilight",
+      "class": "Warrior",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_WARRIOR_T1",
+      "job_name": "Swordsman",
+      "title": "Ember Vanguard",
+      "gender": "female",
+      "body_style": "athletic-feminine anime silhouette",
+      "face": "soft determined",
+      "hair": "chestnut braid",
+      "eye_style": "focused almond",
+      "skin_tone": "sun-kissed",
+      "clothing": "dawnsteel coat; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Swordsman Weapon",
+        "offhand": "Training Shield",
+        "armor_set": "Swordsman attire",
+        "accessory": "Honour crest 8"
+      },
+      "combat": {
+        "basic_attack": "Cross Slash",
+        "signature_skills": [
+          "Cleave",
+          "Guard Break",
+          "Shield Bash",
+          "Meteor Charge",
+          "Iron Resolve",
+          "Crimson Counter",
+          "Gravity Crush",
+          "Abyssal Dominion"
+        ],
+        "passive": "Oathbound Guard",
+        "power_rating": 118,
+        "primary_stat": "STR",
+        "secondary_stat": "VIT",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Warrior equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Swordsman; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "warm"
+    },
+    {
+      "id": "CHAR_PROFILE_051",
+      "character_id": "CHAR_051",
+      "name": "Lucan Sunforge of Twilight",
+      "class": "Mage",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_MAGE_T1",
+      "job_name": "Novice Mage",
+      "title": "Azure Apprentice",
+      "gender": "female",
+      "body_style": "athletic-feminine anime silhouette",
+      "face": "mischievous",
+      "hair": "violet braid",
+      "eye_style": "focused almond",
+      "skin_tone": "cool ivory",
+      "clothing": "rune coat; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Novice Mage Weapon",
+        "offhand": "Rune Focus",
+        "armor_set": "Novice Mage attire",
+        "accessory": "Honour crest 15"
+      },
+      "combat": {
+        "basic_attack": "Arcane Bolt",
+        "signature_skills": [
+          "Arcane Bolt",
+          "Frost Nova",
+          "Chain Lightning",
+          "Meteor Rain",
+          "Time Weave",
+          "Astral Prison",
+          "Chrono Break",
+          "Eternal Spellstorm"
+        ],
+        "passive": "Mana Weave",
+        "power_rating": 116,
+        "primary_stat": "INT",
+        "secondary_stat": "DEX",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Mage equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Novice Mage; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "firm"
+    },
+    {
+      "id": "CHAR_PROFILE_052",
+      "character_id": "CHAR_052",
+      "name": "Seren Skydancer of Twilight",
+      "class": "Archer",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_ARCHER_T1",
+      "job_name": "Bowman",
+      "title": "Windrunner Bowman",
+      "gender": "female",
+      "body_style": "athletic-feminine anime silhouette",
+      "face": "sharp-eyed",
+      "hair": "sand blond",
+      "eye_style": "large bright",
+      "skin_tone": "warm ivory",
+      "clothing": "wind tunic; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Bowman Weapon",
+        "offhand": "Utility Quiver",
+        "armor_set": "Bowman attire",
+        "accessory": "Honour crest 22"
+      },
+      "combat": {
+        "basic_attack": "Double Shot",
+        "signature_skills": [
+          "Double Shot",
+          "Focused Arrow",
+          "Falcon Mark",
+          "Arrow Rain",
+          "Deadeye",
+          "Windstep",
+          "Causality Arrow",
+          "Doomsday Volley"
+        ],
+        "passive": "Deadeye Focus",
+        "power_rating": 114,
+        "primary_stat": "DEX",
+        "secondary_stat": "AGI",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Archer equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Bowman; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "mysterious"
+    },
+    {
+      "id": "CHAR_PROFILE_053",
+      "character_id": "CHAR_053",
+      "name": "Orin Nightbloom of Twilight",
+      "class": "Thief",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_THIEF_T1",
+      "job_name": "Dagger Initiate",
+      "title": "Nightblade Initiate",
+      "gender": "female",
+      "body_style": "athletic-feminine anime silhouette",
+      "face": "cool narrow-eyed",
+      "hair": "violet short",
+      "eye_style": "focused almond",
+      "skin_tone": "sun-kissed",
+      "clothing": "hooded mantle; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Dagger Initiate Weapon",
+        "offhand": "Backup Blade",
+        "armor_set": "Dagger Initiate attire",
+        "accessory": "Honour crest 5"
+      },
+      "combat": {
+        "basic_attack": "Quick Slash",
+        "signature_skills": [
+          "Quick Slash",
+          "Poison Edge",
+          "Backstep",
+          "Shadow Veil",
+          "Venom Spiral",
+          "Phantom Rush",
+          "Absolute Silence",
+          "Voidstep Execution"
+        ],
+        "passive": "Silent Footwork",
+        "power_rating": 112,
+        "primary_stat": "AGI",
+        "secondary_stat": "LUK",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Thief equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Dagger Initiate; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "bright"
+    },
+    {
+      "id": "CHAR_PROFILE_054",
+      "character_id": "CHAR_054",
+      "name": "Vera Ravenmark of Twilight",
+      "class": "Acolyte",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_ACOLYTE_T1",
+      "job_name": "Acolyte",
+      "title": "Prayer Keeper",
+      "gender": "male",
+      "body_style": "athletic-masculine anime silhouette",
+      "face": "concerned",
+      "hair": "rose brown",
+      "eye_style": "focused almond",
+      "skin_tone": "cool ivory",
+      "clothing": "sanctified mantle; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Acolyte Weapon",
+        "offhand": "Prayer Book",
+        "armor_set": "Acolyte attire",
+        "accessory": "Honour crest 12"
+      },
+      "combat": {
+        "basic_attack": "Holy Strike",
+        "signature_skills": [
+          "Heal",
+          "Blessing",
+          "Holy Strike",
+          "Sanctuary",
+          "Resurrection",
+          "Divine Aegis",
+          "Seraphic Ray",
+          "Eternal Benediction"
+        ],
+        "passive": "Graceful Recovery",
+        "power_rating": 110,
+        "primary_stat": "INT",
+        "secondary_stat": "VIT",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Acolyte equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Acolyte; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "warm"
+    },
+    {
+      "id": "CHAR_PROFILE_055",
+      "character_id": "CHAR_055",
+      "name": "Cassian Stoneheart of Twilight",
+      "class": "Merchant",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_MERCHANT_T1",
+      "job_name": "Merchant",
+      "title": "Guild Trader",
+      "gender": "male",
+      "body_style": "athletic-masculine anime silhouette",
+      "face": "friendly",
+      "hair": "copper short",
+      "eye_style": "large bright",
+      "skin_tone": "warm ivory",
+      "clothing": "tailored coat; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Merchant Tool",
+        "offhand": "Trade Ledger",
+        "armor_set": "Merchant attire",
+        "accessory": "Honour crest 19"
+      },
+      "combat": {
+        "basic_attack": "Trade Impact",
+        "signature_skills": [
+          "Mammonite",
+          "Trade Insight",
+          "Forge Edge",
+          "Cart Impact",
+          "Refine Mastery",
+          "Trade Sense",
+          "Overcharge Burst",
+          "Infinite Supply"
+        ],
+        "passive": "Appraiser's Eye",
+        "power_rating": 109,
+        "primary_stat": "STR",
+        "secondary_stat": "DEX",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Merchant equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Merchant; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "firm"
+    },
+    {
+      "id": "CHAR_PROFILE_056",
+      "character_id": "CHAR_056",
+      "name": "Ilyra Ironvale of Twilight",
+      "class": "Ranger",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_RANGER_T1",
+      "job_name": "Ranger",
+      "title": "Trail Warden",
+      "gender": "male",
+      "body_style": "athletic-masculine anime silhouette",
+      "face": "alert",
+      "hair": "leaf brown",
+      "eye_style": "focused almond",
+      "skin_tone": "sun-kissed",
+      "clothing": "woodland mantle; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Ranger Weapon",
+        "offhand": "Utility Quiver",
+        "armor_set": "Ranger attire",
+        "accessory": "Honour crest 2"
+      },
+      "combat": {
+        "basic_attack": "Vine Shot",
+        "signature_skills": [
+          "Vine Shot",
+          "Beast Call",
+          "Thorn Trap",
+          "Spirit Arrow",
+          "Worldroot Guard",
+          "Wild Hunt",
+          "Verdant Storm",
+          "Paragon's Arrow"
+        ],
+        "passive": "Wildheart Instinct",
+        "power_rating": 113,
+        "primary_stat": "DEX",
+        "secondary_stat": "AGI",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Ranger equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Ranger; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "mysterious"
+    },
+    {
+      "id": "CHAR_PROFILE_057",
+      "character_id": "CHAR_057",
+      "name": "Riven Brightshield of Twilight",
+      "class": "Warrior",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_WARRIOR_T1",
+      "job_name": "Swordsman",
+      "title": "Ember Vanguard",
+      "gender": "male",
+      "body_style": "athletic-masculine anime silhouette",
+      "face": "scar-browed",
+      "hair": "copper short",
+      "eye_style": "focused almond",
+      "skin_tone": "cool ivory",
+      "clothing": "battle cloak; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Swordsman Weapon",
+        "offhand": "Training Shield",
+        "armor_set": "Swordsman attire",
+        "accessory": "Honour crest 9"
+      },
+      "combat": {
+        "basic_attack": "Cross Slash",
+        "signature_skills": [
+          "Cleave",
+          "Guard Break",
+          "Shield Bash",
+          "Meteor Charge",
+          "Iron Resolve",
+          "Crimson Counter",
+          "Gravity Crush",
+          "Abyssal Dominion"
+        ],
+        "passive": "Oathbound Guard",
+        "power_rating": 118,
+        "primary_stat": "STR",
+        "secondary_stat": "VIT",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Warrior equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Swordsman; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "bright"
+    },
+    {
+      "id": "CHAR_PROFILE_058",
+      "character_id": "CHAR_058",
+      "name": "Maelis Windmere of Twilight",
+      "class": "Mage",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_MAGE_T1",
+      "job_name": "Novice Mage",
+      "title": "Azure Apprentice",
+      "gender": "male",
+      "body_style": "athletic-masculine anime silhouette",
+      "face": "bright-eyed",
+      "hair": "azure bob",
+      "eye_style": "large bright",
+      "skin_tone": "warm ivory",
+      "clothing": "azure robe; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Novice Mage Weapon",
+        "offhand": "Rune Focus",
+        "armor_set": "Novice Mage attire",
+        "accessory": "Honour crest 16"
+      },
+      "combat": {
+        "basic_attack": "Arcane Bolt",
+        "signature_skills": [
+          "Arcane Bolt",
+          "Frost Nova",
+          "Chain Lightning",
+          "Meteor Rain",
+          "Time Weave",
+          "Astral Prison",
+          "Chrono Break",
+          "Eternal Spellstorm"
+        ],
+        "passive": "Mana Weave",
+        "power_rating": 116,
+        "primary_stat": "INT",
+        "secondary_stat": "DEX",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Mage equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Novice Mage; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "warm"
+    },
+    {
+      "id": "CHAR_PROFILE_059",
+      "character_id": "CHAR_059",
+      "name": "Corin Starfall of Twilight",
+      "class": "Archer",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_ARCHER_T1",
+      "job_name": "Bowman",
+      "title": "Windrunner Bowman",
+      "gender": "male",
+      "body_style": "athletic-masculine anime silhouette",
+      "face": "gentle-eyed",
+      "hair": "forest brown",
+      "eye_style": "focused almond",
+      "skin_tone": "sun-kissed",
+      "clothing": "feather mantle; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Bowman Weapon",
+        "offhand": "Utility Quiver",
+        "armor_set": "Bowman attire",
+        "accessory": "Honour crest 23"
+      },
+      "combat": {
+        "basic_attack": "Double Shot",
+        "signature_skills": [
+          "Double Shot",
+          "Focused Arrow",
+          "Falcon Mark",
+          "Arrow Rain",
+          "Deadeye",
+          "Windstep",
+          "Causality Arrow",
+          "Doomsday Volley"
+        ],
+        "passive": "Deadeye Focus",
+        "power_rating": 114,
+        "primary_stat": "DEX",
+        "secondary_stat": "AGI",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Archer equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Bowman; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "firm"
+    },
+    {
+      "id": "CHAR_PROFILE_060",
+      "character_id": "CHAR_060",
+      "name": "Talia Emberwyn of Twilight",
+      "class": "Thief",
+      "tier": 1,
+      "required_level": 1,
+      "job_id": "JOB_THIEF_T1",
+      "job_name": "Dagger Initiate",
+      "title": "Nightblade Initiate",
+      "gender": "male",
+      "body_style": "athletic-masculine anime silhouette",
+      "face": "playful",
+      "hair": "silver undercut",
+      "eye_style": "focused almond",
+      "skin_tone": "cool ivory",
+      "clothing": "night scarf; class-trim sash; reinforced gloves; travel boots",
+      "equipment": {
+        "primary": "Dagger Initiate Weapon",
+        "offhand": "Backup Blade",
+        "armor_set": "Dagger Initiate attire",
+        "accessory": "Honour crest 6"
+      },
+      "combat": {
+        "basic_attack": "Quick Slash",
+        "signature_skills": [
+          "Quick Slash",
+          "Poison Edge",
+          "Backstep",
+          "Shadow Veil",
+          "Venom Spiral",
+          "Phantom Rush",
+          "Absolute Silence",
+          "Voidstep Execution"
+        ],
+        "passive": "Silent Footwork",
+        "power_rating": 112,
+        "primary_stat": "AGI",
+        "secondary_stat": "LUK",
+        "status_rule": "All six stats remain freely allocated by the player under the canonical status-point rules."
+      },
+      "emotions": {
+        "idle": [
+          "calm",
+          "confident"
+        ],
+        "combat": [
+          "focused",
+          "determined"
+        ],
+        "critical": [
+          "fierce",
+          "surprised"
+        ],
+        "damage": [
+          "pained",
+          "shaken"
+        ],
+        "victory": [
+          "smiling",
+          "proud"
+        ],
+        "defeat": [
+          "weary",
+          "disappointed"
+        ]
+      },
+      "loot_focus": "Thief equipment and cards; tier 1 progression",
+      "visual_notes": "Anime-inspired HD 3D silhouette for Dagger Initiate; readable from the locked elevated camera; equipment and trim evolve at each job tier.",
+      "voice_mood": "mysterious"
+    }
+  ]
+}
