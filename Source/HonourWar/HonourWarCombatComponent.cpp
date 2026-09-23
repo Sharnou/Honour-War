@@ -404,8 +404,8 @@ void UHonourWarCombatComponent::RewardMonsterDefeat(int32 MonsterLevel)
     else if (SafeLevel >= 200) Rarity = TEXT("Legendary");
     else if (SafeLevel >= 100) Rarity = TEXT("Epic");
 
-    const int32 LootRank = FMath::Clamp(101 - FMath::RoundToInt(static_cast<float>(SafeLevel) * 100.0f / 300.0f), 1, 100);
-    const FString DatabaseItem = HonourWarLootDatabase::ItemForRank(LootRank);
+    const int32 LootRank = FMath::Clamp(1 + FMath::RoundToInt(static_cast<float>(SafeLevel - 1) * 239.0f / 299.0f), 1, 240);
+    const FString DatabaseItem = HonourWarLootDatabase::EquipmentForRank(LootRank);
     const FString ItemName = FString::Printf(TEXT("%s | %s"), *Rarity, *DatabaseItem);
     InventoryItems.Add(ItemName);
 
@@ -417,8 +417,6 @@ void UHonourWarCombatComponent::RewardMonsterDefeat(int32 MonsterLevel)
 
     if (SafeLevel >= 300)
     {
-        Cards.Add(TEXT("World Monarch Card"));
-        InventoryItems.Add(TEXT("Transcendent Monster Suit"));
         LastLootMessage = FString::Printf(TEXT("Lv.%d MONSTER DEFEATED | %lld Zeny | Mythic | %s | World Monarch Card | +%d XP"), SafeLevel, ZenyReward, *DatabaseItem, KillXp);
     }
     else
