@@ -18,7 +18,9 @@ world=(ROOT/"Source"/"HonourWar"/"HonourWarWorldDirector.cpp").read_text(encodin
 if "HonourWarContentCatalog::Maps()" not in controller: print("UNREAL_CONTRACT_FAIL: map catalog not used"); sys.exit(1)
 if "HonourWarContentCatalog::Monsters()" not in world: print("UNREAL_CONTRACT_FAIL: monster catalog not used"); sys.exit(1)
 hud=(ROOT/"Source"/"HonourWar"/"HonourWarHUDWidget.cpp").read_text(encoding="utf-8")
-for phrase in ["Prontera City","Active Quest","MMORPGChat","MMORPGMiniMap","Equip +","Age %d days"]:
+if "Prontera City" not in hud and "Crownfall Capital" not in hud:
+    print("UNREAL_CONTRACT_FAIL: HUD missing recognized capital map label"); sys.exit(1)
+for phrase in ["Active Quest","MMORPGChat","MMORPGMiniMap","Equip +","Age %d days"]:
     if phrase not in hud: print(f"UNREAL_CONTRACT_FAIL: HUD missing {phrase}"); sys.exit(1)
 for phrase in ["COMBAT SKILLS","BuildSkillBar","SkillButtons","SkillTitle","SkillRow","PlayerPanel"]:
     if phrase in hud: print(f"UNREAL_CONTRACT_FAIL: retired HUD element remains: {phrase}"); sys.exit(1)
