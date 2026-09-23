@@ -1,0 +1,5533 @@
+{
+  "schema_version": "1.0.0",
+  "game": "Honour War",
+  "pet_count": 20,
+  "pet_skill_count": 120,
+  "pet_equipment_count": 100,
+  "pets": [
+    {
+      "id": "PET_001",
+      "name": "Ironclad Wolf",
+      "role": "tank",
+      "element": "earth",
+      "temperament": "loyal",
+      "base_stats": {
+        "HP": 120,
+        "SP": 45,
+        "ATK": 24,
+        "DEF": 18,
+        "MATK": 16,
+        "AGI": 12,
+        "DEX": 10,
+        "LUK": 8
+      },
+      "skills": [
+        "Ironclad Guard Howl",
+        "Ironclad Lunar Pounce",
+        "Ironclad Arcane Chirp",
+        "Ironclad Wind Dive",
+        "Ironclad Holy Mend",
+        "Ironclad Verdant Snare"
+      ],
+      "equipment_slots": [
+        "collar",
+        "armor",
+        "charm",
+        "weapon",
+        "pack"
+      ],
+      "visual": "HD 3D anime companion; earth-themed materials and readable silhouette",
+      "emotions": [
+        "idle",
+        "alert",
+        "happy",
+        "angry",
+        "hurt",
+        "victory"
+      ]
+    },
+    {
+      "id": "PET_002",
+      "name": "Astral Owl",
+      "role": "caster",
+      "element": "arcane",
+      "temperament": "curious",
+      "base_stats": {
+        "HP": 134,
+        "SP": 49,
+        "ATK": 27,
+        "DEF": 20,
+        "MATK": 19,
+        "AGI": 13,
+        "DEX": 11,
+        "LUK": 9
+      },
+      "skills": [
+        "Astral Wind Dive",
+        "Astral Holy Mend",
+        "Astral Verdant Snare",
+        "Astral Ember Bite",
+        "Astral Frost Barrage",
+        "Astral Storm Peck"
+      ],
+      "equipment_slots": [
+        "collar",
+        "armor",
+        "charm",
+        "weapon",
+        "pack"
+      ],
+      "visual": "HD 3D anime companion; arcane-themed materials and readable silhouette",
+      "emotions": [
+        "idle",
+        "alert",
+        "happy",
+        "angry",
+        "hurt",
+        "victory"
+      ]
+    },
+    {
+      "id": "PET_003",
+      "name": "Sky Hawk",
+      "role": "ranged",
+      "element": "wind",
+      "temperament": "bold",
+      "base_stats": {
+        "HP": 148,
+        "SP": 53,
+        "ATK": 30,
+        "DEF": 22,
+        "MATK": 22,
+        "AGI": 14,
+        "DEX": 12,
+        "LUK": 10
+      },
+      "skills": [
+        "Sky Ember Bite",
+        "Sky Frost Barrage",
+        "Sky Storm Peck",
+        "Sky Shadow Blink",
+        "Sky Shell Guard",
+        "Sky Gem Charge"
+      ],
+      "equipment_slots": [
+        "collar",
+        "armor",
+        "charm",
+        "weapon",
+        "pack"
+      ],
+      "visual": "HD 3D anime companion; wind-themed materials and readable silhouette",
+      "emotions": [
+        "idle",
+        "alert",
+        "happy",
+        "angry",
+        "hurt",
+        "victory"
+      ]
+    },
+    {
+      "id": "PET_004",
+      "name": "Moon Fox",
+      "role": "assassin",
+      "element": "shadow",
+      "temperament": "calm",
+      "base_stats": {
+        "HP": 162,
+        "SP": 57,
+        "ATK": 33,
+        "DEF": 24,
+        "MATK": 25,
+        "AGI": 15,
+        "DEX": 13,
+        "LUK": 11
+      },
+      "skills": [
+        "Moon Shadow Blink",
+        "Moon Shell Guard",
+        "Moon Gem Charge",
+        "Moon Mist Veil",
+        "Moon Dawn Ray",
+        "Moon Night Rend"
+      ],
+      "equipment_slots": [
+        "collar",
+        "armor",
+        "charm",
+        "weapon",
+        "pack"
+      ],
+      "visual": "HD 3D anime companion; shadow-themed materials and readable silhouette",
+      "emotions": [
+        "idle",
+        "alert",
+        "happy",
+        "angry",
+        "hurt",
+        "victory"
+      ]
+    },
+    {
+      "id": "PET_005",
+      "name": "Sacred Lamb",
+      "role": "healer",
+      "element": "holy",
+      "temperament": "playful",
+      "base_stats": {
+        "HP": 176,
+        "SP": 61,
+        "ATK": 36,
+        "DEF": 26,
+        "MATK": 28,
+        "AGI": 16,
+        "DEX": 14,
+        "LUK": 12
+      },
+      "skills": [
+        "Sacred Mist Veil",
+        "Sacred Dawn Ray",
+        "Sacred Night Rend",
+        "Sacred River Mend",
+        "Sacred Ram Rush",
+        "Sacred Star Blessing"
+      ],
+      "equipment_slots": [
+        "collar",
+        "armor",
+        "charm",
+        "weapon",
+        "pack"
+      ],
+      "visual": "HD 3D anime companion; holy-themed materials and readable silhouette",
+      "emotions": [
+        "idle",
+        "alert",
+        "happy",
+        "angry",
+        "hurt",
+        "victory"
+      ]
+    },
+    {
+      "id": "PET_006",
+      "name": "Copper Badger",
+      "role": "fighter",
+      "element": "forge",
+      "temperament": "loyal",
+      "base_stats": {
+        "HP": 190,
+        "SP": 65,
+        "ATK": 39,
+        "DEF": 28,
+        "MATK": 31,
+        "AGI": 17,
+        "DEX": 15,
+        "LUK": 13
+      },
+      "skills": [
+        "Copper River Mend",
+        "Copper Ram Rush",
+        "Copper Star Blessing",
+        "Copper Guard Howl",
+        "Copper Lunar Pounce",
+        "Copper Arcane Chirp"
+      ],
+      "equipment_slots": [
+        "collar",
+        "armor",
+        "charm",
+        "weapon",
+        "pack"
+      ],
+      "visual": "HD 3D anime companion; forge-themed materials and readable silhouette",
+      "emotions": [
+        "idle",
+        "alert",
+        "happy",
+        "angry",
+        "hurt",
+        "victory"
+      ]
+    },
+    {
+      "id": "PET_007",
+      "name": "Verdant Lynx",
+      "role": "ranger",
+      "element": "nature",
+      "temperament": "curious",
+      "base_stats": {
+        "HP": 204,
+        "SP": 69,
+        "ATK": 42,
+        "DEF": 30,
+        "MATK": 34,
+        "AGI": 18,
+        "DEX": 16,
+        "LUK": 8
+      },
+      "skills": [
+        "Verdant Guard Howl",
+        "Verdant Lunar Pounce",
+        "Verdant Arcane Chirp",
+        "Verdant Wind Dive",
+        "Verdant Holy Mend",
+        "Verdant Verdant Snare"
+      ],
+      "equipment_slots": [
+        "collar",
+        "armor",
+        "charm",
+        "weapon",
+        "pack"
+      ],
+      "visual": "HD 3D anime companion; nature-themed materials and readable silhouette",
+      "emotions": [
+        "idle",
+        "alert",
+        "happy",
+        "angry",
+        "hurt",
+        "victory"
+      ]
+    },
+    {
+      "id": "PET_008",
+      "name": "Crimson Hound",
+      "role": "melee",
+      "element": "fire",
+      "temperament": "bold",
+      "base_stats": {
+        "HP": 218,
+        "SP": 73,
+        "ATK": 45,
+        "DEF": 32,
+        "MATK": 37,
+        "AGI": 19,
+        "DEX": 10,
+        "LUK": 9
+      },
+      "skills": [
+        "Crimson Wind Dive",
+        "Crimson Holy Mend",
+        "Crimson Verdant Snare",
+        "Crimson Ember Bite",
+        "Crimson Frost Barrage",
+        "Crimson Storm Peck"
+      ],
+      "equipment_slots": [
+        "collar",
+        "armor",
+        "charm",
+        "weapon",
+        "pack"
+      ],
+      "visual": "HD 3D anime companion; fire-themed materials and readable silhouette",
+      "emotions": [
+        "idle",
+        "alert",
+        "happy",
+        "angry",
+        "hurt",
+        "victory"
+      ]
+    },
+    {
+      "id": "PET_009",
+      "name": "Frost Hare",
+      "role": "ranged",
+      "element": "ice",
+      "temperament": "calm",
+      "base_stats": {
+        "HP": 232,
+        "SP": 77,
+        "ATK": 48,
+        "DEF": 34,
+        "MATK": 40,
+        "AGI": 12,
+        "DEX": 11,
+        "LUK": 10
+      },
+      "skills": [
+        "Frost Ember Bite",
+        "Frost Frost Barrage",
+        "Frost Storm Peck",
+        "Frost Shadow Blink",
+        "Frost Shell Guard",
+        "Frost Gem Charge"
+      ],
+      "equipment_slots": [
+        "collar",
+        "armor",
+        "charm",
+        "weapon",
+        "pack"
+      ],
+      "visual": "HD 3D anime companion; ice-themed materials and readable silhouette",
+      "emotions": [
+        "idle",
+        "alert",
+        "happy",
+        "angry",
+        "hurt",
+        "victory"
+      ]
+    },
+    {
+      "id": "PET_010",
+      "name": "Storm Raven",
+      "role": "caster",
+      "element": "storm",
+      "temperament": "playful",
+      "base_stats": {
+        "HP": 246,
+        "SP": 81,
+        "ATK": 51,
+        "DEF": 36,
+        "MATK": 43,
+        "AGI": 13,
+        "DEX": 12,
+        "LUK": 11
+      },
+      "skills": [
+        "Storm Shadow Blink",
+        "Storm Shell Guard",
+        "Storm Gem Charge",
+        "Storm Mist Veil",
+        "Storm Dawn Ray",
+        "Storm Night Rend"
+      ],
+      "equipment_slots": [
+        "collar",
+        "armor",
+        "charm",
+        "weapon",
+        "pack"
+      ],
+      "visual": "HD 3D anime companion; storm-themed materials and readable silhouette",
+      "emotions": [
+        "idle",
+        "alert",
+        "happy",
+        "angry",
+        "hurt",
+        "victory"
+      ]
+    },
+    {
+      "id": "PET_011",
+      "name": "Sun Beetle",
+      "role": "tank",
+      "element": "light",
+      "temperament": "loyal",
+      "base_stats": {
+        "HP": 260,
+        "SP": 85,
+        "ATK": 54,
+        "DEF": 38,
+        "MATK": 46,
+        "AGI": 14,
+        "DEX": 13,
+        "LUK": 12
+      },
+      "skills": [
+        "Sun Mist Veil",
+        "Sun Dawn Ray",
+        "Sun Night Rend",
+        "Sun River Mend",
+        "Sun Ram Rush",
+        "Sun Star Blessing"
+      ],
+      "equipment_slots": [
+        "collar",
+        "armor",
+        "charm",
+        "weapon",
+        "pack"
+      ],
+      "visual": "HD 3D anime companion; light-themed materials and readable silhouette",
+      "emotions": [
+        "idle",
+        "alert",
+        "happy",
+        "angry",
+        "hurt",
+        "victory"
+      ]
+    },
+    {
+      "id": "PET_012",
+      "name": "Abyss Bat",
+      "role": "assassin",
+      "element": "abyss",
+      "temperament": "curious",
+      "base_stats": {
+        "HP": 274,
+        "SP": 89,
+        "ATK": 57,
+        "DEF": 40,
+        "MATK": 49,
+        "AGI": 15,
+        "DEX": 14,
+        "LUK": 13
+      },
+      "skills": [
+        "Abyss River Mend",
+        "Abyss Ram Rush",
+        "Abyss Star Blessing",
+        "Abyss Guard Howl",
+        "Abyss Lunar Pounce",
+        "Abyss Arcane Chirp"
+      ],
+      "equipment_slots": [
+        "collar",
+        "armor",
+        "charm",
+        "weapon",
+        "pack"
+      ],
+      "visual": "HD 3D anime companion; abyss-themed materials and readable silhouette",
+      "emotions": [
+        "idle",
+        "alert",
+        "happy",
+        "angry",
+        "hurt",
+        "victory"
+      ]
+    },
+    {
+      "id": "PET_013",
+      "name": "Rootback Turtle",
+      "role": "tank",
+      "element": "nature",
+      "temperament": "bold",
+      "base_stats": {
+        "HP": 288,
+        "SP": 93,
+        "ATK": 60,
+        "DEF": 42,
+        "MATK": 52,
+        "AGI": 16,
+        "DEX": 15,
+        "LUK": 8
+      },
+      "skills": [
+        "Rootback Guard Howl",
+        "Rootback Lunar Pounce",
+        "Rootback Arcane Chirp",
+        "Rootback Wind Dive",
+        "Rootback Holy Mend",
+        "Rootback Verdant Snare"
+      ],
+      "equipment_slots": [
+        "collar",
+        "armor",
+        "charm",
+        "weapon",
+        "pack"
+      ],
+      "visual": "HD 3D anime companion; nature-themed materials and readable silhouette",
+      "emotions": [
+        "idle",
+        "alert",
+        "happy",
+        "angry",
+        "hurt",
+        "victory"
+      ]
+    },
+    {
+      "id": "PET_014",
+      "name": "Gem Golem",
+      "role": "fighter",
+      "element": "earth",
+      "temperament": "calm",
+      "base_stats": {
+        "HP": 302,
+        "SP": 97,
+        "ATK": 63,
+        "DEF": 44,
+        "MATK": 55,
+        "AGI": 17,
+        "DEX": 16,
+        "LUK": 9
+      },
+      "skills": [
+        "Gem Wind Dive",
+        "Gem Holy Mend",
+        "Gem Verdant Snare",
+        "Gem Ember Bite",
+        "Gem Frost Barrage",
+        "Gem Storm Peck"
+      ],
+      "equipment_slots": [
+        "collar",
+        "armor",
+        "charm",
+        "weapon",
+        "pack"
+      ],
+      "visual": "HD 3D anime companion; earth-themed materials and readable silhouette",
+      "emotions": [
+        "idle",
+        "alert",
+        "happy",
+        "angry",
+        "hurt",
+        "victory"
+      ]
+    },
+    {
+      "id": "PET_015",
+      "name": "Mist Serpent",
+      "role": "caster",
+      "element": "mist",
+      "temperament": "playful",
+      "base_stats": {
+        "HP": 316,
+        "SP": 101,
+        "ATK": 66,
+        "DEF": 46,
+        "MATK": 58,
+        "AGI": 18,
+        "DEX": 10,
+        "LUK": 10
+      },
+      "skills": [
+        "Mist Ember Bite",
+        "Mist Frost Barrage",
+        "Mist Storm Peck",
+        "Mist Shadow Blink",
+        "Mist Shell Guard",
+        "Mist Gem Charge"
+      ],
+      "equipment_slots": [
+        "collar",
+        "armor",
+        "charm",
+        "weapon",
+        "pack"
+      ],
+      "visual": "HD 3D anime companion; mist-themed materials and readable silhouette",
+      "emotions": [
+        "idle",
+        "alert",
+        "happy",
+        "angry",
+        "hurt",
+        "victory"
+      ]
+    },
+    {
+      "id": "PET_016",
+      "name": "Dawn Griffin",
+      "role": "ranged",
+      "element": "light",
+      "temperament": "loyal",
+      "base_stats": {
+        "HP": 330,
+        "SP": 105,
+        "ATK": 69,
+        "DEF": 48,
+        "MATK": 61,
+        "AGI": 19,
+        "DEX": 11,
+        "LUK": 11
+      },
+      "skills": [
+        "Dawn Shadow Blink",
+        "Dawn Shell Guard",
+        "Dawn Gem Charge",
+        "Dawn Mist Veil",
+        "Dawn Dawn Ray",
+        "Dawn Night Rend"
+      ],
+      "equipment_slots": [
+        "collar",
+        "armor",
+        "charm",
+        "weapon",
+        "pack"
+      ],
+      "visual": "HD 3D anime companion; light-themed materials and readable silhouette",
+      "emotions": [
+        "idle",
+        "alert",
+        "happy",
+        "angry",
+        "hurt",
+        "victory"
+      ]
+    },
+    {
+      "id": "PET_017",
+      "name": "Night Panther",
+      "role": "assassin",
+      "element": "shadow",
+      "temperament": "curious",
+      "base_stats": {
+        "HP": 344,
+        "SP": 109,
+        "ATK": 72,
+        "DEF": 50,
+        "MATK": 64,
+        "AGI": 12,
+        "DEX": 12,
+        "LUK": 12
+      },
+      "skills": [
+        "Night Mist Veil",
+        "Night Dawn Ray",
+        "Night Night Rend",
+        "Night River Mend",
+        "Night Ram Rush",
+        "Night Star Blessing"
+      ],
+      "equipment_slots": [
+        "collar",
+        "armor",
+        "charm",
+        "weapon",
+        "pack"
+      ],
+      "visual": "HD 3D anime companion; shadow-themed materials and readable silhouette",
+      "emotions": [
+        "idle",
+        "alert",
+        "happy",
+        "angry",
+        "hurt",
+        "victory"
+      ]
+    },
+    {
+      "id": "PET_018",
+      "name": "River Otter",
+      "role": "support",
+      "element": "water",
+      "temperament": "bold",
+      "base_stats": {
+        "HP": 358,
+        "SP": 113,
+        "ATK": 75,
+        "DEF": 52,
+        "MATK": 67,
+        "AGI": 13,
+        "DEX": 13,
+        "LUK": 13
+      },
+      "skills": [
+        "River River Mend",
+        "River Ram Rush",
+        "River Star Blessing",
+        "River Guard Howl",
+        "River Lunar Pounce",
+        "River Arcane Chirp"
+      ],
+      "equipment_slots": [
+        "collar",
+        "armor",
+        "charm",
+        "weapon",
+        "pack"
+      ],
+      "visual": "HD 3D anime companion; water-themed materials and readable silhouette",
+      "emotions": [
+        "idle",
+        "alert",
+        "happy",
+        "angry",
+        "hurt",
+        "victory"
+      ]
+    },
+    {
+      "id": "PET_019",
+      "name": "Stone Ram",
+      "role": "melee",
+      "element": "earth",
+      "temperament": "calm",
+      "base_stats": {
+        "HP": 372,
+        "SP": 117,
+        "ATK": 78,
+        "DEF": 54,
+        "MATK": 70,
+        "AGI": 14,
+        "DEX": 14,
+        "LUK": 8
+      },
+      "skills": [
+        "Stone Guard Howl",
+        "Stone Lunar Pounce",
+        "Stone Arcane Chirp",
+        "Stone Wind Dive",
+        "Stone Holy Mend",
+        "Stone Verdant Snare"
+      ],
+      "equipment_slots": [
+        "collar",
+        "armor",
+        "charm",
+        "weapon",
+        "pack"
+      ],
+      "visual": "HD 3D anime companion; earth-themed materials and readable silhouette",
+      "emotions": [
+        "idle",
+        "alert",
+        "happy",
+        "angry",
+        "hurt",
+        "victory"
+      ]
+    },
+    {
+      "id": "PET_020",
+      "name": "Star Deer",
+      "role": "healer",
+      "element": "arcane",
+      "temperament": "playful",
+      "base_stats": {
+        "HP": 386,
+        "SP": 121,
+        "ATK": 81,
+        "DEF": 56,
+        "MATK": 73,
+        "AGI": 15,
+        "DEX": 15,
+        "LUK": 9
+      },
+      "skills": [
+        "Star Wind Dive",
+        "Star Holy Mend",
+        "Star Verdant Snare",
+        "Star Ember Bite",
+        "Star Frost Barrage",
+        "Star Storm Peck"
+      ],
+      "equipment_slots": [
+        "collar",
+        "armor",
+        "charm",
+        "weapon",
+        "pack"
+      ],
+      "visual": "HD 3D anime companion; arcane-themed materials and readable silhouette",
+      "emotions": [
+        "idle",
+        "alert",
+        "happy",
+        "angry",
+        "hurt",
+        "victory"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "id": "PETSKILL_001",
+      "name": "Ironclad Guard Howl",
+      "pet_id": "PET_001",
+      "kind": "active",
+      "power_ratio": 0.85,
+      "cooldown_sec": 2.5,
+      "effect": "damage",
+      "description": "Ironclad Wolf front pet skill."
+    },
+    {
+      "id": "PETSKILL_002",
+      "name": "Ironclad Lunar Pounce",
+      "pet_id": "PET_001",
+      "kind": "active",
+      "power_ratio": 0.97,
+      "cooldown_sec": 2.9,
+      "effect": "guard",
+      "description": "Ironclad Wolf core pet skill."
+    },
+    {
+      "id": "PETSKILL_003",
+      "name": "Ironclad Arcane Chirp",
+      "pet_id": "PET_001",
+      "kind": "support",
+      "power_ratio": 1.09,
+      "cooldown_sec": 3.3,
+      "effect": "heal",
+      "description": "Ironclad Wolf utility pet skill."
+    },
+    {
+      "id": "PETSKILL_004",
+      "name": "Ironclad Wind Dive",
+      "pet_id": "PET_001",
+      "kind": "support",
+      "power_ratio": 1.21,
+      "cooldown_sec": 3.7,
+      "effect": "control",
+      "description": "Ironclad Wolf survival pet skill."
+    },
+    {
+      "id": "PETSKILL_005",
+      "name": "Ironclad Holy Mend",
+      "pet_id": "PET_001",
+      "kind": "support",
+      "power_ratio": 1.33,
+      "cooldown_sec": 4.1,
+      "effect": "buff",
+      "description": "Ironclad Wolf bond pet skill."
+    },
+    {
+      "id": "PETSKILL_006",
+      "name": "Ironclad Verdant Snare",
+      "pet_id": "PET_001",
+      "kind": "ultimate",
+      "power_ratio": 1.45,
+      "cooldown_sec": 4.5,
+      "effect": "ultimate",
+      "description": "Ironclad Wolf ultimate pet skill."
+    },
+    {
+      "id": "PETSKILL_007",
+      "name": "Astral Wind Dive",
+      "pet_id": "PET_002",
+      "kind": "active",
+      "power_ratio": 0.85,
+      "cooldown_sec": 2.5,
+      "effect": "damage",
+      "description": "Astral Owl front pet skill."
+    },
+    {
+      "id": "PETSKILL_008",
+      "name": "Astral Holy Mend",
+      "pet_id": "PET_002",
+      "kind": "active",
+      "power_ratio": 0.97,
+      "cooldown_sec": 2.9,
+      "effect": "guard",
+      "description": "Astral Owl core pet skill."
+    },
+    {
+      "id": "PETSKILL_009",
+      "name": "Astral Verdant Snare",
+      "pet_id": "PET_002",
+      "kind": "support",
+      "power_ratio": 1.09,
+      "cooldown_sec": 3.3,
+      "effect": "heal",
+      "description": "Astral Owl utility pet skill."
+    },
+    {
+      "id": "PETSKILL_010",
+      "name": "Astral Ember Bite",
+      "pet_id": "PET_002",
+      "kind": "support",
+      "power_ratio": 1.21,
+      "cooldown_sec": 3.7,
+      "effect": "control",
+      "description": "Astral Owl survival pet skill."
+    },
+    {
+      "id": "PETSKILL_011",
+      "name": "Astral Frost Barrage",
+      "pet_id": "PET_002",
+      "kind": "support",
+      "power_ratio": 1.33,
+      "cooldown_sec": 4.1,
+      "effect": "buff",
+      "description": "Astral Owl bond pet skill."
+    },
+    {
+      "id": "PETSKILL_012",
+      "name": "Astral Storm Peck",
+      "pet_id": "PET_002",
+      "kind": "ultimate",
+      "power_ratio": 1.45,
+      "cooldown_sec": 4.5,
+      "effect": "ultimate",
+      "description": "Astral Owl ultimate pet skill."
+    },
+    {
+      "id": "PETSKILL_013",
+      "name": "Sky Ember Bite",
+      "pet_id": "PET_003",
+      "kind": "active",
+      "power_ratio": 0.85,
+      "cooldown_sec": 2.5,
+      "effect": "damage",
+      "description": "Sky Hawk front pet skill."
+    },
+    {
+      "id": "PETSKILL_014",
+      "name": "Sky Frost Barrage",
+      "pet_id": "PET_003",
+      "kind": "active",
+      "power_ratio": 0.97,
+      "cooldown_sec": 2.9,
+      "effect": "guard",
+      "description": "Sky Hawk core pet skill."
+    },
+    {
+      "id": "PETSKILL_015",
+      "name": "Sky Storm Peck",
+      "pet_id": "PET_003",
+      "kind": "support",
+      "power_ratio": 1.09,
+      "cooldown_sec": 3.3,
+      "effect": "heal",
+      "description": "Sky Hawk utility pet skill."
+    },
+    {
+      "id": "PETSKILL_016",
+      "name": "Sky Shadow Blink",
+      "pet_id": "PET_003",
+      "kind": "support",
+      "power_ratio": 1.21,
+      "cooldown_sec": 3.7,
+      "effect": "control",
+      "description": "Sky Hawk survival pet skill."
+    },
+    {
+      "id": "PETSKILL_017",
+      "name": "Sky Shell Guard",
+      "pet_id": "PET_003",
+      "kind": "support",
+      "power_ratio": 1.33,
+      "cooldown_sec": 4.1,
+      "effect": "buff",
+      "description": "Sky Hawk bond pet skill."
+    },
+    {
+      "id": "PETSKILL_018",
+      "name": "Sky Gem Charge",
+      "pet_id": "PET_003",
+      "kind": "ultimate",
+      "power_ratio": 1.45,
+      "cooldown_sec": 4.5,
+      "effect": "ultimate",
+      "description": "Sky Hawk ultimate pet skill."
+    },
+    {
+      "id": "PETSKILL_019",
+      "name": "Moon Shadow Blink",
+      "pet_id": "PET_004",
+      "kind": "active",
+      "power_ratio": 0.85,
+      "cooldown_sec": 2.5,
+      "effect": "damage",
+      "description": "Moon Fox front pet skill."
+    },
+    {
+      "id": "PETSKILL_020",
+      "name": "Moon Shell Guard",
+      "pet_id": "PET_004",
+      "kind": "active",
+      "power_ratio": 0.97,
+      "cooldown_sec": 2.9,
+      "effect": "guard",
+      "description": "Moon Fox core pet skill."
+    },
+    {
+      "id": "PETSKILL_021",
+      "name": "Moon Gem Charge",
+      "pet_id": "PET_004",
+      "kind": "support",
+      "power_ratio": 1.09,
+      "cooldown_sec": 3.3,
+      "effect": "heal",
+      "description": "Moon Fox utility pet skill."
+    },
+    {
+      "id": "PETSKILL_022",
+      "name": "Moon Mist Veil",
+      "pet_id": "PET_004",
+      "kind": "support",
+      "power_ratio": 1.21,
+      "cooldown_sec": 3.7,
+      "effect": "control",
+      "description": "Moon Fox survival pet skill."
+    },
+    {
+      "id": "PETSKILL_023",
+      "name": "Moon Dawn Ray",
+      "pet_id": "PET_004",
+      "kind": "support",
+      "power_ratio": 1.33,
+      "cooldown_sec": 4.1,
+      "effect": "buff",
+      "description": "Moon Fox bond pet skill."
+    },
+    {
+      "id": "PETSKILL_024",
+      "name": "Moon Night Rend",
+      "pet_id": "PET_004",
+      "kind": "ultimate",
+      "power_ratio": 1.45,
+      "cooldown_sec": 4.5,
+      "effect": "ultimate",
+      "description": "Moon Fox ultimate pet skill."
+    },
+    {
+      "id": "PETSKILL_025",
+      "name": "Sacred Mist Veil",
+      "pet_id": "PET_005",
+      "kind": "active",
+      "power_ratio": 0.85,
+      "cooldown_sec": 2.5,
+      "effect": "damage",
+      "description": "Sacred Lamb front pet skill."
+    },
+    {
+      "id": "PETSKILL_026",
+      "name": "Sacred Dawn Ray",
+      "pet_id": "PET_005",
+      "kind": "active",
+      "power_ratio": 0.97,
+      "cooldown_sec": 2.9,
+      "effect": "guard",
+      "description": "Sacred Lamb core pet skill."
+    },
+    {
+      "id": "PETSKILL_027",
+      "name": "Sacred Night Rend",
+      "pet_id": "PET_005",
+      "kind": "support",
+      "power_ratio": 1.09,
+      "cooldown_sec": 3.3,
+      "effect": "heal",
+      "description": "Sacred Lamb utility pet skill."
+    },
+    {
+      "id": "PETSKILL_028",
+      "name": "Sacred River Mend",
+      "pet_id": "PET_005",
+      "kind": "support",
+      "power_ratio": 1.21,
+      "cooldown_sec": 3.7,
+      "effect": "control",
+      "description": "Sacred Lamb survival pet skill."
+    },
+    {
+      "id": "PETSKILL_029",
+      "name": "Sacred Ram Rush",
+      "pet_id": "PET_005",
+      "kind": "support",
+      "power_ratio": 1.33,
+      "cooldown_sec": 4.1,
+      "effect": "buff",
+      "description": "Sacred Lamb bond pet skill."
+    },
+    {
+      "id": "PETSKILL_030",
+      "name": "Sacred Star Blessing",
+      "pet_id": "PET_005",
+      "kind": "ultimate",
+      "power_ratio": 1.45,
+      "cooldown_sec": 4.5,
+      "effect": "ultimate",
+      "description": "Sacred Lamb ultimate pet skill."
+    },
+    {
+      "id": "PETSKILL_031",
+      "name": "Copper River Mend",
+      "pet_id": "PET_006",
+      "kind": "active",
+      "power_ratio": 0.85,
+      "cooldown_sec": 2.5,
+      "effect": "damage",
+      "description": "Copper Badger front pet skill."
+    },
+    {
+      "id": "PETSKILL_032",
+      "name": "Copper Ram Rush",
+      "pet_id": "PET_006",
+      "kind": "active",
+      "power_ratio": 0.97,
+      "cooldown_sec": 2.9,
+      "effect": "guard",
+      "description": "Copper Badger core pet skill."
+    },
+    {
+      "id": "PETSKILL_033",
+      "name": "Copper Star Blessing",
+      "pet_id": "PET_006",
+      "kind": "support",
+      "power_ratio": 1.09,
+      "cooldown_sec": 3.3,
+      "effect": "heal",
+      "description": "Copper Badger utility pet skill."
+    },
+    {
+      "id": "PETSKILL_034",
+      "name": "Copper Guard Howl",
+      "pet_id": "PET_006",
+      "kind": "support",
+      "power_ratio": 1.21,
+      "cooldown_sec": 3.7,
+      "effect": "control",
+      "description": "Copper Badger survival pet skill."
+    },
+    {
+      "id": "PETSKILL_035",
+      "name": "Copper Lunar Pounce",
+      "pet_id": "PET_006",
+      "kind": "support",
+      "power_ratio": 1.33,
+      "cooldown_sec": 4.1,
+      "effect": "buff",
+      "description": "Copper Badger bond pet skill."
+    },
+    {
+      "id": "PETSKILL_036",
+      "name": "Copper Arcane Chirp",
+      "pet_id": "PET_006",
+      "kind": "ultimate",
+      "power_ratio": 1.45,
+      "cooldown_sec": 4.5,
+      "effect": "ultimate",
+      "description": "Copper Badger ultimate pet skill."
+    },
+    {
+      "id": "PETSKILL_037",
+      "name": "Verdant Guard Howl",
+      "pet_id": "PET_007",
+      "kind": "active",
+      "power_ratio": 0.85,
+      "cooldown_sec": 2.5,
+      "effect": "damage",
+      "description": "Verdant Lynx front pet skill."
+    },
+    {
+      "id": "PETSKILL_038",
+      "name": "Verdant Lunar Pounce",
+      "pet_id": "PET_007",
+      "kind": "active",
+      "power_ratio": 0.97,
+      "cooldown_sec": 2.9,
+      "effect": "guard",
+      "description": "Verdant Lynx core pet skill."
+    },
+    {
+      "id": "PETSKILL_039",
+      "name": "Verdant Arcane Chirp",
+      "pet_id": "PET_007",
+      "kind": "support",
+      "power_ratio": 1.09,
+      "cooldown_sec": 3.3,
+      "effect": "heal",
+      "description": "Verdant Lynx utility pet skill."
+    },
+    {
+      "id": "PETSKILL_040",
+      "name": "Verdant Wind Dive",
+      "pet_id": "PET_007",
+      "kind": "support",
+      "power_ratio": 1.21,
+      "cooldown_sec": 3.7,
+      "effect": "control",
+      "description": "Verdant Lynx survival pet skill."
+    },
+    {
+      "id": "PETSKILL_041",
+      "name": "Verdant Holy Mend",
+      "pet_id": "PET_007",
+      "kind": "support",
+      "power_ratio": 1.33,
+      "cooldown_sec": 4.1,
+      "effect": "buff",
+      "description": "Verdant Lynx bond pet skill."
+    },
+    {
+      "id": "PETSKILL_042",
+      "name": "Verdant Verdant Snare",
+      "pet_id": "PET_007",
+      "kind": "ultimate",
+      "power_ratio": 1.45,
+      "cooldown_sec": 4.5,
+      "effect": "ultimate",
+      "description": "Verdant Lynx ultimate pet skill."
+    },
+    {
+      "id": "PETSKILL_043",
+      "name": "Crimson Wind Dive",
+      "pet_id": "PET_008",
+      "kind": "active",
+      "power_ratio": 0.85,
+      "cooldown_sec": 2.5,
+      "effect": "damage",
+      "description": "Crimson Hound front pet skill."
+    },
+    {
+      "id": "PETSKILL_044",
+      "name": "Crimson Holy Mend",
+      "pet_id": "PET_008",
+      "kind": "active",
+      "power_ratio": 0.97,
+      "cooldown_sec": 2.9,
+      "effect": "guard",
+      "description": "Crimson Hound core pet skill."
+    },
+    {
+      "id": "PETSKILL_045",
+      "name": "Crimson Verdant Snare",
+      "pet_id": "PET_008",
+      "kind": "support",
+      "power_ratio": 1.09,
+      "cooldown_sec": 3.3,
+      "effect": "heal",
+      "description": "Crimson Hound utility pet skill."
+    },
+    {
+      "id": "PETSKILL_046",
+      "name": "Crimson Ember Bite",
+      "pet_id": "PET_008",
+      "kind": "support",
+      "power_ratio": 1.21,
+      "cooldown_sec": 3.7,
+      "effect": "control",
+      "description": "Crimson Hound survival pet skill."
+    },
+    {
+      "id": "PETSKILL_047",
+      "name": "Crimson Frost Barrage",
+      "pet_id": "PET_008",
+      "kind": "support",
+      "power_ratio": 1.33,
+      "cooldown_sec": 4.1,
+      "effect": "buff",
+      "description": "Crimson Hound bond pet skill."
+    },
+    {
+      "id": "PETSKILL_048",
+      "name": "Crimson Storm Peck",
+      "pet_id": "PET_008",
+      "kind": "ultimate",
+      "power_ratio": 1.45,
+      "cooldown_sec": 4.5,
+      "effect": "ultimate",
+      "description": "Crimson Hound ultimate pet skill."
+    },
+    {
+      "id": "PETSKILL_049",
+      "name": "Frost Ember Bite",
+      "pet_id": "PET_009",
+      "kind": "active",
+      "power_ratio": 0.85,
+      "cooldown_sec": 2.5,
+      "effect": "damage",
+      "description": "Frost Hare front pet skill."
+    },
+    {
+      "id": "PETSKILL_050",
+      "name": "Frost Frost Barrage",
+      "pet_id": "PET_009",
+      "kind": "active",
+      "power_ratio": 0.97,
+      "cooldown_sec": 2.9,
+      "effect": "guard",
+      "description": "Frost Hare core pet skill."
+    },
+    {
+      "id": "PETSKILL_051",
+      "name": "Frost Storm Peck",
+      "pet_id": "PET_009",
+      "kind": "support",
+      "power_ratio": 1.09,
+      "cooldown_sec": 3.3,
+      "effect": "heal",
+      "description": "Frost Hare utility pet skill."
+    },
+    {
+      "id": "PETSKILL_052",
+      "name": "Frost Shadow Blink",
+      "pet_id": "PET_009",
+      "kind": "support",
+      "power_ratio": 1.21,
+      "cooldown_sec": 3.7,
+      "effect": "control",
+      "description": "Frost Hare survival pet skill."
+    },
+    {
+      "id": "PETSKILL_053",
+      "name": "Frost Shell Guard",
+      "pet_id": "PET_009",
+      "kind": "support",
+      "power_ratio": 1.33,
+      "cooldown_sec": 4.1,
+      "effect": "buff",
+      "description": "Frost Hare bond pet skill."
+    },
+    {
+      "id": "PETSKILL_054",
+      "name": "Frost Gem Charge",
+      "pet_id": "PET_009",
+      "kind": "ultimate",
+      "power_ratio": 1.45,
+      "cooldown_sec": 4.5,
+      "effect": "ultimate",
+      "description": "Frost Hare ultimate pet skill."
+    },
+    {
+      "id": "PETSKILL_055",
+      "name": "Storm Shadow Blink",
+      "pet_id": "PET_010",
+      "kind": "active",
+      "power_ratio": 0.85,
+      "cooldown_sec": 2.5,
+      "effect": "damage",
+      "description": "Storm Raven front pet skill."
+    },
+    {
+      "id": "PETSKILL_056",
+      "name": "Storm Shell Guard",
+      "pet_id": "PET_010",
+      "kind": "active",
+      "power_ratio": 0.97,
+      "cooldown_sec": 2.9,
+      "effect": "guard",
+      "description": "Storm Raven core pet skill."
+    },
+    {
+      "id": "PETSKILL_057",
+      "name": "Storm Gem Charge",
+      "pet_id": "PET_010",
+      "kind": "support",
+      "power_ratio": 1.09,
+      "cooldown_sec": 3.3,
+      "effect": "heal",
+      "description": "Storm Raven utility pet skill."
+    },
+    {
+      "id": "PETSKILL_058",
+      "name": "Storm Mist Veil",
+      "pet_id": "PET_010",
+      "kind": "support",
+      "power_ratio": 1.21,
+      "cooldown_sec": 3.7,
+      "effect": "control",
+      "description": "Storm Raven survival pet skill."
+    },
+    {
+      "id": "PETSKILL_059",
+      "name": "Storm Dawn Ray",
+      "pet_id": "PET_010",
+      "kind": "support",
+      "power_ratio": 1.33,
+      "cooldown_sec": 4.1,
+      "effect": "buff",
+      "description": "Storm Raven bond pet skill."
+    },
+    {
+      "id": "PETSKILL_060",
+      "name": "Storm Night Rend",
+      "pet_id": "PET_010",
+      "kind": "ultimate",
+      "power_ratio": 1.45,
+      "cooldown_sec": 4.5,
+      "effect": "ultimate",
+      "description": "Storm Raven ultimate pet skill."
+    },
+    {
+      "id": "PETSKILL_061",
+      "name": "Sun Mist Veil",
+      "pet_id": "PET_011",
+      "kind": "active",
+      "power_ratio": 0.85,
+      "cooldown_sec": 2.5,
+      "effect": "damage",
+      "description": "Sun Beetle front pet skill."
+    },
+    {
+      "id": "PETSKILL_062",
+      "name": "Sun Dawn Ray",
+      "pet_id": "PET_011",
+      "kind": "active",
+      "power_ratio": 0.97,
+      "cooldown_sec": 2.9,
+      "effect": "guard",
+      "description": "Sun Beetle core pet skill."
+    },
+    {
+      "id": "PETSKILL_063",
+      "name": "Sun Night Rend",
+      "pet_id": "PET_011",
+      "kind": "support",
+      "power_ratio": 1.09,
+      "cooldown_sec": 3.3,
+      "effect": "heal",
+      "description": "Sun Beetle utility pet skill."
+    },
+    {
+      "id": "PETSKILL_064",
+      "name": "Sun River Mend",
+      "pet_id": "PET_011",
+      "kind": "support",
+      "power_ratio": 1.21,
+      "cooldown_sec": 3.7,
+      "effect": "control",
+      "description": "Sun Beetle survival pet skill."
+    },
+    {
+      "id": "PETSKILL_065",
+      "name": "Sun Ram Rush",
+      "pet_id": "PET_011",
+      "kind": "support",
+      "power_ratio": 1.33,
+      "cooldown_sec": 4.1,
+      "effect": "buff",
+      "description": "Sun Beetle bond pet skill."
+    },
+    {
+      "id": "PETSKILL_066",
+      "name": "Sun Star Blessing",
+      "pet_id": "PET_011",
+      "kind": "ultimate",
+      "power_ratio": 1.45,
+      "cooldown_sec": 4.5,
+      "effect": "ultimate",
+      "description": "Sun Beetle ultimate pet skill."
+    },
+    {
+      "id": "PETSKILL_067",
+      "name": "Abyss River Mend",
+      "pet_id": "PET_012",
+      "kind": "active",
+      "power_ratio": 0.85,
+      "cooldown_sec": 2.5,
+      "effect": "damage",
+      "description": "Abyss Bat front pet skill."
+    },
+    {
+      "id": "PETSKILL_068",
+      "name": "Abyss Ram Rush",
+      "pet_id": "PET_012",
+      "kind": "active",
+      "power_ratio": 0.97,
+      "cooldown_sec": 2.9,
+      "effect": "guard",
+      "description": "Abyss Bat core pet skill."
+    },
+    {
+      "id": "PETSKILL_069",
+      "name": "Abyss Star Blessing",
+      "pet_id": "PET_012",
+      "kind": "support",
+      "power_ratio": 1.09,
+      "cooldown_sec": 3.3,
+      "effect": "heal",
+      "description": "Abyss Bat utility pet skill."
+    },
+    {
+      "id": "PETSKILL_070",
+      "name": "Abyss Guard Howl",
+      "pet_id": "PET_012",
+      "kind": "support",
+      "power_ratio": 1.21,
+      "cooldown_sec": 3.7,
+      "effect": "control",
+      "description": "Abyss Bat survival pet skill."
+    },
+    {
+      "id": "PETSKILL_071",
+      "name": "Abyss Lunar Pounce",
+      "pet_id": "PET_012",
+      "kind": "support",
+      "power_ratio": 1.33,
+      "cooldown_sec": 4.1,
+      "effect": "buff",
+      "description": "Abyss Bat bond pet skill."
+    },
+    {
+      "id": "PETSKILL_072",
+      "name": "Abyss Arcane Chirp",
+      "pet_id": "PET_012",
+      "kind": "ultimate",
+      "power_ratio": 1.45,
+      "cooldown_sec": 4.5,
+      "effect": "ultimate",
+      "description": "Abyss Bat ultimate pet skill."
+    },
+    {
+      "id": "PETSKILL_073",
+      "name": "Rootback Guard Howl",
+      "pet_id": "PET_013",
+      "kind": "active",
+      "power_ratio": 0.85,
+      "cooldown_sec": 2.5,
+      "effect": "damage",
+      "description": "Rootback Turtle front pet skill."
+    },
+    {
+      "id": "PETSKILL_074",
+      "name": "Rootback Lunar Pounce",
+      "pet_id": "PET_013",
+      "kind": "active",
+      "power_ratio": 0.97,
+      "cooldown_sec": 2.9,
+      "effect": "guard",
+      "description": "Rootback Turtle core pet skill."
+    },
+    {
+      "id": "PETSKILL_075",
+      "name": "Rootback Arcane Chirp",
+      "pet_id": "PET_013",
+      "kind": "support",
+      "power_ratio": 1.09,
+      "cooldown_sec": 3.3,
+      "effect": "heal",
+      "description": "Rootback Turtle utility pet skill."
+    },
+    {
+      "id": "PETSKILL_076",
+      "name": "Rootback Wind Dive",
+      "pet_id": "PET_013",
+      "kind": "support",
+      "power_ratio": 1.21,
+      "cooldown_sec": 3.7,
+      "effect": "control",
+      "description": "Rootback Turtle survival pet skill."
+    },
+    {
+      "id": "PETSKILL_077",
+      "name": "Rootback Holy Mend",
+      "pet_id": "PET_013",
+      "kind": "support",
+      "power_ratio": 1.33,
+      "cooldown_sec": 4.1,
+      "effect": "buff",
+      "description": "Rootback Turtle bond pet skill."
+    },
+    {
+      "id": "PETSKILL_078",
+      "name": "Rootback Verdant Snare",
+      "pet_id": "PET_013",
+      "kind": "ultimate",
+      "power_ratio": 1.45,
+      "cooldown_sec": 4.5,
+      "effect": "ultimate",
+      "description": "Rootback Turtle ultimate pet skill."
+    },
+    {
+      "id": "PETSKILL_079",
+      "name": "Gem Wind Dive",
+      "pet_id": "PET_014",
+      "kind": "active",
+      "power_ratio": 0.85,
+      "cooldown_sec": 2.5,
+      "effect": "damage",
+      "description": "Gem Golem front pet skill."
+    },
+    {
+      "id": "PETSKILL_080",
+      "name": "Gem Holy Mend",
+      "pet_id": "PET_014",
+      "kind": "active",
+      "power_ratio": 0.97,
+      "cooldown_sec": 2.9,
+      "effect": "guard",
+      "description": "Gem Golem core pet skill."
+    },
+    {
+      "id": "PETSKILL_081",
+      "name": "Gem Verdant Snare",
+      "pet_id": "PET_014",
+      "kind": "support",
+      "power_ratio": 1.09,
+      "cooldown_sec": 3.3,
+      "effect": "heal",
+      "description": "Gem Golem utility pet skill."
+    },
+    {
+      "id": "PETSKILL_082",
+      "name": "Gem Ember Bite",
+      "pet_id": "PET_014",
+      "kind": "support",
+      "power_ratio": 1.21,
+      "cooldown_sec": 3.7,
+      "effect": "control",
+      "description": "Gem Golem survival pet skill."
+    },
+    {
+      "id": "PETSKILL_083",
+      "name": "Gem Frost Barrage",
+      "pet_id": "PET_014",
+      "kind": "support",
+      "power_ratio": 1.33,
+      "cooldown_sec": 4.1,
+      "effect": "buff",
+      "description": "Gem Golem bond pet skill."
+    },
+    {
+      "id": "PETSKILL_084",
+      "name": "Gem Storm Peck",
+      "pet_id": "PET_014",
+      "kind": "ultimate",
+      "power_ratio": 1.45,
+      "cooldown_sec": 4.5,
+      "effect": "ultimate",
+      "description": "Gem Golem ultimate pet skill."
+    },
+    {
+      "id": "PETSKILL_085",
+      "name": "Mist Ember Bite",
+      "pet_id": "PET_015",
+      "kind": "active",
+      "power_ratio": 0.85,
+      "cooldown_sec": 2.5,
+      "effect": "damage",
+      "description": "Mist Serpent front pet skill."
+    },
+    {
+      "id": "PETSKILL_086",
+      "name": "Mist Frost Barrage",
+      "pet_id": "PET_015",
+      "kind": "active",
+      "power_ratio": 0.97,
+      "cooldown_sec": 2.9,
+      "effect": "guard",
+      "description": "Mist Serpent core pet skill."
+    },
+    {
+      "id": "PETSKILL_087",
+      "name": "Mist Storm Peck",
+      "pet_id": "PET_015",
+      "kind": "support",
+      "power_ratio": 1.09,
+      "cooldown_sec": 3.3,
+      "effect": "heal",
+      "description": "Mist Serpent utility pet skill."
+    },
+    {
+      "id": "PETSKILL_088",
+      "name": "Mist Shadow Blink",
+      "pet_id": "PET_015",
+      "kind": "support",
+      "power_ratio": 1.21,
+      "cooldown_sec": 3.7,
+      "effect": "control",
+      "description": "Mist Serpent survival pet skill."
+    },
+    {
+      "id": "PETSKILL_089",
+      "name": "Mist Shell Guard",
+      "pet_id": "PET_015",
+      "kind": "support",
+      "power_ratio": 1.33,
+      "cooldown_sec": 4.1,
+      "effect": "buff",
+      "description": "Mist Serpent bond pet skill."
+    },
+    {
+      "id": "PETSKILL_090",
+      "name": "Mist Gem Charge",
+      "pet_id": "PET_015",
+      "kind": "ultimate",
+      "power_ratio": 1.45,
+      "cooldown_sec": 4.5,
+      "effect": "ultimate",
+      "description": "Mist Serpent ultimate pet skill."
+    },
+    {
+      "id": "PETSKILL_091",
+      "name": "Dawn Shadow Blink",
+      "pet_id": "PET_016",
+      "kind": "active",
+      "power_ratio": 0.85,
+      "cooldown_sec": 2.5,
+      "effect": "damage",
+      "description": "Dawn Griffin front pet skill."
+    },
+    {
+      "id": "PETSKILL_092",
+      "name": "Dawn Shell Guard",
+      "pet_id": "PET_016",
+      "kind": "active",
+      "power_ratio": 0.97,
+      "cooldown_sec": 2.9,
+      "effect": "guard",
+      "description": "Dawn Griffin core pet skill."
+    },
+    {
+      "id": "PETSKILL_093",
+      "name": "Dawn Gem Charge",
+      "pet_id": "PET_016",
+      "kind": "support",
+      "power_ratio": 1.09,
+      "cooldown_sec": 3.3,
+      "effect": "heal",
+      "description": "Dawn Griffin utility pet skill."
+    },
+    {
+      "id": "PETSKILL_094",
+      "name": "Dawn Mist Veil",
+      "pet_id": "PET_016",
+      "kind": "support",
+      "power_ratio": 1.21,
+      "cooldown_sec": 3.7,
+      "effect": "control",
+      "description": "Dawn Griffin survival pet skill."
+    },
+    {
+      "id": "PETSKILL_095",
+      "name": "Dawn Dawn Ray",
+      "pet_id": "PET_016",
+      "kind": "support",
+      "power_ratio": 1.33,
+      "cooldown_sec": 4.1,
+      "effect": "buff",
+      "description": "Dawn Griffin bond pet skill."
+    },
+    {
+      "id": "PETSKILL_096",
+      "name": "Dawn Night Rend",
+      "pet_id": "PET_016",
+      "kind": "ultimate",
+      "power_ratio": 1.45,
+      "cooldown_sec": 4.5,
+      "effect": "ultimate",
+      "description": "Dawn Griffin ultimate pet skill."
+    },
+    {
+      "id": "PETSKILL_097",
+      "name": "Night Mist Veil",
+      "pet_id": "PET_017",
+      "kind": "active",
+      "power_ratio": 0.85,
+      "cooldown_sec": 2.5,
+      "effect": "damage",
+      "description": "Night Panther front pet skill."
+    },
+    {
+      "id": "PETSKILL_098",
+      "name": "Night Dawn Ray",
+      "pet_id": "PET_017",
+      "kind": "active",
+      "power_ratio": 0.97,
+      "cooldown_sec": 2.9,
+      "effect": "guard",
+      "description": "Night Panther core pet skill."
+    },
+    {
+      "id": "PETSKILL_099",
+      "name": "Night Night Rend",
+      "pet_id": "PET_017",
+      "kind": "support",
+      "power_ratio": 1.09,
+      "cooldown_sec": 3.3,
+      "effect": "heal",
+      "description": "Night Panther utility pet skill."
+    },
+    {
+      "id": "PETSKILL_100",
+      "name": "Night River Mend",
+      "pet_id": "PET_017",
+      "kind": "support",
+      "power_ratio": 1.21,
+      "cooldown_sec": 3.7,
+      "effect": "control",
+      "description": "Night Panther survival pet skill."
+    },
+    {
+      "id": "PETSKILL_101",
+      "name": "Night Ram Rush",
+      "pet_id": "PET_017",
+      "kind": "support",
+      "power_ratio": 1.33,
+      "cooldown_sec": 4.1,
+      "effect": "buff",
+      "description": "Night Panther bond pet skill."
+    },
+    {
+      "id": "PETSKILL_102",
+      "name": "Night Star Blessing",
+      "pet_id": "PET_017",
+      "kind": "ultimate",
+      "power_ratio": 1.45,
+      "cooldown_sec": 4.5,
+      "effect": "ultimate",
+      "description": "Night Panther ultimate pet skill."
+    },
+    {
+      "id": "PETSKILL_103",
+      "name": "River River Mend",
+      "pet_id": "PET_018",
+      "kind": "active",
+      "power_ratio": 0.85,
+      "cooldown_sec": 2.5,
+      "effect": "damage",
+      "description": "River Otter front pet skill."
+    },
+    {
+      "id": "PETSKILL_104",
+      "name": "River Ram Rush",
+      "pet_id": "PET_018",
+      "kind": "active",
+      "power_ratio": 0.97,
+      "cooldown_sec": 2.9,
+      "effect": "guard",
+      "description": "River Otter core pet skill."
+    },
+    {
+      "id": "PETSKILL_105",
+      "name": "River Star Blessing",
+      "pet_id": "PET_018",
+      "kind": "support",
+      "power_ratio": 1.09,
+      "cooldown_sec": 3.3,
+      "effect": "heal",
+      "description": "River Otter utility pet skill."
+    },
+    {
+      "id": "PETSKILL_106",
+      "name": "River Guard Howl",
+      "pet_id": "PET_018",
+      "kind": "support",
+      "power_ratio": 1.21,
+      "cooldown_sec": 3.7,
+      "effect": "control",
+      "description": "River Otter survival pet skill."
+    },
+    {
+      "id": "PETSKILL_107",
+      "name": "River Lunar Pounce",
+      "pet_id": "PET_018",
+      "kind": "support",
+      "power_ratio": 1.33,
+      "cooldown_sec": 4.1,
+      "effect": "buff",
+      "description": "River Otter bond pet skill."
+    },
+    {
+      "id": "PETSKILL_108",
+      "name": "River Arcane Chirp",
+      "pet_id": "PET_018",
+      "kind": "ultimate",
+      "power_ratio": 1.45,
+      "cooldown_sec": 4.5,
+      "effect": "ultimate",
+      "description": "River Otter ultimate pet skill."
+    },
+    {
+      "id": "PETSKILL_109",
+      "name": "Stone Guard Howl",
+      "pet_id": "PET_019",
+      "kind": "active",
+      "power_ratio": 0.85,
+      "cooldown_sec": 2.5,
+      "effect": "damage",
+      "description": "Stone Ram front pet skill."
+    },
+    {
+      "id": "PETSKILL_110",
+      "name": "Stone Lunar Pounce",
+      "pet_id": "PET_019",
+      "kind": "active",
+      "power_ratio": 0.97,
+      "cooldown_sec": 2.9,
+      "effect": "guard",
+      "description": "Stone Ram core pet skill."
+    },
+    {
+      "id": "PETSKILL_111",
+      "name": "Stone Arcane Chirp",
+      "pet_id": "PET_019",
+      "kind": "support",
+      "power_ratio": 1.09,
+      "cooldown_sec": 3.3,
+      "effect": "heal",
+      "description": "Stone Ram utility pet skill."
+    },
+    {
+      "id": "PETSKILL_112",
+      "name": "Stone Wind Dive",
+      "pet_id": "PET_019",
+      "kind": "support",
+      "power_ratio": 1.21,
+      "cooldown_sec": 3.7,
+      "effect": "control",
+      "description": "Stone Ram survival pet skill."
+    },
+    {
+      "id": "PETSKILL_113",
+      "name": "Stone Holy Mend",
+      "pet_id": "PET_019",
+      "kind": "support",
+      "power_ratio": 1.33,
+      "cooldown_sec": 4.1,
+      "effect": "buff",
+      "description": "Stone Ram bond pet skill."
+    },
+    {
+      "id": "PETSKILL_114",
+      "name": "Stone Verdant Snare",
+      "pet_id": "PET_019",
+      "kind": "ultimate",
+      "power_ratio": 1.45,
+      "cooldown_sec": 4.5,
+      "effect": "ultimate",
+      "description": "Stone Ram ultimate pet skill."
+    },
+    {
+      "id": "PETSKILL_115",
+      "name": "Star Wind Dive",
+      "pet_id": "PET_020",
+      "kind": "active",
+      "power_ratio": 0.85,
+      "cooldown_sec": 2.5,
+      "effect": "damage",
+      "description": "Star Deer front pet skill."
+    },
+    {
+      "id": "PETSKILL_116",
+      "name": "Star Holy Mend",
+      "pet_id": "PET_020",
+      "kind": "active",
+      "power_ratio": 0.97,
+      "cooldown_sec": 2.9,
+      "effect": "guard",
+      "description": "Star Deer core pet skill."
+    },
+    {
+      "id": "PETSKILL_117",
+      "name": "Star Verdant Snare",
+      "pet_id": "PET_020",
+      "kind": "support",
+      "power_ratio": 1.09,
+      "cooldown_sec": 3.3,
+      "effect": "heal",
+      "description": "Star Deer utility pet skill."
+    },
+    {
+      "id": "PETSKILL_118",
+      "name": "Star Ember Bite",
+      "pet_id": "PET_020",
+      "kind": "support",
+      "power_ratio": 1.21,
+      "cooldown_sec": 3.7,
+      "effect": "control",
+      "description": "Star Deer survival pet skill."
+    },
+    {
+      "id": "PETSKILL_119",
+      "name": "Star Frost Barrage",
+      "pet_id": "PET_020",
+      "kind": "support",
+      "power_ratio": 1.33,
+      "cooldown_sec": 4.1,
+      "effect": "buff",
+      "description": "Star Deer bond pet skill."
+    },
+    {
+      "id": "PETSKILL_120",
+      "name": "Star Storm Peck",
+      "pet_id": "PET_020",
+      "kind": "ultimate",
+      "power_ratio": 1.45,
+      "cooldown_sec": 4.5,
+      "effect": "ultimate",
+      "description": "Star Deer ultimate pet skill."
+    }
+  ],
+  "equipment": [
+    {
+      "id": "PETEQ_001",
+      "name": "Bond Ironclad Wolf collar 1",
+      "type": "pet_equipment",
+      "pet_id": "PET_001",
+      "pet_name": "Ironclad Wolf",
+      "tier": 1,
+      "slot": "collar",
+      "level_required": 1,
+      "rarity": "Uncommon",
+      "power": 61,
+      "stat_bonus": {
+        "HP": 19,
+        "ATK": 3,
+        "DEF": 3,
+        "MATK": 2,
+        "AGI": 1,
+        "DEX": 1,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "Ironclad bond",
+        "value": 2
+      },
+      "source": {
+        "monster_id": "MON_012",
+        "monster_name": "Monster #12",
+        "monster_level": 10,
+        "map_id": "east_meadow",
+        "map_name": "East Meadow"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Ironclad Wolf; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_002",
+      "name": "Bond Astral Owl armor 2",
+      "type": "pet_equipment",
+      "pet_id": "PET_002",
+      "pet_name": "Astral Owl",
+      "tier": 1,
+      "slot": "armor",
+      "level_required": 1,
+      "rarity": "Uncommon",
+      "power": 62,
+      "stat_bonus": {
+        "HP": 20,
+        "ATK": 3,
+        "DEF": 3,
+        "MATK": 2,
+        "AGI": 2,
+        "DEX": 2,
+        "LUK": 2
+      },
+      "skill_modifier": {
+        "skill": "Astral bond",
+        "value": 2
+      },
+      "source": {
+        "monster_id": "MON_023",
+        "monster_name": "Monster #23",
+        "monster_level": 10,
+        "map_id": "east_meadow",
+        "map_name": "East Meadow"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Astral Owl; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_003",
+      "name": "Bond Sky Hawk charm 3",
+      "type": "pet_equipment",
+      "pet_id": "PET_003",
+      "pet_name": "Sky Hawk",
+      "tier": 1,
+      "slot": "charm",
+      "level_required": 1,
+      "rarity": "Uncommon",
+      "power": 63,
+      "stat_bonus": {
+        "HP": 21,
+        "ATK": 3,
+        "DEF": 3,
+        "MATK": 2,
+        "AGI": 3,
+        "DEX": 3,
+        "LUK": 0
+      },
+      "skill_modifier": {
+        "skill": "Sky bond",
+        "value": 2
+      },
+      "source": {
+        "monster_id": "MON_034",
+        "monster_name": "Monster #34",
+        "monster_level": 10,
+        "map_id": "east_meadow",
+        "map_name": "East Meadow"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Sky Hawk; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_004",
+      "name": "Bond Moon Fox weapon 4",
+      "type": "pet_equipment",
+      "pet_id": "PET_004",
+      "pet_name": "Moon Fox",
+      "tier": 1,
+      "slot": "weapon",
+      "level_required": 1,
+      "rarity": "Uncommon",
+      "power": 64,
+      "stat_bonus": {
+        "HP": 22,
+        "ATK": 3,
+        "DEF": 3,
+        "MATK": 2,
+        "AGI": 4,
+        "DEX": 0,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "Moon bond",
+        "value": 2
+      },
+      "source": {
+        "monster_id": "MON_045",
+        "monster_name": "Monster #45",
+        "monster_level": 10,
+        "map_id": "east_meadow",
+        "map_name": "East Meadow"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Moon Fox; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_005",
+      "name": "Bond Sacred Lamb pack 5",
+      "type": "pet_equipment",
+      "pet_id": "PET_005",
+      "pet_name": "Sacred Lamb",
+      "tier": 1,
+      "slot": "pack",
+      "level_required": 1,
+      "rarity": "Uncommon",
+      "power": 65,
+      "stat_bonus": {
+        "HP": 23,
+        "ATK": 3,
+        "DEF": 3,
+        "MATK": 2,
+        "AGI": 0,
+        "DEX": 1,
+        "LUK": 2
+      },
+      "skill_modifier": {
+        "skill": "Sacred bond",
+        "value": 2
+      },
+      "source": {
+        "monster_id": "MON_056",
+        "monster_name": "Monster #56",
+        "monster_level": 10,
+        "map_id": "east_meadow",
+        "map_name": "East Meadow"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Sacred Lamb; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_006",
+      "name": "Bond Copper Badger collar 6",
+      "type": "pet_equipment",
+      "pet_id": "PET_006",
+      "pet_name": "Copper Badger",
+      "tier": 1,
+      "slot": "collar",
+      "level_required": 1,
+      "rarity": "Uncommon",
+      "power": 66,
+      "stat_bonus": {
+        "HP": 24,
+        "ATK": 3,
+        "DEF": 3,
+        "MATK": 2,
+        "AGI": 1,
+        "DEX": 2,
+        "LUK": 0
+      },
+      "skill_modifier": {
+        "skill": "Copper bond",
+        "value": 2
+      },
+      "source": {
+        "monster_id": "MON_067",
+        "monster_name": "Monster #67",
+        "monster_level": 10,
+        "map_id": "east_meadow",
+        "map_name": "East Meadow"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Copper Badger; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_007",
+      "name": "Bond Verdant Lynx armor 7",
+      "type": "pet_equipment",
+      "pet_id": "PET_007",
+      "pet_name": "Verdant Lynx",
+      "tier": 1,
+      "slot": "armor",
+      "level_required": 1,
+      "rarity": "Uncommon",
+      "power": 67,
+      "stat_bonus": {
+        "HP": 18,
+        "ATK": 3,
+        "DEF": 3,
+        "MATK": 2,
+        "AGI": 2,
+        "DEX": 3,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "Verdant bond",
+        "value": 2
+      },
+      "source": {
+        "monster_id": "MON_078",
+        "monster_name": "Monster #78",
+        "monster_level": 10,
+        "map_id": "east_meadow",
+        "map_name": "East Meadow"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Verdant Lynx; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_008",
+      "name": "Bond Crimson Hound charm 8",
+      "type": "pet_equipment",
+      "pet_id": "PET_008",
+      "pet_name": "Crimson Hound",
+      "tier": 1,
+      "slot": "charm",
+      "level_required": 1,
+      "rarity": "Uncommon",
+      "power": 68,
+      "stat_bonus": {
+        "HP": 19,
+        "ATK": 3,
+        "DEF": 3,
+        "MATK": 2,
+        "AGI": 3,
+        "DEX": 0,
+        "LUK": 2
+      },
+      "skill_modifier": {
+        "skill": "Crimson bond",
+        "value": 2
+      },
+      "source": {
+        "monster_id": "MON_089",
+        "monster_name": "Monster #89",
+        "monster_level": 10,
+        "map_id": "east_meadow",
+        "map_name": "East Meadow"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Crimson Hound; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_009",
+      "name": "Bond Frost Hare weapon 9",
+      "type": "pet_equipment",
+      "pet_id": "PET_009",
+      "pet_name": "Frost Hare",
+      "tier": 1,
+      "slot": "weapon",
+      "level_required": 1,
+      "rarity": "Uncommon",
+      "power": 69,
+      "stat_bonus": {
+        "HP": 20,
+        "ATK": 3,
+        "DEF": 3,
+        "MATK": 2,
+        "AGI": 4,
+        "DEX": 1,
+        "LUK": 0
+      },
+      "skill_modifier": {
+        "skill": "Frost bond",
+        "value": 2
+      },
+      "source": {
+        "monster_id": "MON_100",
+        "monster_name": "Monster #100",
+        "monster_level": 10,
+        "map_id": "east_meadow",
+        "map_name": "East Meadow"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Frost Hare; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_010",
+      "name": "Bond Storm Raven pack 10",
+      "type": "pet_equipment",
+      "pet_id": "PET_010",
+      "pet_name": "Storm Raven",
+      "tier": 1,
+      "slot": "pack",
+      "level_required": 1,
+      "rarity": "Uncommon",
+      "power": 70,
+      "stat_bonus": {
+        "HP": 21,
+        "ATK": 3,
+        "DEF": 3,
+        "MATK": 2,
+        "AGI": 0,
+        "DEX": 2,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "Storm bond",
+        "value": 2
+      },
+      "source": {
+        "monster_id": "MON_111",
+        "monster_name": "Monster #111",
+        "monster_level": 10,
+        "map_id": "east_meadow",
+        "map_name": "East Meadow"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Storm Raven; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_011",
+      "name": "Bond Sun Beetle collar 11",
+      "type": "pet_equipment",
+      "pet_id": "PET_011",
+      "pet_name": "Sun Beetle",
+      "tier": 1,
+      "slot": "collar",
+      "level_required": 1,
+      "rarity": "Uncommon",
+      "power": 71,
+      "stat_bonus": {
+        "HP": 22,
+        "ATK": 3,
+        "DEF": 3,
+        "MATK": 2,
+        "AGI": 1,
+        "DEX": 3,
+        "LUK": 2
+      },
+      "skill_modifier": {
+        "skill": "Sun bond",
+        "value": 2
+      },
+      "source": {
+        "monster_id": "MON_122",
+        "monster_name": "Monster #122",
+        "monster_level": 10,
+        "map_id": "east_meadow",
+        "map_name": "East Meadow"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Sun Beetle; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_012",
+      "name": "Bond Abyss Bat armor 12",
+      "type": "pet_equipment",
+      "pet_id": "PET_012",
+      "pet_name": "Abyss Bat",
+      "tier": 1,
+      "slot": "armor",
+      "level_required": 1,
+      "rarity": "Uncommon",
+      "power": 72,
+      "stat_bonus": {
+        "HP": 23,
+        "ATK": 3,
+        "DEF": 3,
+        "MATK": 2,
+        "AGI": 2,
+        "DEX": 0,
+        "LUK": 0
+      },
+      "skill_modifier": {
+        "skill": "Abyss bond",
+        "value": 2
+      },
+      "source": {
+        "monster_id": "MON_133",
+        "monster_name": "Monster #133",
+        "monster_level": 10,
+        "map_id": "east_meadow",
+        "map_name": "East Meadow"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Abyss Bat; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_013",
+      "name": "Bond Rootback Turtle charm 13",
+      "type": "pet_equipment",
+      "pet_id": "PET_013",
+      "pet_name": "Rootback Turtle",
+      "tier": 1,
+      "slot": "charm",
+      "level_required": 1,
+      "rarity": "Uncommon",
+      "power": 60,
+      "stat_bonus": {
+        "HP": 24,
+        "ATK": 3,
+        "DEF": 3,
+        "MATK": 2,
+        "AGI": 3,
+        "DEX": 1,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "Rootback bond",
+        "value": 2
+      },
+      "source": {
+        "monster_id": "MON_144",
+        "monster_name": "Monster #144",
+        "monster_level": 10,
+        "map_id": "east_meadow",
+        "map_name": "East Meadow"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Rootback Turtle; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_014",
+      "name": "Bond Gem Golem weapon 14",
+      "type": "pet_equipment",
+      "pet_id": "PET_014",
+      "pet_name": "Gem Golem",
+      "tier": 1,
+      "slot": "weapon",
+      "level_required": 1,
+      "rarity": "Uncommon",
+      "power": 61,
+      "stat_bonus": {
+        "HP": 18,
+        "ATK": 3,
+        "DEF": 3,
+        "MATK": 2,
+        "AGI": 4,
+        "DEX": 2,
+        "LUK": 2
+      },
+      "skill_modifier": {
+        "skill": "Gem bond",
+        "value": 2
+      },
+      "source": {
+        "monster_id": "MON_155",
+        "monster_name": "Monster #155",
+        "monster_level": 10,
+        "map_id": "east_meadow",
+        "map_name": "East Meadow"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Gem Golem; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_015",
+      "name": "Bond Mist Serpent pack 15",
+      "type": "pet_equipment",
+      "pet_id": "PET_015",
+      "pet_name": "Mist Serpent",
+      "tier": 1,
+      "slot": "pack",
+      "level_required": 1,
+      "rarity": "Uncommon",
+      "power": 62,
+      "stat_bonus": {
+        "HP": 19,
+        "ATK": 3,
+        "DEF": 3,
+        "MATK": 2,
+        "AGI": 0,
+        "DEX": 3,
+        "LUK": 0
+      },
+      "skill_modifier": {
+        "skill": "Mist bond",
+        "value": 2
+      },
+      "source": {
+        "monster_id": "MON_166",
+        "monster_name": "Monster #166",
+        "monster_level": 10,
+        "map_id": "east_meadow",
+        "map_name": "East Meadow"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Mist Serpent; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_016",
+      "name": "Bond Dawn Griffin collar 16",
+      "type": "pet_equipment",
+      "pet_id": "PET_016",
+      "pet_name": "Dawn Griffin",
+      "tier": 1,
+      "slot": "collar",
+      "level_required": 1,
+      "rarity": "Uncommon",
+      "power": 63,
+      "stat_bonus": {
+        "HP": 20,
+        "ATK": 3,
+        "DEF": 3,
+        "MATK": 2,
+        "AGI": 1,
+        "DEX": 0,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "Dawn bond",
+        "value": 2
+      },
+      "source": {
+        "monster_id": "MON_177",
+        "monster_name": "Monster #177",
+        "monster_level": 10,
+        "map_id": "east_meadow",
+        "map_name": "East Meadow"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Dawn Griffin; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_017",
+      "name": "Bond Night Panther armor 17",
+      "type": "pet_equipment",
+      "pet_id": "PET_017",
+      "pet_name": "Night Panther",
+      "tier": 1,
+      "slot": "armor",
+      "level_required": 1,
+      "rarity": "Uncommon",
+      "power": 64,
+      "stat_bonus": {
+        "HP": 21,
+        "ATK": 3,
+        "DEF": 3,
+        "MATK": 2,
+        "AGI": 2,
+        "DEX": 1,
+        "LUK": 2
+      },
+      "skill_modifier": {
+        "skill": "Night bond",
+        "value": 2
+      },
+      "source": {
+        "monster_id": "MON_188",
+        "monster_name": "Monster #188",
+        "monster_level": 10,
+        "map_id": "east_meadow",
+        "map_name": "East Meadow"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Night Panther; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_018",
+      "name": "Bond River Otter charm 18",
+      "type": "pet_equipment",
+      "pet_id": "PET_018",
+      "pet_name": "River Otter",
+      "tier": 1,
+      "slot": "charm",
+      "level_required": 1,
+      "rarity": "Uncommon",
+      "power": 65,
+      "stat_bonus": {
+        "HP": 22,
+        "ATK": 3,
+        "DEF": 3,
+        "MATK": 2,
+        "AGI": 3,
+        "DEX": 2,
+        "LUK": 0
+      },
+      "skill_modifier": {
+        "skill": "River bond",
+        "value": 2
+      },
+      "source": {
+        "monster_id": "MON_199",
+        "monster_name": "Monster #199",
+        "monster_level": 10,
+        "map_id": "east_meadow",
+        "map_name": "East Meadow"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for River Otter; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_019",
+      "name": "Bond Stone Ram weapon 19",
+      "type": "pet_equipment",
+      "pet_id": "PET_019",
+      "pet_name": "Stone Ram",
+      "tier": 1,
+      "slot": "weapon",
+      "level_required": 1,
+      "rarity": "Uncommon",
+      "power": 66,
+      "stat_bonus": {
+        "HP": 23,
+        "ATK": 3,
+        "DEF": 3,
+        "MATK": 2,
+        "AGI": 4,
+        "DEX": 3,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "Stone bond",
+        "value": 2
+      },
+      "source": {
+        "monster_id": "MON_210",
+        "monster_name": "Monster #210",
+        "monster_level": 10,
+        "map_id": "east_meadow",
+        "map_name": "East Meadow"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Stone Ram; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_020",
+      "name": "Bond Star Deer pack 20",
+      "type": "pet_equipment",
+      "pet_id": "PET_020",
+      "pet_name": "Star Deer",
+      "tier": 1,
+      "slot": "pack",
+      "level_required": 1,
+      "rarity": "Uncommon",
+      "power": 67,
+      "stat_bonus": {
+        "HP": 24,
+        "ATK": 3,
+        "DEF": 3,
+        "MATK": 2,
+        "AGI": 0,
+        "DEX": 0,
+        "LUK": 2
+      },
+      "skill_modifier": {
+        "skill": "Star bond",
+        "value": 2
+      },
+      "source": {
+        "monster_id": "MON_221",
+        "monster_name": "Monster #221",
+        "monster_level": 10,
+        "map_id": "east_meadow",
+        "map_name": "East Meadow"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Star Deer; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_021",
+      "name": "Spirit Ironclad Wolf collar 21",
+      "type": "pet_equipment",
+      "pet_id": "PET_001",
+      "pet_name": "Ironclad Wolf",
+      "tier": 2,
+      "slot": "collar",
+      "level_required": 25,
+      "rarity": "Rare",
+      "power": 93,
+      "stat_bonus": {
+        "HP": 36,
+        "ATK": 6,
+        "DEF": 6,
+        "MATK": 4,
+        "AGI": 1,
+        "DEX": 1,
+        "LUK": 0
+      },
+      "skill_modifier": {
+        "skill": "Ironclad bond",
+        "value": 4
+      },
+      "source": {
+        "monster_id": "MON_232",
+        "monster_name": "Monster #232",
+        "monster_level": 50,
+        "map_id": "forest_field",
+        "map_name": "Whispering Forest"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Ironclad Wolf; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_022",
+      "name": "Spirit Astral Owl armor 22",
+      "type": "pet_equipment",
+      "pet_id": "PET_002",
+      "pet_name": "Astral Owl",
+      "tier": 2,
+      "slot": "armor",
+      "level_required": 25,
+      "rarity": "Rare",
+      "power": 94,
+      "stat_bonus": {
+        "HP": 37,
+        "ATK": 6,
+        "DEF": 6,
+        "MATK": 4,
+        "AGI": 2,
+        "DEX": 2,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "Astral bond",
+        "value": 4
+      },
+      "source": {
+        "monster_id": "MON_243",
+        "monster_name": "Monster #243",
+        "monster_level": 50,
+        "map_id": "forest_field",
+        "map_name": "Whispering Forest"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Astral Owl; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_023",
+      "name": "Spirit Sky Hawk charm 23",
+      "type": "pet_equipment",
+      "pet_id": "PET_003",
+      "pet_name": "Sky Hawk",
+      "tier": 2,
+      "slot": "charm",
+      "level_required": 25,
+      "rarity": "Rare",
+      "power": 95,
+      "stat_bonus": {
+        "HP": 38,
+        "ATK": 6,
+        "DEF": 6,
+        "MATK": 4,
+        "AGI": 3,
+        "DEX": 3,
+        "LUK": 2
+      },
+      "skill_modifier": {
+        "skill": "Sky bond",
+        "value": 4
+      },
+      "source": {
+        "monster_id": "MON_254",
+        "monster_name": "Monster #254",
+        "monster_level": 50,
+        "map_id": "forest_field",
+        "map_name": "Whispering Forest"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Sky Hawk; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_024",
+      "name": "Spirit Moon Fox weapon 24",
+      "type": "pet_equipment",
+      "pet_id": "PET_004",
+      "pet_name": "Moon Fox",
+      "tier": 2,
+      "slot": "weapon",
+      "level_required": 25,
+      "rarity": "Rare",
+      "power": 96,
+      "stat_bonus": {
+        "HP": 39,
+        "ATK": 6,
+        "DEF": 6,
+        "MATK": 4,
+        "AGI": 4,
+        "DEX": 0,
+        "LUK": 0
+      },
+      "skill_modifier": {
+        "skill": "Moon bond",
+        "value": 4
+      },
+      "source": {
+        "monster_id": "MON_009",
+        "monster_name": "Monster #9",
+        "monster_level": 50,
+        "map_id": "forest_field",
+        "map_name": "Whispering Forest"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Moon Fox; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_025",
+      "name": "Spirit Sacred Lamb pack 25",
+      "type": "pet_equipment",
+      "pet_id": "PET_005",
+      "pet_name": "Sacred Lamb",
+      "tier": 2,
+      "slot": "pack",
+      "level_required": 25,
+      "rarity": "Rare",
+      "power": 97,
+      "stat_bonus": {
+        "HP": 40,
+        "ATK": 6,
+        "DEF": 6,
+        "MATK": 4,
+        "AGI": 0,
+        "DEX": 1,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "Sacred bond",
+        "value": 4
+      },
+      "source": {
+        "monster_id": "MON_020",
+        "monster_name": "Monster #20",
+        "monster_level": 50,
+        "map_id": "forest_field",
+        "map_name": "Whispering Forest"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Sacred Lamb; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_026",
+      "name": "Spirit Copper Badger collar 26",
+      "type": "pet_equipment",
+      "pet_id": "PET_006",
+      "pet_name": "Copper Badger",
+      "tier": 2,
+      "slot": "collar",
+      "level_required": 25,
+      "rarity": "Rare",
+      "power": 85,
+      "stat_bonus": {
+        "HP": 41,
+        "ATK": 6,
+        "DEF": 6,
+        "MATK": 4,
+        "AGI": 1,
+        "DEX": 2,
+        "LUK": 2
+      },
+      "skill_modifier": {
+        "skill": "Copper bond",
+        "value": 4
+      },
+      "source": {
+        "monster_id": "MON_031",
+        "monster_name": "Monster #31",
+        "monster_level": 50,
+        "map_id": "forest_field",
+        "map_name": "Whispering Forest"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Copper Badger; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_027",
+      "name": "Spirit Verdant Lynx armor 27",
+      "type": "pet_equipment",
+      "pet_id": "PET_007",
+      "pet_name": "Verdant Lynx",
+      "tier": 2,
+      "slot": "armor",
+      "level_required": 25,
+      "rarity": "Rare",
+      "power": 86,
+      "stat_bonus": {
+        "HP": 42,
+        "ATK": 6,
+        "DEF": 6,
+        "MATK": 4,
+        "AGI": 2,
+        "DEX": 3,
+        "LUK": 0
+      },
+      "skill_modifier": {
+        "skill": "Verdant bond",
+        "value": 4
+      },
+      "source": {
+        "monster_id": "MON_042",
+        "monster_name": "Monster #42",
+        "monster_level": 50,
+        "map_id": "forest_field",
+        "map_name": "Whispering Forest"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Verdant Lynx; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_028",
+      "name": "Spirit Crimson Hound charm 28",
+      "type": "pet_equipment",
+      "pet_id": "PET_008",
+      "pet_name": "Crimson Hound",
+      "tier": 2,
+      "slot": "charm",
+      "level_required": 25,
+      "rarity": "Rare",
+      "power": 87,
+      "stat_bonus": {
+        "HP": 36,
+        "ATK": 6,
+        "DEF": 6,
+        "MATK": 4,
+        "AGI": 3,
+        "DEX": 0,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "Crimson bond",
+        "value": 4
+      },
+      "source": {
+        "monster_id": "MON_053",
+        "monster_name": "Monster #53",
+        "monster_level": 50,
+        "map_id": "forest_field",
+        "map_name": "Whispering Forest"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Crimson Hound; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_029",
+      "name": "Spirit Frost Hare weapon 29",
+      "type": "pet_equipment",
+      "pet_id": "PET_009",
+      "pet_name": "Frost Hare",
+      "tier": 2,
+      "slot": "weapon",
+      "level_required": 25,
+      "rarity": "Rare",
+      "power": 88,
+      "stat_bonus": {
+        "HP": 37,
+        "ATK": 6,
+        "DEF": 6,
+        "MATK": 4,
+        "AGI": 4,
+        "DEX": 1,
+        "LUK": 2
+      },
+      "skill_modifier": {
+        "skill": "Frost bond",
+        "value": 4
+      },
+      "source": {
+        "monster_id": "MON_064",
+        "monster_name": "Monster #64",
+        "monster_level": 50,
+        "map_id": "forest_field",
+        "map_name": "Whispering Forest"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Frost Hare; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_030",
+      "name": "Spirit Storm Raven pack 30",
+      "type": "pet_equipment",
+      "pet_id": "PET_010",
+      "pet_name": "Storm Raven",
+      "tier": 2,
+      "slot": "pack",
+      "level_required": 25,
+      "rarity": "Rare",
+      "power": 89,
+      "stat_bonus": {
+        "HP": 38,
+        "ATK": 6,
+        "DEF": 6,
+        "MATK": 4,
+        "AGI": 0,
+        "DEX": 2,
+        "LUK": 0
+      },
+      "skill_modifier": {
+        "skill": "Storm bond",
+        "value": 4
+      },
+      "source": {
+        "monster_id": "MON_075",
+        "monster_name": "Monster #75",
+        "monster_level": 50,
+        "map_id": "forest_field",
+        "map_name": "Whispering Forest"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Storm Raven; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_031",
+      "name": "Spirit Sun Beetle collar 31",
+      "type": "pet_equipment",
+      "pet_id": "PET_011",
+      "pet_name": "Sun Beetle",
+      "tier": 2,
+      "slot": "collar",
+      "level_required": 25,
+      "rarity": "Rare",
+      "power": 90,
+      "stat_bonus": {
+        "HP": 39,
+        "ATK": 6,
+        "DEF": 6,
+        "MATK": 4,
+        "AGI": 1,
+        "DEX": 3,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "Sun bond",
+        "value": 4
+      },
+      "source": {
+        "monster_id": "MON_086",
+        "monster_name": "Monster #86",
+        "monster_level": 50,
+        "map_id": "forest_field",
+        "map_name": "Whispering Forest"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Sun Beetle; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_032",
+      "name": "Spirit Abyss Bat armor 32",
+      "type": "pet_equipment",
+      "pet_id": "PET_012",
+      "pet_name": "Abyss Bat",
+      "tier": 2,
+      "slot": "armor",
+      "level_required": 25,
+      "rarity": "Rare",
+      "power": 91,
+      "stat_bonus": {
+        "HP": 40,
+        "ATK": 6,
+        "DEF": 6,
+        "MATK": 4,
+        "AGI": 2,
+        "DEX": 0,
+        "LUK": 2
+      },
+      "skill_modifier": {
+        "skill": "Abyss bond",
+        "value": 4
+      },
+      "source": {
+        "monster_id": "MON_097",
+        "monster_name": "Monster #97",
+        "monster_level": 50,
+        "map_id": "forest_field",
+        "map_name": "Whispering Forest"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Abyss Bat; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_033",
+      "name": "Spirit Rootback Turtle charm 33",
+      "type": "pet_equipment",
+      "pet_id": "PET_013",
+      "pet_name": "Rootback Turtle",
+      "tier": 2,
+      "slot": "charm",
+      "level_required": 25,
+      "rarity": "Rare",
+      "power": 92,
+      "stat_bonus": {
+        "HP": 41,
+        "ATK": 6,
+        "DEF": 6,
+        "MATK": 4,
+        "AGI": 3,
+        "DEX": 1,
+        "LUK": 0
+      },
+      "skill_modifier": {
+        "skill": "Rootback bond",
+        "value": 4
+      },
+      "source": {
+        "monster_id": "MON_108",
+        "monster_name": "Monster #108",
+        "monster_level": 50,
+        "map_id": "forest_field",
+        "map_name": "Whispering Forest"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Rootback Turtle; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_034",
+      "name": "Spirit Gem Golem weapon 34",
+      "type": "pet_equipment",
+      "pet_id": "PET_014",
+      "pet_name": "Gem Golem",
+      "tier": 2,
+      "slot": "weapon",
+      "level_required": 25,
+      "rarity": "Rare",
+      "power": 93,
+      "stat_bonus": {
+        "HP": 42,
+        "ATK": 6,
+        "DEF": 6,
+        "MATK": 4,
+        "AGI": 4,
+        "DEX": 2,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "Gem bond",
+        "value": 4
+      },
+      "source": {
+        "monster_id": "MON_119",
+        "monster_name": "Monster #119",
+        "monster_level": 50,
+        "map_id": "forest_field",
+        "map_name": "Whispering Forest"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Gem Golem; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_035",
+      "name": "Spirit Mist Serpent pack 35",
+      "type": "pet_equipment",
+      "pet_id": "PET_015",
+      "pet_name": "Mist Serpent",
+      "tier": 2,
+      "slot": "pack",
+      "level_required": 25,
+      "rarity": "Rare",
+      "power": 94,
+      "stat_bonus": {
+        "HP": 36,
+        "ATK": 6,
+        "DEF": 6,
+        "MATK": 4,
+        "AGI": 0,
+        "DEX": 3,
+        "LUK": 2
+      },
+      "skill_modifier": {
+        "skill": "Mist bond",
+        "value": 4
+      },
+      "source": {
+        "monster_id": "MON_130",
+        "monster_name": "Monster #130",
+        "monster_level": 50,
+        "map_id": "forest_field",
+        "map_name": "Whispering Forest"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Mist Serpent; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_036",
+      "name": "Spirit Dawn Griffin collar 36",
+      "type": "pet_equipment",
+      "pet_id": "PET_016",
+      "pet_name": "Dawn Griffin",
+      "tier": 2,
+      "slot": "collar",
+      "level_required": 25,
+      "rarity": "Rare",
+      "power": 95,
+      "stat_bonus": {
+        "HP": 37,
+        "ATK": 6,
+        "DEF": 6,
+        "MATK": 4,
+        "AGI": 1,
+        "DEX": 0,
+        "LUK": 0
+      },
+      "skill_modifier": {
+        "skill": "Dawn bond",
+        "value": 4
+      },
+      "source": {
+        "monster_id": "MON_141",
+        "monster_name": "Monster #141",
+        "monster_level": 50,
+        "map_id": "forest_field",
+        "map_name": "Whispering Forest"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Dawn Griffin; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_037",
+      "name": "Spirit Night Panther armor 37",
+      "type": "pet_equipment",
+      "pet_id": "PET_017",
+      "pet_name": "Night Panther",
+      "tier": 2,
+      "slot": "armor",
+      "level_required": 25,
+      "rarity": "Rare",
+      "power": 96,
+      "stat_bonus": {
+        "HP": 38,
+        "ATK": 6,
+        "DEF": 6,
+        "MATK": 4,
+        "AGI": 2,
+        "DEX": 1,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "Night bond",
+        "value": 4
+      },
+      "source": {
+        "monster_id": "MON_152",
+        "monster_name": "Monster #152",
+        "monster_level": 50,
+        "map_id": "forest_field",
+        "map_name": "Whispering Forest"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Night Panther; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_038",
+      "name": "Spirit River Otter charm 38",
+      "type": "pet_equipment",
+      "pet_id": "PET_018",
+      "pet_name": "River Otter",
+      "tier": 2,
+      "slot": "charm",
+      "level_required": 25,
+      "rarity": "Rare",
+      "power": 97,
+      "stat_bonus": {
+        "HP": 39,
+        "ATK": 6,
+        "DEF": 6,
+        "MATK": 4,
+        "AGI": 3,
+        "DEX": 2,
+        "LUK": 2
+      },
+      "skill_modifier": {
+        "skill": "River bond",
+        "value": 4
+      },
+      "source": {
+        "monster_id": "MON_163",
+        "monster_name": "Monster #163",
+        "monster_level": 50,
+        "map_id": "forest_field",
+        "map_name": "Whispering Forest"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for River Otter; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_039",
+      "name": "Spirit Stone Ram weapon 39",
+      "type": "pet_equipment",
+      "pet_id": "PET_019",
+      "pet_name": "Stone Ram",
+      "tier": 2,
+      "slot": "weapon",
+      "level_required": 25,
+      "rarity": "Rare",
+      "power": 85,
+      "stat_bonus": {
+        "HP": 40,
+        "ATK": 6,
+        "DEF": 6,
+        "MATK": 4,
+        "AGI": 4,
+        "DEX": 3,
+        "LUK": 0
+      },
+      "skill_modifier": {
+        "skill": "Stone bond",
+        "value": 4
+      },
+      "source": {
+        "monster_id": "MON_174",
+        "monster_name": "Monster #174",
+        "monster_level": 50,
+        "map_id": "forest_field",
+        "map_name": "Whispering Forest"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Stone Ram; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_040",
+      "name": "Spirit Star Deer pack 40",
+      "type": "pet_equipment",
+      "pet_id": "PET_020",
+      "pet_name": "Star Deer",
+      "tier": 2,
+      "slot": "pack",
+      "level_required": 25,
+      "rarity": "Rare",
+      "power": 86,
+      "stat_bonus": {
+        "HP": 41,
+        "ATK": 6,
+        "DEF": 6,
+        "MATK": 4,
+        "AGI": 0,
+        "DEX": 0,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "Star bond",
+        "value": 4
+      },
+      "source": {
+        "monster_id": "MON_185",
+        "monster_name": "Monster #185",
+        "monster_level": 50,
+        "map_id": "forest_field",
+        "map_name": "Whispering Forest"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Star Deer; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_041",
+      "name": "Moon Ironclad Wolf collar 41",
+      "type": "pet_equipment",
+      "pet_id": "PET_001",
+      "pet_name": "Ironclad Wolf",
+      "tier": 3,
+      "slot": "collar",
+      "level_required": 50,
+      "rarity": "Epic",
+      "power": 112,
+      "stat_bonus": {
+        "HP": 60,
+        "ATK": 9,
+        "DEF": 9,
+        "MATK": 6,
+        "AGI": 1,
+        "DEX": 1,
+        "LUK": 2
+      },
+      "skill_modifier": {
+        "skill": "Ironclad bond",
+        "value": 6
+      },
+      "source": {
+        "monster_id": "MON_196",
+        "monster_name": "Monster #196",
+        "monster_level": 120,
+        "map_id": "mountain_dungeon",
+        "map_name": "Ironheart Vault"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Ironclad Wolf; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_042",
+      "name": "Moon Astral Owl armor 42",
+      "type": "pet_equipment",
+      "pet_id": "PET_002",
+      "pet_name": "Astral Owl",
+      "tier": 3,
+      "slot": "armor",
+      "level_required": 50,
+      "rarity": "Epic",
+      "power": 113,
+      "stat_bonus": {
+        "HP": 54,
+        "ATK": 9,
+        "DEF": 9,
+        "MATK": 6,
+        "AGI": 2,
+        "DEX": 2,
+        "LUK": 0
+      },
+      "skill_modifier": {
+        "skill": "Astral bond",
+        "value": 6
+      },
+      "source": {
+        "monster_id": "MON_207",
+        "monster_name": "Monster #207",
+        "monster_level": 120,
+        "map_id": "mountain_dungeon",
+        "map_name": "Ironheart Vault"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Astral Owl; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_043",
+      "name": "Moon Sky Hawk charm 43",
+      "type": "pet_equipment",
+      "pet_id": "PET_003",
+      "pet_name": "Sky Hawk",
+      "tier": 3,
+      "slot": "charm",
+      "level_required": 50,
+      "rarity": "Epic",
+      "power": 114,
+      "stat_bonus": {
+        "HP": 55,
+        "ATK": 9,
+        "DEF": 9,
+        "MATK": 6,
+        "AGI": 3,
+        "DEX": 3,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "Sky bond",
+        "value": 6
+      },
+      "source": {
+        "monster_id": "MON_218",
+        "monster_name": "Monster #218",
+        "monster_level": 120,
+        "map_id": "mountain_dungeon",
+        "map_name": "Ironheart Vault"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Sky Hawk; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_044",
+      "name": "Moon Moon Fox weapon 44",
+      "type": "pet_equipment",
+      "pet_id": "PET_004",
+      "pet_name": "Moon Fox",
+      "tier": 3,
+      "slot": "weapon",
+      "level_required": 50,
+      "rarity": "Epic",
+      "power": 115,
+      "stat_bonus": {
+        "HP": 56,
+        "ATK": 9,
+        "DEF": 9,
+        "MATK": 6,
+        "AGI": 4,
+        "DEX": 0,
+        "LUK": 2
+      },
+      "skill_modifier": {
+        "skill": "Moon bond",
+        "value": 6
+      },
+      "source": {
+        "monster_id": "MON_229",
+        "monster_name": "Monster #229",
+        "monster_level": 120,
+        "map_id": "mountain_dungeon",
+        "map_name": "Ironheart Vault"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Moon Fox; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_045",
+      "name": "Moon Sacred Lamb pack 45",
+      "type": "pet_equipment",
+      "pet_id": "PET_005",
+      "pet_name": "Sacred Lamb",
+      "tier": 3,
+      "slot": "pack",
+      "level_required": 50,
+      "rarity": "Epic",
+      "power": 116,
+      "stat_bonus": {
+        "HP": 57,
+        "ATK": 9,
+        "DEF": 9,
+        "MATK": 6,
+        "AGI": 0,
+        "DEX": 1,
+        "LUK": 0
+      },
+      "skill_modifier": {
+        "skill": "Sacred bond",
+        "value": 6
+      },
+      "source": {
+        "monster_id": "MON_240",
+        "monster_name": "Monster #240",
+        "monster_level": 120,
+        "map_id": "mountain_dungeon",
+        "map_name": "Ironheart Vault"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Sacred Lamb; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_046",
+      "name": "Moon Copper Badger collar 46",
+      "type": "pet_equipment",
+      "pet_id": "PET_006",
+      "pet_name": "Copper Badger",
+      "tier": 3,
+      "slot": "collar",
+      "level_required": 50,
+      "rarity": "Epic",
+      "power": 117,
+      "stat_bonus": {
+        "HP": 58,
+        "ATK": 9,
+        "DEF": 9,
+        "MATK": 6,
+        "AGI": 1,
+        "DEX": 2,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "Copper bond",
+        "value": 6
+      },
+      "source": {
+        "monster_id": "MON_251",
+        "monster_name": "Monster #251",
+        "monster_level": 120,
+        "map_id": "mountain_dungeon",
+        "map_name": "Ironheart Vault"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Copper Badger; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_047",
+      "name": "Moon Verdant Lynx armor 47",
+      "type": "pet_equipment",
+      "pet_id": "PET_007",
+      "pet_name": "Verdant Lynx",
+      "tier": 3,
+      "slot": "armor",
+      "level_required": 50,
+      "rarity": "Epic",
+      "power": 118,
+      "stat_bonus": {
+        "HP": 59,
+        "ATK": 9,
+        "DEF": 9,
+        "MATK": 6,
+        "AGI": 2,
+        "DEX": 3,
+        "LUK": 2
+      },
+      "skill_modifier": {
+        "skill": "Verdant bond",
+        "value": 6
+      },
+      "source": {
+        "monster_id": "MON_006",
+        "monster_name": "Monster #6",
+        "monster_level": 120,
+        "map_id": "mountain_dungeon",
+        "map_name": "Ironheart Vault"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Verdant Lynx; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_048",
+      "name": "Moon Crimson Hound charm 48",
+      "type": "pet_equipment",
+      "pet_id": "PET_008",
+      "pet_name": "Crimson Hound",
+      "tier": 3,
+      "slot": "charm",
+      "level_required": 50,
+      "rarity": "Epic",
+      "power": 119,
+      "stat_bonus": {
+        "HP": 60,
+        "ATK": 9,
+        "DEF": 9,
+        "MATK": 6,
+        "AGI": 3,
+        "DEX": 0,
+        "LUK": 0
+      },
+      "skill_modifier": {
+        "skill": "Crimson bond",
+        "value": 6
+      },
+      "source": {
+        "monster_id": "MON_017",
+        "monster_name": "Monster #17",
+        "monster_level": 120,
+        "map_id": "mountain_dungeon",
+        "map_name": "Ironheart Vault"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Crimson Hound; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_049",
+      "name": "Moon Frost Hare weapon 49",
+      "type": "pet_equipment",
+      "pet_id": "PET_009",
+      "pet_name": "Frost Hare",
+      "tier": 3,
+      "slot": "weapon",
+      "level_required": 50,
+      "rarity": "Epic",
+      "power": 120,
+      "stat_bonus": {
+        "HP": 54,
+        "ATK": 9,
+        "DEF": 9,
+        "MATK": 6,
+        "AGI": 4,
+        "DEX": 1,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "Frost bond",
+        "value": 6
+      },
+      "source": {
+        "monster_id": "MON_028",
+        "monster_name": "Monster #28",
+        "monster_level": 120,
+        "map_id": "mountain_dungeon",
+        "map_name": "Ironheart Vault"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Frost Hare; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_050",
+      "name": "Moon Storm Raven pack 50",
+      "type": "pet_equipment",
+      "pet_id": "PET_010",
+      "pet_name": "Storm Raven",
+      "tier": 3,
+      "slot": "pack",
+      "level_required": 50,
+      "rarity": "Epic",
+      "power": 121,
+      "stat_bonus": {
+        "HP": 55,
+        "ATK": 9,
+        "DEF": 9,
+        "MATK": 6,
+        "AGI": 0,
+        "DEX": 2,
+        "LUK": 2
+      },
+      "skill_modifier": {
+        "skill": "Storm bond",
+        "value": 6
+      },
+      "source": {
+        "monster_id": "MON_039",
+        "monster_name": "Monster #39",
+        "monster_level": 120,
+        "map_id": "mountain_dungeon",
+        "map_name": "Ironheart Vault"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Storm Raven; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_051",
+      "name": "Moon Sun Beetle collar 51",
+      "type": "pet_equipment",
+      "pet_id": "PET_011",
+      "pet_name": "Sun Beetle",
+      "tier": 3,
+      "slot": "collar",
+      "level_required": 50,
+      "rarity": "Epic",
+      "power": 122,
+      "stat_bonus": {
+        "HP": 56,
+        "ATK": 9,
+        "DEF": 9,
+        "MATK": 6,
+        "AGI": 1,
+        "DEX": 3,
+        "LUK": 0
+      },
+      "skill_modifier": {
+        "skill": "Sun bond",
+        "value": 6
+      },
+      "source": {
+        "monster_id": "MON_050",
+        "monster_name": "Monster #50",
+        "monster_level": 120,
+        "map_id": "mountain_dungeon",
+        "map_name": "Ironheart Vault"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Sun Beetle; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_052",
+      "name": "Moon Abyss Bat armor 52",
+      "type": "pet_equipment",
+      "pet_id": "PET_012",
+      "pet_name": "Abyss Bat",
+      "tier": 3,
+      "slot": "armor",
+      "level_required": 50,
+      "rarity": "Epic",
+      "power": 110,
+      "stat_bonus": {
+        "HP": 57,
+        "ATK": 9,
+        "DEF": 9,
+        "MATK": 6,
+        "AGI": 2,
+        "DEX": 0,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "Abyss bond",
+        "value": 6
+      },
+      "source": {
+        "monster_id": "MON_061",
+        "monster_name": "Monster #61",
+        "monster_level": 120,
+        "map_id": "mountain_dungeon",
+        "map_name": "Ironheart Vault"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Abyss Bat; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_053",
+      "name": "Moon Rootback Turtle charm 53",
+      "type": "pet_equipment",
+      "pet_id": "PET_013",
+      "pet_name": "Rootback Turtle",
+      "tier": 3,
+      "slot": "charm",
+      "level_required": 50,
+      "rarity": "Epic",
+      "power": 111,
+      "stat_bonus": {
+        "HP": 58,
+        "ATK": 9,
+        "DEF": 9,
+        "MATK": 6,
+        "AGI": 3,
+        "DEX": 1,
+        "LUK": 2
+      },
+      "skill_modifier": {
+        "skill": "Rootback bond",
+        "value": 6
+      },
+      "source": {
+        "monster_id": "MON_072",
+        "monster_name": "Monster #72",
+        "monster_level": 120,
+        "map_id": "mountain_dungeon",
+        "map_name": "Ironheart Vault"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Rootback Turtle; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_054",
+      "name": "Moon Gem Golem weapon 54",
+      "type": "pet_equipment",
+      "pet_id": "PET_014",
+      "pet_name": "Gem Golem",
+      "tier": 3,
+      "slot": "weapon",
+      "level_required": 50,
+      "rarity": "Epic",
+      "power": 112,
+      "stat_bonus": {
+        "HP": 59,
+        "ATK": 9,
+        "DEF": 9,
+        "MATK": 6,
+        "AGI": 4,
+        "DEX": 2,
+        "LUK": 0
+      },
+      "skill_modifier": {
+        "skill": "Gem bond",
+        "value": 6
+      },
+      "source": {
+        "monster_id": "MON_083",
+        "monster_name": "Monster #83",
+        "monster_level": 120,
+        "map_id": "mountain_dungeon",
+        "map_name": "Ironheart Vault"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Gem Golem; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_055",
+      "name": "Moon Mist Serpent pack 55",
+      "type": "pet_equipment",
+      "pet_id": "PET_015",
+      "pet_name": "Mist Serpent",
+      "tier": 3,
+      "slot": "pack",
+      "level_required": 50,
+      "rarity": "Epic",
+      "power": 113,
+      "stat_bonus": {
+        "HP": 60,
+        "ATK": 9,
+        "DEF": 9,
+        "MATK": 6,
+        "AGI": 0,
+        "DEX": 3,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "Mist bond",
+        "value": 6
+      },
+      "source": {
+        "monster_id": "MON_094",
+        "monster_name": "Monster #94",
+        "monster_level": 120,
+        "map_id": "mountain_dungeon",
+        "map_name": "Ironheart Vault"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Mist Serpent; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_056",
+      "name": "Moon Dawn Griffin collar 56",
+      "type": "pet_equipment",
+      "pet_id": "PET_016",
+      "pet_name": "Dawn Griffin",
+      "tier": 3,
+      "slot": "collar",
+      "level_required": 50,
+      "rarity": "Epic",
+      "power": 114,
+      "stat_bonus": {
+        "HP": 54,
+        "ATK": 9,
+        "DEF": 9,
+        "MATK": 6,
+        "AGI": 1,
+        "DEX": 0,
+        "LUK": 2
+      },
+      "skill_modifier": {
+        "skill": "Dawn bond",
+        "value": 6
+      },
+      "source": {
+        "monster_id": "MON_105",
+        "monster_name": "Monster #105",
+        "monster_level": 120,
+        "map_id": "mountain_dungeon",
+        "map_name": "Ironheart Vault"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Dawn Griffin; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_057",
+      "name": "Moon Night Panther armor 57",
+      "type": "pet_equipment",
+      "pet_id": "PET_017",
+      "pet_name": "Night Panther",
+      "tier": 3,
+      "slot": "armor",
+      "level_required": 50,
+      "rarity": "Epic",
+      "power": 115,
+      "stat_bonus": {
+        "HP": 55,
+        "ATK": 9,
+        "DEF": 9,
+        "MATK": 6,
+        "AGI": 2,
+        "DEX": 1,
+        "LUK": 0
+      },
+      "skill_modifier": {
+        "skill": "Night bond",
+        "value": 6
+      },
+      "source": {
+        "monster_id": "MON_116",
+        "monster_name": "Monster #116",
+        "monster_level": 120,
+        "map_id": "mountain_dungeon",
+        "map_name": "Ironheart Vault"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Night Panther; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_058",
+      "name": "Moon River Otter charm 58",
+      "type": "pet_equipment",
+      "pet_id": "PET_018",
+      "pet_name": "River Otter",
+      "tier": 3,
+      "slot": "charm",
+      "level_required": 50,
+      "rarity": "Epic",
+      "power": 116,
+      "stat_bonus": {
+        "HP": 56,
+        "ATK": 9,
+        "DEF": 9,
+        "MATK": 6,
+        "AGI": 3,
+        "DEX": 2,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "River bond",
+        "value": 6
+      },
+      "source": {
+        "monster_id": "MON_127",
+        "monster_name": "Monster #127",
+        "monster_level": 120,
+        "map_id": "mountain_dungeon",
+        "map_name": "Ironheart Vault"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for River Otter; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_059",
+      "name": "Moon Stone Ram weapon 59",
+      "type": "pet_equipment",
+      "pet_id": "PET_019",
+      "pet_name": "Stone Ram",
+      "tier": 3,
+      "slot": "weapon",
+      "level_required": 50,
+      "rarity": "Epic",
+      "power": 117,
+      "stat_bonus": {
+        "HP": 57,
+        "ATK": 9,
+        "DEF": 9,
+        "MATK": 6,
+        "AGI": 4,
+        "DEX": 3,
+        "LUK": 2
+      },
+      "skill_modifier": {
+        "skill": "Stone bond",
+        "value": 6
+      },
+      "source": {
+        "monster_id": "MON_138",
+        "monster_name": "Monster #138",
+        "monster_level": 120,
+        "map_id": "mountain_dungeon",
+        "map_name": "Ironheart Vault"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Stone Ram; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_060",
+      "name": "Moon Star Deer pack 60",
+      "type": "pet_equipment",
+      "pet_id": "PET_020",
+      "pet_name": "Star Deer",
+      "tier": 3,
+      "slot": "pack",
+      "level_required": 50,
+      "rarity": "Epic",
+      "power": 118,
+      "stat_bonus": {
+        "HP": 58,
+        "ATK": 9,
+        "DEF": 9,
+        "MATK": 6,
+        "AGI": 0,
+        "DEX": 0,
+        "LUK": 0
+      },
+      "skill_modifier": {
+        "skill": "Star bond",
+        "value": 6
+      },
+      "source": {
+        "monster_id": "MON_149",
+        "monster_name": "Monster #149",
+        "monster_level": 120,
+        "map_id": "mountain_dungeon",
+        "map_name": "Ironheart Vault"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Star Deer; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_061",
+      "name": "Royal Ironclad Wolf collar 61",
+      "type": "pet_equipment",
+      "pet_id": "PET_001",
+      "pet_name": "Ironclad Wolf",
+      "tier": 4,
+      "slot": "collar",
+      "level_required": 150,
+      "rarity": "Legendary",
+      "power": 144,
+      "stat_bonus": {
+        "HP": 77,
+        "ATK": 12,
+        "DEF": 12,
+        "MATK": 8,
+        "AGI": 1,
+        "DEX": 1,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "Ironclad bond",
+        "value": 8
+      },
+      "source": {
+        "monster_id": "MON_160",
+        "monster_name": "Monster #160",
+        "monster_level": 230,
+        "map_id": "dragon_sanctum",
+        "map_name": "Dragon Sanctum"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Ironclad Wolf; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_062",
+      "name": "Royal Astral Owl armor 62",
+      "type": "pet_equipment",
+      "pet_id": "PET_002",
+      "pet_name": "Astral Owl",
+      "tier": 4,
+      "slot": "armor",
+      "level_required": 150,
+      "rarity": "Legendary",
+      "power": 145,
+      "stat_bonus": {
+        "HP": 78,
+        "ATK": 12,
+        "DEF": 12,
+        "MATK": 8,
+        "AGI": 2,
+        "DEX": 2,
+        "LUK": 2
+      },
+      "skill_modifier": {
+        "skill": "Astral bond",
+        "value": 8
+      },
+      "source": {
+        "monster_id": "MON_171",
+        "monster_name": "Monster #171",
+        "monster_level": 230,
+        "map_id": "dragon_sanctum",
+        "map_name": "Dragon Sanctum"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Astral Owl; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_063",
+      "name": "Royal Sky Hawk charm 63",
+      "type": "pet_equipment",
+      "pet_id": "PET_003",
+      "pet_name": "Sky Hawk",
+      "tier": 4,
+      "slot": "charm",
+      "level_required": 150,
+      "rarity": "Legendary",
+      "power": 146,
+      "stat_bonus": {
+        "HP": 72,
+        "ATK": 12,
+        "DEF": 12,
+        "MATK": 8,
+        "AGI": 3,
+        "DEX": 3,
+        "LUK": 0
+      },
+      "skill_modifier": {
+        "skill": "Sky bond",
+        "value": 8
+      },
+      "source": {
+        "monster_id": "MON_182",
+        "monster_name": "Monster #182",
+        "monster_level": 230,
+        "map_id": "dragon_sanctum",
+        "map_name": "Dragon Sanctum"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Sky Hawk; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_064",
+      "name": "Royal Moon Fox weapon 64",
+      "type": "pet_equipment",
+      "pet_id": "PET_004",
+      "pet_name": "Moon Fox",
+      "tier": 4,
+      "slot": "weapon",
+      "level_required": 150,
+      "rarity": "Legendary",
+      "power": 147,
+      "stat_bonus": {
+        "HP": 73,
+        "ATK": 12,
+        "DEF": 12,
+        "MATK": 8,
+        "AGI": 4,
+        "DEX": 0,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "Moon bond",
+        "value": 8
+      },
+      "source": {
+        "monster_id": "MON_193",
+        "monster_name": "Monster #193",
+        "monster_level": 230,
+        "map_id": "dragon_sanctum",
+        "map_name": "Dragon Sanctum"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Moon Fox; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_065",
+      "name": "Royal Sacred Lamb pack 65",
+      "type": "pet_equipment",
+      "pet_id": "PET_005",
+      "pet_name": "Sacred Lamb",
+      "tier": 4,
+      "slot": "pack",
+      "level_required": 150,
+      "rarity": "Legendary",
+      "power": 135,
+      "stat_bonus": {
+        "HP": 74,
+        "ATK": 12,
+        "DEF": 12,
+        "MATK": 8,
+        "AGI": 0,
+        "DEX": 1,
+        "LUK": 2
+      },
+      "skill_modifier": {
+        "skill": "Sacred bond",
+        "value": 8
+      },
+      "source": {
+        "monster_id": "MON_204",
+        "monster_name": "Monster #204",
+        "monster_level": 230,
+        "map_id": "dragon_sanctum",
+        "map_name": "Dragon Sanctum"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Sacred Lamb; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_066",
+      "name": "Royal Copper Badger collar 66",
+      "type": "pet_equipment",
+      "pet_id": "PET_006",
+      "pet_name": "Copper Badger",
+      "tier": 4,
+      "slot": "collar",
+      "level_required": 150,
+      "rarity": "Legendary",
+      "power": 136,
+      "stat_bonus": {
+        "HP": 75,
+        "ATK": 12,
+        "DEF": 12,
+        "MATK": 8,
+        "AGI": 1,
+        "DEX": 2,
+        "LUK": 0
+      },
+      "skill_modifier": {
+        "skill": "Copper bond",
+        "value": 8
+      },
+      "source": {
+        "monster_id": "MON_215",
+        "monster_name": "Monster #215",
+        "monster_level": 230,
+        "map_id": "dragon_sanctum",
+        "map_name": "Dragon Sanctum"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Copper Badger; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_067",
+      "name": "Royal Verdant Lynx armor 67",
+      "type": "pet_equipment",
+      "pet_id": "PET_007",
+      "pet_name": "Verdant Lynx",
+      "tier": 4,
+      "slot": "armor",
+      "level_required": 150,
+      "rarity": "Legendary",
+      "power": 137,
+      "stat_bonus": {
+        "HP": 76,
+        "ATK": 12,
+        "DEF": 12,
+        "MATK": 8,
+        "AGI": 2,
+        "DEX": 3,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "Verdant bond",
+        "value": 8
+      },
+      "source": {
+        "monster_id": "MON_226",
+        "monster_name": "Monster #226",
+        "monster_level": 230,
+        "map_id": "dragon_sanctum",
+        "map_name": "Dragon Sanctum"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Verdant Lynx; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_068",
+      "name": "Royal Crimson Hound charm 68",
+      "type": "pet_equipment",
+      "pet_id": "PET_008",
+      "pet_name": "Crimson Hound",
+      "tier": 4,
+      "slot": "charm",
+      "level_required": 150,
+      "rarity": "Legendary",
+      "power": 138,
+      "stat_bonus": {
+        "HP": 77,
+        "ATK": 12,
+        "DEF": 12,
+        "MATK": 8,
+        "AGI": 3,
+        "DEX": 0,
+        "LUK": 2
+      },
+      "skill_modifier": {
+        "skill": "Crimson bond",
+        "value": 8
+      },
+      "source": {
+        "monster_id": "MON_237",
+        "monster_name": "Monster #237",
+        "monster_level": 230,
+        "map_id": "dragon_sanctum",
+        "map_name": "Dragon Sanctum"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Crimson Hound; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_069",
+      "name": "Royal Frost Hare weapon 69",
+      "type": "pet_equipment",
+      "pet_id": "PET_009",
+      "pet_name": "Frost Hare",
+      "tier": 4,
+      "slot": "weapon",
+      "level_required": 150,
+      "rarity": "Legendary",
+      "power": 139,
+      "stat_bonus": {
+        "HP": 78,
+        "ATK": 12,
+        "DEF": 12,
+        "MATK": 8,
+        "AGI": 4,
+        "DEX": 1,
+        "LUK": 0
+      },
+      "skill_modifier": {
+        "skill": "Frost bond",
+        "value": 8
+      },
+      "source": {
+        "monster_id": "MON_248",
+        "monster_name": "Monster #248",
+        "monster_level": 230,
+        "map_id": "dragon_sanctum",
+        "map_name": "Dragon Sanctum"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Frost Hare; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_070",
+      "name": "Royal Storm Raven pack 70",
+      "type": "pet_equipment",
+      "pet_id": "PET_010",
+      "pet_name": "Storm Raven",
+      "tier": 4,
+      "slot": "pack",
+      "level_required": 150,
+      "rarity": "Legendary",
+      "power": 140,
+      "stat_bonus": {
+        "HP": 72,
+        "ATK": 12,
+        "DEF": 12,
+        "MATK": 8,
+        "AGI": 0,
+        "DEX": 2,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "Storm bond",
+        "value": 8
+      },
+      "source": {
+        "monster_id": "MON_003",
+        "monster_name": "Monster #3",
+        "monster_level": 230,
+        "map_id": "dragon_sanctum",
+        "map_name": "Dragon Sanctum"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Storm Raven; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_071",
+      "name": "Royal Sun Beetle collar 71",
+      "type": "pet_equipment",
+      "pet_id": "PET_011",
+      "pet_name": "Sun Beetle",
+      "tier": 4,
+      "slot": "collar",
+      "level_required": 150,
+      "rarity": "Legendary",
+      "power": 141,
+      "stat_bonus": {
+        "HP": 73,
+        "ATK": 12,
+        "DEF": 12,
+        "MATK": 8,
+        "AGI": 1,
+        "DEX": 3,
+        "LUK": 2
+      },
+      "skill_modifier": {
+        "skill": "Sun bond",
+        "value": 8
+      },
+      "source": {
+        "monster_id": "MON_014",
+        "monster_name": "Monster #14",
+        "monster_level": 230,
+        "map_id": "dragon_sanctum",
+        "map_name": "Dragon Sanctum"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Sun Beetle; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_072",
+      "name": "Royal Abyss Bat armor 72",
+      "type": "pet_equipment",
+      "pet_id": "PET_012",
+      "pet_name": "Abyss Bat",
+      "tier": 4,
+      "slot": "armor",
+      "level_required": 150,
+      "rarity": "Legendary",
+      "power": 142,
+      "stat_bonus": {
+        "HP": 74,
+        "ATK": 12,
+        "DEF": 12,
+        "MATK": 8,
+        "AGI": 2,
+        "DEX": 0,
+        "LUK": 0
+      },
+      "skill_modifier": {
+        "skill": "Abyss bond",
+        "value": 8
+      },
+      "source": {
+        "monster_id": "MON_025",
+        "monster_name": "Monster #25",
+        "monster_level": 230,
+        "map_id": "dragon_sanctum",
+        "map_name": "Dragon Sanctum"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Abyss Bat; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_073",
+      "name": "Royal Rootback Turtle charm 73",
+      "type": "pet_equipment",
+      "pet_id": "PET_013",
+      "pet_name": "Rootback Turtle",
+      "tier": 4,
+      "slot": "charm",
+      "level_required": 150,
+      "rarity": "Legendary",
+      "power": 143,
+      "stat_bonus": {
+        "HP": 75,
+        "ATK": 12,
+        "DEF": 12,
+        "MATK": 8,
+        "AGI": 3,
+        "DEX": 1,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "Rootback bond",
+        "value": 8
+      },
+      "source": {
+        "monster_id": "MON_036",
+        "monster_name": "Monster #36",
+        "monster_level": 230,
+        "map_id": "dragon_sanctum",
+        "map_name": "Dragon Sanctum"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Rootback Turtle; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_074",
+      "name": "Royal Gem Golem weapon 74",
+      "type": "pet_equipment",
+      "pet_id": "PET_014",
+      "pet_name": "Gem Golem",
+      "tier": 4,
+      "slot": "weapon",
+      "level_required": 150,
+      "rarity": "Legendary",
+      "power": 144,
+      "stat_bonus": {
+        "HP": 76,
+        "ATK": 12,
+        "DEF": 12,
+        "MATK": 8,
+        "AGI": 4,
+        "DEX": 2,
+        "LUK": 2
+      },
+      "skill_modifier": {
+        "skill": "Gem bond",
+        "value": 8
+      },
+      "source": {
+        "monster_id": "MON_047",
+        "monster_name": "Monster #47",
+        "monster_level": 230,
+        "map_id": "dragon_sanctum",
+        "map_name": "Dragon Sanctum"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Gem Golem; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_075",
+      "name": "Royal Mist Serpent pack 75",
+      "type": "pet_equipment",
+      "pet_id": "PET_015",
+      "pet_name": "Mist Serpent",
+      "tier": 4,
+      "slot": "pack",
+      "level_required": 150,
+      "rarity": "Legendary",
+      "power": 145,
+      "stat_bonus": {
+        "HP": 77,
+        "ATK": 12,
+        "DEF": 12,
+        "MATK": 8,
+        "AGI": 0,
+        "DEX": 3,
+        "LUK": 0
+      },
+      "skill_modifier": {
+        "skill": "Mist bond",
+        "value": 8
+      },
+      "source": {
+        "monster_id": "MON_058",
+        "monster_name": "Monster #58",
+        "monster_level": 230,
+        "map_id": "dragon_sanctum",
+        "map_name": "Dragon Sanctum"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Mist Serpent; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_076",
+      "name": "Royal Dawn Griffin collar 76",
+      "type": "pet_equipment",
+      "pet_id": "PET_016",
+      "pet_name": "Dawn Griffin",
+      "tier": 4,
+      "slot": "collar",
+      "level_required": 150,
+      "rarity": "Legendary",
+      "power": 146,
+      "stat_bonus": {
+        "HP": 78,
+        "ATK": 12,
+        "DEF": 12,
+        "MATK": 8,
+        "AGI": 1,
+        "DEX": 0,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "Dawn bond",
+        "value": 8
+      },
+      "source": {
+        "monster_id": "MON_069",
+        "monster_name": "Monster #69",
+        "monster_level": 230,
+        "map_id": "dragon_sanctum",
+        "map_name": "Dragon Sanctum"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Dawn Griffin; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_077",
+      "name": "Royal Night Panther armor 77",
+      "type": "pet_equipment",
+      "pet_id": "PET_017",
+      "pet_name": "Night Panther",
+      "tier": 4,
+      "slot": "armor",
+      "level_required": 150,
+      "rarity": "Legendary",
+      "power": 147,
+      "stat_bonus": {
+        "HP": 72,
+        "ATK": 12,
+        "DEF": 12,
+        "MATK": 8,
+        "AGI": 2,
+        "DEX": 1,
+        "LUK": 2
+      },
+      "skill_modifier": {
+        "skill": "Night bond",
+        "value": 8
+      },
+      "source": {
+        "monster_id": "MON_080",
+        "monster_name": "Monster #80",
+        "monster_level": 230,
+        "map_id": "dragon_sanctum",
+        "map_name": "Dragon Sanctum"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Night Panther; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_078",
+      "name": "Royal River Otter charm 78",
+      "type": "pet_equipment",
+      "pet_id": "PET_018",
+      "pet_name": "River Otter",
+      "tier": 4,
+      "slot": "charm",
+      "level_required": 150,
+      "rarity": "Legendary",
+      "power": 135,
+      "stat_bonus": {
+        "HP": 73,
+        "ATK": 12,
+        "DEF": 12,
+        "MATK": 8,
+        "AGI": 3,
+        "DEX": 2,
+        "LUK": 0
+      },
+      "skill_modifier": {
+        "skill": "River bond",
+        "value": 8
+      },
+      "source": {
+        "monster_id": "MON_091",
+        "monster_name": "Monster #91",
+        "monster_level": 230,
+        "map_id": "dragon_sanctum",
+        "map_name": "Dragon Sanctum"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for River Otter; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_079",
+      "name": "Royal Stone Ram weapon 79",
+      "type": "pet_equipment",
+      "pet_id": "PET_019",
+      "pet_name": "Stone Ram",
+      "tier": 4,
+      "slot": "weapon",
+      "level_required": 150,
+      "rarity": "Legendary",
+      "power": 136,
+      "stat_bonus": {
+        "HP": 74,
+        "ATK": 12,
+        "DEF": 12,
+        "MATK": 8,
+        "AGI": 4,
+        "DEX": 3,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "Stone bond",
+        "value": 8
+      },
+      "source": {
+        "monster_id": "MON_102",
+        "monster_name": "Monster #102",
+        "monster_level": 230,
+        "map_id": "dragon_sanctum",
+        "map_name": "Dragon Sanctum"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Stone Ram; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_080",
+      "name": "Royal Star Deer pack 80",
+      "type": "pet_equipment",
+      "pet_id": "PET_020",
+      "pet_name": "Star Deer",
+      "tier": 4,
+      "slot": "pack",
+      "level_required": 150,
+      "rarity": "Legendary",
+      "power": 137,
+      "stat_bonus": {
+        "HP": 75,
+        "ATK": 12,
+        "DEF": 12,
+        "MATK": 8,
+        "AGI": 0,
+        "DEX": 0,
+        "LUK": 2
+      },
+      "skill_modifier": {
+        "skill": "Star bond",
+        "value": 8
+      },
+      "source": {
+        "monster_id": "MON_113",
+        "monster_name": "Monster #113",
+        "monster_level": 230,
+        "map_id": "dragon_sanctum",
+        "map_name": "Dragon Sanctum"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Star Deer; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_081",
+      "name": "Worldroot Ironclad Wolf collar 81",
+      "type": "pet_equipment",
+      "pet_id": "PET_001",
+      "pet_name": "Ironclad Wolf",
+      "tier": 5,
+      "slot": "collar",
+      "level_required": 200,
+      "rarity": "Mythic",
+      "power": 163,
+      "stat_bonus": {
+        "HP": 94,
+        "ATK": 15,
+        "DEF": 15,
+        "MATK": 10,
+        "AGI": 1,
+        "DEX": 1,
+        "LUK": 0
+      },
+      "skill_modifier": {
+        "skill": "Ironclad bond",
+        "value": 10
+      },
+      "source": {
+        "monster_id": "MON_124",
+        "monster_name": "Monster #124",
+        "monster_level": 300,
+        "map_id": "worldboss_altar",
+        "map_name": "Worldboss Altar"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Ironclad Wolf; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_082",
+      "name": "Worldroot Astral Owl armor 82",
+      "type": "pet_equipment",
+      "pet_id": "PET_002",
+      "pet_name": "Astral Owl",
+      "tier": 5,
+      "slot": "armor",
+      "level_required": 200,
+      "rarity": "Mythic",
+      "power": 164,
+      "stat_bonus": {
+        "HP": 95,
+        "ATK": 15,
+        "DEF": 15,
+        "MATK": 10,
+        "AGI": 2,
+        "DEX": 2,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "Astral bond",
+        "value": 10
+      },
+      "source": {
+        "monster_id": "MON_135",
+        "monster_name": "Monster #135",
+        "monster_level": 300,
+        "map_id": "worldboss_altar",
+        "map_name": "Worldboss Altar"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Astral Owl; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_083",
+      "name": "Worldroot Sky Hawk charm 83",
+      "type": "pet_equipment",
+      "pet_id": "PET_003",
+      "pet_name": "Sky Hawk",
+      "tier": 5,
+      "slot": "charm",
+      "level_required": 200,
+      "rarity": "Mythic",
+      "power": 165,
+      "stat_bonus": {
+        "HP": 96,
+        "ATK": 15,
+        "DEF": 15,
+        "MATK": 10,
+        "AGI": 3,
+        "DEX": 3,
+        "LUK": 2
+      },
+      "skill_modifier": {
+        "skill": "Sky bond",
+        "value": 10
+      },
+      "source": {
+        "monster_id": "MON_146",
+        "monster_name": "Monster #146",
+        "monster_level": 300,
+        "map_id": "worldboss_altar",
+        "map_name": "Worldboss Altar"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Sky Hawk; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_084",
+      "name": "Worldroot Moon Fox weapon 84",
+      "type": "pet_equipment",
+      "pet_id": "PET_004",
+      "pet_name": "Moon Fox",
+      "tier": 5,
+      "slot": "weapon",
+      "level_required": 200,
+      "rarity": "Mythic",
+      "power": 166,
+      "stat_bonus": {
+        "HP": 90,
+        "ATK": 15,
+        "DEF": 15,
+        "MATK": 10,
+        "AGI": 4,
+        "DEX": 0,
+        "LUK": 0
+      },
+      "skill_modifier": {
+        "skill": "Moon bond",
+        "value": 10
+      },
+      "source": {
+        "monster_id": "MON_157",
+        "monster_name": "Monster #157",
+        "monster_level": 300,
+        "map_id": "worldboss_altar",
+        "map_name": "Worldboss Altar"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Moon Fox; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_085",
+      "name": "Worldroot Sacred Lamb pack 85",
+      "type": "pet_equipment",
+      "pet_id": "PET_005",
+      "pet_name": "Sacred Lamb",
+      "tier": 5,
+      "slot": "pack",
+      "level_required": 200,
+      "rarity": "Mythic",
+      "power": 167,
+      "stat_bonus": {
+        "HP": 91,
+        "ATK": 15,
+        "DEF": 15,
+        "MATK": 10,
+        "AGI": 0,
+        "DEX": 1,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "Sacred bond",
+        "value": 10
+      },
+      "source": {
+        "monster_id": "MON_168",
+        "monster_name": "Monster #168",
+        "monster_level": 300,
+        "map_id": "worldboss_altar",
+        "map_name": "Worldboss Altar"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Sacred Lamb; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_086",
+      "name": "Worldroot Copper Badger collar 86",
+      "type": "pet_equipment",
+      "pet_id": "PET_006",
+      "pet_name": "Copper Badger",
+      "tier": 5,
+      "slot": "collar",
+      "level_required": 200,
+      "rarity": "Mythic",
+      "power": 168,
+      "stat_bonus": {
+        "HP": 92,
+        "ATK": 15,
+        "DEF": 15,
+        "MATK": 10,
+        "AGI": 1,
+        "DEX": 2,
+        "LUK": 2
+      },
+      "skill_modifier": {
+        "skill": "Copper bond",
+        "value": 10
+      },
+      "source": {
+        "monster_id": "MON_179",
+        "monster_name": "Monster #179",
+        "monster_level": 300,
+        "map_id": "worldboss_altar",
+        "map_name": "Worldboss Altar"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Copper Badger; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_087",
+      "name": "Worldroot Verdant Lynx armor 87",
+      "type": "pet_equipment",
+      "pet_id": "PET_007",
+      "pet_name": "Verdant Lynx",
+      "tier": 5,
+      "slot": "armor",
+      "level_required": 200,
+      "rarity": "Mythic",
+      "power": 169,
+      "stat_bonus": {
+        "HP": 93,
+        "ATK": 15,
+        "DEF": 15,
+        "MATK": 10,
+        "AGI": 2,
+        "DEX": 3,
+        "LUK": 0
+      },
+      "skill_modifier": {
+        "skill": "Verdant bond",
+        "value": 10
+      },
+      "source": {
+        "monster_id": "MON_190",
+        "monster_name": "Monster #190",
+        "monster_level": 300,
+        "map_id": "worldboss_altar",
+        "map_name": "Worldboss Altar"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Verdant Lynx; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_088",
+      "name": "Worldroot Crimson Hound charm 88",
+      "type": "pet_equipment",
+      "pet_id": "PET_008",
+      "pet_name": "Crimson Hound",
+      "tier": 5,
+      "slot": "charm",
+      "level_required": 200,
+      "rarity": "Mythic",
+      "power": 170,
+      "stat_bonus": {
+        "HP": 94,
+        "ATK": 15,
+        "DEF": 15,
+        "MATK": 10,
+        "AGI": 3,
+        "DEX": 0,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "Crimson bond",
+        "value": 10
+      },
+      "source": {
+        "monster_id": "MON_201",
+        "monster_name": "Monster #201",
+        "monster_level": 300,
+        "map_id": "worldboss_altar",
+        "map_name": "Worldboss Altar"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Crimson Hound; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_089",
+      "name": "Worldroot Frost Hare weapon 89",
+      "type": "pet_equipment",
+      "pet_id": "PET_009",
+      "pet_name": "Frost Hare",
+      "tier": 5,
+      "slot": "weapon",
+      "level_required": 200,
+      "rarity": "Mythic",
+      "power": 171,
+      "stat_bonus": {
+        "HP": 95,
+        "ATK": 15,
+        "DEF": 15,
+        "MATK": 10,
+        "AGI": 4,
+        "DEX": 1,
+        "LUK": 2
+      },
+      "skill_modifier": {
+        "skill": "Frost bond",
+        "value": 10
+      },
+      "source": {
+        "monster_id": "MON_212",
+        "monster_name": "Monster #212",
+        "monster_level": 300,
+        "map_id": "worldboss_altar",
+        "map_name": "Worldboss Altar"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Frost Hare; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_090",
+      "name": "Worldroot Storm Raven pack 90",
+      "type": "pet_equipment",
+      "pet_id": "PET_010",
+      "pet_name": "Storm Raven",
+      "tier": 5,
+      "slot": "pack",
+      "level_required": 200,
+      "rarity": "Mythic",
+      "power": 172,
+      "stat_bonus": {
+        "HP": 96,
+        "ATK": 15,
+        "DEF": 15,
+        "MATK": 10,
+        "AGI": 0,
+        "DEX": 2,
+        "LUK": 0
+      },
+      "skill_modifier": {
+        "skill": "Storm bond",
+        "value": 10
+      },
+      "source": {
+        "monster_id": "MON_223",
+        "monster_name": "Monster #223",
+        "monster_level": 300,
+        "map_id": "worldboss_altar",
+        "map_name": "Worldboss Altar"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Storm Raven; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_091",
+      "name": "Worldroot Sun Beetle collar 91",
+      "type": "pet_equipment",
+      "pet_id": "PET_011",
+      "pet_name": "Sun Beetle",
+      "tier": 5,
+      "slot": "collar",
+      "level_required": 200,
+      "rarity": "Mythic",
+      "power": 160,
+      "stat_bonus": {
+        "HP": 90,
+        "ATK": 15,
+        "DEF": 15,
+        "MATK": 10,
+        "AGI": 1,
+        "DEX": 3,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "Sun bond",
+        "value": 10
+      },
+      "source": {
+        "monster_id": "MON_234",
+        "monster_name": "Monster #234",
+        "monster_level": 300,
+        "map_id": "worldboss_altar",
+        "map_name": "Worldboss Altar"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Sun Beetle; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_092",
+      "name": "Worldroot Abyss Bat armor 92",
+      "type": "pet_equipment",
+      "pet_id": "PET_012",
+      "pet_name": "Abyss Bat",
+      "tier": 5,
+      "slot": "armor",
+      "level_required": 200,
+      "rarity": "Mythic",
+      "power": 161,
+      "stat_bonus": {
+        "HP": 91,
+        "ATK": 15,
+        "DEF": 15,
+        "MATK": 10,
+        "AGI": 2,
+        "DEX": 0,
+        "LUK": 2
+      },
+      "skill_modifier": {
+        "skill": "Abyss bond",
+        "value": 10
+      },
+      "source": {
+        "monster_id": "MON_245",
+        "monster_name": "Monster #245",
+        "monster_level": 300,
+        "map_id": "worldboss_altar",
+        "map_name": "Worldboss Altar"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Abyss Bat; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_093",
+      "name": "Worldroot Rootback Turtle charm 93",
+      "type": "pet_equipment",
+      "pet_id": "PET_013",
+      "pet_name": "Rootback Turtle",
+      "tier": 5,
+      "slot": "charm",
+      "level_required": 200,
+      "rarity": "Mythic",
+      "power": 162,
+      "stat_bonus": {
+        "HP": 92,
+        "ATK": 15,
+        "DEF": 15,
+        "MATK": 10,
+        "AGI": 3,
+        "DEX": 1,
+        "LUK": 0
+      },
+      "skill_modifier": {
+        "skill": "Rootback bond",
+        "value": 10
+      },
+      "source": {
+        "monster_id": "MON_256",
+        "monster_name": "Monster #256",
+        "monster_level": 300,
+        "map_id": "worldboss_altar",
+        "map_name": "Worldboss Altar"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Rootback Turtle; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_094",
+      "name": "Worldroot Gem Golem weapon 94",
+      "type": "pet_equipment",
+      "pet_id": "PET_014",
+      "pet_name": "Gem Golem",
+      "tier": 5,
+      "slot": "weapon",
+      "level_required": 200,
+      "rarity": "Mythic",
+      "power": 163,
+      "stat_bonus": {
+        "HP": 93,
+        "ATK": 15,
+        "DEF": 15,
+        "MATK": 10,
+        "AGI": 4,
+        "DEX": 2,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "Gem bond",
+        "value": 10
+      },
+      "source": {
+        "monster_id": "MON_011",
+        "monster_name": "Monster #11",
+        "monster_level": 300,
+        "map_id": "worldboss_altar",
+        "map_name": "Worldboss Altar"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Gem Golem; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_095",
+      "name": "Worldroot Mist Serpent pack 95",
+      "type": "pet_equipment",
+      "pet_id": "PET_015",
+      "pet_name": "Mist Serpent",
+      "tier": 5,
+      "slot": "pack",
+      "level_required": 200,
+      "rarity": "Mythic",
+      "power": 164,
+      "stat_bonus": {
+        "HP": 94,
+        "ATK": 15,
+        "DEF": 15,
+        "MATK": 10,
+        "AGI": 0,
+        "DEX": 3,
+        "LUK": 2
+      },
+      "skill_modifier": {
+        "skill": "Mist bond",
+        "value": 10
+      },
+      "source": {
+        "monster_id": "MON_022",
+        "monster_name": "Monster #22",
+        "monster_level": 300,
+        "map_id": "worldboss_altar",
+        "map_name": "Worldboss Altar"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Mist Serpent; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_096",
+      "name": "Worldroot Dawn Griffin collar 96",
+      "type": "pet_equipment",
+      "pet_id": "PET_016",
+      "pet_name": "Dawn Griffin",
+      "tier": 5,
+      "slot": "collar",
+      "level_required": 200,
+      "rarity": "Mythic",
+      "power": 165,
+      "stat_bonus": {
+        "HP": 95,
+        "ATK": 15,
+        "DEF": 15,
+        "MATK": 10,
+        "AGI": 1,
+        "DEX": 0,
+        "LUK": 0
+      },
+      "skill_modifier": {
+        "skill": "Dawn bond",
+        "value": 10
+      },
+      "source": {
+        "monster_id": "MON_033",
+        "monster_name": "Monster #33",
+        "monster_level": 300,
+        "map_id": "worldboss_altar",
+        "map_name": "Worldboss Altar"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Dawn Griffin; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_097",
+      "name": "Worldroot Night Panther armor 97",
+      "type": "pet_equipment",
+      "pet_id": "PET_017",
+      "pet_name": "Night Panther",
+      "tier": 5,
+      "slot": "armor",
+      "level_required": 200,
+      "rarity": "Mythic",
+      "power": 166,
+      "stat_bonus": {
+        "HP": 96,
+        "ATK": 15,
+        "DEF": 15,
+        "MATK": 10,
+        "AGI": 2,
+        "DEX": 1,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "Night bond",
+        "value": 10
+      },
+      "source": {
+        "monster_id": "MON_044",
+        "monster_name": "Monster #44",
+        "monster_level": 300,
+        "map_id": "worldboss_altar",
+        "map_name": "Worldboss Altar"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Night Panther; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_098",
+      "name": "Worldroot River Otter charm 98",
+      "type": "pet_equipment",
+      "pet_id": "PET_018",
+      "pet_name": "River Otter",
+      "tier": 5,
+      "slot": "charm",
+      "level_required": 200,
+      "rarity": "Mythic",
+      "power": 167,
+      "stat_bonus": {
+        "HP": 90,
+        "ATK": 15,
+        "DEF": 15,
+        "MATK": 10,
+        "AGI": 3,
+        "DEX": 2,
+        "LUK": 2
+      },
+      "skill_modifier": {
+        "skill": "River bond",
+        "value": 10
+      },
+      "source": {
+        "monster_id": "MON_055",
+        "monster_name": "Monster #55",
+        "monster_level": 300,
+        "map_id": "worldboss_altar",
+        "map_name": "Worldboss Altar"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for River Otter; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_099",
+      "name": "Worldroot Stone Ram weapon 99",
+      "type": "pet_equipment",
+      "pet_id": "PET_019",
+      "pet_name": "Stone Ram",
+      "tier": 5,
+      "slot": "weapon",
+      "level_required": 200,
+      "rarity": "Mythic",
+      "power": 168,
+      "stat_bonus": {
+        "HP": 91,
+        "ATK": 15,
+        "DEF": 15,
+        "MATK": 10,
+        "AGI": 4,
+        "DEX": 3,
+        "LUK": 0
+      },
+      "skill_modifier": {
+        "skill": "Stone bond",
+        "value": 10
+      },
+      "source": {
+        "monster_id": "MON_066",
+        "monster_name": "Monster #66",
+        "monster_level": 300,
+        "map_id": "worldboss_altar",
+        "map_name": "Worldboss Altar"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Stone Ram; high-readability anime MMO rig"
+    },
+    {
+      "id": "PETEQ_100",
+      "name": "Worldroot Star Deer pack 100",
+      "type": "pet_equipment",
+      "pet_id": "PET_020",
+      "pet_name": "Star Deer",
+      "tier": 5,
+      "slot": "pack",
+      "level_required": 200,
+      "rarity": "Mythic",
+      "power": 169,
+      "stat_bonus": {
+        "HP": 92,
+        "ATK": 15,
+        "DEF": 15,
+        "MATK": 10,
+        "AGI": 0,
+        "DEX": 0,
+        "LUK": 1
+      },
+      "skill_modifier": {
+        "skill": "Star bond",
+        "value": 10
+      },
+      "source": {
+        "monster_id": "MON_077",
+        "monster_name": "Monster #77",
+        "monster_level": 300,
+        "map_id": "worldboss_altar",
+        "map_name": "Worldboss Altar"
+      },
+      "availability": "Monster defeat",
+      "when": "Any time; permanent daylight; source respawns after 12 seconds",
+      "visual": "Pet gear silhouette for Star Deer; high-readability anime MMO rig"
+    }
+  ]
+}
