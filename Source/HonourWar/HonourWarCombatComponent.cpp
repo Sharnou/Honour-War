@@ -6,12 +6,39 @@
 #include "HonourWarCombatEffect.h"
 #include "HonourWarGameState.h"
 #include "Kismet/GameplayStatics.h"
+#include "Net/UnrealNetwork.h"
 
 UHonourWarCombatComponent::UHonourWarCombatComponent()
 {
     PrimaryComponentTick.bCanEverTick = true;
     SetIsReplicatedByDefault(true);
     SkillCooldowns.Init(0.0f, 8);
+}
+
+void UHonourWarCombatComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+    Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+    DOREPLIFETIME(UHonourWarCombatComponent,Level);
+    DOREPLIFETIME(UHonourWarCombatComponent,Experience);
+    DOREPLIFETIME(UHonourWarCombatComponent,AgeDays);
+    DOREPLIFETIME(UHonourWarCombatComponent,MaxHealth);
+    DOREPLIFETIME(UHonourWarCombatComponent,CurrentHealth);
+    DOREPLIFETIME(UHonourWarCombatComponent,MaxSp);
+    DOREPLIFETIME(UHonourWarCombatComponent,CurrentSp);
+    DOREPLIFETIME(UHonourWarCombatComponent,Zeny);
+    DOREPLIFETIME(UHonourWarCombatComponent,EquipmentRefineLevel);
+    DOREPLIFETIME(UHonourWarCombatComponent,Phracon);
+    DOREPLIFETIME(UHonourWarCombatComponent,Emveretarcon);
+    DOREPLIFETIME(UHonourWarCombatComponent,Oridecon);
+    DOREPLIFETIME(UHonourWarCombatComponent,BasicSkillLevel);
+    DOREPLIFETIME(UHonourWarCombatComponent,Honours);
+    DOREPLIFETIME(UHonourWarCombatComponent,StatusPoints);
+    DOREPLIFETIME(UHonourWarCombatComponent,Strength);
+    DOREPLIFETIME(UHonourWarCombatComponent,Agility);
+    DOREPLIFETIME(UHonourWarCombatComponent,Vitality);
+    DOREPLIFETIME(UHonourWarCombatComponent,Intelligence);
+    DOREPLIFETIME(UHonourWarCombatComponent,Dexterity);
+    DOREPLIFETIME(UHonourWarCombatComponent,LuckStat);
 }
 
 void UHonourWarCombatComponent::BeginPlay()
