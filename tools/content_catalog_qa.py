@@ -15,6 +15,11 @@ for k in ("characters","monsters","maps","equipment","items","cards"):
     names=[x["name"] for x in c[k]]
     if any(not n.strip() for n in names): raise SystemExit(f"CONTENT_CATALOG_FAIL: empty {k} name")
 if len({x["name"] for x in c["characters"]})!=60: raise SystemExit("CONTENT_CATALOG_FAIL: character names are not unique")
+controller_text=(ROOT/"Source/HonourWar/HonourWarPlayerController.cpp").read_text(encoding="utf-8")
+hud_header=(ROOT/"Source/HonourWar/HonourWarHUDWidget.h").read_text(encoding="utf-8")
+hud_cpp=(ROOT/"Source/HonourWar/HonourWarHUDWidget.cpp").read_text(encoding="utf-8")
+if "OwnedCharacters.Num()<60" not in controller_text or "i<60" not in controller_text: raise SystemExit("CONTENT_CATALOG_FAIL: roster capacity is not 60")
+if "CharacterSlotInput" not in hud_header or "CharacterSlotInput" not in hud_cpp: raise SystemExit("CONTENT_CATALOG_FAIL: 1-60 character selector missing")
 if not {1,300}.issubset({x["level"] for x in c["monsters"]}): raise SystemExit("CONTENT_CATALOG_FAIL: monster levels must include 1..300 endpoints")
 if any(x["level"]<1 or x["level"]>300 for x in c["monsters"]): raise SystemExit("CONTENT_CATALOG_FAIL: monster level out of range")
 if not {1,250}.issubset({x["level_required"] for x in c["equipment"]}): raise SystemExit("CONTENT_CATALOG_FAIL: equipment level range incomplete")
