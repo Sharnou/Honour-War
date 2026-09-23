@@ -134,7 +134,7 @@ bool UHonourWarCombatComponent::UseSkill(int32 SkillIndex)
     if (Target->IsDead())
     {
         if (AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(GetOwner()))
-            Character->HandleMonsterDefeat(Target->GetMonsterLevel());
+            Character->HandleMonsterDefeat(Target->GetMonsterLevel(),Target->GetSpeciesName());
     }
     else
     {
