@@ -28,6 +28,9 @@ jobs:
       - name: Validate complete content catalog
         run: python tools/content_catalog_qa.py
 
+      - name: Validate canonical game rules
+        run: python tools/game_rules_qa.py
+
       - name: Run full-game readiness contract
         run: python tools/full_game_test_contract_qa.py
 
