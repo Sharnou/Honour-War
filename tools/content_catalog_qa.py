@@ -7,7 +7,7 @@ c=json.loads((ROOT/"data/honour_war_content_catalog.json").read_text(encoding="u
 expected={"characters":70,"monsters":256,"maps":24,"equipment":300,"cards":300}
 for k,v in expected.items():
     if len(c[k])!=v: raise SystemExit(f"CONTENT_CATALOG_FAIL: {k} count={len(c[k])}, expected={v}")
-if len(c["items"])!=76: raise SystemExit(f"CONTENT_CATALOG_FAIL: items count={len(c['items'])}, expected=74")
+if len(c["items"])!=76: raise SystemExit(f"CONTENT_CATALOG_FAIL: items count={len(c['items'])}, expected=76")
 for k in expected:
     ids=[x["id"] for x in c[k]]
     if len(ids)!=len(set(ids)): raise SystemExit(f"CONTENT_CATALOG_FAIL: duplicate {k} IDs")
@@ -20,7 +20,7 @@ controller_text=(ROOT/"Source/HonourWar/HonourWarPlayerController.cpp").read_tex
 hud_header=(ROOT/"Source/HonourWar/HonourWarHUDWidget.h").read_text(encoding="utf-8")
 hud_cpp=(ROOT/"Source/HonourWar/HonourWarHUDWidget.cpp").read_text(encoding="utf-8")
 if "OwnedCharacters.Num()<70" not in controller_text or "i<70" not in controller_text: raise SystemExit("CONTENT_CATALOG_FAIL: roster capacity is not 70")
-if "CharacterSlotInput" not in hud_header or "CharacterSlotInput" not in hud_cpp or "Character slot 1-70" not in hud_cpp: raise SystemExit("CONTENT_CATALOG_FAIL: 1-60 character selector missing")
+if "CharacterSlotInput" not in hud_header or "CharacterSlotInput" not in hud_cpp or "Character slot 1-70" not in hud_cpp: raise SystemExit("CONTENT_CATALOG_FAIL: 1-70 character selector missing")
 if len({x["visual_archetype"] for x in c["monsters"]}) < 8: raise SystemExit("CONTENT_CATALOG_FAIL: monster archetype diversity incomplete")
 if 300 not in {x["level"] for x in c["monsters"]}: raise SystemExit("CONTENT_CATALOG_FAIL: level-300 monster is missing")
 if any(x["level"]<1 or x["level"]>300 for x in c["monsters"]): raise SystemExit("CONTENT_CATALOG_FAIL: monster level out of range")
