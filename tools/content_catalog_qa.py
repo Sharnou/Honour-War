@@ -7,7 +7,7 @@ c=json.loads((ROOT/"data/honour_war_content_catalog.json").read_text(encoding="u
 expected={"characters":70,"monsters":256,"maps":24,"equipment":300,"cards":300}
 for k,v in expected.items():
     if len(c[k])!=v: raise SystemExit(f"CONTENT_CATALOG_FAIL: {k} count={len(c[k])}, expected={v}")
-if len(c["items"])!=74: raise SystemExit(f"CONTENT_CATALOG_FAIL: items count={len(c['items'])}, expected=74")
+if len(c["items"])!=76: raise SystemExit(f"CONTENT_CATALOG_FAIL: items count={len(c['items'])}, expected=74")
 for k in expected:
     ids=[x["id"] for x in c[k]]
     if len(ids)!=len(set(ids)): raise SystemExit(f"CONTENT_CATALOG_FAIL: duplicate {k} IDs")
@@ -48,4 +48,4 @@ if not any(x["class"]=="Ranger" and x["slot"]=="Weapon" and x.get("weapon_family
 enc=json.loads((ROOT/"data/honour_war_item_encyclopedia.json").read_text(encoding="utf-8"))
 if len(enc.get("entries",[]))!=795: raise SystemExit("CONTENT_CATALOG_FAIL: item encyclopedia count")
 if len({x["id"] for x in enc["entries"]})!=795: raise SystemExit("CONTENT_CATALOG_FAIL: item encyclopedia IDs are not unique")
-print("CONTENT_CATALOG_PASS: 70 characters, 256 monsters, 24 maps, 300 equipment, 74 items, 300 cards, 20 pets, 120 pet skills, 100 pet equipment.")
+print("CONTENT_CATALOG_PASS: 70 characters, 256 monsters, 24 maps, 300 equipment, 76 items, 300 cards, 20 pets, 120 pet skills, 100 pet equipment.")
