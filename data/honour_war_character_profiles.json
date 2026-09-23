@@ -183,7 +183,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine foundation anime silhouette",
+        "face_design": "calm scholarly",
+        "hair_design": "copper curls",
+        "eye_design": "focused almond",
+        "skin_palette": "cool ivory",
+        "outfit": "Foundation warrior ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 1
+      },
+      "combat_profile": {
+        "attack": "Ember Slash",
+        "power": 118,
+        "range": 260,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Ember Guard"
       }
     },
     {
@@ -365,7 +392,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine specialization anime silhouette",
+        "face_design": "gentle-eyed",
+        "hair_design": "white crest",
+        "eye_design": "focused almond",
+        "skin_palette": "olive neutral",
+        "outfit": "Specialization warrior ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 2
+      },
+      "combat_profile": {
+        "attack": "Oath Strike",
+        "power": 130,
+        "range": 285,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Iron Halo"
       }
     },
     {
@@ -547,7 +601,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine advanced anime silhouette",
+        "face_design": "soft determined",
+        "hair_design": "black undercut",
+        "eye_design": "focused almond",
+        "skin_palette": "warm ivory",
+        "outfit": "Advanced warrior ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 3
+      },
+      "combat_profile": {
+        "attack": "Dawn Verdict",
+        "power": 142,
+        "range": 310,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Paladin Vow"
       }
     },
     {
@@ -729,7 +810,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine mastery anime silhouette",
+        "face_design": "square jaw",
+        "hair_design": "silver braid",
+        "eye_design": "focused almond",
+        "skin_palette": "sun-kissed",
+        "outfit": "Mastery warrior ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 4
+      },
+      "combat_profile": {
+        "attack": "Warlord Cleave",
+        "power": 154,
+        "range": 335,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Battlefield Dominion"
       }
     },
     {
@@ -911,7 +1019,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine transcendence anime silhouette",
+        "face_design": "hawk-eyed",
+        "hair_design": "auburn ponytail",
+        "eye_design": "focused almond",
+        "skin_palette": "deep bronze",
+        "outfit": "Transcendence warrior ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 5
+      },
+      "combat_profile": {
+        "attack": "Abyssal Cleave",
+        "power": 166,
+        "range": 360,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Abyssal Dominion"
       }
     },
     {
@@ -1093,7 +1228,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine foundation anime silhouette",
+        "face_design": "playful",
+        "hair_design": "copper curls",
+        "eye_design": "large bright",
+        "skin_palette": "cool ivory",
+        "outfit": "Foundation warrior ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 1
+      },
+      "combat_profile": {
+        "attack": "Ember Slash",
+        "power": 118,
+        "range": 260,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Ember Guard"
       }
     },
     {
@@ -1275,7 +1437,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine specialization anime silhouette",
+        "face_design": "calm scholarly",
+        "hair_design": "white crest",
+        "eye_design": "large bright",
+        "skin_palette": "olive neutral",
+        "outfit": "Specialization warrior ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 2
+      },
+      "combat_profile": {
+        "attack": "Oath Strike",
+        "power": 130,
+        "range": 285,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Iron Halo"
       }
     },
     {
@@ -1457,7 +1646,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine advanced anime silhouette",
+        "face_design": "gentle-eyed",
+        "hair_design": "black undercut",
+        "eye_design": "large bright",
+        "skin_palette": "warm ivory",
+        "outfit": "Advanced warrior ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 3
+      },
+      "combat_profile": {
+        "attack": "Dawn Verdict",
+        "power": 142,
+        "range": 310,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Paladin Vow"
       }
     },
     {
@@ -1639,7 +1855,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine mastery anime silhouette",
+        "face_design": "soft determined",
+        "hair_design": "silver braid",
+        "eye_design": "large bright",
+        "skin_palette": "sun-kissed",
+        "outfit": "Mastery warrior ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 4
+      },
+      "combat_profile": {
+        "attack": "Warlord Cleave",
+        "power": 154,
+        "range": 335,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Battlefield Dominion"
       }
     },
     {
@@ -1821,7 +2064,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine transcendence anime silhouette",
+        "face_design": "square jaw",
+        "hair_design": "auburn ponytail",
+        "eye_design": "large bright",
+        "skin_palette": "deep bronze",
+        "outfit": "Transcendence warrior ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 5
+      },
+      "combat_profile": {
+        "attack": "Abyssal Cleave",
+        "power": 166,
+        "range": 360,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Abyssal Dominion"
       }
     },
     {
@@ -2003,7 +2273,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine foundation anime silhouette",
+        "face_design": "sharp cheekbones",
+        "hair_design": "silver braid",
+        "eye_design": "focused almond",
+        "skin_palette": "cool ivory",
+        "outfit": "Foundation mage ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 1
+      },
+      "combat_profile": {
+        "attack": "Arcane Bolt",
+        "power": 118,
+        "range": 780,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Arcane Veil"
       }
     },
     {
@@ -2185,7 +2482,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine specialization anime silhouette",
+        "face_design": "playful",
+        "hair_design": "auburn ponytail",
+        "eye_design": "focused almond",
+        "skin_palette": "olive neutral",
+        "outfit": "Specialization mage ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 2
+      },
+      "combat_profile": {
+        "attack": "Astral Lance",
+        "power": 130,
+        "range": 805,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Astral Barrier"
       }
     },
     {
@@ -2367,7 +2691,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine advanced anime silhouette",
+        "face_design": "calm scholarly",
+        "hair_design": "dark brown swept",
+        "eye_design": "focused almond",
+        "skin_palette": "warm ivory",
+        "outfit": "Advanced mage ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 3
+      },
+      "combat_profile": {
+        "attack": "Celestial Ray",
+        "power": 142,
+        "range": 830,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Arcane Cataclysm"
       }
     },
     {
@@ -2549,7 +2900,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine mastery anime silhouette",
+        "face_design": "gentle-eyed",
+        "hair_design": "midnight bob",
+        "eye_design": "focused almond",
+        "skin_palette": "sun-kissed",
+        "outfit": "Mastery mage ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 4
+      },
+      "combat_profile": {
+        "attack": "Sage Comet",
+        "power": 154,
+        "range": 855,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Grand Spellstorm"
       }
     },
     {
@@ -2731,7 +3109,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine transcendence anime silhouette",
+        "face_design": "soft determined",
+        "hair_design": "copper curls",
+        "eye_design": "focused almond",
+        "skin_palette": "deep bronze",
+        "outfit": "Transcendence mage ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 5
+      },
+      "combat_profile": {
+        "attack": "Eternal Spellstorm",
+        "power": 166,
+        "range": 880,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Spellwright Ascension"
       }
     },
     {
@@ -2913,7 +3318,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine foundation anime silhouette",
+        "face_design": "hawk-eyed",
+        "hair_design": "silver braid",
+        "eye_design": "large bright",
+        "skin_palette": "cool ivory",
+        "outfit": "Foundation mage ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 1
+      },
+      "combat_profile": {
+        "attack": "Arcane Bolt",
+        "power": 118,
+        "range": 780,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Arcane Veil"
       }
     },
     {
@@ -3095,7 +3527,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine specialization anime silhouette",
+        "face_design": "sharp cheekbones",
+        "hair_design": "auburn ponytail",
+        "eye_design": "large bright",
+        "skin_palette": "olive neutral",
+        "outfit": "Specialization mage ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 2
+      },
+      "combat_profile": {
+        "attack": "Astral Lance",
+        "power": 130,
+        "range": 805,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Astral Barrier"
       }
     },
     {
@@ -3277,7 +3736,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine advanced anime silhouette",
+        "face_design": "playful",
+        "hair_design": "dark brown swept",
+        "eye_design": "large bright",
+        "skin_palette": "warm ivory",
+        "outfit": "Advanced mage ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 3
+      },
+      "combat_profile": {
+        "attack": "Celestial Ray",
+        "power": 142,
+        "range": 830,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Arcane Cataclysm"
       }
     },
     {
@@ -3459,7 +3945,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine mastery anime silhouette",
+        "face_design": "calm scholarly",
+        "hair_design": "midnight bob",
+        "eye_design": "large bright",
+        "skin_palette": "sun-kissed",
+        "outfit": "Mastery mage ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 4
+      },
+      "combat_profile": {
+        "attack": "Sage Comet",
+        "power": 154,
+        "range": 855,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Grand Spellstorm"
       }
     },
     {
@@ -3641,7 +4154,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine transcendence anime silhouette",
+        "face_design": "gentle-eyed",
+        "hair_design": "copper curls",
+        "eye_design": "large bright",
+        "skin_palette": "deep bronze",
+        "outfit": "Transcendence mage ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 5
+      },
+      "combat_profile": {
+        "attack": "Eternal Spellstorm",
+        "power": 166,
+        "range": 880,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Spellwright Ascension"
       }
     },
     {
@@ -3823,7 +4363,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine foundation anime silhouette",
+        "face_design": "square jaw",
+        "hair_design": "midnight bob",
+        "eye_design": "focused almond",
+        "skin_palette": "cool ivory",
+        "outfit": "Foundation archer ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 1
+      },
+      "combat_profile": {
+        "attack": "Double Shot",
+        "power": 118,
+        "range": 1250,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Windguard"
       }
     },
     {
@@ -4005,7 +4572,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine specialization anime silhouette",
+        "face_design": "hawk-eyed",
+        "hair_design": "copper curls",
+        "eye_design": "focused almond",
+        "skin_palette": "olive neutral",
+        "outfit": "Specialization archer ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 2
+      },
+      "combat_profile": {
+        "attack": "Triple Shot",
+        "power": 130,
+        "range": 1275,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Predator Sense"
       }
     },
     {
@@ -4187,7 +4781,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine advanced anime silhouette",
+        "face_design": "sharp cheekbones",
+        "hair_design": "white crest",
+        "eye_design": "focused almond",
+        "skin_palette": "warm ivory",
+        "outfit": "Advanced archer ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 3
+      },
+      "combat_profile": {
+        "attack": "Star Arrow",
+        "power": 142,
+        "range": 1300,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Astral Arrow"
       }
     },
     {
@@ -4369,7 +4990,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine mastery anime silhouette",
+        "face_design": "playful",
+        "hair_design": "black undercut",
+        "eye_design": "focused almond",
+        "skin_palette": "sun-kissed",
+        "outfit": "Mastery archer ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 4
+      },
+      "combat_profile": {
+        "attack": "Deadeye Barrage",
+        "power": 154,
+        "range": 1325,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Horizon Break"
       }
     },
     {
@@ -4551,7 +5199,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine transcendence anime silhouette",
+        "face_design": "calm scholarly",
+        "hair_design": "silver braid",
+        "eye_design": "focused almond",
+        "skin_palette": "deep bronze",
+        "outfit": "Transcendence archer ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 5
+      },
+      "combat_profile": {
+        "attack": "Causality Arrow",
+        "power": 166,
+        "range": 1350,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Causality Finale"
       }
     },
     {
@@ -4733,7 +5408,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine foundation anime silhouette",
+        "face_design": "soft determined",
+        "hair_design": "midnight bob",
+        "eye_design": "large bright",
+        "skin_palette": "cool ivory",
+        "outfit": "Foundation archer ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 1
+      },
+      "combat_profile": {
+        "attack": "Double Shot",
+        "power": 118,
+        "range": 1250,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Windguard"
       }
     },
     {
@@ -4915,7 +5617,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine specialization anime silhouette",
+        "face_design": "square jaw",
+        "hair_design": "copper curls",
+        "eye_design": "large bright",
+        "skin_palette": "olive neutral",
+        "outfit": "Specialization archer ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 2
+      },
+      "combat_profile": {
+        "attack": "Triple Shot",
+        "power": 130,
+        "range": 1275,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Predator Sense"
       }
     },
     {
@@ -5097,7 +5826,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine advanced anime silhouette",
+        "face_design": "hawk-eyed",
+        "hair_design": "white crest",
+        "eye_design": "large bright",
+        "skin_palette": "warm ivory",
+        "outfit": "Advanced archer ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 3
+      },
+      "combat_profile": {
+        "attack": "Star Arrow",
+        "power": 142,
+        "range": 1300,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Astral Arrow"
       }
     },
     {
@@ -5279,7 +6035,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine mastery anime silhouette",
+        "face_design": "sharp cheekbones",
+        "hair_design": "black undercut",
+        "eye_design": "large bright",
+        "skin_palette": "sun-kissed",
+        "outfit": "Mastery archer ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 4
+      },
+      "combat_profile": {
+        "attack": "Deadeye Barrage",
+        "power": 154,
+        "range": 1325,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Horizon Break"
       }
     },
     {
@@ -5461,7 +6244,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine transcendence anime silhouette",
+        "face_design": "playful",
+        "hair_design": "silver braid",
+        "eye_design": "large bright",
+        "skin_palette": "deep bronze",
+        "outfit": "Transcendence archer ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 5
+      },
+      "combat_profile": {
+        "attack": "Causality Arrow",
+        "power": 166,
+        "range": 1350,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Causality Finale"
       }
     },
     {
@@ -5643,7 +6453,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine foundation anime silhouette",
+        "face_design": "gentle-eyed",
+        "hair_design": "black undercut",
+        "eye_design": "focused almond",
+        "skin_palette": "cool ivory",
+        "outfit": "Foundation thief ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 1
+      },
+      "combat_profile": {
+        "attack": "Quick Slash",
+        "power": 118,
+        "range": 260,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Cheap Shot"
       }
     },
     {
@@ -5825,7 +6662,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine specialization anime silhouette",
+        "face_design": "soft determined",
+        "hair_design": "silver braid",
+        "eye_design": "focused almond",
+        "skin_palette": "olive neutral",
+        "outfit": "Specialization thief ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 2
+      },
+      "combat_profile": {
+        "attack": "Assassin Cut",
+        "power": 130,
+        "range": 285,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Shadow Feast"
       }
     },
     {
@@ -6007,7 +6871,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine advanced anime silhouette",
+        "face_design": "square jaw",
+        "hair_design": "auburn ponytail",
+        "eye_design": "focused almond",
+        "skin_palette": "warm ivory",
+        "outfit": "Advanced thief ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 3
+      },
+      "combat_profile": {
+        "attack": "Shadowlord Cut",
+        "power": 142,
+        "range": 310,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Void Assault"
       }
     },
     {
@@ -6189,7 +7080,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine mastery anime silhouette",
+        "face_design": "hawk-eyed",
+        "hair_design": "dark brown swept",
+        "eye_design": "focused almond",
+        "skin_palette": "sun-kissed",
+        "outfit": "Mastery thief ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 4
+      },
+      "combat_profile": {
+        "attack": "Nightblade Storm",
+        "power": 154,
+        "range": 335,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Night Rift"
       }
     },
     {
@@ -6371,7 +7289,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine transcendence anime silhouette",
+        "face_design": "sharp cheekbones",
+        "hair_design": "midnight bob",
+        "eye_design": "focused almond",
+        "skin_palette": "deep bronze",
+        "outfit": "Transcendence thief ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 5
+      },
+      "combat_profile": {
+        "attack": "Absolute Silence",
+        "power": 166,
+        "range": 360,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Absolute Shadow"
       }
     },
     {
@@ -6553,7 +7498,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine foundation anime silhouette",
+        "face_design": "calm scholarly",
+        "hair_design": "black undercut",
+        "eye_design": "large bright",
+        "skin_palette": "cool ivory",
+        "outfit": "Foundation thief ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 1
+      },
+      "combat_profile": {
+        "attack": "Quick Slash",
+        "power": 118,
+        "range": 260,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Cheap Shot"
       }
     },
     {
@@ -6735,7 +7707,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine specialization anime silhouette",
+        "face_design": "gentle-eyed",
+        "hair_design": "silver braid",
+        "eye_design": "large bright",
+        "skin_palette": "olive neutral",
+        "outfit": "Specialization thief ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 2
+      },
+      "combat_profile": {
+        "attack": "Assassin Cut",
+        "power": 130,
+        "range": 285,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Shadow Feast"
       }
     },
     {
@@ -6917,7 +7916,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine advanced anime silhouette",
+        "face_design": "soft determined",
+        "hair_design": "auburn ponytail",
+        "eye_design": "large bright",
+        "skin_palette": "warm ivory",
+        "outfit": "Advanced thief ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 3
+      },
+      "combat_profile": {
+        "attack": "Shadowlord Cut",
+        "power": 142,
+        "range": 310,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Void Assault"
       }
     },
     {
@@ -7099,7 +8125,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine mastery anime silhouette",
+        "face_design": "square jaw",
+        "hair_design": "dark brown swept",
+        "eye_design": "large bright",
+        "skin_palette": "sun-kissed",
+        "outfit": "Mastery thief ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 4
+      },
+      "combat_profile": {
+        "attack": "Nightblade Storm",
+        "power": 154,
+        "range": 335,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Night Rift"
       }
     },
     {
@@ -7281,7 +8334,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine transcendence anime silhouette",
+        "face_design": "hawk-eyed",
+        "hair_design": "midnight bob",
+        "eye_design": "large bright",
+        "skin_palette": "deep bronze",
+        "outfit": "Transcendence thief ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 5
+      },
+      "combat_profile": {
+        "attack": "Absolute Silence",
+        "power": 166,
+        "range": 360,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Absolute Shadow"
       }
     },
     {
@@ -7463,7 +8543,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine foundation anime silhouette",
+        "face_design": "playful",
+        "hair_design": "dark brown swept",
+        "eye_design": "focused almond",
+        "skin_palette": "cool ivory",
+        "outfit": "Foundation acolyte ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 1
+      },
+      "combat_profile": {
+        "attack": "Heal",
+        "power": 110,
+        "range": 540,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Holy Water"
       }
     },
     {
@@ -7645,7 +8752,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine specialization anime silhouette",
+        "face_design": "calm scholarly",
+        "hair_design": "midnight bob",
+        "eye_design": "focused almond",
+        "skin_palette": "olive neutral",
+        "outfit": "Specialization acolyte ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 2
+      },
+      "combat_profile": {
+        "attack": "Greater Heal",
+        "power": 122,
+        "range": 565,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Priest's Grace"
       }
     },
     {
@@ -7827,7 +8961,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine advanced anime silhouette",
+        "face_design": "gentle-eyed",
+        "hair_design": "copper curls",
+        "eye_design": "focused almond",
+        "skin_palette": "warm ivory",
+        "outfit": "Advanced acolyte ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 3
+      },
+      "combat_profile": {
+        "attack": "Mass Heal",
+        "power": 134,
+        "range": 590,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Heavenfall"
       }
     },
     {
@@ -8009,7 +9170,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine mastery anime silhouette",
+        "face_design": "soft determined",
+        "hair_design": "white crest",
+        "eye_design": "focused almond",
+        "skin_palette": "sun-kissed",
+        "outfit": "Mastery acolyte ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 4
+      },
+      "combat_profile": {
+        "attack": "Eternal Grace",
+        "power": 146,
+        "range": 615,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Radiant Dominion"
       }
     },
     {
@@ -8191,7 +9379,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine transcendence anime silhouette",
+        "face_design": "square jaw",
+        "hair_design": "black undercut",
+        "eye_design": "focused almond",
+        "skin_palette": "deep bronze",
+        "outfit": "Transcendence acolyte ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 5
+      },
+      "combat_profile": {
+        "attack": "Eternal Benediction",
+        "power": 158,
+        "range": 640,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Benediction of Ages"
       }
     },
     {
@@ -8373,7 +9588,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine foundation anime silhouette",
+        "face_design": "sharp cheekbones",
+        "hair_design": "dark brown swept",
+        "eye_design": "large bright",
+        "skin_palette": "cool ivory",
+        "outfit": "Foundation acolyte ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 1
+      },
+      "combat_profile": {
+        "attack": "Heal",
+        "power": 110,
+        "range": 540,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Holy Water"
       }
     },
     {
@@ -8555,7 +9797,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine specialization anime silhouette",
+        "face_design": "playful",
+        "hair_design": "midnight bob",
+        "eye_design": "large bright",
+        "skin_palette": "olive neutral",
+        "outfit": "Specialization acolyte ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 2
+      },
+      "combat_profile": {
+        "attack": "Greater Heal",
+        "power": 122,
+        "range": 565,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Priest's Grace"
       }
     },
     {
@@ -8737,7 +10006,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine advanced anime silhouette",
+        "face_design": "calm scholarly",
+        "hair_design": "copper curls",
+        "eye_design": "large bright",
+        "skin_palette": "warm ivory",
+        "outfit": "Advanced acolyte ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 3
+      },
+      "combat_profile": {
+        "attack": "Mass Heal",
+        "power": 134,
+        "range": 590,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Heavenfall"
       }
     },
     {
@@ -8919,7 +10215,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine mastery anime silhouette",
+        "face_design": "gentle-eyed",
+        "hair_design": "white crest",
+        "eye_design": "large bright",
+        "skin_palette": "sun-kissed",
+        "outfit": "Mastery acolyte ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 4
+      },
+      "combat_profile": {
+        "attack": "Eternal Grace",
+        "power": 146,
+        "range": 615,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Radiant Dominion"
       }
     },
     {
@@ -9101,7 +10424,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine transcendence anime silhouette",
+        "face_design": "soft determined",
+        "hair_design": "black undercut",
+        "eye_design": "large bright",
+        "skin_palette": "deep bronze",
+        "outfit": "Transcendence acolyte ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 5
+      },
+      "combat_profile": {
+        "attack": "Eternal Benediction",
+        "power": 158,
+        "range": 640,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Benediction of Ages"
       }
     },
     {
@@ -9283,7 +10633,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine foundation anime silhouette",
+        "face_design": "hawk-eyed",
+        "hair_design": "white crest",
+        "eye_design": "focused almond",
+        "skin_palette": "cool ivory",
+        "outfit": "Foundation merchant ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 1
+      },
+      "combat_profile": {
+        "attack": "Mammonite",
+        "power": 118,
+        "range": 320,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Trader's Guard"
       }
     },
     {
@@ -9465,7 +10842,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine specialization anime silhouette",
+        "face_design": "sharp cheekbones",
+        "hair_design": "black undercut",
+        "eye_design": "focused almond",
+        "skin_palette": "olive neutral",
+        "outfit": "Specialization merchant ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 2
+      },
+      "combat_profile": {
+        "attack": "Royal Mammonite",
+        "power": 130,
+        "range": 345,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Merchant's Rush"
       }
     },
     {
@@ -9647,7 +11051,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine advanced anime silhouette",
+        "face_design": "playful",
+        "hair_design": "silver braid",
+        "eye_design": "focused almond",
+        "skin_palette": "warm ivory",
+        "outfit": "Advanced merchant ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 3
+      },
+      "combat_profile": {
+        "attack": "Smithing Burst",
+        "power": 142,
+        "range": 370,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Guild Hammer"
       }
     },
     {
@@ -9829,7 +11260,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine mastery anime silhouette",
+        "face_design": "calm scholarly",
+        "hair_design": "auburn ponytail",
+        "eye_design": "focused almond",
+        "skin_palette": "sun-kissed",
+        "outfit": "Mastery merchant ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 4
+      },
+      "combat_profile": {
+        "attack": "Grand Mammonite",
+        "power": 154,
+        "range": 395,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Quartermaster's Call"
       }
     },
     {
@@ -10011,7 +11469,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine transcendence anime silhouette",
+        "face_design": "gentle-eyed",
+        "hair_design": "dark brown swept",
+        "eye_design": "focused almond",
+        "skin_palette": "deep bronze",
+        "outfit": "Transcendence merchant ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 5
+      },
+      "combat_profile": {
+        "attack": "Infinite Supply",
+        "power": 166,
+        "range": 420,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Quartermaster's Legacy"
       }
     },
     {
@@ -10193,7 +11678,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine foundation anime silhouette",
+        "face_design": "square jaw",
+        "hair_design": "white crest",
+        "eye_design": "large bright",
+        "skin_palette": "cool ivory",
+        "outfit": "Foundation merchant ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 1
+      },
+      "combat_profile": {
+        "attack": "Mammonite",
+        "power": 118,
+        "range": 320,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Trader's Guard"
       }
     },
     {
@@ -10375,7 +11887,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine specialization anime silhouette",
+        "face_design": "hawk-eyed",
+        "hair_design": "black undercut",
+        "eye_design": "large bright",
+        "skin_palette": "olive neutral",
+        "outfit": "Specialization merchant ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 2
+      },
+      "combat_profile": {
+        "attack": "Royal Mammonite",
+        "power": 130,
+        "range": 345,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Merchant's Rush"
       }
     },
     {
@@ -10557,7 +12096,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine advanced anime silhouette",
+        "face_design": "sharp cheekbones",
+        "hair_design": "silver braid",
+        "eye_design": "large bright",
+        "skin_palette": "warm ivory",
+        "outfit": "Advanced merchant ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 3
+      },
+      "combat_profile": {
+        "attack": "Smithing Burst",
+        "power": 142,
+        "range": 370,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Guild Hammer"
       }
     },
     {
@@ -10739,7 +12305,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine mastery anime silhouette",
+        "face_design": "playful",
+        "hair_design": "auburn ponytail",
+        "eye_design": "large bright",
+        "skin_palette": "sun-kissed",
+        "outfit": "Mastery merchant ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 4
+      },
+      "combat_profile": {
+        "attack": "Grand Mammonite",
+        "power": 154,
+        "range": 395,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Quartermaster's Call"
       }
     },
     {
@@ -10921,7 +12514,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine transcendence anime silhouette",
+        "face_design": "calm scholarly",
+        "hair_design": "dark brown swept",
+        "eye_design": "large bright",
+        "skin_palette": "deep bronze",
+        "outfit": "Transcendence merchant ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 5
+      },
+      "combat_profile": {
+        "attack": "Infinite Supply",
+        "power": 166,
+        "range": 420,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Quartermaster's Legacy"
       }
     },
     {
@@ -10948,7 +12568,7 @@
         "headgear": "Foundation Ranger crest",
         "garment": "Foundation Ranger mantle",
         "footgear": "Foundation Ranger boots",
-        "ammo": "Rune Bolts"
+        "ammo": "Machine Gun Bolts"
       },
       "combat": {
         "basic_attack": "Trail Shot",
@@ -10969,7 +12589,7 @@
         "status_rule": "All six stats remain freely allocated by the player.",
         "attack_range": 1450,
         "weapon_family": "Fantasy Gun",
-        "ammo_type": "rune_bolt",
+        "ammo_type": "machine_gun_bolt",
         "skill_profiles": [
           {
             "name": "Trail Shot",
@@ -11043,6 +12663,12 @@
             "effect": "physical",
             "visual": "recoiling rune firearm with visible bolt trail"
           }
+        ],
+        "ammo_name": "Machine Gun Bolts",
+        "weapon_tags": [
+          "fantasy firearm",
+          "rune-fed gun",
+          "high-rate bolt weapon"
         ]
       },
       "stat_profile": {
@@ -11103,7 +12729,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine foundation anime silhouette",
+        "face_design": "soft determined",
+        "hair_design": "auburn ponytail",
+        "eye_design": "focused almond",
+        "skin_palette": "cool ivory",
+        "outfit": "Foundation ranger ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 1
+      },
+      "combat_profile": {
+        "attack": "Trail Shot",
+        "power": 118,
+        "range": 1450,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Field Dressing"
       }
     },
     {
@@ -11130,7 +12783,7 @@
         "headgear": "Specialization Ranger crest",
         "garment": "Specialization Ranger mantle",
         "footgear": "Specialization Ranger boots",
-        "ammo": "Rune Bolts"
+        "ammo": "Machine Gun Bolts"
       },
       "combat": {
         "basic_attack": "Carbine Burst",
@@ -11151,7 +12804,7 @@
         "status_rule": "All six stats remain freely allocated by the player.",
         "attack_range": 1475,
         "weapon_family": "Fantasy Gun",
-        "ammo_type": "rune_bolt",
+        "ammo_type": "machine_gun_bolt",
         "skill_profiles": [
           {
             "name": "Carbine Burst",
@@ -11225,6 +12878,12 @@
             "effect": "arcane",
             "visual": "recoiling rune firearm with visible bolt trail"
           }
+        ],
+        "ammo_name": "Machine Gun Bolts",
+        "weapon_tags": [
+          "fantasy firearm",
+          "rune-fed gun",
+          "high-rate bolt weapon"
         ]
       },
       "stat_profile": {
@@ -11285,7 +12944,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine specialization anime silhouette",
+        "face_design": "square jaw",
+        "hair_design": "dark brown swept",
+        "eye_design": "focused almond",
+        "skin_palette": "olive neutral",
+        "outfit": "Specialization ranger ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 2
+      },
+      "combat_profile": {
+        "attack": "Carbine Burst",
+        "power": 130,
+        "range": 1475,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Beastguard"
       }
     },
     {
@@ -11407,6 +13093,12 @@
             "effect": "precision",
             "visual": "recoiling rune firearm with visible bolt trail"
           }
+        ],
+        "ammo_name": "Machine Gun Bolts",
+        "weapon_tags": [
+          "fantasy firearm",
+          "rune-fed gun",
+          "high-rate bolt weapon"
         ]
       },
       "stat_profile": {
@@ -11467,7 +13159,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine advanced anime silhouette",
+        "face_design": "hawk-eyed",
+        "hair_design": "midnight bob",
+        "eye_design": "focused almond",
+        "skin_palette": "warm ivory",
+        "outfit": "Advanced ranger ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 3
+      },
+      "combat_profile": {
+        "attack": "Repeater Barrage",
+        "power": 142,
+        "range": 1500,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Forest Sight"
       }
     },
     {
@@ -11589,6 +13308,12 @@
             "effect": "shadow",
             "visual": "recoiling rune firearm with visible bolt trail"
           }
+        ],
+        "ammo_name": "Machine Gun Bolts",
+        "weapon_tags": [
+          "fantasy firearm",
+          "rune-fed gun",
+          "high-rate bolt weapon"
         ]
       },
       "stat_profile": {
@@ -11649,7 +13374,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine mastery anime silhouette",
+        "face_design": "sharp cheekbones",
+        "hair_design": "copper curls",
+        "eye_design": "focused almond",
+        "skin_palette": "sun-kissed",
+        "outfit": "Mastery ranger ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 4
+      },
+      "combat_profile": {
+        "attack": "Bolt Machine Burst",
+        "power": 154,
+        "range": 1525,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Wildheart Barrage"
       }
     },
     {
@@ -11771,6 +13523,12 @@
             "effect": "holy",
             "visual": "recoiling rune firearm with visible bolt trail"
           }
+        ],
+        "ammo_name": "Machine Gun Bolts",
+        "weapon_tags": [
+          "fantasy firearm",
+          "rune-fed gun",
+          "high-rate bolt weapon"
         ]
       },
       "stat_profile": {
@@ -11831,7 +13589,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-masculine transcendence anime silhouette",
+        "face_design": "playful",
+        "hair_design": "white crest",
+        "eye_design": "focused almond",
+        "skin_palette": "deep bronze",
+        "outfit": "Transcendence ranger ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 5
+      },
+      "combat_profile": {
+        "attack": "Verdant Paragon Gun",
+        "power": 166,
+        "range": 1550,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Verdant Finale"
       }
     },
     {
@@ -11858,7 +13643,7 @@
         "headgear": "Foundation Ranger crest",
         "garment": "Foundation Ranger mantle",
         "footgear": "Foundation Ranger boots",
-        "ammo": "Rune Bolts"
+        "ammo": "Machine Gun Bolts"
       },
       "combat": {
         "basic_attack": "Trail Shot",
@@ -11879,7 +13664,7 @@
         "status_rule": "All six stats remain freely allocated by the player.",
         "attack_range": 1450,
         "weapon_family": "Fantasy Gun",
-        "ammo_type": "rune_bolt",
+        "ammo_type": "machine_gun_bolt",
         "skill_profiles": [
           {
             "name": "Trail Shot",
@@ -11953,6 +13738,12 @@
             "effect": "physical",
             "visual": "recoiling rune firearm with visible bolt trail"
           }
+        ],
+        "ammo_name": "Machine Gun Bolts",
+        "weapon_tags": [
+          "fantasy firearm",
+          "rune-fed gun",
+          "high-rate bolt weapon"
         ]
       },
       "stat_profile": {
@@ -12013,7 +13804,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine foundation anime silhouette",
+        "face_design": "gentle-eyed",
+        "hair_design": "auburn ponytail",
+        "eye_design": "large bright",
+        "skin_palette": "cool ivory",
+        "outfit": "Foundation ranger ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 1
+      },
+      "combat_profile": {
+        "attack": "Trail Shot",
+        "power": 118,
+        "range": 1450,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Field Dressing"
       }
     },
     {
@@ -12040,7 +13858,7 @@
         "headgear": "Specialization Ranger crest",
         "garment": "Specialization Ranger mantle",
         "footgear": "Specialization Ranger boots",
-        "ammo": "Rune Bolts"
+        "ammo": "Machine Gun Bolts"
       },
       "combat": {
         "basic_attack": "Carbine Burst",
@@ -12061,7 +13879,7 @@
         "status_rule": "All six stats remain freely allocated by the player.",
         "attack_range": 1475,
         "weapon_family": "Fantasy Gun",
-        "ammo_type": "rune_bolt",
+        "ammo_type": "machine_gun_bolt",
         "skill_profiles": [
           {
             "name": "Carbine Burst",
@@ -12135,6 +13953,12 @@
             "effect": "arcane",
             "visual": "recoiling rune firearm with visible bolt trail"
           }
+        ],
+        "ammo_name": "Machine Gun Bolts",
+        "weapon_tags": [
+          "fantasy firearm",
+          "rune-fed gun",
+          "high-rate bolt weapon"
         ]
       },
       "stat_profile": {
@@ -12195,7 +14019,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine specialization anime silhouette",
+        "face_design": "soft determined",
+        "hair_design": "dark brown swept",
+        "eye_design": "large bright",
+        "skin_palette": "olive neutral",
+        "outfit": "Specialization ranger ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 2
+      },
+      "combat_profile": {
+        "attack": "Carbine Burst",
+        "power": 130,
+        "range": 1475,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Beastguard"
       }
     },
     {
@@ -12317,6 +14168,12 @@
             "effect": "precision",
             "visual": "recoiling rune firearm with visible bolt trail"
           }
+        ],
+        "ammo_name": "Machine Gun Bolts",
+        "weapon_tags": [
+          "fantasy firearm",
+          "rune-fed gun",
+          "high-rate bolt weapon"
         ]
       },
       "stat_profile": {
@@ -12377,7 +14234,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine advanced anime silhouette",
+        "face_design": "square jaw",
+        "hair_design": "midnight bob",
+        "eye_design": "large bright",
+        "skin_palette": "warm ivory",
+        "outfit": "Advanced ranger ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 3
+      },
+      "combat_profile": {
+        "attack": "Repeater Barrage",
+        "power": 142,
+        "range": 1500,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Forest Sight"
       }
     },
     {
@@ -12499,6 +14383,12 @@
             "effect": "shadow",
             "visual": "recoiling rune firearm with visible bolt trail"
           }
+        ],
+        "ammo_name": "Machine Gun Bolts",
+        "weapon_tags": [
+          "fantasy firearm",
+          "rune-fed gun",
+          "high-rate bolt weapon"
         ]
       },
       "stat_profile": {
@@ -12559,7 +14449,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine mastery anime silhouette",
+        "face_design": "hawk-eyed",
+        "hair_design": "copper curls",
+        "eye_design": "large bright",
+        "skin_palette": "sun-kissed",
+        "outfit": "Mastery ranger ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 4
+      },
+      "combat_profile": {
+        "attack": "Bolt Machine Burst",
+        "power": 154,
+        "range": 1525,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Wildheart Barrage"
       }
     },
     {
@@ -12681,6 +14598,12 @@
             "effect": "holy",
             "visual": "recoiling rune firearm with visible bolt trail"
           }
+        ],
+        "ammo_name": "Machine Gun Bolts",
+        "weapon_tags": [
+          "fantasy firearm",
+          "rune-fed gun",
+          "high-rate bolt weapon"
         ]
       },
       "stat_profile": {
@@ -12741,7 +14664,34 @@
           "charm",
           "weapon",
           "pack"
-        ]
+        ],
+        "skill_count": 6,
+        "equipment_slot_count": 5
+      },
+      "appearance": {
+        "silhouette": "athletic-feminine transcendence anime silhouette",
+        "face_design": "sharp cheekbones",
+        "hair_design": "white crest",
+        "eye_design": "large bright",
+        "skin_palette": "deep bronze",
+        "outfit": "Transcendence ranger ensemble; class-trim sash; reinforced gloves; signature footwear",
+        "emotion_pack": [
+          "idle",
+          "combat",
+          "critical",
+          "damage",
+          "victory",
+          "defeat"
+        ],
+        "age_stage": 5
+      },
+      "combat_profile": {
+        "attack": "Verdant Paragon Gun",
+        "power": 166,
+        "range": 1550,
+        "resource": "SP",
+        "skill_count": 8,
+        "signature_finisher": "Verdant Finale"
       }
     }
   ]
