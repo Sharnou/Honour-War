@@ -253,7 +253,7 @@ void AHonourWarPlayerController::EnsureCharacterRoster()
     UHonourWarAccountSaveGame* Account=nullptr;
     if(!LoadAccount(Account)) return;
     OwnedCharacters=Account->Characters;
-    while(OwnedCharacters.Num()<60) OwnedCharacters.Add(FHonourWarCharacterSlot());
+    while(OwnedCharacters.Num()<70) OwnedCharacters.Add(FHonourWarCharacterSlot());
     if(SaveCharacterRoster()) return;
 }
 
@@ -380,7 +380,7 @@ bool AHonourWarPlayerController::CreateCharacter(const FString& CharacterName,EH
     for(const TCHAR C:Clean) if(!(FChar::IsAlnum(C)||C==TEXT('_')||C==TEXT('-'))){OutMessage=TEXT("Character name may contain letters, numbers, _ and -.");return false;}
     for(int32 i=0;i<OwnedCharacters.Num();++i) if(OwnedCharacters[i].bOwned && OwnedCharacters[i].CharacterName.Equals(Clean,ESearchCase::IgnoreCase)){OutMessage=TEXT("That character name is already owned.");return false;}
     int32 Slot=-1;
-    for(int32 i=0;i<60;++i){if(i>=OwnedCharacters.Num()) OwnedCharacters.Add(FHonourWarCharacterSlot()); if(!OwnedCharacters[i].bOwned){Slot=i;break;}}
+    for(int32 i=0;i<70;++i){if(i>=OwnedCharacters.Num()) OwnedCharacters.Add(FHonourWarCharacterSlot()); if(!OwnedCharacters[i].bOwned){Slot=i;break;}}
     if(Slot<0){OutMessage=TEXT("All 60 character slots are occupied.");return false;}
     OwnedCharacters[Slot].bOwned=true;
     OwnedCharacters[Slot].CharacterName=Clean;
