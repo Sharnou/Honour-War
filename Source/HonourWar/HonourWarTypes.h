@@ -14,6 +14,31 @@ enum class EHonourWarClass : uint8
     Ranger
 };
 
+UENUM(BlueprintType)
+enum class EHonourWarStatusStat : uint8
+{
+    Strength,
+    Agility,
+    Vitality,
+    Intelligence,
+    Dexterity,
+    Luck
+};
+
+inline FString HonourWarStatusStatName(EHonourWarStatusStat Stat)
+{
+    switch(Stat)
+    {
+        case EHonourWarStatusStat::Strength: return TEXT("STR");
+        case EHonourWarStatusStat::Agility: return TEXT("AGI");
+        case EHonourWarStatusStat::Vitality: return TEXT("VIT");
+        case EHonourWarStatusStat::Intelligence: return TEXT("INT");
+        case EHonourWarStatusStat::Dexterity: return TEXT("DEX");
+        case EHonourWarStatusStat::Luck: return TEXT("LUK");
+        default: return TEXT("STR");
+    }
+}
+
 inline FString HonourWarClassName(EHonourWarClass ClassId)
 {
     switch (ClassId)
