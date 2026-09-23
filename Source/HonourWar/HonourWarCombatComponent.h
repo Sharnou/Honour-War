@@ -87,6 +87,7 @@ public:
 
 protected:
     virtual void BeginPlay() override;
+    virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
     virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
@@ -98,27 +99,27 @@ private:
 
     UPROPERTY() AHonourWarMonster* LastTarget = nullptr;
     UPROPERTY(EditAnywhere) EHonourWarClass CharacterClass = EHonourWarClass::Warrior;
-    UPROPERTY(EditAnywhere) int32 Level = 1;
-    UPROPERTY(EditAnywhere) int32 Experience = 0;
-    UPROPERTY(EditAnywhere) int32 AgeDays = 0;
-    UPROPERTY(EditAnywhere) float MaxHealth = 1200.0f;
-    UPROPERTY(EditAnywhere) float CurrentHealth = 1200.0f;
-    UPROPERTY(EditAnywhere) float MaxSp = 500.0f;
-    UPROPERTY(EditAnywhere) float CurrentSp = 500.0f;
-    UPROPERTY(EditAnywhere) int64 Zeny = 0;
-    UPROPERTY(EditAnywhere) int32 EquipmentRefineLevel = 0;
-    UPROPERTY(EditAnywhere) int32 Phracon = 20;
-    UPROPERTY(EditAnywhere) int32 Emveretarcon = 10;
-    UPROPERTY(EditAnywhere) int32 Oridecon = 5;
-    UPROPERTY(EditAnywhere) int32 BasicSkillLevel = 1;
-    UPROPERTY(EditAnywhere) int32 Honours = 0;
-    UPROPERTY(EditAnywhere) int32 StatusPoints = 30;
-    UPROPERTY(EditAnywhere) int32 Strength = 10;
-    UPROPERTY(EditAnywhere) int32 Agility = 10;
-    UPROPERTY(EditAnywhere) int32 Vitality = 10;
-    UPROPERTY(EditAnywhere) int32 Intelligence = 10;
-    UPROPERTY(EditAnywhere) int32 Dexterity = 10;
-    UPROPERTY(EditAnywhere) int32 LuckStat = 10;
+    UPROPERTY(Replicated,EditAnywhere) int32 Level = 1;
+    UPROPERTY(Replicated,EditAnywhere) int32 Experience = 0;
+    UPROPERTY(Replicated,EditAnywhere) int32 AgeDays = 0;
+    UPROPERTY(Replicated,EditAnywhere) float MaxHealth = 1200.0f;
+    UPROPERTY(Replicated,EditAnywhere) float CurrentHealth = 1200.0f;
+    UPROPERTY(Replicated,EditAnywhere) float MaxSp = 500.0f;
+    UPROPERTY(Replicated,EditAnywhere) float CurrentSp = 500.0f;
+    UPROPERTY(Replicated,EditAnywhere) int64 Zeny = 0;
+    UPROPERTY(Replicated,EditAnywhere) int32 EquipmentRefineLevel = 0;
+    UPROPERTY(Replicated,EditAnywhere) int32 Phracon = 20;
+    UPROPERTY(Replicated,EditAnywhere) int32 Emveretarcon = 10;
+    UPROPERTY(Replicated,EditAnywhere) int32 Oridecon = 5;
+    UPROPERTY(Replicated,EditAnywhere) int32 BasicSkillLevel = 1;
+    UPROPERTY(Replicated,EditAnywhere) int32 Honours = 0;
+    UPROPERTY(Replicated,EditAnywhere) int32 StatusPoints = 30;
+    UPROPERTY(Replicated,EditAnywhere) int32 Strength = 10;
+    UPROPERTY(Replicated,EditAnywhere) int32 Agility = 10;
+    UPROPERTY(Replicated,EditAnywhere) int32 Vitality = 10;
+    UPROPERTY(Replicated,EditAnywhere) int32 Intelligence = 10;
+    UPROPERTY(Replicated,EditAnywhere) int32 Dexterity = 10;
+    UPROPERTY(Replicated,EditAnywhere) int32 LuckStat = 10;
     UPROPERTY() TArray<FString> InventoryItems;
     UPROPERTY() TArray<FString> Cards;
     UPROPERTY() FString LastLootMessage = TEXT("No loot yet");
