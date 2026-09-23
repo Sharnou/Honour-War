@@ -524,6 +524,13 @@ void AHonourWarCharacter::SaveProgress()
     Save->Oridecon=CombatComponent->GetOridecon();
     Save->BasicSkillLevel=CombatComponent->GetBasicSkillLevel();
     Save->Honours=CombatComponent->GetHonours();
+    Save->StatusPoints=CombatComponent->GetStatusPoints();
+    Save->Strength=CombatComponent->GetStrength();
+    Save->Agility=CombatComponent->GetAgility();
+    Save->Vitality=CombatComponent->GetVitality();
+    Save->Intelligence=CombatComponent->GetIntelligence();
+    Save->Dexterity=CombatComponent->GetDexterity();
+    Save->LuckStat=CombatComponent->GetLuckStat();
     Save->InventoryItems=CombatComponent->GetInventoryItems();
     Save->Cards=CombatComponent->GetCards();
     Save->SavedAtUtc=FDateTime::UtcNow();
@@ -565,6 +572,9 @@ void AHonourWarCharacter::LoadProgress()
     CombatComponent->SetEmveretarcon(Save->Emveretarcon);
     CombatComponent->SetOridecon(Save->Oridecon);
     CombatComponent->SetHonours(Save->Honours);
+    CombatComponent->SetStatusState(
+        Save->StatusPoints,Save->Strength,Save->Agility,Save->Vitality,
+        Save->Intelligence,Save->Dexterity,Save->LuckStat);
     CombatComponent->SetBasicSkillLevel(Save->BasicSkillLevel);
     CombatComponent->SetInventoryItems(Save->InventoryItems);
     CombatComponent->SetCards(Save->Cards);
