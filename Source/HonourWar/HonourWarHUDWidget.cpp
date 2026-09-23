@@ -279,9 +279,11 @@ void UHonourWarHUDWidget::BuildStatusPanel(UCanvasPanel* Root)
     Row->AddChildToHorizontalBox(LuckButton);
     Stack->AddChildToVerticalBox(Row);
 
+    StatusDerivedText=Text(WidgetTree,TEXT("StatusDerivedText"),TEXT("ATK —  |  HIT —  |  FLEE —  |  CRIT —  |  LUCK —  |  DMG RED —"),12,Gold);
+    Stack->AddChildToVerticalBox(StatusDerivedText);
     StatusRulesText=Text(WidgetTree,TEXT("StatusRulesText"),
-        TEXT("Per level: +3 Status Points; every 25th level: +5 bonus.\n10-79 costs 1 point • 80-99 costs 2 • 100-120 costs 3.\nSTR ATK • AGI FLEE/CD • VIT HP/mitigation • INT SP/skill damage • DEX HIT • LUK critical/lucky."),
-        12,Muted);
+        TEXT("Per level: +3 Status Points; every 25th level: +5 bonus.\n10-79 costs 1 • 80-99 costs 2 • 100-120 costs 3.\nSTR ATK • AGI FLEE/CD • VIT HP/mitigation • INT SP/skill scaling • DEX HIT • LUK critical/lucky."),
+        11,Muted);
     Stack->AddChildToVerticalBox(StatusRulesText);
 }
 
