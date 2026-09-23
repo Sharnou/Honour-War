@@ -27,7 +27,7 @@ public:
 protected:
     virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
-private:
+public:
     struct FQuestDefinition
     {
         int32 Id;
@@ -42,6 +42,8 @@ private:
     };
 
     static const FQuestDefinition& DefinitionFor(int32 InQuestId);
+
+private:
     static constexpr int32 QuestCount=12;
 
     UPROPERTY() UHonourWarCombatComponent* CombatComponent=nullptr;
