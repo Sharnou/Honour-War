@@ -79,6 +79,18 @@ def check_city_monster_exclusion() -> None:
     if not world.is_file(): fail("HonourWarWorldDirector.cpp is missing")
     text=world.read_text(encoding="utf-8")
     if "FVector2D(Slot.Location.X,Slot.Location.Y).Size()<7800.0f" not in text: fail("permanent city monster exclusion radius is missing")
+    catalog=ROOT/"data"/"honour_war_content_catalog.json"
+    if catalog.is_file():
+        try:
+            entries=json.loads(catalog.read_text(encoding="utf-8"))["monsters"]
+        except (OSError,KeyError,json.JSONDecodeError) as exc:
+            fail(f"monster catalog cannot be read: {exc}")
+        for entry in entries:
+            loc=entry.get("location",{})
+            x=float(loc.get("x",0.0)); y=float(loc.get("y",0.0))
+            if (x*x+y*y)**0.5<7800.0:
+                fail(f"monster catalog entry remains inside city exclusion radius: {entry.get('id','unknown')} {x},{y}")
+        return
     match=re.search(r"const FVector MonsterLocations\[\]\s*=\s*\{(.*?)\};",text,re.S)
     if not match: fail("monster location array is missing")
     for xyz in re.findall(r"FVector\(([-+]?\d+(?:\.\d+)?),([-+]?\d+(?:\.\d+)?),",match.group(1)):
