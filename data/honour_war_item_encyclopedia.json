@@ -20707,7 +20707,7 @@
       "job": "Abyssal Warlord",
       "slot": "Weapon",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
+      "when": "Available after reaching Lv.200 Tier 5; direct Worldbreaker drop is available any time after the source monster spawns.",
       "source": {
         "monster_id": "MON_160",
         "monster_name": "Night Orc Warlord Worldbreaker",
@@ -20733,7 +20733,7 @@
       "job": "Abyssal Warlord",
       "slot": "Shield",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
+      "when": "Available after reaching Lv.200 Tier 5; direct Worldbreaker drop is available any time after the source monster spawns.",
       "source": {
         "monster_id": "MON_160",
         "monster_name": "Night Orc Warlord Worldbreaker",
@@ -20759,7 +20759,7 @@
       "job": "Eternal Spellwright",
       "slot": "Weapon",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
+      "when": "Available after reaching Lv.200 Tier 5; direct Worldbreaker drop is available any time after the source monster spawns.",
       "source": {
         "monster_id": "MON_008",
         "monster_name": "Night Poring Worldbreaker",
@@ -20785,7 +20785,7 @@
       "job": "Eternal Spellwright",
       "slot": "Focus",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
+      "when": "Available after reaching Lv.200 Tier 5; direct Worldbreaker drop is available any time after the source monster spawns.",
       "source": {
         "monster_id": "MON_008",
         "monster_name": "Night Poring Worldbreaker",
@@ -20811,7 +20811,7 @@
       "job": "Causality Marksman",
       "slot": "Weapon",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
+      "when": "Available after reaching Lv.200 Tier 5; direct Worldbreaker drop is available any time after the source monster spawns.",
       "source": {
         "monster_id": "MON_120",
         "monster_name": "Night Bone Archer Worldbreaker",
@@ -20837,7 +20837,7 @@
       "job": "Causality Marksman",
       "slot": "Quiver",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
+      "when": "Available after reaching Lv.200 Tier 5; direct Worldbreaker drop is available any time after the source monster spawns.",
       "source": {
         "monster_id": "MON_120",
         "monster_name": "Night Bone Archer Worldbreaker",
@@ -20863,7 +20863,7 @@
       "job": "Absolute Shadow",
       "slot": "Weapon",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
+      "when": "Available after reaching Lv.200 Tier 5; direct Worldbreaker drop is available any time after the source monster spawns.",
       "source": {
         "monster_id": "MON_192",
         "monster_name": "Night Venom Beetle Worldbreaker",
@@ -20889,7 +20889,7 @@
       "job": "Absolute Shadow",
       "slot": "Offhand",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
+      "when": "Available after reaching Lv.200 Tier 5; direct Worldbreaker drop is available any time after the source monster spawns.",
       "source": {
         "monster_id": "MON_192",
         "monster_name": "Night Venom Beetle Worldbreaker",
@@ -20915,7 +20915,7 @@
       "job": "Eternal Benediction",
       "slot": "Weapon",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
+      "when": "Available after reaching Lv.200 Tier 5; direct Worldbreaker drop is available any time after the source monster spawns.",
       "source": {
         "monster_id": "MON_240",
         "monster_name": "Night Drake Worldbreaker",
@@ -20941,7 +20941,7 @@
       "job": "Eternal Benediction",
       "slot": "Scripture",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
+      "when": "Available after reaching Lv.200 Tier 5; direct Worldbreaker drop is available any time after the source monster spawns.",
       "source": {
         "monster_id": "MON_240",
         "monster_name": "Night Drake Worldbreaker",
@@ -20967,7 +20967,7 @@
       "job": "Infinite Quartermaster",
       "slot": "Weapon",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
+      "when": "Available after reaching Lv.200 Tier 5; direct Worldbreaker drop is available any time after the source monster spawns.",
       "source": {
         "monster_id": "MON_224",
         "monster_name": "Night Iron Golem Worldbreaker",
@@ -20993,7 +20993,7 @@
       "job": "Infinite Quartermaster",
       "slot": "Offhand",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
+      "when": "Available after reaching Lv.200 Tier 5; direct Worldbreaker drop is available any time after the source monster spawns.",
       "source": {
         "monster_id": "MON_224",
         "monster_name": "Night Iron Golem Worldbreaker",
@@ -21019,7 +21019,7 @@
       "job": "Verdant Paragon",
       "slot": "Weapon",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
+      "when": "Available after reaching Lv.200 Tier 5; direct Worldbreaker drop is available any time after the source monster spawns.",
       "source": {
         "monster_id": "MON_176",
         "monster_name": "Night Hunter Fly Worldbreaker",
@@ -21047,7 +21047,7 @@
       "job": "Verdant Paragon",
       "slot": "Quiver",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
+      "when": "Available after reaching Lv.200 Tier 5; direct Worldbreaker drop is available any time after the source monster spawns.",
       "source": {
         "monster_id": "MON_176",
         "monster_name": "Night Hunter Fly Worldbreaker",
@@ -21075,7 +21075,7 @@
       "job": "Abyssal Warlord",
       "slot": "Accessory",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
+      "when": "Available after reaching Lv.200 Tier 5; direct Worldbreaker drop is available any time after the source monster spawns.",
       "source": {
         "monster_id": "MON_160",
         "monster_name": "Night Orc Warlord Worldbreaker",
@@ -21097,7 +21097,7 @@
       "job": "Eternal Spellwright",
       "slot": "Accessory",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
+      "when": "Available after reaching Lv.200 Tier 5; direct Worldbreaker drop is available any time after the source monster spawns.",
       "source": {
         "monster_id": "MON_008",
         "monster_name": "Night Poring Worldbreaker",
@@ -21119,7 +21119,7 @@
       "job": "Causality Marksman",
       "slot": "Accessory",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
+      "when": "Available after reaching Lv.200 Tier 5; direct Worldbreaker drop is available any time after the source monster spawns.",
       "source": {
         "monster_id": "MON_120",
         "monster_name": "Night Bone Archer Worldbreaker",
@@ -21141,7 +21141,7 @@
       "job": "Absolute Shadow",
       "slot": "Accessory",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
+      "when": "Available after reaching Lv.200 Tier 5; direct Worldbreaker drop is available any time after the source monster spawns.",
       "source": {
         "monster_id": "MON_192",
         "monster_name": "Night Venom Beetle Worldbreaker",
@@ -21163,7 +21163,7 @@
       "job": "Eternal Benediction",
       "slot": "Accessory",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
+      "when": "Available after reaching Lv.200 Tier 5; direct Worldbreaker drop is available any time after the source monster spawns.",
       "source": {
         "monster_id": "MON_240",
         "monster_name": "Night Drake Worldbreaker",
@@ -21185,7 +21185,7 @@
       "job": "Infinite Quartermaster",
       "slot": "Accessory",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
+      "when": "Available after reaching Lv.200 Tier 5; direct Worldbreaker drop is available any time after the source monster spawns.",
       "source": {
         "monster_id": "MON_224",
         "monster_name": "Night Iron Golem Worldbreaker",
@@ -21207,7 +21207,7 @@
       "job": "Verdant Paragon",
       "slot": "Accessory",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
+      "when": "Available after reaching Lv.200 Tier 5; direct Worldbreaker drop is available any time after the source monster spawns.",
       "source": {
         "monster_id": "MON_176",
         "monster_name": "Night Hunter Fly Worldbreaker",
