@@ -28,6 +28,7 @@ private:
     void BuildProfileCluster(UCanvasPanel* Root);
     void BuildMiniMap(UCanvasPanel* Root);
     void BuildWorldEventPanel(UCanvasPanel* Root);
+    void BuildStatusPanel(UCanvasPanel* Root);
     void BuildQuestTracker(UCanvasPanel* Root);
     void BuildChatDock(UCanvasPanel* Root);
     void BuildAuthenticationPanel(UCanvasPanel* Root);
@@ -61,6 +62,14 @@ private:
     UPROPERTY() UTextBlock* EventText=nullptr;
     UPROPERTY() UTextBlock* MapCoordsText=nullptr;
     UPROPERTY() UTextBlock* MapStatusText=nullptr;
+    UPROPERTY() UTextBlock* StatusText=nullptr;
+    UPROPERTY() UTextBlock* StatusRulesText=nullptr;
+    UPROPERTY() UButton* StrengthButton=nullptr;
+    UPROPERTY() UButton* AgilityButton=nullptr;
+    UPROPERTY() UButton* VitalityButton=nullptr;
+    UPROPERTY() UButton* IntelligenceButton=nullptr;
+    UPROPERTY() UButton* DexterityButton=nullptr;
+    UPROPERTY() UButton* LuckButton=nullptr;
 
     UPROPERTY() UBorder* AuthPanel=nullptr;
     UPROPERTY() UEditableTextBox* AuthUsername=nullptr;
