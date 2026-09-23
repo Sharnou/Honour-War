@@ -28,7 +28,6 @@ private:
     void BuildProfileCluster(UCanvasPanel* Root);
     void BuildMiniMap(UCanvasPanel* Root);
     void BuildWorldEventPanel(UCanvasPanel* Root);
-    void BuildSkillBar(UCanvasPanel* Root);
     void BuildQuestTracker(UCanvasPanel* Root);
     void BuildChatDock(UCanvasPanel* Root);
     void BuildAuthenticationPanel(UCanvasPanel* Root);
