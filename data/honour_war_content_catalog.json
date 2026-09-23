@@ -1,0 +1,7933 @@
+{
+  "schema_version": 1,
+  "engine": "Unreal Engine 5.8",
+  "game": "Honour War",
+  "counts": {
+    "characters": 60,
+    "monsters": 64,
+    "maps": 24,
+    "equipment": 240,
+    "items": 74,
+    "cards": 240
+  },
+  "characters": [
+    {
+      "id": "CHAR_001",
+      "name": "Alden Flameward",
+      "class": "Warrior",
+      "class_tier": 1,
+      "unlock_level": 1,
+      "base_level": 1,
+      "starter_build": "Vanguard",
+      "visual_profile": "warrior_01"
+    },
+    {
+      "id": "CHAR_002",
+      "name": "Lyra Greencrest",
+      "class": "Mage",
+      "class_tier": 1,
+      "unlock_level": 1,
+      "base_level": 1,
+      "starter_build": "Spellcraft",
+      "visual_profile": "mage_02"
+    },
+    {
+      "id": "CHAR_003",
+      "name": "Kael Silversong",
+      "class": "Archer",
+      "class_tier": 1,
+      "unlock_level": 1,
+      "base_level": 1,
+      "starter_build": "Marksman",
+      "visual_profile": "archer_03"
+    },
+    {
+      "id": "CHAR_004",
+      "name": "Mira Moonveil",
+      "class": "Thief",
+      "class_tier": 1,
+      "unlock_level": 1,
+      "base_level": 1,
+      "starter_build": "Shadow",
+      "visual_profile": "thief_04"
+    },
+    {
+      "id": "CHAR_005",
+      "name": "Darian Ashborne",
+      "class": "Acolyte",
+      "class_tier": 1,
+      "unlock_level": 1,
+      "base_level": 1,
+      "starter_build": "Benediction",
+      "visual_profile": "acolyte_05"
+    },
+    {
+      "id": "CHAR_006",
+      "name": "Selene Goldbranch",
+      "class": "Merchant",
+      "class_tier": 1,
+      "unlock_level": 1,
+      "base_level": 1,
+      "starter_build": "Quartermaster",
+      "visual_profile": "merchant_06"
+    },
+    {
+      "id": "CHAR_007",
+      "name": "Rowan Stormhart",
+      "class": "Ranger",
+      "class_tier": 1,
+      "unlock_level": 1,
+      "base_level": 1,
+      "starter_build": "Warden",
+      "visual_profile": "ranger_07"
+    },
+    {
+      "id": "CHAR_008",
+      "name": "Elara Frostmere",
+      "class": "Warrior",
+      "class_tier": 1,
+      "unlock_level": 1,
+      "base_level": 1,
+      "starter_build": "Vanguard",
+      "visual_profile": "warrior_08"
+    },
+    {
+      "id": "CHAR_009",
+      "name": "Theron Thornwall",
+      "class": "Mage",
+      "class_tier": 1,
+      "unlock_level": 1,
+      "base_level": 1,
+      "starter_build": "Spellcraft",
+      "visual_profile": "mage_09"
+    },
+    {
+      "id": "CHAR_010",
+      "name": "Nadia Dawnmere",
+      "class": "Archer",
+      "class_tier": 1,
+      "unlock_level": 1,
+      "base_level": 1,
+      "starter_build": "Marksman",
+      "visual_profile": "archer_10"
+    },
+    {
+      "id": "CHAR_011",
+      "name": "Lucan Sunforge",
+      "class": "Thief",
+      "class_tier": 1,
+      "unlock_level": 1,
+      "base_level": 1,
+      "starter_build": "Shadow",
+      "visual_profile": "thief_01"
+    },
+    {
+      "id": "CHAR_012",
+      "name": "Seren Skydancer",
+      "class": "Acolyte",
+      "class_tier": 1,
+      "unlock_level": 1,
+      "base_level": 1,
+      "starter_build": "Benediction",
+      "visual_profile": "acolyte_02"
+    },
+    {
+      "id": "CHAR_013",
+      "name": "Orin Nightbloom",
+      "class": "Merchant",
+      "class_tier": 2,
+      "unlock_level": 25,
+      "base_level": 1,
+      "starter_build": "Quartermaster",
+      "visual_profile": "merchant_03"
+    },
+    {
+      "id": "CHAR_014",
+      "name": "Vera Ravenmark",
+      "class": "Ranger",
+      "class_tier": 2,
+      "unlock_level": 25,
+      "base_level": 1,
+      "starter_build": "Warden",
+      "visual_profile": "ranger_04"
+    },
+    {
+      "id": "CHAR_015",
+      "name": "Cassian Stoneheart",
+      "class": "Warrior",
+      "class_tier": 2,
+      "unlock_level": 25,
+      "base_level": 1,
+      "starter_build": "Vanguard",
+      "visual_profile": "warrior_05"
+    },
+    {
+      "id": "CHAR_016",
+      "name": "Ilyra Ironvale",
+      "class": "Mage",
+      "class_tier": 2,
+      "unlock_level": 25,
+      "base_level": 1,
+      "starter_build": "Spellcraft",
+      "visual_profile": "mage_06"
+    },
+    {
+      "id": "CHAR_017",
+      "name": "Riven Brightshield",
+      "class": "Archer",
+      "class_tier": 2,
+      "unlock_level": 25,
+      "base_level": 1,
+      "starter_build": "Marksman",
+      "visual_profile": "archer_07"
+    },
+    {
+      "id": "CHAR_018",
+      "name": "Maelis Windmere",
+      "class": "Thief",
+      "class_tier": 2,
+      "unlock_level": 25,
+      "base_level": 1,
+      "starter_build": "Shadow",
+      "visual_profile": "thief_08"
+    },
+    {
+      "id": "CHAR_019",
+      "name": "Corin Starfall",
+      "class": "Acolyte",
+      "class_tier": 2,
+      "unlock_level": 25,
+      "base_level": 1,
+      "starter_build": "Benediction",
+      "visual_profile": "acolyte_09"
+    },
+    {
+      "id": "CHAR_020",
+      "name": "Talia Emberwyn",
+      "class": "Merchant",
+      "class_tier": 2,
+      "unlock_level": 25,
+      "base_level": 1,
+      "starter_build": "Quartermaster",
+      "visual_profile": "merchant_10"
+    },
+    {
+      "id": "CHAR_021",
+      "name": "Alden Flameward",
+      "class": "Ranger",
+      "class_tier": 2,
+      "unlock_level": 25,
+      "base_level": 1,
+      "starter_build": "Warden",
+      "visual_profile": "ranger_01"
+    },
+    {
+      "id": "CHAR_022",
+      "name": "Lyra Greencrest",
+      "class": "Warrior",
+      "class_tier": 2,
+      "unlock_level": 25,
+      "base_level": 1,
+      "starter_build": "Vanguard",
+      "visual_profile": "warrior_02"
+    },
+    {
+      "id": "CHAR_023",
+      "name": "Kael Silversong",
+      "class": "Mage",
+      "class_tier": 2,
+      "unlock_level": 25,
+      "base_level": 1,
+      "starter_build": "Spellcraft",
+      "visual_profile": "mage_03"
+    },
+    {
+      "id": "CHAR_024",
+      "name": "Mira Moonveil",
+      "class": "Archer",
+      "class_tier": 2,
+      "unlock_level": 25,
+      "base_level": 1,
+      "starter_build": "Marksman",
+      "visual_profile": "archer_04"
+    },
+    {
+      "id": "CHAR_025",
+      "name": "Darian Ashborne",
+      "class": "Thief",
+      "class_tier": 3,
+      "unlock_level": 50,
+      "base_level": 1,
+      "starter_build": "Shadow",
+      "visual_profile": "thief_05"
+    },
+    {
+      "id": "CHAR_026",
+      "name": "Selene Goldbranch",
+      "class": "Acolyte",
+      "class_tier": 3,
+      "unlock_level": 50,
+      "base_level": 1,
+      "starter_build": "Benediction",
+      "visual_profile": "acolyte_06"
+    },
+    {
+      "id": "CHAR_027",
+      "name": "Rowan Stormhart",
+      "class": "Merchant",
+      "class_tier": 3,
+      "unlock_level": 50,
+      "base_level": 1,
+      "starter_build": "Quartermaster",
+      "visual_profile": "merchant_07"
+    },
+    {
+      "id": "CHAR_028",
+      "name": "Elara Frostmere",
+      "class": "Ranger",
+      "class_tier": 3,
+      "unlock_level": 50,
+      "base_level": 1,
+      "starter_build": "Warden",
+      "visual_profile": "ranger_08"
+    },
+    {
+      "id": "CHAR_029",
+      "name": "Theron Thornwall",
+      "class": "Warrior",
+      "class_tier": 3,
+      "unlock_level": 50,
+      "base_level": 1,
+      "starter_build": "Vanguard",
+      "visual_profile": "warrior_09"
+    },
+    {
+      "id": "CHAR_030",
+      "name": "Nadia Dawnmere",
+      "class": "Mage",
+      "class_tier": 3,
+      "unlock_level": 50,
+      "base_level": 1,
+      "starter_build": "Spellcraft",
+      "visual_profile": "mage_10"
+    },
+    {
+      "id": "CHAR_031",
+      "name": "Lucan Sunforge",
+      "class": "Archer",
+      "class_tier": 3,
+      "unlock_level": 50,
+      "base_level": 1,
+      "starter_build": "Marksman",
+      "visual_profile": "archer_01"
+    },
+    {
+      "id": "CHAR_032",
+      "name": "Seren Skydancer",
+      "class": "Thief",
+      "class_tier": 3,
+      "unlock_level": 50,
+      "base_level": 1,
+      "starter_build": "Shadow",
+      "visual_profile": "thief_02"
+    },
+    {
+      "id": "CHAR_033",
+      "name": "Orin Nightbloom",
+      "class": "Acolyte",
+      "class_tier": 3,
+      "unlock_level": 50,
+      "base_level": 1,
+      "starter_build": "Benediction",
+      "visual_profile": "acolyte_03"
+    },
+    {
+      "id": "CHAR_034",
+      "name": "Vera Ravenmark",
+      "class": "Merchant",
+      "class_tier": 3,
+      "unlock_level": 50,
+      "base_level": 1,
+      "starter_build": "Quartermaster",
+      "visual_profile": "merchant_04"
+    },
+    {
+      "id": "CHAR_035",
+      "name": "Cassian Stoneheart",
+      "class": "Ranger",
+      "class_tier": 3,
+      "unlock_level": 50,
+      "base_level": 1,
+      "starter_build": "Warden",
+      "visual_profile": "ranger_05"
+    },
+    {
+      "id": "CHAR_036",
+      "name": "Ilyra Ironvale",
+      "class": "Warrior",
+      "class_tier": 3,
+      "unlock_level": 50,
+      "base_level": 1,
+      "starter_build": "Vanguard",
+      "visual_profile": "warrior_06"
+    },
+    {
+      "id": "CHAR_037",
+      "name": "Riven Brightshield",
+      "class": "Mage",
+      "class_tier": 4,
+      "unlock_level": 150,
+      "base_level": 1,
+      "starter_build": "Spellcraft",
+      "visual_profile": "mage_07"
+    },
+    {
+      "id": "CHAR_038",
+      "name": "Maelis Windmere",
+      "class": "Archer",
+      "class_tier": 4,
+      "unlock_level": 150,
+      "base_level": 1,
+      "starter_build": "Marksman",
+      "visual_profile": "archer_08"
+    },
+    {
+      "id": "CHAR_039",
+      "name": "Corin Starfall",
+      "class": "Thief",
+      "class_tier": 4,
+      "unlock_level": 150,
+      "base_level": 1,
+      "starter_build": "Shadow",
+      "visual_profile": "thief_09"
+    },
+    {
+      "id": "CHAR_040",
+      "name": "Talia Emberwyn",
+      "class": "Acolyte",
+      "class_tier": 4,
+      "unlock_level": 150,
+      "base_level": 1,
+      "starter_build": "Benediction",
+      "visual_profile": "acolyte_10"
+    },
+    {
+      "id": "CHAR_041",
+      "name": "Alden Flameward",
+      "class": "Merchant",
+      "class_tier": 4,
+      "unlock_level": 150,
+      "base_level": 1,
+      "starter_build": "Quartermaster",
+      "visual_profile": "merchant_01"
+    },
+    {
+      "id": "CHAR_042",
+      "name": "Lyra Greencrest",
+      "class": "Ranger",
+      "class_tier": 4,
+      "unlock_level": 150,
+      "base_level": 1,
+      "starter_build": "Warden",
+      "visual_profile": "ranger_02"
+    },
+    {
+      "id": "CHAR_043",
+      "name": "Kael Silversong",
+      "class": "Warrior",
+      "class_tier": 4,
+      "unlock_level": 150,
+      "base_level": 1,
+      "starter_build": "Vanguard",
+      "visual_profile": "warrior_03"
+    },
+    {
+      "id": "CHAR_044",
+      "name": "Mira Moonveil",
+      "class": "Mage",
+      "class_tier": 4,
+      "unlock_level": 150,
+      "base_level": 1,
+      "starter_build": "Spellcraft",
+      "visual_profile": "mage_04"
+    },
+    {
+      "id": "CHAR_045",
+      "name": "Darian Ashborne",
+      "class": "Archer",
+      "class_tier": 4,
+      "unlock_level": 150,
+      "base_level": 1,
+      "starter_build": "Marksman",
+      "visual_profile": "archer_05"
+    },
+    {
+      "id": "CHAR_046",
+      "name": "Selene Goldbranch",
+      "class": "Thief",
+      "class_tier": 4,
+      "unlock_level": 150,
+      "base_level": 1,
+      "starter_build": "Shadow",
+      "visual_profile": "thief_06"
+    },
+    {
+      "id": "CHAR_047",
+      "name": "Rowan Stormhart",
+      "class": "Acolyte",
+      "class_tier": 4,
+      "unlock_level": 150,
+      "base_level": 1,
+      "starter_build": "Benediction",
+      "visual_profile": "acolyte_07"
+    },
+    {
+      "id": "CHAR_048",
+      "name": "Elara Frostmere",
+      "class": "Merchant",
+      "class_tier": 4,
+      "unlock_level": 150,
+      "base_level": 1,
+      "starter_build": "Quartermaster",
+      "visual_profile": "merchant_08"
+    },
+    {
+      "id": "CHAR_049",
+      "name": "Theron Thornwall",
+      "class": "Ranger",
+      "class_tier": 5,
+      "unlock_level": 200,
+      "base_level": 1,
+      "starter_build": "Warden",
+      "visual_profile": "ranger_09"
+    },
+    {
+      "id": "CHAR_050",
+      "name": "Nadia Dawnmere",
+      "class": "Warrior",
+      "class_tier": 5,
+      "unlock_level": 200,
+      "base_level": 1,
+      "starter_build": "Vanguard",
+      "visual_profile": "warrior_10"
+    },
+    {
+      "id": "CHAR_051",
+      "name": "Lucan Sunforge",
+      "class": "Mage",
+      "class_tier": 5,
+      "unlock_level": 200,
+      "base_level": 1,
+      "starter_build": "Spellcraft",
+      "visual_profile": "mage_01"
+    },
+    {
+      "id": "CHAR_052",
+      "name": "Seren Skydancer",
+      "class": "Archer",
+      "class_tier": 5,
+      "unlock_level": 200,
+      "base_level": 1,
+      "starter_build": "Marksman",
+      "visual_profile": "archer_02"
+    },
+    {
+      "id": "CHAR_053",
+      "name": "Orin Nightbloom",
+      "class": "Thief",
+      "class_tier": 5,
+      "unlock_level": 200,
+      "base_level": 1,
+      "starter_build": "Shadow",
+      "visual_profile": "thief_03"
+    },
+    {
+      "id": "CHAR_054",
+      "name": "Vera Ravenmark",
+      "class": "Acolyte",
+      "class_tier": 5,
+      "unlock_level": 200,
+      "base_level": 1,
+      "starter_build": "Benediction",
+      "visual_profile": "acolyte_04"
+    },
+    {
+      "id": "CHAR_055",
+      "name": "Cassian Stoneheart",
+      "class": "Merchant",
+      "class_tier": 5,
+      "unlock_level": 200,
+      "base_level": 1,
+      "starter_build": "Quartermaster",
+      "visual_profile": "merchant_05"
+    },
+    {
+      "id": "CHAR_056",
+      "name": "Ilyra Ironvale",
+      "class": "Ranger",
+      "class_tier": 5,
+      "unlock_level": 200,
+      "base_level": 1,
+      "starter_build": "Warden",
+      "visual_profile": "ranger_06"
+    },
+    {
+      "id": "CHAR_057",
+      "name": "Riven Brightshield",
+      "class": "Warrior",
+      "class_tier": 5,
+      "unlock_level": 200,
+      "base_level": 1,
+      "starter_build": "Vanguard",
+      "visual_profile": "warrior_07"
+    },
+    {
+      "id": "CHAR_058",
+      "name": "Maelis Windmere",
+      "class": "Mage",
+      "class_tier": 5,
+      "unlock_level": 200,
+      "base_level": 1,
+      "starter_build": "Spellcraft",
+      "visual_profile": "mage_08"
+    },
+    {
+      "id": "CHAR_059",
+      "name": "Corin Starfall",
+      "class": "Archer",
+      "class_tier": 5,
+      "unlock_level": 200,
+      "base_level": 1,
+      "starter_build": "Marksman",
+      "visual_profile": "archer_09"
+    },
+    {
+      "id": "CHAR_060",
+      "name": "Talia Emberwyn",
+      "class": "Thief",
+      "class_tier": 5,
+      "unlock_level": 200,
+      "base_level": 1,
+      "starter_build": "Shadow",
+      "visual_profile": "thief_10"
+    }
+  ],
+  "monsters": [
+    {
+      "id": "MON_001",
+      "name": "Wild Poring Scout",
+      "visual_archetype": "Poring",
+      "level": 10,
+      "hp": 1250,
+      "location": {
+        "x": 8200,
+        "y": 0,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_002",
+      "name": "Crimson Poring Hunter",
+      "visual_archetype": "Poring",
+      "level": 30,
+      "hp": 2550,
+      "location": {
+        "x": -6857,
+        "y": 6283,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_003",
+      "name": "Ancient Poring Alpha",
+      "visual_archetype": "Poring",
+      "level": 50,
+      "hp": 3850,
+      "location": {
+        "x": 906,
+        "y": -10360,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_004",
+      "name": "Royal Poring Warden",
+      "visual_archetype": "Poring",
+      "level": 80,
+      "hp": 5800,
+      "location": {
+        "x": 7001,
+        "y": 9124,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_005",
+      "name": "Abyssal Poring Elder",
+      "visual_archetype": "Poring",
+      "level": 120,
+      "hp": 8400,
+      "location": {
+        "x": -8075,
+        "y": -1424,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_006",
+      "name": "Storm Poring Lord",
+      "visual_archetype": "Poring",
+      "level": 170,
+      "hp": 11650,
+      "location": {
+        "x": 7844,
+        "y": -4997,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_007",
+      "name": "Verdant Poring Tyrant",
+      "visual_archetype": "Poring",
+      "level": 230,
+      "hp": 15550,
+      "location": {
+        "x": -2692,
+        "y": 10046,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_008",
+      "name": "Night Poring Worldbreaker",
+      "visual_archetype": "Poring",
+      "level": 300,
+      "hp": 20100,
+      "location": {
+        "x": -5310,
+        "y": -10201,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_009",
+      "name": "Royal Goblin Scout",
+      "visual_archetype": "Goblin",
+      "level": 10,
+      "hp": 1250,
+      "location": {
+        "x": 7818,
+        "y": 2846,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_010",
+      "name": "Abyssal Goblin Hunter",
+      "visual_archetype": "Goblin",
+      "level": 30,
+      "hp": 2550,
+      "location": {
+        "x": -8703,
+        "y": 3605,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_011",
+      "name": "Storm Goblin Alpha",
+      "visual_archetype": "Goblin",
+      "level": 50,
+      "hp": 3850,
+      "location": {
+        "x": 4446,
+        "y": -9534,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_012",
+      "name": "Verdant Goblin Warden",
+      "visual_archetype": "Goblin",
+      "level": 80,
+      "hp": 5800,
+      "location": {
+        "x": 3494,
+        "y": 11082,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_013",
+      "name": "Night Goblin Elder",
+      "visual_archetype": "Goblin",
+      "level": 120,
+      "hp": 8400,
+      "location": {
+        "x": -7205,
+        "y": -4160,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_014",
+      "name": "Ember Goblin Lord",
+      "visual_archetype": "Goblin",
+      "level": 170,
+      "hp": 11650,
+      "location": {
+        "x": 9197,
+        "y": -2039,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_015",
+      "name": "Star Goblin Tyrant",
+      "visual_archetype": "Goblin",
+      "level": 230,
+      "hp": 15550,
+      "location": {
+        "x": -6034,
+        "y": 8617,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_016",
+      "name": "Iron Goblin Worldbreaker",
+      "visual_archetype": "Goblin",
+      "level": 300,
+      "hp": 20100,
+      "location": {
+        "x": -1517,
+        "y": -11521,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_017",
+      "name": "Verdant Wolf Scout",
+      "visual_archetype": "Wolf",
+      "level": 10,
+      "hp": 1250,
+      "location": {
+        "x": 6465,
+        "y": 5425,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_018",
+      "name": "Night Wolf Hunter",
+      "visual_archetype": "Wolf",
+      "level": 30,
+      "hp": 2550,
+      "location": {
+        "x": -9531,
+        "y": 416,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_019",
+      "name": "Ember Wolf Alpha",
+      "visual_archetype": "Wolf",
+      "level": 50,
+      "hp": 3850,
+      "location": {
+        "x": 7524,
+        "y": -7524,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_020",
+      "name": "Star Wolf Warden",
+      "visual_archetype": "Wolf",
+      "level": 80,
+      "hp": 5800,
+      "location": {
+        "x": -512,
+        "y": 11729,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_021",
+      "name": "Iron Wolf Elder",
+      "visual_archetype": "Wolf",
+      "level": 120,
+      "hp": 8400,
+      "location": {
+        "x": -5425,
+        "y": -6465,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_022",
+      "name": "Sovereign Wolf Lord",
+      "visual_archetype": "Wolf",
+      "level": 170,
+      "hp": 11650,
+      "location": {
+        "x": 9458,
+        "y": 1245,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_023",
+      "name": "Wild Wolf Tyrant",
+      "visual_archetype": "Wolf",
+      "level": 230,
+      "hp": 15550,
+      "location": {
+        "x": -8716,
+        "y": 6103,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_024",
+      "name": "Crimson Wolf Worldbreaker",
+      "visual_archetype": "Wolf",
+      "level": 300,
+      "hp": 20100,
+      "location": {
+        "x": 2541,
+        "y": -11462,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_025",
+      "name": "Star Skeleton Scout",
+      "visual_archetype": "Skeleton",
+      "level": 10,
+      "hp": 1250,
+      "location": {
+        "x": 4280,
+        "y": 7413,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_026",
+      "name": "Iron Skeleton Hunter",
+      "visual_archetype": "Skeleton",
+      "level": 30,
+      "hp": 2550,
+      "location": {
+        "x": -9213,
+        "y": -2905,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_027",
+      "name": "Sovereign Skeleton Alpha",
+      "visual_archetype": "Skeleton",
+      "level": 50,
+      "hp": 3850,
+      "location": {
+        "x": 9752,
+        "y": -4547,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_028",
+      "name": "Wild Skeleton Warden",
+      "visual_archetype": "Skeleton",
+      "level": 80,
+      "hp": 5800,
+      "location": {
+        "x": -4539,
+        "y": 10957,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_029",
+      "name": "Crimson Skeleton Elder",
+      "visual_archetype": "Skeleton",
+      "level": 120,
+      "hp": 8400,
+      "location": {
+        "x": -2928,
+        "y": -8044,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_030",
+      "name": "Ancient Skeleton Lord",
+      "visual_archetype": "Skeleton",
+      "level": 170,
+      "hp": 11650,
+      "location": {
+        "x": 8569,
+        "y": 4460,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_031",
+      "name": "Royal Skeleton Tyrant",
+      "visual_archetype": "Skeleton",
+      "level": 230,
+      "hp": 15550,
+      "location": {
+        "x": -10393,
+        "y": 2785,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_032",
+      "name": "Abyssal Skeleton Worldbreaker",
+      "visual_archetype": "Skeleton",
+      "level": 300,
+      "hp": 20100,
+      "location": {
+        "x": 6372,
+        "y": -10003,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_033",
+      "name": "Wild Orc Scout",
+      "visual_archetype": "Orc",
+      "level": 10,
+      "hp": 1250,
+      "location": {
+        "x": 1507,
+        "y": 8548,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_034",
+      "name": "Crimson Orc Hunter",
+      "visual_archetype": "Orc",
+      "level": 30,
+      "hp": 2550,
+      "location": {
+        "x": -7759,
+        "y": -5954,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_035",
+      "name": "Ancient Orc Alpha",
+      "visual_archetype": "Orc",
+      "level": 50,
+      "hp": 3850,
+      "location": {
+        "x": 10839,
+        "y": -948,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_036",
+      "name": "Royal Orc Warden",
+      "visual_archetype": "Orc",
+      "level": 80,
+      "hp": 5800,
+      "location": {
+        "x": -8094,
+        "y": 8833,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_037",
+      "name": "Abyssal Orc Elder",
+      "visual_archetype": "Orc",
+      "level": 120,
+      "hp": 8400,
+      "location": {
+        "x": 0,
+        "y": -8680,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_038",
+      "name": "Storm Orc Lord",
+      "visual_archetype": "Orc",
+      "level": 170,
+      "hp": 11650,
+      "location": {
+        "x": 6607,
+        "y": 7211,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_039",
+      "name": "Verdant Orc Tyrant",
+      "visual_archetype": "Orc",
+      "level": 230,
+      "hp": 15550,
+      "location": {
+        "x": -10839,
+        "y": -948,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_040",
+      "name": "Night Orc Worldbreaker",
+      "visual_archetype": "Orc",
+      "level": 300,
+      "hp": 20100,
+      "location": {
+        "x": 9504,
+        "y": -7293,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_041",
+      "name": "Royal Mantis Scout",
+      "visual_archetype": "Mantis",
+      "level": 10,
+      "hp": 1250,
+      "location": {
+        "x": -1528,
+        "y": 8666,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_042",
+      "name": "Abyssal Mantis Hunter",
+      "visual_archetype": "Mantis",
+      "level": 30,
+      "hp": 2550,
+      "location": {
+        "x": -5319,
+        "y": -8350,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_043",
+      "name": "Storm Mantis Alpha",
+      "visual_archetype": "Mantis",
+      "level": 50,
+      "hp": 3850,
+      "location": {
+        "x": 10625,
+        "y": 2847,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_044",
+      "name": "Verdant Mantis Warden",
+      "visual_archetype": "Mantis",
+      "level": 80,
+      "hp": 5800,
+      "location": {
+        "x": -10733,
+        "y": 5587,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_045",
+      "name": "Night Mantis Elder",
+      "visual_archetype": "Mantis",
+      "level": 120,
+      "hp": 8400,
+      "location": {
+        "x": 3010,
+        "y": -8269,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_046",
+      "name": "Ember Mantis Lord",
+      "visual_archetype": "Mantis",
+      "level": 170,
+      "hp": 11650,
+      "location": {
+        "x": 3789,
+        "y": 9146,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_047",
+      "name": "Star Mantis Tyrant",
+      "visual_archetype": "Mantis",
+      "level": 230,
+      "hp": 15550,
+      "location": {
+        "x": -9969,
+        "y": -4649,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_048",
+      "name": "Iron Mantis Worldbreaker",
+      "visual_archetype": "Mantis",
+      "level": 300,
+      "hp": 20100,
+      "location": {
+        "x": 11540,
+        "y": -3639,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_049",
+      "name": "Verdant Golem Scout",
+      "visual_archetype": "Golem",
+      "level": 10,
+      "hp": 1250,
+      "location": {
+        "x": -4460,
+        "y": 7725,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_050",
+      "name": "Night Golem Hunter",
+      "visual_archetype": "Golem",
+      "level": 30,
+      "hp": 2550,
+      "location": {
+        "x": -2169,
+        "y": -9782,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_051",
+      "name": "Ember Golem Alpha",
+      "visual_archetype": "Golem",
+      "level": 50,
+      "hp": 3850,
+      "location": {
+        "x": 9109,
+        "y": 6378,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_052",
+      "name": "Star Golem Warden",
+      "visual_archetype": "Golem",
+      "level": 80,
+      "hp": 5800,
+      "location": {
+        "x": -12115,
+        "y": 1595,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_053",
+      "name": "Iron Golem Elder",
+      "visual_archetype": "Golem",
+      "level": 120,
+      "hp": 8400,
+      "location": {
+        "x": 5734,
+        "y": -6833,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_054",
+      "name": "Sovereign Golem Lord",
+      "visual_archetype": "Golem",
+      "level": 170,
+      "hp": 11650,
+      "location": {
+        "x": 437,
+        "y": 10010,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_055",
+      "name": "Wild Golem Tyrant",
+      "visual_archetype": "Golem",
+      "level": 230,
+      "hp": 15550,
+      "location": {
+        "x": -7863,
+        "y": -7863,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_056",
+      "name": "Crimson Golem Worldbreaker",
+      "visual_archetype": "Golem",
+      "level": 300,
+      "hp": 20100,
+      "location": {
+        "x": 12208,
+        "y": 533,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_057",
+      "name": "Star Dragon Scout",
+      "visual_archetype": "Dragon",
+      "level": 10,
+      "hp": 1250,
+      "location": {
+        "x": -6925,
+        "y": 5811,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_058",
+      "name": "Iron Dragon Hunter",
+      "visual_archetype": "Dragon",
+      "level": 30,
+      "hp": 2550,
+      "location": {
+        "x": 1324,
+        "y": -10053,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_059",
+      "name": "Sovereign Dragon Alpha",
+      "visual_archetype": "Dragon",
+      "level": 50,
+      "hp": 3850,
+      "location": {
+        "x": 6447,
+        "y": 9207,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_060",
+      "name": "Wild Dragon Warden",
+      "visual_archetype": "Dragon",
+      "level": 80,
+      "hp": 5800,
+      "location": {
+        "x": -12047,
+        "y": -2671,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_061",
+      "name": "Crimson Dragon Elder",
+      "visual_archetype": "Dragon",
+      "level": 120,
+      "hp": 8400,
+      "location": {
+        "x": 7829,
+        "y": -4520,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_062",
+      "name": "Ancient Dragon Lord",
+      "visual_archetype": "Dragon",
+      "level": 170,
+      "hp": 11650,
+      "location": {
+        "x": -3049,
+        "y": 9671,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_063",
+      "name": "Royal Dragon Tyrant",
+      "visual_archetype": "Dragon",
+      "level": 230,
+      "hp": 15550,
+      "location": {
+        "x": -4750,
+        "y": -10187,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_064",
+      "name": "Abyssal Dragon Worldbreaker",
+      "visual_archetype": "Dragon",
+      "level": 300,
+      "hp": 20100,
+      "location": {
+        "x": 11401,
+        "y": 4722,
+        "z": 120
+      }
+    }
+  ],
+  "maps": [
+    {
+      "id": "prontera_like_town",
+      "index": 0,
+      "type": "town",
+      "name": "Crownfall Capital",
+      "theme": "Central stone-and-timber capital",
+      "anchor": {
+        "x": 0,
+        "y": 0,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 0 X:Y"
+    },
+    {
+      "id": "east_meadow",
+      "index": 1,
+      "type": "field",
+      "name": "East Meadow",
+      "theme": "Open grassland hunting field",
+      "anchor": {
+        "x": 1800,
+        "y": 900,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 1 X:Y"
+    },
+    {
+      "id": "west_meadow",
+      "index": 2,
+      "type": "field",
+      "name": "West Meadow",
+      "theme": "Open grassland hunting field",
+      "anchor": {
+        "x": -1800,
+        "y": -900,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 2 X:Y"
+    },
+    {
+      "id": "forest_field",
+      "index": 3,
+      "type": "field",
+      "name": "Whispering Forest",
+      "theme": "Dense forest hunting ground",
+      "anchor": {
+        "x": 5200,
+        "y": 2500,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 3 X:Y"
+    },
+    {
+      "id": "deep_forest",
+      "index": 4,
+      "type": "field",
+      "name": "Ancient Greenwood",
+      "theme": "Deep forest with elder monsters",
+      "anchor": {
+        "x": 6200,
+        "y": 3900,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 4 X:Y"
+    },
+    {
+      "id": "mountain_pass",
+      "index": 5,
+      "type": "field",
+      "name": "Ironcrest Pass",
+      "theme": "Rocky mountain road",
+      "anchor": {
+        "x": 2700,
+        "y": 6100,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 5 X:Y"
+    },
+    {
+      "id": "high_mountain",
+      "index": 6,
+      "type": "field",
+      "name": "Skyreach Highlands",
+      "theme": "High mountain hunting zone",
+      "anchor": {
+        "x": 4200,
+        "y": 7600,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 6 X:Y"
+    },
+    {
+      "id": "desert_ruins",
+      "index": 7,
+      "type": "field",
+      "name": "Sunken Ruins",
+      "theme": "Sunlit ancient ruins",
+      "anchor": {
+        "x": -4800,
+        "y": -5000,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 7 X:Y"
+    },
+    {
+      "id": "red_desert",
+      "index": 8,
+      "type": "field",
+      "name": "Crimson Dunes",
+      "theme": "Harsh open desert",
+      "anchor": {
+        "x": -6200,
+        "y": -6100,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 8 X:Y"
+    },
+    {
+      "id": "snow_region",
+      "index": 9,
+      "type": "field",
+      "name": "Frostveil",
+      "theme": "Bright snow country",
+      "anchor": {
+        "x": -6500,
+        "y": 2200,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 9 X:Y"
+    },
+    {
+      "id": "ice_pass",
+      "index": 10,
+      "type": "field",
+      "name": "Glacier Pass",
+      "theme": "Frozen mountain corridor",
+      "anchor": {
+        "x": -7600,
+        "y": 3600,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 10 X:Y"
+    },
+    {
+      "id": "swamp_marsh",
+      "index": 11,
+      "type": "field",
+      "name": "Blackwater Marsh",
+      "theme": "Wetland monster zone",
+      "anchor": {
+        "x": -5400,
+        "y": 5200,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 11 X:Y"
+    },
+    {
+      "id": "coastal_cliffs",
+      "index": 12,
+      "type": "field",
+      "name": "Azure Coast",
+      "theme": "Coastal cliffs and shoreline",
+      "anchor": {
+        "x": 7600,
+        "y": -1200,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 12 X:Y"
+    },
+    {
+      "id": "ruined_citadel",
+      "index": 13,
+      "type": "field",
+      "name": "Fallen Citadel",
+      "theme": "Ruined fortress field",
+      "anchor": {
+        "x": 7800,
+        "y": 2500,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 13 X:Y"
+    },
+    {
+      "id": "royal_dungeon",
+      "index": 14,
+      "type": "dungeon",
+      "name": "Royal Catacombs",
+      "theme": "Ancient underground fortress",
+      "anchor": {
+        "x": 0,
+        "y": 2850,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 14 X:Y"
+    },
+    {
+      "id": "forest_dungeon",
+      "index": 15,
+      "type": "dungeon",
+      "name": "Rootbound Hollow",
+      "theme": "Living underground forest",
+      "anchor": {
+        "x": 5200,
+        "y": 5200,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 15 X:Y"
+    },
+    {
+      "id": "mountain_dungeon",
+      "index": 16,
+      "type": "dungeon",
+      "name": "Ironheart Vault",
+      "theme": "Mountain stronghold",
+      "anchor": {
+        "x": 3400,
+        "y": 7800,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 16 X:Y"
+    },
+    {
+      "id": "desert_dungeon",
+      "index": 17,
+      "type": "dungeon",
+      "name": "Buried Sun Temple",
+      "theme": "Desert ruin dungeon",
+      "anchor": {
+        "x": -5200,
+        "y": -7200,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 17 X:Y"
+    },
+    {
+      "id": "ice_dungeon",
+      "index": 18,
+      "type": "dungeon",
+      "name": "Frostwyrm Sanctum",
+      "theme": "Frozen boss dungeon",
+      "anchor": {
+        "x": -7600,
+        "y": 5200,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 18 X:Y"
+    },
+    {
+      "id": "abyss_dungeon",
+      "index": 19,
+      "type": "dungeon",
+      "name": "Abyssal Depths",
+      "theme": "Endgame shadow dungeon",
+      "anchor": {
+        "x": -8200,
+        "y": -4200,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 19 X:Y"
+    },
+    {
+      "id": "dragon_sanctum",
+      "index": 20,
+      "type": "dungeon",
+      "name": "Dragon Sanctum",
+      "theme": "Endgame dragon arena",
+      "anchor": {
+        "x": 8200,
+        "y": -5200,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 20 X:Y"
+    },
+    {
+      "id": "worldboss_plains",
+      "index": 21,
+      "type": "worldboss",
+      "name": "Worldboss Plains",
+      "theme": "Open endgame boss arena",
+      "anchor": {
+        "x": 9000,
+        "y": 9000,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 21 X:Y"
+    },
+    {
+      "id": "worldboss_altar",
+      "index": 22,
+      "type": "worldboss",
+      "name": "Worldboss Altar",
+      "theme": "Worldboss ritual arena",
+      "anchor": {
+        "x": -9000,
+        "y": 9000,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 22 X:Y"
+    },
+    {
+      "id": "arena_of_honour",
+      "index": 23,
+      "type": "arena",
+      "name": "Arena of Honour",
+      "theme": "Competitive combat arena",
+      "anchor": {
+        "x": 0,
+        "y": -9000,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 23 X:Y"
+    }
+  ],
+  "equipment": [
+    {
+      "id": "EQUIP_001",
+      "name": "Astral Edge 1",
+      "slot": "Weapon",
+      "class": "Warrior",
+      "tier": 1,
+      "level_required": 1,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_002",
+      "name": "Sunforge Cuirass 1",
+      "slot": "Armor",
+      "class": "Mage",
+      "tier": 1,
+      "level_required": 2,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_003",
+      "name": "Moonveil Crown 1",
+      "slot": "Headgear",
+      "class": "Archer",
+      "tier": 1,
+      "level_required": 3,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_004",
+      "name": "Dragonwake Mantle 1",
+      "slot": "Garment",
+      "class": "Thief",
+      "tier": 1,
+      "level_required": 4,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_005",
+      "name": "Stormcaller Greaves 1",
+      "slot": "Footgear",
+      "class": "Acolyte",
+      "tier": 1,
+      "level_required": 5,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_006",
+      "name": "Verdant Seal 1",
+      "slot": "Accessory",
+      "class": "Merchant",
+      "tier": 1,
+      "level_required": 6,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_007",
+      "name": "Nightglass Edge 1",
+      "slot": "Weapon",
+      "class": "Ranger",
+      "tier": 1,
+      "level_required": 7,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_008",
+      "name": "Emberwind Cuirass 1",
+      "slot": "Armor",
+      "class": "Warrior",
+      "tier": 1,
+      "level_required": 8,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_009",
+      "name": "Starfall Crown 1",
+      "slot": "Headgear",
+      "class": "Mage",
+      "tier": 1,
+      "level_required": 9,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_010",
+      "name": "Runebound Mantle 1",
+      "slot": "Garment",
+      "class": "Archer",
+      "tier": 1,
+      "level_required": 10,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_011",
+      "name": "Dawnpiercer Greaves 1",
+      "slot": "Footgear",
+      "class": "Thief",
+      "tier": 1,
+      "level_required": 11,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_012",
+      "name": "Ironroot Seal 1",
+      "slot": "Accessory",
+      "class": "Acolyte",
+      "tier": 1,
+      "level_required": 12,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_013",
+      "name": "Astral Edge 1",
+      "slot": "Weapon",
+      "class": "Merchant",
+      "tier": 1,
+      "level_required": 13,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_014",
+      "name": "Sunforge Cuirass 1",
+      "slot": "Armor",
+      "class": "Ranger",
+      "tier": 1,
+      "level_required": 14,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_015",
+      "name": "Moonveil Crown 1",
+      "slot": "Headgear",
+      "class": "Warrior",
+      "tier": 1,
+      "level_required": 15,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_016",
+      "name": "Dragonwake Mantle 1",
+      "slot": "Garment",
+      "class": "Mage",
+      "tier": 1,
+      "level_required": 16,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_017",
+      "name": "Stormcaller Greaves 1",
+      "slot": "Footgear",
+      "class": "Archer",
+      "tier": 1,
+      "level_required": 17,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_018",
+      "name": "Verdant Seal 1",
+      "slot": "Accessory",
+      "class": "Thief",
+      "tier": 1,
+      "level_required": 18,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_019",
+      "name": "Nightglass Edge 1",
+      "slot": "Weapon",
+      "class": "Acolyte",
+      "tier": 1,
+      "level_required": 19,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_020",
+      "name": "Emberwind Cuirass 1",
+      "slot": "Armor",
+      "class": "Merchant",
+      "tier": 1,
+      "level_required": 20,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_021",
+      "name": "Starfall Crown 1",
+      "slot": "Headgear",
+      "class": "Ranger",
+      "tier": 1,
+      "level_required": 21,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_022",
+      "name": "Runebound Mantle 1",
+      "slot": "Garment",
+      "class": "Warrior",
+      "tier": 1,
+      "level_required": 22,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_023",
+      "name": "Dawnpiercer Greaves 1",
+      "slot": "Footgear",
+      "class": "Mage",
+      "tier": 1,
+      "level_required": 24,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_024",
+      "name": "Ironroot Seal 1",
+      "slot": "Accessory",
+      "class": "Archer",
+      "tier": 1,
+      "level_required": 25,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_025",
+      "name": "Astral Edge 1",
+      "slot": "Weapon",
+      "class": "Thief",
+      "tier": 1,
+      "level_required": 26,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_026",
+      "name": "Sunforge Cuirass 1",
+      "slot": "Armor",
+      "class": "Acolyte",
+      "tier": 1,
+      "level_required": 27,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_027",
+      "name": "Moonveil Crown 1",
+      "slot": "Headgear",
+      "class": "Merchant",
+      "tier": 1,
+      "level_required": 28,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_028",
+      "name": "Dragonwake Mantle 1",
+      "slot": "Garment",
+      "class": "Ranger",
+      "tier": 1,
+      "level_required": 29,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_029",
+      "name": "Stormcaller Greaves 1",
+      "slot": "Footgear",
+      "class": "Warrior",
+      "tier": 1,
+      "level_required": 30,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_030",
+      "name": "Verdant Seal 1",
+      "slot": "Accessory",
+      "class": "Mage",
+      "tier": 1,
+      "level_required": 31,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_031",
+      "name": "Nightglass Edge 1",
+      "slot": "Weapon",
+      "class": "Archer",
+      "tier": 1,
+      "level_required": 32,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_032",
+      "name": "Emberwind Cuirass 1",
+      "slot": "Armor",
+      "class": "Thief",
+      "tier": 1,
+      "level_required": 33,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_033",
+      "name": "Starfall Crown 1",
+      "slot": "Headgear",
+      "class": "Acolyte",
+      "tier": 1,
+      "level_required": 34,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_034",
+      "name": "Runebound Mantle 1",
+      "slot": "Garment",
+      "class": "Merchant",
+      "tier": 1,
+      "level_required": 35,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_035",
+      "name": "Dawnpiercer Greaves 1",
+      "slot": "Footgear",
+      "class": "Ranger",
+      "tier": 1,
+      "level_required": 36,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_036",
+      "name": "Ironroot Seal 1",
+      "slot": "Accessory",
+      "class": "Warrior",
+      "tier": 1,
+      "level_required": 37,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_037",
+      "name": "Astral Edge 1",
+      "slot": "Weapon",
+      "class": "Mage",
+      "tier": 1,
+      "level_required": 38,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_038",
+      "name": "Sunforge Cuirass 1",
+      "slot": "Armor",
+      "class": "Archer",
+      "tier": 1,
+      "level_required": 39,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_039",
+      "name": "Moonveil Crown 1",
+      "slot": "Headgear",
+      "class": "Thief",
+      "tier": 1,
+      "level_required": 40,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_040",
+      "name": "Dragonwake Mantle 1",
+      "slot": "Garment",
+      "class": "Acolyte",
+      "tier": 1,
+      "level_required": 41,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_041",
+      "name": "Stormcaller Greaves 1",
+      "slot": "Footgear",
+      "class": "Merchant",
+      "tier": 1,
+      "level_required": 42,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_042",
+      "name": "Verdant Seal 1",
+      "slot": "Accessory",
+      "class": "Ranger",
+      "tier": 1,
+      "level_required": 43,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_043",
+      "name": "Nightglass Edge 1",
+      "slot": "Weapon",
+      "class": "Warrior",
+      "tier": 1,
+      "level_required": 44,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_044",
+      "name": "Emberwind Cuirass 1",
+      "slot": "Armor",
+      "class": "Mage",
+      "tier": 1,
+      "level_required": 45,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_045",
+      "name": "Starfall Crown 1",
+      "slot": "Headgear",
+      "class": "Archer",
+      "tier": 1,
+      "level_required": 47,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_046",
+      "name": "Runebound Mantle 1",
+      "slot": "Garment",
+      "class": "Thief",
+      "tier": 1,
+      "level_required": 48,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_047",
+      "name": "Dawnpiercer Greaves 1",
+      "slot": "Footgear",
+      "class": "Acolyte",
+      "tier": 1,
+      "level_required": 49,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_048",
+      "name": "Ironroot Seal 1",
+      "slot": "Accessory",
+      "class": "Merchant",
+      "tier": 1,
+      "level_required": 50,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_049",
+      "name": "Astral Edge 2",
+      "slot": "Weapon",
+      "class": "Ranger",
+      "tier": 2,
+      "level_required": 51,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_050",
+      "name": "Sunforge Cuirass 2",
+      "slot": "Armor",
+      "class": "Warrior",
+      "tier": 2,
+      "level_required": 52,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_051",
+      "name": "Moonveil Crown 2",
+      "slot": "Headgear",
+      "class": "Mage",
+      "tier": 2,
+      "level_required": 53,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_052",
+      "name": "Dragonwake Mantle 2",
+      "slot": "Garment",
+      "class": "Archer",
+      "tier": 2,
+      "level_required": 54,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_053",
+      "name": "Stormcaller Greaves 2",
+      "slot": "Footgear",
+      "class": "Thief",
+      "tier": 2,
+      "level_required": 55,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_054",
+      "name": "Verdant Seal 2",
+      "slot": "Accessory",
+      "class": "Acolyte",
+      "tier": 2,
+      "level_required": 56,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_055",
+      "name": "Nightglass Edge 2",
+      "slot": "Weapon",
+      "class": "Merchant",
+      "tier": 2,
+      "level_required": 57,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_056",
+      "name": "Emberwind Cuirass 2",
+      "slot": "Armor",
+      "class": "Ranger",
+      "tier": 2,
+      "level_required": 58,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_057",
+      "name": "Starfall Crown 2",
+      "slot": "Headgear",
+      "class": "Warrior",
+      "tier": 2,
+      "level_required": 59,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_058",
+      "name": "Runebound Mantle 2",
+      "slot": "Garment",
+      "class": "Mage",
+      "tier": 2,
+      "level_required": 60,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_059",
+      "name": "Dawnpiercer Greaves 2",
+      "slot": "Footgear",
+      "class": "Archer",
+      "tier": 2,
+      "level_required": 61,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_060",
+      "name": "Ironroot Seal 2",
+      "slot": "Accessory",
+      "class": "Thief",
+      "tier": 2,
+      "level_required": 62,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_061",
+      "name": "Astral Edge 2",
+      "slot": "Weapon",
+      "class": "Acolyte",
+      "tier": 2,
+      "level_required": 63,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_062",
+      "name": "Sunforge Cuirass 2",
+      "slot": "Armor",
+      "class": "Merchant",
+      "tier": 2,
+      "level_required": 64,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_063",
+      "name": "Moonveil Crown 2",
+      "slot": "Headgear",
+      "class": "Ranger",
+      "tier": 2,
+      "level_required": 65,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_064",
+      "name": "Dragonwake Mantle 2",
+      "slot": "Garment",
+      "class": "Warrior",
+      "tier": 2,
+      "level_required": 66,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_065",
+      "name": "Stormcaller Greaves 2",
+      "slot": "Footgear",
+      "class": "Mage",
+      "tier": 2,
+      "level_required": 67,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_066",
+      "name": "Verdant Seal 2",
+      "slot": "Accessory",
+      "class": "Archer",
+      "tier": 2,
+      "level_required": 68,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_067",
+      "name": "Nightglass Edge 2",
+      "slot": "Weapon",
+      "class": "Thief",
+      "tier": 2,
+      "level_required": 70,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_068",
+      "name": "Emberwind Cuirass 2",
+      "slot": "Armor",
+      "class": "Acolyte",
+      "tier": 2,
+      "level_required": 71,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_069",
+      "name": "Starfall Crown 2",
+      "slot": "Headgear",
+      "class": "Merchant",
+      "tier": 2,
+      "level_required": 72,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_070",
+      "name": "Runebound Mantle 2",
+      "slot": "Garment",
+      "class": "Ranger",
+      "tier": 2,
+      "level_required": 73,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_071",
+      "name": "Dawnpiercer Greaves 2",
+      "slot": "Footgear",
+      "class": "Warrior",
+      "tier": 2,
+      "level_required": 74,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_072",
+      "name": "Ironroot Seal 2",
+      "slot": "Accessory",
+      "class": "Mage",
+      "tier": 2,
+      "level_required": 75,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_073",
+      "name": "Astral Edge 2",
+      "slot": "Weapon",
+      "class": "Archer",
+      "tier": 2,
+      "level_required": 76,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_074",
+      "name": "Sunforge Cuirass 2",
+      "slot": "Armor",
+      "class": "Thief",
+      "tier": 2,
+      "level_required": 77,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_075",
+      "name": "Moonveil Crown 2",
+      "slot": "Headgear",
+      "class": "Acolyte",
+      "tier": 2,
+      "level_required": 78,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_076",
+      "name": "Dragonwake Mantle 2",
+      "slot": "Garment",
+      "class": "Merchant",
+      "tier": 2,
+      "level_required": 79,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_077",
+      "name": "Stormcaller Greaves 2",
+      "slot": "Footgear",
+      "class": "Ranger",
+      "tier": 2,
+      "level_required": 80,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_078",
+      "name": "Verdant Seal 2",
+      "slot": "Accessory",
+      "class": "Warrior",
+      "tier": 2,
+      "level_required": 81,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_079",
+      "name": "Nightglass Edge 2",
+      "slot": "Weapon",
+      "class": "Mage",
+      "tier": 2,
+      "level_required": 82,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_080",
+      "name": "Emberwind Cuirass 2",
+      "slot": "Armor",
+      "class": "Archer",
+      "tier": 2,
+      "level_required": 83,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_081",
+      "name": "Starfall Crown 2",
+      "slot": "Headgear",
+      "class": "Thief",
+      "tier": 2,
+      "level_required": 84,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_082",
+      "name": "Runebound Mantle 2",
+      "slot": "Garment",
+      "class": "Acolyte",
+      "tier": 2,
+      "level_required": 85,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_083",
+      "name": "Dawnpiercer Greaves 2",
+      "slot": "Footgear",
+      "class": "Merchant",
+      "tier": 2,
+      "level_required": 86,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_084",
+      "name": "Ironroot Seal 2",
+      "slot": "Accessory",
+      "class": "Ranger",
+      "tier": 2,
+      "level_required": 87,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_085",
+      "name": "Astral Edge 2",
+      "slot": "Weapon",
+      "class": "Warrior",
+      "tier": 2,
+      "level_required": 88,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_086",
+      "name": "Sunforge Cuirass 2",
+      "slot": "Armor",
+      "class": "Mage",
+      "tier": 2,
+      "level_required": 89,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_087",
+      "name": "Moonveil Crown 2",
+      "slot": "Headgear",
+      "class": "Archer",
+      "tier": 2,
+      "level_required": 90,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_088",
+      "name": "Dragonwake Mantle 2",
+      "slot": "Garment",
+      "class": "Thief",
+      "tier": 2,
+      "level_required": 92,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_089",
+      "name": "Stormcaller Greaves 2",
+      "slot": "Footgear",
+      "class": "Acolyte",
+      "tier": 2,
+      "level_required": 93,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_090",
+      "name": "Verdant Seal 2",
+      "slot": "Accessory",
+      "class": "Merchant",
+      "tier": 2,
+      "level_required": 94,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_091",
+      "name": "Nightglass Edge 2",
+      "slot": "Weapon",
+      "class": "Ranger",
+      "tier": 2,
+      "level_required": 95,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_092",
+      "name": "Emberwind Cuirass 2",
+      "slot": "Armor",
+      "class": "Warrior",
+      "tier": 2,
+      "level_required": 96,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_093",
+      "name": "Starfall Crown 2",
+      "slot": "Headgear",
+      "class": "Mage",
+      "tier": 2,
+      "level_required": 97,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_094",
+      "name": "Runebound Mantle 2",
+      "slot": "Garment",
+      "class": "Archer",
+      "tier": 2,
+      "level_required": 98,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_095",
+      "name": "Dawnpiercer Greaves 2",
+      "slot": "Footgear",
+      "class": "Thief",
+      "tier": 2,
+      "level_required": 99,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_096",
+      "name": "Ironroot Seal 2",
+      "slot": "Accessory",
+      "class": "Acolyte",
+      "tier": 2,
+      "level_required": 100,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_097",
+      "name": "Astral Edge 3",
+      "slot": "Weapon",
+      "class": "Merchant",
+      "tier": 3,
+      "level_required": 101,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_098",
+      "name": "Sunforge Cuirass 3",
+      "slot": "Armor",
+      "class": "Ranger",
+      "tier": 3,
+      "level_required": 102,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_099",
+      "name": "Moonveil Crown 3",
+      "slot": "Headgear",
+      "class": "Warrior",
+      "tier": 3,
+      "level_required": 103,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_100",
+      "name": "Dragonwake Mantle 3",
+      "slot": "Garment",
+      "class": "Mage",
+      "tier": 3,
+      "level_required": 104,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_101",
+      "name": "Stormcaller Greaves 3",
+      "slot": "Footgear",
+      "class": "Archer",
+      "tier": 3,
+      "level_required": 105,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_102",
+      "name": "Verdant Seal 3",
+      "slot": "Accessory",
+      "class": "Thief",
+      "tier": 3,
+      "level_required": 106,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_103",
+      "name": "Nightglass Edge 3",
+      "slot": "Weapon",
+      "class": "Acolyte",
+      "tier": 3,
+      "level_required": 107,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_104",
+      "name": "Emberwind Cuirass 3",
+      "slot": "Armor",
+      "class": "Merchant",
+      "tier": 3,
+      "level_required": 108,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_105",
+      "name": "Starfall Crown 3",
+      "slot": "Headgear",
+      "class": "Ranger",
+      "tier": 3,
+      "level_required": 109,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_106",
+      "name": "Runebound Mantle 3",
+      "slot": "Garment",
+      "class": "Warrior",
+      "tier": 3,
+      "level_required": 110,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_107",
+      "name": "Dawnpiercer Greaves 3",
+      "slot": "Footgear",
+      "class": "Mage",
+      "tier": 3,
+      "level_required": 111,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_108",
+      "name": "Ironroot Seal 3",
+      "slot": "Accessory",
+      "class": "Archer",
+      "tier": 3,
+      "level_required": 112,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_109",
+      "name": "Astral Edge 3",
+      "slot": "Weapon",
+      "class": "Thief",
+      "tier": 3,
+      "level_required": 113,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_110",
+      "name": "Sunforge Cuirass 3",
+      "slot": "Armor",
+      "class": "Acolyte",
+      "tier": 3,
+      "level_required": 115,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_111",
+      "name": "Moonveil Crown 3",
+      "slot": "Headgear",
+      "class": "Merchant",
+      "tier": 3,
+      "level_required": 116,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_112",
+      "name": "Dragonwake Mantle 3",
+      "slot": "Garment",
+      "class": "Ranger",
+      "tier": 3,
+      "level_required": 117,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_113",
+      "name": "Stormcaller Greaves 3",
+      "slot": "Footgear",
+      "class": "Warrior",
+      "tier": 3,
+      "level_required": 118,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_114",
+      "name": "Verdant Seal 3",
+      "slot": "Accessory",
+      "class": "Mage",
+      "tier": 3,
+      "level_required": 119,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_115",
+      "name": "Nightglass Edge 3",
+      "slot": "Weapon",
+      "class": "Archer",
+      "tier": 3,
+      "level_required": 120,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_116",
+      "name": "Emberwind Cuirass 3",
+      "slot": "Armor",
+      "class": "Thief",
+      "tier": 3,
+      "level_required": 121,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_117",
+      "name": "Starfall Crown 3",
+      "slot": "Headgear",
+      "class": "Acolyte",
+      "tier": 3,
+      "level_required": 122,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_118",
+      "name": "Runebound Mantle 3",
+      "slot": "Garment",
+      "class": "Merchant",
+      "tier": 3,
+      "level_required": 123,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_119",
+      "name": "Dawnpiercer Greaves 3",
+      "slot": "Footgear",
+      "class": "Ranger",
+      "tier": 3,
+      "level_required": 124,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_120",
+      "name": "Ironroot Seal 3",
+      "slot": "Accessory",
+      "class": "Warrior",
+      "tier": 3,
+      "level_required": 125,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_121",
+      "name": "Astral Edge 3",
+      "slot": "Weapon",
+      "class": "Mage",
+      "tier": 3,
+      "level_required": 126,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_122",
+      "name": "Sunforge Cuirass 3",
+      "slot": "Armor",
+      "class": "Archer",
+      "tier": 3,
+      "level_required": 127,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_123",
+      "name": "Moonveil Crown 3",
+      "slot": "Headgear",
+      "class": "Thief",
+      "tier": 3,
+      "level_required": 128,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_124",
+      "name": "Dragonwake Mantle 3",
+      "slot": "Garment",
+      "class": "Acolyte",
+      "tier": 3,
+      "level_required": 129,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_125",
+      "name": "Stormcaller Greaves 3",
+      "slot": "Footgear",
+      "class": "Merchant",
+      "tier": 3,
+      "level_required": 130,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_126",
+      "name": "Verdant Seal 3",
+      "slot": "Accessory",
+      "class": "Ranger",
+      "tier": 3,
+      "level_required": 131,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_127",
+      "name": "Nightglass Edge 3",
+      "slot": "Weapon",
+      "class": "Warrior",
+      "tier": 3,
+      "level_required": 132,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_128",
+      "name": "Emberwind Cuirass 3",
+      "slot": "Armor",
+      "class": "Mage",
+      "tier": 3,
+      "level_required": 133,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_129",
+      "name": "Starfall Crown 3",
+      "slot": "Headgear",
+      "class": "Archer",
+      "tier": 3,
+      "level_required": 134,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_130",
+      "name": "Runebound Mantle 3",
+      "slot": "Garment",
+      "class": "Thief",
+      "tier": 3,
+      "level_required": 135,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_131",
+      "name": "Dawnpiercer Greaves 3",
+      "slot": "Footgear",
+      "class": "Acolyte",
+      "tier": 3,
+      "level_required": 136,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_132",
+      "name": "Ironroot Seal 3",
+      "slot": "Accessory",
+      "class": "Merchant",
+      "tier": 3,
+      "level_required": 138,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_133",
+      "name": "Astral Edge 3",
+      "slot": "Weapon",
+      "class": "Ranger",
+      "tier": 3,
+      "level_required": 139,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_134",
+      "name": "Sunforge Cuirass 3",
+      "slot": "Armor",
+      "class": "Warrior",
+      "tier": 3,
+      "level_required": 140,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_135",
+      "name": "Moonveil Crown 3",
+      "slot": "Headgear",
+      "class": "Mage",
+      "tier": 3,
+      "level_required": 141,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_136",
+      "name": "Dragonwake Mantle 3",
+      "slot": "Garment",
+      "class": "Archer",
+      "tier": 3,
+      "level_required": 142,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_137",
+      "name": "Stormcaller Greaves 3",
+      "slot": "Footgear",
+      "class": "Thief",
+      "tier": 3,
+      "level_required": 143,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_138",
+      "name": "Verdant Seal 3",
+      "slot": "Accessory",
+      "class": "Acolyte",
+      "tier": 3,
+      "level_required": 144,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_139",
+      "name": "Nightglass Edge 3",
+      "slot": "Weapon",
+      "class": "Merchant",
+      "tier": 3,
+      "level_required": 145,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_140",
+      "name": "Emberwind Cuirass 3",
+      "slot": "Armor",
+      "class": "Ranger",
+      "tier": 3,
+      "level_required": 146,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_141",
+      "name": "Starfall Crown 3",
+      "slot": "Headgear",
+      "class": "Warrior",
+      "tier": 3,
+      "level_required": 147,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_142",
+      "name": "Runebound Mantle 3",
+      "slot": "Garment",
+      "class": "Mage",
+      "tier": 3,
+      "level_required": 148,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_143",
+      "name": "Dawnpiercer Greaves 3",
+      "slot": "Footgear",
+      "class": "Archer",
+      "tier": 3,
+      "level_required": 149,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_144",
+      "name": "Ironroot Seal 3",
+      "slot": "Accessory",
+      "class": "Thief",
+      "tier": 3,
+      "level_required": 150,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_145",
+      "name": "Astral Edge 4",
+      "slot": "Weapon",
+      "class": "Acolyte",
+      "tier": 4,
+      "level_required": 151,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_146",
+      "name": "Sunforge Cuirass 4",
+      "slot": "Armor",
+      "class": "Merchant",
+      "tier": 4,
+      "level_required": 152,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_147",
+      "name": "Moonveil Crown 4",
+      "slot": "Headgear",
+      "class": "Ranger",
+      "tier": 4,
+      "level_required": 153,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_148",
+      "name": "Dragonwake Mantle 4",
+      "slot": "Garment",
+      "class": "Warrior",
+      "tier": 4,
+      "level_required": 154,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_149",
+      "name": "Stormcaller Greaves 4",
+      "slot": "Footgear",
+      "class": "Mage",
+      "tier": 4,
+      "level_required": 155,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_150",
+      "name": "Verdant Seal 4",
+      "slot": "Accessory",
+      "class": "Archer",
+      "tier": 4,
+      "level_required": 156,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_151",
+      "name": "Nightglass Edge 4",
+      "slot": "Weapon",
+      "class": "Thief",
+      "tier": 4,
+      "level_required": 157,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_152",
+      "name": "Emberwind Cuirass 4",
+      "slot": "Armor",
+      "class": "Acolyte",
+      "tier": 4,
+      "level_required": 158,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_153",
+      "name": "Starfall Crown 4",
+      "slot": "Headgear",
+      "class": "Merchant",
+      "tier": 4,
+      "level_required": 159,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_154",
+      "name": "Runebound Mantle 4",
+      "slot": "Garment",
+      "class": "Ranger",
+      "tier": 4,
+      "level_required": 161,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_155",
+      "name": "Dawnpiercer Greaves 4",
+      "slot": "Footgear",
+      "class": "Warrior",
+      "tier": 4,
+      "level_required": 162,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_156",
+      "name": "Ironroot Seal 4",
+      "slot": "Accessory",
+      "class": "Mage",
+      "tier": 4,
+      "level_required": 163,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_157",
+      "name": "Astral Edge 4",
+      "slot": "Weapon",
+      "class": "Archer",
+      "tier": 4,
+      "level_required": 164,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_158",
+      "name": "Sunforge Cuirass 4",
+      "slot": "Armor",
+      "class": "Thief",
+      "tier": 4,
+      "level_required": 165,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_159",
+      "name": "Moonveil Crown 4",
+      "slot": "Headgear",
+      "class": "Acolyte",
+      "tier": 4,
+      "level_required": 166,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_160",
+      "name": "Dragonwake Mantle 4",
+      "slot": "Garment",
+      "class": "Merchant",
+      "tier": 4,
+      "level_required": 167,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_161",
+      "name": "Stormcaller Greaves 4",
+      "slot": "Footgear",
+      "class": "Ranger",
+      "tier": 4,
+      "level_required": 168,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_162",
+      "name": "Verdant Seal 4",
+      "slot": "Accessory",
+      "class": "Warrior",
+      "tier": 4,
+      "level_required": 169,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_163",
+      "name": "Nightglass Edge 4",
+      "slot": "Weapon",
+      "class": "Mage",
+      "tier": 4,
+      "level_required": 170,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_164",
+      "name": "Emberwind Cuirass 4",
+      "slot": "Armor",
+      "class": "Archer",
+      "tier": 4,
+      "level_required": 171,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_165",
+      "name": "Starfall Crown 4",
+      "slot": "Headgear",
+      "class": "Thief",
+      "tier": 4,
+      "level_required": 172,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_166",
+      "name": "Runebound Mantle 4",
+      "slot": "Garment",
+      "class": "Acolyte",
+      "tier": 4,
+      "level_required": 173,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_167",
+      "name": "Dawnpiercer Greaves 4",
+      "slot": "Footgear",
+      "class": "Merchant",
+      "tier": 4,
+      "level_required": 174,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_168",
+      "name": "Ironroot Seal 4",
+      "slot": "Accessory",
+      "class": "Ranger",
+      "tier": 4,
+      "level_required": 175,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_169",
+      "name": "Astral Edge 4",
+      "slot": "Weapon",
+      "class": "Warrior",
+      "tier": 4,
+      "level_required": 176,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_170",
+      "name": "Sunforge Cuirass 4",
+      "slot": "Armor",
+      "class": "Mage",
+      "tier": 4,
+      "level_required": 177,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_171",
+      "name": "Moonveil Crown 4",
+      "slot": "Headgear",
+      "class": "Archer",
+      "tier": 4,
+      "level_required": 178,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_172",
+      "name": "Dragonwake Mantle 4",
+      "slot": "Garment",
+      "class": "Thief",
+      "tier": 4,
+      "level_required": 179,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_173",
+      "name": "Stormcaller Greaves 4",
+      "slot": "Footgear",
+      "class": "Acolyte",
+      "tier": 4,
+      "level_required": 180,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_174",
+      "name": "Verdant Seal 4",
+      "slot": "Accessory",
+      "class": "Merchant",
+      "tier": 4,
+      "level_required": 181,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_175",
+      "name": "Nightglass Edge 4",
+      "slot": "Weapon",
+      "class": "Ranger",
+      "tier": 4,
+      "level_required": 183,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_176",
+      "name": "Emberwind Cuirass 4",
+      "slot": "Armor",
+      "class": "Warrior",
+      "tier": 4,
+      "level_required": 184,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_177",
+      "name": "Starfall Crown 4",
+      "slot": "Headgear",
+      "class": "Mage",
+      "tier": 4,
+      "level_required": 185,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_178",
+      "name": "Runebound Mantle 4",
+      "slot": "Garment",
+      "class": "Archer",
+      "tier": 4,
+      "level_required": 186,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_179",
+      "name": "Dawnpiercer Greaves 4",
+      "slot": "Footgear",
+      "class": "Thief",
+      "tier": 4,
+      "level_required": 187,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_180",
+      "name": "Ironroot Seal 4",
+      "slot": "Accessory",
+      "class": "Acolyte",
+      "tier": 4,
+      "level_required": 188,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_181",
+      "name": "Astral Edge 4",
+      "slot": "Weapon",
+      "class": "Merchant",
+      "tier": 4,
+      "level_required": 189,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_182",
+      "name": "Sunforge Cuirass 4",
+      "slot": "Armor",
+      "class": "Ranger",
+      "tier": 4,
+      "level_required": 190,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_183",
+      "name": "Moonveil Crown 4",
+      "slot": "Headgear",
+      "class": "Warrior",
+      "tier": 4,
+      "level_required": 191,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_184",
+      "name": "Dragonwake Mantle 4",
+      "slot": "Garment",
+      "class": "Mage",
+      "tier": 4,
+      "level_required": 192,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_185",
+      "name": "Stormcaller Greaves 4",
+      "slot": "Footgear",
+      "class": "Archer",
+      "tier": 4,
+      "level_required": 193,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_186",
+      "name": "Verdant Seal 4",
+      "slot": "Accessory",
+      "class": "Thief",
+      "tier": 4,
+      "level_required": 194,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_187",
+      "name": "Nightglass Edge 4",
+      "slot": "Weapon",
+      "class": "Acolyte",
+      "tier": 4,
+      "level_required": 195,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_188",
+      "name": "Emberwind Cuirass 4",
+      "slot": "Armor",
+      "class": "Merchant",
+      "tier": 4,
+      "level_required": 196,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_189",
+      "name": "Starfall Crown 4",
+      "slot": "Headgear",
+      "class": "Ranger",
+      "tier": 4,
+      "level_required": 197,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_190",
+      "name": "Runebound Mantle 4",
+      "slot": "Garment",
+      "class": "Warrior",
+      "tier": 4,
+      "level_required": 198,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_191",
+      "name": "Dawnpiercer Greaves 4",
+      "slot": "Footgear",
+      "class": "Mage",
+      "tier": 4,
+      "level_required": 199,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_192",
+      "name": "Ironroot Seal 4",
+      "slot": "Accessory",
+      "class": "Archer",
+      "tier": 4,
+      "level_required": 200,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_193",
+      "name": "Astral Edge 5",
+      "slot": "Weapon",
+      "class": "Thief",
+      "tier": 5,
+      "level_required": 201,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_194",
+      "name": "Sunforge Cuirass 5",
+      "slot": "Armor",
+      "class": "Acolyte",
+      "tier": 5,
+      "level_required": 202,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_195",
+      "name": "Moonveil Crown 5",
+      "slot": "Headgear",
+      "class": "Merchant",
+      "tier": 5,
+      "level_required": 203,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_196",
+      "name": "Dragonwake Mantle 5",
+      "slot": "Garment",
+      "class": "Ranger",
+      "tier": 5,
+      "level_required": 204,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_197",
+      "name": "Stormcaller Greaves 5",
+      "slot": "Footgear",
+      "class": "Warrior",
+      "tier": 5,
+      "level_required": 206,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_198",
+      "name": "Verdant Seal 5",
+      "slot": "Accessory",
+      "class": "Mage",
+      "tier": 5,
+      "level_required": 207,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_199",
+      "name": "Nightglass Edge 5",
+      "slot": "Weapon",
+      "class": "Archer",
+      "tier": 5,
+      "level_required": 208,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_200",
+      "name": "Emberwind Cuirass 5",
+      "slot": "Armor",
+      "class": "Thief",
+      "tier": 5,
+      "level_required": 209,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_201",
+      "name": "Starfall Crown 5",
+      "slot": "Headgear",
+      "class": "Acolyte",
+      "tier": 5,
+      "level_required": 210,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_202",
+      "name": "Runebound Mantle 5",
+      "slot": "Garment",
+      "class": "Merchant",
+      "tier": 5,
+      "level_required": 211,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_203",
+      "name": "Dawnpiercer Greaves 5",
+      "slot": "Footgear",
+      "class": "Ranger",
+      "tier": 5,
+      "level_required": 212,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_204",
+      "name": "Ironroot Seal 5",
+      "slot": "Accessory",
+      "class": "Warrior",
+      "tier": 5,
+      "level_required": 213,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_205",
+      "name": "Astral Edge 5",
+      "slot": "Weapon",
+      "class": "Mage",
+      "tier": 5,
+      "level_required": 214,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_206",
+      "name": "Sunforge Cuirass 5",
+      "slot": "Armor",
+      "class": "Archer",
+      "tier": 5,
+      "level_required": 215,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_207",
+      "name": "Moonveil Crown 5",
+      "slot": "Headgear",
+      "class": "Thief",
+      "tier": 5,
+      "level_required": 216,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_208",
+      "name": "Dragonwake Mantle 5",
+      "slot": "Garment",
+      "class": "Acolyte",
+      "tier": 5,
+      "level_required": 217,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_209",
+      "name": "Stormcaller Greaves 5",
+      "slot": "Footgear",
+      "class": "Merchant",
+      "tier": 5,
+      "level_required": 218,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_210",
+      "name": "Verdant Seal 5",
+      "slot": "Accessory",
+      "class": "Ranger",
+      "tier": 5,
+      "level_required": 219,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_211",
+      "name": "Nightglass Edge 5",
+      "slot": "Weapon",
+      "class": "Warrior",
+      "tier": 5,
+      "level_required": 220,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_212",
+      "name": "Emberwind Cuirass 5",
+      "slot": "Armor",
+      "class": "Mage",
+      "tier": 5,
+      "level_required": 221,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_213",
+      "name": "Starfall Crown 5",
+      "slot": "Headgear",
+      "class": "Archer",
+      "tier": 5,
+      "level_required": 222,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_214",
+      "name": "Runebound Mantle 5",
+      "slot": "Garment",
+      "class": "Thief",
+      "tier": 5,
+      "level_required": 223,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_215",
+      "name": "Dawnpiercer Greaves 5",
+      "slot": "Footgear",
+      "class": "Acolyte",
+      "tier": 5,
+      "level_required": 224,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_216",
+      "name": "Ironroot Seal 5",
+      "slot": "Accessory",
+      "class": "Merchant",
+      "tier": 5,
+      "level_required": 225,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_217",
+      "name": "Astral Edge 5",
+      "slot": "Weapon",
+      "class": "Ranger",
+      "tier": 5,
+      "level_required": 226,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_218",
+      "name": "Sunforge Cuirass 5",
+      "slot": "Armor",
+      "class": "Warrior",
+      "tier": 5,
+      "level_required": 227,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_219",
+      "name": "Moonveil Crown 5",
+      "slot": "Headgear",
+      "class": "Mage",
+      "tier": 5,
+      "level_required": 229,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_220",
+      "name": "Dragonwake Mantle 5",
+      "slot": "Garment",
+      "class": "Archer",
+      "tier": 5,
+      "level_required": 230,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_221",
+      "name": "Stormcaller Greaves 5",
+      "slot": "Footgear",
+      "class": "Thief",
+      "tier": 5,
+      "level_required": 231,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_222",
+      "name": "Verdant Seal 5",
+      "slot": "Accessory",
+      "class": "Acolyte",
+      "tier": 5,
+      "level_required": 232,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_223",
+      "name": "Nightglass Edge 5",
+      "slot": "Weapon",
+      "class": "Merchant",
+      "tier": 5,
+      "level_required": 233,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_224",
+      "name": "Emberwind Cuirass 5",
+      "slot": "Armor",
+      "class": "Ranger",
+      "tier": 5,
+      "level_required": 234,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_225",
+      "name": "Starfall Crown 5",
+      "slot": "Headgear",
+      "class": "Warrior",
+      "tier": 5,
+      "level_required": 235,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_226",
+      "name": "Runebound Mantle 5",
+      "slot": "Garment",
+      "class": "Mage",
+      "tier": 5,
+      "level_required": 236,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_227",
+      "name": "Dawnpiercer Greaves 5",
+      "slot": "Footgear",
+      "class": "Archer",
+      "tier": 5,
+      "level_required": 237,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_228",
+      "name": "Ironroot Seal 5",
+      "slot": "Accessory",
+      "class": "Thief",
+      "tier": 5,
+      "level_required": 238,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_229",
+      "name": "Astral Edge 5",
+      "slot": "Weapon",
+      "class": "Acolyte",
+      "tier": 5,
+      "level_required": 239,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_230",
+      "name": "Sunforge Cuirass 5",
+      "slot": "Armor",
+      "class": "Merchant",
+      "tier": 5,
+      "level_required": 240,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_231",
+      "name": "Moonveil Crown 5",
+      "slot": "Headgear",
+      "class": "Ranger",
+      "tier": 5,
+      "level_required": 241,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_232",
+      "name": "Dragonwake Mantle 5",
+      "slot": "Garment",
+      "class": "Warrior",
+      "tier": 5,
+      "level_required": 242,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_233",
+      "name": "Stormcaller Greaves 5",
+      "slot": "Footgear",
+      "class": "Mage",
+      "tier": 5,
+      "level_required": 243,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_234",
+      "name": "Verdant Seal 5",
+      "slot": "Accessory",
+      "class": "Archer",
+      "tier": 5,
+      "level_required": 244,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_235",
+      "name": "Nightglass Edge 5",
+      "slot": "Weapon",
+      "class": "Thief",
+      "tier": 5,
+      "level_required": 245,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_236",
+      "name": "Emberwind Cuirass 5",
+      "slot": "Armor",
+      "class": "Acolyte",
+      "tier": 5,
+      "level_required": 246,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_237",
+      "name": "Starfall Crown 5",
+      "slot": "Headgear",
+      "class": "Merchant",
+      "tier": 5,
+      "level_required": 247,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_238",
+      "name": "Runebound Mantle 5",
+      "slot": "Garment",
+      "class": "Ranger",
+      "tier": 5,
+      "level_required": 248,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_239",
+      "name": "Dawnpiercer Greaves 5",
+      "slot": "Footgear",
+      "class": "Warrior",
+      "tier": 5,
+      "level_required": 249,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    },
+    {
+      "id": "EQUIP_240",
+      "name": "Ironroot Seal 5",
+      "slot": "Accessory",
+      "class": "Mage",
+      "tier": 5,
+      "level_required": 250,
+      "refine_max": 15,
+      "refine_materials": [
+        "Phracon",
+        "Emveretarcon",
+        "Oridecon",
+        "Zeny"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "ITEM_001",
+      "name": "Red Potion",
+      "type": "consumable",
+      "price": 100
+    },
+    {
+      "id": "ITEM_002",
+      "name": "Orange Potion",
+      "type": "consumable",
+      "price": 175
+    },
+    {
+      "id": "ITEM_003",
+      "name": "Yellow Potion",
+      "type": "consumable",
+      "price": 250
+    },
+    {
+      "id": "ITEM_004",
+      "name": "White Potion",
+      "type": "consumable",
+      "price": 325
+    },
+    {
+      "id": "ITEM_005",
+      "name": "Blue Potion",
+      "type": "consumable",
+      "price": 400
+    },
+    {
+      "id": "ITEM_006",
+      "name": "Green Potion",
+      "type": "consumable",
+      "price": 475
+    },
+    {
+      "id": "ITEM_007",
+      "name": "Awakening Tonic",
+      "type": "consumable",
+      "price": 550
+    },
+    {
+      "id": "ITEM_008",
+      "name": "Haste Elixir",
+      "type": "consumable",
+      "price": 625
+    },
+    {
+      "id": "ITEM_009",
+      "name": "Focus Elixir",
+      "type": "consumable",
+      "price": 700
+    },
+    {
+      "id": "ITEM_010",
+      "name": "Fortune Elixir",
+      "type": "consumable",
+      "price": 775
+    },
+    {
+      "id": "ITEM_011",
+      "name": "Teleport Scroll",
+      "type": "consumable",
+      "price": 850
+    },
+    {
+      "id": "ITEM_012",
+      "name": "Return Scroll",
+      "type": "consumable",
+      "price": 925
+    },
+    {
+      "id": "ITEM_013",
+      "name": "Repair Kit",
+      "type": "consumable",
+      "price": 1000
+    },
+    {
+      "id": "ITEM_014",
+      "name": "Refine Safety Charm",
+      "type": "consumable",
+      "price": 1075
+    },
+    {
+      "id": "ITEM_015",
+      "name": "Card Mixer Token",
+      "type": "consumable",
+      "price": 1150
+    },
+    {
+      "id": "ITEM_016",
+      "name": "Town Warp Stone",
+      "type": "consumable",
+      "price": 1225
+    },
+    {
+      "id": "ITEM_017",
+      "name": "Dungeon Warp Stone",
+      "type": "consumable",
+      "price": 1300
+    },
+    {
+      "id": "ITEM_018",
+      "name": "Phoenix Feather",
+      "type": "consumable",
+      "price": 1375
+    },
+    {
+      "id": "ITEM_019",
+      "name": "Revive Elixir",
+      "type": "consumable",
+      "price": 1450
+    },
+    {
+      "id": "ITEM_020",
+      "name": "Monster Bait",
+      "type": "consumable",
+      "price": 1525
+    },
+    {
+      "id": "ITEM_021",
+      "name": "Magic Essence",
+      "type": "consumable",
+      "price": 1600
+    },
+    {
+      "id": "ITEM_022",
+      "name": "Archer Quiver Pack",
+      "type": "consumable",
+      "price": 1675
+    },
+    {
+      "id": "ITEM_023",
+      "name": "Thief Venom Kit",
+      "type": "consumable",
+      "price": 1750
+    },
+    {
+      "id": "ITEM_024",
+      "name": "Acolyte Holy Water",
+      "type": "consumable",
+      "price": 1825
+    },
+    {
+      "id": "ITEM_025",
+      "name": "Merchant Voucher",
+      "type": "consumable",
+      "price": 1900
+    },
+    {
+      "id": "ITEM_026",
+      "name": "Ranger Seed Pack",
+      "type": "consumable",
+      "price": 1975
+    },
+    {
+      "id": "ITEM_027",
+      "name": "Small HP Potion",
+      "type": "material",
+      "price": 2050
+    },
+    {
+      "id": "ITEM_028",
+      "name": "Medium HP Potion",
+      "type": "material",
+      "price": 2125
+    },
+    {
+      "id": "ITEM_029",
+      "name": "Large HP Potion",
+      "type": "material",
+      "price": 2200
+    },
+    {
+      "id": "ITEM_030",
+      "name": "Small SP Potion",
+      "type": "material",
+      "price": 2275
+    },
+    {
+      "id": "ITEM_031",
+      "name": "Medium SP Potion",
+      "type": "material",
+      "price": 2350
+    },
+    {
+      "id": "ITEM_032",
+      "name": "Large SP Potion",
+      "type": "material",
+      "price": 2425
+    },
+    {
+      "id": "ITEM_033",
+      "name": "All Stat Tonic",
+      "type": "material",
+      "price": 2500
+    },
+    {
+      "id": "ITEM_034",
+      "name": "Critical Tonic",
+      "type": "material",
+      "price": 2575
+    },
+    {
+      "id": "ITEM_035",
+      "name": "Flee Tonic",
+      "type": "material",
+      "price": 2650
+    },
+    {
+      "id": "ITEM_036",
+      "name": "Hit Tonic",
+      "type": "material",
+      "price": 2725
+    },
+    {
+      "id": "ITEM_037",
+      "name": "LUK Tonic",
+      "type": "material",
+      "price": 2800
+    },
+    {
+      "id": "ITEM_038",
+      "name": "EXP Manual",
+      "type": "material",
+      "price": 2875
+    },
+    {
+      "id": "ITEM_039",
+      "name": "Zeny Coupon",
+      "type": "material",
+      "price": 2950
+    },
+    {
+      "id": "ITEM_040",
+      "name": "Quest Token",
+      "type": "material",
+      "price": 3025
+    },
+    {
+      "id": "ITEM_041",
+      "name": "Guild Token",
+      "type": "material",
+      "price": 3100
+    },
+    {
+      "id": "ITEM_042",
+      "name": "MVP Token",
+      "type": "material",
+      "price": 3175
+    },
+    {
+      "id": "ITEM_043",
+      "name": "Boss Bait",
+      "type": "material",
+      "price": 3250
+    },
+    {
+      "id": "ITEM_044",
+      "name": "Dungeon Key",
+      "type": "material",
+      "price": 3325
+    },
+    {
+      "id": "ITEM_045",
+      "name": "Ancient Key",
+      "type": "material",
+      "price": 3400
+    },
+    {
+      "id": "ITEM_046",
+      "name": "Dragon Key",
+      "type": "material",
+      "price": 3475
+    },
+    {
+      "id": "ITEM_047",
+      "name": "Card Dust",
+      "type": "material",
+      "price": 3550
+    },
+    {
+      "id": "ITEM_048",
+      "name": "Card Core",
+      "type": "material",
+      "price": 3625
+    },
+    {
+      "id": "ITEM_049",
+      "name": "Equipment Shard",
+      "type": "material",
+      "price": 3700
+    },
+    {
+      "id": "ITEM_050",
+      "name": "Equipment Core",
+      "type": "material",
+      "price": 3775
+    },
+    {
+      "id": "ITEM_051",
+      "name": "Refinement Catalyst",
+      "type": "material",
+      "price": 3850
+    },
+    {
+      "id": "ITEM_052",
+      "name": "Phracon Bundle",
+      "type": "material",
+      "price": 3925
+    },
+    {
+      "id": "ITEM_053",
+      "name": "Emveretarcon Bundle",
+      "type": "material",
+      "price": 4000
+    },
+    {
+      "id": "ITEM_054",
+      "name": "Oridecon Bundle",
+      "type": "material",
+      "price": 4075
+    },
+    {
+      "id": "ITEM_055",
+      "name": "Zeny Box",
+      "type": "material",
+      "price": 4150
+    },
+    {
+      "id": "ITEM_056",
+      "name": "Mystic Herb",
+      "type": "material",
+      "price": 4225
+    },
+    {
+      "id": "ITEM_057",
+      "name": "Azure Crystal",
+      "type": "material",
+      "price": 4300
+    },
+    {
+      "id": "ITEM_058",
+      "name": "Crimson Crystal",
+      "type": "material",
+      "price": 4375
+    },
+    {
+      "id": "ITEM_059",
+      "name": "Verdant Crystal",
+      "type": "material",
+      "price": 4450
+    },
+    {
+      "id": "ITEM_060",
+      "name": "Moon Crystal",
+      "type": "material",
+      "price": 4525
+    },
+    {
+      "id": "ITEM_061",
+      "name": "Sun Crystal",
+      "type": "material",
+      "price": 4600
+    },
+    {
+      "id": "ITEM_062",
+      "name": "Star Crystal",
+      "type": "material",
+      "price": 4675
+    },
+    {
+      "id": "ITEM_063",
+      "name": "Iron Crystal",
+      "type": "material",
+      "price": 4750
+    },
+    {
+      "id": "ITEM_064",
+      "name": "Abyss Crystal",
+      "type": "material",
+      "price": 4825
+    },
+    {
+      "id": "ITEM_065",
+      "name": "Frost Crystal",
+      "type": "material",
+      "price": 4900
+    },
+    {
+      "id": "ITEM_066",
+      "name": "Storm Crystal",
+      "type": "material",
+      "price": 4975
+    },
+    {
+      "id": "ITEM_067",
+      "name": "Sacred Crystal",
+      "type": "material",
+      "price": 5050
+    },
+    {
+      "id": "ITEM_068",
+      "name": "Shadow Crystal",
+      "type": "material",
+      "price": 5125
+    },
+    {
+      "id": "ITEM_069",
+      "name": "World Tree Sap",
+      "type": "material",
+      "price": 5200
+    },
+    {
+      "id": "ITEM_070",
+      "name": "Dragon Scale",
+      "type": "material",
+      "price": 5275
+    },
+    {
+      "id": "ITEM_071",
+      "name": "Kraken Ink",
+      "type": "material",
+      "price": 5350
+    },
+    {
+      "id": "ITEM_072",
+      "name": "Titan Heart",
+      "type": "material",
+      "price": 5425
+    },
+    {
+      "id": "ITEM_073",
+      "name": "Oracle Eye",
+      "type": "material",
+      "price": 5500
+    },
+    {
+      "id": "ITEM_074",
+      "name": "Guardian Sigil",
+      "type": "material",
+      "price": 5575
+    }
+  ],
+  "cards": [
+    {
+      "id": "CARD_001",
+      "name": "Dawn Scout Card 1",
+      "tier": 1,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "ATK",
+      "effect_value": 3
+    },
+    {
+      "id": "CARD_002",
+      "name": "Dragon Scout Card 1",
+      "tier": 1,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "DEF",
+      "effect_value": 4
+    },
+    {
+      "id": "CARD_003",
+      "name": "Moon Scout Card 1",
+      "tier": 1,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "MATK",
+      "effect_value": 5
+    },
+    {
+      "id": "CARD_004",
+      "name": "Storm Scout Card 1",
+      "tier": 1,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "FLEE",
+      "effect_value": 6
+    },
+    {
+      "id": "CARD_005",
+      "name": "Verdant Scout Card 1",
+      "tier": 1,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "HIT",
+      "effect_value": 7
+    },
+    {
+      "id": "CARD_006",
+      "name": "Night Scout Card 1",
+      "tier": 1,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "CRIT",
+      "effect_value": 3
+    },
+    {
+      "id": "CARD_007",
+      "name": "Ember Scout Card 1",
+      "tier": 1,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "LUK",
+      "effect_value": 4
+    },
+    {
+      "id": "CARD_008",
+      "name": "Star Scout Card 1",
+      "tier": 1,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "HP",
+      "effect_value": 5
+    },
+    {
+      "id": "CARD_009",
+      "name": "Iron Scout Card 1",
+      "tier": 1,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "SP",
+      "effect_value": 6
+    },
+    {
+      "id": "CARD_010",
+      "name": "Sovereign Scout Card 1",
+      "tier": 1,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "ATK",
+      "effect_value": 7
+    },
+    {
+      "id": "CARD_011",
+      "name": "Bloodfang Scout Card 1",
+      "tier": 1,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "DEF",
+      "effect_value": 3
+    },
+    {
+      "id": "CARD_012",
+      "name": "Arcane Scout Card 1",
+      "tier": 1,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "MATK",
+      "effect_value": 4
+    },
+    {
+      "id": "CARD_013",
+      "name": "Skybreaker Scout Card 1",
+      "tier": 1,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "FLEE",
+      "effect_value": 5
+    },
+    {
+      "id": "CARD_014",
+      "name": "Grave Scout Card 1",
+      "tier": 1,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "HIT",
+      "effect_value": 6
+    },
+    {
+      "id": "CARD_015",
+      "name": "Plague Scout Card 1",
+      "tier": 1,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "CRIT",
+      "effect_value": 7
+    },
+    {
+      "id": "CARD_016",
+      "name": "Forest Scout Card 1",
+      "tier": 1,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "LUK",
+      "effect_value": 3
+    },
+    {
+      "id": "CARD_017",
+      "name": "Crimson Scout Card 1",
+      "tier": 1,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "HP",
+      "effect_value": 4
+    },
+    {
+      "id": "CARD_018",
+      "name": "Ancient Scout Card 1",
+      "tier": 1,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "SP",
+      "effect_value": 5
+    },
+    {
+      "id": "CARD_019",
+      "name": "Royal Scout Card 1",
+      "tier": 1,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "ATK",
+      "effect_value": 6
+    },
+    {
+      "id": "CARD_020",
+      "name": "Abyss Scout Card 1",
+      "tier": 1,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "DEF",
+      "effect_value": 7
+    },
+    {
+      "id": "CARD_021",
+      "name": "Dawn Hunter Card 1",
+      "tier": 1,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "MATK",
+      "effect_value": 3
+    },
+    {
+      "id": "CARD_022",
+      "name": "Dragon Hunter Card 1",
+      "tier": 1,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "FLEE",
+      "effect_value": 4
+    },
+    {
+      "id": "CARD_023",
+      "name": "Moon Hunter Card 1",
+      "tier": 1,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "HIT",
+      "effect_value": 5
+    },
+    {
+      "id": "CARD_024",
+      "name": "Storm Hunter Card 1",
+      "tier": 1,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "CRIT",
+      "effect_value": 6
+    },
+    {
+      "id": "CARD_025",
+      "name": "Verdant Hunter Card 1",
+      "tier": 1,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "LUK",
+      "effect_value": 7
+    },
+    {
+      "id": "CARD_026",
+      "name": "Night Hunter Card 1",
+      "tier": 1,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "HP",
+      "effect_value": 3
+    },
+    {
+      "id": "CARD_027",
+      "name": "Ember Hunter Card 1",
+      "tier": 1,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "SP",
+      "effect_value": 4
+    },
+    {
+      "id": "CARD_028",
+      "name": "Star Hunter Card 1",
+      "tier": 1,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "ATK",
+      "effect_value": 5
+    },
+    {
+      "id": "CARD_029",
+      "name": "Iron Hunter Card 1",
+      "tier": 1,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "DEF",
+      "effect_value": 6
+    },
+    {
+      "id": "CARD_030",
+      "name": "Sovereign Hunter Card 1",
+      "tier": 1,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "MATK",
+      "effect_value": 7
+    },
+    {
+      "id": "CARD_031",
+      "name": "Bloodfang Hunter Card 1",
+      "tier": 1,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "FLEE",
+      "effect_value": 3
+    },
+    {
+      "id": "CARD_032",
+      "name": "Arcane Hunter Card 1",
+      "tier": 1,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "HIT",
+      "effect_value": 4
+    },
+    {
+      "id": "CARD_033",
+      "name": "Skybreaker Hunter Card 1",
+      "tier": 1,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "CRIT",
+      "effect_value": 5
+    },
+    {
+      "id": "CARD_034",
+      "name": "Grave Hunter Card 1",
+      "tier": 1,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "LUK",
+      "effect_value": 6
+    },
+    {
+      "id": "CARD_035",
+      "name": "Plague Hunter Card 1",
+      "tier": 1,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "HP",
+      "effect_value": 7
+    },
+    {
+      "id": "CARD_036",
+      "name": "Forest Hunter Card 1",
+      "tier": 1,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "SP",
+      "effect_value": 3
+    },
+    {
+      "id": "CARD_037",
+      "name": "Crimson Hunter Card 1",
+      "tier": 1,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "ATK",
+      "effect_value": 4
+    },
+    {
+      "id": "CARD_038",
+      "name": "Ancient Hunter Card 1",
+      "tier": 1,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "DEF",
+      "effect_value": 5
+    },
+    {
+      "id": "CARD_039",
+      "name": "Royal Hunter Card 1",
+      "tier": 1,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "MATK",
+      "effect_value": 6
+    },
+    {
+      "id": "CARD_040",
+      "name": "Abyss Hunter Card 1",
+      "tier": 1,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "FLEE",
+      "effect_value": 7
+    },
+    {
+      "id": "CARD_041",
+      "name": "Dawn Alpha Card 1",
+      "tier": 1,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "HIT",
+      "effect_value": 3
+    },
+    {
+      "id": "CARD_042",
+      "name": "Dragon Alpha Card 1",
+      "tier": 1,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "CRIT",
+      "effect_value": 4
+    },
+    {
+      "id": "CARD_043",
+      "name": "Moon Alpha Card 1",
+      "tier": 1,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "LUK",
+      "effect_value": 5
+    },
+    {
+      "id": "CARD_044",
+      "name": "Storm Alpha Card 1",
+      "tier": 1,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "HP",
+      "effect_value": 6
+    },
+    {
+      "id": "CARD_045",
+      "name": "Verdant Alpha Card 1",
+      "tier": 1,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "SP",
+      "effect_value": 7
+    },
+    {
+      "id": "CARD_046",
+      "name": "Night Alpha Card 1",
+      "tier": 1,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "ATK",
+      "effect_value": 3
+    },
+    {
+      "id": "CARD_047",
+      "name": "Ember Alpha Card 1",
+      "tier": 1,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "DEF",
+      "effect_value": 4
+    },
+    {
+      "id": "CARD_048",
+      "name": "Star Alpha Card 1",
+      "tier": 1,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "MATK",
+      "effect_value": 5
+    },
+    {
+      "id": "CARD_049",
+      "name": "Iron Alpha Card 2",
+      "tier": 2,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "FLEE",
+      "effect_value": 8
+    },
+    {
+      "id": "CARD_050",
+      "name": "Sovereign Alpha Card 2",
+      "tier": 2,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "HIT",
+      "effect_value": 9
+    },
+    {
+      "id": "CARD_051",
+      "name": "Bloodfang Alpha Card 2",
+      "tier": 2,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "CRIT",
+      "effect_value": 5
+    },
+    {
+      "id": "CARD_052",
+      "name": "Arcane Alpha Card 2",
+      "tier": 2,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "LUK",
+      "effect_value": 6
+    },
+    {
+      "id": "CARD_053",
+      "name": "Skybreaker Alpha Card 2",
+      "tier": 2,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "HP",
+      "effect_value": 7
+    },
+    {
+      "id": "CARD_054",
+      "name": "Grave Alpha Card 2",
+      "tier": 2,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "SP",
+      "effect_value": 8
+    },
+    {
+      "id": "CARD_055",
+      "name": "Plague Alpha Card 2",
+      "tier": 2,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "ATK",
+      "effect_value": 9
+    },
+    {
+      "id": "CARD_056",
+      "name": "Forest Alpha Card 2",
+      "tier": 2,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "DEF",
+      "effect_value": 5
+    },
+    {
+      "id": "CARD_057",
+      "name": "Crimson Alpha Card 2",
+      "tier": 2,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "MATK",
+      "effect_value": 6
+    },
+    {
+      "id": "CARD_058",
+      "name": "Ancient Alpha Card 2",
+      "tier": 2,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "FLEE",
+      "effect_value": 7
+    },
+    {
+      "id": "CARD_059",
+      "name": "Royal Alpha Card 2",
+      "tier": 2,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "HIT",
+      "effect_value": 8
+    },
+    {
+      "id": "CARD_060",
+      "name": "Abyss Alpha Card 2",
+      "tier": 2,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "CRIT",
+      "effect_value": 9
+    },
+    {
+      "id": "CARD_061",
+      "name": "Dawn Warden Card 2",
+      "tier": 2,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "LUK",
+      "effect_value": 5
+    },
+    {
+      "id": "CARD_062",
+      "name": "Dragon Warden Card 2",
+      "tier": 2,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "HP",
+      "effect_value": 6
+    },
+    {
+      "id": "CARD_063",
+      "name": "Moon Warden Card 2",
+      "tier": 2,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "SP",
+      "effect_value": 7
+    },
+    {
+      "id": "CARD_064",
+      "name": "Storm Warden Card 2",
+      "tier": 2,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "ATK",
+      "effect_value": 8
+    },
+    {
+      "id": "CARD_065",
+      "name": "Verdant Warden Card 2",
+      "tier": 2,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "DEF",
+      "effect_value": 9
+    },
+    {
+      "id": "CARD_066",
+      "name": "Night Warden Card 2",
+      "tier": 2,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "MATK",
+      "effect_value": 5
+    },
+    {
+      "id": "CARD_067",
+      "name": "Ember Warden Card 2",
+      "tier": 2,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "FLEE",
+      "effect_value": 6
+    },
+    {
+      "id": "CARD_068",
+      "name": "Star Warden Card 2",
+      "tier": 2,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "HIT",
+      "effect_value": 7
+    },
+    {
+      "id": "CARD_069",
+      "name": "Iron Warden Card 2",
+      "tier": 2,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "CRIT",
+      "effect_value": 8
+    },
+    {
+      "id": "CARD_070",
+      "name": "Sovereign Warden Card 2",
+      "tier": 2,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "LUK",
+      "effect_value": 9
+    },
+    {
+      "id": "CARD_071",
+      "name": "Bloodfang Warden Card 2",
+      "tier": 2,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "HP",
+      "effect_value": 5
+    },
+    {
+      "id": "CARD_072",
+      "name": "Arcane Warden Card 2",
+      "tier": 2,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "SP",
+      "effect_value": 6
+    },
+    {
+      "id": "CARD_073",
+      "name": "Skybreaker Warden Card 2",
+      "tier": 2,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "ATK",
+      "effect_value": 7
+    },
+    {
+      "id": "CARD_074",
+      "name": "Grave Warden Card 2",
+      "tier": 2,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "DEF",
+      "effect_value": 8
+    },
+    {
+      "id": "CARD_075",
+      "name": "Plague Warden Card 2",
+      "tier": 2,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "MATK",
+      "effect_value": 9
+    },
+    {
+      "id": "CARD_076",
+      "name": "Forest Warden Card 2",
+      "tier": 2,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "FLEE",
+      "effect_value": 5
+    },
+    {
+      "id": "CARD_077",
+      "name": "Crimson Warden Card 2",
+      "tier": 2,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "HIT",
+      "effect_value": 6
+    },
+    {
+      "id": "CARD_078",
+      "name": "Ancient Warden Card 2",
+      "tier": 2,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "CRIT",
+      "effect_value": 7
+    },
+    {
+      "id": "CARD_079",
+      "name": "Royal Warden Card 2",
+      "tier": 2,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "LUK",
+      "effect_value": 8
+    },
+    {
+      "id": "CARD_080",
+      "name": "Abyss Warden Card 2",
+      "tier": 2,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "HP",
+      "effect_value": 9
+    },
+    {
+      "id": "CARD_081",
+      "name": "Dawn Elder Card 2",
+      "tier": 2,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "SP",
+      "effect_value": 5
+    },
+    {
+      "id": "CARD_082",
+      "name": "Dragon Elder Card 2",
+      "tier": 2,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "ATK",
+      "effect_value": 6
+    },
+    {
+      "id": "CARD_083",
+      "name": "Moon Elder Card 2",
+      "tier": 2,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "DEF",
+      "effect_value": 7
+    },
+    {
+      "id": "CARD_084",
+      "name": "Storm Elder Card 2",
+      "tier": 2,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "MATK",
+      "effect_value": 8
+    },
+    {
+      "id": "CARD_085",
+      "name": "Verdant Elder Card 2",
+      "tier": 2,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "FLEE",
+      "effect_value": 9
+    },
+    {
+      "id": "CARD_086",
+      "name": "Night Elder Card 2",
+      "tier": 2,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "HIT",
+      "effect_value": 5
+    },
+    {
+      "id": "CARD_087",
+      "name": "Ember Elder Card 2",
+      "tier": 2,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "CRIT",
+      "effect_value": 6
+    },
+    {
+      "id": "CARD_088",
+      "name": "Star Elder Card 2",
+      "tier": 2,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "LUK",
+      "effect_value": 7
+    },
+    {
+      "id": "CARD_089",
+      "name": "Iron Elder Card 2",
+      "tier": 2,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "HP",
+      "effect_value": 8
+    },
+    {
+      "id": "CARD_090",
+      "name": "Sovereign Elder Card 2",
+      "tier": 2,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "SP",
+      "effect_value": 9
+    },
+    {
+      "id": "CARD_091",
+      "name": "Bloodfang Elder Card 2",
+      "tier": 2,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "ATK",
+      "effect_value": 5
+    },
+    {
+      "id": "CARD_092",
+      "name": "Arcane Elder Card 2",
+      "tier": 2,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "DEF",
+      "effect_value": 6
+    },
+    {
+      "id": "CARD_093",
+      "name": "Skybreaker Elder Card 2",
+      "tier": 2,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "MATK",
+      "effect_value": 7
+    },
+    {
+      "id": "CARD_094",
+      "name": "Grave Elder Card 2",
+      "tier": 2,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "FLEE",
+      "effect_value": 8
+    },
+    {
+      "id": "CARD_095",
+      "name": "Plague Elder Card 2",
+      "tier": 2,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "HIT",
+      "effect_value": 9
+    },
+    {
+      "id": "CARD_096",
+      "name": "Forest Elder Card 2",
+      "tier": 2,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "CRIT",
+      "effect_value": 5
+    },
+    {
+      "id": "CARD_097",
+      "name": "Crimson Elder Card 3",
+      "tier": 3,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "LUK",
+      "effect_value": 8
+    },
+    {
+      "id": "CARD_098",
+      "name": "Ancient Elder Card 3",
+      "tier": 3,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "HP",
+      "effect_value": 9
+    },
+    {
+      "id": "CARD_099",
+      "name": "Royal Elder Card 3",
+      "tier": 3,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "SP",
+      "effect_value": 10
+    },
+    {
+      "id": "CARD_100",
+      "name": "Abyss Elder Card 3",
+      "tier": 3,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "ATK",
+      "effect_value": 11
+    },
+    {
+      "id": "CARD_101",
+      "name": "Dawn Lord Card 3",
+      "tier": 3,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "DEF",
+      "effect_value": 7
+    },
+    {
+      "id": "CARD_102",
+      "name": "Dragon Lord Card 3",
+      "tier": 3,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "MATK",
+      "effect_value": 8
+    },
+    {
+      "id": "CARD_103",
+      "name": "Moon Lord Card 3",
+      "tier": 3,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "FLEE",
+      "effect_value": 9
+    },
+    {
+      "id": "CARD_104",
+      "name": "Storm Lord Card 3",
+      "tier": 3,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "HIT",
+      "effect_value": 10
+    },
+    {
+      "id": "CARD_105",
+      "name": "Verdant Lord Card 3",
+      "tier": 3,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "CRIT",
+      "effect_value": 11
+    },
+    {
+      "id": "CARD_106",
+      "name": "Night Lord Card 3",
+      "tier": 3,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "LUK",
+      "effect_value": 7
+    },
+    {
+      "id": "CARD_107",
+      "name": "Ember Lord Card 3",
+      "tier": 3,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "HP",
+      "effect_value": 8
+    },
+    {
+      "id": "CARD_108",
+      "name": "Star Lord Card 3",
+      "tier": 3,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "SP",
+      "effect_value": 9
+    },
+    {
+      "id": "CARD_109",
+      "name": "Iron Lord Card 3",
+      "tier": 3,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "ATK",
+      "effect_value": 10
+    },
+    {
+      "id": "CARD_110",
+      "name": "Sovereign Lord Card 3",
+      "tier": 3,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "DEF",
+      "effect_value": 11
+    },
+    {
+      "id": "CARD_111",
+      "name": "Bloodfang Lord Card 3",
+      "tier": 3,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "MATK",
+      "effect_value": 7
+    },
+    {
+      "id": "CARD_112",
+      "name": "Arcane Lord Card 3",
+      "tier": 3,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "FLEE",
+      "effect_value": 8
+    },
+    {
+      "id": "CARD_113",
+      "name": "Skybreaker Lord Card 3",
+      "tier": 3,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "HIT",
+      "effect_value": 9
+    },
+    {
+      "id": "CARD_114",
+      "name": "Grave Lord Card 3",
+      "tier": 3,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "CRIT",
+      "effect_value": 10
+    },
+    {
+      "id": "CARD_115",
+      "name": "Plague Lord Card 3",
+      "tier": 3,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "LUK",
+      "effect_value": 11
+    },
+    {
+      "id": "CARD_116",
+      "name": "Forest Lord Card 3",
+      "tier": 3,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "HP",
+      "effect_value": 7
+    },
+    {
+      "id": "CARD_117",
+      "name": "Crimson Lord Card 3",
+      "tier": 3,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "SP",
+      "effect_value": 8
+    },
+    {
+      "id": "CARD_118",
+      "name": "Ancient Lord Card 3",
+      "tier": 3,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "ATK",
+      "effect_value": 9
+    },
+    {
+      "id": "CARD_119",
+      "name": "Royal Lord Card 3",
+      "tier": 3,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "DEF",
+      "effect_value": 10
+    },
+    {
+      "id": "CARD_120",
+      "name": "Abyss Lord Card 3",
+      "tier": 3,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "MATK",
+      "effect_value": 11
+    },
+    {
+      "id": "CARD_121",
+      "name": "Dawn Tyrant Card 3",
+      "tier": 3,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "FLEE",
+      "effect_value": 7
+    },
+    {
+      "id": "CARD_122",
+      "name": "Dragon Tyrant Card 3",
+      "tier": 3,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "HIT",
+      "effect_value": 8
+    },
+    {
+      "id": "CARD_123",
+      "name": "Moon Tyrant Card 3",
+      "tier": 3,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "CRIT",
+      "effect_value": 9
+    },
+    {
+      "id": "CARD_124",
+      "name": "Storm Tyrant Card 3",
+      "tier": 3,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "LUK",
+      "effect_value": 10
+    },
+    {
+      "id": "CARD_125",
+      "name": "Verdant Tyrant Card 3",
+      "tier": 3,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "HP",
+      "effect_value": 11
+    },
+    {
+      "id": "CARD_126",
+      "name": "Night Tyrant Card 3",
+      "tier": 3,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "SP",
+      "effect_value": 7
+    },
+    {
+      "id": "CARD_127",
+      "name": "Ember Tyrant Card 3",
+      "tier": 3,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "ATK",
+      "effect_value": 8
+    },
+    {
+      "id": "CARD_128",
+      "name": "Star Tyrant Card 3",
+      "tier": 3,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "DEF",
+      "effect_value": 9
+    },
+    {
+      "id": "CARD_129",
+      "name": "Iron Tyrant Card 3",
+      "tier": 3,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "MATK",
+      "effect_value": 10
+    },
+    {
+      "id": "CARD_130",
+      "name": "Sovereign Tyrant Card 3",
+      "tier": 3,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "FLEE",
+      "effect_value": 11
+    },
+    {
+      "id": "CARD_131",
+      "name": "Bloodfang Tyrant Card 3",
+      "tier": 3,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "HIT",
+      "effect_value": 7
+    },
+    {
+      "id": "CARD_132",
+      "name": "Arcane Tyrant Card 3",
+      "tier": 3,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "CRIT",
+      "effect_value": 8
+    },
+    {
+      "id": "CARD_133",
+      "name": "Skybreaker Tyrant Card 3",
+      "tier": 3,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "LUK",
+      "effect_value": 9
+    },
+    {
+      "id": "CARD_134",
+      "name": "Grave Tyrant Card 3",
+      "tier": 3,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "HP",
+      "effect_value": 10
+    },
+    {
+      "id": "CARD_135",
+      "name": "Plague Tyrant Card 3",
+      "tier": 3,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "SP",
+      "effect_value": 11
+    },
+    {
+      "id": "CARD_136",
+      "name": "Forest Tyrant Card 3",
+      "tier": 3,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "ATK",
+      "effect_value": 7
+    },
+    {
+      "id": "CARD_137",
+      "name": "Crimson Tyrant Card 3",
+      "tier": 3,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "DEF",
+      "effect_value": 8
+    },
+    {
+      "id": "CARD_138",
+      "name": "Ancient Tyrant Card 3",
+      "tier": 3,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "MATK",
+      "effect_value": 9
+    },
+    {
+      "id": "CARD_139",
+      "name": "Royal Tyrant Card 3",
+      "tier": 3,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "FLEE",
+      "effect_value": 10
+    },
+    {
+      "id": "CARD_140",
+      "name": "Abyss Tyrant Card 3",
+      "tier": 3,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "HIT",
+      "effect_value": 11
+    },
+    {
+      "id": "CARD_141",
+      "name": "Dawn Worldbreaker Card 3",
+      "tier": 3,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "CRIT",
+      "effect_value": 7
+    },
+    {
+      "id": "CARD_142",
+      "name": "Dragon Worldbreaker Card 3",
+      "tier": 3,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "LUK",
+      "effect_value": 8
+    },
+    {
+      "id": "CARD_143",
+      "name": "Moon Worldbreaker Card 3",
+      "tier": 3,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "HP",
+      "effect_value": 9
+    },
+    {
+      "id": "CARD_144",
+      "name": "Storm Worldbreaker Card 3",
+      "tier": 3,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "SP",
+      "effect_value": 10
+    },
+    {
+      "id": "CARD_145",
+      "name": "Verdant Worldbreaker Card 4",
+      "tier": 4,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "ATK",
+      "effect_value": 13
+    },
+    {
+      "id": "CARD_146",
+      "name": "Night Worldbreaker Card 4",
+      "tier": 4,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "DEF",
+      "effect_value": 9
+    },
+    {
+      "id": "CARD_147",
+      "name": "Ember Worldbreaker Card 4",
+      "tier": 4,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "MATK",
+      "effect_value": 10
+    },
+    {
+      "id": "CARD_148",
+      "name": "Star Worldbreaker Card 4",
+      "tier": 4,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "FLEE",
+      "effect_value": 11
+    },
+    {
+      "id": "CARD_149",
+      "name": "Iron Worldbreaker Card 4",
+      "tier": 4,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "HIT",
+      "effect_value": 12
+    },
+    {
+      "id": "CARD_150",
+      "name": "Sovereign Worldbreaker Card 4",
+      "tier": 4,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "CRIT",
+      "effect_value": 13
+    },
+    {
+      "id": "CARD_151",
+      "name": "Bloodfang Worldbreaker Card 4",
+      "tier": 4,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "LUK",
+      "effect_value": 9
+    },
+    {
+      "id": "CARD_152",
+      "name": "Arcane Worldbreaker Card 4",
+      "tier": 4,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "HP",
+      "effect_value": 10
+    },
+    {
+      "id": "CARD_153",
+      "name": "Skybreaker Worldbreaker Card 4",
+      "tier": 4,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "SP",
+      "effect_value": 11
+    },
+    {
+      "id": "CARD_154",
+      "name": "Grave Worldbreaker Card 4",
+      "tier": 4,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "ATK",
+      "effect_value": 12
+    },
+    {
+      "id": "CARD_155",
+      "name": "Plague Worldbreaker Card 4",
+      "tier": 4,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "DEF",
+      "effect_value": 13
+    },
+    {
+      "id": "CARD_156",
+      "name": "Forest Worldbreaker Card 4",
+      "tier": 4,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "MATK",
+      "effect_value": 9
+    },
+    {
+      "id": "CARD_157",
+      "name": "Crimson Worldbreaker Card 4",
+      "tier": 4,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "FLEE",
+      "effect_value": 10
+    },
+    {
+      "id": "CARD_158",
+      "name": "Ancient Worldbreaker Card 4",
+      "tier": 4,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "HIT",
+      "effect_value": 11
+    },
+    {
+      "id": "CARD_159",
+      "name": "Royal Worldbreaker Card 4",
+      "tier": 4,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "CRIT",
+      "effect_value": 12
+    },
+    {
+      "id": "CARD_160",
+      "name": "Abyss Worldbreaker Card 4",
+      "tier": 4,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "LUK",
+      "effect_value": 13
+    },
+    {
+      "id": "CARD_161",
+      "name": "Dawn Sovereign Card 4",
+      "tier": 4,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "HP",
+      "effect_value": 9
+    },
+    {
+      "id": "CARD_162",
+      "name": "Dragon Sovereign Card 4",
+      "tier": 4,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "SP",
+      "effect_value": 10
+    },
+    {
+      "id": "CARD_163",
+      "name": "Moon Sovereign Card 4",
+      "tier": 4,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "ATK",
+      "effect_value": 11
+    },
+    {
+      "id": "CARD_164",
+      "name": "Storm Sovereign Card 4",
+      "tier": 4,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "DEF",
+      "effect_value": 12
+    },
+    {
+      "id": "CARD_165",
+      "name": "Verdant Sovereign Card 4",
+      "tier": 4,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "MATK",
+      "effect_value": 13
+    },
+    {
+      "id": "CARD_166",
+      "name": "Night Sovereign Card 4",
+      "tier": 4,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "FLEE",
+      "effect_value": 9
+    },
+    {
+      "id": "CARD_167",
+      "name": "Ember Sovereign Card 4",
+      "tier": 4,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "HIT",
+      "effect_value": 10
+    },
+    {
+      "id": "CARD_168",
+      "name": "Star Sovereign Card 4",
+      "tier": 4,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "CRIT",
+      "effect_value": 11
+    },
+    {
+      "id": "CARD_169",
+      "name": "Iron Sovereign Card 4",
+      "tier": 4,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "LUK",
+      "effect_value": 12
+    },
+    {
+      "id": "CARD_170",
+      "name": "Sovereign Sovereign Card 4",
+      "tier": 4,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "HP",
+      "effect_value": 13
+    },
+    {
+      "id": "CARD_171",
+      "name": "Bloodfang Sovereign Card 4",
+      "tier": 4,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "SP",
+      "effect_value": 9
+    },
+    {
+      "id": "CARD_172",
+      "name": "Arcane Sovereign Card 4",
+      "tier": 4,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "ATK",
+      "effect_value": 10
+    },
+    {
+      "id": "CARD_173",
+      "name": "Skybreaker Sovereign Card 4",
+      "tier": 4,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "DEF",
+      "effect_value": 11
+    },
+    {
+      "id": "CARD_174",
+      "name": "Grave Sovereign Card 4",
+      "tier": 4,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "MATK",
+      "effect_value": 12
+    },
+    {
+      "id": "CARD_175",
+      "name": "Plague Sovereign Card 4",
+      "tier": 4,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "FLEE",
+      "effect_value": 13
+    },
+    {
+      "id": "CARD_176",
+      "name": "Forest Sovereign Card 4",
+      "tier": 4,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "HIT",
+      "effect_value": 9
+    },
+    {
+      "id": "CARD_177",
+      "name": "Crimson Sovereign Card 4",
+      "tier": 4,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "CRIT",
+      "effect_value": 10
+    },
+    {
+      "id": "CARD_178",
+      "name": "Ancient Sovereign Card 4",
+      "tier": 4,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "LUK",
+      "effect_value": 11
+    },
+    {
+      "id": "CARD_179",
+      "name": "Royal Sovereign Card 4",
+      "tier": 4,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "HP",
+      "effect_value": 12
+    },
+    {
+      "id": "CARD_180",
+      "name": "Abyss Sovereign Card 4",
+      "tier": 4,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "SP",
+      "effect_value": 13
+    },
+    {
+      "id": "CARD_181",
+      "name": "Dawn Eternal Card 4",
+      "tier": 4,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "ATK",
+      "effect_value": 9
+    },
+    {
+      "id": "CARD_182",
+      "name": "Dragon Eternal Card 4",
+      "tier": 4,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "DEF",
+      "effect_value": 10
+    },
+    {
+      "id": "CARD_183",
+      "name": "Moon Eternal Card 4",
+      "tier": 4,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "MATK",
+      "effect_value": 11
+    },
+    {
+      "id": "CARD_184",
+      "name": "Storm Eternal Card 4",
+      "tier": 4,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "FLEE",
+      "effect_value": 12
+    },
+    {
+      "id": "CARD_185",
+      "name": "Verdant Eternal Card 4",
+      "tier": 4,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "HIT",
+      "effect_value": 13
+    },
+    {
+      "id": "CARD_186",
+      "name": "Night Eternal Card 4",
+      "tier": 4,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "CRIT",
+      "effect_value": 9
+    },
+    {
+      "id": "CARD_187",
+      "name": "Ember Eternal Card 4",
+      "tier": 4,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "LUK",
+      "effect_value": 10
+    },
+    {
+      "id": "CARD_188",
+      "name": "Star Eternal Card 4",
+      "tier": 4,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "HP",
+      "effect_value": 11
+    },
+    {
+      "id": "CARD_189",
+      "name": "Iron Eternal Card 4",
+      "tier": 4,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "SP",
+      "effect_value": 12
+    },
+    {
+      "id": "CARD_190",
+      "name": "Sovereign Eternal Card 4",
+      "tier": 4,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "ATK",
+      "effect_value": 13
+    },
+    {
+      "id": "CARD_191",
+      "name": "Bloodfang Eternal Card 4",
+      "tier": 4,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "DEF",
+      "effect_value": 9
+    },
+    {
+      "id": "CARD_192",
+      "name": "Arcane Eternal Card 4",
+      "tier": 4,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "MATK",
+      "effect_value": 10
+    },
+    {
+      "id": "CARD_193",
+      "name": "Skybreaker Eternal Card 5",
+      "tier": 5,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "FLEE",
+      "effect_value": 13
+    },
+    {
+      "id": "CARD_194",
+      "name": "Grave Eternal Card 5",
+      "tier": 5,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "HIT",
+      "effect_value": 14
+    },
+    {
+      "id": "CARD_195",
+      "name": "Plague Eternal Card 5",
+      "tier": 5,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "CRIT",
+      "effect_value": 15
+    },
+    {
+      "id": "CARD_196",
+      "name": "Forest Eternal Card 5",
+      "tier": 5,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "LUK",
+      "effect_value": 11
+    },
+    {
+      "id": "CARD_197",
+      "name": "Crimson Eternal Card 5",
+      "tier": 5,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "HP",
+      "effect_value": 12
+    },
+    {
+      "id": "CARD_198",
+      "name": "Ancient Eternal Card 5",
+      "tier": 5,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "SP",
+      "effect_value": 13
+    },
+    {
+      "id": "CARD_199",
+      "name": "Royal Eternal Card 5",
+      "tier": 5,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "ATK",
+      "effect_value": 14
+    },
+    {
+      "id": "CARD_200",
+      "name": "Abyss Eternal Card 5",
+      "tier": 5,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "DEF",
+      "effect_value": 15
+    },
+    {
+      "id": "CARD_201",
+      "name": "Dawn Overlord Card 5",
+      "tier": 5,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "MATK",
+      "effect_value": 11
+    },
+    {
+      "id": "CARD_202",
+      "name": "Dragon Overlord Card 5",
+      "tier": 5,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "FLEE",
+      "effect_value": 12
+    },
+    {
+      "id": "CARD_203",
+      "name": "Moon Overlord Card 5",
+      "tier": 5,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "HIT",
+      "effect_value": 13
+    },
+    {
+      "id": "CARD_204",
+      "name": "Storm Overlord Card 5",
+      "tier": 5,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "CRIT",
+      "effect_value": 14
+    },
+    {
+      "id": "CARD_205",
+      "name": "Verdant Overlord Card 5",
+      "tier": 5,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "LUK",
+      "effect_value": 15
+    },
+    {
+      "id": "CARD_206",
+      "name": "Night Overlord Card 5",
+      "tier": 5,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "HP",
+      "effect_value": 11
+    },
+    {
+      "id": "CARD_207",
+      "name": "Ember Overlord Card 5",
+      "tier": 5,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "SP",
+      "effect_value": 12
+    },
+    {
+      "id": "CARD_208",
+      "name": "Star Overlord Card 5",
+      "tier": 5,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "ATK",
+      "effect_value": 13
+    },
+    {
+      "id": "CARD_209",
+      "name": "Iron Overlord Card 5",
+      "tier": 5,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "DEF",
+      "effect_value": 14
+    },
+    {
+      "id": "CARD_210",
+      "name": "Sovereign Overlord Card 5",
+      "tier": 5,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "MATK",
+      "effect_value": 15
+    },
+    {
+      "id": "CARD_211",
+      "name": "Bloodfang Overlord Card 5",
+      "tier": 5,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "FLEE",
+      "effect_value": 11
+    },
+    {
+      "id": "CARD_212",
+      "name": "Arcane Overlord Card 5",
+      "tier": 5,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "HIT",
+      "effect_value": 12
+    },
+    {
+      "id": "CARD_213",
+      "name": "Skybreaker Overlord Card 5",
+      "tier": 5,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "CRIT",
+      "effect_value": 13
+    },
+    {
+      "id": "CARD_214",
+      "name": "Grave Overlord Card 5",
+      "tier": 5,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "LUK",
+      "effect_value": 14
+    },
+    {
+      "id": "CARD_215",
+      "name": "Plague Overlord Card 5",
+      "tier": 5,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "HP",
+      "effect_value": 15
+    },
+    {
+      "id": "CARD_216",
+      "name": "Forest Overlord Card 5",
+      "tier": 5,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "SP",
+      "effect_value": 11
+    },
+    {
+      "id": "CARD_217",
+      "name": "Crimson Overlord Card 5",
+      "tier": 5,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "ATK",
+      "effect_value": 12
+    },
+    {
+      "id": "CARD_218",
+      "name": "Ancient Overlord Card 5",
+      "tier": 5,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "DEF",
+      "effect_value": 13
+    },
+    {
+      "id": "CARD_219",
+      "name": "Royal Overlord Card 5",
+      "tier": 5,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "MATK",
+      "effect_value": 14
+    },
+    {
+      "id": "CARD_220",
+      "name": "Abyss Overlord Card 5",
+      "tier": 5,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "FLEE",
+      "effect_value": 15
+    },
+    {
+      "id": "CARD_221",
+      "name": "Dawn Ascendant Card 5",
+      "tier": 5,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "HIT",
+      "effect_value": 11
+    },
+    {
+      "id": "CARD_222",
+      "name": "Dragon Ascendant Card 5",
+      "tier": 5,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "CRIT",
+      "effect_value": 12
+    },
+    {
+      "id": "CARD_223",
+      "name": "Moon Ascendant Card 5",
+      "tier": 5,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "LUK",
+      "effect_value": 13
+    },
+    {
+      "id": "CARD_224",
+      "name": "Storm Ascendant Card 5",
+      "tier": 5,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "HP",
+      "effect_value": 14
+    },
+    {
+      "id": "CARD_225",
+      "name": "Verdant Ascendant Card 5",
+      "tier": 5,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "SP",
+      "effect_value": 15
+    },
+    {
+      "id": "CARD_226",
+      "name": "Night Ascendant Card 5",
+      "tier": 5,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "ATK",
+      "effect_value": 11
+    },
+    {
+      "id": "CARD_227",
+      "name": "Ember Ascendant Card 5",
+      "tier": 5,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "DEF",
+      "effect_value": 12
+    },
+    {
+      "id": "CARD_228",
+      "name": "Star Ascendant Card 5",
+      "tier": 5,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "MATK",
+      "effect_value": 13
+    },
+    {
+      "id": "CARD_229",
+      "name": "Iron Ascendant Card 5",
+      "tier": 5,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "FLEE",
+      "effect_value": 14
+    },
+    {
+      "id": "CARD_230",
+      "name": "Sovereign Ascendant Card 5",
+      "tier": 5,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "HIT",
+      "effect_value": 15
+    },
+    {
+      "id": "CARD_231",
+      "name": "Bloodfang Ascendant Card 5",
+      "tier": 5,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "CRIT",
+      "effect_value": 11
+    },
+    {
+      "id": "CARD_232",
+      "name": "Arcane Ascendant Card 5",
+      "tier": 5,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "LUK",
+      "effect_value": 12
+    },
+    {
+      "id": "CARD_233",
+      "name": "Skybreaker Ascendant Card 5",
+      "tier": 5,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "HP",
+      "effect_value": 13
+    },
+    {
+      "id": "CARD_234",
+      "name": "Grave Ascendant Card 5",
+      "tier": 5,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "SP",
+      "effect_value": 14
+    },
+    {
+      "id": "CARD_235",
+      "name": "Plague Ascendant Card 5",
+      "tier": 5,
+      "slot": "Weapon",
+      "socketable": true,
+      "effect_stat": "ATK",
+      "effect_value": 15
+    },
+    {
+      "id": "CARD_236",
+      "name": "Forest Ascendant Card 5",
+      "tier": 5,
+      "slot": "Armor",
+      "socketable": true,
+      "effect_stat": "DEF",
+      "effect_value": 11
+    },
+    {
+      "id": "CARD_237",
+      "name": "Crimson Ascendant Card 5",
+      "tier": 5,
+      "slot": "Headgear",
+      "socketable": true,
+      "effect_stat": "MATK",
+      "effect_value": 12
+    },
+    {
+      "id": "CARD_238",
+      "name": "Ancient Ascendant Card 5",
+      "tier": 5,
+      "slot": "Garment",
+      "socketable": true,
+      "effect_stat": "FLEE",
+      "effect_value": 13
+    },
+    {
+      "id": "CARD_239",
+      "name": "Royal Ascendant Card 5",
+      "tier": 5,
+      "slot": "Footgear",
+      "socketable": true,
+      "effect_stat": "HIT",
+      "effect_value": 14
+    },
+    {
+      "id": "CARD_240",
+      "name": "Abyss Ascendant Card 5",
+      "tier": 5,
+      "slot": "Accessory",
+      "socketable": true,
+      "effect_stat": "CRIT",
+      "effect_value": 15
+    }
+  ]
+}
