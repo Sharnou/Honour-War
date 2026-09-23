@@ -11,7 +11,7 @@ for p in required:
 project=json.loads((ROOT/"HonourWar.uproject").read_text(encoding="utf-8"))
 if project.get("EngineAssociation")!="5.8": print("UNREAL_CONTRACT_FAIL: EngineAssociation must be 5.8"); sys.exit(1)
 catalog=json.loads((ROOT/"data"/"honour_war_content_catalog.json").read_text(encoding="utf-8"))
-for k,v in {"characters":60,"monsters":256,"maps":24,"equipment":240,"cards":240}.items():
+for k,v in {"characters":70,"monsters":256,"maps":24,"equipment":300,"cards":300}.items():
     if len(catalog[k])!=v: print(f"UNREAL_CONTRACT_FAIL: catalog {k} count"); sys.exit(1)
 controller=(ROOT/"Source"/"HonourWar"/"HonourWarPlayerController.cpp").read_text(encoding="utf-8")
 world=(ROOT/"Source"/"HonourWar"/"HonourWarWorldDirector.cpp").read_text(encoding="utf-8")
@@ -50,4 +50,4 @@ for p in ROOT.rglob("*"):
         rel=p.relative_to(ROOT).as_posix().lower()
         if p.suffix.lower() in {".gd",".tscn",".tres",".godot",".import",".uid"} or rel=="project.godot" or rel.endswith("/godot-validation.yml"):
             print(f"UNREAL_CONTRACT_FAIL: retired Godot file remains: {rel}"); sys.exit(1)
-print("UNREAL_CONTRACT_PASS: Unreal 5.8 + 60-character/64-monster/24-map/240-equipment/240-card catalog integrated.")
+print("UNREAL_CONTRACT_PASS: Unreal 5.8 + 70-character/256-monster/24-map/300-equipment/300-card catalog integrated.")
