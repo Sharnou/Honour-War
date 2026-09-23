@@ -10369,8 +10369,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_062",
-        "monster_name": "Monster #62",
-        "monster_level": 10,
+        "monster_name": "Storm Orclet Lord",
+        "monster_level": 170,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -10412,8 +10412,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_075",
-        "monster_name": "Monster #75",
-        "monster_level": 10,
+        "monster_name": "Ancient Desert Wolf Alpha",
+        "monster_level": 50,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -10455,8 +10455,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_088",
-        "monster_name": "Monster #88",
-        "monster_level": 10,
+        "monster_name": "Night Warg Worldbreaker",
+        "monster_level": 300,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -10498,8 +10498,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_101",
-        "monster_name": "Monster #101",
-        "monster_level": 10,
+        "monster_name": "Abyssal Skeleton Elder",
+        "monster_level": 120,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -10541,8 +10541,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_114",
-        "monster_name": "Monster #114",
-        "monster_level": 10,
+        "monster_name": "Crimson Bone Archer Hunter",
+        "monster_level": 30,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -10584,8 +10584,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_127",
-        "monster_name": "Monster #127",
-        "monster_level": 10,
+        "monster_name": "Verdant Skull Knight Tyrant",
+        "monster_level": 230,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -10627,8 +10627,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_140",
-        "monster_name": "Monster #140",
-        "monster_level": 10,
+        "monster_name": "Royal Orc Warrior Warden",
+        "monster_level": 80,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -10670,7 +10670,7 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_153",
-        "monster_name": "Monster #153",
+        "monster_name": "Wild Orc Warlord Scout",
         "monster_level": 10,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
@@ -10713,8 +10713,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_166",
-        "monster_name": "Monster #166",
-        "monster_level": 10,
+        "monster_name": "Storm Mantis Lord",
+        "monster_level": 170,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -10756,8 +10756,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_179",
-        "monster_name": "Monster #179",
-        "monster_level": 10,
+        "monster_name": "Ancient Scorpion Alpha",
+        "monster_level": 50,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -10799,8 +10799,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_192",
-        "monster_name": "Monster #192",
-        "monster_level": 10,
+        "monster_name": "Night Venom Beetle Worldbreaker",
+        "monster_level": 300,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -10842,8 +10842,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_205",
-        "monster_name": "Monster #205",
-        "monster_level": 10,
+        "monster_name": "Abyssal Stone Golem Elder",
+        "monster_level": 120,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -10885,8 +10885,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_218",
-        "monster_name": "Monster #218",
-        "monster_level": 10,
+        "monster_name": "Crimson Iron Golem Hunter",
+        "monster_level": 30,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -10928,8 +10928,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_231",
-        "monster_name": "Monster #231",
-        "monster_level": 10,
+        "monster_name": "Verdant Dragon Tyrant",
+        "monster_level": 230,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -10971,8 +10971,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_244",
-        "monster_name": "Monster #244",
-        "monster_level": 10,
+        "monster_name": "Royal Wyvern Warden",
+        "monster_level": 80,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -11014,7 +11014,7 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_001",
-        "monster_name": "Monster #1",
+        "monster_name": "Wild Poring Scout",
         "monster_level": 10,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
@@ -11057,8 +11057,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_014",
-        "monster_name": "Monster #14",
-        "monster_level": 10,
+        "monster_name": "Storm Poporing Lord",
+        "monster_level": 170,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -11100,8 +11100,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_027",
-        "monster_name": "Monster #27",
-        "monster_level": 10,
+        "monster_name": "Ancient Marin Alpha",
+        "monster_level": 50,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -11143,8 +11143,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_040",
-        "monster_name": "Monster #40",
-        "monster_level": 10,
+        "monster_name": "Night Goblin Worldbreaker",
+        "monster_level": 300,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -11186,8 +11186,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_053",
-        "monster_name": "Monster #53",
-        "monster_level": 10,
+        "monster_name": "Abyssal Hobgoblin Elder",
+        "monster_level": 120,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -11229,8 +11229,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_066",
-        "monster_name": "Monster #66",
-        "monster_level": 10,
+        "monster_name": "Crimson Wolf Hunter",
+        "monster_level": 30,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -11272,8 +11272,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_079",
-        "monster_name": "Monster #79",
-        "monster_level": 10,
+        "monster_name": "Verdant Desert Wolf Tyrant",
+        "monster_level": 230,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -11315,8 +11315,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_092",
-        "monster_name": "Monster #92",
-        "monster_level": 10,
+        "monster_name": "Royal Dire Wolf Warden",
+        "monster_level": 80,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -11358,7 +11358,7 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_105",
-        "monster_name": "Monster #105",
+        "monster_name": "Wild Zombie Guard Scout",
         "monster_level": 10,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
@@ -11401,8 +11401,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_118",
-        "monster_name": "Monster #118",
-        "monster_level": 10,
+        "monster_name": "Storm Bone Archer Lord",
+        "monster_level": 170,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -11444,8 +11444,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_131",
-        "monster_name": "Monster #131",
-        "monster_level": 10,
+        "monster_name": "Ancient Orc Alpha",
+        "monster_level": 50,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -11487,8 +11487,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_144",
-        "monster_name": "Monster #144",
-        "monster_level": 10,
+        "monster_name": "Night Orc Warrior Worldbreaker",
+        "monster_level": 300,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -11530,8 +11530,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_157",
-        "monster_name": "Monster #157",
-        "monster_level": 10,
+        "monster_name": "Abyssal Orc Warlord Elder",
+        "monster_level": 120,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -11573,8 +11573,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_170",
-        "monster_name": "Monster #170",
-        "monster_level": 10,
+        "monster_name": "Crimson Hunter Fly Hunter",
+        "monster_level": 30,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -11616,8 +11616,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_183",
-        "monster_name": "Monster #183",
-        "monster_level": 10,
+        "monster_name": "Verdant Scorpion Tyrant",
+        "monster_level": 230,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -11659,8 +11659,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_196",
-        "monster_name": "Monster #196",
-        "monster_level": 10,
+        "monster_name": "Royal Golem Warden",
+        "monster_level": 80,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -11702,7 +11702,7 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_209",
-        "monster_name": "Monster #209",
+        "monster_name": "Wild Crystal Golem Scout",
         "monster_level": 10,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
@@ -11745,8 +11745,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_222",
-        "monster_name": "Monster #222",
-        "monster_level": 10,
+        "monster_name": "Storm Iron Golem Lord",
+        "monster_level": 170,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -11788,8 +11788,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_235",
-        "monster_name": "Monster #235",
-        "monster_level": 10,
+        "monster_name": "Ancient Drake Alpha",
+        "monster_level": 50,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -11831,8 +11831,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_248",
-        "monster_name": "Monster #248",
-        "monster_level": 10,
+        "monster_name": "Night Wyvern Worldbreaker",
+        "monster_level": 300,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -11874,8 +11874,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_005",
-        "monster_name": "Monster #5",
-        "monster_level": 10,
+        "monster_name": "Abyssal Poring Elder",
+        "monster_level": 120,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -11917,8 +11917,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_018",
-        "monster_name": "Monster #18",
-        "monster_level": 10,
+        "monster_name": "Crimson Drops Hunter",
+        "monster_level": 30,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -11960,8 +11960,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_031",
-        "monster_name": "Monster #31",
-        "monster_level": 10,
+        "monster_name": "Verdant Marin Tyrant",
+        "monster_level": 230,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -12003,8 +12003,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_044",
-        "monster_name": "Monster #44",
-        "monster_level": 10,
+        "monster_name": "Royal Kobold Warden",
+        "monster_level": 80,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -12046,7 +12046,7 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_057",
-        "monster_name": "Monster #57",
+        "monster_name": "Wild Orclet Scout",
         "monster_level": 10,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
@@ -12089,8 +12089,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_070",
-        "monster_name": "Monster #70",
-        "monster_level": 10,
+        "monster_name": "Storm Wolf Lord",
+        "monster_level": 170,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -12132,8 +12132,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_083",
-        "monster_name": "Monster #83",
-        "monster_level": 10,
+        "monster_name": "Ancient Warg Alpha",
+        "monster_level": 50,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -12175,8 +12175,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_096",
-        "monster_name": "Monster #96",
-        "monster_level": 10,
+        "monster_name": "Night Dire Wolf Worldbreaker",
+        "monster_level": 300,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -12218,8 +12218,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_109",
-        "monster_name": "Monster #109",
-        "monster_level": 10,
+        "monster_name": "Abyssal Zombie Guard Elder",
+        "monster_level": 120,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -12261,8 +12261,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_122",
-        "monster_name": "Monster #122",
-        "monster_level": 10,
+        "monster_name": "Crimson Skull Knight Hunter",
+        "monster_level": 30,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -12304,8 +12304,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_135",
-        "monster_name": "Monster #135",
-        "monster_level": 10,
+        "monster_name": "Verdant Orc Tyrant",
+        "monster_level": 230,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -12347,8 +12347,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_148",
-        "monster_name": "Monster #148",
-        "monster_level": 10,
+        "monster_name": "Royal Orc Champion Warden",
+        "monster_level": 80,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -12390,7 +12390,7 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_161",
-        "monster_name": "Monster #161",
+        "monster_name": "Wild Mantis Scout",
         "monster_level": 10,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
@@ -12433,8 +12433,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_174",
-        "monster_name": "Monster #174",
-        "monster_level": 10,
+        "monster_name": "Storm Hunter Fly Lord",
+        "monster_level": 170,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -12476,8 +12476,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_187",
-        "monster_name": "Monster #187",
-        "monster_level": 10,
+        "monster_name": "Ancient Venom Beetle Alpha",
+        "monster_level": 50,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -12519,8 +12519,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_200",
-        "monster_name": "Monster #200",
-        "monster_level": 10,
+        "monster_name": "Night Golem Worldbreaker",
+        "monster_level": 300,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -12562,8 +12562,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_213",
-        "monster_name": "Monster #213",
-        "monster_level": 10,
+        "monster_name": "Abyssal Crystal Golem Elder",
+        "monster_level": 120,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -12605,8 +12605,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_226",
-        "monster_name": "Monster #226",
-        "monster_level": 10,
+        "monster_name": "Crimson Dragon Hunter",
+        "monster_level": 30,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -12648,8 +12648,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_239",
-        "monster_name": "Monster #239",
-        "monster_level": 10,
+        "monster_name": "Verdant Drake Tyrant",
+        "monster_level": 230,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -12691,8 +12691,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_252",
-        "monster_name": "Monster #252",
-        "monster_level": 10,
+        "monster_name": "Royal Elder Dragon Warden",
+        "monster_level": 80,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -12734,7 +12734,7 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_009",
-        "monster_name": "Monster #9",
+        "monster_name": "Wild Poporing Scout",
         "monster_level": 10,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
@@ -12777,8 +12777,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_022",
-        "monster_name": "Monster #22",
-        "monster_level": 10,
+        "monster_name": "Storm Drops Lord",
+        "monster_level": 170,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -12820,8 +12820,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_035",
-        "monster_name": "Monster #35",
-        "monster_level": 10,
+        "monster_name": "Ancient Goblin Alpha",
+        "monster_level": 50,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -12863,8 +12863,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_048",
-        "monster_name": "Monster #48",
-        "monster_level": 10,
+        "monster_name": "Night Kobold Worldbreaker",
+        "monster_level": 300,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -12906,8 +12906,8 @@
       "type": "equipment",
       "source": {
         "monster_id": "MON_061",
-        "monster_name": "Monster #61",
-        "monster_level": 10,
+        "monster_name": "Abyssal Orclet Elder",
+        "monster_level": 120,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -14111,7 +14111,7 @@
       "description": "Socketable 1-tier card focused on ATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_001",
-        "monster_name": "Monster #1",
+        "monster_name": "Wild Poring Scout",
         "monster_level": 10,
         "map_id": "swamp_marsh",
         "map_name": "Blackwater Marsh"
@@ -14133,8 +14133,8 @@
       "description": "Socketable 1-tier card focused on DEF power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_002",
-        "monster_name": "Monster #2",
-        "monster_level": 40,
+        "monster_name": "Crimson Poring Hunter",
+        "monster_level": 30,
         "map_id": "ice_pass",
         "map_name": "Glacier Pass"
       },
@@ -14155,8 +14155,8 @@
       "description": "Socketable 1-tier card focused on MATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_003",
-        "monster_name": "Monster #3",
-        "monster_level": 70,
+        "monster_name": "Ancient Poring Alpha",
+        "monster_level": 50,
         "map_id": "snow_region",
         "map_name": "Frostveil"
       },
@@ -14177,8 +14177,8 @@
       "description": "Socketable 1-tier card focused on FLEE power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_004",
-        "monster_name": "Monster #4",
-        "monster_level": 100,
+        "monster_name": "Royal Poring Warden",
+        "monster_level": 80,
         "map_id": "abyss_dungeon",
         "map_name": "Abyssal Depths"
       },
@@ -14199,8 +14199,8 @@
       "description": "Socketable 1-tier card focused on HIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_005",
-        "monster_name": "Monster #5",
-        "monster_level": 130,
+        "monster_name": "Abyssal Poring Elder",
+        "monster_level": 120,
         "map_id": "crimson_dunes",
         "map_name": "Crimson Dunes"
       },
@@ -14221,8 +14221,8 @@
       "description": "Socketable 1-tier card focused on CRIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_006",
-        "monster_name": "Monster #6",
-        "monster_level": 160,
+        "monster_name": "Storm Poring Lord",
+        "monster_level": 170,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -14243,8 +14243,8 @@
       "description": "Socketable 1-tier card focused on LUK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_007",
-        "monster_name": "Monster #7",
-        "monster_level": 190,
+        "monster_name": "Verdant Poring Tyrant",
+        "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -14265,8 +14265,8 @@
       "description": "Socketable 1-tier card focused on HP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_008",
-        "monster_name": "Monster #8",
-        "monster_level": 220,
+        "monster_name": "Night Poring Worldbreaker",
+        "monster_level": 300,
         "map_id": "worldboss_plains",
         "map_name": "Worldboss Plains"
       },
@@ -14287,7 +14287,7 @@
       "description": "Socketable 1-tier card focused on SP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_009",
-        "monster_name": "Monster #9",
+        "monster_name": "Wild Poporing Scout",
         "monster_level": 10,
         "map_id": "swamp_marsh",
         "map_name": "Blackwater Marsh"
@@ -14309,8 +14309,8 @@
       "description": "Socketable 1-tier card focused on ATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_010",
-        "monster_name": "Monster #10",
-        "monster_level": 40,
+        "monster_name": "Crimson Poporing Hunter",
+        "monster_level": 30,
         "map_id": "ice_pass",
         "map_name": "Glacier Pass"
       },
@@ -14331,8 +14331,8 @@
       "description": "Socketable 1-tier card focused on DEF power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_011",
-        "monster_name": "Monster #11",
-        "monster_level": 70,
+        "monster_name": "Ancient Poporing Alpha",
+        "monster_level": 50,
         "map_id": "snow_region",
         "map_name": "Frostveil"
       },
@@ -14353,8 +14353,8 @@
       "description": "Socketable 1-tier card focused on MATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_012",
-        "monster_name": "Monster #12",
-        "monster_level": 100,
+        "monster_name": "Royal Poporing Warden",
+        "monster_level": 80,
         "map_id": "abyss_dungeon",
         "map_name": "Abyssal Depths"
       },
@@ -14375,8 +14375,8 @@
       "description": "Socketable 1-tier card focused on FLEE power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_013",
-        "monster_name": "Monster #13",
-        "monster_level": 130,
+        "monster_name": "Abyssal Poporing Elder",
+        "monster_level": 120,
         "map_id": "crimson_dunes",
         "map_name": "Crimson Dunes"
       },
@@ -14397,8 +14397,8 @@
       "description": "Socketable 1-tier card focused on HIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_014",
-        "monster_name": "Monster #14",
-        "monster_level": 160,
+        "monster_name": "Storm Poporing Lord",
+        "monster_level": 170,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -14419,8 +14419,8 @@
       "description": "Socketable 1-tier card focused on CRIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_015",
-        "monster_name": "Monster #15",
-        "monster_level": 190,
+        "monster_name": "Verdant Poporing Tyrant",
+        "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -14441,8 +14441,8 @@
       "description": "Socketable 1-tier card focused on LUK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_016",
-        "monster_name": "Monster #16",
-        "monster_level": 220,
+        "monster_name": "Night Poporing Worldbreaker",
+        "monster_level": 300,
         "map_id": "worldboss_plains",
         "map_name": "Worldboss Plains"
       },
@@ -14463,7 +14463,7 @@
       "description": "Socketable 1-tier card focused on HP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_017",
-        "monster_name": "Monster #17",
+        "monster_name": "Wild Drops Scout",
         "monster_level": 10,
         "map_id": "swamp_marsh",
         "map_name": "Blackwater Marsh"
@@ -14485,8 +14485,8 @@
       "description": "Socketable 1-tier card focused on SP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_018",
-        "monster_name": "Monster #18",
-        "monster_level": 40,
+        "monster_name": "Crimson Drops Hunter",
+        "monster_level": 30,
         "map_id": "ice_pass",
         "map_name": "Glacier Pass"
       },
@@ -14507,8 +14507,8 @@
       "description": "Socketable 1-tier card focused on ATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_019",
-        "monster_name": "Monster #19",
-        "monster_level": 70,
+        "monster_name": "Ancient Drops Alpha",
+        "monster_level": 50,
         "map_id": "snow_region",
         "map_name": "Frostveil"
       },
@@ -14529,8 +14529,8 @@
       "description": "Socketable 1-tier card focused on DEF power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_020",
-        "monster_name": "Monster #20",
-        "monster_level": 100,
+        "monster_name": "Royal Drops Warden",
+        "monster_level": 80,
         "map_id": "abyss_dungeon",
         "map_name": "Abyssal Depths"
       },
@@ -14551,8 +14551,8 @@
       "description": "Socketable 1-tier card focused on MATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_021",
-        "monster_name": "Monster #21",
-        "monster_level": 130,
+        "monster_name": "Abyssal Drops Elder",
+        "monster_level": 120,
         "map_id": "crimson_dunes",
         "map_name": "Crimson Dunes"
       },
@@ -14573,8 +14573,8 @@
       "description": "Socketable 1-tier card focused on FLEE power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_022",
-        "monster_name": "Monster #22",
-        "monster_level": 160,
+        "monster_name": "Storm Drops Lord",
+        "monster_level": 170,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -14595,8 +14595,8 @@
       "description": "Socketable 1-tier card focused on HIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_023",
-        "monster_name": "Monster #23",
-        "monster_level": 190,
+        "monster_name": "Verdant Drops Tyrant",
+        "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -14617,8 +14617,8 @@
       "description": "Socketable 1-tier card focused on CRIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_024",
-        "monster_name": "Monster #24",
-        "monster_level": 220,
+        "monster_name": "Night Drops Worldbreaker",
+        "monster_level": 300,
         "map_id": "worldboss_plains",
         "map_name": "Worldboss Plains"
       },
@@ -14639,7 +14639,7 @@
       "description": "Socketable 1-tier card focused on LUK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_025",
-        "monster_name": "Monster #25",
+        "monster_name": "Wild Marin Scout",
         "monster_level": 10,
         "map_id": "swamp_marsh",
         "map_name": "Blackwater Marsh"
@@ -14661,8 +14661,8 @@
       "description": "Socketable 1-tier card focused on HP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_026",
-        "monster_name": "Monster #26",
-        "monster_level": 40,
+        "monster_name": "Crimson Marin Hunter",
+        "monster_level": 30,
         "map_id": "ice_pass",
         "map_name": "Glacier Pass"
       },
@@ -14683,8 +14683,8 @@
       "description": "Socketable 1-tier card focused on SP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_027",
-        "monster_name": "Monster #27",
-        "monster_level": 70,
+        "monster_name": "Ancient Marin Alpha",
+        "monster_level": 50,
         "map_id": "snow_region",
         "map_name": "Frostveil"
       },
@@ -14705,8 +14705,8 @@
       "description": "Socketable 1-tier card focused on ATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_028",
-        "monster_name": "Monster #28",
-        "monster_level": 100,
+        "monster_name": "Royal Marin Warden",
+        "monster_level": 80,
         "map_id": "abyss_dungeon",
         "map_name": "Abyssal Depths"
       },
@@ -14727,8 +14727,8 @@
       "description": "Socketable 1-tier card focused on DEF power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_029",
-        "monster_name": "Monster #29",
-        "monster_level": 130,
+        "monster_name": "Abyssal Marin Elder",
+        "monster_level": 120,
         "map_id": "crimson_dunes",
         "map_name": "Crimson Dunes"
       },
@@ -14749,8 +14749,8 @@
       "description": "Socketable 1-tier card focused on MATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_030",
-        "monster_name": "Monster #30",
-        "monster_level": 160,
+        "monster_name": "Storm Marin Lord",
+        "monster_level": 170,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -14771,8 +14771,8 @@
       "description": "Socketable 1-tier card focused on FLEE power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_031",
-        "monster_name": "Monster #31",
-        "monster_level": 190,
+        "monster_name": "Verdant Marin Tyrant",
+        "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -14793,8 +14793,8 @@
       "description": "Socketable 1-tier card focused on HIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_032",
-        "monster_name": "Monster #32",
-        "monster_level": 220,
+        "monster_name": "Night Marin Worldbreaker",
+        "monster_level": 300,
         "map_id": "worldboss_plains",
         "map_name": "Worldboss Plains"
       },
@@ -14815,7 +14815,7 @@
       "description": "Socketable 1-tier card focused on CRIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_033",
-        "monster_name": "Monster #33",
+        "monster_name": "Wild Goblin Scout",
         "monster_level": 10,
         "map_id": "swamp_marsh",
         "map_name": "Blackwater Marsh"
@@ -14837,8 +14837,8 @@
       "description": "Socketable 1-tier card focused on LUK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_034",
-        "monster_name": "Monster #34",
-        "monster_level": 40,
+        "monster_name": "Crimson Goblin Hunter",
+        "monster_level": 30,
         "map_id": "ice_pass",
         "map_name": "Glacier Pass"
       },
@@ -14859,8 +14859,8 @@
       "description": "Socketable 1-tier card focused on HP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_035",
-        "monster_name": "Monster #35",
-        "monster_level": 70,
+        "monster_name": "Ancient Goblin Alpha",
+        "monster_level": 50,
         "map_id": "snow_region",
         "map_name": "Frostveil"
       },
@@ -14881,8 +14881,8 @@
       "description": "Socketable 1-tier card focused on SP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_036",
-        "monster_name": "Monster #36",
-        "monster_level": 100,
+        "monster_name": "Royal Goblin Warden",
+        "monster_level": 80,
         "map_id": "abyss_dungeon",
         "map_name": "Abyssal Depths"
       },
@@ -14903,8 +14903,8 @@
       "description": "Socketable 1-tier card focused on ATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_037",
-        "monster_name": "Monster #37",
-        "monster_level": 130,
+        "monster_name": "Abyssal Goblin Elder",
+        "monster_level": 120,
         "map_id": "crimson_dunes",
         "map_name": "Crimson Dunes"
       },
@@ -14925,8 +14925,8 @@
       "description": "Socketable 1-tier card focused on DEF power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_038",
-        "monster_name": "Monster #38",
-        "monster_level": 160,
+        "monster_name": "Storm Goblin Lord",
+        "monster_level": 170,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -14947,8 +14947,8 @@
       "description": "Socketable 1-tier card focused on MATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_039",
-        "monster_name": "Monster #39",
-        "monster_level": 190,
+        "monster_name": "Verdant Goblin Tyrant",
+        "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -14969,8 +14969,8 @@
       "description": "Socketable 1-tier card focused on FLEE power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_040",
-        "monster_name": "Monster #40",
-        "monster_level": 220,
+        "monster_name": "Night Goblin Worldbreaker",
+        "monster_level": 300,
         "map_id": "worldboss_plains",
         "map_name": "Worldboss Plains"
       },
@@ -14991,7 +14991,7 @@
       "description": "Socketable 1-tier card focused on HIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_041",
-        "monster_name": "Monster #41",
+        "monster_name": "Wild Kobold Scout",
         "monster_level": 10,
         "map_id": "swamp_marsh",
         "map_name": "Blackwater Marsh"
@@ -15013,8 +15013,8 @@
       "description": "Socketable 1-tier card focused on CRIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_042",
-        "monster_name": "Monster #42",
-        "monster_level": 40,
+        "monster_name": "Crimson Kobold Hunter",
+        "monster_level": 30,
         "map_id": "ice_pass",
         "map_name": "Glacier Pass"
       },
@@ -15035,8 +15035,8 @@
       "description": "Socketable 1-tier card focused on LUK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_043",
-        "monster_name": "Monster #43",
-        "monster_level": 70,
+        "monster_name": "Ancient Kobold Alpha",
+        "monster_level": 50,
         "map_id": "snow_region",
         "map_name": "Frostveil"
       },
@@ -15057,8 +15057,8 @@
       "description": "Socketable 1-tier card focused on HP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_044",
-        "monster_name": "Monster #44",
-        "monster_level": 100,
+        "monster_name": "Royal Kobold Warden",
+        "monster_level": 80,
         "map_id": "abyss_dungeon",
         "map_name": "Abyssal Depths"
       },
@@ -15079,8 +15079,8 @@
       "description": "Socketable 1-tier card focused on SP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_045",
-        "monster_name": "Monster #45",
-        "monster_level": 130,
+        "monster_name": "Abyssal Kobold Elder",
+        "monster_level": 120,
         "map_id": "crimson_dunes",
         "map_name": "Crimson Dunes"
       },
@@ -15101,8 +15101,8 @@
       "description": "Socketable 1-tier card focused on ATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_046",
-        "monster_name": "Monster #46",
-        "monster_level": 160,
+        "monster_name": "Storm Kobold Lord",
+        "monster_level": 170,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -15123,8 +15123,8 @@
       "description": "Socketable 1-tier card focused on DEF power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_047",
-        "monster_name": "Monster #47",
-        "monster_level": 190,
+        "monster_name": "Verdant Kobold Tyrant",
+        "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -15145,8 +15145,8 @@
       "description": "Socketable 1-tier card focused on MATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_048",
-        "monster_name": "Monster #48",
-        "monster_level": 220,
+        "monster_name": "Night Kobold Worldbreaker",
+        "monster_level": 300,
         "map_id": "worldboss_plains",
         "map_name": "Worldboss Plains"
       },
@@ -15167,7 +15167,7 @@
       "description": "Socketable 2-tier card focused on FLEE power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_049",
-        "monster_name": "Monster #49",
+        "monster_name": "Wild Hobgoblin Scout",
         "monster_level": 10,
         "map_id": "swamp_marsh",
         "map_name": "Blackwater Marsh"
@@ -15189,8 +15189,8 @@
       "description": "Socketable 2-tier card focused on HIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_050",
-        "monster_name": "Monster #50",
-        "monster_level": 40,
+        "monster_name": "Crimson Hobgoblin Hunter",
+        "monster_level": 30,
         "map_id": "ice_pass",
         "map_name": "Glacier Pass"
       },
@@ -15211,8 +15211,8 @@
       "description": "Socketable 2-tier card focused on CRIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_051",
-        "monster_name": "Monster #51",
-        "monster_level": 70,
+        "monster_name": "Ancient Hobgoblin Alpha",
+        "monster_level": 50,
         "map_id": "snow_region",
         "map_name": "Frostveil"
       },
@@ -15233,8 +15233,8 @@
       "description": "Socketable 2-tier card focused on LUK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_052",
-        "monster_name": "Monster #52",
-        "monster_level": 100,
+        "monster_name": "Royal Hobgoblin Warden",
+        "monster_level": 80,
         "map_id": "abyss_dungeon",
         "map_name": "Abyssal Depths"
       },
@@ -15255,8 +15255,8 @@
       "description": "Socketable 2-tier card focused on HP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_053",
-        "monster_name": "Monster #53",
-        "monster_level": 130,
+        "monster_name": "Abyssal Hobgoblin Elder",
+        "monster_level": 120,
         "map_id": "crimson_dunes",
         "map_name": "Crimson Dunes"
       },
@@ -15277,8 +15277,8 @@
       "description": "Socketable 2-tier card focused on SP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_054",
-        "monster_name": "Monster #54",
-        "monster_level": 160,
+        "monster_name": "Storm Hobgoblin Lord",
+        "monster_level": 170,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -15299,8 +15299,8 @@
       "description": "Socketable 2-tier card focused on ATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_055",
-        "monster_name": "Monster #55",
-        "monster_level": 190,
+        "monster_name": "Verdant Hobgoblin Tyrant",
+        "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -15321,8 +15321,8 @@
       "description": "Socketable 2-tier card focused on DEF power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_056",
-        "monster_name": "Monster #56",
-        "monster_level": 220,
+        "monster_name": "Night Hobgoblin Worldbreaker",
+        "monster_level": 300,
         "map_id": "worldboss_plains",
         "map_name": "Worldboss Plains"
       },
@@ -15343,7 +15343,7 @@
       "description": "Socketable 2-tier card focused on MATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_057",
-        "monster_name": "Monster #57",
+        "monster_name": "Wild Orclet Scout",
         "monster_level": 10,
         "map_id": "swamp_marsh",
         "map_name": "Blackwater Marsh"
@@ -15365,8 +15365,8 @@
       "description": "Socketable 2-tier card focused on FLEE power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_058",
-        "monster_name": "Monster #58",
-        "monster_level": 40,
+        "monster_name": "Crimson Orclet Hunter",
+        "monster_level": 30,
         "map_id": "ice_pass",
         "map_name": "Glacier Pass"
       },
@@ -15387,8 +15387,8 @@
       "description": "Socketable 2-tier card focused on HIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_059",
-        "monster_name": "Monster #59",
-        "monster_level": 70,
+        "monster_name": "Ancient Orclet Alpha",
+        "monster_level": 50,
         "map_id": "snow_region",
         "map_name": "Frostveil"
       },
@@ -15409,8 +15409,8 @@
       "description": "Socketable 2-tier card focused on CRIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_060",
-        "monster_name": "Monster #60",
-        "monster_level": 100,
+        "monster_name": "Royal Orclet Warden",
+        "monster_level": 80,
         "map_id": "abyss_dungeon",
         "map_name": "Abyssal Depths"
       },
@@ -15431,8 +15431,8 @@
       "description": "Socketable 2-tier card focused on LUK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_061",
-        "monster_name": "Monster #61",
-        "monster_level": 130,
+        "monster_name": "Abyssal Orclet Elder",
+        "monster_level": 120,
         "map_id": "crimson_dunes",
         "map_name": "Crimson Dunes"
       },
@@ -15453,8 +15453,8 @@
       "description": "Socketable 2-tier card focused on HP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_062",
-        "monster_name": "Monster #62",
-        "monster_level": 160,
+        "monster_name": "Storm Orclet Lord",
+        "monster_level": 170,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -15475,8 +15475,8 @@
       "description": "Socketable 2-tier card focused on SP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_063",
-        "monster_name": "Monster #63",
-        "monster_level": 190,
+        "monster_name": "Verdant Orclet Tyrant",
+        "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -15497,8 +15497,8 @@
       "description": "Socketable 2-tier card focused on ATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_064",
-        "monster_name": "Monster #64",
-        "monster_level": 220,
+        "monster_name": "Night Orclet Worldbreaker",
+        "monster_level": 300,
         "map_id": "worldboss_plains",
         "map_name": "Worldboss Plains"
       },
@@ -15519,7 +15519,7 @@
       "description": "Socketable 2-tier card focused on DEF power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_065",
-        "monster_name": "Monster #65",
+        "monster_name": "Wild Wolf Scout",
         "monster_level": 10,
         "map_id": "swamp_marsh",
         "map_name": "Blackwater Marsh"
@@ -15541,8 +15541,8 @@
       "description": "Socketable 2-tier card focused on MATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_066",
-        "monster_name": "Monster #66",
-        "monster_level": 40,
+        "monster_name": "Crimson Wolf Hunter",
+        "monster_level": 30,
         "map_id": "ice_pass",
         "map_name": "Glacier Pass"
       },
@@ -15563,8 +15563,8 @@
       "description": "Socketable 2-tier card focused on FLEE power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_067",
-        "monster_name": "Monster #67",
-        "monster_level": 70,
+        "monster_name": "Ancient Wolf Alpha",
+        "monster_level": 50,
         "map_id": "snow_region",
         "map_name": "Frostveil"
       },
@@ -15585,8 +15585,8 @@
       "description": "Socketable 2-tier card focused on HIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_068",
-        "monster_name": "Monster #68",
-        "monster_level": 100,
+        "monster_name": "Royal Wolf Warden",
+        "monster_level": 80,
         "map_id": "abyss_dungeon",
         "map_name": "Abyssal Depths"
       },
@@ -15607,8 +15607,8 @@
       "description": "Socketable 2-tier card focused on CRIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_069",
-        "monster_name": "Monster #69",
-        "monster_level": 130,
+        "monster_name": "Abyssal Wolf Elder",
+        "monster_level": 120,
         "map_id": "crimson_dunes",
         "map_name": "Crimson Dunes"
       },
@@ -15629,8 +15629,8 @@
       "description": "Socketable 2-tier card focused on LUK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_070",
-        "monster_name": "Monster #70",
-        "monster_level": 160,
+        "monster_name": "Storm Wolf Lord",
+        "monster_level": 170,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -15651,8 +15651,8 @@
       "description": "Socketable 2-tier card focused on HP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_071",
-        "monster_name": "Monster #71",
-        "monster_level": 190,
+        "monster_name": "Verdant Wolf Tyrant",
+        "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -15673,8 +15673,8 @@
       "description": "Socketable 2-tier card focused on SP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_072",
-        "monster_name": "Monster #72",
-        "monster_level": 220,
+        "monster_name": "Night Wolf Worldbreaker",
+        "monster_level": 300,
         "map_id": "worldboss_plains",
         "map_name": "Worldboss Plains"
       },
@@ -15695,7 +15695,7 @@
       "description": "Socketable 2-tier card focused on ATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_073",
-        "monster_name": "Monster #73",
+        "monster_name": "Wild Desert Wolf Scout",
         "monster_level": 10,
         "map_id": "swamp_marsh",
         "map_name": "Blackwater Marsh"
@@ -15717,8 +15717,8 @@
       "description": "Socketable 2-tier card focused on DEF power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_074",
-        "monster_name": "Monster #74",
-        "monster_level": 40,
+        "monster_name": "Crimson Desert Wolf Hunter",
+        "monster_level": 30,
         "map_id": "ice_pass",
         "map_name": "Glacier Pass"
       },
@@ -15739,8 +15739,8 @@
       "description": "Socketable 2-tier card focused on MATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_075",
-        "monster_name": "Monster #75",
-        "monster_level": 70,
+        "monster_name": "Ancient Desert Wolf Alpha",
+        "monster_level": 50,
         "map_id": "snow_region",
         "map_name": "Frostveil"
       },
@@ -15761,8 +15761,8 @@
       "description": "Socketable 2-tier card focused on FLEE power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_076",
-        "monster_name": "Monster #76",
-        "monster_level": 100,
+        "monster_name": "Royal Desert Wolf Warden",
+        "monster_level": 80,
         "map_id": "abyss_dungeon",
         "map_name": "Abyssal Depths"
       },
@@ -15783,8 +15783,8 @@
       "description": "Socketable 2-tier card focused on HIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_077",
-        "monster_name": "Monster #77",
-        "monster_level": 130,
+        "monster_name": "Abyssal Desert Wolf Elder",
+        "monster_level": 120,
         "map_id": "crimson_dunes",
         "map_name": "Crimson Dunes"
       },
@@ -15805,8 +15805,8 @@
       "description": "Socketable 2-tier card focused on CRIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_078",
-        "monster_name": "Monster #78",
-        "monster_level": 160,
+        "monster_name": "Storm Desert Wolf Lord",
+        "monster_level": 170,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -15827,8 +15827,8 @@
       "description": "Socketable 2-tier card focused on LUK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_079",
-        "monster_name": "Monster #79",
-        "monster_level": 190,
+        "monster_name": "Verdant Desert Wolf Tyrant",
+        "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -15849,8 +15849,8 @@
       "description": "Socketable 2-tier card focused on HP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_080",
-        "monster_name": "Monster #80",
-        "monster_level": 220,
+        "monster_name": "Night Desert Wolf Worldbreaker",
+        "monster_level": 300,
         "map_id": "worldboss_plains",
         "map_name": "Worldboss Plains"
       },
@@ -15871,7 +15871,7 @@
       "description": "Socketable 2-tier card focused on SP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_081",
-        "monster_name": "Monster #81",
+        "monster_name": "Wild Warg Scout",
         "monster_level": 10,
         "map_id": "swamp_marsh",
         "map_name": "Blackwater Marsh"
@@ -15893,8 +15893,8 @@
       "description": "Socketable 2-tier card focused on ATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_082",
-        "monster_name": "Monster #82",
-        "monster_level": 40,
+        "monster_name": "Crimson Warg Hunter",
+        "monster_level": 30,
         "map_id": "ice_pass",
         "map_name": "Glacier Pass"
       },
@@ -15915,8 +15915,8 @@
       "description": "Socketable 2-tier card focused on DEF power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_083",
-        "monster_name": "Monster #83",
-        "monster_level": 70,
+        "monster_name": "Ancient Warg Alpha",
+        "monster_level": 50,
         "map_id": "snow_region",
         "map_name": "Frostveil"
       },
@@ -15937,8 +15937,8 @@
       "description": "Socketable 2-tier card focused on MATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_084",
-        "monster_name": "Monster #84",
-        "monster_level": 100,
+        "monster_name": "Royal Warg Warden",
+        "monster_level": 80,
         "map_id": "abyss_dungeon",
         "map_name": "Abyssal Depths"
       },
@@ -15959,8 +15959,8 @@
       "description": "Socketable 2-tier card focused on FLEE power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_085",
-        "monster_name": "Monster #85",
-        "monster_level": 130,
+        "monster_name": "Abyssal Warg Elder",
+        "monster_level": 120,
         "map_id": "crimson_dunes",
         "map_name": "Crimson Dunes"
       },
@@ -15981,8 +15981,8 @@
       "description": "Socketable 2-tier card focused on HIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_086",
-        "monster_name": "Monster #86",
-        "monster_level": 160,
+        "monster_name": "Storm Warg Lord",
+        "monster_level": 170,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -16003,8 +16003,8 @@
       "description": "Socketable 2-tier card focused on CRIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_087",
-        "monster_name": "Monster #87",
-        "monster_level": 190,
+        "monster_name": "Verdant Warg Tyrant",
+        "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -16025,8 +16025,8 @@
       "description": "Socketable 2-tier card focused on LUK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_088",
-        "monster_name": "Monster #88",
-        "monster_level": 220,
+        "monster_name": "Night Warg Worldbreaker",
+        "monster_level": 300,
         "map_id": "worldboss_plains",
         "map_name": "Worldboss Plains"
       },
@@ -16047,7 +16047,7 @@
       "description": "Socketable 2-tier card focused on HP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_089",
-        "monster_name": "Monster #89",
+        "monster_name": "Wild Dire Wolf Scout",
         "monster_level": 10,
         "map_id": "swamp_marsh",
         "map_name": "Blackwater Marsh"
@@ -16069,8 +16069,8 @@
       "description": "Socketable 2-tier card focused on SP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_090",
-        "monster_name": "Monster #90",
-        "monster_level": 40,
+        "monster_name": "Crimson Dire Wolf Hunter",
+        "monster_level": 30,
         "map_id": "ice_pass",
         "map_name": "Glacier Pass"
       },
@@ -16091,8 +16091,8 @@
       "description": "Socketable 2-tier card focused on ATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_091",
-        "monster_name": "Monster #91",
-        "monster_level": 70,
+        "monster_name": "Ancient Dire Wolf Alpha",
+        "monster_level": 50,
         "map_id": "snow_region",
         "map_name": "Frostveil"
       },
@@ -16113,8 +16113,8 @@
       "description": "Socketable 2-tier card focused on DEF power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_092",
-        "monster_name": "Monster #92",
-        "monster_level": 100,
+        "monster_name": "Royal Dire Wolf Warden",
+        "monster_level": 80,
         "map_id": "abyss_dungeon",
         "map_name": "Abyssal Depths"
       },
@@ -16135,8 +16135,8 @@
       "description": "Socketable 2-tier card focused on MATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_093",
-        "monster_name": "Monster #93",
-        "monster_level": 130,
+        "monster_name": "Abyssal Dire Wolf Elder",
+        "monster_level": 120,
         "map_id": "crimson_dunes",
         "map_name": "Crimson Dunes"
       },
@@ -16157,8 +16157,8 @@
       "description": "Socketable 2-tier card focused on FLEE power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_094",
-        "monster_name": "Monster #94",
-        "monster_level": 160,
+        "monster_name": "Storm Dire Wolf Lord",
+        "monster_level": 170,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -16179,8 +16179,8 @@
       "description": "Socketable 2-tier card focused on HIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_095",
-        "monster_name": "Monster #95",
-        "monster_level": 190,
+        "monster_name": "Verdant Dire Wolf Tyrant",
+        "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -16201,8 +16201,8 @@
       "description": "Socketable 2-tier card focused on CRIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_096",
-        "monster_name": "Monster #96",
-        "monster_level": 220,
+        "monster_name": "Night Dire Wolf Worldbreaker",
+        "monster_level": 300,
         "map_id": "worldboss_plains",
         "map_name": "Worldboss Plains"
       },
@@ -16223,7 +16223,7 @@
       "description": "Socketable 3-tier card focused on LUK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_097",
-        "monster_name": "Monster #97",
+        "monster_name": "Wild Skeleton Scout",
         "monster_level": 10,
         "map_id": "swamp_marsh",
         "map_name": "Blackwater Marsh"
@@ -16245,8 +16245,8 @@
       "description": "Socketable 3-tier card focused on HP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_098",
-        "monster_name": "Monster #98",
-        "monster_level": 40,
+        "monster_name": "Crimson Skeleton Hunter",
+        "monster_level": 30,
         "map_id": "ice_pass",
         "map_name": "Glacier Pass"
       },
@@ -16267,8 +16267,8 @@
       "description": "Socketable 3-tier card focused on SP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_099",
-        "monster_name": "Monster #99",
-        "monster_level": 70,
+        "monster_name": "Ancient Skeleton Alpha",
+        "monster_level": 50,
         "map_id": "snow_region",
         "map_name": "Frostveil"
       },
@@ -16289,8 +16289,8 @@
       "description": "Socketable 3-tier card focused on ATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_100",
-        "monster_name": "Monster #100",
-        "monster_level": 100,
+        "monster_name": "Royal Skeleton Warden",
+        "monster_level": 80,
         "map_id": "abyss_dungeon",
         "map_name": "Abyssal Depths"
       },
@@ -16311,8 +16311,8 @@
       "description": "Socketable 3-tier card focused on DEF power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_101",
-        "monster_name": "Monster #101",
-        "monster_level": 130,
+        "monster_name": "Abyssal Skeleton Elder",
+        "monster_level": 120,
         "map_id": "crimson_dunes",
         "map_name": "Crimson Dunes"
       },
@@ -16333,8 +16333,8 @@
       "description": "Socketable 3-tier card focused on MATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_102",
-        "monster_name": "Monster #102",
-        "monster_level": 160,
+        "monster_name": "Storm Skeleton Lord",
+        "monster_level": 170,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -16355,8 +16355,8 @@
       "description": "Socketable 3-tier card focused on FLEE power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_103",
-        "monster_name": "Monster #103",
-        "monster_level": 190,
+        "monster_name": "Verdant Skeleton Tyrant",
+        "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -16377,8 +16377,8 @@
       "description": "Socketable 3-tier card focused on HIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_104",
-        "monster_name": "Monster #104",
-        "monster_level": 220,
+        "monster_name": "Night Skeleton Worldbreaker",
+        "monster_level": 300,
         "map_id": "worldboss_plains",
         "map_name": "Worldboss Plains"
       },
@@ -16399,7 +16399,7 @@
       "description": "Socketable 3-tier card focused on CRIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_105",
-        "monster_name": "Monster #105",
+        "monster_name": "Wild Zombie Guard Scout",
         "monster_level": 10,
         "map_id": "swamp_marsh",
         "map_name": "Blackwater Marsh"
@@ -16421,8 +16421,8 @@
       "description": "Socketable 3-tier card focused on LUK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_106",
-        "monster_name": "Monster #106",
-        "monster_level": 40,
+        "monster_name": "Crimson Zombie Guard Hunter",
+        "monster_level": 30,
         "map_id": "ice_pass",
         "map_name": "Glacier Pass"
       },
@@ -16443,8 +16443,8 @@
       "description": "Socketable 3-tier card focused on HP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_107",
-        "monster_name": "Monster #107",
-        "monster_level": 70,
+        "monster_name": "Ancient Zombie Guard Alpha",
+        "monster_level": 50,
         "map_id": "snow_region",
         "map_name": "Frostveil"
       },
@@ -16465,8 +16465,8 @@
       "description": "Socketable 3-tier card focused on SP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_108",
-        "monster_name": "Monster #108",
-        "monster_level": 100,
+        "monster_name": "Royal Zombie Guard Warden",
+        "monster_level": 80,
         "map_id": "abyss_dungeon",
         "map_name": "Abyssal Depths"
       },
@@ -16487,8 +16487,8 @@
       "description": "Socketable 3-tier card focused on ATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_109",
-        "monster_name": "Monster #109",
-        "monster_level": 130,
+        "monster_name": "Abyssal Zombie Guard Elder",
+        "monster_level": 120,
         "map_id": "crimson_dunes",
         "map_name": "Crimson Dunes"
       },
@@ -16509,8 +16509,8 @@
       "description": "Socketable 3-tier card focused on DEF power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_110",
-        "monster_name": "Monster #110",
-        "monster_level": 160,
+        "monster_name": "Storm Zombie Guard Lord",
+        "monster_level": 170,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -16531,8 +16531,8 @@
       "description": "Socketable 3-tier card focused on MATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_111",
-        "monster_name": "Monster #111",
-        "monster_level": 190,
+        "monster_name": "Verdant Zombie Guard Tyrant",
+        "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -16553,8 +16553,8 @@
       "description": "Socketable 3-tier card focused on FLEE power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_112",
-        "monster_name": "Monster #112",
-        "monster_level": 220,
+        "monster_name": "Night Zombie Guard Worldbreaker",
+        "monster_level": 300,
         "map_id": "worldboss_plains",
         "map_name": "Worldboss Plains"
       },
@@ -16575,7 +16575,7 @@
       "description": "Socketable 3-tier card focused on HIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_113",
-        "monster_name": "Monster #113",
+        "monster_name": "Wild Bone Archer Scout",
         "monster_level": 10,
         "map_id": "swamp_marsh",
         "map_name": "Blackwater Marsh"
@@ -16597,8 +16597,8 @@
       "description": "Socketable 3-tier card focused on CRIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_114",
-        "monster_name": "Monster #114",
-        "monster_level": 40,
+        "monster_name": "Crimson Bone Archer Hunter",
+        "monster_level": 30,
         "map_id": "ice_pass",
         "map_name": "Glacier Pass"
       },
@@ -16619,8 +16619,8 @@
       "description": "Socketable 3-tier card focused on LUK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_115",
-        "monster_name": "Monster #115",
-        "monster_level": 70,
+        "monster_name": "Ancient Bone Archer Alpha",
+        "monster_level": 50,
         "map_id": "snow_region",
         "map_name": "Frostveil"
       },
@@ -16641,8 +16641,8 @@
       "description": "Socketable 3-tier card focused on HP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_116",
-        "monster_name": "Monster #116",
-        "monster_level": 100,
+        "monster_name": "Royal Bone Archer Warden",
+        "monster_level": 80,
         "map_id": "abyss_dungeon",
         "map_name": "Abyssal Depths"
       },
@@ -16663,8 +16663,8 @@
       "description": "Socketable 3-tier card focused on SP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_117",
-        "monster_name": "Monster #117",
-        "monster_level": 130,
+        "monster_name": "Abyssal Bone Archer Elder",
+        "monster_level": 120,
         "map_id": "crimson_dunes",
         "map_name": "Crimson Dunes"
       },
@@ -16685,8 +16685,8 @@
       "description": "Socketable 3-tier card focused on ATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_118",
-        "monster_name": "Monster #118",
-        "monster_level": 160,
+        "monster_name": "Storm Bone Archer Lord",
+        "monster_level": 170,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -16707,8 +16707,8 @@
       "description": "Socketable 3-tier card focused on DEF power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_119",
-        "monster_name": "Monster #119",
-        "monster_level": 190,
+        "monster_name": "Verdant Bone Archer Tyrant",
+        "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -16729,8 +16729,8 @@
       "description": "Socketable 3-tier card focused on MATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_120",
-        "monster_name": "Monster #120",
-        "monster_level": 220,
+        "monster_name": "Night Bone Archer Worldbreaker",
+        "monster_level": 300,
         "map_id": "worldboss_plains",
         "map_name": "Worldboss Plains"
       },
@@ -16751,7 +16751,7 @@
       "description": "Socketable 3-tier card focused on FLEE power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_121",
-        "monster_name": "Monster #121",
+        "monster_name": "Wild Skull Knight Scout",
         "monster_level": 10,
         "map_id": "swamp_marsh",
         "map_name": "Blackwater Marsh"
@@ -16773,8 +16773,8 @@
       "description": "Socketable 3-tier card focused on HIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_122",
-        "monster_name": "Monster #122",
-        "monster_level": 40,
+        "monster_name": "Crimson Skull Knight Hunter",
+        "monster_level": 30,
         "map_id": "ice_pass",
         "map_name": "Glacier Pass"
       },
@@ -16795,8 +16795,8 @@
       "description": "Socketable 3-tier card focused on CRIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_123",
-        "monster_name": "Monster #123",
-        "monster_level": 70,
+        "monster_name": "Ancient Skull Knight Alpha",
+        "monster_level": 50,
         "map_id": "snow_region",
         "map_name": "Frostveil"
       },
@@ -16817,8 +16817,8 @@
       "description": "Socketable 3-tier card focused on LUK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_124",
-        "monster_name": "Monster #124",
-        "monster_level": 100,
+        "monster_name": "Royal Skull Knight Warden",
+        "monster_level": 80,
         "map_id": "abyss_dungeon",
         "map_name": "Abyssal Depths"
       },
@@ -16839,8 +16839,8 @@
       "description": "Socketable 3-tier card focused on HP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_125",
-        "monster_name": "Monster #125",
-        "monster_level": 130,
+        "monster_name": "Abyssal Skull Knight Elder",
+        "monster_level": 120,
         "map_id": "crimson_dunes",
         "map_name": "Crimson Dunes"
       },
@@ -16861,8 +16861,8 @@
       "description": "Socketable 3-tier card focused on SP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_126",
-        "monster_name": "Monster #126",
-        "monster_level": 160,
+        "monster_name": "Storm Skull Knight Lord",
+        "monster_level": 170,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -16883,8 +16883,8 @@
       "description": "Socketable 3-tier card focused on ATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_127",
-        "monster_name": "Monster #127",
-        "monster_level": 190,
+        "monster_name": "Verdant Skull Knight Tyrant",
+        "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -16905,8 +16905,8 @@
       "description": "Socketable 3-tier card focused on DEF power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_128",
-        "monster_name": "Monster #128",
-        "monster_level": 220,
+        "monster_name": "Night Skull Knight Worldbreaker",
+        "monster_level": 300,
         "map_id": "worldboss_plains",
         "map_name": "Worldboss Plains"
       },
@@ -16927,7 +16927,7 @@
       "description": "Socketable 3-tier card focused on MATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_129",
-        "monster_name": "Monster #129",
+        "monster_name": "Wild Orc Scout",
         "monster_level": 10,
         "map_id": "swamp_marsh",
         "map_name": "Blackwater Marsh"
@@ -16949,8 +16949,8 @@
       "description": "Socketable 3-tier card focused on FLEE power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_130",
-        "monster_name": "Monster #130",
-        "monster_level": 40,
+        "monster_name": "Crimson Orc Hunter",
+        "monster_level": 30,
         "map_id": "ice_pass",
         "map_name": "Glacier Pass"
       },
@@ -16971,8 +16971,8 @@
       "description": "Socketable 3-tier card focused on HIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_131",
-        "monster_name": "Monster #131",
-        "monster_level": 70,
+        "monster_name": "Ancient Orc Alpha",
+        "monster_level": 50,
         "map_id": "snow_region",
         "map_name": "Frostveil"
       },
@@ -16993,8 +16993,8 @@
       "description": "Socketable 3-tier card focused on CRIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_132",
-        "monster_name": "Monster #132",
-        "monster_level": 100,
+        "monster_name": "Royal Orc Warden",
+        "monster_level": 80,
         "map_id": "abyss_dungeon",
         "map_name": "Abyssal Depths"
       },
@@ -17015,8 +17015,8 @@
       "description": "Socketable 3-tier card focused on LUK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_133",
-        "monster_name": "Monster #133",
-        "monster_level": 130,
+        "monster_name": "Abyssal Orc Elder",
+        "monster_level": 120,
         "map_id": "crimson_dunes",
         "map_name": "Crimson Dunes"
       },
@@ -17037,8 +17037,8 @@
       "description": "Socketable 3-tier card focused on HP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_134",
-        "monster_name": "Monster #134",
-        "monster_level": 160,
+        "monster_name": "Storm Orc Lord",
+        "monster_level": 170,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -17059,8 +17059,8 @@
       "description": "Socketable 3-tier card focused on SP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_135",
-        "monster_name": "Monster #135",
-        "monster_level": 190,
+        "monster_name": "Verdant Orc Tyrant",
+        "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -17081,8 +17081,8 @@
       "description": "Socketable 3-tier card focused on ATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_136",
-        "monster_name": "Monster #136",
-        "monster_level": 220,
+        "monster_name": "Night Orc Worldbreaker",
+        "monster_level": 300,
         "map_id": "worldboss_plains",
         "map_name": "Worldboss Plains"
       },
@@ -17103,7 +17103,7 @@
       "description": "Socketable 3-tier card focused on DEF power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_137",
-        "monster_name": "Monster #137",
+        "monster_name": "Wild Orc Warrior Scout",
         "monster_level": 10,
         "map_id": "swamp_marsh",
         "map_name": "Blackwater Marsh"
@@ -17125,8 +17125,8 @@
       "description": "Socketable 3-tier card focused on MATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_138",
-        "monster_name": "Monster #138",
-        "monster_level": 40,
+        "monster_name": "Crimson Orc Warrior Hunter",
+        "monster_level": 30,
         "map_id": "ice_pass",
         "map_name": "Glacier Pass"
       },
@@ -17147,8 +17147,8 @@
       "description": "Socketable 3-tier card focused on FLEE power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_139",
-        "monster_name": "Monster #139",
-        "monster_level": 70,
+        "monster_name": "Ancient Orc Warrior Alpha",
+        "monster_level": 50,
         "map_id": "snow_region",
         "map_name": "Frostveil"
       },
@@ -17169,8 +17169,8 @@
       "description": "Socketable 3-tier card focused on HIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_140",
-        "monster_name": "Monster #140",
-        "monster_level": 100,
+        "monster_name": "Royal Orc Warrior Warden",
+        "monster_level": 80,
         "map_id": "abyss_dungeon",
         "map_name": "Abyssal Depths"
       },
@@ -17191,8 +17191,8 @@
       "description": "Socketable 3-tier card focused on CRIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_141",
-        "monster_name": "Monster #141",
-        "monster_level": 130,
+        "monster_name": "Abyssal Orc Warrior Elder",
+        "monster_level": 120,
         "map_id": "crimson_dunes",
         "map_name": "Crimson Dunes"
       },
@@ -17213,8 +17213,8 @@
       "description": "Socketable 3-tier card focused on LUK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_142",
-        "monster_name": "Monster #142",
-        "monster_level": 160,
+        "monster_name": "Storm Orc Warrior Lord",
+        "monster_level": 170,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -17235,8 +17235,8 @@
       "description": "Socketable 3-tier card focused on HP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_143",
-        "monster_name": "Monster #143",
-        "monster_level": 190,
+        "monster_name": "Verdant Orc Warrior Tyrant",
+        "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -17257,8 +17257,8 @@
       "description": "Socketable 3-tier card focused on SP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_144",
-        "monster_name": "Monster #144",
-        "monster_level": 220,
+        "monster_name": "Night Orc Warrior Worldbreaker",
+        "monster_level": 300,
         "map_id": "worldboss_plains",
         "map_name": "Worldboss Plains"
       },
@@ -17279,7 +17279,7 @@
       "description": "Socketable 4-tier card focused on ATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_145",
-        "monster_name": "Monster #145",
+        "monster_name": "Wild Orc Champion Scout",
         "monster_level": 10,
         "map_id": "swamp_marsh",
         "map_name": "Blackwater Marsh"
@@ -17301,8 +17301,8 @@
       "description": "Socketable 4-tier card focused on DEF power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_146",
-        "monster_name": "Monster #146",
-        "monster_level": 40,
+        "monster_name": "Crimson Orc Champion Hunter",
+        "monster_level": 30,
         "map_id": "ice_pass",
         "map_name": "Glacier Pass"
       },
@@ -17323,8 +17323,8 @@
       "description": "Socketable 4-tier card focused on MATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_147",
-        "monster_name": "Monster #147",
-        "monster_level": 70,
+        "monster_name": "Ancient Orc Champion Alpha",
+        "monster_level": 50,
         "map_id": "snow_region",
         "map_name": "Frostveil"
       },
@@ -17345,8 +17345,8 @@
       "description": "Socketable 4-tier card focused on FLEE power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_148",
-        "monster_name": "Monster #148",
-        "monster_level": 100,
+        "monster_name": "Royal Orc Champion Warden",
+        "monster_level": 80,
         "map_id": "abyss_dungeon",
         "map_name": "Abyssal Depths"
       },
@@ -17367,8 +17367,8 @@
       "description": "Socketable 4-tier card focused on HIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_149",
-        "monster_name": "Monster #149",
-        "monster_level": 130,
+        "monster_name": "Abyssal Orc Champion Elder",
+        "monster_level": 120,
         "map_id": "crimson_dunes",
         "map_name": "Crimson Dunes"
       },
@@ -17389,8 +17389,8 @@
       "description": "Socketable 4-tier card focused on CRIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_150",
-        "monster_name": "Monster #150",
-        "monster_level": 160,
+        "monster_name": "Storm Orc Champion Lord",
+        "monster_level": 170,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -17411,8 +17411,8 @@
       "description": "Socketable 4-tier card focused on LUK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_151",
-        "monster_name": "Monster #151",
-        "monster_level": 190,
+        "monster_name": "Verdant Orc Champion Tyrant",
+        "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -17433,8 +17433,8 @@
       "description": "Socketable 4-tier card focused on HP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_152",
-        "monster_name": "Monster #152",
-        "monster_level": 220,
+        "monster_name": "Night Orc Champion Worldbreaker",
+        "monster_level": 300,
         "map_id": "worldboss_plains",
         "map_name": "Worldboss Plains"
       },
@@ -17455,7 +17455,7 @@
       "description": "Socketable 4-tier card focused on SP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_153",
-        "monster_name": "Monster #153",
+        "monster_name": "Wild Orc Warlord Scout",
         "monster_level": 10,
         "map_id": "swamp_marsh",
         "map_name": "Blackwater Marsh"
@@ -17477,8 +17477,8 @@
       "description": "Socketable 4-tier card focused on ATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_154",
-        "monster_name": "Monster #154",
-        "monster_level": 40,
+        "monster_name": "Crimson Orc Warlord Hunter",
+        "monster_level": 30,
         "map_id": "ice_pass",
         "map_name": "Glacier Pass"
       },
@@ -17499,8 +17499,8 @@
       "description": "Socketable 4-tier card focused on DEF power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_155",
-        "monster_name": "Monster #155",
-        "monster_level": 70,
+        "monster_name": "Ancient Orc Warlord Alpha",
+        "monster_level": 50,
         "map_id": "snow_region",
         "map_name": "Frostveil"
       },
@@ -17521,8 +17521,8 @@
       "description": "Socketable 4-tier card focused on MATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_156",
-        "monster_name": "Monster #156",
-        "monster_level": 100,
+        "monster_name": "Royal Orc Warlord Warden",
+        "monster_level": 80,
         "map_id": "abyss_dungeon",
         "map_name": "Abyssal Depths"
       },
@@ -17543,8 +17543,8 @@
       "description": "Socketable 4-tier card focused on FLEE power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_157",
-        "monster_name": "Monster #157",
-        "monster_level": 130,
+        "monster_name": "Abyssal Orc Warlord Elder",
+        "monster_level": 120,
         "map_id": "crimson_dunes",
         "map_name": "Crimson Dunes"
       },
@@ -17565,8 +17565,8 @@
       "description": "Socketable 4-tier card focused on HIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_158",
-        "monster_name": "Monster #158",
-        "monster_level": 160,
+        "monster_name": "Storm Orc Warlord Lord",
+        "monster_level": 170,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -17587,8 +17587,8 @@
       "description": "Socketable 4-tier card focused on CRIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_159",
-        "monster_name": "Monster #159",
-        "monster_level": 190,
+        "monster_name": "Verdant Orc Warlord Tyrant",
+        "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -17609,8 +17609,8 @@
       "description": "Socketable 4-tier card focused on LUK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_160",
-        "monster_name": "Monster #160",
-        "monster_level": 220,
+        "monster_name": "Night Orc Warlord Worldbreaker",
+        "monster_level": 300,
         "map_id": "worldboss_plains",
         "map_name": "Worldboss Plains"
       },
@@ -17631,7 +17631,7 @@
       "description": "Socketable 4-tier card focused on HP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_161",
-        "monster_name": "Monster #161",
+        "monster_name": "Wild Mantis Scout",
         "monster_level": 10,
         "map_id": "swamp_marsh",
         "map_name": "Blackwater Marsh"
@@ -17653,8 +17653,8 @@
       "description": "Socketable 4-tier card focused on SP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_162",
-        "monster_name": "Monster #162",
-        "monster_level": 40,
+        "monster_name": "Crimson Mantis Hunter",
+        "monster_level": 30,
         "map_id": "ice_pass",
         "map_name": "Glacier Pass"
       },
@@ -17675,8 +17675,8 @@
       "description": "Socketable 4-tier card focused on ATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_163",
-        "monster_name": "Monster #163",
-        "monster_level": 70,
+        "monster_name": "Ancient Mantis Alpha",
+        "monster_level": 50,
         "map_id": "snow_region",
         "map_name": "Frostveil"
       },
@@ -17697,8 +17697,8 @@
       "description": "Socketable 4-tier card focused on DEF power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_164",
-        "monster_name": "Monster #164",
-        "monster_level": 100,
+        "monster_name": "Royal Mantis Warden",
+        "monster_level": 80,
         "map_id": "abyss_dungeon",
         "map_name": "Abyssal Depths"
       },
@@ -17719,8 +17719,8 @@
       "description": "Socketable 4-tier card focused on MATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_165",
-        "monster_name": "Monster #165",
-        "monster_level": 130,
+        "monster_name": "Abyssal Mantis Elder",
+        "monster_level": 120,
         "map_id": "crimson_dunes",
         "map_name": "Crimson Dunes"
       },
@@ -17741,8 +17741,8 @@
       "description": "Socketable 4-tier card focused on FLEE power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_166",
-        "monster_name": "Monster #166",
-        "monster_level": 160,
+        "monster_name": "Storm Mantis Lord",
+        "monster_level": 170,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -17763,8 +17763,8 @@
       "description": "Socketable 4-tier card focused on HIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_167",
-        "monster_name": "Monster #167",
-        "monster_level": 190,
+        "monster_name": "Verdant Mantis Tyrant",
+        "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -17785,8 +17785,8 @@
       "description": "Socketable 4-tier card focused on CRIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_168",
-        "monster_name": "Monster #168",
-        "monster_level": 220,
+        "monster_name": "Night Mantis Worldbreaker",
+        "monster_level": 300,
         "map_id": "worldboss_plains",
         "map_name": "Worldboss Plains"
       },
@@ -17807,7 +17807,7 @@
       "description": "Socketable 4-tier card focused on LUK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_169",
-        "monster_name": "Monster #169",
+        "monster_name": "Wild Hunter Fly Scout",
         "monster_level": 10,
         "map_id": "swamp_marsh",
         "map_name": "Blackwater Marsh"
@@ -17829,8 +17829,8 @@
       "description": "Socketable 4-tier card focused on HP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_170",
-        "monster_name": "Monster #170",
-        "monster_level": 40,
+        "monster_name": "Crimson Hunter Fly Hunter",
+        "monster_level": 30,
         "map_id": "ice_pass",
         "map_name": "Glacier Pass"
       },
@@ -17851,8 +17851,8 @@
       "description": "Socketable 4-tier card focused on SP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_171",
-        "monster_name": "Monster #171",
-        "monster_level": 70,
+        "monster_name": "Ancient Hunter Fly Alpha",
+        "monster_level": 50,
         "map_id": "snow_region",
         "map_name": "Frostveil"
       },
@@ -17873,8 +17873,8 @@
       "description": "Socketable 4-tier card focused on ATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_172",
-        "monster_name": "Monster #172",
-        "monster_level": 100,
+        "monster_name": "Royal Hunter Fly Warden",
+        "monster_level": 80,
         "map_id": "abyss_dungeon",
         "map_name": "Abyssal Depths"
       },
@@ -17895,8 +17895,8 @@
       "description": "Socketable 4-tier card focused on DEF power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_173",
-        "monster_name": "Monster #173",
-        "monster_level": 130,
+        "monster_name": "Abyssal Hunter Fly Elder",
+        "monster_level": 120,
         "map_id": "crimson_dunes",
         "map_name": "Crimson Dunes"
       },
@@ -17917,8 +17917,8 @@
       "description": "Socketable 4-tier card focused on MATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_174",
-        "monster_name": "Monster #174",
-        "monster_level": 160,
+        "monster_name": "Storm Hunter Fly Lord",
+        "monster_level": 170,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -17939,8 +17939,8 @@
       "description": "Socketable 4-tier card focused on FLEE power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_175",
-        "monster_name": "Monster #175",
-        "monster_level": 190,
+        "monster_name": "Verdant Hunter Fly Tyrant",
+        "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -17961,8 +17961,8 @@
       "description": "Socketable 4-tier card focused on HIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_176",
-        "monster_name": "Monster #176",
-        "monster_level": 220,
+        "monster_name": "Night Hunter Fly Worldbreaker",
+        "monster_level": 300,
         "map_id": "worldboss_plains",
         "map_name": "Worldboss Plains"
       },
@@ -17983,7 +17983,7 @@
       "description": "Socketable 4-tier card focused on CRIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_177",
-        "monster_name": "Monster #177",
+        "monster_name": "Wild Scorpion Scout",
         "monster_level": 10,
         "map_id": "swamp_marsh",
         "map_name": "Blackwater Marsh"
@@ -18005,8 +18005,8 @@
       "description": "Socketable 4-tier card focused on LUK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_178",
-        "monster_name": "Monster #178",
-        "monster_level": 40,
+        "monster_name": "Crimson Scorpion Hunter",
+        "monster_level": 30,
         "map_id": "ice_pass",
         "map_name": "Glacier Pass"
       },
@@ -18027,8 +18027,8 @@
       "description": "Socketable 4-tier card focused on HP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_179",
-        "monster_name": "Monster #179",
-        "monster_level": 70,
+        "monster_name": "Ancient Scorpion Alpha",
+        "monster_level": 50,
         "map_id": "snow_region",
         "map_name": "Frostveil"
       },
@@ -18049,8 +18049,8 @@
       "description": "Socketable 4-tier card focused on SP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_180",
-        "monster_name": "Monster #180",
-        "monster_level": 100,
+        "monster_name": "Royal Scorpion Warden",
+        "monster_level": 80,
         "map_id": "abyss_dungeon",
         "map_name": "Abyssal Depths"
       },
@@ -18071,8 +18071,8 @@
       "description": "Socketable 4-tier card focused on ATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_181",
-        "monster_name": "Monster #181",
-        "monster_level": 130,
+        "monster_name": "Abyssal Scorpion Elder",
+        "monster_level": 120,
         "map_id": "crimson_dunes",
         "map_name": "Crimson Dunes"
       },
@@ -18093,8 +18093,8 @@
       "description": "Socketable 4-tier card focused on DEF power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_182",
-        "monster_name": "Monster #182",
-        "monster_level": 160,
+        "monster_name": "Storm Scorpion Lord",
+        "monster_level": 170,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -18115,8 +18115,8 @@
       "description": "Socketable 4-tier card focused on MATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_183",
-        "monster_name": "Monster #183",
-        "monster_level": 190,
+        "monster_name": "Verdant Scorpion Tyrant",
+        "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -18137,8 +18137,8 @@
       "description": "Socketable 4-tier card focused on FLEE power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_184",
-        "monster_name": "Monster #184",
-        "monster_level": 220,
+        "monster_name": "Night Scorpion Worldbreaker",
+        "monster_level": 300,
         "map_id": "worldboss_plains",
         "map_name": "Worldboss Plains"
       },
@@ -18159,7 +18159,7 @@
       "description": "Socketable 4-tier card focused on HIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_185",
-        "monster_name": "Monster #185",
+        "monster_name": "Wild Venom Beetle Scout",
         "monster_level": 10,
         "map_id": "swamp_marsh",
         "map_name": "Blackwater Marsh"
@@ -18181,8 +18181,8 @@
       "description": "Socketable 4-tier card focused on CRIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_186",
-        "monster_name": "Monster #186",
-        "monster_level": 40,
+        "monster_name": "Crimson Venom Beetle Hunter",
+        "monster_level": 30,
         "map_id": "ice_pass",
         "map_name": "Glacier Pass"
       },
@@ -18203,8 +18203,8 @@
       "description": "Socketable 4-tier card focused on LUK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_187",
-        "monster_name": "Monster #187",
-        "monster_level": 70,
+        "monster_name": "Ancient Venom Beetle Alpha",
+        "monster_level": 50,
         "map_id": "snow_region",
         "map_name": "Frostveil"
       },
@@ -18225,8 +18225,8 @@
       "description": "Socketable 4-tier card focused on HP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_188",
-        "monster_name": "Monster #188",
-        "monster_level": 100,
+        "monster_name": "Royal Venom Beetle Warden",
+        "monster_level": 80,
         "map_id": "abyss_dungeon",
         "map_name": "Abyssal Depths"
       },
@@ -18247,8 +18247,8 @@
       "description": "Socketable 4-tier card focused on SP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_189",
-        "monster_name": "Monster #189",
-        "monster_level": 130,
+        "monster_name": "Abyssal Venom Beetle Elder",
+        "monster_level": 120,
         "map_id": "crimson_dunes",
         "map_name": "Crimson Dunes"
       },
@@ -18269,8 +18269,8 @@
       "description": "Socketable 4-tier card focused on ATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_190",
-        "monster_name": "Monster #190",
-        "monster_level": 160,
+        "monster_name": "Storm Venom Beetle Lord",
+        "monster_level": 170,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -18291,8 +18291,8 @@
       "description": "Socketable 4-tier card focused on DEF power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_191",
-        "monster_name": "Monster #191",
-        "monster_level": 190,
+        "monster_name": "Verdant Venom Beetle Tyrant",
+        "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -18313,8 +18313,8 @@
       "description": "Socketable 4-tier card focused on MATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_192",
-        "monster_name": "Monster #192",
-        "monster_level": 220,
+        "monster_name": "Night Venom Beetle Worldbreaker",
+        "monster_level": 300,
         "map_id": "worldboss_plains",
         "map_name": "Worldboss Plains"
       },
@@ -18335,7 +18335,7 @@
       "description": "Socketable 5-tier card focused on FLEE power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_193",
-        "monster_name": "Monster #193",
+        "monster_name": "Wild Golem Scout",
         "monster_level": 10,
         "map_id": "swamp_marsh",
         "map_name": "Blackwater Marsh"
@@ -18357,8 +18357,8 @@
       "description": "Socketable 5-tier card focused on HIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_194",
-        "monster_name": "Monster #194",
-        "monster_level": 40,
+        "monster_name": "Crimson Golem Hunter",
+        "monster_level": 30,
         "map_id": "ice_pass",
         "map_name": "Glacier Pass"
       },
@@ -18379,8 +18379,8 @@
       "description": "Socketable 5-tier card focused on CRIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_195",
-        "monster_name": "Monster #195",
-        "monster_level": 70,
+        "monster_name": "Ancient Golem Alpha",
+        "monster_level": 50,
         "map_id": "snow_region",
         "map_name": "Frostveil"
       },
@@ -18401,8 +18401,8 @@
       "description": "Socketable 5-tier card focused on LUK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_196",
-        "monster_name": "Monster #196",
-        "monster_level": 100,
+        "monster_name": "Royal Golem Warden",
+        "monster_level": 80,
         "map_id": "abyss_dungeon",
         "map_name": "Abyssal Depths"
       },
@@ -18423,8 +18423,8 @@
       "description": "Socketable 5-tier card focused on HP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_197",
-        "monster_name": "Monster #197",
-        "monster_level": 130,
+        "monster_name": "Abyssal Golem Elder",
+        "monster_level": 120,
         "map_id": "crimson_dunes",
         "map_name": "Crimson Dunes"
       },
@@ -18445,8 +18445,8 @@
       "description": "Socketable 5-tier card focused on SP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_198",
-        "monster_name": "Monster #198",
-        "monster_level": 160,
+        "monster_name": "Storm Golem Lord",
+        "monster_level": 170,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -18467,8 +18467,8 @@
       "description": "Socketable 5-tier card focused on ATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_199",
-        "monster_name": "Monster #199",
-        "monster_level": 190,
+        "monster_name": "Verdant Golem Tyrant",
+        "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -18489,8 +18489,8 @@
       "description": "Socketable 5-tier card focused on DEF power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_200",
-        "monster_name": "Monster #200",
-        "monster_level": 220,
+        "monster_name": "Night Golem Worldbreaker",
+        "monster_level": 300,
         "map_id": "worldboss_plains",
         "map_name": "Worldboss Plains"
       },
@@ -18511,7 +18511,7 @@
       "description": "Socketable 5-tier card focused on MATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_201",
-        "monster_name": "Monster #201",
+        "monster_name": "Wild Stone Golem Scout",
         "monster_level": 10,
         "map_id": "swamp_marsh",
         "map_name": "Blackwater Marsh"
@@ -18533,8 +18533,8 @@
       "description": "Socketable 5-tier card focused on FLEE power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_202",
-        "monster_name": "Monster #202",
-        "monster_level": 40,
+        "monster_name": "Crimson Stone Golem Hunter",
+        "monster_level": 30,
         "map_id": "ice_pass",
         "map_name": "Glacier Pass"
       },
@@ -18555,8 +18555,8 @@
       "description": "Socketable 5-tier card focused on HIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_203",
-        "monster_name": "Monster #203",
-        "monster_level": 70,
+        "monster_name": "Ancient Stone Golem Alpha",
+        "monster_level": 50,
         "map_id": "snow_region",
         "map_name": "Frostveil"
       },
@@ -18577,8 +18577,8 @@
       "description": "Socketable 5-tier card focused on CRIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_204",
-        "monster_name": "Monster #204",
-        "monster_level": 100,
+        "monster_name": "Royal Stone Golem Warden",
+        "monster_level": 80,
         "map_id": "abyss_dungeon",
         "map_name": "Abyssal Depths"
       },
@@ -18599,8 +18599,8 @@
       "description": "Socketable 5-tier card focused on LUK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_205",
-        "monster_name": "Monster #205",
-        "monster_level": 130,
+        "monster_name": "Abyssal Stone Golem Elder",
+        "monster_level": 120,
         "map_id": "crimson_dunes",
         "map_name": "Crimson Dunes"
       },
@@ -18621,8 +18621,8 @@
       "description": "Socketable 5-tier card focused on HP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_206",
-        "monster_name": "Monster #206",
-        "monster_level": 160,
+        "monster_name": "Storm Stone Golem Lord",
+        "monster_level": 170,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -18643,8 +18643,8 @@
       "description": "Socketable 5-tier card focused on SP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_207",
-        "monster_name": "Monster #207",
-        "monster_level": 190,
+        "monster_name": "Verdant Stone Golem Tyrant",
+        "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -18665,8 +18665,8 @@
       "description": "Socketable 5-tier card focused on ATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_208",
-        "monster_name": "Monster #208",
-        "monster_level": 220,
+        "monster_name": "Night Stone Golem Worldbreaker",
+        "monster_level": 300,
         "map_id": "worldboss_plains",
         "map_name": "Worldboss Plains"
       },
@@ -18687,7 +18687,7 @@
       "description": "Socketable 5-tier card focused on DEF power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_209",
-        "monster_name": "Monster #209",
+        "monster_name": "Wild Crystal Golem Scout",
         "monster_level": 10,
         "map_id": "swamp_marsh",
         "map_name": "Blackwater Marsh"
@@ -18709,8 +18709,8 @@
       "description": "Socketable 5-tier card focused on MATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_210",
-        "monster_name": "Monster #210",
-        "monster_level": 40,
+        "monster_name": "Crimson Crystal Golem Hunter",
+        "monster_level": 30,
         "map_id": "ice_pass",
         "map_name": "Glacier Pass"
       },
@@ -18731,8 +18731,8 @@
       "description": "Socketable 5-tier card focused on FLEE power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_211",
-        "monster_name": "Monster #211",
-        "monster_level": 70,
+        "monster_name": "Ancient Crystal Golem Alpha",
+        "monster_level": 50,
         "map_id": "snow_region",
         "map_name": "Frostveil"
       },
@@ -18753,8 +18753,8 @@
       "description": "Socketable 5-tier card focused on HIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_212",
-        "monster_name": "Monster #212",
-        "monster_level": 100,
+        "monster_name": "Royal Crystal Golem Warden",
+        "monster_level": 80,
         "map_id": "abyss_dungeon",
         "map_name": "Abyssal Depths"
       },
@@ -18775,8 +18775,8 @@
       "description": "Socketable 5-tier card focused on CRIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_213",
-        "monster_name": "Monster #213",
-        "monster_level": 130,
+        "monster_name": "Abyssal Crystal Golem Elder",
+        "monster_level": 120,
         "map_id": "crimson_dunes",
         "map_name": "Crimson Dunes"
       },
@@ -18797,8 +18797,8 @@
       "description": "Socketable 5-tier card focused on LUK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_214",
-        "monster_name": "Monster #214",
-        "monster_level": 160,
+        "monster_name": "Storm Crystal Golem Lord",
+        "monster_level": 170,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -18819,8 +18819,8 @@
       "description": "Socketable 5-tier card focused on HP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_215",
-        "monster_name": "Monster #215",
-        "monster_level": 190,
+        "monster_name": "Verdant Crystal Golem Tyrant",
+        "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -18841,8 +18841,8 @@
       "description": "Socketable 5-tier card focused on SP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_216",
-        "monster_name": "Monster #216",
-        "monster_level": 220,
+        "monster_name": "Night Crystal Golem Worldbreaker",
+        "monster_level": 300,
         "map_id": "worldboss_plains",
         "map_name": "Worldboss Plains"
       },
@@ -18863,7 +18863,7 @@
       "description": "Socketable 5-tier card focused on ATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_217",
-        "monster_name": "Monster #217",
+        "monster_name": "Wild Iron Golem Scout",
         "monster_level": 10,
         "map_id": "swamp_marsh",
         "map_name": "Blackwater Marsh"
@@ -18885,8 +18885,8 @@
       "description": "Socketable 5-tier card focused on DEF power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_218",
-        "monster_name": "Monster #218",
-        "monster_level": 40,
+        "monster_name": "Crimson Iron Golem Hunter",
+        "monster_level": 30,
         "map_id": "ice_pass",
         "map_name": "Glacier Pass"
       },
@@ -18907,8 +18907,8 @@
       "description": "Socketable 5-tier card focused on MATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_219",
-        "monster_name": "Monster #219",
-        "monster_level": 70,
+        "monster_name": "Ancient Iron Golem Alpha",
+        "monster_level": 50,
         "map_id": "snow_region",
         "map_name": "Frostveil"
       },
@@ -18929,8 +18929,8 @@
       "description": "Socketable 5-tier card focused on FLEE power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_220",
-        "monster_name": "Monster #220",
-        "monster_level": 100,
+        "monster_name": "Royal Iron Golem Warden",
+        "monster_level": 80,
         "map_id": "abyss_dungeon",
         "map_name": "Abyssal Depths"
       },
@@ -18951,8 +18951,8 @@
       "description": "Socketable 5-tier card focused on HIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_221",
-        "monster_name": "Monster #221",
-        "monster_level": 130,
+        "monster_name": "Abyssal Iron Golem Elder",
+        "monster_level": 120,
         "map_id": "crimson_dunes",
         "map_name": "Crimson Dunes"
       },
@@ -18973,8 +18973,8 @@
       "description": "Socketable 5-tier card focused on CRIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_222",
-        "monster_name": "Monster #222",
-        "monster_level": 160,
+        "monster_name": "Storm Iron Golem Lord",
+        "monster_level": 170,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -18995,8 +18995,8 @@
       "description": "Socketable 5-tier card focused on LUK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_223",
-        "monster_name": "Monster #223",
-        "monster_level": 190,
+        "monster_name": "Verdant Iron Golem Tyrant",
+        "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -19017,8 +19017,8 @@
       "description": "Socketable 5-tier card focused on HP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_224",
-        "monster_name": "Monster #224",
-        "monster_level": 220,
+        "monster_name": "Night Iron Golem Worldbreaker",
+        "monster_level": 300,
         "map_id": "worldboss_plains",
         "map_name": "Worldboss Plains"
       },
@@ -19039,7 +19039,7 @@
       "description": "Socketable 5-tier card focused on SP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_225",
-        "monster_name": "Monster #225",
+        "monster_name": "Wild Dragon Scout",
         "monster_level": 10,
         "map_id": "swamp_marsh",
         "map_name": "Blackwater Marsh"
@@ -19061,8 +19061,8 @@
       "description": "Socketable 5-tier card focused on ATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_226",
-        "monster_name": "Monster #226",
-        "monster_level": 40,
+        "monster_name": "Crimson Dragon Hunter",
+        "monster_level": 30,
         "map_id": "ice_pass",
         "map_name": "Glacier Pass"
       },
@@ -19083,8 +19083,8 @@
       "description": "Socketable 5-tier card focused on DEF power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_227",
-        "monster_name": "Monster #227",
-        "monster_level": 70,
+        "monster_name": "Ancient Dragon Alpha",
+        "monster_level": 50,
         "map_id": "snow_region",
         "map_name": "Frostveil"
       },
@@ -19105,8 +19105,8 @@
       "description": "Socketable 5-tier card focused on MATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_228",
-        "monster_name": "Monster #228",
-        "monster_level": 100,
+        "monster_name": "Royal Dragon Warden",
+        "monster_level": 80,
         "map_id": "abyss_dungeon",
         "map_name": "Abyssal Depths"
       },
@@ -19127,8 +19127,8 @@
       "description": "Socketable 5-tier card focused on FLEE power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_229",
-        "monster_name": "Monster #229",
-        "monster_level": 130,
+        "monster_name": "Abyssal Dragon Elder",
+        "monster_level": 120,
         "map_id": "crimson_dunes",
         "map_name": "Crimson Dunes"
       },
@@ -19149,8 +19149,8 @@
       "description": "Socketable 5-tier card focused on HIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_230",
-        "monster_name": "Monster #230",
-        "monster_level": 160,
+        "monster_name": "Storm Dragon Lord",
+        "monster_level": 170,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -19171,8 +19171,8 @@
       "description": "Socketable 5-tier card focused on CRIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_231",
-        "monster_name": "Monster #231",
-        "monster_level": 190,
+        "monster_name": "Verdant Dragon Tyrant",
+        "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -19193,8 +19193,8 @@
       "description": "Socketable 5-tier card focused on LUK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_232",
-        "monster_name": "Monster #232",
-        "monster_level": 220,
+        "monster_name": "Night Dragon Worldbreaker",
+        "monster_level": 300,
         "map_id": "worldboss_plains",
         "map_name": "Worldboss Plains"
       },
@@ -19215,7 +19215,7 @@
       "description": "Socketable 5-tier card focused on HP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_233",
-        "monster_name": "Monster #233",
+        "monster_name": "Wild Drake Scout",
         "monster_level": 10,
         "map_id": "swamp_marsh",
         "map_name": "Blackwater Marsh"
@@ -19237,8 +19237,8 @@
       "description": "Socketable 5-tier card focused on SP power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_234",
-        "monster_name": "Monster #234",
-        "monster_level": 40,
+        "monster_name": "Crimson Drake Hunter",
+        "monster_level": 30,
         "map_id": "ice_pass",
         "map_name": "Glacier Pass"
       },
@@ -19259,8 +19259,8 @@
       "description": "Socketable 5-tier card focused on ATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_235",
-        "monster_name": "Monster #235",
-        "monster_level": 70,
+        "monster_name": "Ancient Drake Alpha",
+        "monster_level": 50,
         "map_id": "snow_region",
         "map_name": "Frostveil"
       },
@@ -19281,8 +19281,8 @@
       "description": "Socketable 5-tier card focused on DEF power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_236",
-        "monster_name": "Monster #236",
-        "monster_level": 100,
+        "monster_name": "Royal Drake Warden",
+        "monster_level": 80,
         "map_id": "abyss_dungeon",
         "map_name": "Abyssal Depths"
       },
@@ -19303,8 +19303,8 @@
       "description": "Socketable 5-tier card focused on MATK power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_237",
-        "monster_name": "Monster #237",
-        "monster_level": 130,
+        "monster_name": "Abyssal Drake Elder",
+        "monster_level": 120,
         "map_id": "crimson_dunes",
         "map_name": "Crimson Dunes"
       },
@@ -19325,8 +19325,8 @@
       "description": "Socketable 5-tier card focused on FLEE power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_238",
-        "monster_name": "Monster #238",
-        "monster_level": 160,
+        "monster_name": "Storm Drake Lord",
+        "monster_level": 170,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -19347,8 +19347,8 @@
       "description": "Socketable 5-tier card focused on HIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_239",
-        "monster_name": "Monster #239",
-        "monster_level": 190,
+        "monster_name": "Verdant Drake Tyrant",
+        "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -19369,8 +19369,8 @@
       "description": "Socketable 5-tier card focused on CRIT power; age bonuses apply separately.",
       "source": {
         "monster_id": "MON_240",
-        "monster_name": "Monster #240",
-        "monster_level": 220,
+        "monster_name": "Night Drake Worldbreaker",
+        "monster_level": 300,
         "map_id": "worldboss_plains",
         "map_name": "Worldboss Plains"
       },
@@ -19391,8 +19391,8 @@
       "description": "Tier 1 Warrior card; boosts ATK and synergizes with frontline bruiser builds.",
       "source": {
         "monster_id": "MON_152",
-        "monster_name": "Monster #152",
-        "monster_level": 10,
+        "monster_name": "Night Orc Champion Worldbreaker",
+        "monster_level": 300,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -19413,8 +19413,8 @@
       "description": "Tier 1 Mage card; boosts MATK and synergizes with area caster builds.",
       "source": {
         "monster_id": "MON_159",
-        "monster_name": "Monster #159",
-        "monster_level": 10,
+        "monster_name": "Verdant Orc Warlord Tyrant",
+        "monster_level": 230,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -19435,8 +19435,8 @@
       "description": "Tier 1 Archer card; boosts HIT and synergizes with precision ranged builds.",
       "source": {
         "monster_id": "MON_166",
-        "monster_name": "Monster #166",
-        "monster_level": 10,
+        "monster_name": "Storm Mantis Lord",
+        "monster_level": 170,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -19457,8 +19457,8 @@
       "description": "Tier 1 Thief card; boosts FLEE and synergizes with assassin builds.",
       "source": {
         "monster_id": "MON_173",
-        "monster_name": "Monster #173",
-        "monster_level": 10,
+        "monster_name": "Abyssal Hunter Fly Elder",
+        "monster_level": 120,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -19479,8 +19479,8 @@
       "description": "Tier 1 Acolyte card; boosts DEF and synergizes with battle support builds.",
       "source": {
         "monster_id": "MON_180",
-        "monster_name": "Monster #180",
-        "monster_level": 10,
+        "monster_name": "Royal Scorpion Warden",
+        "monster_level": 80,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -19501,8 +19501,8 @@
       "description": "Tier 1 Merchant card; boosts CRIT and synergizes with trade fighter builds.",
       "source": {
         "monster_id": "MON_187",
-        "monster_name": "Monster #187",
-        "monster_level": 10,
+        "monster_name": "Ancient Venom Beetle Alpha",
+        "monster_level": 50,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -19523,8 +19523,8 @@
       "description": "Tier 1 Ranger card; boosts ATK and synergizes with mobile gunner builds.",
       "source": {
         "monster_id": "MON_194",
-        "monster_name": "Monster #194",
-        "monster_level": 10,
+        "monster_name": "Crimson Golem Hunter",
+        "monster_level": 30,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -19545,7 +19545,7 @@
       "description": "Tier 1 Ranger card; boosts MATK and synergizes with mobile gunner builds.",
       "source": {
         "monster_id": "MON_201",
-        "monster_name": "Monster #201",
+        "monster_name": "Wild Stone Golem Scout",
         "monster_level": 10,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
@@ -19567,8 +19567,8 @@
       "description": "Tier 1 Warrior card; boosts HIT and synergizes with frontline bruiser builds.",
       "source": {
         "monster_id": "MON_208",
-        "monster_name": "Monster #208",
-        "monster_level": 10,
+        "monster_name": "Night Stone Golem Worldbreaker",
+        "monster_level": 300,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -19589,8 +19589,8 @@
       "description": "Tier 1 Mage card; boosts FLEE and synergizes with area caster builds.",
       "source": {
         "monster_id": "MON_215",
-        "monster_name": "Monster #215",
-        "monster_level": 10,
+        "monster_name": "Verdant Crystal Golem Tyrant",
+        "monster_level": 230,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -19611,8 +19611,8 @@
       "description": "Tier 1 Ranger card; boosts DEF and synergizes with mobile gunner builds.",
       "source": {
         "monster_id": "MON_222",
-        "monster_name": "Monster #222",
-        "monster_level": 10,
+        "monster_name": "Storm Iron Golem Lord",
+        "monster_level": 170,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -19633,8 +19633,8 @@
       "description": "Tier 1 Merchant card; boosts CRIT and synergizes with trade fighter builds.",
       "source": {
         "monster_id": "MON_229",
-        "monster_name": "Monster #229",
-        "monster_level": 10,
+        "monster_name": "Abyssal Dragon Elder",
+        "monster_level": 120,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -19655,8 +19655,8 @@
       "description": "Tier 2 Warrior card; boosts ATK and synergizes with frontline bruiser builds.",
       "source": {
         "monster_id": "MON_236",
-        "monster_name": "Monster #236",
-        "monster_level": 50,
+        "monster_name": "Royal Drake Warden",
+        "monster_level": 80,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -19677,7 +19677,7 @@
       "description": "Tier 2 Mage card; boosts MATK and synergizes with area caster builds.",
       "source": {
         "monster_id": "MON_243",
-        "monster_name": "Monster #243",
+        "monster_name": "Ancient Wyvern Alpha",
         "monster_level": 50,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
@@ -19699,8 +19699,8 @@
       "description": "Tier 2 Archer card; boosts HIT and synergizes with precision ranged builds.",
       "source": {
         "monster_id": "MON_250",
-        "monster_name": "Monster #250",
-        "monster_level": 50,
+        "monster_name": "Crimson Elder Dragon Hunter",
+        "monster_level": 30,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -19721,8 +19721,8 @@
       "description": "Tier 2 Thief card; boosts FLEE and synergizes with assassin builds.",
       "source": {
         "monster_id": "MON_001",
-        "monster_name": "Monster #1",
-        "monster_level": 50,
+        "monster_name": "Wild Poring Scout",
+        "monster_level": 10,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -19743,8 +19743,8 @@
       "description": "Tier 2 Acolyte card; boosts DEF and synergizes with battle support builds.",
       "source": {
         "monster_id": "MON_008",
-        "monster_name": "Monster #8",
-        "monster_level": 50,
+        "monster_name": "Night Poring Worldbreaker",
+        "monster_level": 300,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -19765,8 +19765,8 @@
       "description": "Tier 2 Merchant card; boosts CRIT and synergizes with trade fighter builds.",
       "source": {
         "monster_id": "MON_015",
-        "monster_name": "Monster #15",
-        "monster_level": 50,
+        "monster_name": "Verdant Poporing Tyrant",
+        "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -19787,8 +19787,8 @@
       "description": "Tier 2 Ranger card; boosts ATK and synergizes with mobile gunner builds.",
       "source": {
         "monster_id": "MON_022",
-        "monster_name": "Monster #22",
-        "monster_level": 50,
+        "monster_name": "Storm Drops Lord",
+        "monster_level": 170,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -19809,8 +19809,8 @@
       "description": "Tier 2 Ranger card; boosts MATK and synergizes with mobile gunner builds.",
       "source": {
         "monster_id": "MON_029",
-        "monster_name": "Monster #29",
-        "monster_level": 50,
+        "monster_name": "Abyssal Marin Elder",
+        "monster_level": 120,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -19831,8 +19831,8 @@
       "description": "Tier 2 Warrior card; boosts HIT and synergizes with frontline bruiser builds.",
       "source": {
         "monster_id": "MON_036",
-        "monster_name": "Monster #36",
-        "monster_level": 50,
+        "monster_name": "Royal Goblin Warden",
+        "monster_level": 80,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -19853,7 +19853,7 @@
       "description": "Tier 2 Mage card; boosts FLEE and synergizes with area caster builds.",
       "source": {
         "monster_id": "MON_043",
-        "monster_name": "Monster #43",
+        "monster_name": "Ancient Kobold Alpha",
         "monster_level": 50,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
@@ -19875,8 +19875,8 @@
       "description": "Tier 2 Ranger card; boosts DEF and synergizes with mobile gunner builds.",
       "source": {
         "monster_id": "MON_050",
-        "monster_name": "Monster #50",
-        "monster_level": 50,
+        "monster_name": "Crimson Hobgoblin Hunter",
+        "monster_level": 30,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -19897,8 +19897,8 @@
       "description": "Tier 2 Merchant card; boosts CRIT and synergizes with trade fighter builds.",
       "source": {
         "monster_id": "MON_057",
-        "monster_name": "Monster #57",
-        "monster_level": 50,
+        "monster_name": "Wild Orclet Scout",
+        "monster_level": 10,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -19919,8 +19919,8 @@
       "description": "Tier 3 Warrior card; boosts ATK and synergizes with frontline bruiser builds.",
       "source": {
         "monster_id": "MON_064",
-        "monster_name": "Monster #64",
-        "monster_level": 120,
+        "monster_name": "Night Orclet Worldbreaker",
+        "monster_level": 300,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -19941,8 +19941,8 @@
       "description": "Tier 3 Mage card; boosts MATK and synergizes with area caster builds.",
       "source": {
         "monster_id": "MON_071",
-        "monster_name": "Monster #71",
-        "monster_level": 120,
+        "monster_name": "Verdant Wolf Tyrant",
+        "monster_level": 230,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -19963,8 +19963,8 @@
       "description": "Tier 3 Archer card; boosts HIT and synergizes with precision ranged builds.",
       "source": {
         "monster_id": "MON_078",
-        "monster_name": "Monster #78",
-        "monster_level": 120,
+        "monster_name": "Storm Desert Wolf Lord",
+        "monster_level": 170,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -19985,7 +19985,7 @@
       "description": "Tier 3 Thief card; boosts FLEE and synergizes with assassin builds.",
       "source": {
         "monster_id": "MON_085",
-        "monster_name": "Monster #85",
+        "monster_name": "Abyssal Warg Elder",
         "monster_level": 120,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
@@ -20007,8 +20007,8 @@
       "description": "Tier 3 Acolyte card; boosts DEF and synergizes with battle support builds.",
       "source": {
         "monster_id": "MON_092",
-        "monster_name": "Monster #92",
-        "monster_level": 120,
+        "monster_name": "Royal Dire Wolf Warden",
+        "monster_level": 80,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -20029,8 +20029,8 @@
       "description": "Tier 3 Merchant card; boosts CRIT and synergizes with trade fighter builds.",
       "source": {
         "monster_id": "MON_099",
-        "monster_name": "Monster #99",
-        "monster_level": 120,
+        "monster_name": "Ancient Skeleton Alpha",
+        "monster_level": 50,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -20051,8 +20051,8 @@
       "description": "Tier 3 Ranger card; boosts ATK and synergizes with mobile gunner builds.",
       "source": {
         "monster_id": "MON_106",
-        "monster_name": "Monster #106",
-        "monster_level": 120,
+        "monster_name": "Crimson Zombie Guard Hunter",
+        "monster_level": 30,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -20073,8 +20073,8 @@
       "description": "Tier 3 Ranger card; boosts MATK and synergizes with mobile gunner builds.",
       "source": {
         "monster_id": "MON_113",
-        "monster_name": "Monster #113",
-        "monster_level": 120,
+        "monster_name": "Wild Bone Archer Scout",
+        "monster_level": 10,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -20095,8 +20095,8 @@
       "description": "Tier 3 Warrior card; boosts HIT and synergizes with frontline bruiser builds.",
       "source": {
         "monster_id": "MON_120",
-        "monster_name": "Monster #120",
-        "monster_level": 120,
+        "monster_name": "Night Bone Archer Worldbreaker",
+        "monster_level": 300,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -20117,8 +20117,8 @@
       "description": "Tier 3 Mage card; boosts FLEE and synergizes with area caster builds.",
       "source": {
         "monster_id": "MON_127",
-        "monster_name": "Monster #127",
-        "monster_level": 120,
+        "monster_name": "Verdant Skull Knight Tyrant",
+        "monster_level": 230,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -20139,8 +20139,8 @@
       "description": "Tier 3 Ranger card; boosts DEF and synergizes with mobile gunner builds.",
       "source": {
         "monster_id": "MON_134",
-        "monster_name": "Monster #134",
-        "monster_level": 120,
+        "monster_name": "Storm Orc Lord",
+        "monster_level": 170,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
       },
@@ -20161,7 +20161,7 @@
       "description": "Tier 3 Merchant card; boosts CRIT and synergizes with trade fighter builds.",
       "source": {
         "monster_id": "MON_141",
-        "monster_name": "Monster #141",
+        "monster_name": "Abyssal Orc Warrior Elder",
         "monster_level": 120,
         "map_id": "forest_dungeon",
         "map_name": "Rootbound Hollow"
@@ -20183,8 +20183,8 @@
       "description": "Tier 4 Warrior card; boosts ATK and synergizes with frontline bruiser builds.",
       "source": {
         "monster_id": "MON_148",
-        "monster_name": "Monster #148",
-        "monster_level": 230,
+        "monster_name": "Royal Orc Champion Warden",
+        "monster_level": 80,
         "map_id": "ironheart_vault",
         "map_name": "Ironheart Vault"
       },
@@ -20205,8 +20205,8 @@
       "description": "Tier 4 Mage card; boosts MATK and synergizes with area caster builds.",
       "source": {
         "monster_id": "MON_155",
-        "monster_name": "Monster #155",
-        "monster_level": 230,
+        "monster_name": "Ancient Orc Warlord Alpha",
+        "monster_level": 50,
         "map_id": "ironheart_vault",
         "map_name": "Ironheart Vault"
       },
@@ -20227,8 +20227,8 @@
       "description": "Tier 4 Archer card; boosts HIT and synergizes with precision ranged builds.",
       "source": {
         "monster_id": "MON_162",
-        "monster_name": "Monster #162",
-        "monster_level": 230,
+        "monster_name": "Crimson Mantis Hunter",
+        "monster_level": 30,
         "map_id": "ironheart_vault",
         "map_name": "Ironheart Vault"
       },
@@ -20249,8 +20249,8 @@
       "description": "Tier 4 Thief card; boosts FLEE and synergizes with assassin builds.",
       "source": {
         "monster_id": "MON_169",
-        "monster_name": "Monster #169",
-        "monster_level": 230,
+        "monster_name": "Wild Hunter Fly Scout",
+        "monster_level": 10,
         "map_id": "ironheart_vault",
         "map_name": "Ironheart Vault"
       },
@@ -20271,8 +20271,8 @@
       "description": "Tier 4 Acolyte card; boosts DEF and synergizes with battle support builds.",
       "source": {
         "monster_id": "MON_176",
-        "monster_name": "Monster #176",
-        "monster_level": 230,
+        "monster_name": "Night Hunter Fly Worldbreaker",
+        "monster_level": 300,
         "map_id": "ironheart_vault",
         "map_name": "Ironheart Vault"
       },
@@ -20293,7 +20293,7 @@
       "description": "Tier 4 Merchant card; boosts CRIT and synergizes with trade fighter builds.",
       "source": {
         "monster_id": "MON_183",
-        "monster_name": "Monster #183",
+        "monster_name": "Verdant Scorpion Tyrant",
         "monster_level": 230,
         "map_id": "ironheart_vault",
         "map_name": "Ironheart Vault"
@@ -20315,8 +20315,8 @@
       "description": "Tier 4 Ranger card; boosts ATK and synergizes with mobile gunner builds.",
       "source": {
         "monster_id": "MON_190",
-        "monster_name": "Monster #190",
-        "monster_level": 230,
+        "monster_name": "Storm Venom Beetle Lord",
+        "monster_level": 170,
         "map_id": "ironheart_vault",
         "map_name": "Ironheart Vault"
       },
@@ -20337,8 +20337,8 @@
       "description": "Tier 4 Ranger card; boosts MATK and synergizes with mobile gunner builds.",
       "source": {
         "monster_id": "MON_197",
-        "monster_name": "Monster #197",
-        "monster_level": 230,
+        "monster_name": "Abyssal Golem Elder",
+        "monster_level": 120,
         "map_id": "ironheart_vault",
         "map_name": "Ironheart Vault"
       },
@@ -20359,8 +20359,8 @@
       "description": "Tier 4 Warrior card; boosts HIT and synergizes with frontline bruiser builds.",
       "source": {
         "monster_id": "MON_204",
-        "monster_name": "Monster #204",
-        "monster_level": 230,
+        "monster_name": "Royal Stone Golem Warden",
+        "monster_level": 80,
         "map_id": "ironheart_vault",
         "map_name": "Ironheart Vault"
       },
@@ -20381,8 +20381,8 @@
       "description": "Tier 4 Mage card; boosts FLEE and synergizes with area caster builds.",
       "source": {
         "monster_id": "MON_211",
-        "monster_name": "Monster #211",
-        "monster_level": 230,
+        "monster_name": "Ancient Crystal Golem Alpha",
+        "monster_level": 50,
         "map_id": "ironheart_vault",
         "map_name": "Ironheart Vault"
       },
@@ -20403,8 +20403,8 @@
       "description": "Tier 4 Ranger card; boosts DEF and synergizes with mobile gunner builds.",
       "source": {
         "monster_id": "MON_218",
-        "monster_name": "Monster #218",
-        "monster_level": 230,
+        "monster_name": "Crimson Iron Golem Hunter",
+        "monster_level": 30,
         "map_id": "ironheart_vault",
         "map_name": "Ironheart Vault"
       },
@@ -20425,8 +20425,8 @@
       "description": "Tier 4 Merchant card; boosts CRIT and synergizes with trade fighter builds.",
       "source": {
         "monster_id": "MON_225",
-        "monster_name": "Monster #225",
-        "monster_level": 230,
+        "monster_name": "Wild Dragon Scout",
+        "monster_level": 10,
         "map_id": "ironheart_vault",
         "map_name": "Ironheart Vault"
       },
@@ -20447,7 +20447,7 @@
       "description": "Tier 5 Warrior card; boosts ATK and synergizes with frontline bruiser builds.",
       "source": {
         "monster_id": "MON_232",
-        "monster_name": "Monster #232",
+        "monster_name": "Night Dragon Worldbreaker",
         "monster_level": 300,
         "map_id": "arena_of_honour",
         "map_name": "Arena of Honour"
@@ -20469,8 +20469,8 @@
       "description": "Tier 5 Mage card; boosts MATK and synergizes with area caster builds.",
       "source": {
         "monster_id": "MON_239",
-        "monster_name": "Monster #239",
-        "monster_level": 300,
+        "monster_name": "Verdant Drake Tyrant",
+        "monster_level": 230,
         "map_id": "arena_of_honour",
         "map_name": "Arena of Honour"
       },
@@ -20491,8 +20491,8 @@
       "description": "Tier 5 Archer card; boosts HIT and synergizes with precision ranged builds.",
       "source": {
         "monster_id": "MON_246",
-        "monster_name": "Monster #246",
-        "monster_level": 300,
+        "monster_name": "Storm Wyvern Lord",
+        "monster_level": 170,
         "map_id": "arena_of_honour",
         "map_name": "Arena of Honour"
       },
@@ -20513,8 +20513,8 @@
       "description": "Tier 5 Thief card; boosts FLEE and synergizes with assassin builds.",
       "source": {
         "monster_id": "MON_253",
-        "monster_name": "Monster #253",
-        "monster_level": 300,
+        "monster_name": "Abyssal Elder Dragon Elder",
+        "monster_level": 120,
         "map_id": "arena_of_honour",
         "map_name": "Arena of Honour"
       },
@@ -20535,8 +20535,8 @@
       "description": "Tier 5 Acolyte card; boosts DEF and synergizes with battle support builds.",
       "source": {
         "monster_id": "MON_004",
-        "monster_name": "Monster #4",
-        "monster_level": 300,
+        "monster_name": "Royal Poring Warden",
+        "monster_level": 80,
         "map_id": "arena_of_honour",
         "map_name": "Arena of Honour"
       },
@@ -20557,8 +20557,8 @@
       "description": "Tier 5 Merchant card; boosts CRIT and synergizes with trade fighter builds.",
       "source": {
         "monster_id": "MON_011",
-        "monster_name": "Monster #11",
-        "monster_level": 300,
+        "monster_name": "Ancient Poporing Alpha",
+        "monster_level": 50,
         "map_id": "arena_of_honour",
         "map_name": "Arena of Honour"
       },
@@ -20579,8 +20579,8 @@
       "description": "Tier 5 Ranger card; boosts ATK and synergizes with mobile gunner builds.",
       "source": {
         "monster_id": "MON_018",
-        "monster_name": "Monster #18",
-        "monster_level": 300,
+        "monster_name": "Crimson Drops Hunter",
+        "monster_level": 30,
         "map_id": "arena_of_honour",
         "map_name": "Arena of Honour"
       },
@@ -20601,8 +20601,8 @@
       "description": "Tier 5 Ranger card; boosts MATK and synergizes with mobile gunner builds.",
       "source": {
         "monster_id": "MON_025",
-        "monster_name": "Monster #25",
-        "monster_level": 300,
+        "monster_name": "Wild Marin Scout",
+        "monster_level": 10,
         "map_id": "arena_of_honour",
         "map_name": "Arena of Honour"
       },
@@ -20623,7 +20623,7 @@
       "description": "Tier 5 Warrior card; boosts HIT and synergizes with frontline bruiser builds.",
       "source": {
         "monster_id": "MON_032",
-        "monster_name": "Monster #32",
+        "monster_name": "Night Marin Worldbreaker",
         "monster_level": 300,
         "map_id": "arena_of_honour",
         "map_name": "Arena of Honour"
@@ -20645,8 +20645,8 @@
       "description": "Tier 5 Mage card; boosts FLEE and synergizes with area caster builds.",
       "source": {
         "monster_id": "MON_039",
-        "monster_name": "Monster #39",
-        "monster_level": 300,
+        "monster_name": "Verdant Goblin Tyrant",
+        "monster_level": 230,
         "map_id": "arena_of_honour",
         "map_name": "Arena of Honour"
       },
@@ -20667,8 +20667,8 @@
       "description": "Tier 5 Ranger card; boosts DEF and synergizes with mobile gunner builds.",
       "source": {
         "monster_id": "MON_046",
-        "monster_name": "Monster #46",
-        "monster_level": 300,
+        "monster_name": "Storm Kobold Lord",
+        "monster_level": 170,
         "map_id": "arena_of_honour",
         "map_name": "Arena of Honour"
       },
@@ -20707,7 +20707,7 @@
       "job": "Abyssal Warlord",
       "slot": "Weapon",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
+      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
       "source": {
         "monster_id": "MON_160",
         "monster_name": "Night Orc Warlord Worldbreaker",
@@ -20733,7 +20733,7 @@
       "job": "Abyssal Warlord",
       "slot": "Shield",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
+      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
       "source": {
         "monster_id": "MON_160",
         "monster_name": "Night Orc Warlord Worldbreaker",
@@ -20759,7 +20759,7 @@
       "job": "Eternal Spellwright",
       "slot": "Weapon",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
+      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
       "source": {
         "monster_id": "MON_008",
         "monster_name": "Night Poring Worldbreaker",
@@ -20785,7 +20785,7 @@
       "job": "Eternal Spellwright",
       "slot": "Focus",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
+      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
       "source": {
         "monster_id": "MON_008",
         "monster_name": "Night Poring Worldbreaker",
@@ -20811,7 +20811,7 @@
       "job": "Causality Marksman",
       "slot": "Weapon",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
+      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
       "source": {
         "monster_id": "MON_120",
         "monster_name": "Night Bone Archer Worldbreaker",
@@ -20837,7 +20837,7 @@
       "job": "Causality Marksman",
       "slot": "Quiver",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
+      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
       "source": {
         "monster_id": "MON_120",
         "monster_name": "Night Bone Archer Worldbreaker",
@@ -20863,7 +20863,7 @@
       "job": "Absolute Shadow",
       "slot": "Weapon",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
+      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
       "source": {
         "monster_id": "MON_192",
         "monster_name": "Night Venom Beetle Worldbreaker",
@@ -20889,7 +20889,7 @@
       "job": "Absolute Shadow",
       "slot": "Offhand",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
+      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
       "source": {
         "monster_id": "MON_192",
         "monster_name": "Night Venom Beetle Worldbreaker",
@@ -20915,7 +20915,7 @@
       "job": "Eternal Benediction",
       "slot": "Weapon",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
+      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
       "source": {
         "monster_id": "MON_240",
         "monster_name": "Night Drake Worldbreaker",
@@ -20941,7 +20941,7 @@
       "job": "Eternal Benediction",
       "slot": "Scripture",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
+      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
       "source": {
         "monster_id": "MON_240",
         "monster_name": "Night Drake Worldbreaker",
@@ -20967,7 +20967,7 @@
       "job": "Infinite Quartermaster",
       "slot": "Weapon",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
+      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
       "source": {
         "monster_id": "MON_224",
         "monster_name": "Night Iron Golem Worldbreaker",
@@ -20993,7 +20993,7 @@
       "job": "Infinite Quartermaster",
       "slot": "Offhand",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
+      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
       "source": {
         "monster_id": "MON_224",
         "monster_name": "Night Iron Golem Worldbreaker",
@@ -21019,7 +21019,7 @@
       "job": "Verdant Paragon",
       "slot": "Weapon",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
+      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
       "source": {
         "monster_id": "MON_176",
         "monster_name": "Night Hunter Fly Worldbreaker",
@@ -21047,7 +21047,7 @@
       "job": "Verdant Paragon",
       "slot": "Quiver",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
+      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
       "source": {
         "monster_id": "MON_176",
         "monster_name": "Night Hunter Fly Worldbreaker",
@@ -21075,7 +21075,7 @@
       "job": "Abyssal Warlord",
       "slot": "Accessory",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
+      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
       "source": {
         "monster_id": "MON_160",
         "monster_name": "Night Orc Warlord Worldbreaker",
@@ -21097,7 +21097,7 @@
       "job": "Eternal Spellwright",
       "slot": "Accessory",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
+      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
       "source": {
         "monster_id": "MON_008",
         "monster_name": "Night Poring Worldbreaker",
@@ -21119,7 +21119,7 @@
       "job": "Causality Marksman",
       "slot": "Accessory",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
+      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
       "source": {
         "monster_id": "MON_120",
         "monster_name": "Night Bone Archer Worldbreaker",
@@ -21141,7 +21141,7 @@
       "job": "Absolute Shadow",
       "slot": "Accessory",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
+      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
       "source": {
         "monster_id": "MON_192",
         "monster_name": "Night Venom Beetle Worldbreaker",
@@ -21163,7 +21163,7 @@
       "job": "Eternal Benediction",
       "slot": "Accessory",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
+      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
       "source": {
         "monster_id": "MON_240",
         "monster_name": "Night Drake Worldbreaker",
@@ -21185,7 +21185,7 @@
       "job": "Infinite Quartermaster",
       "slot": "Accessory",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
+      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
       "source": {
         "monster_id": "MON_224",
         "monster_name": "Night Iron Golem Worldbreaker",
@@ -21207,7 +21207,7 @@
       "job": "Verdant Paragon",
       "slot": "Accessory",
       "how_to_obtain": "Tier 5 class progression reward",
-      "when": "Tier 5 transition at Lv.200; or rare drop from the associated Lv.300 Worldbreaker.",
+      "when": "Available at Tier 5 (Lv.200+) and can be obtained from the listed Lv.300 Worldbreaker source.",
       "source": {
         "monster_id": "MON_176",
         "monster_name": "Night Hunter Fly Worldbreaker",
@@ -21247,8 +21247,8 @@
       },
       "source": {
         "monster_id": "MON_012",
-        "monster_name": "Monster #12",
-        "monster_level": 10,
+        "monster_name": "Royal Poporing Warden",
+        "monster_level": 80,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -21282,8 +21282,8 @@
       },
       "source": {
         "monster_id": "MON_023",
-        "monster_name": "Monster #23",
-        "monster_level": 10,
+        "monster_name": "Verdant Drops Tyrant",
+        "monster_level": 230,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -21317,8 +21317,8 @@
       },
       "source": {
         "monster_id": "MON_034",
-        "monster_name": "Monster #34",
-        "monster_level": 10,
+        "monster_name": "Crimson Goblin Hunter",
+        "monster_level": 30,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -21352,8 +21352,8 @@
       },
       "source": {
         "monster_id": "MON_045",
-        "monster_name": "Monster #45",
-        "monster_level": 10,
+        "monster_name": "Abyssal Kobold Elder",
+        "monster_level": 120,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -21387,8 +21387,8 @@
       },
       "source": {
         "monster_id": "MON_056",
-        "monster_name": "Monster #56",
-        "monster_level": 10,
+        "monster_name": "Night Hobgoblin Worldbreaker",
+        "monster_level": 300,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -21422,8 +21422,8 @@
       },
       "source": {
         "monster_id": "MON_067",
-        "monster_name": "Monster #67",
-        "monster_level": 10,
+        "monster_name": "Ancient Wolf Alpha",
+        "monster_level": 50,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -21457,8 +21457,8 @@
       },
       "source": {
         "monster_id": "MON_078",
-        "monster_name": "Monster #78",
-        "monster_level": 10,
+        "monster_name": "Storm Desert Wolf Lord",
+        "monster_level": 170,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -21492,7 +21492,7 @@
       },
       "source": {
         "monster_id": "MON_089",
-        "monster_name": "Monster #89",
+        "monster_name": "Wild Dire Wolf Scout",
         "monster_level": 10,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
@@ -21527,8 +21527,8 @@
       },
       "source": {
         "monster_id": "MON_100",
-        "monster_name": "Monster #100",
-        "monster_level": 10,
+        "monster_name": "Royal Skeleton Warden",
+        "monster_level": 80,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -21562,8 +21562,8 @@
       },
       "source": {
         "monster_id": "MON_111",
-        "monster_name": "Monster #111",
-        "monster_level": 10,
+        "monster_name": "Verdant Zombie Guard Tyrant",
+        "monster_level": 230,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -21597,8 +21597,8 @@
       },
       "source": {
         "monster_id": "MON_122",
-        "monster_name": "Monster #122",
-        "monster_level": 10,
+        "monster_name": "Crimson Skull Knight Hunter",
+        "monster_level": 30,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -21632,8 +21632,8 @@
       },
       "source": {
         "monster_id": "MON_133",
-        "monster_name": "Monster #133",
-        "monster_level": 10,
+        "monster_name": "Abyssal Orc Elder",
+        "monster_level": 120,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -21667,8 +21667,8 @@
       },
       "source": {
         "monster_id": "MON_144",
-        "monster_name": "Monster #144",
-        "monster_level": 10,
+        "monster_name": "Night Orc Warrior Worldbreaker",
+        "monster_level": 300,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -21702,8 +21702,8 @@
       },
       "source": {
         "monster_id": "MON_155",
-        "monster_name": "Monster #155",
-        "monster_level": 10,
+        "monster_name": "Ancient Orc Warlord Alpha",
+        "monster_level": 50,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -21737,8 +21737,8 @@
       },
       "source": {
         "monster_id": "MON_166",
-        "monster_name": "Monster #166",
-        "monster_level": 10,
+        "monster_name": "Storm Mantis Lord",
+        "monster_level": 170,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -21772,7 +21772,7 @@
       },
       "source": {
         "monster_id": "MON_177",
-        "monster_name": "Monster #177",
+        "monster_name": "Wild Scorpion Scout",
         "monster_level": 10,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
@@ -21807,8 +21807,8 @@
       },
       "source": {
         "monster_id": "MON_188",
-        "monster_name": "Monster #188",
-        "monster_level": 10,
+        "monster_name": "Royal Venom Beetle Warden",
+        "monster_level": 80,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -21842,8 +21842,8 @@
       },
       "source": {
         "monster_id": "MON_199",
-        "monster_name": "Monster #199",
-        "monster_level": 10,
+        "monster_name": "Verdant Golem Tyrant",
+        "monster_level": 230,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -21877,8 +21877,8 @@
       },
       "source": {
         "monster_id": "MON_210",
-        "monster_name": "Monster #210",
-        "monster_level": 10,
+        "monster_name": "Crimson Crystal Golem Hunter",
+        "monster_level": 30,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -21912,8 +21912,8 @@
       },
       "source": {
         "monster_id": "MON_221",
-        "monster_name": "Monster #221",
-        "monster_level": 10,
+        "monster_name": "Abyssal Iron Golem Elder",
+        "monster_level": 120,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -21947,8 +21947,8 @@
       },
       "source": {
         "monster_id": "MON_232",
-        "monster_name": "Monster #232",
-        "monster_level": 50,
+        "monster_name": "Night Dragon Worldbreaker",
+        "monster_level": 300,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -21982,7 +21982,7 @@
       },
       "source": {
         "monster_id": "MON_243",
-        "monster_name": "Monster #243",
+        "monster_name": "Ancient Wyvern Alpha",
         "monster_level": 50,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
@@ -22017,8 +22017,8 @@
       },
       "source": {
         "monster_id": "MON_254",
-        "monster_name": "Monster #254",
-        "monster_level": 50,
+        "monster_name": "Storm Elder Dragon Lord",
+        "monster_level": 170,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -22052,8 +22052,8 @@
       },
       "source": {
         "monster_id": "MON_009",
-        "monster_name": "Monster #9",
-        "monster_level": 50,
+        "monster_name": "Wild Poporing Scout",
+        "monster_level": 10,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -22087,8 +22087,8 @@
       },
       "source": {
         "monster_id": "MON_020",
-        "monster_name": "Monster #20",
-        "monster_level": 50,
+        "monster_name": "Royal Drops Warden",
+        "monster_level": 80,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -22122,8 +22122,8 @@
       },
       "source": {
         "monster_id": "MON_031",
-        "monster_name": "Monster #31",
-        "monster_level": 50,
+        "monster_name": "Verdant Marin Tyrant",
+        "monster_level": 230,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -22157,8 +22157,8 @@
       },
       "source": {
         "monster_id": "MON_042",
-        "monster_name": "Monster #42",
-        "monster_level": 50,
+        "monster_name": "Crimson Kobold Hunter",
+        "monster_level": 30,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -22192,8 +22192,8 @@
       },
       "source": {
         "monster_id": "MON_053",
-        "monster_name": "Monster #53",
-        "monster_level": 50,
+        "monster_name": "Abyssal Hobgoblin Elder",
+        "monster_level": 120,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -22227,8 +22227,8 @@
       },
       "source": {
         "monster_id": "MON_064",
-        "monster_name": "Monster #64",
-        "monster_level": 50,
+        "monster_name": "Night Orclet Worldbreaker",
+        "monster_level": 300,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -22262,7 +22262,7 @@
       },
       "source": {
         "monster_id": "MON_075",
-        "monster_name": "Monster #75",
+        "monster_name": "Ancient Desert Wolf Alpha",
         "monster_level": 50,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
@@ -22297,8 +22297,8 @@
       },
       "source": {
         "monster_id": "MON_086",
-        "monster_name": "Monster #86",
-        "monster_level": 50,
+        "monster_name": "Storm Warg Lord",
+        "monster_level": 170,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -22332,8 +22332,8 @@
       },
       "source": {
         "monster_id": "MON_097",
-        "monster_name": "Monster #97",
-        "monster_level": 50,
+        "monster_name": "Wild Skeleton Scout",
+        "monster_level": 10,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -22367,8 +22367,8 @@
       },
       "source": {
         "monster_id": "MON_108",
-        "monster_name": "Monster #108",
-        "monster_level": 50,
+        "monster_name": "Royal Zombie Guard Warden",
+        "monster_level": 80,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -22402,8 +22402,8 @@
       },
       "source": {
         "monster_id": "MON_119",
-        "monster_name": "Monster #119",
-        "monster_level": 50,
+        "monster_name": "Verdant Bone Archer Tyrant",
+        "monster_level": 230,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -22437,8 +22437,8 @@
       },
       "source": {
         "monster_id": "MON_130",
-        "monster_name": "Monster #130",
-        "monster_level": 50,
+        "monster_name": "Crimson Orc Hunter",
+        "monster_level": 30,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -22472,8 +22472,8 @@
       },
       "source": {
         "monster_id": "MON_141",
-        "monster_name": "Monster #141",
-        "monster_level": 50,
+        "monster_name": "Abyssal Orc Warrior Elder",
+        "monster_level": 120,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -22507,8 +22507,8 @@
       },
       "source": {
         "monster_id": "MON_152",
-        "monster_name": "Monster #152",
-        "monster_level": 50,
+        "monster_name": "Night Orc Champion Worldbreaker",
+        "monster_level": 300,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -22542,7 +22542,7 @@
       },
       "source": {
         "monster_id": "MON_163",
-        "monster_name": "Monster #163",
+        "monster_name": "Ancient Mantis Alpha",
         "monster_level": 50,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
@@ -22577,8 +22577,8 @@
       },
       "source": {
         "monster_id": "MON_174",
-        "monster_name": "Monster #174",
-        "monster_level": 50,
+        "monster_name": "Storm Hunter Fly Lord",
+        "monster_level": 170,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -22612,8 +22612,8 @@
       },
       "source": {
         "monster_id": "MON_185",
-        "monster_name": "Monster #185",
-        "monster_level": 50,
+        "monster_name": "Wild Venom Beetle Scout",
+        "monster_level": 10,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -22647,8 +22647,8 @@
       },
       "source": {
         "monster_id": "MON_196",
-        "monster_name": "Monster #196",
-        "monster_level": 120,
+        "monster_name": "Royal Golem Warden",
+        "monster_level": 80,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -22682,8 +22682,8 @@
       },
       "source": {
         "monster_id": "MON_207",
-        "monster_name": "Monster #207",
-        "monster_level": 120,
+        "monster_name": "Verdant Stone Golem Tyrant",
+        "monster_level": 230,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -22717,8 +22717,8 @@
       },
       "source": {
         "monster_id": "MON_218",
-        "monster_name": "Monster #218",
-        "monster_level": 120,
+        "monster_name": "Crimson Iron Golem Hunter",
+        "monster_level": 30,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -22752,7 +22752,7 @@
       },
       "source": {
         "monster_id": "MON_229",
-        "monster_name": "Monster #229",
+        "monster_name": "Abyssal Dragon Elder",
         "monster_level": 120,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
@@ -22787,8 +22787,8 @@
       },
       "source": {
         "monster_id": "MON_240",
-        "monster_name": "Monster #240",
-        "monster_level": 120,
+        "monster_name": "Night Drake Worldbreaker",
+        "monster_level": 300,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -22822,8 +22822,8 @@
       },
       "source": {
         "monster_id": "MON_251",
-        "monster_name": "Monster #251",
-        "monster_level": 120,
+        "monster_name": "Ancient Elder Dragon Alpha",
+        "monster_level": 50,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -22857,8 +22857,8 @@
       },
       "source": {
         "monster_id": "MON_006",
-        "monster_name": "Monster #6",
-        "monster_level": 120,
+        "monster_name": "Storm Poring Lord",
+        "monster_level": 170,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -22892,8 +22892,8 @@
       },
       "source": {
         "monster_id": "MON_017",
-        "monster_name": "Monster #17",
-        "monster_level": 120,
+        "monster_name": "Wild Drops Scout",
+        "monster_level": 10,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -22927,8 +22927,8 @@
       },
       "source": {
         "monster_id": "MON_028",
-        "monster_name": "Monster #28",
-        "monster_level": 120,
+        "monster_name": "Royal Marin Warden",
+        "monster_level": 80,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -22962,8 +22962,8 @@
       },
       "source": {
         "monster_id": "MON_039",
-        "monster_name": "Monster #39",
-        "monster_level": 120,
+        "monster_name": "Verdant Goblin Tyrant",
+        "monster_level": 230,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -22997,8 +22997,8 @@
       },
       "source": {
         "monster_id": "MON_050",
-        "monster_name": "Monster #50",
-        "monster_level": 120,
+        "monster_name": "Crimson Hobgoblin Hunter",
+        "monster_level": 30,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -23032,7 +23032,7 @@
       },
       "source": {
         "monster_id": "MON_061",
-        "monster_name": "Monster #61",
+        "monster_name": "Abyssal Orclet Elder",
         "monster_level": 120,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
@@ -23067,8 +23067,8 @@
       },
       "source": {
         "monster_id": "MON_072",
-        "monster_name": "Monster #72",
-        "monster_level": 120,
+        "monster_name": "Night Wolf Worldbreaker",
+        "monster_level": 300,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -23102,8 +23102,8 @@
       },
       "source": {
         "monster_id": "MON_083",
-        "monster_name": "Monster #83",
-        "monster_level": 120,
+        "monster_name": "Ancient Warg Alpha",
+        "monster_level": 50,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -23137,8 +23137,8 @@
       },
       "source": {
         "monster_id": "MON_094",
-        "monster_name": "Monster #94",
-        "monster_level": 120,
+        "monster_name": "Storm Dire Wolf Lord",
+        "monster_level": 170,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -23172,8 +23172,8 @@
       },
       "source": {
         "monster_id": "MON_105",
-        "monster_name": "Monster #105",
-        "monster_level": 120,
+        "monster_name": "Wild Zombie Guard Scout",
+        "monster_level": 10,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -23207,8 +23207,8 @@
       },
       "source": {
         "monster_id": "MON_116",
-        "monster_name": "Monster #116",
-        "monster_level": 120,
+        "monster_name": "Royal Bone Archer Warden",
+        "monster_level": 80,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -23242,8 +23242,8 @@
       },
       "source": {
         "monster_id": "MON_127",
-        "monster_name": "Monster #127",
-        "monster_level": 120,
+        "monster_name": "Verdant Skull Knight Tyrant",
+        "monster_level": 230,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -23277,8 +23277,8 @@
       },
       "source": {
         "monster_id": "MON_138",
-        "monster_name": "Monster #138",
-        "monster_level": 120,
+        "monster_name": "Crimson Orc Warrior Hunter",
+        "monster_level": 30,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -23312,7 +23312,7 @@
       },
       "source": {
         "monster_id": "MON_149",
-        "monster_name": "Monster #149",
+        "monster_name": "Abyssal Orc Champion Elder",
         "monster_level": 120,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
@@ -23347,8 +23347,8 @@
       },
       "source": {
         "monster_id": "MON_160",
-        "monster_name": "Monster #160",
-        "monster_level": 230,
+        "monster_name": "Night Orc Warlord Worldbreaker",
+        "monster_level": 300,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -23382,8 +23382,8 @@
       },
       "source": {
         "monster_id": "MON_171",
-        "monster_name": "Monster #171",
-        "monster_level": 230,
+        "monster_name": "Ancient Hunter Fly Alpha",
+        "monster_level": 50,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -23417,8 +23417,8 @@
       },
       "source": {
         "monster_id": "MON_182",
-        "monster_name": "Monster #182",
-        "monster_level": 230,
+        "monster_name": "Storm Scorpion Lord",
+        "monster_level": 170,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -23452,8 +23452,8 @@
       },
       "source": {
         "monster_id": "MON_193",
-        "monster_name": "Monster #193",
-        "monster_level": 230,
+        "monster_name": "Wild Golem Scout",
+        "monster_level": 10,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -23487,8 +23487,8 @@
       },
       "source": {
         "monster_id": "MON_204",
-        "monster_name": "Monster #204",
-        "monster_level": 230,
+        "monster_name": "Royal Stone Golem Warden",
+        "monster_level": 80,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -23522,7 +23522,7 @@
       },
       "source": {
         "monster_id": "MON_215",
-        "monster_name": "Monster #215",
+        "monster_name": "Verdant Crystal Golem Tyrant",
         "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
@@ -23557,8 +23557,8 @@
       },
       "source": {
         "monster_id": "MON_226",
-        "monster_name": "Monster #226",
-        "monster_level": 230,
+        "monster_name": "Crimson Dragon Hunter",
+        "monster_level": 30,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -23592,8 +23592,8 @@
       },
       "source": {
         "monster_id": "MON_237",
-        "monster_name": "Monster #237",
-        "monster_level": 230,
+        "monster_name": "Abyssal Drake Elder",
+        "monster_level": 120,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -23627,8 +23627,8 @@
       },
       "source": {
         "monster_id": "MON_248",
-        "monster_name": "Monster #248",
-        "monster_level": 230,
+        "monster_name": "Night Wyvern Worldbreaker",
+        "monster_level": 300,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -23662,8 +23662,8 @@
       },
       "source": {
         "monster_id": "MON_003",
-        "monster_name": "Monster #3",
-        "monster_level": 230,
+        "monster_name": "Ancient Poring Alpha",
+        "monster_level": 50,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -23697,8 +23697,8 @@
       },
       "source": {
         "monster_id": "MON_014",
-        "monster_name": "Monster #14",
-        "monster_level": 230,
+        "monster_name": "Storm Poporing Lord",
+        "monster_level": 170,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -23732,8 +23732,8 @@
       },
       "source": {
         "monster_id": "MON_025",
-        "monster_name": "Monster #25",
-        "monster_level": 230,
+        "monster_name": "Wild Marin Scout",
+        "monster_level": 10,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -23767,8 +23767,8 @@
       },
       "source": {
         "monster_id": "MON_036",
-        "monster_name": "Monster #36",
-        "monster_level": 230,
+        "monster_name": "Royal Goblin Warden",
+        "monster_level": 80,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -23802,7 +23802,7 @@
       },
       "source": {
         "monster_id": "MON_047",
-        "monster_name": "Monster #47",
+        "monster_name": "Verdant Kobold Tyrant",
         "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
@@ -23837,8 +23837,8 @@
       },
       "source": {
         "monster_id": "MON_058",
-        "monster_name": "Monster #58",
-        "monster_level": 230,
+        "monster_name": "Crimson Orclet Hunter",
+        "monster_level": 30,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -23872,8 +23872,8 @@
       },
       "source": {
         "monster_id": "MON_069",
-        "monster_name": "Monster #69",
-        "monster_level": 230,
+        "monster_name": "Abyssal Wolf Elder",
+        "monster_level": 120,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -23907,8 +23907,8 @@
       },
       "source": {
         "monster_id": "MON_080",
-        "monster_name": "Monster #80",
-        "monster_level": 230,
+        "monster_name": "Night Desert Wolf Worldbreaker",
+        "monster_level": 300,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -23942,8 +23942,8 @@
       },
       "source": {
         "monster_id": "MON_091",
-        "monster_name": "Monster #91",
-        "monster_level": 230,
+        "monster_name": "Ancient Dire Wolf Alpha",
+        "monster_level": 50,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -23977,8 +23977,8 @@
       },
       "source": {
         "monster_id": "MON_102",
-        "monster_name": "Monster #102",
-        "monster_level": 230,
+        "monster_name": "Storm Skeleton Lord",
+        "monster_level": 170,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -24012,8 +24012,8 @@
       },
       "source": {
         "monster_id": "MON_113",
-        "monster_name": "Monster #113",
-        "monster_level": 230,
+        "monster_name": "Wild Bone Archer Scout",
+        "monster_level": 10,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -24047,8 +24047,8 @@
       },
       "source": {
         "monster_id": "MON_124",
-        "monster_name": "Monster #124",
-        "monster_level": 300,
+        "monster_name": "Royal Skull Knight Warden",
+        "monster_level": 80,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -24082,8 +24082,8 @@
       },
       "source": {
         "monster_id": "MON_135",
-        "monster_name": "Monster #135",
-        "monster_level": 300,
+        "monster_name": "Verdant Orc Tyrant",
+        "monster_level": 230,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -24117,8 +24117,8 @@
       },
       "source": {
         "monster_id": "MON_146",
-        "monster_name": "Monster #146",
-        "monster_level": 300,
+        "monster_name": "Crimson Orc Champion Hunter",
+        "monster_level": 30,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -24152,8 +24152,8 @@
       },
       "source": {
         "monster_id": "MON_157",
-        "monster_name": "Monster #157",
-        "monster_level": 300,
+        "monster_name": "Abyssal Orc Warlord Elder",
+        "monster_level": 120,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -24187,7 +24187,7 @@
       },
       "source": {
         "monster_id": "MON_168",
-        "monster_name": "Monster #168",
+        "monster_name": "Night Mantis Worldbreaker",
         "monster_level": 300,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
@@ -24222,8 +24222,8 @@
       },
       "source": {
         "monster_id": "MON_179",
-        "monster_name": "Monster #179",
-        "monster_level": 300,
+        "monster_name": "Ancient Scorpion Alpha",
+        "monster_level": 50,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -24257,8 +24257,8 @@
       },
       "source": {
         "monster_id": "MON_190",
-        "monster_name": "Monster #190",
-        "monster_level": 300,
+        "monster_name": "Storm Venom Beetle Lord",
+        "monster_level": 170,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -24292,8 +24292,8 @@
       },
       "source": {
         "monster_id": "MON_201",
-        "monster_name": "Monster #201",
-        "monster_level": 300,
+        "monster_name": "Wild Stone Golem Scout",
+        "monster_level": 10,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -24327,8 +24327,8 @@
       },
       "source": {
         "monster_id": "MON_212",
-        "monster_name": "Monster #212",
-        "monster_level": 300,
+        "monster_name": "Royal Crystal Golem Warden",
+        "monster_level": 80,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -24362,8 +24362,8 @@
       },
       "source": {
         "monster_id": "MON_223",
-        "monster_name": "Monster #223",
-        "monster_level": 300,
+        "monster_name": "Verdant Iron Golem Tyrant",
+        "monster_level": 230,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -24397,8 +24397,8 @@
       },
       "source": {
         "monster_id": "MON_234",
-        "monster_name": "Monster #234",
-        "monster_level": 300,
+        "monster_name": "Crimson Drake Hunter",
+        "monster_level": 30,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -24432,8 +24432,8 @@
       },
       "source": {
         "monster_id": "MON_245",
-        "monster_name": "Monster #245",
-        "monster_level": 300,
+        "monster_name": "Abyssal Wyvern Elder",
+        "monster_level": 120,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -24467,7 +24467,7 @@
       },
       "source": {
         "monster_id": "MON_256",
-        "monster_name": "Monster #256",
+        "monster_name": "Night Elder Dragon Worldbreaker",
         "monster_level": 300,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
@@ -24502,8 +24502,8 @@
       },
       "source": {
         "monster_id": "MON_011",
-        "monster_name": "Monster #11",
-        "monster_level": 300,
+        "monster_name": "Ancient Poporing Alpha",
+        "monster_level": 50,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -24537,8 +24537,8 @@
       },
       "source": {
         "monster_id": "MON_022",
-        "monster_name": "Monster #22",
-        "monster_level": 300,
+        "monster_name": "Storm Drops Lord",
+        "monster_level": 170,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -24572,8 +24572,8 @@
       },
       "source": {
         "monster_id": "MON_033",
-        "monster_name": "Monster #33",
-        "monster_level": 300,
+        "monster_name": "Wild Goblin Scout",
+        "monster_level": 10,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -24607,8 +24607,8 @@
       },
       "source": {
         "monster_id": "MON_044",
-        "monster_name": "Monster #44",
-        "monster_level": 300,
+        "monster_name": "Royal Kobold Warden",
+        "monster_level": 80,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -24642,8 +24642,8 @@
       },
       "source": {
         "monster_id": "MON_055",
-        "monster_name": "Monster #55",
-        "monster_level": 300,
+        "monster_name": "Verdant Hobgoblin Tyrant",
+        "monster_level": 230,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -24677,8 +24677,8 @@
       },
       "source": {
         "monster_id": "MON_066",
-        "monster_name": "Monster #66",
-        "monster_level": 300,
+        "monster_name": "Crimson Wolf Hunter",
+        "monster_level": 30,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -24712,8 +24712,8 @@
       },
       "source": {
         "monster_id": "MON_077",
-        "monster_name": "Monster #77",
-        "monster_level": 300,
+        "monster_name": "Abyssal Desert Wolf Elder",
+        "monster_level": 120,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
