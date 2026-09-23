@@ -1,0 +1,1567 @@
+{
+  "schema_version": "1.0.0",
+  "game": "Honour War",
+  "job_tier_levels": [
+    1,
+    25,
+    50,
+    150,
+    200
+  ],
+  "classes": {
+    "Warrior": {
+      "id": "CLASS_WARRIOR",
+      "primary_stat": "STR",
+      "secondary_stat": "VIT",
+      "tiers": [
+        {
+          "id": "JOB_WARRIOR_T1",
+          "tier": 1,
+          "required_level": 1,
+          "job_name": "Swordsman",
+          "title": "Ember Vanguard",
+          "role": "Foundation",
+          "power_rating": 118,
+          "primary_stat": "STR",
+          "secondary_stat": "VIT",
+          "skills": [
+            "Cleave",
+            "Guard Break",
+            "Shield Bash",
+            "Meteor Charge",
+            "Iron Resolve",
+            "Crimson Counter",
+            "Gravity Crush",
+            "Abyssal Dominion"
+          ],
+          "signature_weapon": "Swordsman Weapon",
+          "offhand": "Training Shield",
+          "clothing": "plate mail; scarlet cape; steel gauntlets; high boots",
+          "emotions": [
+            "confident",
+            "battle-ready",
+            "angry",
+            "hurt",
+            "victory",
+            "defeat"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Warrior equipment and cards; tier 1 progression",
+          "status_points": {
+            "recommended_primary": "STR",
+            "recommended_secondary": "VIT",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        },
+        {
+          "id": "JOB_WARRIOR_T2",
+          "tier": 2,
+          "required_level": 25,
+          "job_name": "Knight",
+          "title": "Iron Oath Knight",
+          "role": "Specialization",
+          "power_rating": 130,
+          "primary_stat": "STR",
+          "secondary_stat": "VIT",
+          "skills": [
+            "Cleave",
+            "Guard Break",
+            "Shield Bash",
+            "Meteor Charge",
+            "Iron Resolve",
+            "Crimson Counter",
+            "Gravity Crush",
+            "Abyssal Dominion"
+          ],
+          "signature_weapon": "Knight Weapon",
+          "offhand": "Training Shield",
+          "clothing": "plate mail; scarlet cape; steel gauntlets; high boots",
+          "emotions": [
+            "confident",
+            "battle-ready",
+            "angry",
+            "hurt",
+            "victory",
+            "defeat"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Warrior equipment and cards; tier 2 progression",
+          "status_points": {
+            "recommended_primary": "STR",
+            "recommended_secondary": "VIT",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        },
+        {
+          "id": "JOB_WARRIOR_T3",
+          "tier": 3,
+          "required_level": 50,
+          "job_name": "Paladin",
+          "title": "Dawnsteel Paladin",
+          "role": "Advanced",
+          "power_rating": 142,
+          "primary_stat": "STR",
+          "secondary_stat": "VIT",
+          "skills": [
+            "Cleave",
+            "Guard Break",
+            "Shield Bash",
+            "Meteor Charge",
+            "Iron Resolve",
+            "Crimson Counter",
+            "Gravity Crush",
+            "Abyssal Dominion"
+          ],
+          "signature_weapon": "Paladin Weapon",
+          "offhand": "Training Shield",
+          "clothing": "plate mail; scarlet cape; steel gauntlets; high boots",
+          "emotions": [
+            "confident",
+            "battle-ready",
+            "angry",
+            "hurt",
+            "victory",
+            "defeat"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Warrior equipment and cards; tier 3 progression",
+          "status_points": {
+            "recommended_primary": "STR",
+            "recommended_secondary": "VIT",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        },
+        {
+          "id": "JOB_WARRIOR_T4",
+          "tier": 4,
+          "required_level": 150,
+          "job_name": "Warlord",
+          "title": "Battlefield Warlord",
+          "role": "Mastery",
+          "power_rating": 154,
+          "primary_stat": "STR",
+          "secondary_stat": "VIT",
+          "skills": [
+            "Cleave",
+            "Guard Break",
+            "Shield Bash",
+            "Meteor Charge",
+            "Iron Resolve",
+            "Crimson Counter",
+            "Gravity Crush",
+            "Abyssal Dominion"
+          ],
+          "signature_weapon": "Warlord Weapon",
+          "offhand": "Training Shield",
+          "clothing": "plate mail; scarlet cape; steel gauntlets; high boots",
+          "emotions": [
+            "confident",
+            "battle-ready",
+            "angry",
+            "hurt",
+            "victory",
+            "defeat"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Warrior equipment and cards; tier 4 progression",
+          "status_points": {
+            "recommended_primary": "STR",
+            "recommended_secondary": "VIT",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        },
+        {
+          "id": "JOB_WARRIOR_T5",
+          "tier": 5,
+          "required_level": 200,
+          "job_name": "Abyssal Warlord",
+          "title": "The Gravitational Vanguard",
+          "role": "Transcendence",
+          "power_rating": 166,
+          "primary_stat": "STR",
+          "secondary_stat": "VIT",
+          "skills": [
+            "Cleave",
+            "Guard Break",
+            "Shield Bash",
+            "Meteor Charge",
+            "Iron Resolve",
+            "Crimson Counter",
+            "Gravity Crush",
+            "Abyssal Dominion"
+          ],
+          "signature_weapon": "Transcendent Greatsword",
+          "offhand": "Abyssal Shield",
+          "clothing": "plate mail; scarlet cape; steel gauntlets; high boots",
+          "emotions": [
+            "confident",
+            "battle-ready",
+            "angry",
+            "hurt",
+            "victory",
+            "defeat"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Warrior equipment and cards; tier 5 progression",
+          "status_points": {
+            "recommended_primary": "STR",
+            "recommended_secondary": "VIT",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        }
+      ]
+    },
+    "Mage": {
+      "id": "CLASS_MAGE",
+      "primary_stat": "INT",
+      "secondary_stat": "DEX",
+      "tiers": [
+        {
+          "id": "JOB_MAGE_T1",
+          "tier": 1,
+          "required_level": 1,
+          "job_name": "Novice Mage",
+          "title": "Azure Apprentice",
+          "role": "Foundation",
+          "power_rating": 116,
+          "primary_stat": "INT",
+          "secondary_stat": "DEX",
+          "skills": [
+            "Arcane Bolt",
+            "Frost Nova",
+            "Chain Lightning",
+            "Meteor Rain",
+            "Time Weave",
+            "Astral Prison",
+            "Chrono Break",
+            "Eternal Spellstorm"
+          ],
+          "signature_weapon": "Novice Mage Weapon",
+          "offhand": "Rune Focus",
+          "clothing": "layered robe; crystal mantle; rune gloves; soft mage boots",
+          "emotions": [
+            "curious",
+            "focused",
+            "casting",
+            "surprised",
+            "triumph",
+            "fatigued"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Mage equipment and cards; tier 1 progression",
+          "status_points": {
+            "recommended_primary": "INT",
+            "recommended_secondary": "DEX",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        },
+        {
+          "id": "JOB_MAGE_T2",
+          "tier": 2,
+          "required_level": 25,
+          "job_name": "Wizard",
+          "title": "Astral Wizard",
+          "role": "Specialization",
+          "power_rating": 128,
+          "primary_stat": "INT",
+          "secondary_stat": "DEX",
+          "skills": [
+            "Arcane Bolt",
+            "Frost Nova",
+            "Chain Lightning",
+            "Meteor Rain",
+            "Time Weave",
+            "Astral Prison",
+            "Chrono Break",
+            "Eternal Spellstorm"
+          ],
+          "signature_weapon": "Wizard Weapon",
+          "offhand": "Rune Focus",
+          "clothing": "layered robe; crystal mantle; rune gloves; soft mage boots",
+          "emotions": [
+            "curious",
+            "focused",
+            "casting",
+            "surprised",
+            "triumph",
+            "fatigued"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Mage equipment and cards; tier 2 progression",
+          "status_points": {
+            "recommended_primary": "INT",
+            "recommended_secondary": "DEX",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        },
+        {
+          "id": "JOB_MAGE_T3",
+          "tier": 3,
+          "required_level": 50,
+          "job_name": "High Wizard",
+          "title": "Celestial High Wizard",
+          "role": "Advanced",
+          "power_rating": 140,
+          "primary_stat": "INT",
+          "secondary_stat": "DEX",
+          "skills": [
+            "Arcane Bolt",
+            "Frost Nova",
+            "Chain Lightning",
+            "Meteor Rain",
+            "Time Weave",
+            "Astral Prison",
+            "Chrono Break",
+            "Eternal Spellstorm"
+          ],
+          "signature_weapon": "High Wizard Weapon",
+          "offhand": "Rune Focus",
+          "clothing": "layered robe; crystal mantle; rune gloves; soft mage boots",
+          "emotions": [
+            "curious",
+            "focused",
+            "casting",
+            "surprised",
+            "triumph",
+            "fatigued"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Mage equipment and cards; tier 3 progression",
+          "status_points": {
+            "recommended_primary": "INT",
+            "recommended_secondary": "DEX",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        },
+        {
+          "id": "JOB_MAGE_T4",
+          "tier": 4,
+          "required_level": 150,
+          "job_name": "Arcane Sage",
+          "title": "Grand Arcane Sage",
+          "role": "Mastery",
+          "power_rating": 152,
+          "primary_stat": "INT",
+          "secondary_stat": "DEX",
+          "skills": [
+            "Arcane Bolt",
+            "Frost Nova",
+            "Chain Lightning",
+            "Meteor Rain",
+            "Time Weave",
+            "Astral Prison",
+            "Chrono Break",
+            "Eternal Spellstorm"
+          ],
+          "signature_weapon": "Arcane Sage Weapon",
+          "offhand": "Rune Focus",
+          "clothing": "layered robe; crystal mantle; rune gloves; soft mage boots",
+          "emotions": [
+            "curious",
+            "focused",
+            "casting",
+            "surprised",
+            "triumph",
+            "fatigued"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Mage equipment and cards; tier 4 progression",
+          "status_points": {
+            "recommended_primary": "INT",
+            "recommended_secondary": "DEX",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        },
+        {
+          "id": "JOB_MAGE_T5",
+          "tier": 5,
+          "required_level": 200,
+          "job_name": "Eternal Spellwright",
+          "title": "The Eternal Spellwright",
+          "role": "Transcendence",
+          "power_rating": 164,
+          "primary_stat": "INT",
+          "secondary_stat": "DEX",
+          "skills": [
+            "Arcane Bolt",
+            "Frost Nova",
+            "Chain Lightning",
+            "Meteor Rain",
+            "Time Weave",
+            "Astral Prison",
+            "Chrono Break",
+            "Eternal Spellstorm"
+          ],
+          "signature_weapon": "Chrono Arcane Staff",
+          "offhand": "Aether Focus",
+          "clothing": "layered robe; crystal mantle; rune gloves; soft mage boots",
+          "emotions": [
+            "curious",
+            "focused",
+            "casting",
+            "surprised",
+            "triumph",
+            "fatigued"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Mage equipment and cards; tier 5 progression",
+          "status_points": {
+            "recommended_primary": "INT",
+            "recommended_secondary": "DEX",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        }
+      ]
+    },
+    "Archer": {
+      "id": "CLASS_ARCHER",
+      "primary_stat": "DEX",
+      "secondary_stat": "AGI",
+      "tiers": [
+        {
+          "id": "JOB_ARCHER_T1",
+          "tier": 1,
+          "required_level": 1,
+          "job_name": "Bowman",
+          "title": "Windrunner Bowman",
+          "role": "Foundation",
+          "power_rating": 114,
+          "primary_stat": "DEX",
+          "secondary_stat": "AGI",
+          "skills": [
+            "Double Shot",
+            "Focused Arrow",
+            "Falcon Mark",
+            "Arrow Rain",
+            "Deadeye",
+            "Windstep",
+            "Causality Arrow",
+            "Doomsday Volley"
+          ],
+          "signature_weapon": "Bowman Weapon",
+          "offhand": "Utility Quiver",
+          "clothing": "hooded tunic; feather mantle; leather bracers; ranger greaves",
+          "emotions": [
+            "calm",
+            "alert",
+            "focused",
+            "startled",
+            "proud",
+            "exhausted"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Archer equipment and cards; tier 1 progression",
+          "status_points": {
+            "recommended_primary": "DEX",
+            "recommended_secondary": "AGI",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        },
+        {
+          "id": "JOB_ARCHER_T2",
+          "tier": 2,
+          "required_level": 25,
+          "job_name": "Hunter",
+          "title": "Beast Hunter",
+          "role": "Specialization",
+          "power_rating": 126,
+          "primary_stat": "DEX",
+          "secondary_stat": "AGI",
+          "skills": [
+            "Double Shot",
+            "Focused Arrow",
+            "Falcon Mark",
+            "Arrow Rain",
+            "Deadeye",
+            "Windstep",
+            "Causality Arrow",
+            "Doomsday Volley"
+          ],
+          "signature_weapon": "Hunter Weapon",
+          "offhand": "Utility Quiver",
+          "clothing": "hooded tunic; feather mantle; leather bracers; ranger greaves",
+          "emotions": [
+            "calm",
+            "alert",
+            "focused",
+            "startled",
+            "proud",
+            "exhausted"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Archer equipment and cards; tier 2 progression",
+          "status_points": {
+            "recommended_primary": "DEX",
+            "recommended_secondary": "AGI",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        },
+        {
+          "id": "JOB_ARCHER_T3",
+          "tier": 3,
+          "required_level": 50,
+          "job_name": "Sniper",
+          "title": "Star Sniper",
+          "role": "Advanced",
+          "power_rating": 138,
+          "primary_stat": "DEX",
+          "secondary_stat": "AGI",
+          "skills": [
+            "Double Shot",
+            "Focused Arrow",
+            "Falcon Mark",
+            "Arrow Rain",
+            "Deadeye",
+            "Windstep",
+            "Causality Arrow",
+            "Doomsday Volley"
+          ],
+          "signature_weapon": "Sniper Weapon",
+          "offhand": "Utility Quiver",
+          "clothing": "hooded tunic; feather mantle; leather bracers; ranger greaves",
+          "emotions": [
+            "calm",
+            "alert",
+            "focused",
+            "startled",
+            "proud",
+            "exhausted"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Archer equipment and cards; tier 3 progression",
+          "status_points": {
+            "recommended_primary": "DEX",
+            "recommended_secondary": "AGI",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        },
+        {
+          "id": "JOB_ARCHER_T4",
+          "tier": 4,
+          "required_level": 150,
+          "job_name": "Deadeye",
+          "title": "Horizon Deadeye",
+          "role": "Mastery",
+          "power_rating": 150,
+          "primary_stat": "DEX",
+          "secondary_stat": "AGI",
+          "skills": [
+            "Double Shot",
+            "Focused Arrow",
+            "Falcon Mark",
+            "Arrow Rain",
+            "Deadeye",
+            "Windstep",
+            "Causality Arrow",
+            "Doomsday Volley"
+          ],
+          "signature_weapon": "Deadeye Weapon",
+          "offhand": "Utility Quiver",
+          "clothing": "hooded tunic; feather mantle; leather bracers; ranger greaves",
+          "emotions": [
+            "calm",
+            "alert",
+            "focused",
+            "startled",
+            "proud",
+            "exhausted"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Archer equipment and cards; tier 4 progression",
+          "status_points": {
+            "recommended_primary": "DEX",
+            "recommended_secondary": "AGI",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        },
+        {
+          "id": "JOB_ARCHER_T5",
+          "tier": 5,
+          "required_level": 200,
+          "job_name": "Causality Marksman",
+          "title": "The Causality Marksman",
+          "role": "Transcendence",
+          "power_rating": 162,
+          "primary_stat": "DEX",
+          "secondary_stat": "AGI",
+          "skills": [
+            "Double Shot",
+            "Focused Arrow",
+            "Falcon Mark",
+            "Arrow Rain",
+            "Deadeye",
+            "Windstep",
+            "Causality Arrow",
+            "Doomsday Volley"
+          ],
+          "signature_weapon": "Doomsday Longbow",
+          "offhand": "Causality Quiver",
+          "clothing": "hooded tunic; feather mantle; leather bracers; ranger greaves",
+          "emotions": [
+            "calm",
+            "alert",
+            "focused",
+            "startled",
+            "proud",
+            "exhausted"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Archer equipment and cards; tier 5 progression",
+          "status_points": {
+            "recommended_primary": "DEX",
+            "recommended_secondary": "AGI",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        }
+      ]
+    },
+    "Thief": {
+      "id": "CLASS_THIEF",
+      "primary_stat": "AGI",
+      "secondary_stat": "LUK",
+      "tiers": [
+        {
+          "id": "JOB_THIEF_T1",
+          "tier": 1,
+          "required_level": 1,
+          "job_name": "Dagger Initiate",
+          "title": "Nightblade Initiate",
+          "role": "Foundation",
+          "power_rating": 112,
+          "primary_stat": "AGI",
+          "secondary_stat": "LUK",
+          "skills": [
+            "Quick Slash",
+            "Poison Edge",
+            "Backstep",
+            "Shadow Veil",
+            "Venom Spiral",
+            "Phantom Rush",
+            "Absolute Silence",
+            "Voidstep Execution"
+          ],
+          "signature_weapon": "Dagger Initiate Weapon",
+          "offhand": "Backup Blade",
+          "clothing": "fitted leather; hooded mantle; hidden bracers; silent boots",
+          "emotions": [
+            "playful",
+            "watchful",
+            "cold",
+            "smirking",
+            "victorious",
+            "wounded"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Thief equipment and cards; tier 1 progression",
+          "status_points": {
+            "recommended_primary": "AGI",
+            "recommended_secondary": "LUK",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        },
+        {
+          "id": "JOB_THIEF_T2",
+          "tier": 2,
+          "required_level": 25,
+          "job_name": "Assassin",
+          "title": "Veil Assassin",
+          "role": "Specialization",
+          "power_rating": 124,
+          "primary_stat": "AGI",
+          "secondary_stat": "LUK",
+          "skills": [
+            "Quick Slash",
+            "Poison Edge",
+            "Backstep",
+            "Shadow Veil",
+            "Venom Spiral",
+            "Phantom Rush",
+            "Absolute Silence",
+            "Voidstep Execution"
+          ],
+          "signature_weapon": "Assassin Weapon",
+          "offhand": "Backup Blade",
+          "clothing": "fitted leather; hooded mantle; hidden bracers; silent boots",
+          "emotions": [
+            "playful",
+            "watchful",
+            "cold",
+            "smirking",
+            "victorious",
+            "wounded"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Thief equipment and cards; tier 2 progression",
+          "status_points": {
+            "recommended_primary": "AGI",
+            "recommended_secondary": "LUK",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        },
+        {
+          "id": "JOB_THIEF_T3",
+          "tier": 3,
+          "required_level": 50,
+          "job_name": "Shadowlord",
+          "title": "Umbral Shadowlord",
+          "role": "Advanced",
+          "power_rating": 136,
+          "primary_stat": "AGI",
+          "secondary_stat": "LUK",
+          "skills": [
+            "Quick Slash",
+            "Poison Edge",
+            "Backstep",
+            "Shadow Veil",
+            "Venom Spiral",
+            "Phantom Rush",
+            "Absolute Silence",
+            "Voidstep Execution"
+          ],
+          "signature_weapon": "Shadowlord Weapon",
+          "offhand": "Backup Blade",
+          "clothing": "fitted leather; hooded mantle; hidden bracers; silent boots",
+          "emotions": [
+            "playful",
+            "watchful",
+            "cold",
+            "smirking",
+            "victorious",
+            "wounded"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Thief equipment and cards; tier 3 progression",
+          "status_points": {
+            "recommended_primary": "AGI",
+            "recommended_secondary": "LUK",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        },
+        {
+          "id": "JOB_THIEF_T4",
+          "tier": 4,
+          "required_level": 150,
+          "job_name": "Nightblade",
+          "title": "Perfect Nightblade",
+          "role": "Mastery",
+          "power_rating": 148,
+          "primary_stat": "AGI",
+          "secondary_stat": "LUK",
+          "skills": [
+            "Quick Slash",
+            "Poison Edge",
+            "Backstep",
+            "Shadow Veil",
+            "Venom Spiral",
+            "Phantom Rush",
+            "Absolute Silence",
+            "Voidstep Execution"
+          ],
+          "signature_weapon": "Nightblade Weapon",
+          "offhand": "Backup Blade",
+          "clothing": "fitted leather; hooded mantle; hidden bracers; silent boots",
+          "emotions": [
+            "playful",
+            "watchful",
+            "cold",
+            "smirking",
+            "victorious",
+            "wounded"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Thief equipment and cards; tier 4 progression",
+          "status_points": {
+            "recommended_primary": "AGI",
+            "recommended_secondary": "LUK",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        },
+        {
+          "id": "JOB_THIEF_T5",
+          "tier": 5,
+          "required_level": 200,
+          "job_name": "Absolute Shadow",
+          "title": "The Absolute Shadow",
+          "role": "Transcendence",
+          "power_rating": 160,
+          "primary_stat": "AGI",
+          "secondary_stat": "LUK",
+          "skills": [
+            "Quick Slash",
+            "Poison Edge",
+            "Backstep",
+            "Shadow Veil",
+            "Venom Spiral",
+            "Phantom Rush",
+            "Absolute Silence",
+            "Voidstep Execution"
+          ],
+          "signature_weapon": "Causality Twin Daggers",
+          "offhand": "Voidstep Blade",
+          "clothing": "fitted leather; hooded mantle; hidden bracers; silent boots",
+          "emotions": [
+            "playful",
+            "watchful",
+            "cold",
+            "smirking",
+            "victorious",
+            "wounded"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Thief equipment and cards; tier 5 progression",
+          "status_points": {
+            "recommended_primary": "AGI",
+            "recommended_secondary": "LUK",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        }
+      ]
+    },
+    "Acolyte": {
+      "id": "CLASS_ACOLYTE",
+      "primary_stat": "INT",
+      "secondary_stat": "VIT",
+      "tiers": [
+        {
+          "id": "JOB_ACOLYTE_T1",
+          "tier": 1,
+          "required_level": 1,
+          "job_name": "Acolyte",
+          "title": "Prayer Keeper",
+          "role": "Foundation",
+          "power_rating": 110,
+          "primary_stat": "INT",
+          "secondary_stat": "VIT",
+          "skills": [
+            "Heal",
+            "Blessing",
+            "Holy Strike",
+            "Sanctuary",
+            "Resurrection",
+            "Divine Aegis",
+            "Seraphic Ray",
+            "Eternal Benediction"
+          ],
+          "signature_weapon": "Acolyte Weapon",
+          "offhand": "Prayer Book",
+          "clothing": "white vestments; gold stole; holy bracers; ceremonial sandals",
+          "emotions": [
+            "kind",
+            "peaceful",
+            "praying",
+            "concerned",
+            "radiant",
+            "weary"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Acolyte equipment and cards; tier 1 progression",
+          "status_points": {
+            "recommended_primary": "INT",
+            "recommended_secondary": "VIT",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        },
+        {
+          "id": "JOB_ACOLYTE_T2",
+          "tier": 2,
+          "required_level": 25,
+          "job_name": "Priest",
+          "title": "Radiant Priest",
+          "role": "Specialization",
+          "power_rating": 122,
+          "primary_stat": "INT",
+          "secondary_stat": "VIT",
+          "skills": [
+            "Heal",
+            "Blessing",
+            "Holy Strike",
+            "Sanctuary",
+            "Resurrection",
+            "Divine Aegis",
+            "Seraphic Ray",
+            "Eternal Benediction"
+          ],
+          "signature_weapon": "Priest Weapon",
+          "offhand": "Prayer Book",
+          "clothing": "white vestments; gold stole; holy bracers; ceremonial sandals",
+          "emotions": [
+            "kind",
+            "peaceful",
+            "praying",
+            "concerned",
+            "radiant",
+            "weary"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Acolyte equipment and cards; tier 2 progression",
+          "status_points": {
+            "recommended_primary": "INT",
+            "recommended_secondary": "VIT",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        },
+        {
+          "id": "JOB_ACOLYTE_T3",
+          "tier": 3,
+          "required_level": 50,
+          "job_name": "High Priest",
+          "title": "Seraph High Priest",
+          "role": "Advanced",
+          "power_rating": 134,
+          "primary_stat": "INT",
+          "secondary_stat": "VIT",
+          "skills": [
+            "Heal",
+            "Blessing",
+            "Holy Strike",
+            "Sanctuary",
+            "Resurrection",
+            "Divine Aegis",
+            "Seraphic Ray",
+            "Eternal Benediction"
+          ],
+          "signature_weapon": "High Priest Weapon",
+          "offhand": "Prayer Book",
+          "clothing": "white vestments; gold stole; holy bracers; ceremonial sandals",
+          "emotions": [
+            "kind",
+            "peaceful",
+            "praying",
+            "concerned",
+            "radiant",
+            "weary"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Acolyte equipment and cards; tier 3 progression",
+          "status_points": {
+            "recommended_primary": "INT",
+            "recommended_secondary": "VIT",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        },
+        {
+          "id": "JOB_ACOLYTE_T4",
+          "tier": 4,
+          "required_level": 150,
+          "job_name": "Saint",
+          "title": "Dawn Saint",
+          "role": "Mastery",
+          "power_rating": 146,
+          "primary_stat": "INT",
+          "secondary_stat": "VIT",
+          "skills": [
+            "Heal",
+            "Blessing",
+            "Holy Strike",
+            "Sanctuary",
+            "Resurrection",
+            "Divine Aegis",
+            "Seraphic Ray",
+            "Eternal Benediction"
+          ],
+          "signature_weapon": "Saint Weapon",
+          "offhand": "Prayer Book",
+          "clothing": "white vestments; gold stole; holy bracers; ceremonial sandals",
+          "emotions": [
+            "kind",
+            "peaceful",
+            "praying",
+            "concerned",
+            "radiant",
+            "weary"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Acolyte equipment and cards; tier 4 progression",
+          "status_points": {
+            "recommended_primary": "INT",
+            "recommended_secondary": "VIT",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        },
+        {
+          "id": "JOB_ACOLYTE_T5",
+          "tier": 5,
+          "required_level": 200,
+          "job_name": "Eternal Benediction",
+          "title": "The Eternal Benediction",
+          "role": "Transcendence",
+          "power_rating": 158,
+          "primary_stat": "INT",
+          "secondary_stat": "VIT",
+          "skills": [
+            "Heal",
+            "Blessing",
+            "Holy Strike",
+            "Sanctuary",
+            "Resurrection",
+            "Divine Aegis",
+            "Seraphic Ray",
+            "Eternal Benediction"
+          ],
+          "signature_weapon": "Chrono Sanctified Mace",
+          "offhand": "Seraphic Scripture",
+          "clothing": "white vestments; gold stole; holy bracers; ceremonial sandals",
+          "emotions": [
+            "kind",
+            "peaceful",
+            "praying",
+            "concerned",
+            "radiant",
+            "weary"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Acolyte equipment and cards; tier 5 progression",
+          "status_points": {
+            "recommended_primary": "INT",
+            "recommended_secondary": "VIT",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        }
+      ]
+    },
+    "Merchant": {
+      "id": "CLASS_MERCHANT",
+      "primary_stat": "STR",
+      "secondary_stat": "DEX",
+      "tiers": [
+        {
+          "id": "JOB_MERCHANT_T1",
+          "tier": 1,
+          "required_level": 1,
+          "job_name": "Merchant",
+          "title": "Guild Trader",
+          "role": "Foundation",
+          "power_rating": 109,
+          "primary_stat": "STR",
+          "secondary_stat": "DEX",
+          "skills": [
+            "Mammonite",
+            "Trade Insight",
+            "Forge Edge",
+            "Cart Impact",
+            "Refine Mastery",
+            "Market Sense",
+            "Overcharge Burst",
+            "Infinite Supply"
+          ],
+          "signature_weapon": "Merchant Tool",
+          "offhand": "Trade Ledger",
+          "clothing": "tailored coat; reinforced apron; tool belt; work boots",
+          "emotions": [
+            "friendly",
+            "calculating",
+            "excited",
+            "annoyed",
+            "proud",
+            "tired"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Merchant equipment and cards; tier 1 progression",
+          "status_points": {
+            "recommended_primary": "STR",
+            "recommended_secondary": "DEX",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        },
+        {
+          "id": "JOB_MERCHANT_T2",
+          "tier": 2,
+          "required_level": 25,
+          "job_name": "Blacksmith",
+          "title": "Master Blacksmith",
+          "role": "Specialization",
+          "power_rating": 121,
+          "primary_stat": "STR",
+          "secondary_stat": "DEX",
+          "skills": [
+            "Mammonite",
+            "Trade Insight",
+            "Forge Edge",
+            "Cart Impact",
+            "Refine Mastery",
+            "Market Sense",
+            "Overcharge Burst",
+            "Infinite Supply"
+          ],
+          "signature_weapon": "Blacksmith Tool",
+          "offhand": "Trade Ledger",
+          "clothing": "tailored coat; reinforced apron; tool belt; work boots",
+          "emotions": [
+            "friendly",
+            "calculating",
+            "excited",
+            "annoyed",
+            "proud",
+            "tired"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Merchant equipment and cards; tier 2 progression",
+          "status_points": {
+            "recommended_primary": "STR",
+            "recommended_secondary": "DEX",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        },
+        {
+          "id": "JOB_MERCHANT_T3",
+          "tier": 3,
+          "required_level": 50,
+          "job_name": "Whitesmith",
+          "title": "Royal Whitesmith",
+          "role": "Advanced",
+          "power_rating": 133,
+          "primary_stat": "STR",
+          "secondary_stat": "DEX",
+          "skills": [
+            "Mammonite",
+            "Trade Insight",
+            "Forge Edge",
+            "Cart Impact",
+            "Refine Mastery",
+            "Market Sense",
+            "Overcharge Burst",
+            "Infinite Supply"
+          ],
+          "signature_weapon": "Whitesmith Tool",
+          "offhand": "Trade Ledger",
+          "clothing": "tailored coat; reinforced apron; tool belt; work boots",
+          "emotions": [
+            "friendly",
+            "calculating",
+            "excited",
+            "annoyed",
+            "proud",
+            "tired"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Merchant equipment and cards; tier 3 progression",
+          "status_points": {
+            "recommended_primary": "STR",
+            "recommended_secondary": "DEX",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        },
+        {
+          "id": "JOB_MERCHANT_T4",
+          "tier": 4,
+          "required_level": 150,
+          "job_name": "Master Smith",
+          "title": "Grand Master Smith",
+          "role": "Mastery",
+          "power_rating": 145,
+          "primary_stat": "STR",
+          "secondary_stat": "DEX",
+          "skills": [
+            "Mammonite",
+            "Trade Insight",
+            "Forge Edge",
+            "Cart Impact",
+            "Refine Mastery",
+            "Market Sense",
+            "Overcharge Burst",
+            "Infinite Supply"
+          ],
+          "signature_weapon": "Master Smith Tool",
+          "offhand": "Trade Ledger",
+          "clothing": "tailored coat; reinforced apron; tool belt; work boots",
+          "emotions": [
+            "friendly",
+            "calculating",
+            "excited",
+            "annoyed",
+            "proud",
+            "tired"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Merchant equipment and cards; tier 4 progression",
+          "status_points": {
+            "recommended_primary": "STR",
+            "recommended_secondary": "DEX",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        },
+        {
+          "id": "JOB_MERCHANT_T5",
+          "tier": 5,
+          "required_level": 200,
+          "job_name": "Infinite Quartermaster",
+          "title": "The Infinite Quartermaster",
+          "role": "Transcendence",
+          "power_rating": 157,
+          "primary_stat": "STR",
+          "secondary_stat": "DEX",
+          "skills": [
+            "Mammonite",
+            "Trade Insight",
+            "Forge Edge",
+            "Cart Impact",
+            "Refine Mastery",
+            "Market Sense",
+            "Overcharge Burst",
+            "Infinite Supply"
+          ],
+          "signature_weapon": "Matrix Forged Axe",
+          "offhand": "Fabricator Ledger",
+          "clothing": "tailored coat; reinforced apron; tool belt; work boots",
+          "emotions": [
+            "friendly",
+            "calculating",
+            "excited",
+            "annoyed",
+            "proud",
+            "tired"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Merchant equipment and cards; tier 5 progression",
+          "status_points": {
+            "recommended_primary": "STR",
+            "recommended_secondary": "DEX",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        }
+      ]
+    },
+    "Ranger": {
+      "id": "CLASS_RANGER",
+      "primary_stat": "DEX",
+      "secondary_stat": "AGI",
+      "tiers": [
+        {
+          "id": "JOB_RANGER_T1",
+          "tier": 1,
+          "required_level": 1,
+          "job_name": "Ranger",
+          "title": "Trail Warden",
+          "role": "Foundation",
+          "power_rating": 113,
+          "primary_stat": "DEX",
+          "secondary_stat": "AGI",
+          "skills": [
+            "Vine Shot",
+            "Beast Call",
+            "Thorn Trap",
+            "Spirit Arrow",
+            "Worldroot Guard",
+            "Wild Hunt",
+            "Verdant Storm",
+            "Paragon's Arrow"
+          ],
+          "signature_weapon": "Ranger Weapon",
+          "offhand": "Utility Quiver",
+          "clothing": "leafscale coat; woodland mantle; vine bracers; thornstep boots",
+          "emotions": [
+            "gentle",
+            "focused",
+            "commanding",
+            "surprised",
+            "joyful",
+            "exhausted"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Ranger equipment and cards; tier 1 progression",
+          "status_points": {
+            "recommended_primary": "DEX",
+            "recommended_secondary": "AGI",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        },
+        {
+          "id": "JOB_RANGER_T2",
+          "tier": 2,
+          "required_level": 25,
+          "job_name": "Beastmaster",
+          "title": "Spirit Beastmaster",
+          "role": "Specialization",
+          "power_rating": 125,
+          "primary_stat": "DEX",
+          "secondary_stat": "AGI",
+          "skills": [
+            "Vine Shot",
+            "Beast Call",
+            "Thorn Trap",
+            "Spirit Arrow",
+            "Worldroot Guard",
+            "Wild Hunt",
+            "Verdant Storm",
+            "Paragon's Arrow"
+          ],
+          "signature_weapon": "Beastmaster Weapon",
+          "offhand": "Utility Quiver",
+          "clothing": "leafscale coat; woodland mantle; vine bracers; thornstep boots",
+          "emotions": [
+            "gentle",
+            "focused",
+            "commanding",
+            "surprised",
+            "joyful",
+            "exhausted"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Ranger equipment and cards; tier 2 progression",
+          "status_points": {
+            "recommended_primary": "DEX",
+            "recommended_secondary": "AGI",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        },
+        {
+          "id": "JOB_RANGER_T3",
+          "tier": 3,
+          "required_level": 50,
+          "job_name": "Forest Warden",
+          "title": "Grand Forest Warden",
+          "role": "Advanced",
+          "power_rating": 137,
+          "primary_stat": "DEX",
+          "secondary_stat": "AGI",
+          "skills": [
+            "Vine Shot",
+            "Beast Call",
+            "Thorn Trap",
+            "Spirit Arrow",
+            "Worldroot Guard",
+            "Wild Hunt",
+            "Verdant Storm",
+            "Paragon's Arrow"
+          ],
+          "signature_weapon": "Forest Warden Weapon",
+          "offhand": "Utility Quiver",
+          "clothing": "leafscale coat; woodland mantle; vine bracers; thornstep boots",
+          "emotions": [
+            "gentle",
+            "focused",
+            "commanding",
+            "surprised",
+            "joyful",
+            "exhausted"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Ranger equipment and cards; tier 3 progression",
+          "status_points": {
+            "recommended_primary": "DEX",
+            "recommended_secondary": "AGI",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        },
+        {
+          "id": "JOB_RANGER_T4",
+          "tier": 4,
+          "required_level": 150,
+          "job_name": "Wild Sovereign",
+          "title": "Wildheart Sovereign",
+          "role": "Mastery",
+          "power_rating": 149,
+          "primary_stat": "DEX",
+          "secondary_stat": "AGI",
+          "skills": [
+            "Vine Shot",
+            "Beast Call",
+            "Thorn Trap",
+            "Spirit Arrow",
+            "Worldroot Guard",
+            "Wild Hunt",
+            "Verdant Storm",
+            "Paragon's Arrow"
+          ],
+          "signature_weapon": "Wild Sovereign Weapon",
+          "offhand": "Utility Quiver",
+          "clothing": "leafscale coat; woodland mantle; vine bracers; thornstep boots",
+          "emotions": [
+            "gentle",
+            "focused",
+            "commanding",
+            "surprised",
+            "joyful",
+            "exhausted"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Ranger equipment and cards; tier 4 progression",
+          "status_points": {
+            "recommended_primary": "DEX",
+            "recommended_secondary": "AGI",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        },
+        {
+          "id": "JOB_RANGER_T5",
+          "tier": 5,
+          "required_level": 200,
+          "job_name": "Verdant Paragon",
+          "title": "The Verdant Paragon",
+          "role": "Transcendence",
+          "power_rating": 161,
+          "primary_stat": "DEX",
+          "secondary_stat": "AGI",
+          "skills": [
+            "Vine Shot",
+            "Beast Call",
+            "Thorn Trap",
+            "Spirit Arrow",
+            "Worldroot Guard",
+            "Wild Hunt",
+            "Verdant Storm",
+            "Paragon's Arrow"
+          ],
+          "signature_weapon": "Worldroot Longbow",
+          "offhand": "Verdant Spirit Quiver",
+          "clothing": "leafscale coat; woodland mantle; vine bracers; thornstep boots",
+          "emotions": [
+            "gentle",
+            "focused",
+            "commanding",
+            "surprised",
+            "joyful",
+            "exhausted"
+          ],
+          "gender": {
+            "male": "masculine silhouette variant",
+            "female": "feminine silhouette variant",
+            "neutral": "unisex accessories and cloth variant"
+          },
+          "loot_focus": "Ranger equipment and cards; tier 5 progression",
+          "status_points": {
+            "recommended_primary": "DEX",
+            "recommended_secondary": "AGI",
+            "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
+          }
+        }
+      ]
+    }
+  }
+}

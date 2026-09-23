@@ -368,7 +368,7 @@ void UHonourWarHUDWidget::RefreshVitals()
     if(!Character||!Character->GetCombatComponent()) return;
     UHonourWarCombatComponent* Combat=Character->GetCombatComponent();
     ProfileName->SetText(FText::FromString(PC->GetAccountUsername()));
-    ProfileMeta->SetText(FText::FromString(FString::Printf(TEXT("Lv. %d  |  %s  |  %s"),Combat->GetLevel(),*Character->GetClassTierName(),*Character->GetClassName())));
+    ProfileMeta->SetText(FText::FromString(FString::Printf(TEXT("Lv. %d  |  %s  |  %s  |  %s"),Combat->GetLevel(),*Character->GetCurrentJobName(),*Character->GetClassTierName(),*Character->GetClassName())));
     HpBar->SetPercent(Combat->GetHealthPercent()); SpBar->SetPercent(Combat->GetSpPercent()); XpBar->SetPercent(Combat->GetXpPercent());
     EconomyText->SetText(FText::FromString(FString::Printf(TEXT("Age %d days  |  Zeny %lld  |  Honours %d"),Combat->GetAgeDays(),Combat->GetZeny(),Combat->GetHonours())));
     if(StatusText)

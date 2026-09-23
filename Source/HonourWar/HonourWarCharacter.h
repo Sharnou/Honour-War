@@ -53,6 +53,8 @@ public:
     UFUNCTION(BlueprintCallable) FString GetClassName() const;
     UFUNCTION(BlueprintCallable) EHonourWarClassTier GetClassTier() const;
     UFUNCTION(BlueprintCallable) FString GetClassTierName() const;
+    UFUNCTION(BlueprintCallable) FString GetCurrentJobName() const;
+    UFUNCTION(BlueprintCallable) FString GetCurrentJobId() const;
     UFUNCTION(BlueprintCallable) FString GetFifthTierClassName() const;
     UFUNCTION(BlueprintCallable) UHonourWarCombatComponent* GetCombatComponent() const { return CombatComponent; }
     UFUNCTION(BlueprintCallable) FString GetLastCombatMessage() const { return LastCombatMessage; }

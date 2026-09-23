@@ -370,6 +370,8 @@ EHonourWarClassTier AHonourWarCharacter::GetClassTier() const
     return CombatComponent?HonourWarClassProgression::TierForLevel(CombatComponent->GetLevel()):EHonourWarClassTier::Tier1;
 }
 FString AHonourWarCharacter::GetClassTierName() const{return HonourWarClassProgression::TierName(GetClassTier());}
+FString AHonourWarCharacter::GetCurrentJobName() const{return HonourWarClassProgression::CurrentJobName(CharacterClass,CombatComponent?CombatComponent->GetLevel():1);}
+FString AHonourWarCharacter::GetCurrentJobId() const{return HonourWarClassProgression::CurrentJobId(CharacterClass,CombatComponent?CombatComponent->GetLevel():1);}
 FString AHonourWarCharacter::GetFifthTierClassName() const{return HonourWarClassProgression::FifthTierName(CharacterClass);}
 
 void AHonourWarCharacter::SetClassId(EHonourWarClass NewClass)

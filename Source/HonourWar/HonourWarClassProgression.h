@@ -1,153 +1,98 @@
 #pragma once
-
 #include "CoreMinimal.h"
 #include "HonourWarTypes.h"
 #include "HonourWarClassProgression.generated.h"
-
 UENUM(BlueprintType)
 enum class EHonourWarClassTier : uint8
 {
-    Tier1 = 1 UMETA(DisplayName="Tier 1 — Foundation"),
-    Tier2 = 2 UMETA(DisplayName="Tier 2 — Specialization"),
-    Tier3 = 3 UMETA(DisplayName="Tier 3 — Advanced"),
-    Tier4 = 4 UMETA(DisplayName="Tier 4 — Mastery"),
-    Tier5 = 5 UMETA(DisplayName="Tier 5 — Transcendence")
+    Tier1=1 UMETA(DisplayName="Tier 1 - Foundation"),
+    Tier2=2 UMETA(DisplayName="Tier 2 - Specialization"),
+    Tier3=3 UMETA(DisplayName="Tier 3 - Advanced"),
+    Tier4=4 UMETA(DisplayName="Tier 4 - Mastery"),
+    Tier5=5 UMETA(DisplayName="Tier 5 - Transcendence")
 };
-
 UENUM(BlueprintType)
 enum class EHonourWarFifthTierArchetype : uint8
 {
-    AbyssalWarlord,
-    EternalSpellwright,
-    CausalityMarksman,
-    AbsoluteShadow,
-    EternalBenediction,
-    InfiniteQuartermaster,
-    VerdantParagon
+    AbyssalWarlord,EternalSpellwright,CausalityMarksman,AbsoluteShadow,EternalBenediction,InfiniteQuartermaster,VerdantParagon
 };
-
 USTRUCT(BlueprintType)
 struct FHonourWarFifthTierProfile
 {
     GENERATED_BODY()
-
-    UPROPERTY(EditAnywhere, BlueprintReadOnly) EHonourWarClass BaseClass = EHonourWarClass::Warrior;
-    UPROPERTY(EditAnywhere, BlueprintReadOnly) EHonourWarFifthTierArchetype Archetype = EHonourWarFifthTierArchetype::AbyssalWarlord;
-    UPROPERTY(EditAnywhere, BlueprintReadOnly) FString Name = TEXT("Warrior — Abyssal Warlord");
-    UPROPERTY(EditAnywhere, BlueprintReadOnly) FString Title = TEXT("The Gravitational Vanguard");
-    UPROPERTY(EditAnywhere, BlueprintReadOnly) FString PrimaryWeapon = TEXT("Transcendent Greatsword");
-    UPROPERTY(EditAnywhere, BlueprintReadOnly) FString SecondaryWeapon = TEXT("Abyssal Shield");
+    UPROPERTY(EditAnywhere, BlueprintReadOnly) EHonourWarClass BaseClass=EHonourWarClass::Warrior;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly) EHonourWarFifthTierArchetype Archetype=EHonourWarFifthTierArchetype::AbyssalWarlord;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly) FString Name=TEXT("Warrior - Abyssal Warlord");
+    UPROPERTY(EditAnywhere, BlueprintReadOnly) FString Title=TEXT("The Gravitational Vanguard");
+    UPROPERTY(EditAnywhere, BlueprintReadOnly) FString PrimaryWeapon=TEXT("Transcendent Greatsword");
+    UPROPERTY(EditAnywhere, BlueprintReadOnly) FString SecondaryWeapon=TEXT("Abyssal Shield");
 };
-
+USTRUCT(BlueprintType)
+struct FHonourWarJobProfile
+{
+    GENERATED_BODY()
+    UPROPERTY(EditAnywhere, BlueprintReadOnly) FString Id;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly) EHonourWarClass BaseClass=EHonourWarClass::Warrior;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly) EHonourWarClassTier Tier=EHonourWarClassTier::Tier1;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly) int32 RequiredLevel=1;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly) FString JobName;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly) FString Title;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly) FString Role;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly) FString PrimaryStat;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly) FString SecondaryStat;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly) FString StatFocus;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly) int32 PowerRating=100;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly) FString Clothing;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly) FString EmotionProfile;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly) FString SignatureWeapon;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly) FString Offhand;
+};
 namespace HonourWarClassProgression
 {
-    inline int32 RequiredLevel(EHonourWarClassTier Tier)
-    {
-        switch (Tier)
-        {
-            case EHonourWarClassTier::Tier2: return 25;
-            case EHonourWarClassTier::Tier3: return 50;
-            case EHonourWarClassTier::Tier4: return 150;
-            case EHonourWarClassTier::Tier5: return 200;
-            default: return 1;
-        }
-    }
-
-    inline EHonourWarClassTier TierForLevel(int32 Level)
-    {
-        const int32 L = FMath::Clamp(Level, 1, 250);
-        if (L >= 200) return EHonourWarClassTier::Tier5;
-        if (L >= 150) return EHonourWarClassTier::Tier4;
-        if (L >= 50) return EHonourWarClassTier::Tier3;
-        if (L >= 25) return EHonourWarClassTier::Tier2;
-        return EHonourWarClassTier::Tier1;
-    }
-
-    inline FString TierName(EHonourWarClassTier Tier)
-    {
-        switch (Tier)
-        {
-            case EHonourWarClassTier::Tier2: return TEXT("Specialization");
-            case EHonourWarClassTier::Tier3: return TEXT("Advanced");
-            case EHonourWarClassTier::Tier4: return TEXT("Mastery");
-            case EHonourWarClassTier::Tier5: return TEXT("Transcendence");
-            default: return TEXT("Foundation");
-        }
-    }
-
-    inline EHonourWarFifthTierArchetype NaturalFifthTier(EHonourWarClass ClassId)
-    {
-        switch (ClassId)
-        {
-            case EHonourWarClass::Mage: return EHonourWarFifthTierArchetype::EternalSpellwright;
-            case EHonourWarClass::Archer: return EHonourWarFifthTierArchetype::CausalityMarksman;
-            case EHonourWarClass::Thief: return EHonourWarFifthTierArchetype::AbsoluteShadow;
-            case EHonourWarClass::Acolyte: return EHonourWarFifthTierArchetype::EternalBenediction;
-            case EHonourWarClass::Merchant: return EHonourWarFifthTierArchetype::InfiniteQuartermaster;
-            case EHonourWarClass::Ranger: return EHonourWarFifthTierArchetype::VerdantParagon;
-            default: return EHonourWarFifthTierArchetype::AbyssalWarlord;
-        }
-    }
-
-    inline FString FifthTierName(EHonourWarClass ClassId)
-    {
-        switch (ClassId)
-        {
-            case EHonourWarClass::Mage: return TEXT("Mage — Eternal Spellwright");
-            case EHonourWarClass::Archer: return TEXT("Archer — Causality Marksman");
-            case EHonourWarClass::Thief: return TEXT("Thief — Absolute Shadow");
-            case EHonourWarClass::Acolyte: return TEXT("Acolyte — Eternal Benediction");
-            case EHonourWarClass::Merchant: return TEXT("Merchant — Infinite Quartermaster");
-            case EHonourWarClass::Ranger: return TEXT("Ranger — Verdant Paragon");
-            default: return TEXT("Warrior — Abyssal Warlord");
-        }
-    }
-
-    inline FHonourWarFifthTierProfile FifthTierProfile(EHonourWarClass ClassId)
-    {
-        FHonourWarFifthTierProfile P;
-        P.BaseClass = ClassId;
-        P.Archetype = NaturalFifthTier(ClassId);
-        P.Name = FifthTierName(ClassId);
-
-        switch (ClassId)
-        {
-            case EHonourWarClass::Mage:
-                P.Title = TEXT("The Eternal Spellwright");
-                P.PrimaryWeapon = TEXT("Chrono Arcane Staff");
-                P.SecondaryWeapon = TEXT("Aether Focus");
-                break;
-            case EHonourWarClass::Archer:
-                P.Title = TEXT("The Causality Marksman");
-                P.PrimaryWeapon = TEXT("Doomsday Longbow");
-                P.SecondaryWeapon = TEXT("Causality Quiver");
-                break;
-            case EHonourWarClass::Thief:
-                P.Title = TEXT("The Absolute Shadow");
-                P.PrimaryWeapon = TEXT("Causality Twin Daggers");
-                P.SecondaryWeapon = TEXT("Voidstep Blade");
-                break;
-            case EHonourWarClass::Acolyte:
-                P.Title = TEXT("The Eternal Benediction");
-                P.PrimaryWeapon = TEXT("Chrono Sanctified Mace");
-                P.SecondaryWeapon = TEXT("Seraphic Scripture");
-                break;
-            case EHonourWarClass::Merchant:
-                P.Title = TEXT("The Infinite Quartermaster");
-                P.PrimaryWeapon = TEXT("Matrix Forged Axe");
-                P.SecondaryWeapon = TEXT("Fabricator Ledger");
-                break;
-            case EHonourWarClass::Ranger:
-                P.Title = TEXT("The Verdant Paragon");
-                P.PrimaryWeapon = TEXT("Worldroot Longbow");
-                P.SecondaryWeapon = TEXT("Verdant Spirit Quiver");
-                break;
-            default:
-                P.Title = TEXT("The Gravitational Vanguard");
-                P.PrimaryWeapon = TEXT("Transcendent Greatsword");
-                P.SecondaryWeapon = TEXT("Abyssal Shield");
-                break;
-        }
-        return P;
-    }
+inline int32 RequiredLevel(EHonourWarClassTier Tier){switch(Tier){case EHonourWarClassTier::Tier2:return 25;case EHonourWarClassTier::Tier3:return 50;case EHonourWarClassTier::Tier4:return 150;case EHonourWarClassTier::Tier5:return 200;default:return 1;}}
+inline EHonourWarClassTier TierForLevel(int32 Level){const int32 L=FMath::Clamp(Level,1,250);if(L>=200)return EHonourWarClassTier::Tier5;if(L>=150)return EHonourWarClassTier::Tier4;if(L>=50)return EHonourWarClassTier::Tier3;if(L>=25)return EHonourWarClassTier::Tier2;return EHonourWarClassTier::Tier1;}
+inline FString TierName(EHonourWarClassTier Tier){switch(Tier){case EHonourWarClassTier::Tier2:return TEXT("Specialization");case EHonourWarClassTier::Tier3:return TEXT("Advanced");case EHonourWarClassTier::Tier4:return TEXT("Mastery");case EHonourWarClassTier::Tier5:return TEXT("Transcendence");default:return TEXT("Foundation");}}
+inline EHonourWarFifthTierArchetype NaturalFifthTier(EHonourWarClass ClassId){switch(ClassId){case EHonourWarClass::Mage:return EHonourWarFifthTierArchetype::EternalSpellwright;case EHonourWarClass::Archer:return EHonourWarFifthTierArchetype::CausalityMarksman;case EHonourWarClass::Thief:return EHonourWarFifthTierArchetype::AbsoluteShadow;case EHonourWarClass::Acolyte:return EHonourWarFifthTierArchetype::EternalBenediction;case EHonourWarClass::Merchant:return EHonourWarFifthTierArchetype::InfiniteQuartermaster;case EHonourWarClass::Ranger:return EHonourWarFifthTierArchetype::VerdantParagon;default:return EHonourWarFifthTierArchetype::AbyssalWarlord;}}
+inline FString FifthTierName(EHonourWarClass ClassId){switch(ClassId){case EHonourWarClass::Mage:return TEXT("Mage - Eternal Spellwright");case EHonourWarClass::Archer:return TEXT("Archer - Causality Marksman");case EHonourWarClass::Thief:return TEXT("Thief - Absolute Shadow");case EHonourWarClass::Acolyte:return TEXT("Acolyte - Eternal Benediction");case EHonourWarClass::Merchant:return TEXT("Merchant - Infinite Quartermaster");case EHonourWarClass::Ranger:return TEXT("Ranger - Verdant Paragon");default:return TEXT("Warrior - Abyssal Warlord");}}
+inline const TArray<FHonourWarJobProfile>& Jobs(){static const TArray<FHonourWarJobProfile> V={
+        {TEXT("JOB_WARRIOR_T1"),EHonourWarClass::Warrior,EHonourWarClassTier::Tier1,1,TEXT("Swordsman"),TEXT("Ember Vanguard"),TEXT("Foundation"),TEXT("STR"),TEXT("VIT"),TEXT("STR-VIT"),118,TEXT("plate mail; scarlet cape; steel gauntlets; high boots"),TEXT("confident / battle-ready / angry / hurt / victory / defeat"),TEXT("Swordsman Weapon"),TEXT("Training Shield")},
+        {TEXT("JOB_WARRIOR_T2"),EHonourWarClass::Warrior,EHonourWarClassTier::Tier2,25,TEXT("Knight"),TEXT("Iron Oath Knight"),TEXT("Specialization"),TEXT("STR"),TEXT("VIT"),TEXT("STR-VIT"),130,TEXT("plate mail; scarlet cape; steel gauntlets; high boots"),TEXT("confident / battle-ready / angry / hurt / victory / defeat"),TEXT("Knight Weapon"),TEXT("Training Shield")},
+        {TEXT("JOB_WARRIOR_T3"),EHonourWarClass::Warrior,EHonourWarClassTier::Tier3,50,TEXT("Paladin"),TEXT("Dawnsteel Paladin"),TEXT("Advanced"),TEXT("STR"),TEXT("VIT"),TEXT("STR-VIT"),142,TEXT("plate mail; scarlet cape; steel gauntlets; high boots"),TEXT("confident / battle-ready / angry / hurt / victory / defeat"),TEXT("Paladin Weapon"),TEXT("Training Shield")},
+        {TEXT("JOB_WARRIOR_T4"),EHonourWarClass::Warrior,EHonourWarClassTier::Tier4,150,TEXT("Warlord"),TEXT("Battlefield Warlord"),TEXT("Mastery"),TEXT("STR"),TEXT("VIT"),TEXT("STR-VIT"),154,TEXT("plate mail; scarlet cape; steel gauntlets; high boots"),TEXT("confident / battle-ready / angry / hurt / victory / defeat"),TEXT("Warlord Weapon"),TEXT("Training Shield")},
+        {TEXT("JOB_WARRIOR_T5"),EHonourWarClass::Warrior,EHonourWarClassTier::Tier5,200,TEXT("Abyssal Warlord"),TEXT("The Gravitational Vanguard"),TEXT("Transcendence"),TEXT("STR"),TEXT("VIT"),TEXT("STR-VIT"),166,TEXT("plate mail; scarlet cape; steel gauntlets; high boots"),TEXT("confident / battle-ready / angry / hurt / victory / defeat"),TEXT("Transcendent Greatsword"),TEXT("Abyssal Shield")},
+        {TEXT("JOB_MAGE_T1"),EHonourWarClass::Mage,EHonourWarClassTier::Tier1,1,TEXT("Novice Mage"),TEXT("Azure Apprentice"),TEXT("Foundation"),TEXT("INT"),TEXT("DEX"),TEXT("INT-DEX"),116,TEXT("layered robe; crystal mantle; rune gloves; soft mage boots"),TEXT("curious / focused / casting / surprised / triumph / fatigued"),TEXT("Novice Mage Weapon"),TEXT("Rune Focus")},
+        {TEXT("JOB_MAGE_T2"),EHonourWarClass::Mage,EHonourWarClassTier::Tier2,25,TEXT("Wizard"),TEXT("Astral Wizard"),TEXT("Specialization"),TEXT("INT"),TEXT("DEX"),TEXT("INT-DEX"),128,TEXT("layered robe; crystal mantle; rune gloves; soft mage boots"),TEXT("curious / focused / casting / surprised / triumph / fatigued"),TEXT("Wizard Weapon"),TEXT("Rune Focus")},
+        {TEXT("JOB_MAGE_T3"),EHonourWarClass::Mage,EHonourWarClassTier::Tier3,50,TEXT("High Wizard"),TEXT("Celestial High Wizard"),TEXT("Advanced"),TEXT("INT"),TEXT("DEX"),TEXT("INT-DEX"),140,TEXT("layered robe; crystal mantle; rune gloves; soft mage boots"),TEXT("curious / focused / casting / surprised / triumph / fatigued"),TEXT("High Wizard Weapon"),TEXT("Rune Focus")},
+        {TEXT("JOB_MAGE_T4"),EHonourWarClass::Mage,EHonourWarClassTier::Tier4,150,TEXT("Arcane Sage"),TEXT("Grand Arcane Sage"),TEXT("Mastery"),TEXT("INT"),TEXT("DEX"),TEXT("INT-DEX"),152,TEXT("layered robe; crystal mantle; rune gloves; soft mage boots"),TEXT("curious / focused / casting / surprised / triumph / fatigued"),TEXT("Arcane Sage Weapon"),TEXT("Rune Focus")},
+        {TEXT("JOB_MAGE_T5"),EHonourWarClass::Mage,EHonourWarClassTier::Tier5,200,TEXT("Eternal Spellwright"),TEXT("The Eternal Spellwright"),TEXT("Transcendence"),TEXT("INT"),TEXT("DEX"),TEXT("INT-DEX"),164,TEXT("layered robe; crystal mantle; rune gloves; soft mage boots"),TEXT("curious / focused / casting / surprised / triumph / fatigued"),TEXT("Chrono Arcane Staff"),TEXT("Aether Focus")},
+        {TEXT("JOB_ARCHER_T1"),EHonourWarClass::Archer,EHonourWarClassTier::Tier1,1,TEXT("Bowman"),TEXT("Windrunner Bowman"),TEXT("Foundation"),TEXT("DEX"),TEXT("AGI"),TEXT("DEX-AGI"),114,TEXT("hooded tunic; feather mantle; leather bracers; ranger greaves"),TEXT("calm / alert / focused / startled / proud / exhausted"),TEXT("Bowman Weapon"),TEXT("Utility Quiver")},
+        {TEXT("JOB_ARCHER_T2"),EHonourWarClass::Archer,EHonourWarClassTier::Tier2,25,TEXT("Hunter"),TEXT("Beast Hunter"),TEXT("Specialization"),TEXT("DEX"),TEXT("AGI"),TEXT("DEX-AGI"),126,TEXT("hooded tunic; feather mantle; leather bracers; ranger greaves"),TEXT("calm / alert / focused / startled / proud / exhausted"),TEXT("Hunter Weapon"),TEXT("Utility Quiver")},
+        {TEXT("JOB_ARCHER_T3"),EHonourWarClass::Archer,EHonourWarClassTier::Tier3,50,TEXT("Sniper"),TEXT("Star Sniper"),TEXT("Advanced"),TEXT("DEX"),TEXT("AGI"),TEXT("DEX-AGI"),138,TEXT("hooded tunic; feather mantle; leather bracers; ranger greaves"),TEXT("calm / alert / focused / startled / proud / exhausted"),TEXT("Sniper Weapon"),TEXT("Utility Quiver")},
+        {TEXT("JOB_ARCHER_T4"),EHonourWarClass::Archer,EHonourWarClassTier::Tier4,150,TEXT("Deadeye"),TEXT("Horizon Deadeye"),TEXT("Mastery"),TEXT("DEX"),TEXT("AGI"),TEXT("DEX-AGI"),150,TEXT("hooded tunic; feather mantle; leather bracers; ranger greaves"),TEXT("calm / alert / focused / startled / proud / exhausted"),TEXT("Deadeye Weapon"),TEXT("Utility Quiver")},
+        {TEXT("JOB_ARCHER_T5"),EHonourWarClass::Archer,EHonourWarClassTier::Tier5,200,TEXT("Causality Marksman"),TEXT("The Causality Marksman"),TEXT("Transcendence"),TEXT("DEX"),TEXT("AGI"),TEXT("DEX-AGI"),162,TEXT("hooded tunic; feather mantle; leather bracers; ranger greaves"),TEXT("calm / alert / focused / startled / proud / exhausted"),TEXT("Doomsday Longbow"),TEXT("Causality Quiver")},
+        {TEXT("JOB_THIEF_T1"),EHonourWarClass::Thief,EHonourWarClassTier::Tier1,1,TEXT("Dagger Initiate"),TEXT("Nightblade Initiate"),TEXT("Foundation"),TEXT("AGI"),TEXT("LUK"),TEXT("AGI-LUK"),112,TEXT("fitted leather; hooded mantle; hidden bracers; silent boots"),TEXT("playful / watchful / cold / smirking / victorious / wounded"),TEXT("Dagger Initiate Weapon"),TEXT("Backup Blade")},
+        {TEXT("JOB_THIEF_T2"),EHonourWarClass::Thief,EHonourWarClassTier::Tier2,25,TEXT("Assassin"),TEXT("Veil Assassin"),TEXT("Specialization"),TEXT("AGI"),TEXT("LUK"),TEXT("AGI-LUK"),124,TEXT("fitted leather; hooded mantle; hidden bracers; silent boots"),TEXT("playful / watchful / cold / smirking / victorious / wounded"),TEXT("Assassin Weapon"),TEXT("Backup Blade")},
+        {TEXT("JOB_THIEF_T3"),EHonourWarClass::Thief,EHonourWarClassTier::Tier3,50,TEXT("Shadowlord"),TEXT("Umbral Shadowlord"),TEXT("Advanced"),TEXT("AGI"),TEXT("LUK"),TEXT("AGI-LUK"),136,TEXT("fitted leather; hooded mantle; hidden bracers; silent boots"),TEXT("playful / watchful / cold / smirking / victorious / wounded"),TEXT("Shadowlord Weapon"),TEXT("Backup Blade")},
+        {TEXT("JOB_THIEF_T4"),EHonourWarClass::Thief,EHonourWarClassTier::Tier4,150,TEXT("Nightblade"),TEXT("Perfect Nightblade"),TEXT("Mastery"),TEXT("AGI"),TEXT("LUK"),TEXT("AGI-LUK"),148,TEXT("fitted leather; hooded mantle; hidden bracers; silent boots"),TEXT("playful / watchful / cold / smirking / victorious / wounded"),TEXT("Nightblade Weapon"),TEXT("Backup Blade")},
+        {TEXT("JOB_THIEF_T5"),EHonourWarClass::Thief,EHonourWarClassTier::Tier5,200,TEXT("Absolute Shadow"),TEXT("The Absolute Shadow"),TEXT("Transcendence"),TEXT("AGI"),TEXT("LUK"),TEXT("AGI-LUK"),160,TEXT("fitted leather; hooded mantle; hidden bracers; silent boots"),TEXT("playful / watchful / cold / smirking / victorious / wounded"),TEXT("Causality Twin Daggers"),TEXT("Voidstep Blade")},
+        {TEXT("JOB_ACOLYTE_T1"),EHonourWarClass::Acolyte,EHonourWarClassTier::Tier1,1,TEXT("Acolyte"),TEXT("Prayer Keeper"),TEXT("Foundation"),TEXT("INT"),TEXT("VIT"),TEXT("INT-VIT"),110,TEXT("white vestments; gold stole; holy bracers; ceremonial sandals"),TEXT("kind / peaceful / praying / concerned / radiant / weary"),TEXT("Acolyte Weapon"),TEXT("Prayer Book")},
+        {TEXT("JOB_ACOLYTE_T2"),EHonourWarClass::Acolyte,EHonourWarClassTier::Tier2,25,TEXT("Priest"),TEXT("Radiant Priest"),TEXT("Specialization"),TEXT("INT"),TEXT("VIT"),TEXT("INT-VIT"),122,TEXT("white vestments; gold stole; holy bracers; ceremonial sandals"),TEXT("kind / peaceful / praying / concerned / radiant / weary"),TEXT("Priest Weapon"),TEXT("Prayer Book")},
+        {TEXT("JOB_ACOLYTE_T3"),EHonourWarClass::Acolyte,EHonourWarClassTier::Tier3,50,TEXT("High Priest"),TEXT("Seraph High Priest"),TEXT("Advanced"),TEXT("INT"),TEXT("VIT"),TEXT("INT-VIT"),134,TEXT("white vestments; gold stole; holy bracers; ceremonial sandals"),TEXT("kind / peaceful / praying / concerned / radiant / weary"),TEXT("High Priest Weapon"),TEXT("Prayer Book")},
+        {TEXT("JOB_ACOLYTE_T4"),EHonourWarClass::Acolyte,EHonourWarClassTier::Tier4,150,TEXT("Saint"),TEXT("Dawn Saint"),TEXT("Mastery"),TEXT("INT"),TEXT("VIT"),TEXT("INT-VIT"),146,TEXT("white vestments; gold stole; holy bracers; ceremonial sandals"),TEXT("kind / peaceful / praying / concerned / radiant / weary"),TEXT("Saint Weapon"),TEXT("Prayer Book")},
+        {TEXT("JOB_ACOLYTE_T5"),EHonourWarClass::Acolyte,EHonourWarClassTier::Tier5,200,TEXT("Eternal Benediction"),TEXT("The Eternal Benediction"),TEXT("Transcendence"),TEXT("INT"),TEXT("VIT"),TEXT("INT-VIT"),158,TEXT("white vestments; gold stole; holy bracers; ceremonial sandals"),TEXT("kind / peaceful / praying / concerned / radiant / weary"),TEXT("Chrono Sanctified Mace"),TEXT("Seraphic Scripture")},
+        {TEXT("JOB_MERCHANT_T1"),EHonourWarClass::Merchant,EHonourWarClassTier::Tier1,1,TEXT("Merchant"),TEXT("Guild Trader"),TEXT("Foundation"),TEXT("STR"),TEXT("DEX"),TEXT("STR-DEX"),109,TEXT("tailored coat; reinforced apron; tool belt; work boots"),TEXT("friendly / calculating / excited / annoyed / proud / tired"),TEXT("Merchant Tool"),TEXT("Trade Ledger")},
+        {TEXT("JOB_MERCHANT_T2"),EHonourWarClass::Merchant,EHonourWarClassTier::Tier2,25,TEXT("Blacksmith"),TEXT("Master Blacksmith"),TEXT("Specialization"),TEXT("STR"),TEXT("DEX"),TEXT("STR-DEX"),121,TEXT("tailored coat; reinforced apron; tool belt; work boots"),TEXT("friendly / calculating / excited / annoyed / proud / tired"),TEXT("Blacksmith Tool"),TEXT("Trade Ledger")},
+        {TEXT("JOB_MERCHANT_T3"),EHonourWarClass::Merchant,EHonourWarClassTier::Tier3,50,TEXT("Whitesmith"),TEXT("Royal Whitesmith"),TEXT("Advanced"),TEXT("STR"),TEXT("DEX"),TEXT("STR-DEX"),133,TEXT("tailored coat; reinforced apron; tool belt; work boots"),TEXT("friendly / calculating / excited / annoyed / proud / tired"),TEXT("Whitesmith Tool"),TEXT("Trade Ledger")},
+        {TEXT("JOB_MERCHANT_T4"),EHonourWarClass::Merchant,EHonourWarClassTier::Tier4,150,TEXT("Master Smith"),TEXT("Grand Master Smith"),TEXT("Mastery"),TEXT("STR"),TEXT("DEX"),TEXT("STR-DEX"),145,TEXT("tailored coat; reinforced apron; tool belt; work boots"),TEXT("friendly / calculating / excited / annoyed / proud / tired"),TEXT("Master Smith Tool"),TEXT("Trade Ledger")},
+        {TEXT("JOB_MERCHANT_T5"),EHonourWarClass::Merchant,EHonourWarClassTier::Tier5,200,TEXT("Infinite Quartermaster"),TEXT("The Infinite Quartermaster"),TEXT("Transcendence"),TEXT("STR"),TEXT("DEX"),TEXT("STR-DEX"),157,TEXT("tailored coat; reinforced apron; tool belt; work boots"),TEXT("friendly / calculating / excited / annoyed / proud / tired"),TEXT("Matrix Forged Axe"),TEXT("Fabricator Ledger")},
+        {TEXT("JOB_RANGER_T1"),EHonourWarClass::Ranger,EHonourWarClassTier::Tier1,1,TEXT("Ranger"),TEXT("Trail Warden"),TEXT("Foundation"),TEXT("DEX"),TEXT("AGI"),TEXT("DEX-AGI"),113,TEXT("leafscale coat; woodland mantle; vine bracers; thornstep boots"),TEXT("gentle / focused / commanding / surprised / joyful / exhausted"),TEXT("Ranger Weapon"),TEXT("Utility Quiver")},
+        {TEXT("JOB_RANGER_T2"),EHonourWarClass::Ranger,EHonourWarClassTier::Tier2,25,TEXT("Beastmaster"),TEXT("Spirit Beastmaster"),TEXT("Specialization"),TEXT("DEX"),TEXT("AGI"),TEXT("DEX-AGI"),125,TEXT("leafscale coat; woodland mantle; vine bracers; thornstep boots"),TEXT("gentle / focused / commanding / surprised / joyful / exhausted"),TEXT("Beastmaster Weapon"),TEXT("Utility Quiver")},
+        {TEXT("JOB_RANGER_T3"),EHonourWarClass::Ranger,EHonourWarClassTier::Tier3,50,TEXT("Forest Warden"),TEXT("Grand Forest Warden"),TEXT("Advanced"),TEXT("DEX"),TEXT("AGI"),TEXT("DEX-AGI"),137,TEXT("leafscale coat; woodland mantle; vine bracers; thornstep boots"),TEXT("gentle / focused / commanding / surprised / joyful / exhausted"),TEXT("Forest Warden Weapon"),TEXT("Utility Quiver")},
+        {TEXT("JOB_RANGER_T4"),EHonourWarClass::Ranger,EHonourWarClassTier::Tier4,150,TEXT("Wild Sovereign"),TEXT("Wildheart Sovereign"),TEXT("Mastery"),TEXT("DEX"),TEXT("AGI"),TEXT("DEX-AGI"),149,TEXT("leafscale coat; woodland mantle; vine bracers; thornstep boots"),TEXT("gentle / focused / commanding / surprised / joyful / exhausted"),TEXT("Wild Sovereign Weapon"),TEXT("Utility Quiver")},
+        {TEXT("JOB_RANGER_T5"),EHonourWarClass::Ranger,EHonourWarClassTier::Tier5,200,TEXT("Verdant Paragon"),TEXT("The Verdant Paragon"),TEXT("Transcendence"),TEXT("DEX"),TEXT("AGI"),TEXT("DEX-AGI"),161,TEXT("leafscale coat; woodland mantle; vine bracers; thornstep boots"),TEXT("gentle / focused / commanding / surprised / joyful / exhausted"),TEXT("Worldroot Longbow"),TEXT("Verdant Spirit Quiver")},
+};return V;}
+inline const FHonourWarJobProfile& JobFor(EHonourWarClass ClassId,EHonourWarClassTier Tier){for(const FHonourWarJobProfile& P:Jobs())if(P.BaseClass==ClassId&&P.Tier==Tier)return P;return Jobs()[0];}
+inline FString CurrentJobName(EHonourWarClass ClassId,int32 Level){return JobFor(ClassId,TierForLevel(Level)).JobName;}
+inline FString CurrentJobId(EHonourWarClass ClassId,int32 Level){return JobFor(ClassId,TierForLevel(Level)).Id;}
+inline FHonourWarFifthTierProfile FifthTierProfile(EHonourWarClass ClassId){FHonourWarFifthTierProfile P;P.BaseClass=ClassId;P.Archetype=NaturalFifthTier(ClassId);P.Name=FifthTierName(ClassId);switch(ClassId){case EHonourWarClass::Mage:P.Title=TEXT("The Eternal Spellwright");P.PrimaryWeapon=TEXT("Chrono Arcane Staff");P.SecondaryWeapon=TEXT("Aether Focus");break;case EHonourWarClass::Archer:P.Title=TEXT("The Causality Marksman");P.PrimaryWeapon=TEXT("Doomsday Longbow");P.SecondaryWeapon=TEXT("Causality Quiver");break;case EHonourWarClass::Thief:P.Title=TEXT("The Absolute Shadow");P.PrimaryWeapon=TEXT("Causality Twin Daggers");P.SecondaryWeapon=TEXT("Voidstep Blade");break;case EHonourWarClass::Acolyte:P.Title=TEXT("The Eternal Benediction");P.PrimaryWeapon=TEXT("Chrono Sanctified Mace");P.SecondaryWeapon=TEXT("Seraphic Scripture");break;case EHonourWarClass::Merchant:P.Title=TEXT("The Infinite Quartermaster");P.PrimaryWeapon=TEXT("Matrix Forged Axe");P.SecondaryWeapon=TEXT("Fabricator Ledger");break;case EHonourWarClass::Ranger:P.Title=TEXT("The Verdant Paragon");P.PrimaryWeapon=TEXT("Worldroot Longbow");P.SecondaryWeapon=TEXT("Verdant Spirit Quiver");break;default:P.Title=TEXT("The Gravitational Vanguard");P.PrimaryWeapon=TEXT("Transcendent Greatsword");P.SecondaryWeapon=TEXT("Abyssal Shield");break;}return P;}
 }
