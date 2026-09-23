@@ -209,6 +209,7 @@ void AHonourWarWorldDirector::SpawnMonsters()
         FMonsterSlot& Slot = MonsterSlots.AddDefaulted_GetRef();
         Slot.Location = Entry.Location;
         Slot.Level = FMath::Clamp(Entry.Level, 1, 300);
+        Slot.Name = Entry.Name;
         Slot.Species = Entry.Species;
         Slot.RespawnTimer = 0.0f;
 
