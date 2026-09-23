@@ -13,6 +13,11 @@ for cls in expected:
     if tiers[-1]["job_name"]!=fifth[cls]: raise SystemExit(f"CLASS_JOB_QA_FAIL: {cls} fifth tier")
     for x in tiers:
         ids.append(x["id"])
-        if len(x.get("skills",[]))!=8 or len([s for s in x.get("skill_list","").split(";") if s])!=8 or not x.get("clothing") or not x.get("emotions") or not x.get("gender") or not x.get("signature_weapon"): raise SystemExit(f"CLASS_JOB_QA_FAIL: {x['id']} metadata")
+        if len(x.get("skills",[]))!=8 or len([s for s in x.get("skill_list","").split(";") if s])!=8 or not x.get("skill_profiles") or not x.get("clothing") or not x.get("emotions") or not x.get("gender") or not x.get("signature_weapon") or not x.get("stat_growth") or not x.get("equipment_progression"): raise SystemExit(f"CLASS_JOB_QA_FAIL: {x['id']} metadata")
 if len(ids)!=35 or len(set(ids))!=35: raise SystemExit("CLASS_JOB_QA_FAIL: job IDs")
-print("CLASS_JOB_QA_PASS: 7 classes, 35 jobs, five tiers, appearance, emotion, skills, equipment and power metadata.")
+all_skills=[tuple(t["skills"]) for cls in expected for t in d["classes"][cls]["tiers"]]
+if len(set(all_skills))!=35: raise SystemExit("CLASS_JOB_QA_FAIL: tier skill loadouts are not unique")
+rangers=d["classes"]["Ranger"]["tiers"]
+if not all(t.get("weapon_family") in ("Fantasy Gun","Bolt Machine Gun") for t in rangers): raise SystemExit("CLASS_JOB_QA_FAIL: Ranger firearm identity")
+if not all(t.get("ammo_type") for t in rangers): raise SystemExit("CLASS_JOB_QA_FAIL: Ranger ammunition identity")
+print("CLASS_JOB_QA_PASS: 7 classes, 35 jobs, five tiers, authored skills/stat growth/equipment/appearance metadata, Ranger firearm/ammunition identity.")
