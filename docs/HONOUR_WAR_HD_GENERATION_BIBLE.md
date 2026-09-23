@@ -30,6 +30,9 @@ The gameplay loop is hero-centered: explore world and towns; fight monsters in t
 
 Cities are RPG service hubs. They are not strategy bases and do not contain soldiers, squads, tower-defense systems, income banks, base-building systems or strategy-war systems.
 
+### 4A. Permanent city-building/service exclusion
+Honour War is not a strategy/base-building game. Never generate, restore, expose, or connect Town Hall, Blacksmith, Market, Barracks, Magic Tower, city resources, city upgrades, or any associated city-service/build/construction implementation. Never generate building-connection skills, building-linked skill effects, building dependencies, construction actions, build-mode panels, or city-service commands. These are removed from the World Director and all generation pipelines and must remain absent.
+
 ## 4. Permanent exclusions
 Never regenerate or reintroduce soldier systems, squad production/replacement, soldier level caps or automatic soldier skills, soldier death-count mechanics, soldier-specific rewards, guarded income banks, base-building/construction, building/construction UI panels, tower-defense/defense towers, base-sight or strategic sight overlays, skill shrines, soldier workshops, transformer/futuristic machinery designs, strategy-war HUD/commands, player-vs-player/team combat or server-authoritative PvP damage wrappers, monsters spawned inside cities as a strategy mechanic, GLB/GLTF as production intake/final-art pipeline, or Godot as the target runtime.
 
