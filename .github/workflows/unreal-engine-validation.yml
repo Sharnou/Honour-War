@@ -37,6 +37,9 @@ jobs:
       - name: Validate core progression, rewards, economy and autosave
         run: python tools/honour_war_progression_contract_qa.py
 
+      - name: Validate quest and world-event content
+        run: python tools/quest_event_qa.py
+
       - name: Validate Visual RAG cycle contract
         run: python tools/visual_gap_register_qa.py
 
