@@ -1,14 +1,344 @@
 {
-  "engine":"Unreal Engine 5.8",
-  "world":"Honour War",
-  "default_daylight":true,
-  "maps":[
-    {"id":"prontera_like_town","type":"town","theme":"medieval stone-and-timber capital","landmarks":["plaza","fountain","market","guild_hall","city_gate"]},
-    {"id":"forest_field","type":"field","theme":"lush forest hunting ground","landmarks":["grove","river","old_bridge","hunter_camp"]},
-    {"id":"mountain_pass","type":"field","theme":"rocky mountain road","landmarks":["cliff_gate","shrine","watchtower","stone_bridge"]},
-    {"id":"desert_ruins","type":"field","theme":"sunlit ancient ruins","landmarks":["ruined_pillars","buried_gate","oasis","mvp_altar"]},
-    {"id":"snow_region","type":"field","theme":"bright snow country","landmarks":["frozen_shrine","pine_grove","ice_pass","ruined_chapel"]},
-    {"id":"arcane_dungeon","type":"dungeon","theme":"ancient underground magical fortress","landmarks":["dungeon_gate","torch_hall","boss_chamber","treasure_vault"]}
+  "engine": "Unreal Engine 5.8",
+  "world": "Honour War",
+  "default_daylight": true,
+  "maps": [
+    {
+      "id": "prontera_like_town",
+      "index": 0,
+      "type": "town",
+      "name": "Crownfall Capital",
+      "theme": "Central stone-and-timber capital",
+      "anchor": {
+        "x": 0,
+        "y": 0,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 0 X:Y"
+    },
+    {
+      "id": "east_meadow",
+      "index": 1,
+      "type": "field",
+      "name": "East Meadow",
+      "theme": "Open grassland hunting field",
+      "anchor": {
+        "x": 1800,
+        "y": 900,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 1 X:Y"
+    },
+    {
+      "id": "west_meadow",
+      "index": 2,
+      "type": "field",
+      "name": "West Meadow",
+      "theme": "Open grassland hunting field",
+      "anchor": {
+        "x": -1800,
+        "y": -900,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 2 X:Y"
+    },
+    {
+      "id": "forest_field",
+      "index": 3,
+      "type": "field",
+      "name": "Whispering Forest",
+      "theme": "Dense forest hunting ground",
+      "anchor": {
+        "x": 5200,
+        "y": 2500,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 3 X:Y"
+    },
+    {
+      "id": "deep_forest",
+      "index": 4,
+      "type": "field",
+      "name": "Ancient Greenwood",
+      "theme": "Deep forest with elder monsters",
+      "anchor": {
+        "x": 6200,
+        "y": 3900,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 4 X:Y"
+    },
+    {
+      "id": "mountain_pass",
+      "index": 5,
+      "type": "field",
+      "name": "Ironcrest Pass",
+      "theme": "Rocky mountain road",
+      "anchor": {
+        "x": 2700,
+        "y": 6100,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 5 X:Y"
+    },
+    {
+      "id": "high_mountain",
+      "index": 6,
+      "type": "field",
+      "name": "Skyreach Highlands",
+      "theme": "High mountain hunting zone",
+      "anchor": {
+        "x": 4200,
+        "y": 7600,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 6 X:Y"
+    },
+    {
+      "id": "desert_ruins",
+      "index": 7,
+      "type": "field",
+      "name": "Sunken Ruins",
+      "theme": "Sunlit ancient ruins",
+      "anchor": {
+        "x": -4800,
+        "y": -5000,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 7 X:Y"
+    },
+    {
+      "id": "red_desert",
+      "index": 8,
+      "type": "field",
+      "name": "Crimson Dunes",
+      "theme": "Harsh open desert",
+      "anchor": {
+        "x": -6200,
+        "y": -6100,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 8 X:Y"
+    },
+    {
+      "id": "snow_region",
+      "index": 9,
+      "type": "field",
+      "name": "Frostveil",
+      "theme": "Bright snow country",
+      "anchor": {
+        "x": -6500,
+        "y": 2200,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 9 X:Y"
+    },
+    {
+      "id": "ice_pass",
+      "index": 10,
+      "type": "field",
+      "name": "Glacier Pass",
+      "theme": "Frozen mountain corridor",
+      "anchor": {
+        "x": -7600,
+        "y": 3600,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 10 X:Y"
+    },
+    {
+      "id": "swamp_marsh",
+      "index": 11,
+      "type": "field",
+      "name": "Blackwater Marsh",
+      "theme": "Wetland monster zone",
+      "anchor": {
+        "x": -5400,
+        "y": 5200,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 11 X:Y"
+    },
+    {
+      "id": "coastal_cliffs",
+      "index": 12,
+      "type": "field",
+      "name": "Azure Coast",
+      "theme": "Coastal cliffs and shoreline",
+      "anchor": {
+        "x": 7600,
+        "y": -1200,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 12 X:Y"
+    },
+    {
+      "id": "ruined_citadel",
+      "index": 13,
+      "type": "field",
+      "name": "Fallen Citadel",
+      "theme": "Ruined fortress field",
+      "anchor": {
+        "x": 7800,
+        "y": 2500,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 13 X:Y"
+    },
+    {
+      "id": "royal_dungeon",
+      "index": 14,
+      "type": "dungeon",
+      "name": "Royal Catacombs",
+      "theme": "Ancient underground fortress",
+      "anchor": {
+        "x": 0,
+        "y": 2850,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 14 X:Y"
+    },
+    {
+      "id": "forest_dungeon",
+      "index": 15,
+      "type": "dungeon",
+      "name": "Rootbound Hollow",
+      "theme": "Living underground forest",
+      "anchor": {
+        "x": 5200,
+        "y": 5200,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 15 X:Y"
+    },
+    {
+      "id": "mountain_dungeon",
+      "index": 16,
+      "type": "dungeon",
+      "name": "Ironheart Vault",
+      "theme": "Mountain stronghold",
+      "anchor": {
+        "x": 3400,
+        "y": 7800,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 16 X:Y"
+    },
+    {
+      "id": "desert_dungeon",
+      "index": 17,
+      "type": "dungeon",
+      "name": "Buried Sun Temple",
+      "theme": "Desert ruin dungeon",
+      "anchor": {
+        "x": -5200,
+        "y": -7200,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 17 X:Y"
+    },
+    {
+      "id": "ice_dungeon",
+      "index": 18,
+      "type": "dungeon",
+      "name": "Frostwyrm Sanctum",
+      "theme": "Frozen boss dungeon",
+      "anchor": {
+        "x": -7600,
+        "y": 5200,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 18 X:Y"
+    },
+    {
+      "id": "abyss_dungeon",
+      "index": 19,
+      "type": "dungeon",
+      "name": "Abyssal Depths",
+      "theme": "Endgame shadow dungeon",
+      "anchor": {
+        "x": -8200,
+        "y": -4200,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 19 X:Y"
+    },
+    {
+      "id": "dragon_sanctum",
+      "index": 20,
+      "type": "dungeon",
+      "name": "Dragon Sanctum",
+      "theme": "Endgame dragon arena",
+      "anchor": {
+        "x": 8200,
+        "y": -5200,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 20 X:Y"
+    },
+    {
+      "id": "worldboss_plains",
+      "index": 21,
+      "type": "worldboss",
+      "name": "Worldboss Plains",
+      "theme": "Open endgame boss arena",
+      "anchor": {
+        "x": 9000,
+        "y": 9000,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 21 X:Y"
+    },
+    {
+      "id": "worldboss_altar",
+      "index": 22,
+      "type": "worldboss",
+      "name": "Worldboss Altar",
+      "theme": "Worldboss ritual arena",
+      "anchor": {
+        "x": -9000,
+        "y": 9000,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 22 X:Y"
+    },
+    {
+      "id": "arena_of_honour",
+      "index": 23,
+      "type": "arena",
+      "name": "Arena of Honour",
+      "theme": "Competitive combat arena",
+      "anchor": {
+        "x": 0,
+        "y": -9000,
+        "z": 180
+      },
+      "daylight": true,
+      "coordinate_command": "@go 23 X:Y"
+    }
   ],
-  "travel_command":"@go [map] [x]:[y]"
+  "travel_command": "@go [map] [x]:[y]"
 }
