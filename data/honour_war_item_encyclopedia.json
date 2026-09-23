@@ -1,5 +1,5 @@
 {
-  "schema_version": "2.0.0",
+  "schema_version": "1.1.0",
   "game": "Honour War",
   "lookup_syntax": [
     "/help [ID]",
@@ -301,7 +301,7 @@
         "LUK": 0
       },
       "weapon_family": "Fantasy Gun",
-      "ammo_type": "rune_bolt",
+      "ammo_type": "machine_gun_bolt",
       "visual_style": "handcrafted wood-and-steel fantasy firearm with leaf engravings, visible bolt feed and no futuristic machinery",
       "age_refine_bonus_rule": "Age-derived refinement bonuses are applied separately; never baked into base stats.",
       "type": "equipment",
@@ -2107,7 +2107,7 @@
         "LUK": 0
       },
       "weapon_family": "Fantasy Gun",
-      "ammo_type": "rune_bolt",
+      "ammo_type": "machine_gun_bolt",
       "visual_style": "handcrafted wood-and-steel fantasy firearm with leaf engravings, visible bolt feed and no futuristic machinery",
       "age_refine_bonus_rule": "Age-derived refinement bonuses are applied separately; never baked into base stats.",
       "type": "equipment",
@@ -3913,7 +3913,7 @@
         "LUK": 0
       },
       "weapon_family": "Fantasy Gun",
-      "ammo_type": "rune_bolt",
+      "ammo_type": "machine_gun_bolt",
       "visual_style": "handcrafted wood-and-steel fantasy firearm with leaf engravings, visible bolt feed and no futuristic machinery",
       "age_refine_bonus_rule": "Age-derived refinement bonuses are applied separately; never baked into base stats.",
       "type": "equipment",
@@ -10621,7 +10621,7 @@
         "LUK": 0
       },
       "weapon_family": "Fantasy Gun",
-      "ammo_type": "rune_bolt",
+      "ammo_type": "machine_gun_bolt",
       "visual_style": "handcrafted wood-and-steel fantasy firearm with leaf engravings, visible bolt feed and no futuristic machinery",
       "age_refine_bonus_rule": "Age-derived refinement bonuses are applied separately; never baked into base stats.",
       "type": "equipment",
@@ -11137,7 +11137,7 @@
         "LUK": 0
       },
       "weapon_family": "Fantasy Gun",
-      "ammo_type": "rune_bolt",
+      "ammo_type": "machine_gun_bolt",
       "visual_style": "handcrafted wood-and-steel fantasy firearm with leaf engravings, visible bolt feed and no futuristic machinery",
       "age_refine_bonus_rule": "Age-derived refinement bonuses are applied separately; never baked into base stats.",
       "type": "equipment",
@@ -20708,7 +20708,21 @@
       "slot": "Weapon",
       "how_to_obtain": "Tier 5 class progression reward",
       "when": "Upon Tier 5 transition at Lv.200 minimum",
-      "source": null
+      "source": {
+        "monster_id": "MON_160",
+        "monster_name": "Night Orc Warlord Worldbreaker",
+        "monster_level": 300,
+        "map_id": "worldboss_plains",
+        "map_name": "Worldboss Plains"
+      },
+      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "rarity": "Mythic",
+      "power": 2350,
+      "stats": {
+        "STR": 36,
+        "VIT": 22
+      },
+      "description": "Tier 5 Warrior signature equipment for Abyssal Warlord; preserves the profession's weapon identity and is soulbound on claim."
     },
     {
       "id": "JOBEQ_WAR_002",
@@ -20719,7 +20733,21 @@
       "slot": "Shield",
       "how_to_obtain": "Tier 5 class progression reward",
       "when": "Upon Tier 5 transition at Lv.200 minimum",
-      "source": null
+      "source": {
+        "monster_id": "MON_160",
+        "monster_name": "Night Orc Warlord Worldbreaker",
+        "monster_level": 300,
+        "map_id": "worldboss_plains",
+        "map_name": "Worldboss Plains"
+      },
+      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "rarity": "Mythic",
+      "power": 2350,
+      "stats": {
+        "STR": 36,
+        "VIT": 22
+      },
+      "description": "Tier 5 Warrior signature equipment for Abyssal Warlord; preserves the profession's weapon identity and is soulbound on claim."
     },
     {
       "id": "JOBEQ_MAG_001",
@@ -20730,7 +20758,21 @@
       "slot": "Weapon",
       "how_to_obtain": "Tier 5 class progression reward",
       "when": "Upon Tier 5 transition at Lv.200 minimum",
-      "source": null
+      "source": {
+        "monster_id": "MON_008",
+        "monster_name": "Night Poring Worldbreaker",
+        "monster_level": 300,
+        "map_id": "dragon_sanctum",
+        "map_name": "Dragon Sanctum"
+      },
+      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "rarity": "Mythic",
+      "power": 2280,
+      "stats": {
+        "INT": 40,
+        "DEX": 28
+      },
+      "description": "Tier 5 Mage signature equipment for Eternal Spellwright; preserves the profession's weapon identity and is soulbound on claim."
     },
     {
       "id": "JOBEQ_MAG_002",
@@ -20741,7 +20783,21 @@
       "slot": "Focus",
       "how_to_obtain": "Tier 5 class progression reward",
       "when": "Upon Tier 5 transition at Lv.200 minimum",
-      "source": null
+      "source": {
+        "monster_id": "MON_008",
+        "monster_name": "Night Poring Worldbreaker",
+        "monster_level": 300,
+        "map_id": "dragon_sanctum",
+        "map_name": "Dragon Sanctum"
+      },
+      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "rarity": "Mythic",
+      "power": 2280,
+      "stats": {
+        "INT": 40,
+        "DEX": 28
+      },
+      "description": "Tier 5 Mage signature equipment for Eternal Spellwright; preserves the profession's weapon identity and is soulbound on claim."
     },
     {
       "id": "JOBEQ_ARC_001",
@@ -20752,7 +20808,21 @@
       "slot": "Weapon",
       "how_to_obtain": "Tier 5 class progression reward",
       "when": "Upon Tier 5 transition at Lv.200 minimum",
-      "source": null
+      "source": {
+        "monster_id": "MON_120",
+        "monster_name": "Night Bone Archer Worldbreaker",
+        "monster_level": 300,
+        "map_id": "frostveil",
+        "map_name": "Frostveil"
+      },
+      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "rarity": "Mythic",
+      "power": 2320,
+      "stats": {
+        "DEX": 40,
+        "AGI": 28
+      },
+      "description": "Tier 5 Archer signature equipment for Causality Marksman; preserves the profession's weapon identity and is soulbound on claim."
     },
     {
       "id": "JOBEQ_ARC_002",
@@ -20763,7 +20833,21 @@
       "slot": "Quiver",
       "how_to_obtain": "Tier 5 class progression reward",
       "when": "Upon Tier 5 transition at Lv.200 minimum",
-      "source": null
+      "source": {
+        "monster_id": "MON_120",
+        "monster_name": "Night Bone Archer Worldbreaker",
+        "monster_level": 300,
+        "map_id": "frostveil",
+        "map_name": "Frostveil"
+      },
+      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "rarity": "Mythic",
+      "power": 2320,
+      "stats": {
+        "DEX": 40,
+        "AGI": 28
+      },
+      "description": "Tier 5 Archer signature equipment for Causality Marksman; preserves the profession's weapon identity and is soulbound on claim."
     },
     {
       "id": "JOBEQ_THI_001",
@@ -20774,7 +20858,21 @@
       "slot": "Weapon",
       "how_to_obtain": "Tier 5 class progression reward",
       "when": "Upon Tier 5 transition at Lv.200 minimum",
-      "source": null
+      "source": {
+        "monster_id": "MON_208",
+        "monster_name": "Night Venom Beetle Worldbreaker",
+        "monster_level": 300,
+        "map_id": "abyssal_depths",
+        "map_name": "Abyssal Depths"
+      },
+      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "rarity": "Mythic",
+      "power": 2340,
+      "stats": {
+        "AGI": 42,
+        "LUK": 30
+      },
+      "description": "Tier 5 Thief signature equipment for Absolute Shadow; preserves the profession's weapon identity and is soulbound on claim."
     },
     {
       "id": "JOBEQ_THI_002",
@@ -20785,7 +20883,21 @@
       "slot": "Offhand",
       "how_to_obtain": "Tier 5 class progression reward",
       "when": "Upon Tier 5 transition at Lv.200 minimum",
-      "source": null
+      "source": {
+        "monster_id": "MON_208",
+        "monster_name": "Night Venom Beetle Worldbreaker",
+        "monster_level": 300,
+        "map_id": "abyssal_depths",
+        "map_name": "Abyssal Depths"
+      },
+      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "rarity": "Mythic",
+      "power": 2340,
+      "stats": {
+        "AGI": 42,
+        "LUK": 30
+      },
+      "description": "Tier 5 Thief signature equipment for Absolute Shadow; preserves the profession's weapon identity and is soulbound on claim."
     },
     {
       "id": "JOBEQ_ACO_001",
@@ -20796,7 +20908,21 @@
       "slot": "Weapon",
       "how_to_obtain": "Tier 5 class progression reward",
       "when": "Upon Tier 5 transition at Lv.200 minimum",
-      "source": null
+      "source": {
+        "monster_id": "MON_232",
+        "monster_name": "Night Elder Dragon Worldbreaker",
+        "monster_level": 300,
+        "map_id": "ancient_greenwood",
+        "map_name": "Ancient Greenwood"
+      },
+      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "rarity": "Mythic",
+      "power": 2180,
+      "stats": {
+        "INT": 38,
+        "VIT": 30
+      },
+      "description": "Tier 5 Acolyte signature equipment for Eternal Benediction; preserves the profession's weapon identity and is soulbound on claim."
     },
     {
       "id": "JOBEQ_ACO_002",
@@ -20807,7 +20933,21 @@
       "slot": "Scripture",
       "how_to_obtain": "Tier 5 class progression reward",
       "when": "Upon Tier 5 transition at Lv.200 minimum",
-      "source": null
+      "source": {
+        "monster_id": "MON_232",
+        "monster_name": "Night Elder Dragon Worldbreaker",
+        "monster_level": 300,
+        "map_id": "ancient_greenwood",
+        "map_name": "Ancient Greenwood"
+      },
+      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "rarity": "Mythic",
+      "power": 2180,
+      "stats": {
+        "INT": 38,
+        "VIT": 30
+      },
+      "description": "Tier 5 Acolyte signature equipment for Eternal Benediction; preserves the profession's weapon identity and is soulbound on claim."
     },
     {
       "id": "JOBEQ_MER_001",
@@ -20818,7 +20958,21 @@
       "slot": "Weapon",
       "how_to_obtain": "Tier 5 class progression reward",
       "when": "Upon Tier 5 transition at Lv.200 minimum",
-      "source": null
+      "source": {
+        "monster_id": "MON_200",
+        "monster_name": "Night Iron Golem Worldbreaker",
+        "monster_level": 300,
+        "map_id": "ironheart_vault",
+        "map_name": "Ironheart Vault"
+      },
+      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "rarity": "Mythic",
+      "power": 2310,
+      "stats": {
+        "STR": 36,
+        "DEX": 30
+      },
+      "description": "Tier 5 Merchant signature equipment for Infinite Quartermaster; preserves the profession's weapon identity and is soulbound on claim."
     },
     {
       "id": "JOBEQ_MER_002",
@@ -20829,7 +20983,21 @@
       "slot": "Offhand",
       "how_to_obtain": "Tier 5 class progression reward",
       "when": "Upon Tier 5 transition at Lv.200 minimum",
-      "source": null
+      "source": {
+        "monster_id": "MON_200",
+        "monster_name": "Night Iron Golem Worldbreaker",
+        "monster_level": 300,
+        "map_id": "ironheart_vault",
+        "map_name": "Ironheart Vault"
+      },
+      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "rarity": "Mythic",
+      "power": 2310,
+      "stats": {
+        "STR": 36,
+        "DEX": 30
+      },
+      "description": "Tier 5 Merchant signature equipment for Infinite Quartermaster; preserves the profession's weapon identity and is soulbound on claim."
     },
     {
       "id": "JOBEQ_RAN_001",
@@ -20840,7 +21008,23 @@
       "slot": "Weapon",
       "how_to_obtain": "Tier 5 class progression reward",
       "when": "Upon Tier 5 transition at Lv.200 minimum",
-      "source": null
+      "source": {
+        "monster_id": "MON_216",
+        "monster_name": "Night Hunter Fly Worldbreaker",
+        "monster_level": 300,
+        "map_id": "coastal_cliffs",
+        "map_name": "Azure Coast"
+      },
+      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "rarity": "Mythic",
+      "power": 2360,
+      "stats": {
+        "DEX": 42,
+        "AGI": 30
+      },
+      "description": "Tier 5 Ranger signature equipment for Verdant Paragon; preserves the profession's weapon identity and is soulbound on claim.",
+      "ammo_type": "machine_gun_bolt",
+      "ammo_name": "Machine Gun Bolts"
     },
     {
       "id": "JOBEQ_RAN_002",
@@ -20851,7 +21035,23 @@
       "slot": "Quiver",
       "how_to_obtain": "Tier 5 class progression reward",
       "when": "Upon Tier 5 transition at Lv.200 minimum",
-      "source": null
+      "source": {
+        "monster_id": "MON_216",
+        "monster_name": "Night Hunter Fly Worldbreaker",
+        "monster_level": 300,
+        "map_id": "coastal_cliffs",
+        "map_name": "Azure Coast"
+      },
+      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "rarity": "Mythic",
+      "power": 2360,
+      "stats": {
+        "DEX": 42,
+        "AGI": 30
+      },
+      "description": "Tier 5 Ranger signature equipment for Verdant Paragon; preserves the profession's weapon identity and is soulbound on claim.",
+      "ammo_type": "machine_gun_bolt",
+      "ammo_name": "Machine Gun Bolts"
     },
     {
       "id": "JOBCARD_WAR_001",
@@ -20862,7 +21062,17 @@
       "slot": "Accessory",
       "how_to_obtain": "Tier 5 class progression reward",
       "when": "Upon Tier 5 transition at Lv.200 minimum",
-      "source": null
+      "source": {
+        "monster_id": "MON_160",
+        "monster_name": "Night Orc Warlord Worldbreaker",
+        "monster_level": 300,
+        "map_id": "worldboss_plains",
+        "map_name": "Worldboss Plains"
+      },
+      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "rarity": "Mythic",
+      "effect": "+12% physical power; +8% Guard; +6% damage reduction while guarding.",
+      "description": "Tier 5 Warrior signature card for Abyssal Warlord; amplifies the profession's intended combat identity."
     },
     {
       "id": "JOBCARD_MAG_001",
@@ -20873,7 +21083,17 @@
       "slot": "Accessory",
       "how_to_obtain": "Tier 5 class progression reward",
       "when": "Upon Tier 5 transition at Lv.200 minimum",
-      "source": null
+      "source": {
+        "monster_id": "MON_008",
+        "monster_name": "Night Poring Worldbreaker",
+        "monster_level": 300,
+        "map_id": "dragon_sanctum",
+        "map_name": "Dragon Sanctum"
+      },
+      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "rarity": "Mythic",
+      "effect": "+14% magic power; +8% SP efficiency; +6% spell critical effect.",
+      "description": "Tier 5 Mage signature card for Eternal Spellwright; amplifies the profession's intended combat identity."
     },
     {
       "id": "JOBCARD_ARC_001",
@@ -20884,7 +21104,17 @@
       "slot": "Accessory",
       "how_to_obtain": "Tier 5 class progression reward",
       "when": "Upon Tier 5 transition at Lv.200 minimum",
-      "source": null
+      "source": {
+        "monster_id": "MON_120",
+        "monster_name": "Night Bone Archer Worldbreaker",
+        "monster_level": 300,
+        "map_id": "frostveil",
+        "map_name": "Frostveil"
+      },
+      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "rarity": "Mythic",
+      "effect": "+12% ranged power; +8% hit; +6% critical damage at long range.",
+      "description": "Tier 5 Archer signature card for Causality Marksman; amplifies the profession's intended combat identity."
     },
     {
       "id": "JOBCARD_THI_001",
@@ -20895,7 +21125,17 @@
       "slot": "Accessory",
       "how_to_obtain": "Tier 5 class progression reward",
       "when": "Upon Tier 5 transition at Lv.200 minimum",
-      "source": null
+      "source": {
+        "monster_id": "MON_208",
+        "monster_name": "Night Venom Beetle Worldbreaker",
+        "monster_level": 300,
+        "map_id": "abyssal_depths",
+        "map_name": "Abyssal Depths"
+      },
+      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "rarity": "Mythic",
+      "effect": "+14% critical power; +10% Flee; +6% poison duration.",
+      "description": "Tier 5 Thief signature card for Absolute Shadow; amplifies the profession's intended combat identity."
     },
     {
       "id": "JOBCARD_ACO_001",
@@ -20906,7 +21146,17 @@
       "slot": "Accessory",
       "how_to_obtain": "Tier 5 class progression reward",
       "when": "Upon Tier 5 transition at Lv.200 minimum",
-      "source": null
+      "source": {
+        "monster_id": "MON_232",
+        "monster_name": "Night Elder Dragon Worldbreaker",
+        "monster_level": 300,
+        "map_id": "ancient_greenwood",
+        "map_name": "Ancient Greenwood"
+      },
+      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "rarity": "Mythic",
+      "effect": "+12% healing power; +8% barrier strength; +6% cleanse resistance.",
+      "description": "Tier 5 Acolyte signature card for Eternal Benediction; amplifies the profession's intended combat identity."
     },
     {
       "id": "JOBCARD_MER_001",
@@ -20917,7 +21167,17 @@
       "slot": "Accessory",
       "how_to_obtain": "Tier 5 class progression reward",
       "when": "Upon Tier 5 transition at Lv.200 minimum",
-      "source": null
+      "source": {
+        "monster_id": "MON_200",
+        "monster_name": "Night Iron Golem Worldbreaker",
+        "monster_level": 300,
+        "map_id": "ironheart_vault",
+        "map_name": "Ironheart Vault"
+      },
+      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "rarity": "Mythic",
+      "effect": "+10% physical power; +10% crafting/refine efficiency; +8% Zeny gain.",
+      "description": "Tier 5 Merchant signature card for Infinite Quartermaster; amplifies the profession's intended combat identity."
     },
     {
       "id": "JOBCARD_RAN_001",
@@ -20928,7 +21188,17 @@
       "slot": "Accessory",
       "how_to_obtain": "Tier 5 class progression reward",
       "when": "Upon Tier 5 transition at Lv.200 minimum",
-      "source": null
+      "source": {
+        "monster_id": "MON_216",
+        "monster_name": "Night Hunter Fly Worldbreaker",
+        "monster_level": 300,
+        "map_id": "coastal_cliffs",
+        "map_name": "Azure Coast"
+      },
+      "availability": "Tier 5 progression reward; the associated Worldbreaker also has a direct drop",
+      "rarity": "Mythic",
+      "effect": "+14% ranged firearm power; +10% bolt throughput; +6% machine-gun critical damage.",
+      "description": "Tier 5 Ranger signature card for Verdant Paragon; amplifies the profession's intended combat identity."
     },
     {
       "id": "PETEQ_001",
@@ -24463,5 +24733,6 @@
       "details": "Ammunition | ID ITEM_076 | Ranger | Rune Bolt family | Stack 999 | Price 8"
     }
   ],
-  "entry_count": 797
+  "entry_count": 797,
+  "catalog_rule": "Every equipment/item/card/job-reward/pet-equipment entry has a stable ID; searchable help resolves ID or name to full metadata, monster source, map and availability."
 }
