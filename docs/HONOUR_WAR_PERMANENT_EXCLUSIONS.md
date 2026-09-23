@@ -35,3 +35,22 @@ This exclusion document is authoritative for future implementation and art gener
 
 ## 2026-09-22 validation pass
 Monster runtime now uses the explicit eight-species level roster and enforces the city exclusion radius before spawn.
+
+## Permanent city-building/service prohibition
+
+Honour War is **not a strategy/base-building game**. The following are permanently removed from both generation and runtime design and must never be regenerated, restored, exposed, or connected to gameplay:
+
+- Rejected city-building assets.
+- City service implementations.
+- Town Hall generation.
+- Blacksmith generation.
+- Market generation.
+- Barracks generation.
+- Magic Tower generation.
+- City resource generation.
+- City upgrade generation.
+- Town Hall, Blacksmith, Market, Barracks, and Magic Tower entities/components in the World Director.
+- Any associated build/service implementations, construction actions, building dependencies, building connections, building-linked skills, or skill effects that activate/connect buildings.
+- Any build mode, construction menu, building target selector, city-service command, or strategy-building progression.
+
+These exclusions are absolute. Do not implement them as hidden, disabled, placeholder, debug-only, optional, future, or unused systems. Any future generator or runtime change containing these systems must fail the permanent-exclusion QA gate.
