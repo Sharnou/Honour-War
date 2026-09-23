@@ -25,6 +25,9 @@ jobs:
       - name: Validate permanent Honour War exclusions
         run: python tools/rejected_systems_qa.py
 
+      - name: Validate complete content catalog
+        run: python tools/content_catalog_qa.py
+
       - name: Validate Unreal 5.8 + HD MMORPG contract
         run: python tools/unreal_engine_contract_qa.py
 
