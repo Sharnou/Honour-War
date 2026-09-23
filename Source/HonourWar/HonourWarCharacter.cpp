@@ -31,7 +31,8 @@ namespace
             if (UMaterialInstanceDynamic* MID=UMaterialInstanceDynamic::Create(BaseMaterial,Component))
             {
                 MID->SetVectorParameterValue(TEXT("Color"),Color);
-                MID->SetScalarParameterValue(TEXT("Roughness"),0.62f);
+                MID->SetScalarParameterValue(TEXT("Roughness"),0.56f);
+                MID->SetScalarParameterValue(TEXT("Specular"),0.38f);
                 Component->SetMaterial(0,MID);
             }
         }
@@ -411,7 +412,12 @@ void AHonourWarCharacter::BuildHeroVisual()
 
     AddPart(this,VisualRoot,Cylinder,TEXT("Body"),FVector(0,0,75),FVector(0.62f,0.48f,0.82f),FRotator::ZeroRotator,Style.Primary);
     AddPart(this,VisualRoot,Cube,TEXT("ChestPlate"),FVector(0,0,112),FVector(0.68f,0.54f,0.28f),FRotator::ZeroRotator,Metal);
+    AddPart(this,VisualRoot,Cube,TEXT("ChestTrim"),FVector(34,0,118),FVector(0.08f,0.48f,0.12f),FRotator::ZeroRotator,Style.Accent);
+    AddPart(this,VisualRoot,Cube,TEXT("Collar"),FVector(22,0,142),FVector(0.36f,0.42f,0.10f),FRotator::ZeroRotator,Style.Secondary);
+    AddPart(this,VisualRoot,Cube,TEXT("ShoulderL"),FVector(0,-57,126),FVector(0.28f,0.20f,0.18f),FRotator(0,0,-8),Metal);
+    AddPart(this,VisualRoot,Cube,TEXT("ShoulderR"),FVector(0,57,126),FVector(0.28f,0.20f,0.18f),FRotator(0,0,8),Metal);
     AddPart(this,VisualRoot,Cube,TEXT("Waist"),FVector(0,0,82),FVector(0.60f,0.45f,0.14f),FRotator::ZeroRotator,Style.Secondary);
+    AddPart(this,VisualRoot,Sphere,TEXT("BeltBuckle"),FVector(39,0,84),FVector(0.11f,0.18f,0.11f),FRotator::ZeroRotator,Style.Accent);
     AddPart(this,VisualRoot,Cylinder,TEXT("LeftLeg"),FVector(0,-24,35),FVector(0.24f,0.24f,0.48f),FRotator::ZeroRotator,Style.Primary);
     AddPart(this,VisualRoot,Cylinder,TEXT("RightLeg"),FVector(0,24,35),FVector(0.24f,0.24f,0.48f),FRotator::ZeroRotator,Style.Primary);
     AddPart(this,VisualRoot,Cube,TEXT("LeftBoot"),FVector(18,-24,10),FVector(0.34f,0.28f,0.18f),FRotator::ZeroRotator,Style.Secondary);
@@ -422,6 +428,9 @@ void AHonourWarCharacter::BuildHeroVisual()
     AddPart(this,VisualRoot,Sphere,TEXT("RightGlove"),FVector(12,54,72),FVector(0.20f,0.20f,0.20f),FRotator::ZeroRotator,Style.Secondary);
     AddPart(this,VisualRoot,Sphere,TEXT("Head"),FVector(0,0,172),FVector(0.54f*HeadMaturityScale,0.50f*HeadMaturityScale,0.58f*HeadMaturityScale),FRotator::ZeroRotator,Skin);
     AddPart(this,VisualRoot,Sphere,TEXT("Hair"),FVector(-4,0,197+Mature*3.0f),FVector(0.58f,0.54f,0.28f+Mature*0.03f),FRotator::ZeroRotator,Hair);
+    AddPart(this,VisualRoot,Sphere,TEXT("HairFront"),FVector(29,0,192+Mature*2.0f),FVector(0.22f,0.44f,0.14f),FRotator::ZeroRotator,Hair);
+    AddPart(this,VisualRoot,Sphere,TEXT("EarL"),FVector(4,-50,176),FVector(0.10f,0.08f,0.16f),FRotator(0,0,-10),Skin);
+    AddPart(this,VisualRoot,Sphere,TEXT("EarR"),FVector(4,50,176),FVector(0.10f,0.08f,0.16f),FRotator(0,0,10),Skin);
     AddPart(this,VisualRoot,Sphere,TEXT("LeftEye"),FVector(38,-16,176),FVector(0.055f,0.055f,0.055f),FRotator::ZeroRotator,FLinearColor::Black);
     AddPart(this,VisualRoot,Sphere,TEXT("RightEye"),FVector(38,16,176),FVector(0.055f,0.055f,0.055f),FRotator::ZeroRotator,FLinearColor::Black);
 
