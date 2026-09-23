@@ -20722,7 +20722,8 @@
         "STR": 36,
         "VIT": 22
       },
-      "description": "Tier 5 Warrior signature equipment for Abyssal Warlord; preserves the profession's weapon identity and is soulbound on claim."
+      "description": "Tier 5 Warrior signature equipment for Abyssal Warlord; preserves the profession's weapon identity and is soulbound on claim.",
+      "drop_chance_percent": 5
     },
     {
       "id": "JOBEQ_WAR_002",
@@ -20747,7 +20748,8 @@
         "STR": 36,
         "VIT": 22
       },
-      "description": "Tier 5 Warrior signature equipment for Abyssal Warlord; preserves the profession's weapon identity and is soulbound on claim."
+      "description": "Tier 5 Warrior signature equipment for Abyssal Warlord; preserves the profession's weapon identity and is soulbound on claim.",
+      "drop_chance_percent": 5
     },
     {
       "id": "JOBEQ_MAG_001",
@@ -20772,7 +20774,8 @@
         "INT": 40,
         "DEX": 28
       },
-      "description": "Tier 5 Mage signature equipment for Eternal Spellwright; preserves the profession's weapon identity and is soulbound on claim."
+      "description": "Tier 5 Mage signature equipment for Eternal Spellwright; preserves the profession's weapon identity and is soulbound on claim.",
+      "drop_chance_percent": 5
     },
     {
       "id": "JOBEQ_MAG_002",
@@ -20797,7 +20800,8 @@
         "INT": 40,
         "DEX": 28
       },
-      "description": "Tier 5 Mage signature equipment for Eternal Spellwright; preserves the profession's weapon identity and is soulbound on claim."
+      "description": "Tier 5 Mage signature equipment for Eternal Spellwright; preserves the profession's weapon identity and is soulbound on claim.",
+      "drop_chance_percent": 5
     },
     {
       "id": "JOBEQ_ARC_001",
@@ -20822,7 +20826,8 @@
         "DEX": 40,
         "AGI": 28
       },
-      "description": "Tier 5 Archer signature equipment for Causality Marksman; preserves the profession's weapon identity and is soulbound on claim."
+      "description": "Tier 5 Archer signature equipment for Causality Marksman; preserves the profession's weapon identity and is soulbound on claim.",
+      "drop_chance_percent": 5
     },
     {
       "id": "JOBEQ_ARC_002",
@@ -20847,7 +20852,8 @@
         "DEX": 40,
         "AGI": 28
       },
-      "description": "Tier 5 Archer signature equipment for Causality Marksman; preserves the profession's weapon identity and is soulbound on claim."
+      "description": "Tier 5 Archer signature equipment for Causality Marksman; preserves the profession's weapon identity and is soulbound on claim.",
+      "drop_chance_percent": 5
     },
     {
       "id": "JOBEQ_THI_001",
@@ -20872,7 +20878,8 @@
         "AGI": 42,
         "LUK": 30
       },
-      "description": "Tier 5 Thief signature equipment for Absolute Shadow; preserves the profession's weapon identity and is soulbound on claim."
+      "description": "Tier 5 Thief signature equipment for Absolute Shadow; preserves the profession's weapon identity and is soulbound on claim.",
+      "drop_chance_percent": 5
     },
     {
       "id": "JOBEQ_THI_002",
@@ -20897,7 +20904,8 @@
         "AGI": 42,
         "LUK": 30
       },
-      "description": "Tier 5 Thief signature equipment for Absolute Shadow; preserves the profession's weapon identity and is soulbound on claim."
+      "description": "Tier 5 Thief signature equipment for Absolute Shadow; preserves the profession's weapon identity and is soulbound on claim.",
+      "drop_chance_percent": 5
     },
     {
       "id": "JOBEQ_ACO_001",
@@ -20922,7 +20930,8 @@
         "INT": 38,
         "VIT": 30
       },
-      "description": "Tier 5 Acolyte signature equipment for Eternal Benediction; preserves the profession's weapon identity and is soulbound on claim."
+      "description": "Tier 5 Acolyte signature equipment for Eternal Benediction; preserves the profession's weapon identity and is soulbound on claim.",
+      "drop_chance_percent": 5
     },
     {
       "id": "JOBEQ_ACO_002",
@@ -20947,7 +20956,8 @@
         "INT": 38,
         "VIT": 30
       },
-      "description": "Tier 5 Acolyte signature equipment for Eternal Benediction; preserves the profession's weapon identity and is soulbound on claim."
+      "description": "Tier 5 Acolyte signature equipment for Eternal Benediction; preserves the profession's weapon identity and is soulbound on claim.",
+      "drop_chance_percent": 5
     },
     {
       "id": "JOBEQ_MER_001",
@@ -20972,7 +20982,8 @@
         "STR": 36,
         "DEX": 30
       },
-      "description": "Tier 5 Merchant signature equipment for Infinite Quartermaster; preserves the profession's weapon identity and is soulbound on claim."
+      "description": "Tier 5 Merchant signature equipment for Infinite Quartermaster; preserves the profession's weapon identity and is soulbound on claim.",
+      "drop_chance_percent": 5
     },
     {
       "id": "JOBEQ_MER_002",
@@ -20997,7 +21008,8 @@
         "STR": 36,
         "DEX": 30
       },
-      "description": "Tier 5 Merchant signature equipment for Infinite Quartermaster; preserves the profession's weapon identity and is soulbound on claim."
+      "description": "Tier 5 Merchant signature equipment for Infinite Quartermaster; preserves the profession's weapon identity and is soulbound on claim.",
+      "drop_chance_percent": 5
     },
     {
       "id": "JOBEQ_RAN_001",
@@ -21024,7 +21036,8 @@
       },
       "description": "Tier 5 Ranger signature firearm for Verdant Paragon; preserves the Ranger firearm lineage and uses Machine Gun Bolts (ITEM_075).",
       "ammo_type": "machine_gun_bolt",
-      "ammo_name": "Machine Gun Bolts"
+      "ammo_name": "Machine Gun Bolts",
+      "drop_chance_percent": 5
     },
     {
       "id": "JOBEQ_RAN_002",
@@ -21051,7 +21064,8 @@
       },
       "description": "Tier 5 Ranger signature equipment for Verdant Paragon; preserves the profession's weapon identity and is soulbound on claim.",
       "ammo_type": "machine_gun_bolt",
-      "ammo_name": "Machine Gun Bolts"
+      "ammo_name": "Machine Gun Bolts",
+      "drop_chance_percent": 5
     },
     {
       "id": "JOBCARD_WAR_001",
@@ -21072,7 +21086,8 @@
       "availability": "Tier 5 progression reward and rare Worldbreaker drop.",
       "rarity": "Mythic",
       "effect": "+12% physical power; +8% Guard; +6% damage reduction while guarding.",
-      "description": "Tier 5 Warrior signature card for Abyssal Warlord; amplifies the profession's intended combat identity."
+      "description": "Tier 5 Warrior signature card for Abyssal Warlord; amplifies the profession's intended combat identity.",
+      "drop_chance_percent": 5
     },
     {
       "id": "JOBCARD_MAG_001",
@@ -21093,7 +21108,8 @@
       "availability": "Tier 5 progression reward and rare Worldbreaker drop.",
       "rarity": "Mythic",
       "effect": "+14% magic power; +8% SP efficiency; +6% spell critical effect.",
-      "description": "Tier 5 Mage signature card for Eternal Spellwright; amplifies the profession's intended combat identity."
+      "description": "Tier 5 Mage signature card for Eternal Spellwright; amplifies the profession's intended combat identity.",
+      "drop_chance_percent": 5
     },
     {
       "id": "JOBCARD_ARC_001",
@@ -21114,7 +21130,8 @@
       "availability": "Tier 5 progression reward and rare Worldbreaker drop.",
       "rarity": "Mythic",
       "effect": "+12% ranged power; +8% hit; +6% critical damage at long range.",
-      "description": "Tier 5 Archer signature card for Causality Marksman; amplifies the profession's intended combat identity."
+      "description": "Tier 5 Archer signature card for Causality Marksman; amplifies the profession's intended combat identity.",
+      "drop_chance_percent": 5
     },
     {
       "id": "JOBCARD_THI_001",
@@ -21135,7 +21152,8 @@
       "availability": "Tier 5 progression reward and rare Worldbreaker drop.",
       "rarity": "Mythic",
       "effect": "+14% critical power; +10% Flee; +6% poison duration.",
-      "description": "Tier 5 Thief signature card for Absolute Shadow; amplifies the profession's intended combat identity."
+      "description": "Tier 5 Thief signature card for Absolute Shadow; amplifies the profession's intended combat identity.",
+      "drop_chance_percent": 5
     },
     {
       "id": "JOBCARD_ACO_001",
@@ -21156,7 +21174,8 @@
       "availability": "Tier 5 progression reward and rare Worldbreaker drop.",
       "rarity": "Mythic",
       "effect": "+12% healing power; +8% barrier strength; +6% cleanse resistance.",
-      "description": "Tier 5 Acolyte signature card for Eternal Benediction; amplifies the profession's intended combat identity."
+      "description": "Tier 5 Acolyte signature card for Eternal Benediction; amplifies the profession's intended combat identity.",
+      "drop_chance_percent": 5
     },
     {
       "id": "JOBCARD_MER_001",
@@ -21177,7 +21196,8 @@
       "availability": "Tier 5 progression reward and rare Worldbreaker drop.",
       "rarity": "Mythic",
       "effect": "+10% physical power; +10% crafting/refine efficiency; +8% Zeny gain.",
-      "description": "Tier 5 Merchant signature card for Infinite Quartermaster; amplifies the profession's intended combat identity."
+      "description": "Tier 5 Merchant signature card for Infinite Quartermaster; amplifies the profession's intended combat identity.",
+      "drop_chance_percent": 5
     },
     {
       "id": "JOBCARD_RAN_001",
@@ -21198,7 +21218,8 @@
       "availability": "Tier 5 progression reward and rare Worldbreaker drop.",
       "rarity": "Mythic",
       "effect": "+14% ranged firearm power; +10% bolt throughput; +6% machine-gun critical damage.",
-      "description": "Tier 5 Ranger signature card for Verdant Paragon; amplifies the profession's intended combat identity."
+      "description": "Tier 5 Ranger signature card for Verdant Paragon; amplifies the profession's intended combat identity.",
+      "drop_chance_percent": 5
     },
     {
       "id": "PETEQ_001",
