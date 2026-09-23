@@ -551,7 +551,7 @@ void UHonourWarCombatComponent::RewardMonsterDefeat(int32 MonsterLevel,const FSt
 
     const int32 MonsterTier = HonourWarMonsterTier(SafeLevel);
     const int32 MonsterFamilySlot = FMath::Clamp(HonourWarMonsterFamilyIndex(MonsterName),0,29);
-    const int32 LootRank = FMath::Clamp(MonsterTier*30+MonsterFamilySlot+1,1,240);
+    const int32 LootRank = FMath::Clamp(MonsterTier*40+MonsterFamilySlot+1,1,300);
 
     FString Rarity = TEXT("Rare");
     if (SafeLevel >= 300) Rarity = TEXT("Mythic");
@@ -559,10 +559,12 @@ void UHonourWarCombatComponent::RewardMonsterDefeat(int32 MonsterLevel,const FSt
     else if (SafeLevel >= 100) Rarity = TEXT("Epic");
 
     const int32 GeneralItemIndex=(MonsterTier*30+MonsterFamilySlot)%74;
-    InventoryItems.Add(FString::Printf(TEXT("General | %s"),*HonourWarLootDatabase::Items()[240+GeneralItemIndex]));
+    InventoryItems.Add(FString::Printf(TEXT("General | %s"),*HonourWarLootDatabase::Items()[300+GeneralItemIndex]));
 
     const FString DatabaseItem = HonourWarLootDatabase::EquipmentForRank(LootRank);
-    const FString ItemName = FString::Printf(TEXT("%s | %s"), *Rarity, *DatabaseItem);
+    const bool bRangerBoltWeapon = CharacterClass==EHonourWarClass::Ranger && Level>=50;
+    const FString RangerAmmoTag = bRangerBoltWeapon ? TEXT("Machine Gun Bolts") : TEXT("Rune Bolts");
+    const FString ItemName = CharacterClass==EHonourWarClass::Ranger ? FString::Printf(TEXT("%s | %s | %s"), *Rarity, *DatabaseItem, *RangerAmmoTag) : FString::Printf(TEXT("%s | %s"), *Rarity, *DatabaseItem);
     InventoryItems.Add(ItemName);
 
     {
