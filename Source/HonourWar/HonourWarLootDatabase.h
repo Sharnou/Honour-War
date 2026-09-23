@@ -325,7 +325,7 @@ namespace HonourWarLootDatabase
     TEXT("Kraken Ink"),
     TEXT("Titan Heart"),
     TEXT("Oracle Eye"),
-    TEXT("Guardian Sigil")
+    TEXT("Transcendent Monster Suit")
         };
         return Values;
     }
@@ -578,7 +578,7 @@ namespace HonourWarLootDatabase
     TEXT("Crimson Ascendant Card 5"),
     TEXT("Ancient Ascendant Card 5"),
     TEXT("Royal Ascendant Card 5"),
-    TEXT("Abyss Ascendant Card 5")
+    TEXT("World Monarch Card")
         };
         return Values;
     }
