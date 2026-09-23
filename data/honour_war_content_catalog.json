@@ -7,7 +7,7 @@
     "monsters": 256,
     "maps": 24,
     "equipment": 300,
-    "items": 74,
+    "items": 76,
     "cards": 300,
     "pet_equipment": 100,
     "pets": 20,
@@ -14173,6 +14173,46 @@
       "name": "Guardian Sigil",
       "type": "material",
       "price": 5575
+    },
+    {
+      "id": "ITEM_075",
+      "name": "Machine Gun Bolts",
+      "type": "ammunition",
+      "price": 12,
+      "stack_limit": 999,
+      "description": "Enchanted high-rate Ranger ammunition used by Tier 3-5 bolt-machine guns.",
+      "ammo_for": [
+        "Ranger"
+      ],
+      "ammo_family": "machine_gun_bolt",
+      "source": {
+        "monster_id": "MON_169",
+        "monster_name": "Wild Hunter Fly Scout",
+        "monster_level": 10,
+        "map_id": "coastal_cliffs",
+        "map_name": "Azure Coast"
+      },
+      "when": "Any time; dropped by Ranger-compatible hunting grounds; source respawns after 12 seconds"
+    },
+    {
+      "id": "ITEM_076",
+      "name": "Rune Bolts",
+      "type": "ammunition",
+      "price": 8,
+      "stack_limit": 999,
+      "description": "Rune-etched Ranger bolts used by Tier 1-2 fantasy firearms.",
+      "ammo_for": [
+        "Ranger"
+      ],
+      "ammo_family": "rune_bolt",
+      "source": {
+        "monster_id": "MON_065",
+        "monster_name": "Wild Wolf Scout",
+        "monster_level": 10,
+        "map_id": "forest_field",
+        "map_name": "Whispering Forest"
+      },
+      "when": "Any time; dropped by early Ranger hunting grounds; source respawns after 12 seconds"
     }
   ],
   "cards": [
