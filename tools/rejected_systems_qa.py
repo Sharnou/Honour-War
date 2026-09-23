@@ -16,6 +16,7 @@ FORBIDDEN_ENGINE = "God"+"ot"
 FORBIDDEN_GODOT_SUFFIXES = frozenset({"."+"gd","."+"tscn","."+"tres"})
 FORBIDDEN_GENERATOR_TERMS = ("transformer",)
 FORBIDDEN_CITY_FEATURES = ("Town"+" Hall","Black"+"smith","Mar"+"ket","Bar"+"racks","Magic"+" Tower","City"+" resources","City"+" upgrades")
+FORBIDDEN_CITY_IDENTIFIERS = ("TownHall","Blacksmith","Market","Barracks","MagicTower","CityResource","CityUpgrade","CityService","ServiceImplementation","BuildingConnection","BuildingSkill","ConnectBuilding","ActivateBuilding","BuildingDependency","BuildMode","ConstructionMenu","ConstructionAction")
 REMOVED_FILES = ("Source/HonourWar/HonourWarSoldier.h","Source/HonourWar/HonourWarSoldier.cpp","Source/HonourWar/HonourWarIncomeBank.h","Source/HonourWar/HonourWarIncomeBank.cpp","Source/HonourWar/HonourWarDefenseTower.h","Source/HonourWar/HonourWarDefenseTower.cpp","Source/HonourWar/HonourWarBaseBuilding.h","Source/HonourWar/HonourWarBaseBuilding.cpp","Source/HonourWar/HonourWarPlayerState.cpp.tmp")
 
 def fail(message: str) -> None: raise SystemExit(f"EXCLUSION_QA_FAIL: {message}")
@@ -29,12 +30,12 @@ def check_validator_allowlist() -> None:
 def scan_runtime() -> None:
     if not SOURCE_DIR.is_dir(): fail("runtime Source directory is missing")
     for path in SOURCE_DIR.rglob("*"):
-        if path.is_file() and path.suffix.lower() in {".h",".cpp",".py",".ini",".json"}: scan(path, EXCLUDED_SYMBOLS + EXCLUDED_TERMS + FORBIDDEN_CITY_FEATURES + (FORBIDDEN_ENGINE,))
+        if path.is_file() and path.suffix.lower() in {".h",".cpp",".py",".ini",".json"}: scan(path, EXCLUDED_SYMBOLS + EXCLUDED_TERMS + FORBIDDEN_CITY_FEATURES + FORBIDDEN_CITY_IDENTIFIERS + (FORBIDDEN_ENGINE,))
 def scan_active_generators() -> None:
     for relative in ACTIVE_GENERATOR_FILES:
         path=ROOT/relative
         if not path.is_file(): fail(f"active generator is missing: {relative}")
-        scan(path, EXCLUDED_SYMBOLS + EXCLUDED_TERMS + FORBIDDEN_CITY_FEATURES + FORBIDDEN_GENERATOR_TERMS + (FORBIDDEN_ENGINE,))
+        scan(path, EXCLUDED_SYMBOLS + EXCLUDED_TERMS + FORBIDDEN_CITY_FEATURES + FORBIDDEN_CITY_IDENTIFIERS + FORBIDDEN_GENERATOR_TERMS + (FORBIDDEN_ENGINE,))
         text=path.read_text(encoding="utf-8",errors="ignore").lower()
         for ext in RETIRED_ASSET_EXTENSIONS:
             if ext in text: fail(f"retired asset extension remains in active generator {relative}: {ext}")
@@ -62,7 +63,7 @@ def scan_active_project_data() -> None:
                 continue
             if relative == "tools" and path.name in VALIDATOR_FILES:
                 continue
-            scan(path, FORBIDDEN_CITY_FEATURES + EXCLUDED_SYMBOLS + EXCLUDED_TERMS)
+            scan(path, FORBIDDEN_CITY_FEATURES + FORBIDDEN_CITY_IDENTIFIERS + EXCLUDED_SYMBOLS + EXCLUDED_TERMS)
 
 def check_no_forbidden_artifacts() -> None:
     for path in ROOT.rglob("*"):
@@ -74,7 +75,7 @@ def check_no_forbidden_artifacts() -> None:
             name=path.name.lower(); suffix=path.suffix.lower()
             if name=="project."+"godot" or suffix in FORBIDDEN_GODOT_SUFFIXES: fail(f"forbidden Godot artifact remains: {rel}")
             if suffix in RETIRED_ASSET_EXTENSIONS: fail(f"rejected GLB/GLTF asset remains: {rel}")
-        if any(term.lower() in low for term in ("townhall","blacksmith","market","barracks","magictower")): fail(f"rejected city-building asset path remains: {rel}")
+        if any(term.lower() in low for term in ("townhall","blacksmith","market","barracks","magictower","cityresource","cityupgrade","cityservice","serviceimplementation","buildingconnection","buildingskill","connectbuilding","activatebuilding","buildingdependency","buildmode","constructionmenu","constructionaction")): fail(f"rejected city-building/service asset path remains: {rel}")
 def check_city_monster_exclusion() -> None:
     world=ROOT/"Source"/"HonourWar"/"HonourWarWorldDirector.cpp"
     if not world.is_file(): fail("HonourWarWorldDirector.cpp is missing")
@@ -97,8 +98,15 @@ def check_city_monster_exclusion() -> None:
     for xyz in re.findall(r"FVector\(([-+]?\d+(?:\.\d+)?),([-+]?\d+(?:\.\d+)?),",match.group(1)):
         x,y=map(float,xyz)
         if (x*x+y*y)**0.5<7800.0: fail(f"monster spawn remains inside city exclusion radius: {x},{y}")
+def check_world_director_city_systems_absent() -> None:
+    world=ROOT/"Source"/"HonourWar"/"HonourWarWorldDirector.cpp"
+    if not world.is_file(): fail("HonourWarWorldDirector.cpp is missing")
+    text=world.read_text(encoding="utf-8",errors="ignore")
+    for marker in FORBIDDEN_CITY_IDENTIFIERS:
+        if marker.lower() in text.lower(): fail(f"rejected city/service identifier remains in World Director: {marker}")
+
 def main() -> int:
-    check_validator_allowlist(); scan_runtime(); scan_active_generators(); scan_non_validator_tooling(); scan_active_project_data(); check_removed_files(); check_no_forbidden_artifacts(); check_city_monster_exclusion()
+    check_validator_allowlist(); scan_runtime(); scan_active_generators(); scan_non_validator_tooling(); scan_active_project_data(); check_removed_files(); check_no_forbidden_artifacts(); check_city_monster_exclusion(); check_world_director_city_systems_absent()
     print("EXCLUSION_QA_PASS: Unreal-only; Godot, GLB/GLTF, soldier systems, and rejected city-building systems are permanently excluded from runtime and generation surfaces.")
     return 0
 if __name__ == "__main__": raise SystemExit(main())
