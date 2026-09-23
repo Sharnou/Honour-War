@@ -11,7 +11,7 @@ for p in required:
 project=json.loads((ROOT/"HonourWar.uproject").read_text(encoding="utf-8"))
 if project.get("EngineAssociation")!="5.8": print("UNREAL_CONTRACT_FAIL: EngineAssociation must be 5.8"); sys.exit(1)
 catalog=json.loads((ROOT/"data"/"honour_war_content_catalog.json").read_text(encoding="utf-8"))
-for k,v in {"characters":60,"monsters":64,"maps":24,"equipment":240,"cards":240}.items():
+for k,v in {"characters":60,"monsters":256,"maps":24,"equipment":240,"cards":240}.items():
     if len(catalog[k])!=v: print(f"UNREAL_CONTRACT_FAIL: catalog {k} count"); sys.exit(1)
 controller=(ROOT/"Source"/"HonourWar"/"HonourWarPlayerController.cpp").read_text(encoding="utf-8")
 world=(ROOT/"Source"/"HonourWar"/"HonourWarWorldDirector.cpp").read_text(encoding="utf-8")
