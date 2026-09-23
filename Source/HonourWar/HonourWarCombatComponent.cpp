@@ -4,6 +4,7 @@
 #include "HonourWarLootDatabase.h"
 #include "HonourWarDamagePopup.h"
 #include "HonourWarCombatEffect.h"
+#include "HonourWarGameState.h"
 #include "Kismet/GameplayStatics.h"
 
 UHonourWarCombatComponent::UHonourWarCombatComponent()
@@ -27,7 +28,10 @@ void UHonourWarCombatComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 {
     Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
     for (float& Cooldown : SkillCooldowns) Cooldown = FMath::Max(0.0f, Cooldown - DeltaTime);
-    CurrentSp = FMath::Min(MaxSp, CurrentSp + DeltaTime * 5.0f);
+    float SpRegenMultiplier=1.0f;
+    if(const AHonourWarGameState* State=GetWorld()?GetWorld()->GetGameState<AHonourWarGameState>():nullptr)
+        SpRegenMultiplier=State->GetWorldEventSpRegenMultiplier();
+    CurrentSp = FMath::Min(MaxSp, CurrentSp + DeltaTime * 5.0f * SpRegenMultiplier);
 }
 
 float UHonourWarCombatComponent::SkillRangeForClass() const
@@ -94,7 +98,10 @@ bool UHonourWarCombatComponent::UseSkill(int32 SkillIndex)
     AHonourWarMonster* Target = FindNearestTarget(SkillRangeForClass());
     if (!Target) return false;
 
-    const float Damage = BaseDamageForClass() * (1.0f + SkillIndex * 0.18f);
+    float EventDamageMultiplier=1.0f;
+    if(const AHonourWarGameState* State=GetWorld()?GetWorld()->GetGameState<AHonourWarGameState>():nullptr)
+        EventDamageMultiplier=State->GetWorldEventDamageMultiplier();
+    const float Damage = BaseDamageForClass() * (1.0f + SkillIndex * 0.18f) * EventDamageMultiplier;
     bool bCritical=false;
     if(SkillIndex==0)
     {
@@ -391,9 +398,25 @@ void UHonourWarCombatComponent::SetCards(const TArray<FString>& NewCards){ Cards
 void UHonourWarCombatComponent::RewardMonsterDefeat(int32 MonsterLevel)
 {
     const int32 SafeLevel = FMath::Clamp(MonsterLevel, 1, 300);
-    const int32 KillXp = SafeLevel >= 300 ? 50000 : FMath::Max(25, SafeLevel * 35);
-    const int64 ZenyReward = SafeLevel >= 300 ? 250000 : static_cast<int64>(SafeLevel) * 45 + 75;
-    const int32 HonourReward = SafeLevel >= 300 ? 100 : FMath::Max(1, SafeLevel / 10);
+    const int32 BaseKillXp = SafeLevel >= 300 ? 50000 : FMath::Max(25, SafeLevel * 35);
+    const int64 BaseZenyReward = SafeLevel >= 300 ? 250000 : static_cast<int64>(SafeLevel) * 45 + 75;
+    const int32 BaseHonourReward = SafeLevel >= 300 ? 100 : FMath::Max(1, SafeLevel / 10);
+
+    float XpMultiplier=1.0f;
+    float ZenyMultiplier=1.0f;
+    float HonourMultiplier=1.0f;
+    FString EventName=TEXT("Normal");
+    if(const AHonourWarGameState* State=GetWorld()?GetWorld()->GetGameState<AHonourWarGameState>():nullptr)
+    {
+        XpMultiplier=State->GetWorldEventXpMultiplier();
+        ZenyMultiplier=State->GetWorldEventZenyMultiplier();
+        HonourMultiplier=State->GetWorldEventHonourMultiplier();
+        EventName=State->GetActiveWorldEventTitle();
+    }
+
+    const int32 KillXp=FMath::Max(1,FMath::RoundToInt(static_cast<float>(BaseKillXp)*XpMultiplier));
+    const int64 ZenyReward=FMath::Max<int64>(1,static_cast<int64>(FMath::RoundToDouble(static_cast<double>(BaseZenyReward)*ZenyMultiplier)));
+    const int32 HonourReward=FMath::Max(1,FMath::RoundToInt(static_cast<float>(BaseHonourReward)*HonourMultiplier));
 
     GainExperience(KillXp);
     Zeny += ZenyReward;
@@ -417,10 +440,10 @@ void UHonourWarCombatComponent::RewardMonsterDefeat(int32 MonsterLevel)
 
     if (SafeLevel >= 300)
     {
-        LastLootMessage = FString::Printf(TEXT("Lv.%d MONSTER DEFEATED | %lld Zeny | Mythic | %s | World Monarch Card | +%d XP"), SafeLevel, ZenyReward, *DatabaseItem, KillXp);
+        LastLootMessage = FString::Printf(TEXT("Lv.%d MONSTER DEFEATED | %lld Zeny | Mythic | %s | World Monarch Card | +%d XP | %s"), SafeLevel, ZenyReward, *DatabaseItem, KillXp, *EventName);
     }
     else
     {
-        LastLootMessage = FString::Printf(TEXT("Lv.%d defeated | %lld Zeny | %s | +%d XP"), SafeLevel, ZenyReward, *ItemName, KillXp);
+        LastLootMessage = FString::Printf(TEXT("Lv.%d defeated | %lld Zeny | %s | +%d XP | %s"), SafeLevel, ZenyReward, *ItemName, KillXp, *EventName);
     }
 }
