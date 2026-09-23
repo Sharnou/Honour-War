@@ -46,6 +46,6 @@ if "LootRank = FMath::Clamp(MonsterTier*30+MonsterFamilySlot+1,1,240)" not in co
 if len(c.get("pets",[]))!=20 or len(c.get("pet_skills",[]))!=120 or len(c.get("pet_equipment",[]))!=100: raise SystemExit("CONTENT_CATALOG_FAIL: pet content expansion")
 if not any(x["class"]=="Ranger" and x["slot"]=="Weapon" and x.get("weapon_family")=="Bolt Machine Gun" for x in c["equipment"]): raise SystemExit("CONTENT_CATALOG_FAIL: Ranger bolt machine gun equipment")
 enc=json.loads((ROOT/"data/honour_war_item_encyclopedia.json").read_text(encoding="utf-8"))
-if len(enc.get("entries",[]))!=795: raise SystemExit("CONTENT_CATALOG_FAIL: item encyclopedia count")
+if len(enc.get("entries",[]))!=797: raise SystemExit("CONTENT_CATALOG_FAIL: item encyclopedia count")
 if len({x["id"] for x in enc["entries"]})!=795: raise SystemExit("CONTENT_CATALOG_FAIL: item encyclopedia IDs are not unique")
 print("CONTENT_CATALOG_PASS: 70 characters, 256 monsters, 24 maps, 300 equipment, 76 items, 300 cards, 20 pets, 120 pet skills, 100 pet equipment.")

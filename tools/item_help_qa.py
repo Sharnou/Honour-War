@@ -3,7 +3,7 @@ from pathlib import Path
 import json
 ROOT=Path(__file__).resolve().parents[1]
 d=json.loads((ROOT/"data/honour_war_item_encyclopedia.json").read_text(encoding="utf-8")); e=d["entries"]
-if len(e)!=795 or len({x["id"] for x in e})!=795: raise SystemExit("ITEM_HELP_QA_FAIL: unique entries")
+if len(e)!=797 or len({x["id"] for x in e})!=797: raise SystemExit("ITEM_HELP_QA_FAIL: unique entries")
 for prefix,count in [("EQUIP_",300),("ITEM_",76),("CARD_",300)]:
     if len([x for x in e if x["id"].startswith(prefix)])!=count: raise SystemExit(f"ITEM_HELP_QA_FAIL: {prefix} count")
 for x in e:

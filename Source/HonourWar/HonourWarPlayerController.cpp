@@ -460,7 +460,7 @@ bool AHonourWarPlayerController::ExecuteHelpCommand(const FString& Command)
 
     if(Tokens.Num()==1)
     {
-        ClientMessage(TEXT("HELP: /help [item ID or name] | examples: /help EQUIP_240, /help World Monarch, /help potion"));
+        ClientMessage(TEXT("HELP: /help [item/card/pet ID or name] | examples: /help EQUIP_300, /help CARD_300, /help PETEQ_001, /help Machine Gun Bolts"));
         ClientMessage(TEXT("IDs: EQUIP_001-240 | ITEM_001-074 | CARD_001-240 | JOBEQ_* | JOBCARD_*"));
         return true;
     }
