@@ -34,11 +34,10 @@
     "Archer",
     "Thief",
     "Acolyte",
-    "Merchant"
-  ],
-  "advanced_classes": [
+    "Merchant",
     "Ranger"
   ],
+  "advanced_classes": [],
   "fifth_tier": {
     "Warrior": "Abyssal Warlord",
     "Mage": "Eternal Spellwright",
@@ -48,8 +47,29 @@
     "Merchant": "Infinite Quartermaster",
     "Ranger": "Verdant Paragon"
   },
-  "rule": "Fifth Tier remains rooted in the first-tier profession, including weapon family, silhouette, equipment identity and skill lineage.",
-  "advanced_class_roots": {
-    "Ranger": "Archer"
+  "rule": "Every profession keeps its Tier 1 identity through Tier 5 while unlocking stronger skills, gear, titles, visuals, pet affinity and loot identity.",
+  "advanced_class_roots": {},
+  "class_progression_architecture": {
+    "profession_count": 7,
+    "tiers_per_profession": 5,
+    "genders_per_tier": 2,
+    "character_profiles": 70,
+    "tier_unlock_levels": [
+      1,
+      25,
+      50,
+      150,
+      200
+    ],
+    "rule": "Each profession is a full Tier 1→5 lineage. Ranger is a first-class profession, not an advanced-class exception."
+  },
+  "fifth_tier_roots": {
+    "Warrior": "Abyssal Warlord",
+    "Mage": "Eternal Spellwright",
+    "Archer": "Causality Marksman",
+    "Thief": "Absolute Shadow",
+    "Acolyte": "Eternal Benediction",
+    "Merchant": "Infinite Quartermaster",
+    "Ranger": "Verdant Paragon"
   }
 }
