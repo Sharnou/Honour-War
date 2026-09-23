@@ -801,6 +801,8 @@ const TArray<FHelpEntry>& Entries()
   O.Add({TEXT("PETEQ_098"),TEXT("Worldroot River Otter charm 98"),TEXT("pet_equipment"),TEXT("Pet Equipment | ID PETEQ_098 | Slot charm | Pet River Otter | Tier 5 | Level 200 | Rarity Mythic | Power 167"),TEXT("Monster #55 [Lv.300] | Worldboss Altar"),TEXT("Any time; permanent daylight; source respawns after 12 seconds")});
   O.Add({TEXT("PETEQ_099"),TEXT("Worldroot Stone Ram weapon 99"),TEXT("pet_equipment"),TEXT("Pet Equipment | ID PETEQ_099 | Slot weapon | Pet Stone Ram | Tier 5 | Level 200 | Rarity Mythic | Power 168"),TEXT("Monster #66 [Lv.300] | Worldboss Altar"),TEXT("Any time; permanent daylight; source respawns after 12 seconds")});
   O.Add({TEXT("PETEQ_100"),TEXT("Worldroot Star Deer pack 100"),TEXT("pet_equipment"),TEXT("Pet Equipment | ID PETEQ_100 | Slot pack | Pet Star Deer | Tier 5 | Level 200 | Rarity Mythic | Power 169"),TEXT("Monster #77 [Lv.300] | Worldboss Altar"),TEXT("Any time; permanent daylight; source respawns after 12 seconds")});
+  O.Add({TEXT("ITEM_075"),TEXT("Machine Gun Bolts"),TEXT("ammunition"),TEXT("Ammunition | ID ITEM_075 | Type ammunition | Price 0"),TEXT("Wild Hunter Fly Scout [Lv.10] | Azure Coast"),TEXT("Any time; dropped by Ranger-compatible hunting grounds; source respawns after 12 seconds")});
+  O.Add({TEXT("ITEM_076"),TEXT("Rune Bolts"),TEXT("ammunition"),TEXT("Ammunition | ID ITEM_076 | Type ammunition | Price 0"),TEXT("Wild Wolf Scout [Lv.10] | Whispering Forest"),TEXT("Any time; dropped by early Ranger hunting grounds; source respawns after 12 seconds")});
   return O;}(); return V;
 }
 TArray<FString> BuildHelpLines(const FString& Query)
