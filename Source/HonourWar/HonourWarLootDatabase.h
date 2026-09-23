@@ -330,6 +330,12 @@ namespace HonourWarLootDatabase
         return Values;
     }
 
+    inline const FString& EquipmentForRank(int32 Rank)
+    {
+        const TArray<FString>& Values=Items();
+        return Values[FMath::Clamp(Rank-1,0,239)];
+    }
+
     inline const TArray<FString>& Cards()
     {
         static const TArray<FString> Values={
