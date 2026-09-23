@@ -3,7 +3,7 @@ from pathlib import Path
 import json
 ROOT=Path(__file__).resolve().parents[1]
 d=json.loads((ROOT/"data/honour_war_character_profiles.json").read_text(encoding="utf-8"))
-if d.get("count")!=70 or len(d.get("profiles",[]))!=70: raise SystemExit("CHARACTER_PROFILE_QA_FAIL: 60 profiles")
+if d.get("count")!=70 or len(d.get("profiles",[]))!=70: raise SystemExit("CHARACTER_PROFILE_QA_FAIL: expected 70 profiles")
 if len({x["character_id"] for x in d["profiles"]})!=70: raise SystemExit("CHARACTER_PROFILE_QA_FAIL: duplicate character IDs")
 for x in d["profiles"]:
     for k in ("id","character_id","name","class","tier","job_id","job_name","title","gender","face","hair","clothing","equipment","combat","emotions"):
