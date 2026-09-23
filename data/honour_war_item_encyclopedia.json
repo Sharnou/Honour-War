@@ -10294,7 +10294,7 @@
     },
     {
       "id": "EQUIP_240",
-      "name": "Transcendent Monster Suit",
+      "name": "Transcendent Monster Suit Legacy",
       "slot": "Accessory",
       "class": "Mage",
       "tier": 5,
@@ -12874,11 +12874,11 @@
     },
     {
       "id": "EQUIP_300",
-      "name": "Forge Seal 5 Expansion 12",
+      "name": "Transcendent Monster Suit",
       "slot": "Accessory",
       "class": "Merchant",
       "tier": 5,
-      "level_required": 245,
+      "level_required": 250,
       "refine_max": 15,
       "refine_materials": [
         "Phracon",
@@ -19359,7 +19359,7 @@
     },
     {
       "id": "CARD_240",
-      "name": "World Monarch Card",
+      "name": "World Monarch Card Legacy",
       "tier": 5,
       "slot": "Accessory",
       "socketable": true,
@@ -20679,22 +20679,22 @@
     },
     {
       "id": "CARD_300",
-      "name": "Merchant Royal Ascendant Card 60",
+      "name": "World Monarch Card",
       "tier": 5,
       "slot": "Accessory",
       "socketable": true,
       "effect_stat": "CRIT",
-      "effect_value": 27,
+      "effect_value": 30,
       "rarity": "Mythic",
       "description": "Tier 5 Merchant card; boosts CRIT and synergizes with trade fighter builds.",
       "source": {
-        "monster_id": "MON_053",
-        "monster_name": "Monster #53",
+        "monster_id": "MON_256",
+        "monster_name": "Night Elder Dragon Worldbreaker",
         "monster_level": 300,
-        "map_id": "arena_of_honour",
-        "map_name": "Arena of Honour"
+        "map_id": "worldboss_altar",
+        "map_name": "Worldboss Altar"
       },
-      "when": "Any time; permanent daylight; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
+      "when": "Any time; level-300 Worldbreaker source; source respawns after 12 seconds; top-tier card drop.",
       "type": "card",
       "availability": "Monster defeat",
       "drop_condition": "Eligible from Monster #53 (Lv.300)"
