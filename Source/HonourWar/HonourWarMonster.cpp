@@ -93,6 +93,15 @@ void AHonourWarMonster::SetSpecies(EHonourWarMonsterSpecies NewSpecies)
     }
 }
 
+void AHonourWarMonster::SetDisplayName(const FString& NewDisplayName)
+{
+    DisplayName=NewDisplayName.IsEmpty()?GetSpeciesName():NewDisplayName;
+    if(Nameplate)
+        Nameplate->SetText(FText::FromString(
+            FString::Printf(TEXT("Lv.%d %s [%s]"),
+                Level,*DisplayName,Level>=250?TEXT("MVP"):(Level>=150?TEXT("Elite"):TEXT("Normal")))));
+}
+
 FString AHonourWarMonster::GetSpeciesName() const
 {
     switch(Species)
