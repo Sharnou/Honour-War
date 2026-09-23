@@ -95,7 +95,6 @@ void UHonourWarHUDWidget::BuildSurface()
     BuildMiniMap(RootCanvas);
     BuildWorldEventPanel(RootCanvas);
     BuildQuestTracker(RootCanvas);
-    BuildSkillBar(RootCanvas);
     BuildChatDock(RootCanvas);
     BuildAuthenticationPanel(RootCanvas);
     BuildCharacterSelectionPanel(RootCanvas);
@@ -267,24 +266,6 @@ void UHonourWarHUDWidget::BuildWorldEventPanel(UCanvasPanel* Root)
     Stack->AddChildToVerticalBox(Text(WidgetTree,TEXT("WorldEventHeader"),TEXT("◆ LIVE WORLD EVENT"),12,Muted));
     EventText=Text(WidgetTree,TEXT("WorldEventText"),TEXT("Royal Hunt • +25% XP • +10% Zeny"),17,Gold);
     Stack->AddChildToVerticalBox(EventText);
-}
-
-void UHonourWarHUDWidget::BuildSkillBar(UCanvasPanel* Root)
-{
-    UBorder* Outer=Panel(WidgetTree,TEXT("SkillBar"),FLinearColor(0.012f,0.018f,0.028f,0.90f),FMargin(6));
-    Place(Root,Outer,FVector2D(0,-26),FVector2D(760,92),FAnchors(0.5f,1,0.5f,1),FVector2D(0.5f,1));
-    UHorizontalBox* Row=WidgetTree->ConstructWidget<UHorizontalBox>(UHorizontalBox::StaticClass(),TEXT("SkillBarRow"));
-    Outer->SetContent(Row);
-
-    const TCHAR* Keys[]={TEXT("1"),TEXT("2"),TEXT("3"),TEXT("4"),TEXT("5"),TEXT("6"),TEXT("7"),TEXT("8")};
-    const TCHAR* Names[]={TEXT("Basic"),TEXT("Class"),TEXT("Power"),TEXT("Arcane"),TEXT("Volley"),TEXT("Guard"),TEXT("Shadow"),TEXT("Finish")};
-    for(int32 Index=0;Index<8;++Index)
-    {
-        UBorder* Slot=Panel(WidgetTree,*FString::Printf(TEXT("SkillSlot_%d"),Index),FLinearColor(0.035f,0.045f,0.060f,0.96f),FMargin(5));
-        Slot->SetContent(Text(WidgetTree,*FString::Printf(TEXT("SkillLabel_%d"),Index),
-            FString::Printf(TEXT("%s\n%s"),Keys[Index],Names[Index]),13.0f,Gold));
-        Row->AddChildToHorizontalBox(Slot);
-    }
 }
 
 void UHonourWarHUDWidget::BuildQuestTracker(UCanvasPanel* Root)
