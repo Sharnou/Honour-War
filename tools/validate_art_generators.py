@@ -20,6 +20,9 @@ FORBIDDEN = (
     "bpy.ops.wm." + "gltf_export",
 )
 
+# City services, city-building systems, and building-connection skills are permanently banned.
+FORBIDDEN_CITY = ("TownHall","Blacksmith","Market","Barracks","MagicTower","CityResource","CityUpgrade","CityService","ServiceImplementation","BuildingConnection","BuildingSkill","ConnectBuilding","ActivateBuilding","BuildingDependency","BuildMode","ConstructionMenu","ConstructionAction")
+
 errors = []
 for path in FILES:
     if not path.is_file():
@@ -29,6 +32,10 @@ for path in FILES:
     for marker in FORBIDDEN:
         if marker in body:
             errors.append(f"{path.relative_to(ROOT)} contains retired exporter {marker}")
+    lower = body.lower()
+    for marker in FORBIDDEN_CITY:
+        if marker.lower() in lower:
+            errors.append(f"{path.relative_to(ROOT)} contains permanently banned city/service generator {marker}")
 
 for path in FILES:
     if path.is_file():
