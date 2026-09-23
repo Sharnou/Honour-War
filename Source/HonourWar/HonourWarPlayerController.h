@@ -57,6 +57,7 @@ private:
     void HandleMouseClick();
     void HandleMouseWheel(float Delta);
     void RotateCameraFromMouse();
+    bool ExecuteHelpCommand(const FString& Command);
     bool ExecuteGoCommand(const FString& Command);
     bool ExecuteStatCommand(const FString& Command);
     bool ValidateAccountInput(const FString& Username,const FString& Password,FString& OutMessage) const;

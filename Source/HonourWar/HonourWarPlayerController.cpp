@@ -5,6 +5,7 @@
 #include "HonourWarCharacter.h"
 #include "HonourWarMonster.h"
 #include "HonourWarGameMode.h"
+#include "HonourWarItemEncyclopedia.h"
 #include "HonourWarGameState.h"
 #include "HonourWarPlayerState.h"
 #include "InputCoreTypes.h"
@@ -449,6 +450,32 @@ void AHonourWarPlayerController::SendChatMessage(const FString& Message)
 
 void AHonourWarPlayerController::ServerSendChat_Implementation(const FString& Message){SendChatMessage(Message);}
 
+bool AHonourWarPlayerController::ExecuteHelpCommand(const FString& Command)
+{
+    TArray<FString> Tokens;
+    Command.ParseIntoArrayWS(Tokens);
+    if(Tokens.Num()==0) return false;
+    const bool bHelp = Tokens[0].Equals(TEXT("@help"),ESearchCase::IgnoreCase) || Tokens[0].Equals(TEXT("/help"),ESearchCase::IgnoreCase);
+    if(!bHelp) return false;
+
+    if(Tokens.Num()==1)
+    {
+        ClientMessage(TEXT("HELP: /help [item ID or name] | examples: /help EQUIP_240, /help World Monarch, /help potion"));
+        ClientMessage(TEXT("IDs: EQUIP_001-240 | ITEM_001-074 | CARD_001-240 | JOBEQ_* | JOBCARD_*"));
+        return true;
+    }
+
+    FString Query;
+    for(int32 i=1;i<Tokens.Num();++i)
+    {
+        if(!Query.IsEmpty()) Query+=TEXT(" ");
+        Query+=Tokens[i];
+    }
+    const TArray<FString> Lines=HonourWarItemEncyclopedia::BuildHelpLines(Query);
+    for(const FString& Line:Lines) ClientMessage(Line);
+    return true;
+}
+
 bool AHonourWarPlayerController::ExecuteStatCommand(const FString& Command)
 {
     if(!IsReadyForGameplay()) return false;
@@ -566,6 +593,7 @@ bool AHonourWarPlayerController::Exec(UWorld* InWorld,const TCHAR* Cmd,FOutputDe
         ClientMessage(Message);
         return true;
     }
+    if(ExecuteHelpCommand(Command)) return true;
     if(Command.Equals(TEXT("@auth"),ESearchCase::IgnoreCase))
     {
         ClientMessage(!bAuthenticated?TEXT("Not authenticated. Use @register or @login."):IsReadyForGameplay()?FString::Printf(TEXT("Authenticated as %s. Character slot %d selected."),*AccountUsername,ActiveCharacterSlot+1):FString::Printf(TEXT("Authenticated as %s. Character selection required."),*AccountUsername));
