@@ -382,19 +382,39 @@ void AHonourWarMonster::Tick(float DeltaSeconds)
     const FVector ToPlayer=Player->GetActorLocation()-GetActorLocation();
     const float Distance=ToPlayer.Size();
 
-    if (Distance<1900.0f && Distance>280.0f)
+    float MoveSpeed=260.0f;
+    float AttackRange=330.0f;
+    float AttackCooldown=1.2f;
+    float DamageScale=1.0f;
+    switch(Species)
+    {
+        case EHonourWarMonsterSpecies::Wolf: MoveSpeed=340.0f; AttackRange=340.0f; AttackCooldown=0.95f; break;
+        case EHonourWarMonsterSpecies::Goblin: MoveSpeed=250.0f; AttackRange=360.0f; AttackCooldown=1.15f; break;
+        case EHonourWarMonsterSpecies::Skeleton: MoveSpeed=220.0f; AttackRange=340.0f; AttackCooldown=1.30f; break;
+        case EHonourWarMonsterSpecies::Orc: MoveSpeed=210.0f; AttackRange=380.0f; AttackCooldown=1.45f; DamageScale=1.15f; break;
+        case EHonourWarMonsterSpecies::Mantis: MoveSpeed=300.0f; AttackRange=380.0f; AttackCooldown=1.05f; break;
+        case EHonourWarMonsterSpecies::Golem: MoveSpeed=145.0f; AttackRange=420.0f; AttackCooldown=1.80f; DamageScale=1.35f; break;
+        case EHonourWarMonsterSpecies::Dragon: MoveSpeed=235.0f; AttackRange=560.0f; AttackCooldown=1.50f; DamageScale=1.50f; break;
+        case EHonourWarMonsterSpecies::Poring:
+        default: break;
+    }
+
+    if (Distance<1900.0f && Distance>AttackRange*0.78f)
     {
         const FVector Direction=ToPlayer.GetSafeNormal2D();
-        AddActorWorldOffset(Direction*(260.0f*DeltaSeconds),true);
+        AddActorWorldOffset(Direction*(MoveSpeed*DeltaSeconds),true);
         if (!Direction.IsNearlyZero())
             SetActorRotation(FMath::RInterpTo(GetActorRotation(),Direction.Rotation(),DeltaSeconds,8.0f));
     }
 
-    if (Distance<=330.0f && AttackTimer<=0.0f)
+    if (Distance<=AttackRange && AttackTimer<=0.0f)
     {
         if (AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(Player))
-            Character->ReceiveMonsterDamage(45.0f+Level*2.0f,Level);
-        AttackTimer=1.2f;
+        {
+            const float EnrageMultiplier=CurrentHealth<=MaxHealth*0.25f?1.20f:1.0f;
+            Character->ReceiveMonsterDamage((45.0f+Level*2.0f)*DamageScale*EnrageMultiplier,Level);
+        }
+        AttackTimer=AttackCooldown;
     }
 }
 
