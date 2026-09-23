@@ -19,5 +19,5 @@ all_skills=[tuple(t["skills"]) for cls in expected for t in d["classes"][cls]["t
 if len(set(all_skills))!=35: raise SystemExit("CLASS_JOB_QA_FAIL: tier skill loadouts are not unique")
 rangers=d["classes"]["Ranger"]["tiers"]
 if not all(t.get("weapon_family") in ("Fantasy Gun","Bolt Machine Gun") for t in rangers): raise SystemExit("CLASS_JOB_QA_FAIL: Ranger firearm identity")
-if not all(t.get("ammo_type")=="machine_gun_bolt" for t in rangers): raise SystemExit("CLASS_JOB_QA_FAIL: Ranger must use Machine Gun Bolts in every tier")
+if not all(t.get("ammo_type")=="machine_gun_bolt" and t.get("ammo_name")=="Machine Gun Bolts" for t in rangers): raise SystemExit("CLASS_JOB_QA_FAIL: Ranger must use Machine Gun Bolts in every tier")
 print("CLASS_JOB_QA_PASS: 7 classes, 35 jobs, five tiers, authored skills/stat growth/equipment/appearance metadata, Ranger firearm/ammunition identity.")
