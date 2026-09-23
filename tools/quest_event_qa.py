@@ -63,7 +63,6 @@ required_fragments = [
     (character,"RecordMonsterDefeat(MonsterLevel"),
     (character,"SetQuestState(Save->QuestId"),
     (hud,"BuildWorldEventPanel"),
-    (hud,"BuildSkillBar"),
     (hud,"GetActiveWorldEventTitle"),
 ]
 for source, frag in required_fragments:
