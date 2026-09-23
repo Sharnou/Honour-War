@@ -27,6 +27,8 @@ private:
     void BuildSurface();
     void BuildProfileCluster(UCanvasPanel* Root);
     void BuildMiniMap(UCanvasPanel* Root);
+    void BuildWorldEventPanel(UCanvasPanel* Root);
+    void BuildSkillBar(UCanvasPanel* Root);
     void BuildQuestTracker(UCanvasPanel* Root);
     void BuildChatDock(UCanvasPanel* Root);
     void BuildAuthenticationPanel(UCanvasPanel* Root);
@@ -57,6 +59,9 @@ private:
     UPROPERTY() UTextBlock* RefinementText=nullptr;
     UPROPERTY() UTextBlock* QuestText=nullptr;
     UPROPERTY() UTextBlock* CombatText=nullptr;
+    UPROPERTY() UTextBlock* EventText=nullptr;
+    UPROPERTY() UTextBlock* MapCoordsText=nullptr;
+    UPROPERTY() UTextBlock* MapStatusText=nullptr;
 
     UPROPERTY() UBorder* AuthPanel=nullptr;
     UPROPERTY() UEditableTextBox* AuthUsername=nullptr;
