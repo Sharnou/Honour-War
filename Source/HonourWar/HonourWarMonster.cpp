@@ -244,6 +244,60 @@ void AHonourWarMonster::ApplySpeciesVisual()
 
     ApplyColor(Body,BodyColor);
     ApplyColor(Head,HeadColor);
+
+    UStaticMesh* DetailSphere=Mesh(TEXT("/Engine/BasicShapes/Sphere.Sphere"));
+    UStaticMesh* DetailCube=Mesh(TEXT("/Engine/BasicShapes/Cube.Cube"));
+    UStaticMesh* DetailCylinder=Mesh(TEXT("/Engine/BasicShapes/Cylinder.Cylinder"));
+    auto AddDetail=[this](UStaticMesh* DetailMesh,const TCHAR* Name,const FVector& Location,const FVector& Scale,const FRotator& Rotation,const FLinearColor& Color)
+    {
+        if(!DetailMesh) return;
+        const FName UniqueName=MakeUniqueObjectName(this,UStaticMeshComponent::StaticClass(),FName(Name));
+        UStaticMeshComponent* Detail=NewObject<UStaticMeshComponent>(this,UniqueName);
+        AddInstanceComponent(Detail);
+        Detail->SetStaticMesh(DetailMesh);
+        Detail->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+        Detail->AttachToComponent(Root,FAttachmentTransformRules::KeepRelativeTransform);
+        Detail->SetRelativeLocation(Location);
+        Detail->SetRelativeRotation(Rotation);
+        Detail->SetRelativeScale3D(Scale);
+        ApplyColor(Detail,Color);
+        Detail->RegisterComponent();
+    };
+
+    switch(Species)
+    {
+        case EHonourWarMonsterSpecies::Wolf:
+            AddDetail(DetailSphere,TEXT("WolfEarL"),FVector(78,-30,205),FVector(0.22f,0.18f,0.36f),FRotator(0,0,-12),HeadColor);
+            AddDetail(DetailSphere,TEXT("WolfEarR"),FVector(78,30,205),FVector(0.22f,0.18f,0.36f),FRotator(0,0,12),HeadColor);
+            AddDetail(DetailCylinder,TEXT("WolfTail"),FVector(-82,0,145),FVector(0.18f,0.18f,0.90f),FRotator(0,0,-35),BodyColor);
+            break;
+        case EHonourWarMonsterSpecies::Goblin:
+        case EHonourWarMonsterSpecies::Orc:
+            AddDetail(DetailCube,TEXT("MonsterChest"),FVector(54,0,132),FVector(0.10f,0.56f,0.28f),FRotator::ZeroRotator,FLinearColor(0.24f,0.17f,0.08f));
+            AddDetail(DetailSphere,TEXT("MonsterBelt"),FVector(50,0,84),FVector(0.12f,0.62f,0.10f),FRotator::ZeroRotator,FLinearColor(0.12f,0.09f,0.07f));
+            break;
+        case EHonourWarMonsterSpecies::Skeleton:
+            AddDetail(DetailCylinder,TEXT("SkeletonRibL"),FVector(52,-18,125),FVector(0.07f,0.07f,0.48f),FRotator(0,0,80),FLinearColor(0.90f,0.86f,0.72f));
+            AddDetail(DetailCylinder,TEXT("SkeletonRibR"),FVector(52,18,125),FVector(0.07f,0.07f,0.48f),FRotator(0,0,-80),FLinearColor(0.90f,0.86f,0.72f));
+            break;
+        case EHonourWarMonsterSpecies::Mantis:
+            AddDetail(DetailCylinder,TEXT("MantisArmL"),FVector(82,-72,150),FVector(0.10f,0.10f,0.85f),FRotator(0,0,-58),FLinearColor(0.08f,0.32f,0.12f));
+            AddDetail(DetailCylinder,TEXT("MantisArmR"),FVector(82,72,150),FVector(0.10f,0.10f,0.85f),FRotator(0,0,58),FLinearColor(0.08f,0.32f,0.12f));
+            break;
+        case EHonourWarMonsterSpecies::Golem:
+            AddDetail(DetailCube,TEXT("GolemCore"),FVector(72,0,150),FVector(0.14f,0.26f,0.26f),FRotator::ZeroRotator,FLinearColor(0.45f,0.62f,0.74f));
+            AddDetail(DetailCube,TEXT("GolemShoulderL"),FVector(0,-105,170),FVector(0.48f,0.28f,0.34f),FRotator(0,0,-8),HeadColor);
+            AddDetail(DetailCube,TEXT("GolemShoulderR"),FVector(0,105,170),FVector(0.48f,0.28f,0.34f),FRotator(0,0,8),HeadColor);
+            break;
+        case EHonourWarMonsterSpecies::Dragon:
+            AddDetail(DetailCube,TEXT("DragonWingL"),FVector(-20,-95,180),FVector(0.20f,1.00f,0.95f),FRotator(0,0,-18),FLinearColor(0.28f,0.05f,0.09f));
+            AddDetail(DetailCube,TEXT("DragonWingR"),FVector(-20,95,180),FVector(0.20f,1.00f,0.95f),FRotator(0,0,18),FLinearColor(0.28f,0.05f,0.09f));
+            AddDetail(DetailSphere,TEXT("DragonChest"),FVector(62,0,145),FVector(0.16f,0.36f,0.34f),FRotator::ZeroRotator,FLinearColor(0.86f,0.32f,0.18f));
+            break;
+        case EHonourWarMonsterSpecies::Poring:
+        default:
+            break;
+    }
 }
 
 void AHonourWarMonster::BeginPlay()
