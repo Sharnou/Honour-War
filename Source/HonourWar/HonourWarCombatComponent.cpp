@@ -3,6 +3,7 @@
 #include "HonourWarMonster.h"
 #include "HonourWarLootDatabase.h"
 #include "HonourWarDamagePopup.h"
+#include "HonourWarClassProgression.h"
 #include "HonourWarCombatEffect.h"
 #include "HonourWarGameState.h"
 #include "Kismet/GameplayStatics.h"
@@ -62,15 +63,8 @@ void UHonourWarCombatComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 
 float UHonourWarCombatComponent::SkillRangeForClass() const
 {
-    switch (CharacterClass)
-    {
-        case EHonourWarClass::Mage: return 750.0f;
-        case EHonourWarClass::Archer: return 1200.0f;
-        case EHonourWarClass::Ranger: return 1350.0f;
-        case EHonourWarClass::Acolyte: return 500.0f;
-        case EHonourWarClass::Thief: return 220.0f;
-        default: return 240.0f;
-    }
+    const FHonourWarJobProfile& Job=HonourWarClassProgression::JobFor(CharacterClass,HonourWarClassProgression::TierForLevel(Level));
+    return static_cast<float>(Job.AttackRange);
 }
 
 float UHonourWarCombatComponent::BaseDamageForClass() const
@@ -79,7 +73,9 @@ float UHonourWarCombatComponent::BaseDamageForClass() const
     const float AgeMultiplier = 1.0f + FMath::Clamp((AgeYears - 18.0f) * 0.005f, 0.0f, 1.0f);
     const float StatusAttack = static_cast<float>(Strength) * 2.0f + static_cast<float>(Dexterity) * 0.80f;
     const float MagicAttack = static_cast<float>(Intelligence) * 0.45f;
-    const float LevelScale = (30.0f + Level * 8.0f + StatusAttack + MagicAttack) * AgeMultiplier * (1.0f + BasicSkillLevel * 0.06f);
+    const FHonourWarJobProfile& Job=HonourWarClassProgression::JobFor(CharacterClass,HonourWarClassProgression::TierForLevel(Level));
+    const float JobPowerMultiplier=1.0f+static_cast<float>(Job.PowerRating-140)*0.0015f;
+    const float LevelScale = (30.0f + Level * 8.0f + StatusAttack + MagicAttack) * AgeMultiplier * JobPowerMultiplier * (1.0f + BasicSkillLevel * 0.06f);
     switch (CharacterClass)
     {
         case EHonourWarClass::Mage: return LevelScale * 1.35f;
