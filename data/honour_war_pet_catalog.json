@@ -2055,8 +2055,8 @@
       },
       "source": {
         "monster_id": "MON_012",
-        "monster_name": "Monster #12",
-        "monster_level": 10,
+        "monster_name": "Royal Poporing Warden",
+        "monster_level": 80,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -2090,8 +2090,8 @@
       },
       "source": {
         "monster_id": "MON_023",
-        "monster_name": "Monster #23",
-        "monster_level": 10,
+        "monster_name": "Verdant Drops Tyrant",
+        "monster_level": 230,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -2125,8 +2125,8 @@
       },
       "source": {
         "monster_id": "MON_034",
-        "monster_name": "Monster #34",
-        "monster_level": 10,
+        "monster_name": "Crimson Goblin Hunter",
+        "monster_level": 30,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -2160,8 +2160,8 @@
       },
       "source": {
         "monster_id": "MON_045",
-        "monster_name": "Monster #45",
-        "monster_level": 10,
+        "monster_name": "Abyssal Kobold Elder",
+        "monster_level": 120,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -2195,8 +2195,8 @@
       },
       "source": {
         "monster_id": "MON_056",
-        "monster_name": "Monster #56",
-        "monster_level": 10,
+        "monster_name": "Night Hobgoblin Worldbreaker",
+        "monster_level": 300,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -2230,8 +2230,8 @@
       },
       "source": {
         "monster_id": "MON_067",
-        "monster_name": "Monster #67",
-        "monster_level": 10,
+        "monster_name": "Ancient Wolf Alpha",
+        "monster_level": 50,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -2265,8 +2265,8 @@
       },
       "source": {
         "monster_id": "MON_078",
-        "monster_name": "Monster #78",
-        "monster_level": 10,
+        "monster_name": "Storm Desert Wolf Lord",
+        "monster_level": 170,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -2300,7 +2300,7 @@
       },
       "source": {
         "monster_id": "MON_089",
-        "monster_name": "Monster #89",
+        "monster_name": "Wild Dire Wolf Scout",
         "monster_level": 10,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
@@ -2335,8 +2335,8 @@
       },
       "source": {
         "monster_id": "MON_100",
-        "monster_name": "Monster #100",
-        "monster_level": 10,
+        "monster_name": "Royal Skeleton Warden",
+        "monster_level": 80,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -2370,8 +2370,8 @@
       },
       "source": {
         "monster_id": "MON_111",
-        "monster_name": "Monster #111",
-        "monster_level": 10,
+        "monster_name": "Verdant Zombie Guard Tyrant",
+        "monster_level": 230,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -2405,8 +2405,8 @@
       },
       "source": {
         "monster_id": "MON_122",
-        "monster_name": "Monster #122",
-        "monster_level": 10,
+        "monster_name": "Crimson Skull Knight Hunter",
+        "monster_level": 30,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -2440,8 +2440,8 @@
       },
       "source": {
         "monster_id": "MON_133",
-        "monster_name": "Monster #133",
-        "monster_level": 10,
+        "monster_name": "Abyssal Orc Elder",
+        "monster_level": 120,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -2475,8 +2475,8 @@
       },
       "source": {
         "monster_id": "MON_144",
-        "monster_name": "Monster #144",
-        "monster_level": 10,
+        "monster_name": "Night Orc Warrior Worldbreaker",
+        "monster_level": 300,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -2510,8 +2510,8 @@
       },
       "source": {
         "monster_id": "MON_155",
-        "monster_name": "Monster #155",
-        "monster_level": 10,
+        "monster_name": "Ancient Orc Warlord Alpha",
+        "monster_level": 50,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -2545,8 +2545,8 @@
       },
       "source": {
         "monster_id": "MON_166",
-        "monster_name": "Monster #166",
-        "monster_level": 10,
+        "monster_name": "Storm Mantis Lord",
+        "monster_level": 170,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -2580,7 +2580,7 @@
       },
       "source": {
         "monster_id": "MON_177",
-        "monster_name": "Monster #177",
+        "monster_name": "Wild Scorpion Scout",
         "monster_level": 10,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
@@ -2615,8 +2615,8 @@
       },
       "source": {
         "monster_id": "MON_188",
-        "monster_name": "Monster #188",
-        "monster_level": 10,
+        "monster_name": "Royal Venom Beetle Warden",
+        "monster_level": 80,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -2650,8 +2650,8 @@
       },
       "source": {
         "monster_id": "MON_199",
-        "monster_name": "Monster #199",
-        "monster_level": 10,
+        "monster_name": "Verdant Golem Tyrant",
+        "monster_level": 230,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -2685,8 +2685,8 @@
       },
       "source": {
         "monster_id": "MON_210",
-        "monster_name": "Monster #210",
-        "monster_level": 10,
+        "monster_name": "Crimson Crystal Golem Hunter",
+        "monster_level": 30,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -2720,8 +2720,8 @@
       },
       "source": {
         "monster_id": "MON_221",
-        "monster_name": "Monster #221",
-        "monster_level": 10,
+        "monster_name": "Abyssal Iron Golem Elder",
+        "monster_level": 120,
         "map_id": "east_meadow",
         "map_name": "East Meadow"
       },
@@ -2755,8 +2755,8 @@
       },
       "source": {
         "monster_id": "MON_232",
-        "monster_name": "Monster #232",
-        "monster_level": 50,
+        "monster_name": "Night Dragon Worldbreaker",
+        "monster_level": 300,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -2790,7 +2790,7 @@
       },
       "source": {
         "monster_id": "MON_243",
-        "monster_name": "Monster #243",
+        "monster_name": "Ancient Wyvern Alpha",
         "monster_level": 50,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
@@ -2825,8 +2825,8 @@
       },
       "source": {
         "monster_id": "MON_254",
-        "monster_name": "Monster #254",
-        "monster_level": 50,
+        "monster_name": "Storm Elder Dragon Lord",
+        "monster_level": 170,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -2860,8 +2860,8 @@
       },
       "source": {
         "monster_id": "MON_009",
-        "monster_name": "Monster #9",
-        "monster_level": 50,
+        "monster_name": "Wild Poporing Scout",
+        "monster_level": 10,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -2895,8 +2895,8 @@
       },
       "source": {
         "monster_id": "MON_020",
-        "monster_name": "Monster #20",
-        "monster_level": 50,
+        "monster_name": "Royal Drops Warden",
+        "monster_level": 80,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -2930,8 +2930,8 @@
       },
       "source": {
         "monster_id": "MON_031",
-        "monster_name": "Monster #31",
-        "monster_level": 50,
+        "monster_name": "Verdant Marin Tyrant",
+        "monster_level": 230,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -2965,8 +2965,8 @@
       },
       "source": {
         "monster_id": "MON_042",
-        "monster_name": "Monster #42",
-        "monster_level": 50,
+        "monster_name": "Crimson Kobold Hunter",
+        "monster_level": 30,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -3000,8 +3000,8 @@
       },
       "source": {
         "monster_id": "MON_053",
-        "monster_name": "Monster #53",
-        "monster_level": 50,
+        "monster_name": "Abyssal Hobgoblin Elder",
+        "monster_level": 120,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -3035,8 +3035,8 @@
       },
       "source": {
         "monster_id": "MON_064",
-        "monster_name": "Monster #64",
-        "monster_level": 50,
+        "monster_name": "Night Orclet Worldbreaker",
+        "monster_level": 300,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -3070,7 +3070,7 @@
       },
       "source": {
         "monster_id": "MON_075",
-        "monster_name": "Monster #75",
+        "monster_name": "Ancient Desert Wolf Alpha",
         "monster_level": 50,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
@@ -3105,8 +3105,8 @@
       },
       "source": {
         "monster_id": "MON_086",
-        "monster_name": "Monster #86",
-        "monster_level": 50,
+        "monster_name": "Storm Warg Lord",
+        "monster_level": 170,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -3140,8 +3140,8 @@
       },
       "source": {
         "monster_id": "MON_097",
-        "monster_name": "Monster #97",
-        "monster_level": 50,
+        "monster_name": "Wild Skeleton Scout",
+        "monster_level": 10,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -3175,8 +3175,8 @@
       },
       "source": {
         "monster_id": "MON_108",
-        "monster_name": "Monster #108",
-        "monster_level": 50,
+        "monster_name": "Royal Zombie Guard Warden",
+        "monster_level": 80,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -3210,8 +3210,8 @@
       },
       "source": {
         "monster_id": "MON_119",
-        "monster_name": "Monster #119",
-        "monster_level": 50,
+        "monster_name": "Verdant Bone Archer Tyrant",
+        "monster_level": 230,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -3245,8 +3245,8 @@
       },
       "source": {
         "monster_id": "MON_130",
-        "monster_name": "Monster #130",
-        "monster_level": 50,
+        "monster_name": "Crimson Orc Hunter",
+        "monster_level": 30,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -3280,8 +3280,8 @@
       },
       "source": {
         "monster_id": "MON_141",
-        "monster_name": "Monster #141",
-        "monster_level": 50,
+        "monster_name": "Abyssal Orc Warrior Elder",
+        "monster_level": 120,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -3315,8 +3315,8 @@
       },
       "source": {
         "monster_id": "MON_152",
-        "monster_name": "Monster #152",
-        "monster_level": 50,
+        "monster_name": "Night Orc Champion Worldbreaker",
+        "monster_level": 300,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -3350,7 +3350,7 @@
       },
       "source": {
         "monster_id": "MON_163",
-        "monster_name": "Monster #163",
+        "monster_name": "Ancient Mantis Alpha",
         "monster_level": 50,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
@@ -3385,8 +3385,8 @@
       },
       "source": {
         "monster_id": "MON_174",
-        "monster_name": "Monster #174",
-        "monster_level": 50,
+        "monster_name": "Storm Hunter Fly Lord",
+        "monster_level": 170,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -3420,8 +3420,8 @@
       },
       "source": {
         "monster_id": "MON_185",
-        "monster_name": "Monster #185",
-        "monster_level": 50,
+        "monster_name": "Wild Venom Beetle Scout",
+        "monster_level": 10,
         "map_id": "forest_field",
         "map_name": "Whispering Forest"
       },
@@ -3455,8 +3455,8 @@
       },
       "source": {
         "monster_id": "MON_196",
-        "monster_name": "Monster #196",
-        "monster_level": 120,
+        "monster_name": "Royal Golem Warden",
+        "monster_level": 80,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -3490,8 +3490,8 @@
       },
       "source": {
         "monster_id": "MON_207",
-        "monster_name": "Monster #207",
-        "monster_level": 120,
+        "monster_name": "Verdant Stone Golem Tyrant",
+        "monster_level": 230,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -3525,8 +3525,8 @@
       },
       "source": {
         "monster_id": "MON_218",
-        "monster_name": "Monster #218",
-        "monster_level": 120,
+        "monster_name": "Crimson Iron Golem Hunter",
+        "monster_level": 30,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -3560,7 +3560,7 @@
       },
       "source": {
         "monster_id": "MON_229",
-        "monster_name": "Monster #229",
+        "monster_name": "Abyssal Dragon Elder",
         "monster_level": 120,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
@@ -3595,8 +3595,8 @@
       },
       "source": {
         "monster_id": "MON_240",
-        "monster_name": "Monster #240",
-        "monster_level": 120,
+        "monster_name": "Night Drake Worldbreaker",
+        "monster_level": 300,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -3630,8 +3630,8 @@
       },
       "source": {
         "monster_id": "MON_251",
-        "monster_name": "Monster #251",
-        "monster_level": 120,
+        "monster_name": "Ancient Elder Dragon Alpha",
+        "monster_level": 50,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -3665,8 +3665,8 @@
       },
       "source": {
         "monster_id": "MON_006",
-        "monster_name": "Monster #6",
-        "monster_level": 120,
+        "monster_name": "Storm Poring Lord",
+        "monster_level": 170,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -3700,8 +3700,8 @@
       },
       "source": {
         "monster_id": "MON_017",
-        "monster_name": "Monster #17",
-        "monster_level": 120,
+        "monster_name": "Wild Drops Scout",
+        "monster_level": 10,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -3735,8 +3735,8 @@
       },
       "source": {
         "monster_id": "MON_028",
-        "monster_name": "Monster #28",
-        "monster_level": 120,
+        "monster_name": "Royal Marin Warden",
+        "monster_level": 80,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -3770,8 +3770,8 @@
       },
       "source": {
         "monster_id": "MON_039",
-        "monster_name": "Monster #39",
-        "monster_level": 120,
+        "monster_name": "Verdant Goblin Tyrant",
+        "monster_level": 230,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -3805,8 +3805,8 @@
       },
       "source": {
         "monster_id": "MON_050",
-        "monster_name": "Monster #50",
-        "monster_level": 120,
+        "monster_name": "Crimson Hobgoblin Hunter",
+        "monster_level": 30,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -3840,7 +3840,7 @@
       },
       "source": {
         "monster_id": "MON_061",
-        "monster_name": "Monster #61",
+        "monster_name": "Abyssal Orclet Elder",
         "monster_level": 120,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
@@ -3875,8 +3875,8 @@
       },
       "source": {
         "monster_id": "MON_072",
-        "monster_name": "Monster #72",
-        "monster_level": 120,
+        "monster_name": "Night Wolf Worldbreaker",
+        "monster_level": 300,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -3910,8 +3910,8 @@
       },
       "source": {
         "monster_id": "MON_083",
-        "monster_name": "Monster #83",
-        "monster_level": 120,
+        "monster_name": "Ancient Warg Alpha",
+        "monster_level": 50,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -3945,8 +3945,8 @@
       },
       "source": {
         "monster_id": "MON_094",
-        "monster_name": "Monster #94",
-        "monster_level": 120,
+        "monster_name": "Storm Dire Wolf Lord",
+        "monster_level": 170,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -3980,8 +3980,8 @@
       },
       "source": {
         "monster_id": "MON_105",
-        "monster_name": "Monster #105",
-        "monster_level": 120,
+        "monster_name": "Wild Zombie Guard Scout",
+        "monster_level": 10,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -4015,8 +4015,8 @@
       },
       "source": {
         "monster_id": "MON_116",
-        "monster_name": "Monster #116",
-        "monster_level": 120,
+        "monster_name": "Royal Bone Archer Warden",
+        "monster_level": 80,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -4050,8 +4050,8 @@
       },
       "source": {
         "monster_id": "MON_127",
-        "monster_name": "Monster #127",
-        "monster_level": 120,
+        "monster_name": "Verdant Skull Knight Tyrant",
+        "monster_level": 230,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -4085,8 +4085,8 @@
       },
       "source": {
         "monster_id": "MON_138",
-        "monster_name": "Monster #138",
-        "monster_level": 120,
+        "monster_name": "Crimson Orc Warrior Hunter",
+        "monster_level": 30,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
@@ -4120,7 +4120,7 @@
       },
       "source": {
         "monster_id": "MON_149",
-        "monster_name": "Monster #149",
+        "monster_name": "Abyssal Orc Champion Elder",
         "monster_level": 120,
         "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
@@ -4155,8 +4155,8 @@
       },
       "source": {
         "monster_id": "MON_160",
-        "monster_name": "Monster #160",
-        "monster_level": 230,
+        "monster_name": "Night Orc Warlord Worldbreaker",
+        "monster_level": 300,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -4190,8 +4190,8 @@
       },
       "source": {
         "monster_id": "MON_171",
-        "monster_name": "Monster #171",
-        "monster_level": 230,
+        "monster_name": "Ancient Hunter Fly Alpha",
+        "monster_level": 50,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -4225,8 +4225,8 @@
       },
       "source": {
         "monster_id": "MON_182",
-        "monster_name": "Monster #182",
-        "monster_level": 230,
+        "monster_name": "Storm Scorpion Lord",
+        "monster_level": 170,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -4260,8 +4260,8 @@
       },
       "source": {
         "monster_id": "MON_193",
-        "monster_name": "Monster #193",
-        "monster_level": 230,
+        "monster_name": "Wild Golem Scout",
+        "monster_level": 10,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -4295,8 +4295,8 @@
       },
       "source": {
         "monster_id": "MON_204",
-        "monster_name": "Monster #204",
-        "monster_level": 230,
+        "monster_name": "Royal Stone Golem Warden",
+        "monster_level": 80,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -4330,7 +4330,7 @@
       },
       "source": {
         "monster_id": "MON_215",
-        "monster_name": "Monster #215",
+        "monster_name": "Verdant Crystal Golem Tyrant",
         "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
@@ -4365,8 +4365,8 @@
       },
       "source": {
         "monster_id": "MON_226",
-        "monster_name": "Monster #226",
-        "monster_level": 230,
+        "monster_name": "Crimson Dragon Hunter",
+        "monster_level": 30,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -4400,8 +4400,8 @@
       },
       "source": {
         "monster_id": "MON_237",
-        "monster_name": "Monster #237",
-        "monster_level": 230,
+        "monster_name": "Abyssal Drake Elder",
+        "monster_level": 120,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -4435,8 +4435,8 @@
       },
       "source": {
         "monster_id": "MON_248",
-        "monster_name": "Monster #248",
-        "monster_level": 230,
+        "monster_name": "Night Wyvern Worldbreaker",
+        "monster_level": 300,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -4470,8 +4470,8 @@
       },
       "source": {
         "monster_id": "MON_003",
-        "monster_name": "Monster #3",
-        "monster_level": 230,
+        "monster_name": "Ancient Poring Alpha",
+        "monster_level": 50,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -4505,8 +4505,8 @@
       },
       "source": {
         "monster_id": "MON_014",
-        "monster_name": "Monster #14",
-        "monster_level": 230,
+        "monster_name": "Storm Poporing Lord",
+        "monster_level": 170,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -4540,8 +4540,8 @@
       },
       "source": {
         "monster_id": "MON_025",
-        "monster_name": "Monster #25",
-        "monster_level": 230,
+        "monster_name": "Wild Marin Scout",
+        "monster_level": 10,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -4575,8 +4575,8 @@
       },
       "source": {
         "monster_id": "MON_036",
-        "monster_name": "Monster #36",
-        "monster_level": 230,
+        "monster_name": "Royal Goblin Warden",
+        "monster_level": 80,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -4610,7 +4610,7 @@
       },
       "source": {
         "monster_id": "MON_047",
-        "monster_name": "Monster #47",
+        "monster_name": "Verdant Kobold Tyrant",
         "monster_level": 230,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
@@ -4645,8 +4645,8 @@
       },
       "source": {
         "monster_id": "MON_058",
-        "monster_name": "Monster #58",
-        "monster_level": 230,
+        "monster_name": "Crimson Orclet Hunter",
+        "monster_level": 30,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -4680,8 +4680,8 @@
       },
       "source": {
         "monster_id": "MON_069",
-        "monster_name": "Monster #69",
-        "monster_level": 230,
+        "monster_name": "Abyssal Wolf Elder",
+        "monster_level": 120,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -4715,8 +4715,8 @@
       },
       "source": {
         "monster_id": "MON_080",
-        "monster_name": "Monster #80",
-        "monster_level": 230,
+        "monster_name": "Night Desert Wolf Worldbreaker",
+        "monster_level": 300,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -4750,8 +4750,8 @@
       },
       "source": {
         "monster_id": "MON_091",
-        "monster_name": "Monster #91",
-        "monster_level": 230,
+        "monster_name": "Ancient Dire Wolf Alpha",
+        "monster_level": 50,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -4785,8 +4785,8 @@
       },
       "source": {
         "monster_id": "MON_102",
-        "monster_name": "Monster #102",
-        "monster_level": 230,
+        "monster_name": "Storm Skeleton Lord",
+        "monster_level": 170,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -4820,8 +4820,8 @@
       },
       "source": {
         "monster_id": "MON_113",
-        "monster_name": "Monster #113",
-        "monster_level": 230,
+        "monster_name": "Wild Bone Archer Scout",
+        "monster_level": 10,
         "map_id": "dragon_sanctum",
         "map_name": "Dragon Sanctum"
       },
@@ -4855,8 +4855,8 @@
       },
       "source": {
         "monster_id": "MON_124",
-        "monster_name": "Monster #124",
-        "monster_level": 300,
+        "monster_name": "Royal Skull Knight Warden",
+        "monster_level": 80,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -4890,8 +4890,8 @@
       },
       "source": {
         "monster_id": "MON_135",
-        "monster_name": "Monster #135",
-        "monster_level": 300,
+        "monster_name": "Verdant Orc Tyrant",
+        "monster_level": 230,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -4925,8 +4925,8 @@
       },
       "source": {
         "monster_id": "MON_146",
-        "monster_name": "Monster #146",
-        "monster_level": 300,
+        "monster_name": "Crimson Orc Champion Hunter",
+        "monster_level": 30,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -4960,8 +4960,8 @@
       },
       "source": {
         "monster_id": "MON_157",
-        "monster_name": "Monster #157",
-        "monster_level": 300,
+        "monster_name": "Abyssal Orc Warlord Elder",
+        "monster_level": 120,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -4995,7 +4995,7 @@
       },
       "source": {
         "monster_id": "MON_168",
-        "monster_name": "Monster #168",
+        "monster_name": "Night Mantis Worldbreaker",
         "monster_level": 300,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
@@ -5030,8 +5030,8 @@
       },
       "source": {
         "monster_id": "MON_179",
-        "monster_name": "Monster #179",
-        "monster_level": 300,
+        "monster_name": "Ancient Scorpion Alpha",
+        "monster_level": 50,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -5065,8 +5065,8 @@
       },
       "source": {
         "monster_id": "MON_190",
-        "monster_name": "Monster #190",
-        "monster_level": 300,
+        "monster_name": "Storm Venom Beetle Lord",
+        "monster_level": 170,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -5100,8 +5100,8 @@
       },
       "source": {
         "monster_id": "MON_201",
-        "monster_name": "Monster #201",
-        "monster_level": 300,
+        "monster_name": "Wild Stone Golem Scout",
+        "monster_level": 10,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -5135,8 +5135,8 @@
       },
       "source": {
         "monster_id": "MON_212",
-        "monster_name": "Monster #212",
-        "monster_level": 300,
+        "monster_name": "Royal Crystal Golem Warden",
+        "monster_level": 80,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -5170,8 +5170,8 @@
       },
       "source": {
         "monster_id": "MON_223",
-        "monster_name": "Monster #223",
-        "monster_level": 300,
+        "monster_name": "Verdant Iron Golem Tyrant",
+        "monster_level": 230,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -5205,8 +5205,8 @@
       },
       "source": {
         "monster_id": "MON_234",
-        "monster_name": "Monster #234",
-        "monster_level": 300,
+        "monster_name": "Crimson Drake Hunter",
+        "monster_level": 30,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -5240,8 +5240,8 @@
       },
       "source": {
         "monster_id": "MON_245",
-        "monster_name": "Monster #245",
-        "monster_level": 300,
+        "monster_name": "Abyssal Wyvern Elder",
+        "monster_level": 120,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -5275,7 +5275,7 @@
       },
       "source": {
         "monster_id": "MON_256",
-        "monster_name": "Monster #256",
+        "monster_name": "Night Elder Dragon Worldbreaker",
         "monster_level": 300,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
@@ -5310,8 +5310,8 @@
       },
       "source": {
         "monster_id": "MON_011",
-        "monster_name": "Monster #11",
-        "monster_level": 300,
+        "monster_name": "Ancient Poporing Alpha",
+        "monster_level": 50,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -5345,8 +5345,8 @@
       },
       "source": {
         "monster_id": "MON_022",
-        "monster_name": "Monster #22",
-        "monster_level": 300,
+        "monster_name": "Storm Drops Lord",
+        "monster_level": 170,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -5380,8 +5380,8 @@
       },
       "source": {
         "monster_id": "MON_033",
-        "monster_name": "Monster #33",
-        "monster_level": 300,
+        "monster_name": "Wild Goblin Scout",
+        "monster_level": 10,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -5415,8 +5415,8 @@
       },
       "source": {
         "monster_id": "MON_044",
-        "monster_name": "Monster #44",
-        "monster_level": 300,
+        "monster_name": "Royal Kobold Warden",
+        "monster_level": 80,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -5450,8 +5450,8 @@
       },
       "source": {
         "monster_id": "MON_055",
-        "monster_name": "Monster #55",
-        "monster_level": 300,
+        "monster_name": "Verdant Hobgoblin Tyrant",
+        "monster_level": 230,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -5485,8 +5485,8 @@
       },
       "source": {
         "monster_id": "MON_066",
-        "monster_name": "Monster #66",
-        "monster_level": 300,
+        "monster_name": "Crimson Wolf Hunter",
+        "monster_level": 30,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
@@ -5520,8 +5520,8 @@
       },
       "source": {
         "monster_id": "MON_077",
-        "monster_name": "Monster #77",
-        "monster_level": 300,
+        "monster_name": "Abyssal Desert Wolf Elder",
+        "monster_level": 120,
         "map_id": "worldboss_altar",
         "map_name": "Worldboss Altar"
       },
