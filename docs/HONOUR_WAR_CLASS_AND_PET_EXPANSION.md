@@ -1,6 +1,6 @@
 # Honour War — Class, Character & Pet Expansion (2026-09-24)
 
-Canonical content expansion for the Unreal Engine 5.8 MMORPG/ARPG. The roster is now 70 characters: 7 professions × 5 job tiers × 2 genders. Every class has an authored Tier 1→5 identity, skills, stats, equipment, visual silhouette, emotion set and pet affinity.
+Canonical content expansion for the Unreal Engine 5.8 MMORPG/ARPG. The roster is now 70 characters: 7 equal professions × 5 job tiers × 2 genders. Ranger is modeled as a full profession, not an advanced-class exception. Every class has an authored Tier 1→5 identity, skills, stats, equipment, visual silhouette, emotion set and pet affinity.
 
 ## Job ladder
 ### Warrior
@@ -47,7 +47,7 @@ Canonical content expansion for the Unreal Engine 5.8 MMORPG/ARPG. The roster is
 - Tier 5 — Verdant Paragon — The Verdant Paragon — unlock Lv.200 — power 166 — DEX/AGI — Verdant Paragon Bolt Gun — ammo machine_gun_bolt
 
 ## Ranger combat identity
-Ranger is a ranged firearm class. Tiers 1–2 use handcrafted fantasy guns; tiers 3–5 use rune-powered high-rate bolt weapons described as bolt-machine guns. Their ammunition is the canonical Machine Gun Bolt family. Visuals remain medieval-fantasy and do not use futuristic machinery.
+Ranger is a ranged firearm class across all five tiers. Tiers 1–2 use handcrafted fantasy guns, while tiers 3–5 use rune-powered high-rate bolt machine guns. All Ranger tiers use the canonical Machine Gun Bolt family (ITEM_075). Visuals remain medieval-fantasy and do not use futuristic machinery.
 
 ## Content counts
 70 character profiles; 300 equipment; 300 cards; 76 general items; 20 pets; 120 pet skills; 100 pet equipment; searchable item encyclopedia entries include source monster, source map and availability/when metadata.
@@ -60,3 +60,6 @@ All six hero stats (STR, AGI, VIT, INT, DEX, LUK) remain freely allocated by the
 
 ## Pets
 Pets have separate combat skills and five equipment slots (collar, armor, charm, weapon, pack). Pet equipment is data-driven and searchable through the same encyclopedia pathway.
+
+## Canonical IDs
+All equipment, general items, cards, Tier-5 job rewards and pet equipment have stable IDs. `/help ID-or-name` resolves exact or partial names to details, source monster, source map and availability. Ranger ammunition is `ITEM_075` (Machine Gun Bolts); `ITEM_076` is Rune Bolts.
