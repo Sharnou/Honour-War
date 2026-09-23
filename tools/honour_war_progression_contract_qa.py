@@ -64,7 +64,7 @@ def main() -> int:
 
     catalog = json.loads((ROOT/"data"/"honour_war_content_catalog.json").read_text(encoding="utf-8"))
     if len(catalog.get("monsters", [])) != 64:
-        raise SystemExit("PROGRESSION_QA_FAIL: monster catalog must contain 64 entries")
+        raise SystemExit("PROGRESSION_QA_FAIL: monster catalog must contain 256 entries")
     if 300 not in {m.get("level") for m in catalog["monsters"]}:
         raise SystemExit("PROGRESSION_QA_FAIL: level-300 monster missing from catalog")
     if not all("location" in m for m in catalog["monsters"]):
