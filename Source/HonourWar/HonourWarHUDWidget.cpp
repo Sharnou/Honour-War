@@ -371,6 +371,33 @@ void UHonourWarHUDWidget::RefreshVitals()
     ProfileMeta->SetText(FText::FromString(FString::Printf(TEXT("Lv. %d  |  %s  |  %s"),Combat->GetLevel(),*Character->GetClassTierName(),*Character->GetClassName())));
     HpBar->SetPercent(Combat->GetHealthPercent()); SpBar->SetPercent(Combat->GetSpPercent()); XpBar->SetPercent(Combat->GetXpPercent());
     EconomyText->SetText(FText::FromString(FString::Printf(TEXT("Age %d days  |  Zeny %lld  |  Honours %d"),Combat->GetAgeDays(),Combat->GetZeny(),Combat->GetHonours())));
+    if(StatusText)
+    {
+        StatusText->SetText(FText::FromString(FString::Printf(
+            TEXT("STR %d  •  AGI %d  •  VIT %d\\nINT %d  •  DEX %d  •  LUK %d\\nStatus Points %d  |  Costs %d/%d/%d"),
+            Combat->GetStrength(),Combat->GetAgility(),Combat->GetVitality(),
+            Combat->GetIntelligence(),Combat->GetDexterity(),Combat->GetLuckStat(),
+            Combat->GetStatusPoints(),
+            Combat->GetStatusPointCost(EHonourWarStatusStat::Strength),
+            Combat->GetStatusPointCost(EHonourWarStatusStat::Agility),
+            Combat->GetStatusPointCost(EHonourWarStatusStat::Vitality))));
+    }
+    if(StatusDerivedText)
+    {
+        StatusDerivedText->SetText(FText::FromString(FString::Printf(
+            TEXT("HP %d/%d  •  SP %d/%d\\nHIT %d  •  FLEE %d  •  CRIT %d%%  •  LUCK %d  •  MIT %.1f%%  •  CD %.1f%%↓"),
+            FMath::RoundToInt(Combat->GetCurrentHealth()),FMath::RoundToInt(Combat->GetMaxHealth()),
+            FMath::RoundToInt(Combat->GetCurrentSp()),FMath::RoundToInt(Combat->GetMaxSp()),
+            Combat->GetHitRating(),Combat->GetFleeRating(),Combat->GetCriticalRate(),Combat->GetLuck(),
+            Combat->GetDamageReductionPercent()*100.0f,(1.0f-Combat->GetSkillCooldownMultiplier())*100.0f)));
+    }
+    const bool bCanSpend=Combat->GetStatusPoints()>0;
+    if(StrengthButton) StrengthButton->SetIsEnabled(bCanSpend && Combat->GetStrength()<120);
+    if(AgilityButton) AgilityButton->SetIsEnabled(bCanSpend && Combat->GetAgility()<120);
+    if(VitalityButton) VitalityButton->SetIsEnabled(bCanSpend && Combat->GetVitality()<120);
+    if(IntelligenceButton) IntelligenceButton->SetIsEnabled(bCanSpend && Combat->GetIntelligence()<120);
+    if(DexterityButton) DexterityButton->SetIsEnabled(bCanSpend && Combat->GetDexterity()<120);
+    if(LuckButton) LuckButton->SetIsEnabled(bCanSpend && Combat->GetLuckStat()<120);
     RefinementText->SetText(FText::FromString(FString::Printf(TEXT("Equip +%d  |  Refine %.1f%%  |  P:%d E:%d O:%d"),Combat->GetEquipmentRefineLevel(),Combat->GetRefineSuccessPercent(),Combat->GetPhracon(),Combat->GetEmveretarcon(),Combat->GetOridecon())));
     if(ChatText)
     {
