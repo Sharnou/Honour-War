@@ -1,21 +1,39 @@
 #!/usr/bin/env python3
+"""Honour War production content-catalog QA."""
 from pathlib import Path
-import json,sys
+import json
 ROOT=Path(__file__).resolve().parents[1]
 c=json.loads((ROOT/"data/honour_war_content_catalog.json").read_text(encoding="utf-8"))
 expected={"characters":60,"monsters":64,"maps":24,"equipment":240,"cards":240}
 for k,v in expected.items():
-    if len(c[k])!=v: raise SystemExit(f"CONTENT_CATALOG_FAIL: {k} count")
+    if len(c[k])!=v: raise SystemExit(f"CONTENT_CATALOG_FAIL: {k} count={len(c[k])}, expected={v}")
+if len(c["items"])!=74: raise SystemExit(f"CONTENT_CATALOG_FAIL: items count={len(c['items'])}, expected=74")
 for k in expected:
     ids=[x["id"] for x in c[k]]
     if len(ids)!=len(set(ids)): raise SystemExit(f"CONTENT_CATALOG_FAIL: duplicate {k} IDs")
-if not {1,300}.issubset({x["level"] for x in c["monsters"]}): raise SystemExit("CONTENT_CATALOG_FAIL: monster level range")
-if not {1,250}.issubset({x["level_required"] for x in c["equipment"]}): raise SystemExit("CONTENT_CATALOG_FAIL: equipment level range")
-if not {"Phracon","Emveretarcon","Oridecon"}.issubset(set(sum((x["refine_materials"] for x in c["equipment"]),[]))): raise SystemExit("CONTENT_CATALOG_FAIL: refine materials")
-if len(json.loads((ROOT/"data/honour_war_maps.json").read_text(encoding="utf-8"))["maps"])!=24: raise SystemExit("CONTENT_CATALOG_FAIL: maps sync")
+for k in ("characters","monsters","maps","equipment","items","cards"):
+    names=[x["name"] for x in c[k]]
+    if any(not n.strip() for n in names): raise SystemExit(f"CONTENT_CATALOG_FAIL: empty {k} name")
+if len({x["name"] for x in c["characters"]})!=60: raise SystemExit("CONTENT_CATALOG_FAIL: character names are not unique")
+if not {1,300}.issubset({x["level"] for x in c["monsters"]}): raise SystemExit("CONTENT_CATALOG_FAIL: monster levels must include 1..300 endpoints")
+if any(x["level"]<1 or x["level"]>300 for x in c["monsters"]): raise SystemExit("CONTENT_CATALOG_FAIL: monster level out of range")
+if not {1,250}.issubset({x["level_required"] for x in c["equipment"]}): raise SystemExit("CONTENT_CATALOG_FAIL: equipment level range incomplete")
+if any(x["refine_max"]<15 for x in c["equipment"]): raise SystemExit("CONTENT_CATALOG_FAIL: equipment refine cap incomplete")
+if not {"Phracon","Emveretarcon","Oridecon","Zeny"}.issubset(set(sum((x["refine_materials"] for x in c["equipment"]),[]))): raise SystemExit("CONTENT_CATALOG_FAIL: refine materials missing")
+if c["equipment"][-1]["name"]!="Transcendent Monster Suit": raise SystemExit("CONTENT_CATALOG_FAIL: level-300 suit reward missing")
+if c["cards"][-1]["name"]!="World Monarch Card": raise SystemExit("CONTENT_CATALOG_FAIL: level-300 card reward missing")
+maps=json.loads((ROOT/"data/honour_war_maps.json").read_text(encoding="utf-8"))["maps"]
+if len(maps)!=24: raise SystemExit("CONTENT_CATALOG_FAIL: maps JSON count")
+if len({x["id"] for x in maps})!=24: raise SystemExit("CONTENT_CATALOG_FAIL: map IDs are not unique")
 if "market" in (ROOT/"data/honour_war_maps.json").read_text(encoding="utf-8").lower(): raise SystemExit("CONTENT_CATALOG_FAIL: retired market reference")
 controller=(ROOT/"Source/HonourWar/HonourWarPlayerController.cpp").read_text(encoding="utf-8")
 world=(ROOT/"Source/HonourWar/HonourWarWorldDirector.cpp").read_text(encoding="utf-8")
+loot=(ROOT/"Source/HonourWar/HonourWarLootDatabase.h").read_text(encoding="utf-8")
+combat=(ROOT/"Source/HonourWar/HonourWarCombatComponent.cpp").read_text(encoding="utf-8")
 if "HonourWarContentCatalog::Maps()" not in controller: raise SystemExit("CONTENT_CATALOG_FAIL: map runtime integration")
 if "HonourWarContentCatalog::Monsters()" not in world: raise SystemExit("CONTENT_CATALOG_FAIL: monster runtime integration")
-print("CONTENT_CATALOG_PASS: 60 characters, 64 monsters, 24 maps, 240 equipment, 74 items, 240 cards")
+if "SpawnActor<AHonourWarMonster>" not in world: raise SystemExit("CONTENT_CATALOG_FAIL: monster SpawnActor integration")
+if "EquipmentForRank" not in loot: raise SystemExit("CONTENT_CATALOG_FAIL: equipment rank API missing")
+if 'TEXT("Transcendent Monster Suit")' not in loot or 'TEXT("World Monarch Card")' not in loot: raise SystemExit("CONTENT_CATALOG_FAIL: runtime level-300 rewards missing")
+if "LootRank = FMath::Clamp(1 + FMath::RoundToInt" not in combat or ", 1, 240)" not in combat: raise SystemExit("CONTENT_CATALOG_FAIL: full loot rank mapping missing")
+print("CONTENT_CATALOG_PASS: 60 characters, 64 monsters, 24 maps, 240 equipment, 74 items, 240 cards.")
