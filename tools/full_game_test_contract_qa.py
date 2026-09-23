@@ -1,84 +1,18 @@
 #!/usr/bin/env python3
-"""Honour War full-game readiness contract.
-
-This is a pre-runtime gate only. It proves that the repository contains the
-required Unreal 5.8 runtime/test hooks; it does not claim that the packaged
-EXE has executed successfully.
-"""
+"""Honour War full-game readiness contract."""
 from pathlib import Path
-import re
-import subprocess
-import sys
-
-ROOT = Path(__file__).resolve().parents[1]
-
-required = [
-    "HonourWar.uproject",
-    "Build/Build-HonourWar.ps1",
-    "Build/Capture-HonourWar.ps1",
-    "Source/HonourWar/HonourWarGameMode.cpp",
-    "Source/HonourWar/HonourWarPlayerController.cpp",
-    "Source/HonourWar/HonourWarAccountSaveGame.h",
-    "Source/HonourWar/HonourWarHUDWidget.cpp",
-    "Source/HonourWar/HonourWarCharacter.cpp",
-    "Source/HonourWar/HonourWarWorldDirector.cpp",
-    "Source/HonourWar/HonourWarScreenshotDirector.cpp",
-    "tools/unreal_runtime_screenshot_qa.py",
-]
-
+import re, subprocess, sys, json
+ROOT=Path(__file__).resolve().parents[1]
+required=["HonourWar.uproject","Build/Build-HonourWar.ps1","Build/Capture-HonourWar.ps1","Source/HonourWar/HonourWarGameMode.cpp","Source/HonourWar/HonourWarPlayerController.cpp","Source/HonourWar/HonourWarAccountSaveGame.h","Source/HonourWar/HonourWarHUDWidget.cpp","Source/HonourWar/HonourWarCharacter.cpp","Source/HonourWar/HonourWarWorldDirector.cpp","Source/HonourWar/HonourWarScreenshotDirector.cpp","Source/HonourWar/HonourWarContentCatalog.h","data/honour_war_content_catalog.json","data/honour_war_maps.json","tools/content_catalog_qa.py","tools/unreal_runtime_screenshot_qa.py"]
 for rel in required:
-    if not (ROOT / rel).is_file():
-        raise SystemExit(f"FULL_GAME_TEST_CONTRACT_FAIL: missing {rel}")
-
-controller = (ROOT / "Source/HonourWar/HonourWarPlayerController.cpp").read_text(encoding="utf-8")
-world = (ROOT / "Source/HonourWar/HonourWarWorldDirector.cpp").read_text(encoding="utf-8")
-character = (ROOT / "Source/HonourWar/HonourWarCharacter.cpp").read_text(encoding="utf-8")
-account_save = (ROOT / "Source/HonourWar/HonourWarAccountSaveGame.h").read_text(encoding="utf-8")
-input_config = (ROOT / "Config/DefaultInput.ini").read_text(encoding="utf-8")
-capture = (ROOT / "Build/Capture-HonourWar.ps1").read_text(encoding="utf-8")
-combat = (ROOT / "Source/HonourWar/HonourWarCombatComponent.cpp").read_text(encoding="utf-8")
-monster = (ROOT / "Source/HonourWar/HonourWarMonster.cpp").read_text(encoding="utf-8")
-character_reaction = (ROOT / "Source/HonourWar/HonourWarCharacter.cpp").read_text(encoding="utf-8")
-
-checks = {
-    "@go coordinate command": re.search(r'Compare\(TEXT\("@go"\)', controller) and "FVector(X\*10.0f,Y\*10.0f" in controller,
-    "@go map 0 anchor": "FVector(0,0,180)" in controller,
-    "monster level 300": "300" in world,
-    "eight monster species": "EHonourWarMonsterSpecies::Dragon" in world,
-    "real monster SpawnActor": "SpawnActor<AHonourWarMonster>" in world,
-    "automatic save": "SaveProgress" in character and "AutoSaveAccumulator >= 5.0f" in character and "EndPlay" in character,
-    "automatic save contains location": "PlayerLocation=GetActorLocation()" in character,
-    "automatic save contains economy": "Zeny=CombatComponent->GetZeny()" in character,
-    "automatic save contains inventory": "InventoryItems=CombatComponent->GetInventoryItems()" in character and "Cards=CombatComponent->GetCards()" in character,
-    "single account persistence": "HonourWarAccount" in controller and "SaveActiveCharacterData" in controller and "LoadActiveCharacterData" in controller,
-    "no profile save slots": "HonourWar_Profile_" not in controller and "CharacterSlotName" not in controller,
-    "no manual save option": 'ActionName="SaveGame"' not in input_config and 'ActionName="LoadGame"' not in input_config and "void AHonourWarPlayerController::SaveGame" not in controller and "void AHonourWarPlayerController::LoadGame" not in controller,
-    "load/resume": "LoadProgress" in character,
-    "real capture flag": "-HonourWarCapture" in capture,
-    "1920x1080 capture": "ResX=1920" in capture and "ResY=1080" in capture,
-    "registration": "RegisterAccount" in controller and "@register" in controller,
-    "login": "LoginAccount" in controller and "@login" in controller,
-    "persistent account slot": "HonourWarAccount" in controller and "SaveGameToSlot" in controller,
-    "capture account authentication": "AuthenticateCaptureAccount" in controller and "HonourWarCapture" in controller,
-    "attack reaction stats": all(x in combat for x in ["GetHitRating", "GetFleeRating", "GetCriticalRate", "GetLuck"]),
-    "normal hit reaction branch": all(x in combat for x in ["Target->GetFleeRating()", "Target->GetLuck()", "Target->GetCritResistance()", "bCritical"]),
-    "miss and lucky feedback": "InitializeReaction(TEXT(\"MISS\")" in combat and "InitializeReaction(TEXT(\"Lucky!\")" in combat,
-    "monster flinch": "FlinchTimer=bCritical?0.16f:0.25f" in monster and "ReceiveCombatHit(float Damage,EHonourWarClass SourceClass,bool bCritical)" in monster,
-    "player hit stutter": "HitStutterTimer=0.25f" in character_reaction and "PlayIncomingAttackReaction(bool bCritical)" in character_reaction,
-}
-
-for name, ok in checks.items():
-    if not ok:
-        raise SystemExit(f"FULL_GAME_TEST_CONTRACT_FAIL: {name}")
-
-qa = subprocess.run(
-    [sys.executable, str(ROOT / "tools/rejected_systems_qa.py")],
-    cwd=ROOT,
-    text=True,
-)
-if qa.returncode != 0:
-    raise SystemExit(qa.returncode)
-
-print("FULL_GAME_TEST_CONTRACT_PASS")
-print("Runtime gate ready: Unreal 5.8 package -> real EXE -> capture -> screenshot QA.")
-print("Note: this gate intentionally does not claim runtime execution.")
+    if not (ROOT/rel).is_file(): raise SystemExit(f"FULL_GAME_TEST_CONTRACT_FAIL: missing {rel}")
+c=json.loads((ROOT/"data/honour_war_content_catalog.json").read_text(encoding="utf-8"))
+for k,v in {"characters":60,"monsters":64,"maps":24,"equipment":240,"cards":240}.items():
+    if len(c[k])!=v: raise SystemExit(f"FULL_GAME_TEST_CONTRACT_FAIL: {k} catalog count")
+controller=(ROOT/"Source/HonourWar/HonourWarPlayerController.cpp").read_text(encoding="utf-8"); world=(ROOT/"Source/HonourWar/HonourWarWorldDirector.cpp").read_text(encoding="utf-8"); character=(ROOT/"Source/HonourWar/HonourWarCharacter.cpp").read_text(encoding="utf-8"); input_config=(ROOT/"Config/DefaultInput.ini").read_text(encoding="utf-8"); capture=(ROOT/"Build/Capture-HonourWar.ps1").read_text(encoding="utf-8"); combat=(ROOT/"Source/HonourWar/HonourWarCombatComponent.cpp").read_text(encoding="utf-8"); monster=(ROOT/"Source/HonourWar/HonourWarMonster.cpp").read_text(encoding="utf-8")
+checks={"@go coordinate command":"Compare(TEXT(\"@go\")" in controller and "FVector(X*10.0f,Y*10.0f,0.0f)" in controller,"24-map catalog runtime":"HonourWarContentCatalog::Maps()" in controller and "Maps.Num()" in controller,"24 map ids":"len(c['maps'])==24","monster catalog runtime":"HonourWarContentCatalog::Monsters()" in world,"64 monsters":len(c["monsters"])==64,"300 monster":300 in {m["level"] for m in c["monsters"]},"real monster SpawnActor":"SpawnActor<AHonourWarMonster>" in world,"automatic save":"SaveProgress" in character and "AutoSaveAccumulator >= 5.0f" in character and "EndPlay" in character,"automatic save location":"PlayerLocation=GetActorLocation()" in character,"automatic save economy":"Zeny=CombatComponent->GetZeny()" in character,"automatic save inventory":"InventoryItems=CombatComponent->GetInventoryItems()" in character and "Cards=CombatComponent->GetCards()" in character,"single account persistence":"HonourWarAccount" in controller and "SaveActiveCharacterData" in controller and "LoadActiveCharacterData" in controller,"no profile save slots":"HonourWar_Profile_" not in controller and "CharacterSlotName" not in controller,"no manual save option":'ActionName="SaveGame"' not in input_config and 'ActionName="LoadGame"' not in input_config,"load/resume":"LoadProgress" in character,"capture flag":"-HonourWarCapture" in capture,"1920x1080":"ResX=1920" in capture and "ResY=1080" in capture,"registration":"RegisterAccount" in controller and "@register" in controller,"login":"LoginAccount" in controller and "@login" in controller,"capture authentication":"AuthenticateCaptureAccount" in controller and "HonourWarCapture" in controller,"attack stats":all(x in combat for x in ["GetHitRating","GetFleeRating","GetCriticalRate","GetLuck"]),"miss/lucky":"InitializeReaction(TEXT(\"MISS\")" in combat and "InitializeReaction(TEXT(\"Lucky!\")" in combat,"monster flinch":"FlinchTimer=bCritical?0.16f:0.25f" in monster,"player stutter":"HitStutterTimer=0.25f" in character}
+for name,ok in checks.items():
+    if not ok: raise SystemExit(f"FULL_GAME_TEST_CONTRACT_FAIL: {name}")
+qa=subprocess.run([sys.executable,str(ROOT/"tools/content_catalog_qa.py")],cwd=ROOT,text=True); qa.check_returncode()
+qa2=subprocess.run([sys.executable,str(ROOT/"tools/rejected_systems_qa.py")],cwd=ROOT,text=True); qa2.check_returncode()
+print("FULL_GAME_TEST_CONTRACT_PASS: content catalog integrated; runtime gate ready.")
