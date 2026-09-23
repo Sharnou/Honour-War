@@ -38,7 +38,7 @@ def main() -> int:
     require(controller, "RotateCameraFromMouse", "mouse camera orbit")
     require(controller, "Ragnarok Online-inspired", "persistent camera identity")
     require(controller, "ExecuteGoCommand", "@go fast-travel command")
-    require(controller, "Anchors", "map travel anchors")
+    require(controller, "HonourWarContentCatalog::Maps()", "map travel catalog")
     require(inputs, 'ActionName="CameraReset"', "camera reset input")
 
     print("HONOUR WAR CAMERA CONTROL QA")
