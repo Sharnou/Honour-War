@@ -4,7 +4,7 @@
   "game": "Honour War",
   "counts": {
     "characters": 60,
-    "monsters": 64,
+    "monsters": 256,
     "maps": 24,
     "equipment": 240,
     "items": 74,
@@ -620,8 +620,8 @@
       "level": 10,
       "hp": 1250,
       "location": {
-        "x": 8200,
-        "y": 0,
+        "x": -6290,
+        "y": 5762,
         "z": 120
       }
     },
@@ -630,10 +630,10 @@
       "name": "Crimson Poring Hunter",
       "visual_archetype": "Poring",
       "level": 30,
-      "hp": 2550,
+      "hp": 2619,
       "location": {
-        "x": -6857,
-        "y": 6283,
+        "x": 775,
+        "y": -8826,
         "z": 120
       }
     },
@@ -642,10 +642,10 @@
       "name": "Ancient Poring Alpha",
       "visual_archetype": "Poring",
       "level": 50,
-      "hp": 3850,
+      "hp": 3987,
       "location": {
-        "x": 906,
-        "y": -10360,
+        "x": 5592,
+        "y": 7293,
         "z": 120
       }
     },
@@ -654,10 +654,10 @@
       "name": "Royal Poring Warden",
       "visual_archetype": "Poring",
       "level": 80,
-      "hp": 5800,
+      "hp": 6040,
       "location": {
-        "x": 7001,
-        "y": 9124,
+        "x": -9374,
+        "y": -1658,
         "z": 120
       }
     },
@@ -666,10 +666,10 @@
       "name": "Abyssal Poring Elder",
       "visual_archetype": "Poring",
       "level": 120,
-      "hp": 8400,
+      "hp": 8777,
       "location": {
-        "x": -8075,
-        "y": -1424,
+        "x": 8311,
+        "y": -5287,
         "z": 120
       }
     },
@@ -678,10 +678,10 @@
       "name": "Storm Poring Lord",
       "visual_archetype": "Poring",
       "level": 170,
-      "hp": 11650,
+      "hp": 12199,
       "location": {
-        "x": 7844,
-        "y": -4997,
+        "x": -2643,
+        "y": 9831,
         "z": 120
       }
     },
@@ -690,10 +690,10 @@
       "name": "Verdant Poring Tyrant",
       "visual_archetype": "Poring",
       "level": 230,
-      "hp": 15550,
+      "hp": 16305,
       "location": {
-        "x": -2692,
-        "y": 10046,
+        "x": -4844,
+        "y": -9327,
         "z": 120
       }
     },
@@ -702,682 +702,2986 @@
       "name": "Night Poring Worldbreaker",
       "visual_archetype": "Poring",
       "level": 300,
-      "hp": 20100,
+      "hp": 21095,
       "location": {
-        "x": -5310,
-        "y": -10201,
+        "x": 10182,
+        "y": 3719,
         "z": 120
       }
     },
     {
       "id": "MON_009",
-      "name": "Royal Goblin Scout",
-      "visual_archetype": "Goblin",
+      "name": "Wild Poporing Scout",
+      "visual_archetype": "Poring",
       "level": 10,
       "hp": 1250,
       "location": {
-        "x": 7818,
-        "y": 2846,
+        "x": -10325,
+        "y": 4262,
         "z": 120
       }
     },
     {
       "id": "MON_010",
-      "name": "Abyssal Goblin Hunter",
-      "visual_archetype": "Goblin",
+      "name": "Crimson Poporing Hunter",
+      "visual_archetype": "Poring",
       "level": 30,
-      "hp": 2550,
+      "hp": 2619,
       "location": {
-        "x": -8703,
-        "y": 3605,
+        "x": 4874,
+        "y": -10416,
         "z": 120
       }
     },
     {
       "id": "MON_011",
-      "name": "Storm Goblin Alpha",
-      "visual_archetype": "Goblin",
+      "name": "Ancient Poporing Alpha",
+      "visual_archetype": "Poring",
       "level": 50,
-      "hp": 3850,
+      "hp": 3987,
       "location": {
-        "x": 4446,
-        "y": -9534,
+        "x": 3541,
+        "y": 11288,
         "z": 120
       }
     },
     {
       "id": "MON_012",
-      "name": "Verdant Goblin Warden",
-      "visual_archetype": "Goblin",
+      "name": "Royal Poporing Warden",
+      "visual_archetype": "Poring",
       "level": 80,
-      "hp": 5800,
+      "hp": 6040,
       "location": {
-        "x": 3494,
-        "y": 11082,
+        "x": -10521,
+        "y": -6097,
         "z": 120
       }
     },
     {
       "id": "MON_013",
-      "name": "Night Goblin Elder",
-      "visual_archetype": "Goblin",
+      "name": "Abyssal Poporing Elder",
+      "visual_archetype": "Poring",
       "level": 120,
-      "hp": 8400,
+      "hp": 8777,
       "location": {
-        "x": -7205,
-        "y": -4160,
+        "x": 12199,
+        "y": -2682,
         "z": 120
       }
     },
     {
       "id": "MON_014",
-      "name": "Ember Goblin Lord",
-      "visual_archetype": "Goblin",
+      "name": "Storm Poporing Lord",
+      "visual_archetype": "Poring",
       "level": 170,
-      "hp": 11650,
+      "hp": 12199,
       "location": {
-        "x": 9197,
-        "y": -2039,
+        "x": -7373,
+        "y": 10488,
         "z": 120
       }
     },
     {
       "id": "MON_015",
-      "name": "Star Goblin Tyrant",
-      "visual_archetype": "Goblin",
+      "name": "Verdant Poporing Tyrant",
+      "visual_archetype": "Poring",
       "level": 230,
-      "hp": 15550,
+      "hp": 16305,
       "location": {
-        "x": -6034,
-        "y": 8617,
+        "x": -1690,
+        "y": -13041,
         "z": 120
       }
     },
     {
       "id": "MON_016",
-      "name": "Iron Goblin Worldbreaker",
-      "visual_archetype": "Goblin",
+      "name": "Night Poporing Worldbreaker",
+      "visual_archetype": "Poring",
       "level": 300,
-      "hp": 20100,
+      "hp": 21095,
       "location": {
-        "x": -1517,
-        "y": -11521,
+        "x": 10307,
+        "y": 8687,
         "z": 120
       }
     },
     {
       "id": "MON_017",
-      "name": "Verdant Wolf Scout",
-      "visual_archetype": "Wolf",
+      "name": "Wild Drops Scout",
+      "visual_archetype": "Poring",
       "level": 10,
       "hp": 1250,
       "location": {
-        "x": 6465,
-        "y": 5425,
+        "x": -8193,
+        "y": 339,
         "z": 120
       }
     },
     {
       "id": "MON_018",
-      "name": "Night Wolf Hunter",
-      "visual_archetype": "Wolf",
+      "name": "Crimson Drops Hunter",
+      "visual_archetype": "Poring",
       "level": 30,
-      "hp": 2550,
+      "hp": 2619,
       "location": {
-        "x": -9531,
-        "y": 416,
+        "x": 6046,
+        "y": -6017,
         "z": 120
       }
     },
     {
       "id": "MON_019",
-      "name": "Ember Wolf Alpha",
-      "visual_archetype": "Wolf",
+      "name": "Ancient Drops Alpha",
+      "visual_archetype": "Poring",
       "level": 50,
-      "hp": 3850,
+      "hp": 3987,
       "location": {
-        "x": 7524,
-        "y": -7524,
+        "x": -409,
+        "y": 8851,
         "z": 120
       }
     },
     {
       "id": "MON_020",
-      "name": "Star Wolf Warden",
-      "visual_archetype": "Wolf",
+      "name": "Royal Drops Warden",
+      "visual_archetype": "Poring",
       "level": 80,
-      "hp": 5800,
+      "hp": 6040,
       "location": {
-        "x": -512,
-        "y": 11729,
+        "x": -5888,
+        "y": -7056,
         "z": 120
       }
     },
     {
       "id": "MON_021",
-      "name": "Iron Wolf Elder",
-      "visual_archetype": "Wolf",
+      "name": "Abyssal Drops Elder",
+      "visual_archetype": "Poring",
       "level": 120,
-      "hp": 8400,
+      "hp": 8777,
       "location": {
-        "x": -5425,
-        "y": -6465,
+        "x": 9435,
+        "y": 1269,
         "z": 120
       }
     },
     {
       "id": "MON_022",
-      "name": "Sovereign Wolf Lord",
-      "visual_archetype": "Wolf",
+      "name": "Storm Drops Lord",
+      "visual_archetype": "Poring",
       "level": 170,
-      "hp": 11650,
+      "hp": 12199,
       "location": {
-        "x": 9458,
-        "y": 1245,
+        "x": -8085,
+        "y": 5626,
         "z": 120
       }
     },
     {
       "id": "MON_023",
-      "name": "Wild Wolf Tyrant",
-      "visual_archetype": "Wolf",
+      "name": "Verdant Drops Tyrant",
+      "visual_archetype": "Poring",
       "level": 230,
-      "hp": 15550,
+      "hp": 16305,
       "location": {
-        "x": -8716,
-        "y": 6103,
+        "x": 2234,
+        "y": -9932,
         "z": 120
       }
     },
     {
       "id": "MON_024",
-      "name": "Crimson Wolf Worldbreaker",
-      "visual_archetype": "Wolf",
+      "name": "Night Drops Worldbreaker",
+      "visual_archetype": "Poring",
       "level": 300,
-      "hp": 20100,
+      "hp": 21095,
       "location": {
-        "x": 2541,
-        "y": -11462,
+        "x": 5225,
+        "y": 9119,
         "z": 120
       }
     },
     {
       "id": "MON_025",
-      "name": "Star Skeleton Scout",
-      "visual_archetype": "Skeleton",
+      "name": "Wild Marin Scout",
+      "visual_archetype": "Poring",
       "level": 10,
       "hp": 1250,
       "location": {
-        "x": 4280,
-        "y": 7413,
+        "x": -10327,
+        "y": -3295,
         "z": 120
       }
     },
     {
       "id": "MON_026",
-      "name": "Iron Skeleton Hunter",
-      "visual_archetype": "Skeleton",
+      "name": "Crimson Marin Hunter",
+      "visual_archetype": "Poring",
       "level": 30,
-      "hp": 2550,
+      "hp": 2619,
       "location": {
-        "x": -9213,
-        "y": -2905,
+        "x": 10140,
+        "y": -4685,
         "z": 120
       }
     },
     {
       "id": "MON_027",
-      "name": "Sovereign Skeleton Alpha",
-      "visual_archetype": "Skeleton",
+      "name": "Ancient Marin Alpha",
+      "visual_archetype": "Poring",
       "level": 50,
-      "hp": 3850,
+      "hp": 3987,
       "location": {
-        "x": 9752,
-        "y": -4547,
+        "x": -4440,
+        "y": 10608,
         "z": 120
       }
     },
     {
       "id": "MON_028",
-      "name": "Wild Skeleton Warden",
-      "visual_archetype": "Skeleton",
+      "name": "Royal Marin Warden",
+      "visual_archetype": "Poring",
       "level": 80,
-      "hp": 5800,
+      "hp": 6040,
       "location": {
-        "x": -4539,
-        "y": 10957,
+        "x": -4004,
+        "y": -11132,
         "z": 120
       }
     },
     {
       "id": "MON_029",
-      "name": "Crimson Skeleton Elder",
-      "visual_archetype": "Skeleton",
+      "name": "Abyssal Marin Elder",
+      "visual_archetype": "Poring",
       "level": 120,
-      "hp": 8400,
+      "hp": 8777,
       "location": {
-        "x": -2928,
-        "y": -8044,
+        "x": 10764,
+        "y": 5657,
         "z": 120
       }
     },
     {
       "id": "MON_030",
-      "name": "Ancient Skeleton Lord",
-      "visual_archetype": "Skeleton",
+      "name": "Storm Marin Lord",
+      "visual_archetype": "Poring",
       "level": 170,
-      "hp": 11650,
+      "hp": 12199,
       "location": {
-        "x": 8569,
-        "y": 4460,
+        "x": -12077,
+        "y": 3184,
         "z": 120
       }
     },
     {
       "id": "MON_031",
-      "name": "Royal Skeleton Tyrant",
-      "visual_archetype": "Skeleton",
+      "name": "Verdant Marin Tyrant",
+      "visual_archetype": "Poring",
       "level": 230,
-      "hp": 15550,
+      "hp": 16305,
       "location": {
-        "x": -10393,
-        "y": 2785,
+        "x": 6934,
+        "y": -10783,
         "z": 120
       }
     },
     {
       "id": "MON_032",
-      "name": "Abyssal Skeleton Worldbreaker",
-      "visual_archetype": "Skeleton",
+      "name": "Night Marin Worldbreaker",
+      "visual_archetype": "Poring",
       "level": 300,
-      "hp": 20100,
+      "hp": 21095,
       "location": {
-        "x": 6372,
-        "y": -10003,
+        "x": 2227,
+        "y": 12960,
         "z": 120
       }
     },
     {
       "id": "MON_033",
-      "name": "Wild Orc Scout",
-      "visual_archetype": "Orc",
+      "name": "Wild Fabre Scout",
+      "visual_archetype": "Poring",
       "level": 10,
       "hp": 1250,
       "location": {
-        "x": 1507,
-        "y": 8548,
+        "x": -10658,
+        "y": -8254,
         "z": 120
       }
     },
     {
       "id": "MON_034",
-      "name": "Crimson Orc Hunter",
-      "visual_archetype": "Orc",
+      "name": "Crimson Fabre Hunter",
+      "visual_archetype": "Poring",
       "level": 30,
-      "hp": 2550,
+      "hp": 2619,
       "location": {
-        "x": -7759,
-        "y": -5954,
+        "x": 8172,
+        "y": -677,
         "z": 120
       }
     },
     {
       "id": "MON_035",
-      "name": "Ancient Orc Alpha",
-      "visual_archetype": "Orc",
+      "name": "Ancient Fabre Alpha",
+      "visual_archetype": "Poring",
       "level": 50,
-      "hp": 3850,
+      "hp": 3987,
       "location": {
-        "x": 10839,
-        "y": -948,
+        "x": -5793,
+        "y": 6262,
         "z": 120
       }
     },
     {
       "id": "MON_036",
-      "name": "Royal Orc Warden",
-      "visual_archetype": "Orc",
+      "name": "Royal Fabre Warden",
+      "visual_archetype": "Poring",
       "level": 80,
-      "hp": 5800,
+      "hp": 6040,
       "location": {
-        "x": -8094,
-        "y": 8833,
+        "x": 43,
+        "y": -8860,
         "z": 120
       }
     },
     {
       "id": "MON_037",
-      "name": "Abyssal Orc Elder",
-      "visual_archetype": "Orc",
+      "name": "Abyssal Fabre Elder",
+      "visual_archetype": "Poring",
       "level": 120,
-      "hp": 8400,
+      "hp": 8777,
       "location": {
-        "x": 0,
-        "y": -8680,
+        "x": 6175,
+        "y": 6807,
         "z": 120
       }
     },
     {
       "id": "MON_038",
-      "name": "Storm Orc Lord",
-      "visual_archetype": "Orc",
+      "name": "Storm Fabre Lord",
+      "visual_archetype": "Poring",
       "level": 170,
-      "hp": 11650,
+      "hp": 12199,
       "location": {
-        "x": 6607,
-        "y": 7211,
+        "x": -9479,
+        "y": -879,
         "z": 120
       }
     },
     {
       "id": "MON_039",
-      "name": "Verdant Orc Tyrant",
-      "visual_archetype": "Orc",
+      "name": "Verdant Fabre Tyrant",
+      "visual_archetype": "Poring",
       "level": 230,
-      "hp": 15550,
+      "hp": 16305,
       "location": {
-        "x": -10839,
-        "y": -948,
+        "x": 7846,
+        "y": -5955,
         "z": 120
       }
     },
     {
       "id": "MON_040",
-      "name": "Night Orc Worldbreaker",
-      "visual_archetype": "Orc",
+      "name": "Night Fabre Worldbreaker",
+      "visual_archetype": "Poring",
       "level": 300,
-      "hp": 20100,
+      "hp": 21095,
       "location": {
-        "x": 9504,
-        "y": -7293,
+        "x": -1822,
+        "y": 10016,
         "z": 120
       }
     },
     {
       "id": "MON_041",
-      "name": "Royal Mantis Scout",
-      "visual_archetype": "Mantis",
+      "name": "Wild Lunatic Scout",
+      "visual_archetype": "Poring",
       "level": 10,
       "hp": 1250,
       "location": {
-        "x": -1528,
-        "y": 8666,
+        "x": -5598,
+        "y": -8895,
         "z": 120
       }
     },
     {
       "id": "MON_042",
-      "name": "Abyssal Mantis Hunter",
-      "visual_archetype": "Mantis",
+      "name": "Crimson Lunatic Hunter",
+      "visual_archetype": "Poring",
       "level": 30,
-      "hp": 2550,
+      "hp": 2619,
       "location": {
-        "x": -5319,
-        "y": -8350,
+        "x": 10454,
+        "y": 2865,
         "z": 120
       }
     },
     {
       "id": "MON_043",
-      "name": "Storm Mantis Alpha",
-      "visual_archetype": "Mantis",
+      "name": "Ancient Lunatic Alpha",
+      "visual_archetype": "Poring",
       "level": 50,
-      "hp": 3850,
+      "hp": 3987,
       "location": {
-        "x": 10625,
-        "y": 2847,
+        "x": -9938,
+        "y": 5100,
         "z": 120
       }
     },
     {
       "id": "MON_044",
-      "name": "Verdant Mantis Warden",
-      "visual_archetype": "Mantis",
+      "name": "Royal Lunatic Warden",
+      "visual_archetype": "Poring",
       "level": 80,
-      "hp": 5800,
+      "hp": 6040,
       "location": {
-        "x": -10733,
-        "y": 5587,
+        "x": 3998,
+        "y": -10783,
         "z": 120
       }
     },
     {
       "id": "MON_045",
-      "name": "Night Mantis Elder",
-      "visual_archetype": "Mantis",
+      "name": "Abyssal Lunatic Elder",
+      "visual_archetype": "Poring",
       "level": 120,
-      "hp": 8400,
+      "hp": 8777,
       "location": {
-        "x": 3010,
-        "y": -8269,
+        "x": 4460,
+        "y": 10957,
         "z": 120
       }
     },
     {
       "id": "MON_046",
-      "name": "Ember Mantis Lord",
-      "visual_archetype": "Mantis",
+      "name": "Storm Lunatic Lord",
+      "visual_archetype": "Poring",
       "level": 170,
-      "hp": 11650,
+      "hp": 12199,
       "location": {
-        "x": 3789,
-        "y": 9146,
+        "x": -10988,
+        "y": -5208,
         "z": 120
       }
     },
     {
       "id": "MON_047",
-      "name": "Star Mantis Tyrant",
-      "visual_archetype": "Mantis",
+      "name": "Verdant Lunatic Tyrant",
+      "visual_archetype": "Poring",
       "level": 230,
-      "hp": 15550,
+      "hp": 16305,
       "location": {
-        "x": -9969,
-        "y": -4649,
+        "x": 11936,
+        "y": -3680,
         "z": 120
       }
     },
     {
       "id": "MON_048",
-      "name": "Iron Mantis Worldbreaker",
-      "visual_archetype": "Mantis",
+      "name": "Night Lunatic Worldbreaker",
+      "visual_archetype": "Poring",
       "level": 300,
-      "hp": 20100,
+      "hp": 21095,
       "location": {
-        "x": 11540,
-        "y": -3639,
+        "x": -6482,
+        "y": 11061,
         "z": 120
       }
     },
     {
       "id": "MON_049",
-      "name": "Verdant Golem Scout",
-      "visual_archetype": "Golem",
+      "name": "Wild Stainer Scout",
+      "visual_archetype": "Poring",
       "level": 10,
       "hp": 1250,
       "location": {
-        "x": -4460,
-        "y": 7725,
+        "x": -2761,
+        "y": -12857,
         "z": 120
       }
     },
     {
       "id": "MON_050",
-      "name": "Night Golem Hunter",
-      "visual_archetype": "Golem",
+      "name": "Crimson Stainer Hunter",
+      "visual_archetype": "Poring",
       "level": 30,
-      "hp": 2550,
+      "hp": 2619,
       "location": {
-        "x": -2169,
-        "y": -9782,
+        "x": 10990,
+        "y": 7806,
         "z": 120
       }
     },
     {
       "id": "MON_051",
-      "name": "Ember Golem Alpha",
-      "visual_archetype": "Golem",
+      "name": "Ancient Stainer Alpha",
+      "visual_archetype": "Poring",
       "level": 50,
-      "hp": 3850,
+      "hp": 3987,
       "location": {
-        "x": 9109,
-        "y": 6378,
+        "x": -8137,
+        "y": 1014,
         "z": 120
       }
     },
     {
       "id": "MON_052",
-      "name": "Star Golem Warden",
-      "visual_archetype": "Golem",
+      "name": "Royal Stainer Warden",
+      "visual_archetype": "Poring",
       "level": 80,
-      "hp": 5800,
+      "hp": 6040,
       "location": {
-        "x": -12115,
-        "y": 1595,
+        "x": 5529,
+        "y": -6496,
         "z": 120
       }
     },
     {
       "id": "MON_053",
-      "name": "Iron Golem Elder",
-      "visual_archetype": "Golem",
+      "name": "Abyssal Stainer Elder",
+      "visual_archetype": "Poring",
       "level": 120,
-      "hp": 8400,
+      "hp": 8777,
       "location": {
-        "x": 5734,
-        "y": -6833,
+        "x": 323,
+        "y": 8854,
         "z": 120
       }
     },
     {
       "id": "MON_054",
-      "name": "Sovereign Golem Lord",
-      "visual_archetype": "Golem",
+      "name": "Storm Stainer Lord",
+      "visual_archetype": "Poring",
       "level": 170,
-      "hp": 11650,
+      "hp": 12199,
       "location": {
-        "x": 437,
-        "y": 10010,
+        "x": -6451,
+        "y": -6546,
         "z": 120
       }
     },
     {
       "id": "MON_055",
-      "name": "Wild Golem Tyrant",
-      "visual_archetype": "Golem",
+      "name": "Verdant Stainer Tyrant",
+      "visual_archetype": "Poring",
       "level": 230,
-      "hp": 15550,
+      "hp": 16305,
       "location": {
-        "x": -7863,
-        "y": -7863,
+        "x": 9508,
+        "y": 486,
         "z": 120
       }
     },
     {
       "id": "MON_056",
-      "name": "Crimson Golem Worldbreaker",
-      "visual_archetype": "Golem",
+      "name": "Night Stainer Worldbreaker",
+      "visual_archetype": "Poring",
       "level": 300,
-      "hp": 20100,
+      "hp": 21095,
       "location": {
-        "x": 12208,
-        "y": 533,
+        "x": -7593,
+        "y": 6274,
         "z": 120
       }
     },
     {
       "id": "MON_057",
-      "name": "Star Dragon Scout",
-      "visual_archetype": "Dragon",
+      "name": "Wild Horn Scout",
+      "visual_archetype": "Poring",
       "level": 10,
       "hp": 1250,
       "location": {
-        "x": -6925,
-        "y": 5811,
+        "x": 1407,
+        "y": -10082,
         "z": 120
       }
     },
     {
       "id": "MON_058",
-      "name": "Iron Dragon Hunter",
-      "visual_archetype": "Dragon",
+      "name": "Crimson Horn Hunter",
+      "visual_archetype": "Poring",
       "level": 30,
-      "hp": 2550,
+      "hp": 2619,
       "location": {
-        "x": 1324,
-        "y": -10053,
+        "x": 5960,
+        "y": 8656,
         "z": 120
       }
     },
     {
       "id": "MON_059",
-      "name": "Sovereign Dragon Alpha",
-      "visual_archetype": "Dragon",
+      "name": "Ancient Horn Alpha",
+      "visual_archetype": "Poring",
       "level": 50,
-      "hp": 3850,
+      "hp": 3987,
       "location": {
-        "x": 6447,
-        "y": 9207,
+        "x": -10564,
+        "y": -2431,
         "z": 120
       }
     },
     {
       "id": "MON_060",
-      "name": "Wild Dragon Warden",
-      "visual_archetype": "Dragon",
+      "name": "Royal Horn Warden",
+      "visual_archetype": "Poring",
       "level": 80,
-      "hp": 5800,
+      "hp": 6040,
       "location": {
-        "x": -12047,
-        "y": -2671,
+        "x": 9719,
+        "y": -5506,
         "z": 120
       }
     },
     {
       "id": "MON_061",
-      "name": "Crimson Dragon Elder",
-      "visual_archetype": "Dragon",
+      "name": "Abyssal Horn Elder",
+      "visual_archetype": "Poring",
       "level": 120,
-      "hp": 8400,
+      "hp": 8777,
       "location": {
-        "x": 7829,
-        "y": -4520,
+        "x": -3549,
+        "y": 10939,
         "z": 120
       }
     },
     {
       "id": "MON_062",
-      "name": "Ancient Dragon Lord",
-      "visual_archetype": "Dragon",
+      "name": "Storm Horn Lord",
+      "visual_archetype": "Poring",
       "level": 170,
-      "hp": 11650,
+      "hp": 12199,
       "location": {
-        "x": -3049,
-        "y": 9671,
+        "x": -4909,
+        "y": -10763,
         "z": 120
       }
     },
     {
       "id": "MON_063",
-      "name": "Royal Dragon Tyrant",
-      "visual_archetype": "Dragon",
+      "name": "Verdant Horn Tyrant",
+      "visual_archetype": "Poring",
       "level": 230,
-      "hp": 15550,
+      "hp": 16305,
       "location": {
-        "x": -4750,
-        "y": -10187,
+        "x": 11194,
+        "y": 4749,
         "z": 120
       }
     },
     {
       "id": "MON_064",
-      "name": "Abyssal Dragon Worldbreaker",
-      "visual_archetype": "Dragon",
+      "name": "Night Horn Worldbreaker",
+      "visual_archetype": "Poring",
       "level": 300,
-      "hp": 20100,
+      "hp": 21095,
       "location": {
-        "x": 11401,
-        "y": 4722,
+        "x": -11773,
+        "y": 4170,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_065",
+      "name": "Wild Goblin Scout",
+      "visual_archetype": "Goblin",
+      "level": 10,
+      "hp": 1250,
+      "location": {
+        "x": 6020,
+        "y": -11319,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_066",
+      "name": "Crimson Goblin Hunter",
+      "visual_archetype": "Goblin",
+      "level": 30,
+      "hp": 2619,
+      "location": {
+        "x": 3290,
+        "y": 12732,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_067",
+      "name": "Ancient Goblin Alpha",
+      "visual_archetype": "Goblin",
+      "level": 50,
+      "hp": 3987,
+      "location": {
+        "x": -11303,
+        "y": -7346,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_068",
+      "name": "Royal Goblin Warden",
+      "visual_archetype": "Goblin",
+      "level": 80,
+      "hp": 6040,
+      "location": {
+        "x": 8088,
+        "y": -1349,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_069",
+      "name": "Abyssal Goblin Elder",
+      "visual_archetype": "Goblin",
+      "level": 120,
+      "hp": 8777,
+      "location": {
+        "x": -5256,
+        "y": 6718,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_070",
+      "name": "Storm Goblin Lord",
+      "visual_archetype": "Goblin",
+      "level": 170,
+      "hp": 12199,
+      "location": {
+        "x": -688,
+        "y": -8833,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_071",
+      "name": "Verdant Goblin Tyrant",
+      "visual_archetype": "Goblin",
+      "level": 230,
+      "hp": 16305,
+      "location": {
+        "x": 6716,
+        "y": 6274,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_072",
+      "name": "Night Goblin Worldbreaker",
+      "visual_archetype": "Goblin",
+      "level": 300,
+      "hp": 21095,
+      "location": {
+        "x": -9520,
+        "y": -93,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_073",
+      "name": "Wild Kobold Scout",
+      "visual_archetype": "Goblin",
+      "level": 10,
+      "hp": 1250,
+      "location": {
+        "x": 7328,
+        "y": -6582,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_074",
+      "name": "Crimson Kobold Hunter",
+      "visual_archetype": "Goblin",
+      "level": 30,
+      "hp": 2619,
+      "location": {
+        "x": -989,
+        "y": 10132,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_075",
+      "name": "Ancient Kobold Alpha",
+      "visual_archetype": "Goblin",
+      "level": 50,
+      "hp": 3987,
+      "location": {
+        "x": -6313,
+        "y": -8403,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_076",
+      "name": "Royal Kobold Warden",
+      "visual_archetype": "Goblin",
+      "level": 80,
+      "hp": 6040,
+      "location": {
+        "x": 10655,
+        "y": 1992,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_077",
+      "name": "Abyssal Kobold Elder",
+      "visual_archetype": "Goblin",
+      "level": 120,
+      "hp": 8777,
+      "location": {
+        "x": -9483,
+        "y": 5903,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_078",
+      "name": "Storm Kobold Lord",
+      "visual_archetype": "Goblin",
+      "level": 170,
+      "hp": 12199,
+      "location": {
+        "x": 3094,
+        "y": -11076,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_079",
+      "name": "Verdant Kobold Tyrant",
+      "visual_archetype": "Goblin",
+      "level": 230,
+      "hp": 16305,
+      "location": {
+        "x": 5350,
+        "y": 10551,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_080",
+      "name": "Night Kobold Worldbreaker",
+      "visual_archetype": "Goblin",
+      "level": 300,
+      "hp": 21095,
+      "location": {
+        "x": -11381,
+        "y": -4283,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_081",
+      "name": "Wild Orclet Scout",
+      "visual_archetype": "Goblin",
+      "level": 10,
+      "hp": 1250,
+      "location": {
+        "x": 11591,
+        "y": -4653,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_082",
+      "name": "Crimson Orclet Hunter",
+      "visual_archetype": "Goblin",
+      "level": 30,
+      "hp": 2619,
+      "location": {
+        "x": -5547,
+        "y": 11558,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_083",
+      "name": "Ancient Orclet Alpha",
+      "visual_archetype": "Goblin",
+      "level": 50,
+      "hp": 3987,
+      "location": {
+        "x": -3813,
+        "y": -12585,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_084",
+      "name": "Royal Orclet Warden",
+      "visual_archetype": "Goblin",
+      "level": 80,
+      "hp": 6040,
+      "location": {
+        "x": 11597,
+        "y": 6872,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_085",
+      "name": "Abyssal Orclet Elder",
+      "visual_archetype": "Goblin",
+      "level": 120,
+      "hp": 8777,
+      "location": {
+        "x": -8026,
+        "y": 1682,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_086",
+      "name": "Storm Orclet Lord",
+      "visual_archetype": "Goblin",
+      "level": 170,
+      "hp": 12199,
+      "location": {
+        "x": 4974,
+        "y": -6930,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_087",
+      "name": "Verdant Orclet Tyrant",
+      "visual_archetype": "Goblin",
+      "level": 230,
+      "hp": 16305,
+      "location": {
+        "x": 1053,
+        "y": 8797,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_088",
+      "name": "Night Orclet Worldbreaker",
+      "visual_archetype": "Goblin",
+      "level": 300,
+      "hp": 21095,
+      "location": {
+        "x": -6969,
+        "y": -5991,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_089",
+      "name": "Wild Hobgoblin Scout",
+      "visual_archetype": "Goblin",
+      "level": 10,
+      "hp": 1250,
+      "location": {
+        "x": 9515,
+        "y": -301,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_090",
+      "name": "Crimson Hobgoblin Hunter",
+      "visual_archetype": "Goblin",
+      "level": 30,
+      "hp": 2619,
+      "location": {
+        "x": -7049,
+        "y": 6880,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_091",
+      "name": "Ancient Hobgoblin Alpha",
+      "visual_archetype": "Goblin",
+      "level": 50,
+      "hp": 3987,
+      "location": {
+        "x": 569,
+        "y": -10164,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_092",
+      "name": "Royal Hobgoblin Warden",
+      "visual_archetype": "Goblin",
+      "level": 80,
+      "hp": 6040,
+      "location": {
+        "x": 6655,
+        "y": 8135,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_093",
+      "name": "Abyssal Hobgoblin Elder",
+      "visual_archetype": "Goblin",
+      "level": 120,
+      "hp": 8777,
+      "location": {
+        "x": -10729,
+        "y": -1550,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_094",
+      "name": "Storm Hobgoblin Lord",
+      "visual_archetype": "Goblin",
+      "level": 170,
+      "hp": 12199,
+      "location": {
+        "x": 9231,
+        "y": -6290,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_095",
+      "name": "Verdant Hobgoblin Tyrant",
+      "visual_archetype": "Goblin",
+      "level": 230,
+      "hp": 16305,
+      "location": {
+        "x": -2633,
+        "y": 11194,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_096",
+      "name": "Night Hobgoblin Worldbreaker",
+      "visual_archetype": "Goblin",
+      "level": 300,
+      "hp": 21095,
+      "location": {
+        "x": -5781,
+        "y": -10321,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_097",
+      "name": "Wild Bandit Scout",
+      "visual_archetype": "Goblin",
+      "level": 10,
+      "hp": 1250,
+      "location": {
+        "x": 11548,
+        "y": 3809,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_098",
+      "name": "Crimson Bandit Hunter",
+      "visual_archetype": "Goblin",
+      "level": 30,
+      "hp": 2619,
+      "location": {
+        "x": -11389,
+        "y": 5128,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_099",
+      "name": "Ancient Bandit Alpha",
+      "visual_archetype": "Goblin",
+      "level": 50,
+      "hp": 3987,
+      "location": {
+        "x": 5064,
+        "y": -11777,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_100",
+      "name": "Royal Bandit Warden",
+      "visual_archetype": "Goblin",
+      "level": 80,
+      "hp": 6040,
+      "location": {
+        "x": 4330,
+        "y": 12417,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_101",
+      "name": "Abyssal Bandit Elder",
+      "visual_archetype": "Goblin",
+      "level": 120,
+      "hp": 8777,
+      "location": {
+        "x": -11871,
+        "y": -6387,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_102",
+      "name": "Storm Bandit Lord",
+      "visual_archetype": "Goblin",
+      "level": 170,
+      "hp": 12199,
+      "location": {
+        "x": 7949,
+        "y": -2013,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_103",
+      "name": "Verdant Bandit Tyrant",
+      "visual_archetype": "Goblin",
+      "level": 230,
+      "hp": 16305,
+      "location": {
+        "x": -4683,
+        "y": 7129,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_104",
+      "name": "Night Bandit Worldbreaker",
+      "visual_archetype": "Goblin",
+      "level": 300,
+      "hp": 21095,
+      "location": {
+        "x": -1415,
+        "y": -8746,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_105",
+      "name": "Wild Gnoll Scout",
+      "visual_archetype": "Goblin",
+      "level": 10,
+      "hp": 1250,
+      "location": {
+        "x": 7211,
+        "y": 5698,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_106",
+      "name": "Crimson Gnoll Hunter",
+      "visual_archetype": "Goblin",
+      "level": 30,
+      "hp": 2619,
+      "location": {
+        "x": -9495,
+        "y": 693,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_107",
+      "name": "Ancient Gnoll Alpha",
+      "visual_archetype": "Goblin",
+      "level": 50,
+      "hp": 3987,
+      "location": {
+        "x": 6759,
+        "y": -7165,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_108",
+      "name": "Royal Gnoll Warden",
+      "visual_archetype": "Goblin",
+      "level": 80,
+      "hp": 6040,
+      "location": {
+        "x": -149,
+        "y": 10179,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_109",
+      "name": "Abyssal Gnoll Elder",
+      "visual_archetype": "Goblin",
+      "level": 120,
+      "hp": 8777,
+      "location": {
+        "x": -6985,
+        "y": -7853,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_110",
+      "name": "Storm Gnoll Lord",
+      "visual_archetype": "Goblin",
+      "level": 170,
+      "hp": 12199,
+      "location": {
+        "x": 10783,
+        "y": 1106,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_111",
+      "name": "Verdant Gnoll Tyrant",
+      "visual_archetype": "Goblin",
+      "level": 230,
+      "hp": 16305,
+      "location": {
+        "x": -8963,
+        "y": 6666,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_112",
+      "name": "Night Gnoll Worldbreaker",
+      "visual_archetype": "Goblin",
+      "level": 300,
+      "hp": 21095,
+      "location": {
+        "x": 2169,
+        "y": -11294,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_113",
+      "name": "Wild Gargoyle Scout",
+      "visual_archetype": "Goblin",
+      "level": 10,
+      "hp": 1250,
+      "location": {
+        "x": 6203,
+        "y": 10073,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_114",
+      "name": "Crimson Gargoyle Hunter",
+      "visual_archetype": "Goblin",
+      "level": 30,
+      "hp": 2619,
+      "location": {
+        "x": -11696,
+        "y": -3328,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_115",
+      "name": "Ancient Gargoyle Alpha",
+      "visual_archetype": "Goblin",
+      "level": 50,
+      "hp": 3987,
+      "location": {
+        "x": 11167,
+        "y": -5594,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_116",
+      "name": "Royal Gargoyle Warden",
+      "visual_archetype": "Goblin",
+      "level": 80,
+      "hp": 6040,
+      "location": {
+        "x": -4574,
+        "y": 11976,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_117",
+      "name": "Abyssal Gargoyle Elder",
+      "visual_archetype": "Goblin",
+      "level": 120,
+      "hp": 8777,
+      "location": {
+        "x": -4839,
+        "y": -12227,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_118",
+      "name": "Storm Gargoyle Lord",
+      "visual_archetype": "Goblin",
+      "level": 170,
+      "hp": 12199,
+      "location": {
+        "x": 12124,
+        "y": 5892,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_119",
+      "name": "Verdant Gargoyle Tyrant",
+      "visual_archetype": "Goblin",
+      "level": 230,
+      "hp": 16305,
+      "location": {
+        "x": -7859,
+        "y": 2339,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_120",
+      "name": "Night Gargoyle Worldbreaker",
+      "visual_archetype": "Goblin",
+      "level": 300,
+      "hp": 21095,
+      "location": {
+        "x": 4385,
+        "y": -7317,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_121",
+      "name": "Wild Dark Goblin Scout",
+      "visual_archetype": "Goblin",
+      "level": 10,
+      "hp": 1250,
+      "location": {
+        "x": 1776,
+        "y": 8680,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_122",
+      "name": "Crimson Dark Goblin Hunter",
+      "visual_archetype": "Goblin",
+      "level": 30,
+      "hp": 2619,
+      "location": {
+        "x": -7440,
+        "y": -5395,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_123",
+      "name": "Ancient Dark Goblin Alpha",
+      "visual_archetype": "Goblin",
+      "level": 50,
+      "hp": 3987,
+      "location": {
+        "x": 9458,
+        "y": -1085,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_124",
+      "name": "Royal Dark Goblin Warden",
+      "visual_archetype": "Goblin",
+      "level": 80,
+      "hp": 6040,
+      "location": {
+        "x": -6457,
+        "y": 7438,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_125",
+      "name": "Abyssal Dark Goblin Elder",
+      "visual_archetype": "Goblin",
+      "level": 120,
+      "hp": 8777,
+      "location": {
+        "x": -272,
+        "y": -10176,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_126",
+      "name": "Storm Dark Goblin Lord",
+      "visual_archetype": "Goblin",
+      "level": 170,
+      "hp": 12199,
+      "location": {
+        "x": 7304,
+        "y": 7557,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_127",
+      "name": "Verdant Dark Goblin Tyrant",
+      "visual_archetype": "Goblin",
+      "level": 230,
+      "hp": 16305,
+      "location": {
+        "x": -10820,
+        "y": -659,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_128",
+      "name": "Night Dark Goblin Worldbreaker",
+      "visual_archetype": "Goblin",
+      "level": 300,
+      "hp": 21095,
+      "location": {
+        "x": 8680,
+        "y": -7030,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_129",
+      "name": "Wild Wolf Scout",
+      "visual_archetype": "Wolf",
+      "level": 10,
+      "hp": 1250,
+      "location": {
+        "x": -1700,
+        "y": 11374,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_130",
+      "name": "Crimson Wolf Hunter",
+      "visual_archetype": "Wolf",
+      "level": 30,
+      "hp": 2619,
+      "location": {
+        "x": -6614,
+        "y": -9809,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_131",
+      "name": "Ancient Wolf Alpha",
+      "visual_archetype": "Wolf",
+      "level": 50,
+      "hp": 3987,
+      "location": {
+        "x": 11823,
+        "y": 2842,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_132",
+      "name": "Royal Wolf Warden",
+      "visual_archetype": "Wolf",
+      "level": 80,
+      "hp": 6040,
+      "location": {
+        "x": -10927,
+        "y": 6051,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_133",
+      "name": "Abyssal Wolf Elder",
+      "visual_archetype": "Wolf",
+      "level": 120,
+      "hp": 8777,
+      "location": {
+        "x": 4075,
+        "y": -12155,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_134",
+      "name": "Storm Wolf Lord",
+      "visual_archetype": "Wolf",
+      "level": 170,
+      "hp": 12199,
+      "location": {
+        "x": 5340,
+        "y": 12017,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_135",
+      "name": "Verdant Wolf Tyrant",
+      "visual_archetype": "Wolf",
+      "level": 230,
+      "hp": 16305,
+      "location": {
+        "x": -12357,
+        "y": -5386,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_136",
+      "name": "Night Wolf Worldbreaker",
+      "visual_archetype": "Wolf",
+      "level": 300,
+      "hp": 21095,
+      "location": {
+        "x": 7756,
+        "y": -2662,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_137",
+      "name": "Wild Desert Wolf Scout",
+      "visual_archetype": "Wolf",
+      "level": 10,
+      "hp": 1250,
+      "location": {
+        "x": -4078,
+        "y": 7492,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_138",
+      "name": "Crimson Desert Wolf Hunter",
+      "visual_archetype": "Wolf",
+      "level": 30,
+      "hp": 2619,
+      "location": {
+        "x": -2133,
+        "y": -8599,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_139",
+      "name": "Ancient Desert Wolf Alpha",
+      "visual_archetype": "Wolf",
+      "level": 50,
+      "hp": 3987,
+      "location": {
+        "x": 7656,
+        "y": 5083,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_140",
+      "name": "Royal Desert Wolf Warden",
+      "visual_archetype": "Wolf",
+      "level": 80,
+      "hp": 6040,
+      "location": {
+        "x": -9405,
+        "y": 1475,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_141",
+      "name": "Abyssal Desert Wolf Elder",
+      "visual_archetype": "Wolf",
+      "level": 120,
+      "hp": 8777,
+      "location": {
+        "x": 6145,
+        "y": -7699,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_142",
+      "name": "Storm Desert Wolf Lord",
+      "visual_archetype": "Wolf",
+      "level": 170,
+      "hp": 12199,
+      "location": {
+        "x": 692,
+        "y": 10156,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_143",
+      "name": "Verdant Desert Wolf Tyrant",
+      "visual_archetype": "Wolf",
+      "level": 230,
+      "hp": 16305,
+      "location": {
+        "x": -7610,
+        "y": -7249,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_144",
+      "name": "Night Desert Wolf Worldbreaker",
+      "visual_archetype": "Wolf",
+      "level": 300,
+      "hp": 21095,
+      "location": {
+        "x": 10838,
+        "y": 212,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_145",
+      "name": "Wild Warg Scout",
+      "visual_archetype": "Wolf",
+      "level": 10,
+      "hp": 1250,
+      "location": {
+        "x": -8382,
+        "y": 7383,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_146",
+      "name": "Crimson Warg Hunter",
+      "visual_archetype": "Wolf",
+      "level": 30,
+      "hp": 2619,
+      "location": {
+        "x": 1229,
+        "y": -11434,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_147",
+      "name": "Ancient Warg Alpha",
+      "visual_archetype": "Wolf",
+      "level": 50,
+      "hp": 3987,
+      "location": {
+        "x": 7013,
+        "y": 9527,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_148",
+      "name": "Royal Warg Warden",
+      "visual_archetype": "Wolf",
+      "level": 80,
+      "hp": 6040,
+      "location": {
+        "x": -11931,
+        "y": -2351,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_149",
+      "name": "Abyssal Warg Elder",
+      "visual_archetype": "Wolf",
+      "level": 120,
+      "hp": 8777,
+      "location": {
+        "x": 10667,
+        "y": -6497,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_150",
+      "name": "Storm Warg Lord",
+      "visual_archetype": "Wolf",
+      "level": 170,
+      "hp": 12199,
+      "location": {
+        "x": -3569,
+        "y": 12313,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_151",
+      "name": "Verdant Warg Tyrant",
+      "visual_archetype": "Wolf",
+      "level": 230,
+      "hp": 16305,
+      "location": {
+        "x": -5832,
+        "y": -11786,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_152",
+      "name": "Night Warg Worldbreaker",
+      "visual_archetype": "Wolf",
+      "level": 300,
+      "hp": 21095,
+      "location": {
+        "x": 12569,
+        "y": 4870,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_153",
+      "name": "Wild Dire Wolf Scout",
+      "visual_archetype": "Wolf",
+      "level": 10,
+      "hp": 1250,
+      "location": {
+        "x": -7639,
+        "y": 2980,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_154",
+      "name": "Crimson Dire Wolf Hunter",
+      "visual_archetype": "Wolf",
+      "level": 30,
+      "hp": 2619,
+      "location": {
+        "x": 3765,
+        "y": -7654,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_155",
+      "name": "Ancient Dire Wolf Alpha",
+      "visual_archetype": "Wolf",
+      "level": 50,
+      "hp": 3987,
+      "location": {
+        "x": 2486,
+        "y": 8504,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_156",
+      "name": "Royal Dire Wolf Warden",
+      "visual_archetype": "Wolf",
+      "level": 80,
+      "hp": 6040,
+      "location": {
+        "x": -7860,
+        "y": -4762,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_157",
+      "name": "Abyssal Dire Wolf Elder",
+      "visual_archetype": "Wolf",
+      "level": 120,
+      "hp": 8777,
+      "location": {
+        "x": 9336,
+        "y": -1862,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_158",
+      "name": "Storm Dire Wolf Lord",
+      "visual_archetype": "Wolf",
+      "level": 170,
+      "hp": 12199,
+      "location": {
+        "x": -5821,
+        "y": 7946,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_159",
+      "name": "Verdant Dire Wolf Tyrant",
+      "visual_archetype": "Wolf",
+      "level": 230,
+      "hp": 16305,
+      "location": {
+        "x": -1111,
+        "y": -10119,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_160",
+      "name": "Night Dire Wolf Worldbreaker",
+      "visual_archetype": "Wolf",
+      "level": 300,
+      "hp": 21095,
+      "location": {
+        "x": 7903,
+        "y": 6929,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_161",
+      "name": "Wild Ice Wolf Scout",
+      "visual_archetype": "Wolf",
+      "level": 10,
+      "hp": 1250,
+      "location": {
+        "x": -10837,
+        "y": 236,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_162",
+      "name": "Crimson Ice Wolf Hunter",
+      "visual_archetype": "Wolf",
+      "level": 30,
+      "hp": 2619,
+      "location": {
+        "x": 8070,
+        "y": -7723,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_163",
+      "name": "Ancient Ice Wolf Alpha",
+      "visual_archetype": "Wolf",
+      "level": 50,
+      "hp": 3987,
+      "location": {
+        "x": -755,
+        "y": 11475,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_164",
+      "name": "Royal Ice Wolf Warden",
+      "visual_archetype": "Wolf",
+      "level": 80,
+      "hp": 6040,
+      "location": {
+        "x": -7401,
+        "y": -9229,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_165",
+      "name": "Abyssal Ice Wolf Elder",
+      "visual_archetype": "Wolf",
+      "level": 120,
+      "hp": 8777,
+      "location": {
+        "x": 12017,
+        "y": 1856,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_166",
+      "name": "Storm Ice Wolf Lord",
+      "visual_archetype": "Wolf",
+      "level": 170,
+      "hp": 12199,
+      "location": {
+        "x": -10390,
+        "y": 6932,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_167",
+      "name": "Verdant Ice Wolf Tyrant",
+      "visual_archetype": "Wolf",
+      "level": 230,
+      "hp": 16305,
+      "location": {
+        "x": 3057,
+        "y": -12450,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_168",
+      "name": "Night Ice Wolf Worldbreaker",
+      "visual_archetype": "Wolf",
+      "level": 300,
+      "hp": 21095,
+      "location": {
+        "x": 6314,
+        "y": 11535,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_169",
+      "name": "Wild Shadow Wolf Scout",
+      "visual_archetype": "Wolf",
+      "level": 10,
+      "hp": 1250,
+      "location": {
+        "x": -12760,
+        "y": -4347,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_170",
+      "name": "Crimson Shadow Wolf Hunter",
+      "visual_archetype": "Wolf",
+      "level": 30,
+      "hp": 2619,
+      "location": {
+        "x": 7510,
+        "y": -3293,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_171",
+      "name": "Ancient Shadow Wolf Alpha",
+      "visual_archetype": "Wolf",
+      "level": 50,
+      "hp": 3987,
+      "location": {
+        "x": -3446,
+        "y": 7803,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_172",
+      "name": "Royal Shadow Wolf Warden",
+      "visual_archetype": "Wolf",
+      "level": 80,
+      "hp": 6040,
+      "location": {
+        "x": -2835,
+        "y": -8394,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_173",
+      "name": "Abyssal Shadow Wolf Elder",
+      "visual_archetype": "Wolf",
+      "level": 120,
+      "hp": 8777,
+      "location": {
+        "x": 8050,
+        "y": 4433,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_174",
+      "name": "Storm Shadow Wolf Lord",
+      "visual_archetype": "Wolf",
+      "level": 170,
+      "hp": 12199,
+      "location": {
+        "x": -9251,
+        "y": 2246,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_175",
+      "name": "Verdant Shadow Wolf Tyrant",
+      "visual_archetype": "Wolf",
+      "level": 230,
+      "hp": 16305,
+      "location": {
+        "x": 5488,
+        "y": -8180,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_176",
+      "name": "Night Shadow Wolf Worldbreaker",
+      "visual_archetype": "Wolf",
+      "level": 300,
+      "hp": 21095,
+      "location": {
+        "x": 1528,
+        "y": 10065,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_177",
+      "name": "Wild Moon Wolf Scout",
+      "visual_archetype": "Wolf",
+      "level": 10,
+      "hp": 1250,
+      "location": {
+        "x": -8182,
+        "y": -6596,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_178",
+      "name": "Crimson Moon Wolf Hunter",
+      "visual_archetype": "Wolf",
+      "level": 30,
+      "hp": 2619,
+      "location": {
+        "x": 10818,
+        "y": -684,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_179",
+      "name": "Ancient Moon Wolf Alpha",
+      "visual_archetype": "Wolf",
+      "level": 50,
+      "hp": 3987,
+      "location": {
+        "x": -7744,
+        "y": 8050,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_180",
+      "name": "Royal Moon Wolf Warden",
+      "visual_archetype": "Wolf",
+      "level": 80,
+      "hp": 6040,
+      "location": {
+        "x": 280,
+        "y": -11497,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_181",
+      "name": "Abyssal Moon Wolf Elder",
+      "visual_archetype": "Wolf",
+      "level": 120,
+      "hp": 8777,
+      "location": {
+        "x": 7776,
+        "y": 8915,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_182",
+      "name": "Storm Moon Wolf Lord",
+      "visual_archetype": "Wolf",
+      "level": 170,
+      "hp": 12199,
+      "location": {
+        "x": -12084,
+        "y": -1358,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_183",
+      "name": "Verdant Moon Wolf Tyrant",
+      "visual_archetype": "Wolf",
+      "level": 230,
+      "hp": 16305,
+      "location": {
+        "x": 10094,
+        "y": -7355,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_184",
+      "name": "Night Moon Wolf Worldbreaker",
+      "visual_archetype": "Wolf",
+      "level": 300,
+      "hp": 21095,
+      "location": {
+        "x": -2540,
+        "y": 12566,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_185",
+      "name": "Wild Royal Wolf Scout",
+      "visual_archetype": "Wolf",
+      "level": 10,
+      "hp": 1250,
+      "location": {
+        "x": -6785,
+        "y": -11264,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_186",
+      "name": "Crimson Royal Wolf Hunter",
+      "visual_archetype": "Wolf",
+      "level": 30,
+      "hp": 2619,
+      "location": {
+        "x": 12929,
+        "y": 3816,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_187",
+      "name": "Ancient Royal Wolf Alpha",
+      "visual_archetype": "Wolf",
+      "level": 50,
+      "hp": 3987,
+      "location": {
+        "x": -7367,
+        "y": 3601,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_188",
+      "name": "Royal Royal Wolf Warden",
+      "visual_archetype": "Wolf",
+      "level": 80,
+      "hp": 6040,
+      "location": {
+        "x": 3121,
+        "y": -7939,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_189",
+      "name": "Abyssal Royal Wolf Elder",
+      "visual_archetype": "Wolf",
+      "level": 120,
+      "hp": 8777,
+      "location": {
+        "x": 3180,
+        "y": 8270,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_190",
+      "name": "Storm Royal Wolf Lord",
+      "visual_archetype": "Wolf",
+      "level": 170,
+      "hp": 12199,
+      "location": {
+        "x": -8226,
+        "y": -4097,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_191",
+      "name": "Verdant Royal Wolf Tyrant",
+      "visual_archetype": "Wolf",
+      "level": 230,
+      "hp": 16305,
+      "location": {
+        "x": 9150,
+        "y": -2627,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_192",
+      "name": "Night Royal Wolf Worldbreaker",
+      "visual_archetype": "Wolf",
+      "level": 300,
+      "hp": 21095,
+      "location": {
+        "x": -5145,
+        "y": 8399,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_193",
+      "name": "Wild Skeleton Scout",
+      "visual_archetype": "Skeleton",
+      "level": 10,
+      "hp": 1250,
+      "location": {
+        "x": -1943,
+        "y": -9993,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_194",
+      "name": "Crimson Skeleton Hunter",
+      "visual_archetype": "Skeleton",
+      "level": 30,
+      "hp": 2619,
+      "location": {
+        "x": 8448,
+        "y": 6253,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_195",
+      "name": "Ancient Skeleton Alpha",
+      "visual_archetype": "Skeleton",
+      "level": 50,
+      "hp": 3987,
+      "location": {
+        "x": -10781,
+        "y": 1130,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_196",
+      "name": "Royal Skeleton Warden",
+      "visual_archetype": "Skeleton",
+      "level": 80,
+      "hp": 6040,
+      "location": {
+        "x": 7405,
+        "y": -8363,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_197",
+      "name": "Abyssal Skeleton Elder",
+      "visual_archetype": "Skeleton",
+      "level": 120,
+      "hp": 8777,
+      "location": {
+        "x": 195,
+        "y": 11498,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_198",
+      "name": "Storm Skeleton Lord",
+      "visual_archetype": "Skeleton",
+      "level": 170,
+      "hp": 12199,
+      "location": {
+        "x": -8138,
+        "y": -8586,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_199",
+      "name": "Verdant Skeleton Tyrant",
+      "visual_archetype": "Skeleton",
+      "level": 230,
+      "hp": 16305,
+      "location": {
+        "x": 12130,
+        "y": 858,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_200",
+      "name": "Night Skeleton Worldbreaker",
+      "visual_archetype": "Skeleton",
+      "level": 300,
+      "hp": 21095,
+      "location": {
+        "x": -9782,
+        "y": 7766,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_201",
+      "name": "Wild Zombie Guard Scout",
+      "visual_archetype": "Skeleton",
+      "level": 10,
+      "hp": 1250,
+      "location": {
+        "x": 2019,
+        "y": -12660,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_202",
+      "name": "Crimson Zombie Guard Hunter",
+      "visual_archetype": "Skeleton",
+      "level": 30,
+      "hp": 2619,
+      "location": {
+        "x": 7245,
+        "y": 10974,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_203",
+      "name": "Ancient Zombie Guard Alpha",
+      "visual_archetype": "Skeleton",
+      "level": 50,
+      "hp": 3987,
+      "location": {
+        "x": -13075,
+        "y": -3278,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_204",
+      "name": "Royal Zombie Guard Warden",
+      "visual_archetype": "Skeleton",
+      "level": 80,
+      "hp": 6040,
+      "location": {
+        "x": 7212,
+        "y": -3902,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_205",
+      "name": "Abyssal Zombie Guard Elder",
+      "visual_archetype": "Skeleton",
+      "level": 120,
+      "hp": 8777,
+      "location": {
+        "x": -2790,
+        "y": 8061,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_206",
+      "name": "Storm Zombie Guard Lord",
+      "visual_archetype": "Skeleton",
+      "level": 170,
+      "hp": 12199,
+      "location": {
+        "x": -3519,
+        "y": -8131,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_207",
+      "name": "Verdant Zombie Guard Tyrant",
+      "visual_archetype": "Skeleton",
+      "level": 230,
+      "hp": 16305,
+      "location": {
+        "x": 8388,
+        "y": 3754,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_208",
+      "name": "Night Zombie Guard Worldbreaker",
+      "visual_archetype": "Skeleton",
+      "level": 300,
+      "hp": 21095,
+      "location": {
+        "x": -9034,
+        "y": 3003,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_209",
+      "name": "Wild Bone Archer Scout",
+      "visual_archetype": "Skeleton",
+      "level": 10,
+      "hp": 1250,
+      "location": {
+        "x": 4794,
+        "y": -8605,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_210",
+      "name": "Crimson Bone Archer Hunter",
+      "visual_archetype": "Skeleton",
+      "level": 30,
+      "hp": 2619,
+      "location": {
+        "x": 2354,
+        "y": 9904,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_211",
+      "name": "Ancient Bone Archer Alpha",
+      "visual_archetype": "Skeleton",
+      "level": 50,
+      "hp": 3987,
+      "location": {
+        "x": -8699,
+        "y": -5898,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_212",
+      "name": "Royal Bone Archer Warden",
+      "visual_archetype": "Skeleton",
+      "level": 80,
+      "hp": 6040,
+      "location": {
+        "x": 10725,
+        "y": -1575,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_213",
+      "name": "Abyssal Bone Archer Elder",
+      "visual_archetype": "Skeleton",
+      "level": 120,
+      "hp": 8777,
+      "location": {
+        "x": -7053,
+        "y": 8662,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_214",
+      "name": "Storm Bone Archer Lord",
+      "visual_archetype": "Skeleton",
+      "level": 170,
+      "hp": 12199,
+      "location": {
+        "x": -670,
+        "y": -11480,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_215",
+      "name": "Verdant Bone Archer Tyrant",
+      "visual_archetype": "Skeleton",
+      "level": 230,
+      "hp": 16305,
+      "location": {
+        "x": 8485,
+        "y": 8243,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_216",
+      "name": "Night Bone Archer Worldbreaker",
+      "visual_archetype": "Skeleton",
+      "level": 300,
+      "hp": 21095,
+      "location": {
+        "x": -12155,
+        "y": -356,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_217",
+      "name": "Wild Skull Knight Scout",
+      "visual_archetype": "Skeleton",
+      "level": 10,
+      "hp": 1250,
+      "location": {
+        "x": 9453,
+        "y": -8164,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_218",
+      "name": "Crimson Skull Knight Hunter",
+      "visual_archetype": "Skeleton",
+      "level": 30,
+      "hp": 2619,
+      "location": {
+        "x": -1494,
+        "y": 12733,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_219",
+      "name": "Ancient Skull Knight Alpha",
+      "visual_archetype": "Skeleton",
+      "level": 50,
+      "hp": 3987,
+      "location": {
+        "x": -7692,
+        "y": -10666,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_220",
+      "name": "Royal Skull Knight Warden",
+      "visual_archetype": "Skeleton",
+      "level": 80,
+      "hp": 6040,
+      "location": {
+        "x": 13200,
+        "y": 2735,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_221",
+      "name": "Abyssal Skull Knight Elder",
+      "visual_archetype": "Skeleton",
+      "level": 120,
+      "hp": 8777,
+      "location": {
+        "x": -7045,
+        "y": 4197,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_222",
+      "name": "Storm Skull Knight Lord",
+      "visual_archetype": "Skeleton",
+      "level": 170,
+      "hp": 12199,
+      "location": {
+        "x": 2455,
+        "y": -8169,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_223",
+      "name": "Verdant Skull Knight Tyrant",
+      "visual_archetype": "Skeleton",
+      "level": 230,
+      "hp": 16305,
+      "location": {
+        "x": 3852,
+        "y": 7979,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_224",
+      "name": "Night Skull Knight Worldbreaker",
+      "visual_archetype": "Skeleton",
+      "level": 300,
+      "hp": 21095,
+      "location": {
+        "x": -8536,
+        "y": -3404,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_225",
+      "name": "Wild Wraith Scout",
+      "visual_archetype": "Skeleton",
+      "level": 10,
+      "hp": 1250,
+      "location": {
+        "x": 8902,
+        "y": -3373,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_226",
+      "name": "Crimson Wraith Hunter",
+      "visual_archetype": "Skeleton",
+      "level": 30,
+      "hp": 2619,
+      "location": {
+        "x": -4434,
+        "y": 8795,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_227",
+      "name": "Ancient Wraith Alpha",
+      "visual_archetype": "Skeleton",
+      "level": 50,
+      "hp": 3987,
+      "location": {
+        "x": -2761,
+        "y": -9798,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_228",
+      "name": "Royal Wraith Warden",
+      "visual_archetype": "Skeleton",
+      "level": 80,
+      "hp": 6040,
+      "location": {
+        "x": 8935,
+        "y": 5534,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_229",
+      "name": "Abyssal Wraith Elder",
+      "visual_archetype": "Skeleton",
+      "level": 120,
+      "hp": 8777,
+      "location": {
+        "x": -10651,
+        "y": 2017,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_230",
+      "name": "Storm Wraith Lord",
+      "visual_archetype": "Skeleton",
+      "level": 170,
+      "hp": 12199,
+      "location": {
+        "x": 6689,
+        "y": -8946,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_231",
+      "name": "Verdant Wraith Tyrant",
+      "visual_archetype": "Skeleton",
+      "level": 230,
+      "hp": 16305,
+      "location": {
+        "x": 1143,
+        "y": 11443,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_232",
+      "name": "Night Wraith Worldbreaker",
+      "visual_archetype": "Skeleton",
+      "level": 300,
+      "hp": 21095,
+      "location": {
+        "x": -8819,
+        "y": -7885,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_233",
+      "name": "Wild Death Hound Scout",
+      "visual_archetype": "Skeleton",
+      "level": 10,
+      "hp": 1250,
+      "location": {
+        "x": 12159,
+        "y": -147,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_234",
+      "name": "Crimson Death Hound Hunter",
+      "visual_archetype": "Skeleton",
+      "level": 30,
+      "hp": 2619,
+      "location": {
+        "x": -9107,
+        "y": 8547,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_235",
+      "name": "Ancient Death Hound Alpha",
+      "visual_archetype": "Skeleton",
+      "level": 50,
+      "hp": 3987,
+      "location": {
+        "x": 967,
+        "y": -12784,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_236",
+      "name": "Royal Death Hound Warden",
+      "visual_archetype": "Skeleton",
+      "level": 80,
+      "hp": 6040,
+      "location": {
+        "x": 8126,
+        "y": 10339,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_237",
+      "name": "Abyssal Death Hound Elder",
+      "visual_archetype": "Skeleton",
+      "level": 120,
+      "hp": 8777,
+      "location": {
+        "x": -13301,
+        "y": -2188,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_238",
+      "name": "Storm Death Hound Lord",
+      "visual_archetype": "Skeleton",
+      "level": 170,
+      "hp": 12199,
+      "location": {
+        "x": 6865,
+        "y": -4484,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_239",
+      "name": "Verdant Death Hound Tyrant",
+      "visual_archetype": "Skeleton",
+      "level": 230,
+      "hp": 16305,
+      "location": {
+        "x": -2115,
+        "y": 8264,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_240",
+      "name": "Night Death Hound Worldbreaker",
+      "visual_archetype": "Skeleton",
+      "level": 300,
+      "hp": 21095,
+      "location": {
+        "x": -4178,
+        "y": -7813,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_241",
+      "name": "Wild Grave Walker Scout",
+      "visual_archetype": "Skeleton",
+      "level": 10,
+      "hp": 1250,
+      "location": {
+        "x": 8670,
+        "y": 3048,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_242",
+      "name": "Crimson Grave Walker Hunter",
+      "visual_archetype": "Skeleton",
+      "level": 30,
+      "hp": 2619,
+      "location": {
+        "x": -8755,
+        "y": 3738,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_243",
+      "name": "Ancient Grave Walker Alpha",
+      "visual_archetype": "Skeleton",
+      "level": 50,
+      "hp": 3987,
+      "location": {
+        "x": 4067,
+        "y": -8971,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_244",
+      "name": "Royal Grave Walker Warden",
+      "visual_archetype": "Skeleton",
+      "level": 80,
+      "hp": 6040,
+      "location": {
+        "x": 3164,
+        "y": 9676,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_245",
+      "name": "Abyssal Grave Walker Elder",
+      "visual_archetype": "Skeleton",
+      "level": 120,
+      "hp": 8777,
+      "location": {
+        "x": -9156,
+        "y": -5160,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_246",
+      "name": "Storm Grave Walker Lord",
+      "visual_archetype": "Skeleton",
+      "level": 170,
+      "hp": 12199,
+      "location": {
+        "x": 10558,
+        "y": -2455,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_247",
+      "name": "Verdant Grave Walker Tyrant",
+      "visual_archetype": "Skeleton",
+      "level": 230,
+      "hp": 16305,
+      "location": {
+        "x": -6314,
+        "y": 9215,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_248",
+      "name": "Night Grave Walker Worldbreaker",
+      "visual_archetype": "Skeleton",
+      "level": 300,
+      "hp": 21095,
+      "location": {
+        "x": -1615,
+        "y": -11386,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_249",
+      "name": "Wild Crypt Lord Scout",
+      "visual_archetype": "Skeleton",
+      "level": 10,
+      "hp": 1250,
+      "location": {
+        "x": 9137,
+        "y": 7514,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_250",
+      "name": "Crimson Crypt Lord Hunter",
+      "visual_archetype": "Skeleton",
+      "level": 30,
+      "hp": 2619,
+      "location": {
+        "x": -12143,
+        "y": 649,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_251",
+      "name": "Ancient Crypt Lord Alpha",
+      "visual_archetype": "Skeleton",
+      "level": 50,
+      "hp": 3987,
+      "location": {
+        "x": 8746,
+        "y": -8916,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_252",
+      "name": "Royal Crypt Lord Warden",
+      "visual_archetype": "Skeleton",
+      "level": 80,
+      "hp": 6040,
+      "location": {
+        "x": -438,
+        "y": 12813,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_253",
+      "name": "Abyssal Crypt Lord Elder",
+      "visual_archetype": "Skeleton",
+      "level": 120,
+      "hp": 8777,
+      "location": {
+        "x": -8546,
+        "y": -9994,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_254",
+      "name": "Storm Crypt Lord Lord",
+      "visual_archetype": "Skeleton",
+      "level": 170,
+      "hp": 12199,
+      "location": {
+        "x": 13380,
+        "y": 1636,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_255",
+      "name": "Verdant Crypt Lord Tyrant",
+      "visual_archetype": "Skeleton",
+      "level": 230,
+      "hp": 16305,
+      "location": {
+        "x": -6674,
+        "y": 4764,
+        "z": 120
+      }
+    },
+    {
+      "id": "MON_256",
+      "name": "Night Crypt Lord Worldbreaker",
+      "visual_archetype": "Skeleton",
+      "level": 300,
+      "hp": 21095,
+      "location": {
+        "x": 1772,
+        "y": -8344,
         "z": 120
       }
     }
