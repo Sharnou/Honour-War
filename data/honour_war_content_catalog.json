@@ -4348,7 +4348,7 @@
         "LUK": 0
       },
       "weapon_family": "Fantasy Gun",
-      "ammo_type": "rune_bolt",
+      "ammo_type": "machine_gun_bolt",
       "visual_style": "handcrafted wood-and-steel fantasy firearm with leaf engravings, visible bolt feed and no futuristic machinery",
       "age_refine_bonus_rule": "Age-derived refinement bonuses are applied separately; never baked into base stats."
     },
@@ -5692,7 +5692,7 @@
         "LUK": 0
       },
       "weapon_family": "Fantasy Gun",
-      "ammo_type": "rune_bolt",
+      "ammo_type": "machine_gun_bolt",
       "visual_style": "handcrafted wood-and-steel fantasy firearm with leaf engravings, visible bolt feed and no futuristic machinery",
       "age_refine_bonus_rule": "Age-derived refinement bonuses are applied separately; never baked into base stats."
     },
@@ -7036,7 +7036,7 @@
         "LUK": 0
       },
       "weapon_family": "Fantasy Gun",
-      "ammo_type": "rune_bolt",
+      "ammo_type": "machine_gun_bolt",
       "visual_style": "handcrafted wood-and-steel fantasy firearm with leaf engravings, visible bolt feed and no futuristic machinery",
       "age_refine_bonus_rule": "Age-derived refinement bonuses are applied separately; never baked into base stats."
     },
@@ -12028,7 +12028,7 @@
         "LUK": 0
       },
       "weapon_family": "Fantasy Gun",
-      "ammo_type": "rune_bolt",
+      "ammo_type": "machine_gun_bolt",
       "visual_style": "handcrafted wood-and-steel fantasy firearm with leaf engravings, visible bolt feed and no futuristic machinery",
       "age_refine_bonus_rule": "Age-derived refinement bonuses are applied separately; never baked into base stats."
     },
@@ -12412,7 +12412,7 @@
         "LUK": 0
       },
       "weapon_family": "Fantasy Gun",
-      "ammo_type": "rune_bolt",
+      "ammo_type": "machine_gun_bolt",
       "visual_style": "handcrafted wood-and-steel fantasy firearm with leaf engravings, visible bolt feed and no futuristic machinery",
       "age_refine_bonus_rule": "Age-derived refinement bonuses are applied separately; never baked into base stats."
     },
