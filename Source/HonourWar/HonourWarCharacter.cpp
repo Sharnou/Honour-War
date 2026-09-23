@@ -341,7 +341,8 @@ void AHonourWarCharacter::HandleMonsterDefeat(int32 MonsterLevel)
     if(CombatComponent)
     {
         CombatComponent->RewardMonsterDefeat(MonsterLevel);
-        if(QuestComponent) QuestComponent->RecordMonsterDefeat(MonsterLevel);
+        if(QuestComponent)
+            QuestComponent->RecordMonsterDefeat(MonsterLevel,Target ? Target->GetSpeciesName() : TEXT("Any"));
         LastCombatMessage = CombatComponent->GetLastLootMessage();
     }
 }
@@ -558,5 +559,7 @@ void AHonourWarCharacter::LoadProgress()
     CombatComponent->SetBasicSkillLevel(Save->BasicSkillLevel);
     CombatComponent->SetInventoryItems(Save->InventoryItems);
     CombatComponent->SetCards(Save->Cards);
+    if(QuestComponent)
+        QuestComponent->SetQuestState(Save->QuestId,Save->QuestProgress,Save->QuestComplete);
     BuildHeroVisual();
 }
