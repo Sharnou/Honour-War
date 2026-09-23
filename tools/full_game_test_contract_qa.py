@@ -3,7 +3,7 @@
 from pathlib import Path
 import re, subprocess, sys, json
 ROOT=Path(__file__).resolve().parents[1]
-required=["HonourWar.uproject","Build/Build-HonourWar.ps1","Build/Capture-HonourWar.ps1","Source/HonourWar/HonourWarGameMode.cpp","Source/HonourWar/HonourWarPlayerController.cpp","Source/HonourWar/HonourWarAccountSaveGame.h","Source/HonourWar/HonourWarHUDWidget.cpp","Source/HonourWar/HonourWarCharacter.cpp","Source/HonourWar/HonourWarWorldDirector.cpp","Source/HonourWar/HonourWarScreenshotDirector.cpp","Source/HonourWar/HonourWarContentCatalog.h","data/honour_war_content_catalog.json","data/honour_war_maps.json","tools/content_catalog_qa.py","tools/unreal_runtime_screenshot_qa.py","tools/quest_event_qa.py","data/honour_war_quests_events.json"]
+required=["HonourWar.uproject","Build/Build-HonourWar.ps1","Build/Capture-HonourWar.ps1","Source/HonourWar/HonourWarGameMode.cpp","Source/HonourWar/HonourWarPlayerController.cpp","Source/HonourWar/HonourWarAccountSaveGame.h","Source/HonourWar/HonourWarHUDWidget.cpp","Source/HonourWar/HonourWarCharacter.cpp","Source/HonourWar/HonourWarWorldDirector.cpp","Source/HonourWar/HonourWarScreenshotDirector.cpp","Source/HonourWar/HonourWarContentCatalog.h","data/honour_war_content_catalog.json","data/honour_war_maps.json","tools/content_catalog_qa.py","tools/game_rules_qa.py","tools/unreal_runtime_screenshot_qa.py","tools/quest_event_qa.py","data/honour_war_quests_events.json"]
 for rel in required:
     if not (ROOT/rel).is_file(): raise SystemExit(f"FULL_GAME_TEST_CONTRACT_FAIL: missing {rel}")
 c=json.loads((ROOT/"data/honour_war_content_catalog.json").read_text(encoding="utf-8"))
@@ -17,4 +17,5 @@ for name,ok in checks.items():
 qa=subprocess.run([sys.executable,str(ROOT/"tools/content_catalog_qa.py")],cwd=ROOT,text=True); qa.check_returncode()
 qa2=subprocess.run([sys.executable,str(ROOT/"tools/rejected_systems_qa.py")],cwd=ROOT,text=True); qa2.check_returncode()
 qa3=subprocess.run([sys.executable,str(ROOT/"tools/quest_event_qa.py")],cwd=ROOT,text=True); qa3.check_returncode()
+qa4=subprocess.run([sys.executable,str(ROOT/"tools/game_rules_qa.py")],cwd=ROOT,text=True); qa4.check_returncode()
 print("FULL_GAME_TEST_CONTRACT_PASS: content catalog integrated; runtime gate ready.")
