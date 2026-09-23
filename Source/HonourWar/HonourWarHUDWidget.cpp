@@ -195,7 +195,7 @@ void UHonourWarHUDWidget::BuildCharacterSelectionPanel(UCanvasPanel* Root)
     Stack->AddChildToVerticalBox(CharacterListText);
     CharacterSlotInput=WidgetTree->ConstructWidget<UEditableTextBox>(UEditableTextBox::StaticClass(),TEXT("CharacterSlotInput"));
     CharacterSlotInput->SetText(FText::FromString(TEXT("1")));
-    CharacterSlotInput->SetHintText(FText::FromString(TEXT("Character slot 1-60")));
+    CharacterSlotInput->SetHintText(FText::FromString(TEXT("Character slot 1-70")));
     Stack->AddChildToVerticalBox(CharacterSlotInput);
     CharacterSelectButton=Button(WidgetTree,TEXT("CharacterSelectButton"),TEXT("SELECT OWNED CHARACTER"),FLinearColor(0.035f,0.045f,0.060f,0.96f));
     CharacterSelectButton->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::SelectOwnedCharacter);
@@ -510,7 +510,7 @@ void UHonourWarHUDWidget::SelectOwnedCharacter()
     {
         int32 SlotIndex=0;
         if(CharacterSlotInput)
-            SlotIndex=FMath::Clamp(FCString::Atoi(*CharacterSlotInput->GetText().ToString())-1,0,59);
+            SlotIndex=FMath::Clamp(FCString::Atoi(*CharacterSlotInput->GetText().ToString())-1,0,69);
         FString Message; bool bSelected=PC->SelectCharacter(SlotIndex,Message);
         CharacterSelectStatus->SetText(FText::FromString(Message));
         if(bSelected) CharacterSelectPanel->SetVisibility(ESlateVisibility::Collapsed);
