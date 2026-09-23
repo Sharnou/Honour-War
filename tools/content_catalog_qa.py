@@ -4,7 +4,7 @@ from pathlib import Path
 import json
 ROOT=Path(__file__).resolve().parents[1]
 c=json.loads((ROOT/"data/honour_war_content_catalog.json").read_text(encoding="utf-8"))
-expected={"characters":60,"monsters":256,"maps":24,"equipment":240,"cards":240}
+expected={"characters":70,"monsters":256,"maps":24,"equipment":300,"cards":300}
 for k,v in expected.items():
     if len(c[k])!=v: raise SystemExit(f"CONTENT_CATALOG_FAIL: {k} count={len(c[k])}, expected={v}")
 if len(c["items"])!=74: raise SystemExit(f"CONTENT_CATALOG_FAIL: items count={len(c['items'])}, expected=74")
@@ -19,7 +19,7 @@ if len({x["name"] for x in c["monsters"]})!=256: raise SystemExit("CONTENT_CATAL
 controller_text=(ROOT/"Source/HonourWar/HonourWarPlayerController.cpp").read_text(encoding="utf-8")
 hud_header=(ROOT/"Source/HonourWar/HonourWarHUDWidget.h").read_text(encoding="utf-8")
 hud_cpp=(ROOT/"Source/HonourWar/HonourWarHUDWidget.cpp").read_text(encoding="utf-8")
-if "OwnedCharacters.Num()<60" not in controller_text or "i<60" not in controller_text: raise SystemExit("CONTENT_CATALOG_FAIL: roster capacity is not 60")
+if "OwnedCharacters.Num()<70" not in controller_text or "i<70" not in controller_text: raise SystemExit("CONTENT_CATALOG_FAIL: roster capacity is not 60")
 if "CharacterSlotInput" not in hud_header or "CharacterSlotInput" not in hud_cpp: raise SystemExit("CONTENT_CATALOG_FAIL: 1-60 character selector missing")
 if len({x["visual_archetype"] for x in c["monsters"]}) < 8: raise SystemExit("CONTENT_CATALOG_FAIL: monster archetype diversity incomplete")
 if 300 not in {x["level"] for x in c["monsters"]}: raise SystemExit("CONTENT_CATALOG_FAIL: level-300 monster is missing")
@@ -43,7 +43,9 @@ if "SpawnActor<AHonourWarMonster>" not in world: raise SystemExit("CONTENT_CATAL
 if "EquipmentForRank" not in loot: raise SystemExit("CONTENT_CATALOG_FAIL: equipment rank API missing")
 if 'TEXT("Transcendent Monster Suit")' not in loot or 'TEXT("World Monarch Card")' not in loot: raise SystemExit("CONTENT_CATALOG_FAIL: runtime level-300 rewards missing")
 if "LootRank = FMath::Clamp(MonsterTier*30+MonsterFamilySlot+1,1,240)" not in combat: raise SystemExit("CONTENT_CATALOG_FAIL: full loot rank mapping missing")
+if len(c.get("pets",[]))!=20 or len(c.get("pet_skills",[]))!=120 or len(c.get("pet_equipment",[]))!=100: raise SystemExit("CONTENT_CATALOG_FAIL: pet content expansion")
+if not any(x["class"]=="Ranger" and x["slot"]=="Weapon" and x.get("weapon_family")=="Bolt Machine Gun" for x in c["equipment"]): raise SystemExit("CONTENT_CATALOG_FAIL: Ranger bolt machine gun equipment")
 enc=json.loads((ROOT/"data/honour_war_item_encyclopedia.json").read_text(encoding="utf-8"))
-if len(enc.get("entries",[]))!=575: raise SystemExit("CONTENT_CATALOG_FAIL: item encyclopedia count")
-if len({x["id"] for x in enc["entries"]})!=575: raise SystemExit("CONTENT_CATALOG_FAIL: item encyclopedia IDs are not unique")
-print("CONTENT_CATALOG_PASS: 60 characters, 256 monsters, 24 maps, 240 equipment, 74 items, 240 cards.")
+if len(enc.get("entries",[]))!=795: raise SystemExit("CONTENT_CATALOG_FAIL: item encyclopedia count")
+if len({x["id"] for x in enc["entries"]})!=795: raise SystemExit("CONTENT_CATALOG_FAIL: item encyclopedia IDs are not unique")
+print("CONTENT_CATALOG_PASS: 70 characters, 256 monsters, 24 maps, 300 equipment, 74 items, 300 cards, 20 pets, 120 pet skills, 100 pet equipment.")
