@@ -6,7 +6,7 @@
  * Canonical Honour War runtime loot database.
  * Production pool: 300 equipment entries + 76 item entries + 300 cards.
  * Refinement materials: Phracon, Emveretarcon, Oridecon, Zeny.
- * Ranger firearm ammunition: Rune Bolts (Tier 1-2) and Machine Gun Bolts (Tier 3-5).
+ * Ranger firearm ammunition: Machine Gun Bolts (ITEM_075) across all five Ranger tiers; Rune Bolts remain as a separate legacy item (ITEM_076).
  */
 namespace HonourWarLootDatabase
 {
