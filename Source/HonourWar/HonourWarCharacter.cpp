@@ -296,11 +296,12 @@ void AHonourWarCharacter::ActivateSkill(int32 SkillIndex)
     if(!CombatComponent) return;
     if(CombatComponent->UseSkill(FMath::Clamp(SkillIndex,0,7)))
     {
-        static const TCHAR* Names[]={
-            TEXT("Basic Attack"),TEXT("Class Skill"),TEXT("Power Strike"),TEXT("Arcane Burst"),
-            TEXT("Rapid Volley"),TEXT("Guardian Light"),TEXT("Shadow Step"),TEXT("Finisher")
-        };
-        LastCombatMessage=FString::Printf(TEXT("%s • impact confirmed"),Names[FMath::Clamp(SkillIndex,0,7)]);
+        const int32 ActiveSkillIndex=FMath::Clamp(SkillIndex,0,7);
+        const FString SkillSet=HonourWarClassProgression::JobFor(CharacterClass,GetClassTier()).SkillList;
+        TArray<FString> JobSkills;
+        SkillSet.ParseIntoArray(JobSkills,TEXT(";"),true);
+        const FString SkillName=JobSkills.IsValidIndex(ActiveSkillIndex)?JobSkills[ActiveSkillIndex]:TEXT("Class Skill");
+        LastCombatMessage=FString::Printf(TEXT("%s • impact confirmed"),*SkillName);
     }
 }
 
