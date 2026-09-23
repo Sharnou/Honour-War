@@ -2,6 +2,7 @@
 """Permanent Honour War exclusion contract."""
 from __future__ import annotations
 import re
+import json
 from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_DIR = ROOT / "Source"
