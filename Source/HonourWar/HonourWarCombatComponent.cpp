@@ -251,7 +251,7 @@ void UHonourWarCombatComponent::RestoreVitals()
 
 float UHonourWarCombatComponent::GetDamageReductionPercent() const
 {
-    return FMath::Clamp(static_cast<float>(Vitality)*0.0015f,0.0f,0.25f);
+    return FMath::Clamp(static_cast<float>(Vitality)*0.0021f,0.0f,0.25f);
 }
 
 float UHonourWarCombatComponent::GetSkillCooldownMultiplier() const
