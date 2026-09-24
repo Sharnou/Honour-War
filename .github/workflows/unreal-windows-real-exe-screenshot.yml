@@ -44,6 +44,16 @@ jobs:
           python tools/visual_gap_register_qa.py
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
+      - name: Preflight Unreal Engine 5.8 installation
+        shell: pwsh
+        env:
+          UNREAL_ENGINE_ROOT: C:\Program Files\Epic Games\UE_5.8
+        run: |
+          $editor = Join-Path $env:UNREAL_ENGINE_ROOT "Engine\Binaries\Win64\UnrealEditor.exe"
+          if (!(Test-Path $editor)) { throw "Unreal Engine 5.8 editor was not found at $editor" }
+          $version = & $editor -Version 2>&1 | Select-Object -First 1
+          Write-Host "UNREAL_ENGINE_5_8_PREFLIGHT_PASS: $version"
+
       - name: Build and package Windows EXE
         shell: pwsh
         env:
@@ -81,7 +91,7 @@ jobs:
           $report = "Build/HonourWar-E2E-report.txt"
           if (!(Test-Path $report)) { throw "Runtime E2E report was not produced." }
           $text = Get-Content $report -Raw
-          foreach ($marker in @("PASS[01]","PASS[02]","PASS[04]","PASS[06]","PASS[07]","PASS[08]","PASS[10]","PASS[12]")) {
+          foreach ($marker in @("PASS[01]","PASS[02]","PASS[04]","PASS[06]","PASS[07]","PASS[08]","PASS[10]","PASS[12]","PASS[13]","PASS[14]")) {
             if ($text -notmatch [regex]::Escape($marker)) { throw "Missing E2E marker: $marker" }
           }
           if ($text -match "FAIL") { throw "Runtime E2E report contains FAIL entries." }
@@ -112,17 +122,19 @@ jobs:
           retention-days: 30
 
       - name: Upload full runtime E2E report
+        if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           name: honour-war-real-runtime-e2e-report
           path: Build/HonourWar-E2E-report.txt
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 30
 
       - name: Upload Unreal runtime log
+        if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           name: honour-war-real-runtime-log
           path: Build/HonourWar-runtime-log.txt
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 30
