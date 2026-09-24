@@ -437,12 +437,24 @@
     "general_items": 76,
     "card_ranks": 300,
     "pet_equipment": 100,
-    "rank_layout": "8 monster level bands x 30 loot ranks; specific monster family selects the rank.",
+    "rank_layout": "8 base monster bands × 30 family ranks = 240 ranks, plus 60 elite extension ranks: Lv.230+ has a 20% roll for ranks 241-270 and Lv.300 Worldbreakers use ranks 271-300.",
     "card_policy": "Cards can drop across the full 300-rank production pool; specific monster families and level bands resolve the canonical card ID.",
     "general_item_policy": "Every monster defeat resolves one rotating general-item slot across all 76 canonical general item IDs.",
     "pet_equipment_policy": "100 pet-equipment IDs are data-driven, source-tracked and searchable through /help.",
     "level_300_rewards": "EQUIP_300 Transcendent Monster Suit and CARD_300 World Monarch Card.",
-    "tier5_worldbreaker_drop_chance_percent": 5
+    "tier5_worldbreaker_drop_chance_percent": 5,
+    "extended_rank_rules": {
+      "elite_230_range": [
+        241,
+        270
+      ],
+      "worldbreaker_300_range": [
+        271,
+        300
+      ],
+      "elite_230_chance_percent": 20,
+      "worldbreaker_300_chance_percent": 100
+    }
   },
   "ranger_rules": {
     "profession": "Ranger",
