@@ -29,6 +29,8 @@ public:
     UPROPERTY() int32 BasicSkillLevel = 1;
     UPROPERTY() int32 SkillPoints = 0;
     UPROPERTY() TArray<int32> SkillLevels;
+    UPROPERTY() int32 SkillPoints = 0;
+    UPROPERTY() TArray<int32> SkillLevels;
     UPROPERTY() int32 Honours = 0;
     UPROPERTY() int32 StatusPoints = 30;
     UPROPERTY() int32 Strength = 10;
