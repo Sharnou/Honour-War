@@ -250,7 +250,15 @@ void UHonourWarCombatComponent::SetSkillState(int32 InSkillPoints,const TArray<i
 {
     SkillPoints=FMath::Max(0,InSkillPoints);
     SkillLevels=InSkillLevels;
-    if(SkillLevels.Num()!=8) SkillLevels.Init(1,8);
+    if(SkillLevels.Num()!=8)
+    {
+        SkillLevels.Init(1,8);
+        SkillPoints=Level/5;
+        if(Level>=25) SkillPoints+=3;
+        if(Level>=50) SkillPoints+=3;
+        if(Level>=150) SkillPoints+=3;
+        if(Level>=200) SkillPoints+=3;
+    }
     for(int32& Value:SkillLevels) Value=FMath::Clamp(Value,1,10);
 }
 
