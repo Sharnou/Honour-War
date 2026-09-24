@@ -1,0 +1,1 @@
+namespace HonourWar { public sealed class HonourWarCombatEffect { public string Id="",Name=""; public float Duration,Scalar=1f; public bool IsActive; public void Start(float seconds){Duration=seconds;IsActive=true;} public void Tick(float dt){if(!IsActive)return;Duration-=dt;if(Duration<=0)IsActive=false;} } }
