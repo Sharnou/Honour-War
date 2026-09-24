@@ -11,7 +11,7 @@ $Exe = Get-ChildItem -Path $PackageRoot -Recurse -Filter "HonourWar.exe" -ErrorA
 if ($null -eq $Exe) { throw "HonourWar.exe was not found under $PackageRoot. Build/package the game first." }
 
 $Process = Start-Process -FilePath $Exe.FullName -ArgumentList @(
-    "-HonourWarCapture", "-windowed", "-ResX=1920", "-ResY=1080", "-Unattended", "-NoSplash"
+    "-HonourWarCapture", "-HonourWarE2E", "-windowed", "-ResX=1920", "-ResY=1080", "-Unattended", "-NoSplash"
 ) -PassThru
 
 if (-not $Process.WaitForExit($TimeoutSeconds * 1000)) {
