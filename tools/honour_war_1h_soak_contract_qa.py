@@ -27,6 +27,7 @@ required_classes = [
 
 checks = [
     ("HonourWarSoak", "HonourWarSoak" in cpp and "HonourWarSoak" in ps1),
+    ("soak header type dependencies", '#include "HonourWarTypes.h"' in hdr and "class AHonourWarMonster;" in hdr),
     ("3600-second session", "Elapsed>=3600.0f" in cpp),
     ("480-second class phases", "ClassElapsed>=480.0f" in cpp),
     ("PASS[CLASS]", 'PASS[CLASS]' in cpp),
