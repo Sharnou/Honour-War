@@ -1,0 +1,12 @@
+using System; using System.Collections.Generic; using UnityEngine;
+namespace HonourWar {
+ [Serializable] public sealed class HonourWarCharacterTemplate { public string Id,Name,ClassName,Build,VisualProfile; public int Tier,UnlockLevel; }
+ [Serializable] public sealed class HonourWarMonsterTemplate { public string Id,Name; public EHonourWarMonsterSpecies Species; public int Level; public Vector3 Location; }
+ [Serializable] public sealed class HonourWarMapTemplate { public string Id,Name,Type; public Vector3 Anchor; }
+ public static class HonourWarContentCatalog {
+  static readonly string[] jobNames={"Swordsman","Knight","Paladin","Warlord","Abyssal Warlord","Novice Mage","Wizard","High Wizard","Arcane Sage","Eternal Spellwright","Bowman","Hunter","Sniper","Deadeye","Causality Marksman","Dagger Initiate","Assassin","Shadowlord","Nightblade","Absolute Shadow","Acolyte","Priest","High Priest","Saint","Eternal Benediction","Merchant","Ironforger","Royal Smith","Master Smith","Infinite Quartermaster","Ranger","Beastmaster","Forest Warden","Wild Sovereign","Verdant Paragon"};
+  public static List<HonourWarCharacterTemplate> Characters(){var r=new List<HonourWarCharacterTemplate>();int id=1;foreach(EHonourWarClass c in Enum.GetValues(typeof(EHonourWarClass)))for(int gender=0;gender<2;gender++)for(int t=1;t<=5;t++){var n=jobNames[((int)c)*5+t-1];r.Add(new HonourWarCharacterTemplate{Id=$"CHAR_{id++:000}",Name=$"{n} {(gender==0?"Male":"Female")}",ClassName=c.ToString(),Tier=t,UnlockLevel=HonourWarClassProgression.RequiredLevel((EHonourWarClassTier)t),Build=n,VisualProfile=$"{c.ToString().ToLowerInvariant()}_{t}_{(gender==0?"male":"female")}"});}return r;}
+  public static List<HonourWarMapTemplate> Maps(){var r=new List<HonourWarMapTemplate>();for(int i=1;i<=24;i++)r.Add(new HonourWarMapTemplate{Id=$"MAP_{i:000}",Name=$"Honour War Region {i:00}",Type=i%4==0?"Dungeon":i%3==0?"Town":"Field",Anchor=new Vector3((i%6)*400-1000,0,(i/6)*400-600)});return r;}
+  public static List<HonourWarMonsterTemplate> Monsters(){var r=new List<HonourWarMonsterTemplate>();for(int i=1;i<=256;i++)r.Add(new HonourWarMonsterTemplate{Id=$"MON_{i:000}",Name=$"Honour Monster {i:000}",Species=(EHonourWarMonsterSpecies)((i-1)%Enum.GetValues(typeof(EHonourWarMonsterSpecies)).Length),Level=Mathf.Clamp(10+i,1,250),Location=new Vector3((i%16)*20-150,1,(i/16)*20-150)});return r;}
+ }
+}
