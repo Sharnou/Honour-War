@@ -493,6 +493,126 @@ void UHonourWarHUDWidget::NativeTick(const FGeometry& MyGeometry,float InDeltaTi
     RefreshVitals();
 }
 
+bool UHonourWarHUDWidget::RunAutomatedE2ETest(FString& OutFailure)
+{
+    OutFailure.Empty();
+
+    AHonourWarPlayerController* PC=Cast<AHonourWarPlayerController>(GetOwningPlayer());
+    if(!PC){OutFailure=TEXT("E2E[BOOT] owning player controller missing.");return false;}
+    if(!AuthUsername||!AuthPassword||!AuthRegisterButton||!AuthLoginButton||!CharacterCreateButton||!CharacterNameInput||!CreateRangerButton||!CharacterSlotInput||!CharacterSelectButton)
+    {
+        OutFailure=TEXT("E2E[BOOT] required authentication/character widgets missing.");
+        return false;
+    }
+
+    FString Report=TEXT("Honour War Runtime E2E\n");
+    auto Record=[&](const FString& Line){Report+=Line+TEXT("\n");};
+
+    PC->ResetLocalAccountForE2E();
+    Record(TEXT("PASS[01] Fresh local account state reset."));
+
+    AuthUsername->SetText(FText::FromString(TEXT("E2EPlayer")));
+    AuthPassword->SetText(FText::FromString(TEXT("HonourWarE2E2026")));
+    AuthRegisterButton->OnClicked.Broadcast();
+    if(!PC->IsAuthenticated())
+    {
+        OutFailure=FString::Printf(TEXT("E2E[REGISTER] %s"),*AuthStatus->GetText().ToString());
+        Record(FString::Printf(TEXT("FAIL[02] %s"),*OutFailure));
+        FFileHelper::SaveStringToFile(Report,*FPaths::ProjectSavedDir()/TEXT("HonourWar-E2E-report.txt"));
+        return false;
+    }
+    Record(FString::Printf(TEXT("PASS[02] Register callback: %s"),*AuthStatus->GetText().ToString()));
+
+    EndSessionForE2E:
+    PC->EndSessionForE2E();
+    if(PC->IsAuthenticated())
+    {
+        OutFailure=TEXT("E2E[LOGOUT] session reset did not clear authentication.");
+        Record(TEXT("FAIL[03] Logout/session reset failed."));
+        FFileHelper::SaveStringToFile(Report,*FPaths::ProjectSavedDir()/TEXT("HonourWar-E2E-report.txt"));
+        return false;
+    }
+    Record(TEXT("PASS[03] Session reset between registration and login."));
+
+    AuthLoginButton->OnClicked.Broadcast();
+    if(!PC->IsAuthenticated())
+    {
+        OutFailure=FString::Printf(TEXT("E2E[LOGIN] %s"),*AuthStatus->GetText().ToString());
+        Record(FString::Printf(TEXT("FAIL[04] %s"),*OutFailure));
+        FFileHelper::SaveStringToFile(Report,*FPaths::ProjectSavedDir()/TEXT("HonourWar-E2E-report.txt"));
+        return false;
+    }
+    Record(FString::Printf(TEXT("PASS[04] Login callback: %s"),*AuthStatus->GetText().ToString()));
+
+    CreateNewCharacter();
+    if(!CharacterCreatePanel || CharacterCreatePanel->GetVisibility()!=ESlateVisibility::Visible)
+    {
+        OutFailure=TEXT("E2E[CHARACTER_CREATE] create panel did not become visible.");
+        Record(TEXT("FAIL[05] Character creation panel transition failed."));
+        FFileHelper::SaveStringToFile(Report,*FPaths::ProjectSavedDir()/TEXT("HonourWar-E2E-report.txt"));
+        return false;
+    }
+    CharacterNameInput->SetText(FText::FromString(TEXT("E2ERanger")));
+    CreateRangerButton->OnClicked.Broadcast();
+    if(!PC->IsReadyForGameplay())
+    {
+        OutFailure=FString::Printf(TEXT("E2E[CHARACTER_CREATE] %s"),*CharacterSelectStatus->GetText().ToString());
+        Record(FString::Printf(TEXT("FAIL[06] %s"),*OutFailure));
+        FFileHelper::SaveStringToFile(Report,*FPaths::ProjectSavedDir()/TEXT("HonourWar-E2E-report.txt"));
+        return false;
+    }
+    Record(FString::Printf(TEXT("PASS[06] Ranger character created: %s"),*CharacterSelectStatus->GetText().ToString()));
+
+    PC->EndSessionForE2E();
+    AuthLoginButton->OnClicked.Broadcast();
+    if(!PC->IsAuthenticated() || PC->IsReadyForGameplay())
+    {
+        OutFailure=TEXT("E2E[RELOGIN] login did not restore authenticated-but-unselected state.");
+        Record(TEXT("FAIL[07] Re-login state transition failed."));
+        FFileHelper::SaveStringToFile(Report,*FPaths::ProjectSavedDir()/TEXT("HonourWar-E2E-report.txt"));
+        return false;
+    }
+    Record(TEXT("PASS[07] Re-login restored account with character selection required."));
+
+    CharacterSlotInput->SetText(FText::FromString(TEXT("1")));
+    CharacterSelectButton->OnClicked.Broadcast();
+    if(!PC->IsReadyForGameplay())
+    {
+        OutFailure=FString::Printf(TEXT("E2E[SELECT] %s"),*CharacterSelectStatus->GetText().ToString());
+        Record(FString::Printf(TEXT("FAIL[08] %s"),*OutFailure));
+        FFileHelper::SaveStringToFile(Report,*FPaths::ProjectSavedDir()/TEXT("HonourWar-E2E-report.txt"));
+        return false;
+    }
+    Record(FString::Printf(TEXT("PASS[08] Character selection callback: %s"),*CharacterSelectStatus->GetText().ToString()));
+
+    AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(PC->GetPawn());
+    if(!Character || !Character->GetCombatComponent())
+    {
+        OutFailure=TEXT("E2E[GAMEPLAY] player character/combat component missing.");
+        Record(TEXT("FAIL[09] Gameplay pawn missing."));
+        FFileHelper::SaveStringToFile(Report,*FPaths::ProjectSavedDir()/TEXT("HonourWar-E2E-report.txt"));
+        return false;
+    }
+    Character->SaveProgress();
+    Character->LoadProgress();
+    if(!PC->IsReadyForGameplay())
+    {
+        OutFailure=TEXT("E2E[AUTOSAVE] readiness lost after save/load.");
+        Record(TEXT("FAIL[10] Save/load state regression."));
+        FFileHelper::SaveStringToFile(Report,*FPaths::ProjectSavedDir()/TEXT("HonourWar-E2E-report.txt"));
+        return false;
+    }
+    Record(TEXT("PASS[10] Save/load preserved playable character state."));
+
+    PC->SendChatMessage(TEXT("@help EQUIP_001"));
+    PC->SendChatMessage(TEXT("@stat STR 1"));
+    PC->SendChatMessage(TEXT("@skill 1 1"));
+    Record(TEXT("PASS[11] Gameplay command path invoked: @help, @stat, @skill."));
+    Record(TEXT("PASS[12] End-to-end authentication and character flow completed."));
+    FFileHelper::SaveStringToFile(Report,*FPaths::ProjectSavedDir()/TEXT("HonourWar-E2E-report.txt"));
+    return true;
+}
+
 void UHonourWarHUDWidget::SubmitChat()
 {
     if(!ChatInput) return;
