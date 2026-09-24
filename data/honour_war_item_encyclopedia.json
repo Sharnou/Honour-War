@@ -14201,7 +14201,7 @@
         "monster_id": "MON_005",
         "monster_name": "Abyssal Poring Elder",
         "monster_level": 120,
-        "map_id": "crimson_dunes",
+        "map_id": "red_desert",
         "map_name": "Crimson Dunes"
       },
       "when": "Any time; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -14377,7 +14377,7 @@
         "monster_id": "MON_013",
         "monster_name": "Abyssal Poporing Elder",
         "monster_level": 120,
-        "map_id": "crimson_dunes",
+        "map_id": "red_desert",
         "map_name": "Crimson Dunes"
       },
       "when": "Any time; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -14553,7 +14553,7 @@
         "monster_id": "MON_021",
         "monster_name": "Abyssal Drops Elder",
         "monster_level": 120,
-        "map_id": "crimson_dunes",
+        "map_id": "red_desert",
         "map_name": "Crimson Dunes"
       },
       "when": "Any time; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -14729,7 +14729,7 @@
         "monster_id": "MON_029",
         "monster_name": "Abyssal Marin Elder",
         "monster_level": 120,
-        "map_id": "crimson_dunes",
+        "map_id": "red_desert",
         "map_name": "Crimson Dunes"
       },
       "when": "Any time; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -14905,7 +14905,7 @@
         "monster_id": "MON_037",
         "monster_name": "Abyssal Goblin Elder",
         "monster_level": 120,
-        "map_id": "crimson_dunes",
+        "map_id": "red_desert",
         "map_name": "Crimson Dunes"
       },
       "when": "Any time; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -15081,7 +15081,7 @@
         "monster_id": "MON_045",
         "monster_name": "Abyssal Kobold Elder",
         "monster_level": 120,
-        "map_id": "crimson_dunes",
+        "map_id": "red_desert",
         "map_name": "Crimson Dunes"
       },
       "when": "Any time; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -15257,7 +15257,7 @@
         "monster_id": "MON_053",
         "monster_name": "Abyssal Hobgoblin Elder",
         "monster_level": 120,
-        "map_id": "crimson_dunes",
+        "map_id": "red_desert",
         "map_name": "Crimson Dunes"
       },
       "when": "Any time; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -15433,7 +15433,7 @@
         "monster_id": "MON_061",
         "monster_name": "Abyssal Orclet Elder",
         "monster_level": 120,
-        "map_id": "crimson_dunes",
+        "map_id": "red_desert",
         "map_name": "Crimson Dunes"
       },
       "when": "Any time; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -15609,7 +15609,7 @@
         "monster_id": "MON_069",
         "monster_name": "Abyssal Wolf Elder",
         "monster_level": 120,
-        "map_id": "crimson_dunes",
+        "map_id": "red_desert",
         "map_name": "Crimson Dunes"
       },
       "when": "Any time; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -15785,7 +15785,7 @@
         "monster_id": "MON_077",
         "monster_name": "Abyssal Desert Wolf Elder",
         "monster_level": 120,
-        "map_id": "crimson_dunes",
+        "map_id": "red_desert",
         "map_name": "Crimson Dunes"
       },
       "when": "Any time; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -15961,7 +15961,7 @@
         "monster_id": "MON_085",
         "monster_name": "Abyssal Warg Elder",
         "monster_level": 120,
-        "map_id": "crimson_dunes",
+        "map_id": "red_desert",
         "map_name": "Crimson Dunes"
       },
       "when": "Any time; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -16137,7 +16137,7 @@
         "monster_id": "MON_093",
         "monster_name": "Abyssal Dire Wolf Elder",
         "monster_level": 120,
-        "map_id": "crimson_dunes",
+        "map_id": "red_desert",
         "map_name": "Crimson Dunes"
       },
       "when": "Any time; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -16313,7 +16313,7 @@
         "monster_id": "MON_101",
         "monster_name": "Abyssal Skeleton Elder",
         "monster_level": 120,
-        "map_id": "crimson_dunes",
+        "map_id": "red_desert",
         "map_name": "Crimson Dunes"
       },
       "when": "Any time; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -16489,7 +16489,7 @@
         "monster_id": "MON_109",
         "monster_name": "Abyssal Zombie Guard Elder",
         "monster_level": 120,
-        "map_id": "crimson_dunes",
+        "map_id": "red_desert",
         "map_name": "Crimson Dunes"
       },
       "when": "Any time; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -16665,7 +16665,7 @@
         "monster_id": "MON_117",
         "monster_name": "Abyssal Bone Archer Elder",
         "monster_level": 120,
-        "map_id": "crimson_dunes",
+        "map_id": "red_desert",
         "map_name": "Crimson Dunes"
       },
       "when": "Any time; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -16841,7 +16841,7 @@
         "monster_id": "MON_125",
         "monster_name": "Abyssal Skull Knight Elder",
         "monster_level": 120,
-        "map_id": "crimson_dunes",
+        "map_id": "red_desert",
         "map_name": "Crimson Dunes"
       },
       "when": "Any time; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -17017,7 +17017,7 @@
         "monster_id": "MON_133",
         "monster_name": "Abyssal Orc Elder",
         "monster_level": 120,
-        "map_id": "crimson_dunes",
+        "map_id": "red_desert",
         "map_name": "Crimson Dunes"
       },
       "when": "Any time; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -17193,7 +17193,7 @@
         "monster_id": "MON_141",
         "monster_name": "Abyssal Orc Warrior Elder",
         "monster_level": 120,
-        "map_id": "crimson_dunes",
+        "map_id": "red_desert",
         "map_name": "Crimson Dunes"
       },
       "when": "Any time; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -17369,7 +17369,7 @@
         "monster_id": "MON_149",
         "monster_name": "Abyssal Orc Champion Elder",
         "monster_level": 120,
-        "map_id": "crimson_dunes",
+        "map_id": "red_desert",
         "map_name": "Crimson Dunes"
       },
       "when": "Any time; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -17545,7 +17545,7 @@
         "monster_id": "MON_157",
         "monster_name": "Abyssal Orc Warlord Elder",
         "monster_level": 120,
-        "map_id": "crimson_dunes",
+        "map_id": "red_desert",
         "map_name": "Crimson Dunes"
       },
       "when": "Any time; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -17721,7 +17721,7 @@
         "monster_id": "MON_165",
         "monster_name": "Abyssal Mantis Elder",
         "monster_level": 120,
-        "map_id": "crimson_dunes",
+        "map_id": "red_desert",
         "map_name": "Crimson Dunes"
       },
       "when": "Any time; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -17897,7 +17897,7 @@
         "monster_id": "MON_173",
         "monster_name": "Abyssal Hunter Fly Elder",
         "monster_level": 120,
-        "map_id": "crimson_dunes",
+        "map_id": "red_desert",
         "map_name": "Crimson Dunes"
       },
       "when": "Any time; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -18073,7 +18073,7 @@
         "monster_id": "MON_181",
         "monster_name": "Abyssal Scorpion Elder",
         "monster_level": 120,
-        "map_id": "crimson_dunes",
+        "map_id": "red_desert",
         "map_name": "Crimson Dunes"
       },
       "when": "Any time; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -18249,7 +18249,7 @@
         "monster_id": "MON_189",
         "monster_name": "Abyssal Venom Beetle Elder",
         "monster_level": 120,
-        "map_id": "crimson_dunes",
+        "map_id": "red_desert",
         "map_name": "Crimson Dunes"
       },
       "when": "Any time; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -18425,7 +18425,7 @@
         "monster_id": "MON_197",
         "monster_name": "Abyssal Golem Elder",
         "monster_level": 120,
-        "map_id": "crimson_dunes",
+        "map_id": "red_desert",
         "map_name": "Crimson Dunes"
       },
       "when": "Any time; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -18601,7 +18601,7 @@
         "monster_id": "MON_205",
         "monster_name": "Abyssal Stone Golem Elder",
         "monster_level": 120,
-        "map_id": "crimson_dunes",
+        "map_id": "red_desert",
         "map_name": "Crimson Dunes"
       },
       "when": "Any time; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -18777,7 +18777,7 @@
         "monster_id": "MON_213",
         "monster_name": "Abyssal Crystal Golem Elder",
         "monster_level": 120,
-        "map_id": "crimson_dunes",
+        "map_id": "red_desert",
         "map_name": "Crimson Dunes"
       },
       "when": "Any time; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -18953,7 +18953,7 @@
         "monster_id": "MON_221",
         "monster_name": "Abyssal Iron Golem Elder",
         "monster_level": 120,
-        "map_id": "crimson_dunes",
+        "map_id": "red_desert",
         "map_name": "Crimson Dunes"
       },
       "when": "Any time; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -19129,7 +19129,7 @@
         "monster_id": "MON_229",
         "monster_name": "Abyssal Dragon Elder",
         "monster_level": 120,
-        "map_id": "crimson_dunes",
+        "map_id": "red_desert",
         "map_name": "Crimson Dunes"
       },
       "when": "Any time; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -19305,7 +19305,7 @@
         "monster_id": "MON_237",
         "monster_name": "Abyssal Drake Elder",
         "monster_level": 120,
-        "map_id": "crimson_dunes",
+        "map_id": "red_desert",
         "map_name": "Crimson Dunes"
       },
       "when": "Any time; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -20185,7 +20185,7 @@
         "monster_id": "MON_148",
         "monster_name": "Royal Orc Champion Warden",
         "monster_level": 80,
-        "map_id": "ironheart_vault",
+        "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
       "when": "Any time; permanent daylight; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -20207,7 +20207,7 @@
         "monster_id": "MON_155",
         "monster_name": "Ancient Orc Warlord Alpha",
         "monster_level": 50,
-        "map_id": "ironheart_vault",
+        "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
       "when": "Any time; permanent daylight; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -20229,7 +20229,7 @@
         "monster_id": "MON_162",
         "monster_name": "Crimson Mantis Hunter",
         "monster_level": 30,
-        "map_id": "ironheart_vault",
+        "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
       "when": "Any time; permanent daylight; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -20251,7 +20251,7 @@
         "monster_id": "MON_169",
         "monster_name": "Wild Hunter Fly Scout",
         "monster_level": 10,
-        "map_id": "ironheart_vault",
+        "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
       "when": "Any time; permanent daylight; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -20273,7 +20273,7 @@
         "monster_id": "MON_176",
         "monster_name": "Night Hunter Fly Worldbreaker",
         "monster_level": 300,
-        "map_id": "ironheart_vault",
+        "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
       "when": "Any time; permanent daylight; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -20295,7 +20295,7 @@
         "monster_id": "MON_183",
         "monster_name": "Verdant Scorpion Tyrant",
         "monster_level": 230,
-        "map_id": "ironheart_vault",
+        "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
       "when": "Any time; permanent daylight; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -20317,7 +20317,7 @@
         "monster_id": "MON_190",
         "monster_name": "Storm Venom Beetle Lord",
         "monster_level": 170,
-        "map_id": "ironheart_vault",
+        "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
       "when": "Any time; permanent daylight; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -20339,7 +20339,7 @@
         "monster_id": "MON_197",
         "monster_name": "Abyssal Golem Elder",
         "monster_level": 120,
-        "map_id": "ironheart_vault",
+        "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
       "when": "Any time; permanent daylight; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -20361,7 +20361,7 @@
         "monster_id": "MON_204",
         "monster_name": "Royal Stone Golem Warden",
         "monster_level": 80,
-        "map_id": "ironheart_vault",
+        "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
       "when": "Any time; permanent daylight; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -20383,7 +20383,7 @@
         "monster_id": "MON_211",
         "monster_name": "Ancient Crystal Golem Alpha",
         "monster_level": 50,
-        "map_id": "ironheart_vault",
+        "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
       "when": "Any time; permanent daylight; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -20405,7 +20405,7 @@
         "monster_id": "MON_218",
         "monster_name": "Crimson Iron Golem Hunter",
         "monster_level": 30,
-        "map_id": "ironheart_vault",
+        "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
       "when": "Any time; permanent daylight; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
@@ -20427,7 +20427,7 @@
         "monster_id": "MON_225",
         "monster_name": "Wild Dragon Scout",
         "monster_level": 10,
-        "map_id": "ironheart_vault",
+        "map_id": "mountain_dungeon",
         "map_name": "Ironheart Vault"
       },
       "when": "Any time; permanent daylight; source respawns after 12 seconds; drop chance modified by current loot rules and age bonuses.",
