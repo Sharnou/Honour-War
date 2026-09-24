@@ -3,7 +3,10 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "TimerManager.h"
+#include "HonourWarTypes.h"
 #include "HonourWarScreenshotDirector.generated.h"
+
+class AHonourWarMonster;
 
 UCLASS()
 class HONOURWAR_API AHonourWarScreenshotDirector : public AActor
