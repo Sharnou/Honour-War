@@ -24,6 +24,7 @@ public:
     bool LoadActiveCharacterData(class UHonourWarSaveGame& OutSaveData) const;
     bool RegisterAccount(const FString& Username,const FString& Password,FString& OutMessage);
     bool LoginAccount(const FString& Username,const FString& Password,FString& OutMessage);
+    void EndSessionForE2E();
 
 protected:
     virtual void BeginPlay() override;
