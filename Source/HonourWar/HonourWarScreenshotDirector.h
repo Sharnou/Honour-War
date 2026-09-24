@@ -24,4 +24,5 @@ private:
     int32 CaptureAttempts=0;
     FTimerHandle CaptureTimer;
     FTimerHandle ExitTimer;
+    TWeakObjectPtr<AHonourWarMonster> ShowcaseMonster;
 };
