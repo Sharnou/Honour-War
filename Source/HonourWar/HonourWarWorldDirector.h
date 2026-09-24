@@ -13,6 +13,7 @@ class UMaterialInstanceDynamic;
 class USceneComponent;
 class AHonourWarMonster;
 class AHonourWarCharacter;
+class USkyLightComponent;
 
 UCLASS()
 class HONOURWAR_API AHonourWarWorldDirector : public AActor
@@ -33,6 +34,7 @@ private:
     UPROPERTY() UStaticMesh* SphereMesh=nullptr;
     UPROPERTY() UStaticMesh* ConeMesh=nullptr;
     UPROPERTY() UMaterialInterface* BaseMaterial=nullptr;
+    UPROPERTY() USkyLightComponent* RuntimeSkyLight=nullptr;
 
     struct FMonsterSlot
     {
