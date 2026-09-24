@@ -15,9 +15,11 @@ public:
     virtual void BeginPlay() override;
 
 private:
+    void SetupCaptureScene();
     void RequestCapture();
     void FinishCapture();
 
+    FTimerHandle SetupTimer;
     FTimerHandle CaptureTimer;
     FTimerHandle ExitTimer;
 };
