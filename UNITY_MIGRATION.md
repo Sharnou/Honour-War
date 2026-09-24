@@ -68,6 +68,6 @@ Runtime reports must distinguish:
 
 ## Unreal transition
 
-Unreal 5.8 GitHub Actions workflows have been removed from the active CI path. The previous Unreal C++ implementation is retained temporarily as migration/reference material so existing Honour War design logic is not silently discarded while systems are ported to C#.
+Unreal 5.8 GitHub Actions workflows have been removed from the active CI path. The active Unreal 5.8 project/source/config artifacts have now been removed from the working tree. Their design logic is represented by the Unity C# equivalents under `Unity/Assets/Scripts/`; Git history preserves the previous Unreal implementation.
 
-No Daily Honour War automatic-upgrade workflow is reintroduced by this migration.
+The user has also installed .NET 10.0.401. It is used for standalone migration/QA tooling in `Tools/`; Unity gameplay scripts target the Unity 6 managed runtime rather than forcing the Unity Editor to use the .NET 10 SDK.
