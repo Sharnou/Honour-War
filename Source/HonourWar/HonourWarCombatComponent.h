@@ -63,13 +63,6 @@ public:
     bool SpendSkillPoint(int32 SkillIndex,int32 Amount=1);
     bool TryResetSkills();
     void SetSkillState(int32 InSkillPoints,const TArray<int32>& InSkillLevels);
-    int32 GetSkillPoints() const { return SkillPoints; }
-    int32 GetSkillLevel(int32 SkillIndex) const { return SkillLevels.IsValidIndex(SkillIndex) ? SkillLevels[SkillIndex] : 0; }
-    const TArray<int32>& GetSkillLevels() const { return SkillLevels; }
-    float GetSkillImpactMultiplierForSpecies(int32 SkillIndex,const FString& SpeciesName) const;
-    bool SpendSkillPoint(int32 SkillIndex,int32 Amount=1);
-    bool TryResetSkills();
-    void SetSkillState(int32 InSkillPoints,const TArray<int32>& InSkillLevels);
     int32 GetStatusPointCost(EHonourWarStatusStat Stat) const;
     bool SpendStatusPoint(EHonourWarStatusStat Stat,int32 Amount=1);
     void SetStatusState(int32 InStatusPoints,int32 InStrength,int32 InAgility,int32 InVitality,int32 InIntelligence,int32 InDexterity,int32 InLuck);
@@ -110,8 +103,6 @@ private:
     float BaseDamageForClass() const;
     float SkillImpactMultiplier(int32 SkillIndex,const AHonourWarMonster* Target) const;
     static int32 SkillSpeciesIndex(const FString& SpeciesName);
-    float SkillImpactMultiplier(int32 SkillIndex,const AHonourWarMonster* Target) const;
-    static int32 SkillSpeciesIndex(const FString& SpeciesName);
     void GainExperience(int32 Amount);
     void RecalculateVitals();
 
@@ -138,8 +129,6 @@ private:
     UPROPERTY(Replicated,EditAnywhere) int32 Intelligence = 10;
     UPROPERTY(Replicated,EditAnywhere) int32 Dexterity = 10;
     UPROPERTY(Replicated,EditAnywhere) int32 LuckStat = 10;
-    UPROPERTY(Replicated,EditAnywhere) int32 SkillPoints = 0;
-    UPROPERTY(Replicated,EditAnywhere) TArray<int32> SkillLevels;
     UPROPERTY(Replicated,EditAnywhere) int32 SkillPoints = 0;
     UPROPERTY(Replicated,EditAnywhere) TArray<int32> SkillLevels;
     UPROPERTY() TArray<FString> InventoryItems;
