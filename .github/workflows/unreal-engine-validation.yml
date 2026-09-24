@@ -63,6 +63,9 @@ jobs:
       - name: Validate Visual RAG cycle contract
         run: python tools/visual_gap_register_qa.py
 
+      - name: Validate one-hour all-class soak contract
+        run: python tools/honour_war_1h_soak_contract_qa.py
+
       - name: Validate HD asset generators and intake
         run: |
           python tools/validate_hd_assets.py
