@@ -1,0 +1,1 @@
+using UnityEngine; namespace HonourWar { public sealed class HonourWarDamagePopup : MonoBehaviour { public int Damage; public bool Critical; public void Initialize(int damage,bool critical){Damage=damage;Critical=critical;} void Update(){transform.position+=Vector3.up*Time.deltaTime; if(Camera.main) transform.LookAt(Camera.main.transform);} } }
