@@ -410,7 +410,7 @@ bool AHonourWarPlayerController::CreateCharacter(const FString& CharacterName,EH
     OwnedCharacters[Slot].Experience=0;
     OwnedCharacters[Slot].AgeDays=0;
     OwnedCharacters[Slot].OnlineSeconds=0;
-    OwnedCharacters[Slot].PlayerLocation=FVector(900,900,180);
+    OwnedCharacters[Slot].PlayerLocation=FVector(0,1100,180);
     OwnedCharacters[Slot].Zeny=0;
     OwnedCharacters[Slot].EquipmentRefineLevel=0;
     OwnedCharacters[Slot].Phracon=20;
