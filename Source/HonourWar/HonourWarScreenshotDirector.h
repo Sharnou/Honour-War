@@ -43,4 +43,5 @@ private:
     float SoakClassStartTime=0.0f;
     FString SoakReport;
     bool bSoakClassEntered=false;
+    bool bSoakMovementPassed=false;
 };
