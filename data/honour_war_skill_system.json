@@ -6128,7 +6128,7 @@
       "required_level": 25,
       "job_name": "Ironforger",
       "slot": 2,
-      "name": "Market Feint",
+      "name": "Trade Feint",
       "kind": "signature",
       "effect": "feint",
       "target_mode": "cone",
@@ -6147,7 +6147,7 @@
         "Golem": 1.21,
         "Dragon": 1.01
       },
-      "gameplay_note": "Market Feint is a Tier 2 Merchant skill. Impact scales from class affinity into the Tier-5 specialization matrix."
+      "gameplay_note": "Trade Feint is a Tier 2 Merchant skill. Impact scales from class affinity into the Tier-5 specialization matrix."
     },
     {
       "id": "SKILL_MER_T2_03",
