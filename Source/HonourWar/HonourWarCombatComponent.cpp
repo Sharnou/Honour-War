@@ -549,7 +549,18 @@ void UHonourWarCombatComponent::RewardMonsterDefeat(int32 MonsterLevel,const FSt
 
     const int32 MonsterTier = HonourWarMonsterTier(SafeLevel);
     const int32 MonsterFamilySlot = FMath::Clamp(HonourWarMonsterFamilyIndex(MonsterName),0,29);
-    const int32 LootRank = FMath::Clamp(MonsterTier*40+MonsterFamilySlot+1,1,300);
+    const int32 BaseLootRank = FMath::Clamp(MonsterTier*30+MonsterFamilySlot+1,1,240);
+    int32 LootRank = BaseLootRank;
+    if(SafeLevel>=300)
+    {
+        // Lv.300 Worldbreakers open the final 30 equipment/card ranks.
+        LootRank=FMath::Clamp(271+MonsterFamilySlot,271,300);
+    }
+    else if(SafeLevel>=230 && FMath::FRandRange(0.0f,100.0f)<20.0f)
+    {
+        // Lv.230 elite monsters have a 20% chance to open the 241-270 extension ranks.
+        LootRank=FMath::Clamp(241+MonsterFamilySlot,241,270);
+    }
 
     FString Rarity = TEXT("Rare");
     if (SafeLevel >= 300) Rarity = TEXT("Mythic");
