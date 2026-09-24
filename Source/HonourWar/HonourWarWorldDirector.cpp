@@ -45,6 +45,7 @@ void AHonourWarWorldDirector::BeginPlay()
     Super::BeginPlay();
     BuildLighting(); BuildGround(); BuildBiomeRegions(); BuildTownCenter(); BuildHouses(); BuildWalls();
     BuildRoadFurniture(); BuildVegetation(); BuildDistantLandmarks(); SpawnMonsters();
+    if(RuntimeSkyLight) RuntimeSkyLight->RecaptureSky();
 }
 
 void AHonourWarWorldDirector::Tick(float DeltaSeconds)
@@ -87,7 +88,7 @@ void AHonourWarWorldDirector::BuildLighting()
 {
     UDirectionalLightComponent* Sun=NewObject<UDirectionalLightComponent>(this,TEXT("Sun")); AddInstanceComponent(Sun); Sun->SetMobility(EComponentMobility::Movable); Sun->SetIntensity(9.5f); Sun->SetLightColor(FLinearColor(1.0f,0.94f,0.84f)); Sun->SetRelativeRotation(FRotator(-52,-32,0)); Sun->CastShadows=true; Sun->AttachToComponent(RootComponent,FAttachmentTransformRules::KeepRelativeTransform); Sun->RegisterComponent();
 
-    USkyLightComponent* Sky=NewObject<USkyLightComponent>(this,TEXT("SkyLight")); AddInstanceComponent(Sky); Sky->SetMobility(EComponentMobility::Movable); Sky->SourceType=ESkyLightSourceType::SLS_CapturedScene; Sky->Intensity=1.9f; Sky->AttachToComponent(RootComponent,FAttachmentTransformRules::KeepRelativeTransform); Sky->RegisterComponent();
+    USkyLightComponent* Sky=NewObject<USkyLightComponent>(this,TEXT("SkyLight")); AddInstanceComponent(Sky); Sky->SetMobility(EComponentMobility::Movable); Sky->SourceType=ESkyLightSourceType::SLS_CapturedScene; Sky->Intensity=1.9f; Sky->AttachToComponent(RootComponent,FAttachmentTransformRules::KeepRelativeTransform); Sky->RegisterComponent(); RuntimeSkyLight=Sky;
 
     USkyAtmosphereComponent* Atmosphere=NewObject<USkyAtmosphereComponent>(this,TEXT("SkyAtmosphere")); AddInstanceComponent(Atmosphere); Atmosphere->SetMobility(EComponentMobility::Static); Atmosphere->AttachToComponent(RootComponent,FAttachmentTransformRules::KeepRelativeTransform); Atmosphere->RegisterComponent();
 
