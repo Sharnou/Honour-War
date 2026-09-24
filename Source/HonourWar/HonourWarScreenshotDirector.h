@@ -18,8 +18,10 @@ private:
     void SetupCaptureScene();
     void RequestCapture();
     void FinishCapture();
+    void FailCapture(const FString& Reason);
 
     FTimerHandle SetupTimer;
+    int32 CaptureAttempts=0;
     FTimerHandle CaptureTimer;
     FTimerHandle ExitTimer;
 };
