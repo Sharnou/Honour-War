@@ -34,3 +34,9 @@ Runtime commands:
 `@restskills confirm` or `/restskills confirm` — perform the Tier-5 reset.
 
 No Tier-5 reset is available before the character reaches the Transcendence tier.
+
+
+## 2026-09-24 runtime audit
+The canonical roster audit passes conceptually at 70/70 profiles: 7 classes × 5 tiers × male/female, with 35 job definitions and 8 skills per job. The Merchant Tier-2 skill is named **Trade Feint** so the class skill does not collide with the permanent city-building exclusion for “Market”.
+
+The repository already contains 300 equipment entries, 300 cards, 76 general items, 20 pets, 120 pet skills, and 100 pet-equipment entries. The item encyclopedia contains 797 uniquely identified searchable entries with source monster, map, and availability metadata.
