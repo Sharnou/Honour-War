@@ -1,0 +1,78 @@
+name: Honour War One-Shot Unreal Runtime Test
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  runtime-test:
+    runs-on: [self-hosted, windows, unreal-engine-5.8]
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate repository contracts
+        shell: pwsh
+        run: |
+          python tools/rejected_systems_qa.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python tools/content_catalog_qa.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python tools/character_profile_qa.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python tools/class_job_qa.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python tools/skill_system_qa.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python tools/item_help_qa.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python tools/honour_war_progression_contract_qa.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python tools/full_game_test_contract_qa.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python tools/unreal_engine_contract_qa.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Build and package Unreal 5.8
+        shell: pwsh
+        env:
+          UNREAL_ENGINE_ROOT: C:\Program Files\Epic Games\UE_5.8
+        run: |
+          powershell -ExecutionPolicy Bypass -File Build/Build-HonourWar.ps1 -Package
+
+      - name: Verify packaged EXE
+        shell: pwsh
+        run: |
+          $exe = Get-ChildItem -Path Build\Windows\HonourWar -Recurse -Filter HonourWar.exe -ErrorAction SilentlyContinue | Select-Object -First 1
+          if ($null -eq $exe) { throw "HonourWar.exe was not produced." }
+          if ($exe.Length -lt 1000000) { throw "HonourWar.exe is unexpectedly small: $($exe.Length) bytes." }
+          Write-Host "RUNTIME_TEST_EXE_PASS: $($exe.FullName) size=$($exe.Length)"
+
+      - name: Launch EXE and capture real gameplay
+        shell: pwsh
+        run: |
+          powershell -ExecutionPolicy Bypass -File Build/Capture-HonourWar.ps1
+
+      - name: Validate real gameplay screenshot
+        shell: pwsh
+        run: |
+          python tools/unreal_runtime_screenshot_qa.py Build/HonourWar-real-runtime.png
+
+      - name: Upload real gameplay screenshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: honour-war-one-shot-real-gameplay-screenshot
+          path: Build/HonourWar-real-runtime.png
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Upload packaged Windows build
+        uses: actions/upload-artifact@v4
+        with:
+          name: honour-war-one-shot-windows-build
+          path: Build/Windows/HonourWar/
+          if-no-files-found: error
+          retention-days: 7
