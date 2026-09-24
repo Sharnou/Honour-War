@@ -17,6 +17,12 @@ namespace HonourWar
         bool loggedIn, characterSelected, showHelp;
         int selectedClass;
         float lastSave;
+        CharacterController characterController;
+        Vector3 moveDestination;
+        bool hasMoveDestination;
+        float cameraYaw = 45f;
+        float cameraPitch = 50f;
+        float cameraDistance = 14f;
         readonly EHonourWarClass[] classes = (EHonourWarClass[])Enum.GetValues(typeof(EHonourWarClass));
 
         void Awake()
@@ -41,6 +47,11 @@ namespace HonourWar
             cameraObject.tag = "MainCamera";
             cam.fieldOfView = 48f;
 
+            var ground = GameObject.CreatePrimitive(PrimitiveType.Plane);
+            ground.name = "HonourWar_Ground";
+            ground.transform.position = Vector3.zero;
+            ground.transform.localScale = new Vector3(10f, 1f, 10f);
+
             var lightObject = new GameObject("Runtime Sun");
             var light = lightObject.AddComponent<Light>();
             light.type = LightType.Directional;
@@ -55,12 +66,8 @@ namespace HonourWar
         {
             if (!characterSelected || character == null) return;
 
-            var input = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical")).normalized;
-            character.transform.position += input * 6f * Time.deltaTime;
-            if (input.sqrMagnitude > .01f) character.transform.forward = Vector3.Lerp(character.transform.forward, input, 12f * Time.deltaTime);
-
-            cam.transform.position = Vector3.Lerp(cam.transform.position, character.transform.position + new Vector3(0f, 10f, -12f), 8f * Time.deltaTime);
-            cam.transform.LookAt(character.transform.position + Vector3.up);
+            HandleRagnarokMovement();
+            HandleRagnarokCamera();
 
             if (Time.time - lastSave >= 5f) { Save(); lastSave = Time.time; }
             if (Input.GetKeyDown(KeyCode.F9)) screenshot.Capture();
@@ -69,6 +76,71 @@ namespace HonourWar
             for (int i = 0; i < 8; i++)
                 if (Input.GetKeyDown(KeyCode.Alpha1 + i))
                     UseSkill(i);
+        }
+
+        void HandleRagnarokMovement()
+        {
+            // Ragnarok-style control: no WASD movement. Left-click the ground to walk;
+            // left-click a monster to select it and walk toward it.
+            if (Input.GetMouseButtonDown(0) && !PointerOverHud())
+            {
+                Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out var hit, 500f))
+                {
+                    var monster = hit.collider.GetComponentInParent<HonourWarMonster>();
+                    if (monster != null)
+                    {
+                        target = monster;
+                        moveDestination = hit.point;
+                        hasMoveDestination = true;
+                    }
+                    else
+                    {
+                        moveDestination = hit.point;
+                        moveDestination.y = 1f;
+                        hasMoveDestination = true;
+                    }
+                }
+            }
+
+            if (!hasMoveDestination || characterController == null) return;
+            Vector3 delta = moveDestination - character.transform.position;
+            delta.y = 0f;
+            if (delta.sqrMagnitude <= 0.04f)
+            {
+                hasMoveDestination = false;
+                return;
+            }
+
+            Vector3 direction = delta.normalized;
+            characterController.Move(direction * 6f * Time.deltaTime);
+            character.transform.forward = Vector3.Slerp(character.transform.forward, direction, 12f * Time.deltaTime);
+        }
+
+        void HandleRagnarokCamera()
+        {
+            // RO-style camera: right mouse drag rotates around the character; wheel zooms.
+            if (Input.GetMouseButton(1) && !PointerOverHud())
+            {
+                cameraYaw += Input.GetAxis("Mouse X") * 4f;
+                cameraPitch = Mathf.Clamp(cameraPitch - Input.GetAxis("Mouse Y") * 3f, 25f, 70f);
+            }
+
+            cameraDistance = Mathf.Clamp(cameraDistance - Input.mouseScrollDelta.y * 1.5f, 7f, 24f);
+            Quaternion rotation = Quaternion.Euler(cameraPitch, cameraYaw, 0f);
+            Vector3 desired = character.transform.position + rotation * (Vector3.back * cameraDistance);
+            desired.y = Mathf.Max(desired.y, character.transform.position.y + 3f);
+            cam.transform.position = Vector3.Lerp(cam.transform.position, desired, 10f * Time.deltaTime);
+            cam.transform.LookAt(character.transform.position + Vector3.up * 0.8f);
+        }
+
+        bool PointerOverHud()
+        {
+            Vector3 p = Input.mousePosition;
+            float guiY = Screen.height - p.y;
+            if (p.x < 580f && guiY < 255f) return true;
+            if (showHelp && p.x >= 590f && guiY < 550f) return true;
+            return false;
         }
 
         void UseSkill(int index)
@@ -89,7 +161,9 @@ namespace HonourWar
             if (collider != null) Destroy(collider);
 
             character = go.AddComponent<HonourWarCharacter>();
-            go.AddComponent<CharacterController>();
+            characterController = go.AddComponent<CharacterController>();
+            characterController.height = 2f;
+            characterController.radius = 0.45f;
             character.Username = username;
             character.CharacterName = characterName;
             character.SetClass((EHonourWarClass)selectedClass);
@@ -152,8 +226,8 @@ namespace HonourWar
             GUI.Box(new Rect(15, 15, 560, 230), "HONOUR WAR — REAL UNITY GAMEPLAY");
             GUI.Label(new Rect(30, 45, 520, 28), $"{character.CharacterName} | {character.ClassId} | {character.ClassTier} | Lv.{character.Level}");
             GUI.Label(new Rect(30, 75, 520, 28), $"Age days: {character.AgeDays} | HP {character.Combat.HP:0}/{character.Combat.MaxHP:0} | SP {character.Combat.SP:0}/{character.Combat.MaxSP:0}");
-            GUI.Label(new Rect(30, 105, 520, 28), "WASD Move | 1-8 Skills | F1 Help | F9 REAL screenshot");
-            GUI.Label(new Rect(30, 135, 520, 28), "@go 0 230:220 teleports live character");
+            GUI.Label(new Rect(30, 105, 520, 28), "Left-click Move/Target | Right-drag Camera | Wheel Zoom | 1-8 Skills");
+            GUI.Label(new Rect(30, 135, 520, 28), "F1 Help | F9 REAL screenshot | @go 0 230:220");
             command = GUI.TextField(new Rect(30, 170, 390, 30), command);
             if (GUI.Button(new Rect(430, 170, 110, 30), "SEND")) { status = ExecuteCommand(command); command = ""; }
             GUI.Label(new Rect(30, 205, 520, 28), status);
@@ -221,7 +295,20 @@ namespace HonourWar
             {
                 var c = classes[classIndex % classes.Length];
                 character.SetClass(c);
+                characterController.enabled = false;
                 character.transform.position = new Vector3(0f, 1f, 11f);
+                characterController.enabled = true;
+                moveDestination = character.transform.position + new Vector3(5f, 0f, 3f);
+                hasMoveDestination = true;
+                Vector3 movementStart = character.transform.position;
+                float movementDeadline = Time.realtimeSinceStartup + 3f;
+                while (hasMoveDestination && Time.realtimeSinceStartup < movementDeadline)
+                    yield return null;
+                float movedDistance = Vector3.Distance(movementStart, character.transform.position);
+                if (movedDistance < 1f)
+                    Debug.LogError($"FAIL[MOVEMENT] {c} left-click movement did not travel. distance={movedDistance:0.00}");
+                else
+                    Debug.Log($"PASS[MOVEMENT] {c} left-click movement distance={movedDistance:0.00}");
                 if (target == null || !target.IsAlive) {
                     var go = new GameObject("Runtime_Test_Target");
                     go.transform.position = character.transform.position + new Vector3(0f,0f,4f);
@@ -230,7 +317,7 @@ namespace HonourWar
                 }
                 for (int skill=0; skill<8; skill++) { character.Combat.RestoreVitals(); character.ActivateSkill(skill,target); }
                 Save();
-                Debug.Log($"PASS[CLASS] {c} movement=engaged skillFailures=0");
+                Debug.Log($"PASS[CLASS] {c} movement=click-to-move skillFailures=0");
                 classIndex++;
                 yield return new WaitForSeconds(20f);
             }
