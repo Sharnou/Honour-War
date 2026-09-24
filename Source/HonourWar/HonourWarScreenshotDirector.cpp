@@ -77,6 +77,7 @@ void AHonourWarScreenshotDirector::SetupCaptureScene()
             Showcase->SetLevel(300);
             Showcase->SetSpecies(EHonourWarMonsterSpecies::Dragon);
             Showcase->SetDisplayName(TEXT("Ancient Wyrm"));
+            ShowcaseMonster=Showcase;
             Player->SetMouseTarget(Showcase);
         }
     }
@@ -84,13 +85,58 @@ void AHonourWarScreenshotDirector::SetupCaptureScene()
 
 void AHonourWarScreenshotDirector::RequestCapture()
 {
-    if (!GetWorld()) return;
+    UWorld* World=GetWorld();
+    if(!World) return;
+
+    ++CaptureAttempts;
+    AHonourWarCharacter* Player=Cast<AHonourWarCharacter>(UGameplayStatics::GetPlayerPawn(World,0));
+    if(!Player)
+    {
+        if(CaptureAttempts<8) GetWorldTimerManager().SetTimer(CaptureTimer,this,&AHonourWarScreenshotDirector::RequestCapture,1.0f,false);
+        else FailCapture(TEXT("Gameplay pawn missing at capture verification."));
+        return;
+    }
+
+    const float DistanceToShowcase=ShowcaseMonster.IsValid()
+        ? FVector::Dist2D(Player->GetActorLocation(),ShowcaseMonster->GetActorLocation())
+        : 999999.0f;
+
+    if(DistanceToShowcase>320.0f || !Player->GetLastCombatMessage().Contains(TEXT("impact confirmed"),ESearchCase::IgnoreCase))
+    {
+        if(CaptureAttempts<10)
+        {
+            if(DistanceToShowcase>320.0f) Player->SetMouseTarget(ShowcaseMonster.Get());
+            else Player->ActivateSkill(0);
+            GetWorldTimerManager().SetTimer(CaptureTimer,this,&AHonourWarScreenshotDirector::RequestCapture,1.0f,false);
+            return;
+        }
+        FailCapture(FString::Printf(TEXT("Gameplay verification failed: distance=%.1f combat='%s'"),
+            DistanceToShowcase,*Player->GetLastCombatMessage()));
+        return;
+    }
 
     const FString Directory=FPaths::ProjectSavedDir()/TEXT("Screenshots");
     const FString Output=Directory/TEXT("HonourWar-real-runtime.png");
     IFileManager::Get().MakeDirectory(*Directory,true);
 
+    FString Report;
+    const FString ReportPath=FPaths::ProjectSavedDir()/TEXT("HonourWar-E2E-report.txt");
+    if(FFileHelper::LoadFileToString(Report, *ReportPath))
+    {
+        Report += FString::Printf(TEXT("PASS[13] Runtime movement reached encounter: %.1f units.\n"),DistanceToShowcase);
+        Report += FString::Printf(TEXT("PASS[14] Runtime combat impact confirmed: %s\n"),*Player->GetLastCombatMessage());
+        FFileHelper::SaveStringToFile(Report,*ReportPath);
+    }
+
     FScreenshotRequest::RequestScreenshot(Output,true,false,false,FIntRect(),true);
+}
+
+void AHonourWarScreenshotDirector::FailCapture(const FString& Reason)
+{
+    const FString ReportPath=FPaths::ProjectSavedDir()/TEXT("HonourWar-E2E-report.txt");
+    FString Report=FString::Printf(TEXT("Honour War Runtime E2E FAILED\nFAIL[15] %s\n"),*Reason);
+    FFileHelper::SaveStringToFile(Report,*ReportPath);
+    FGenericPlatformMisc::RequestExit(false);
 }
 
 void AHonourWarScreenshotDirector::FinishCapture()
