@@ -11,6 +11,9 @@
 #include "HonourWarCharacter.h"
 #include "HonourWarMonster.h"
 #include "HonourWarTypes.h"
+#include "HonourWarHUD.h"
+#include "HonourWarHUDWidget.h"
+#include "Misc/FileHelper.h"
 
 AHonourWarScreenshotDirector::AHonourWarScreenshotDirector()
 {
@@ -28,15 +31,36 @@ void AHonourWarScreenshotDirector::BeginPlay()
     }
 
     GetWorldTimerManager().SetTimer(SetupTimer,this,&AHonourWarScreenshotDirector::SetupCaptureScene,1.5f,false);
-    GetWorldTimerManager().SetTimer(CaptureTimer,this,&AHonourWarScreenshotDirector::RequestCapture,7.5f,false);
-    GetWorldTimerManager().SetTimer(ExitTimer,this,&AHonourWarScreenshotDirector::FinishCapture,15.0f,false);
+    GetWorldTimerManager().SetTimer(CaptureTimer,this,&AHonourWarScreenshotDirector::RequestCapture,9.0f,false);
+    GetWorldTimerManager().SetTimer(ExitTimer,this,&AHonourWarScreenshotDirector::FinishCapture,17.0f,false);
 }
 
 void AHonourWarScreenshotDirector::SetupCaptureScene()
 {
-    if (!GetWorld()) return;
+    UWorld* World=GetWorld();
+    if(!World) return;
 
-    if (AHonourWarCharacter* Player=Cast<AHonourWarCharacter>(UGameplayStatics::GetPlayerPawn(GetWorld(),0)))
+    if(FParse::Param(FCommandLine::Get(),TEXT("HonourWarE2E")))
+    {
+        APlayerController* PC=UGameplayStatics::GetPlayerController(World,0);
+        AHonourWarHUD* HUD=PC?Cast<AHonourWarHUD>(PC->GetHUD()):nullptr;
+        if(!HUD || !HUD->GetRuntimeWidget())
+        {
+            GetWorldTimerManager().SetTimer(SetupTimer,this,&AHonourWarScreenshotDirector::SetupCaptureScene,0.5f,false);
+            return;
+        }
+
+        FString Failure;
+        if(!HUD->GetRuntimeWidget()->RunAutomatedE2ETest(Failure))
+        {
+            const FString Report=FString::Printf(TEXT("Honour War E2E FAILED\n%s\n"),*Failure);
+            FFileHelper::SaveStringToFile(Report,*FPaths::ProjectSavedDir()/TEXT("HonourWar-E2E-report.txt"));
+            FGenericPlatformMisc::RequestExit(false);
+            return;
+        }
+    }
+
+    if (AHonourWarCharacter* Player=Cast<AHonourWarCharacter>(UGameplayStatics::GetPlayerPawn(World,0)))
     {
         Player->SetActorLocation(FVector(900.0f,900.0f,180.0f));
         if (APlayerController* PC=Cast<APlayerController>(Player->GetController()))
@@ -46,7 +70,7 @@ void AHonourWarScreenshotDirector::SetupCaptureScene()
 
         FActorSpawnParameters Params;
         Params.SpawnCollisionHandlingOverride=ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
-        AHonourWarMonster* Showcase=GetWorld()->SpawnActor<AHonourWarMonster>(
+        AHonourWarMonster* Showcase=World->SpawnActor<AHonourWarMonster>(
             AHonourWarMonster::StaticClass(),FVector(1650.0f,900.0f,180.0f),FRotator::ZeroRotator,Params);
         if (Showcase)
         {
