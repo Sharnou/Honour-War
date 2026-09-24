@@ -45,6 +45,10 @@ private:
     UFUNCTION() void CreateWarriorCharacter();
     UFUNCTION() void CreateMageCharacter();
     UFUNCTION() void CreateArcherCharacter();
+    UFUNCTION() void CreateThiefCharacter();
+    UFUNCTION() void CreateAcolyteCharacter();
+    UFUNCTION() void CreateMerchantCharacter();
+    UFUNCTION() void CreateRangerCharacter();
 
     UPROPERTY() UCanvasPanel* RootCanvas=nullptr;
     UPROPERTY() UProgressBar* HpBar=nullptr;
@@ -90,6 +94,10 @@ private:
     UPROPERTY() UButton* CreateWarriorButton=nullptr;
     UPROPERTY() UButton* CreateMageButton=nullptr;
     UPROPERTY() UButton* CreateArcherButton=nullptr;
+    UPROPERTY() UButton* CreateThiefButton=nullptr;
+    UPROPERTY() UButton* CreateAcolyteButton=nullptr;
+    UPROPERTY() UButton* CreateMerchantButton=nullptr;
+    UPROPERTY() UButton* CreateRangerButton=nullptr;
     UPROPERTY() UImage* AuthBackgroundImage=nullptr;
     UPROPERTY() UTexture2D* LoginBackgroundTexture=nullptr;
 };
