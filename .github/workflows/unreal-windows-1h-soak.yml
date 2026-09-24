@@ -17,6 +17,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Static contract validation (not gameplay evidence)
+        shell: pwsh
+        run: |
+          Write-Host "STATIC_VALIDATION_IS_NOT_RUNTIME_TEST=TRUE"
+
       - name: Validate permanent Honour War exclusions
         shell: pwsh
         run: python tools/rejected_systems_qa.py
@@ -69,7 +74,7 @@ jobs:
           if ($exe.Length -lt 1000000) { throw "HonourWar.exe is unexpectedly small: $($exe.Length) bytes." }
           Write-Host "REAL_EXE_PASS: $($exe.FullName) size=$($exe.Length)"
 
-      - name: Run real one-hour seven-class soak
+      - name: REAL RUNTIME TEST — one-hour seven-class soak
         shell: pwsh
         run: powershell -ExecutionPolicy Bypass -File Build/Run-HonourWar-1h-Soak.ps1 -TimeoutSeconds 3720
 
