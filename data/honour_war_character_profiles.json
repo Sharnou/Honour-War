@@ -12784,7 +12784,7 @@
         "basic_attack": "Royal Mammonite",
         "signature_skills": [
           "Royal Mammonite",
-          "Market Feint",
+          "Trade Feint",
           "Ironforge",
           "Cart Cannon",
           "Profit Surge",
@@ -12816,7 +12816,7 @@
             "monster_impact_profile": "IMPACT_MER_T2"
           },
           {
-            "name": "Market Feint",
+            "name": "Trade Feint",
             "kind": "signature",
             "power_ratio": 1.17,
             "cooldown_sec": 0.78,
@@ -14034,7 +14034,7 @@
         "basic_attack": "Royal Mammonite",
         "signature_skills": [
           "Royal Mammonite",
-          "Market Feint",
+          "Trade Feint",
           "Ironforge",
           "Cart Cannon",
           "Profit Surge",
@@ -14066,7 +14066,7 @@
             "monster_impact_profile": "IMPACT_MER_T2"
           },
           {
-            "name": "Market Feint",
+            "name": "Trade Feint",
             "kind": "signature",
             "power_ratio": 1.17,
             "cooldown_sec": 0.78,
