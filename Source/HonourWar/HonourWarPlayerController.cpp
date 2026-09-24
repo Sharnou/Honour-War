@@ -220,7 +220,7 @@ bool AHonourWarPlayerController::LoginAccount(const FString& Username,const FStr
 
 void AHonourWarPlayerController::AuthenticateCaptureAccount()
 {
-    if(!FParse::Param(FCommandLine::Get(),TEXT("HonourWarCapture"))) return;
+    if(!FParse::Param(FCommandLine::Get(),TEXT("HonourWarCapture")) || FParse::Param(FCommandLine::Get(),TEXT("HonourWarE2E"))) return;
     FString Result;
     if(!IsReadyForGameplay())
     {
@@ -243,6 +243,15 @@ void AHonourWarPlayerController::AuthenticateCaptureAccount()
     }
 }
 
+
+void AHonourWarPlayerController::EndSessionForE2E()
+{
+    bAuthenticated=false;
+    bCharacterSelected=false;
+    ActiveCharacterSlot=-1;
+    AccountUsername.Empty();
+    OwnedCharacters.Reset();
+}
 
 const TArray<FHonourWarCharacterSlot>& AHonourWarPlayerController::GetOwnedCharacters() const
 {
