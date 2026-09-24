@@ -1,0 +1,1 @@
+using UnityEngine; namespace HonourWar { public sealed class HonourWarGameState:MonoBehaviour { public int OnlinePlayers; public string CurrentMap="Town"; public Vector2Int WorldCoordinates; public void SetMap(string map){CurrentMap=map;} } }
