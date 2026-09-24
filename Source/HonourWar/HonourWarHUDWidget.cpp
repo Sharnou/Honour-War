@@ -18,6 +18,8 @@
 #include "Engine/Texture2D.h"
 #include "Rendering/Texture2DResource.h"
 #include "Blueprint/WidgetTree.h"
+#include "Misc/FileHelper.h"
+#include "Misc/Paths.h"
 
 namespace
 {
@@ -523,7 +525,6 @@ bool UHonourWarHUDWidget::RunAutomatedE2ETest(FString& OutFailure)
     }
     Record(FString::Printf(TEXT("PASS[02] Register callback: %s"),*AuthStatus->GetText().ToString()));
 
-    EndSessionForE2E:
     PC->EndSessionForE2E();
     if(PC->IsAuthenticated())
     {
