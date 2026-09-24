@@ -12,6 +12,7 @@ class HONOURWAR_API AHonourWarHUD : public AHUD
     GENERATED_BODY()
 public:
     virtual void BeginPlay() override;
+    UHonourWarHUDWidget* GetRuntimeWidget() const { return RuntimeWidget; }
 
 private:
     UPROPERTY() UHonourWarHUDWidget* RuntimeWidget=nullptr;
