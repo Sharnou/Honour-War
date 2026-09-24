@@ -15,6 +15,7 @@ UHonourWarCombatComponent::UHonourWarCombatComponent()
     SetIsReplicatedByDefault(true);
     SkillCooldowns.Init(0.0f, 8);
     SkillLevels.Init(1, 8);
+    SkillLevels.Init(1, 8);
 }
 
 void UHonourWarCombatComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -33,6 +34,8 @@ void UHonourWarCombatComponent::GetLifetimeReplicatedProps(TArray<FLifetimePrope
     DOREPLIFETIME(UHonourWarCombatComponent,Emveretarcon);
     DOREPLIFETIME(UHonourWarCombatComponent,Oridecon);
     DOREPLIFETIME(UHonourWarCombatComponent,BasicSkillLevel);
+    DOREPLIFETIME(UHonourWarCombatComponent,SkillPoints);
+    DOREPLIFETIME(UHonourWarCombatComponent,SkillLevels);
     DOREPLIFETIME(UHonourWarCombatComponent,SkillPoints);
     DOREPLIFETIME(UHonourWarCombatComponent,SkillLevels);
     DOREPLIFETIME(UHonourWarCombatComponent,Honours);
@@ -428,6 +431,8 @@ void UHonourWarCombatComponent::GainExperience(int32 Amount)
         Experience-=XpToNextLevel;
         ++Level;
         StatusPoints+=3;
+        if(Level%5==0) ++SkillPoints;
+        if(Level==25 || Level==50 || Level==150 || Level==200) SkillPoints+=3;
         if(Level%5==0) ++SkillPoints;
         if(Level==25 || Level==50 || Level==150 || Level==200) SkillPoints+=3;
         if(Level%25==0) StatusPoints+=5;
