@@ -6320,7 +6320,7 @@
           "secondary_stat": "DEX",
           "skills": [
             "Royal Mammonite",
-            "Market Feint",
+            "Trade Feint",
             "Ironforge",
             "Cart Cannon",
             "Profit Surge",
@@ -6373,7 +6373,7 @@
             "recommended_secondary": "DEX",
             "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
           },
-          "skill_list": "Royal Mammonite;Market Feint;Ironforge;Cart Cannon;Profit Surge;Appraisal;Riches Ward;Merchant's Rush",
+          "skill_list": "Royal Mammonite;Trade Feint;Ironforge;Cart Cannon;Profit Surge;Appraisal;Riches Ward;Merchant's Rush",
           "skill_profiles": [
             {
               "name": "Royal Mammonite",
@@ -6390,7 +6390,7 @@
               "monster_impact_profile": "IMPACT_MER_T2"
             },
             {
-              "name": "Market Feint",
+              "name": "Trade Feint",
               "kind": "signature",
               "power_ratio": 1.17,
               "cooldown_sec": 0.78,
