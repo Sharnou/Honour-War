@@ -1,0 +1,1 @@
+using System.Collections.Generic; namespace HonourWar { public sealed class HonourWarHelpEntry { public string Id,Name,Type,Details,Source,When; } public static class HonourWarItemEncyclopedia { public static List<string> BuildHelpLines(string query){var r=new List<string>();if(string.IsNullOrWhiteSpace(query))return r;r.Add($"ITEM/CARD SEARCH: {query}");return r;} } }
