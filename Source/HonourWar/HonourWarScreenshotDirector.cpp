@@ -286,6 +286,7 @@ void AHonourWarScreenshotDirector::RunSoakPhase()
         Player->SetMouseTarget(SoakMonster.Get());
         RecordSoak(FString::Printf(TEXT("PASS[CLASS] %.0fs Entered %s | Job=%s | Tier=%s | T5=%s"),
             Elapsed,*Player->GetClassName(),*Player->GetCurrentJobName(),*Player->GetClassTierName(),*Player->GetFifthTierClassName()));
+        bSoakClassEntered=true;
     }
 
     if(!SoakMonster.IsValid()||SoakMonster->IsDead())
@@ -304,6 +305,7 @@ void AHonourWarScreenshotDirector::RunSoakPhase()
         {
             RecordSoak(FString::Printf(TEXT("FAIL[MOVEMENT] %.0fs %s could not reach combat range after %d retries; distance %.1f."),Elapsed,*Player->GetClassName(),SoakMovementRetries,Distance));
             ++SoakClassIndex;
+            bSoakClassEntered=false;
             SoakSkillIndex=0;
             SoakMovementRetries=0;
             SoakClassStartTime=World->GetTimeSeconds();
@@ -337,6 +339,7 @@ void AHonourWarScreenshotDirector::RunSoakPhase()
         RecordSoak(FString::Printf(TEXT("%s[CLASS-END] %.0fs %s | phase %.0fs | skill successes=%d failures=%d saves=%d"),
             *Result,Elapsed,*Player->GetClassName(),ClassElapsed,SoakSkillSuccesses,SoakSkillFailures,SoakSaveCount));
         ++SoakClassIndex;
+        bSoakClassEntered=false;
         SoakSkillIndex=0;
         SoakMovementRetries=0;
         SoakSkillSuccesses=0;
