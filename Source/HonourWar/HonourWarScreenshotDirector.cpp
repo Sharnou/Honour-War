@@ -333,7 +333,7 @@ void AHonourWarScreenshotDirector::RunSoakPhase()
         }
     }
 
-    if(ClassElapsed>=FMath::Max(60.0f,3600.0f/static_cast<float>(SoakClasses.Num())))
+    if(ClassElapsed>=480.0f)
     {
         const FString Result=SoakSkillFailures==0?TEXT("PASS"):TEXT("FAIL");
         RecordSoak(FString::Printf(TEXT("%s[CLASS-END] %.0fs %s | phase %.0fs | skill successes=%d failures=%d saves=%d"),
@@ -368,5 +368,5 @@ void AHonourWarScreenshotDirector::FinishSoakTest(bool bSuccess)
     const float Elapsed=GetWorld()?GetWorld()->GetTimeSeconds()-SoakWorldStartTime:0.0f;
     RecordSoak(FString::Printf(TEXT("%s[END] %.0fs elapsed | UTC %s | saves=%d"),
         bSuccess?TEXT("PASS"):TEXT("FAIL"),Elapsed,*FDateTime::UtcNow().ToIso8601(),SoakSaveCount));
-    FGenericPlatformMisc::RequestExit(bSuccess?false:true);
+    FGenericPlatformMisc::RequestExit(false);
 }
