@@ -207,7 +207,7 @@ void UHonourWarHUDWidget::BuildCharacterSelectionPanel(UCanvasPanel* Root)
     Stack->AddChildToVerticalBox(CharacterSelectStatus);
 
     CharacterCreatePanel=Panel(WidgetTree,TEXT("CharacterCreatePanel"),FLinearColor(0.01f,0.015f,0.025f,0.99f),FMargin(18));
-    Place(Root,CharacterCreatePanel,FVector2D(0,0),FVector2D(500,390),FAnchors(0.5f,0.5f,0.5f,0.5f),FVector2D(0.5f,0.5f));
+    Place(Root,CharacterCreatePanel,FVector2D(0,0),FVector2D(540,500),FAnchors(0.5f,0.5f,0.5f,0.5f),FVector2D(0.5f,0.5f));
     CharacterCreatePanel->SetVisibility(ESlateVisibility::Collapsed);
     UVerticalBox* CreateStack=WidgetTree->ConstructWidget<UVerticalBox>(UVerticalBox::StaticClass(),TEXT("CharacterCreateStack"));
     CharacterCreatePanel->SetContent(CreateStack);
@@ -216,15 +216,31 @@ void UHonourWarHUDWidget::BuildCharacterSelectionPanel(UCanvasPanel* Root)
     CharacterNameInput=WidgetTree->ConstructWidget<UEditableTextBox>(UEditableTextBox::StaticClass(),TEXT("CharacterNameInput"));
     CharacterNameInput->SetHintText(FText::FromString(TEXT("Character name")));
     CreateStack->AddChildToVerticalBox(CharacterNameInput);
+    UHorizontalBox* ClassRow1=WidgetTree->ConstructWidget<UHorizontalBox>(UHorizontalBox::StaticClass(),TEXT("CreateClassRow1"));
+    UHorizontalBox* ClassRow2=WidgetTree->ConstructWidget<UHorizontalBox>(UHorizontalBox::StaticClass(),TEXT("CreateClassRow2"));
     CreateWarriorButton=Button(WidgetTree,TEXT("CreateWarriorButton"),TEXT("WARRIOR"),FLinearColor(0.04f,0.04f,0.05f,0.96f));
     CreateMageButton=Button(WidgetTree,TEXT("CreateMageButton"),TEXT("MAGE"),FLinearColor(0.04f,0.04f,0.05f,0.96f));
     CreateArcherButton=Button(WidgetTree,TEXT("CreateArcherButton"),TEXT("ARCHER"),FLinearColor(0.04f,0.04f,0.05f,0.96f));
+    CreateThiefButton=Button(WidgetTree,TEXT("CreateThiefButton"),TEXT("THIEF"),FLinearColor(0.04f,0.04f,0.05f,0.96f));
+    CreateAcolyteButton=Button(WidgetTree,TEXT("CreateAcolyteButton"),TEXT("ACOLYTE"),FLinearColor(0.04f,0.04f,0.05f,0.96f));
+    CreateMerchantButton=Button(WidgetTree,TEXT("CreateMerchantButton"),TEXT("MERCHANT"),FLinearColor(0.04f,0.04f,0.05f,0.96f));
+    CreateRangerButton=Button(WidgetTree,TEXT("CreateRangerButton"),TEXT("RANGER"),FLinearColor(0.04f,0.04f,0.05f,0.96f));
     CreateWarriorButton->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::CreateWarriorCharacter);
     CreateMageButton->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::CreateMageCharacter);
     CreateArcherButton->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::CreateArcherCharacter);
-    CreateStack->AddChildToVerticalBox(CreateWarriorButton);
-    CreateStack->AddChildToVerticalBox(CreateMageButton);
-    CreateStack->AddChildToVerticalBox(CreateArcherButton);
+    CreateThiefButton->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::CreateThiefCharacter);
+    CreateAcolyteButton->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::CreateAcolyteCharacter);
+    CreateMerchantButton->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::CreateMerchantCharacter);
+    CreateRangerButton->OnClicked.AddDynamic(this,&UHonourWarHUDWidget::CreateRangerCharacter);
+    ClassRow1->AddChildToHorizontalBox(CreateWarriorButton);
+    ClassRow1->AddChildToHorizontalBox(CreateMageButton);
+    ClassRow1->AddChildToHorizontalBox(CreateArcherButton);
+    ClassRow1->AddChildToHorizontalBox(CreateThiefButton);
+    ClassRow2->AddChildToHorizontalBox(CreateAcolyteButton);
+    ClassRow2->AddChildToHorizontalBox(CreateMerchantButton);
+    ClassRow2->AddChildToHorizontalBox(CreateRangerButton);
+    CreateStack->AddChildToVerticalBox(ClassRow1);
+    CreateStack->AddChildToVerticalBox(ClassRow2);
 }
 
 void UHonourWarHUDWidget::BuildProfileCluster(UCanvasPanel* Root)
@@ -546,6 +562,42 @@ void UHonourWarHUDWidget::CreateArcherCharacter()
     if(AHonourWarPlayerController* PC=Cast<AHonourWarPlayerController>(GetOwningPlayer()))
     {
         FString Message; const bool bCreated=PC->CreateCharacter(CharacterNameInput->GetText().ToString(),EHonourWarClass::Archer,Message);
+        CharacterSelectStatus->SetText(FText::FromString(Message)); if(bCreated) CharacterCreatePanel->SetVisibility(ESlateVisibility::Collapsed);
+    }
+}
+void UHonourWarHUDWidget::CreateThiefCharacter()
+{
+    if(!CharacterNameInput) return;
+    if(AHonourWarPlayerController* PC=Cast<AHonourWarPlayerController>(GetOwningPlayer()))
+    {
+        FString Message; const bool bCreated=PC->CreateCharacter(CharacterNameInput->GetText().ToString(),EHonourWarClass::Thief,Message);
+        CharacterSelectStatus->SetText(FText::FromString(Message)); if(bCreated) CharacterCreatePanel->SetVisibility(ESlateVisibility::Collapsed);
+    }
+}
+void UHonourWarHUDWidget::CreateAcolyteCharacter()
+{
+    if(!CharacterNameInput) return;
+    if(AHonourWarPlayerController* PC=Cast<AHonourWarPlayerController>(GetOwningPlayer()))
+    {
+        FString Message; const bool bCreated=PC->CreateCharacter(CharacterNameInput->GetText().ToString(),EHonourWarClass::Acolyte,Message);
+        CharacterSelectStatus->SetText(FText::FromString(Message)); if(bCreated) CharacterCreatePanel->SetVisibility(ESlateVisibility::Collapsed);
+    }
+}
+void UHonourWarHUDWidget::CreateMerchantCharacter()
+{
+    if(!CharacterNameInput) return;
+    if(AHonourWarPlayerController* PC=Cast<AHonourWarPlayerController>(GetOwningPlayer()))
+    {
+        FString Message; const bool bCreated=PC->CreateCharacter(CharacterNameInput->GetText().ToString(),EHonourWarClass::Merchant,Message);
+        CharacterSelectStatus->SetText(FText::FromString(Message)); if(bCreated) CharacterCreatePanel->SetVisibility(ESlateVisibility::Collapsed);
+    }
+}
+void UHonourWarHUDWidget::CreateRangerCharacter()
+{
+    if(!CharacterNameInput) return;
+    if(AHonourWarPlayerController* PC=Cast<AHonourWarPlayerController>(GetOwningPlayer()))
+    {
+        FString Message; const bool bCreated=PC->CreateCharacter(CharacterNameInput->GetText().ToString(),EHonourWarClass::Ranger,Message);
         CharacterSelectStatus->SetText(FText::FromString(Message)); if(bCreated) CharacterCreatePanel->SetVisibility(ESlateVisibility::Collapsed);
     }
 }
