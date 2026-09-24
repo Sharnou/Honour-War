@@ -10,9 +10,23 @@ $Exe = Get-ChildItem -Path $PackageRoot -Recurse -Filter "HonourWar.exe" -ErrorA
 
 if ($null -eq $Exe) { throw "HonourWar.exe was not found under $PackageRoot. Build/package the game first." }
 
+$CaptureOutput = Join-Path $PackageRoot "Saved\Screenshots\HonourWar-real-runtime.png"
+$CaptureReport = Join-Path $PackageRoot "Saved\HonourWar-E2E-report.txt"
+$CaptureLog = Join-Path $PackageRoot "Saved\Logs\HonourWar.log"
+foreach ($OldFile in @($CaptureOutput, $CaptureReport, $CaptureLog)) {
+    if (Test-Path $OldFile) { Remove-Item $OldFile -Force -ErrorAction SilentlyContinue }
+}
+foreach ($OldBuildFile in @(
+    (Join-Path $Root "Build\HonourWar-real-runtime.png"),
+    (Join-Path $Root "Build\HonourWar-E2E-report.txt"),
+    (Join-Path $Root "Build\HonourWar-runtime-log.txt")
+)) {
+    if (Test-Path $OldBuildFile) { Remove-Item $OldBuildFile -Force -ErrorAction SilentlyContinue }
+}
+
 $Process = Start-Process -FilePath $Exe.FullName -ArgumentList @(
     "-HonourWarCapture", "-HonourWarE2E", "-windowed", "-ResX=1920", "-ResY=1080", "-Unattended", "-NoSplash"
-) -PassThru
+) -WorkingDirectory $PackageRoot -PassThru
 
 $TimedOut = -not $Process.WaitForExit($TimeoutSeconds * 1000)
 if ($TimedOut) {
