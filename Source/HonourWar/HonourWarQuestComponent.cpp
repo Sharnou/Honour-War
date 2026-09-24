@@ -111,17 +111,14 @@ FString UHonourWarQuestComponent::GetQuestBody() const
     if(bQuestComplete)
     {
         return FString::Printf(
-            TEXT("Complete. Collect your reward, then continue with Quest %d.
-+%lld Zeny • +%d Honours"),
+            TEXT("Complete. Collect your reward, then continue with Quest %d.\n+%lld Zeny • +%d Honours"),
             (QuestId%QuestCount)+1,Quest.RewardZeny,Quest.RewardHonour);
     }
 
     const FString SpeciesText=FString(Quest.RequiredSpecies).Equals(TEXT("Any"),ESearchCase::IgnoreCase)
         ? TEXT("any monster") : Quest.RequiredSpecies;
     return FString::Printf(
-        TEXT("%s
-Target: %s Lv.%d+
-Progress %d / %d"),
+        TEXT("%s\nTarget: %s Lv.%d+\nProgress %d / %d"),
         Quest.Body,*SpeciesText,Quest.RequiredLevel,QuestProgress,Quest.Goal);
 }
 
