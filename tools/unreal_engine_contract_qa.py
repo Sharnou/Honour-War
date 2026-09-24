@@ -17,10 +17,10 @@ for k,v in {"characters":70,"monsters":256,"maps":24,"equipment":300,"cards":300
 controller=(ROOT/"Source"/"HonourWar"/"HonourWarPlayerController.cpp").read_text(encoding="utf-8")
 world=(ROOT/"Source"/"HonourWar"/"HonourWarWorldDirector.cpp").read_text(encoding="utf-8")
 if "HonourWarContentCatalog::Maps()" not in controller: print("UNREAL_CONTRACT_FAIL: map catalog not used"); sys.exit(1)
-for phrase in ["CreateWarriorCharacter","CreateMageCharacter","CreateArcherCharacter","CreateThiefCharacter","CreateAcolyteCharacter","CreateMerchantCharacter","CreateRangerCharacter"]:
-    if phrase not in hud: print(f"UNREAL_CONTRACT_FAIL: seven-class character creation missing: {phrase}"); sys.exit(1)
 if "HonourWarContentCatalog::Monsters()" not in world: print("UNREAL_CONTRACT_FAIL: monster catalog not used"); sys.exit(1)
 hud=(ROOT/"Source"/"HonourWar"/"HonourWarHUDWidget.cpp").read_text(encoding="utf-8")
+for phrase in ["CreateWarriorCharacter","CreateMageCharacter","CreateArcherCharacter","CreateThiefCharacter","CreateAcolyteCharacter","CreateMerchantCharacter","CreateRangerCharacter"]:
+    if phrase not in hud: print(f"UNREAL_CONTRACT_FAIL: seven-class character creation missing: {phrase}"); sys.exit(1)
 if "Prontera City" not in hud and "Crownfall Capital" not in hud:
     print("UNREAL_CONTRACT_FAIL: HUD missing recognized capital map label"); sys.exit(1)
 for phrase in ["Active Quest","MMORPGChat","MMORPGMiniMap","Equip +","Age %d days"]:
