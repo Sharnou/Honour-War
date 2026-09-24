@@ -229,6 +229,7 @@ void AHonourWarScreenshotDirector::SetupSoakTest()
     };
     SoakClassIndex=0;
     bSoakClassEntered=false;
+    bSoakMovementPassed=false;
     SoakSkillIndex=0;
     SoakMovementRetries=0;
     SoakSkillSuccesses=0;
@@ -281,6 +282,7 @@ void AHonourWarScreenshotDirector::RunSoakPhase()
         Player->SetClassId(CurrentClass);
         SoakSkillIndex=0;
         SoakMovementRetries=0;
+        bSoakMovementPassed=false;
         SoakClassStartTime=World->GetTimeSeconds();
         SpawnSoakMonster();
         Player->SetMouseTarget(SoakMonster.Get());
@@ -315,15 +317,27 @@ void AHonourWarScreenshotDirector::RunSoakPhase()
     else
     {
         SoakMovementRetries=0;
+        if(!bSoakMovementPassed)
+        {
+            RecordSoak(FString::Printf(TEXT("PASS[MOVEMENT] %.0fs %s reached engagement range | distance %.1f <= range %.1f."),
+                Elapsed,*Player->GetClassName(),Distance,Player->GetCombatComponent()->GetEngagementRange()));
+            bSoakMovementPassed=true;
+        }
+
+        const int32 TestedSkillIndex=SoakSkillIndex;
         const FString Before=Player->GetLastCombatMessage();
-        Player->ActivateSkill(SoakSkillIndex);
+        Player->ActivateSkill(TestedSkillIndex);
         const FString After=Player->GetLastCombatMessage();
         if(FMath::Fmod(Elapsed,10.0f)<2.1f)
             Player->GetCombatComponent()->RestoreVitals();
         if(After!=Before && After.Contains(TEXT("impact confirmed"),ESearchCase::IgnoreCase))
             ++SoakSkillSuccesses;
         else
+        {
             ++SoakSkillFailures;
+            RecordSoak(FString::Printf(TEXT("FAIL[SKILL] %.0fs %s skill=%d did not confirm impact | before="%s" after="%s" distance=%.1f."),
+                Elapsed,*Player->GetClassName(),TestedSkillIndex,*Before,*After,Distance));
+        }
         SoakSkillIndex=(SoakSkillIndex+1)%8;
 
         if(FMath::Fmod(Elapsed,30.0f)<2.1f)
@@ -335,9 +349,16 @@ void AHonourWarScreenshotDirector::RunSoakPhase()
 
     if(ClassElapsed>=480.0f)
     {
-        const FString Result=SoakSkillFailures==0?TEXT("PASS"):TEXT("FAIL");
-        RecordSoak(FString::Printf(TEXT("%s[CLASS-END] %.0fs %s | phase %.0fs | skill successes=%d failures=%d saves=%d"),
-            *Result,Elapsed,*Player->GetClassName(),ClassElapsed,SoakSkillSuccesses,SoakSkillFailures,SoakSaveCount));
+        if(SoakSkillFailures==0)
+        {
+            RecordSoak(FString::Printf(TEXT("PASS[CLASS-END] %.0fs %s | phase %.0fs | skill successes=%d failures=%d saves=%d"),
+                Elapsed,*Player->GetClassName(),ClassElapsed,SoakSkillSuccesses,SoakSkillFailures,SoakSaveCount));
+        }
+        else
+        {
+            RecordSoak(FString::Printf(TEXT("FAIL[CLASS-END] %.0fs %s | phase %.0fs | skill successes=%d failures=%d saves=%d"),
+                Elapsed,*Player->GetClassName(),ClassElapsed,SoakSkillSuccesses,SoakSkillFailures,SoakSaveCount));
+        }
         ++SoakClassIndex;
         bSoakClassEntered=false;
         SoakSkillIndex=0;
