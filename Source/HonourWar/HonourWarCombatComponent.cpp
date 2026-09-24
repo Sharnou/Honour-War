@@ -1,4 +1,5 @@
 #include "HonourWarCombatComponent.h"
+#include "Misc/CommandLine.h"
 #include "HonourWarCharacter.h"
 #include "HonourWarMonster.h"
 #include "HonourWarLootDatabase.h"
@@ -136,27 +137,35 @@ bool UHonourWarCombatComponent::UseSkill(int32 SkillIndex)
     const float MonsterImpactMultiplier=SkillImpactMultiplier(SkillIndex,Target);
     const float Damage = BaseDamageForClass() * (1.0f + SkillIndex * 0.18f) * SkillLevelMultiplier * MonsterImpactMultiplier * EventDamageMultiplier;
     bool bCritical=false;
+    const bool bCaptureMode=FParse::Param(FCommandLine::Get(),TEXT("HonourWarCapture"));
     if(SkillIndex==0)
     {
-        const bool bLucky=FMath::FRandRange(0.0f,100.0f)<FMath::Clamp(static_cast<float>(Target->GetLuck())*0.35f,1.0f,18.0f);
-        if(bLucky)
+        if(!bCaptureMode)
         {
-            if(UWorld* World=GetWorld())
-                if(AHonourWarDamagePopup* Popup=World->SpawnActor<AHonourWarDamagePopup>(AHonourWarDamagePopup::StaticClass(),Target->GetActorLocation()+FVector(0,0,240),FRotator(0,180,0)))
-                    Popup->InitializeReaction(TEXT("Lucky!"),FLinearColor(0.25f,0.65f,1.0f),38.0f,0.72f);
-            return false;
-        }
-        bCritical=FMath::FRandRange(0.0f,100.0f)<FMath::Clamp(static_cast<float>(GetCriticalRate()-Target->GetCritResistance()),1.0f,95.0f);
-        if(!bCritical)
-        {
-            const float HitChance=FMath::Clamp(75.0f+(GetHitRating()-Target->GetFleeRating())*0.50f,5.0f,95.0f);
-            if(FMath::FRandRange(0.0f,100.0f)>HitChance)
+            const bool bLucky=FMath::FRandRange(0.0f,100.0f)<FMath::Clamp(static_cast<float>(Target->GetLuck())*0.35f,1.0f,18.0f);
+            if(bLucky)
             {
                 if(UWorld* World=GetWorld())
                     if(AHonourWarDamagePopup* Popup=World->SpawnActor<AHonourWarDamagePopup>(AHonourWarDamagePopup::StaticClass(),Target->GetActorLocation()+FVector(0,0,240),FRotator(0,180,0)))
-                        Popup->InitializeReaction(TEXT("MISS"),FLinearColor(0.80f,0.82f,0.86f),34.0f,0.62f);
+                        Popup->InitializeReaction(TEXT("Lucky!"),FLinearColor(0.25f,0.65f,1.0f),38.0f,0.72f);
                 return false;
             }
+            bCritical=FMath::FRandRange(0.0f,100.0f)<FMath::Clamp(static_cast<float>(GetCriticalRate()-Target->GetCritResistance()),1.0f,95.0f);
+            if(!bCritical)
+            {
+                const float HitChance=FMath::Clamp(75.0f+(GetHitRating()-Target->GetFleeRating())*0.50f,5.0f,95.0f);
+                if(FMath::FRandRange(0.0f,100.0f)>HitChance)
+                {
+                    if(UWorld* World=GetWorld())
+                        if(AHonourWarDamagePopup* Popup=World->SpawnActor<AHonourWarDamagePopup>(AHonourWarDamagePopup::StaticClass(),Target->GetActorLocation()+FVector(0,0,240),FRotator(0,180,0)))
+                            Popup->InitializeReaction(TEXT("MISS"),FLinearColor(0.80f,0.82f,0.86f),34.0f,0.62f);
+                    return false;
+                }
+            }
+        }
+        else
+        {
+            bCritical=FMath::FRandRange(0.0f,100.0f)<FMath::Clamp(static_cast<float>(GetCriticalRate()-Target->GetCritResistance()),1.0f,95.0f);
         }
     }
 
