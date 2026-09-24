@@ -36,6 +36,8 @@ jobs:
 
       - name: Validate seven-class job architecture
         run: python tools/class_job_qa.py
+      - name: Validate canonical skill system and Tier-5 respec
+        run: python tools/skill_system_qa.py
 
       - name: Validate item/card encyclopedia and help
         run: python tools/item_help_qa.py
