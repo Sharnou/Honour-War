@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using System.IO;
+using System.Globalization;
 using UnityEngine;
 
 namespace HonourWar
@@ -85,13 +85,14 @@ namespace HonourWar
             if (Input.GetMouseButtonDown(0) && !PointerOverHud())
             {
                 Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out var hit, 500f))
+                if (Physics.Raycast(ray, out var hit, 500f, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
                 {
                     var monster = hit.collider.GetComponentInParent<HonourWarMonster>();
-                    if (monster != null)
+                    if (monster != null && monster.IsAlive)
                     {
                         target = monster;
                         moveDestination = hit.point;
+                        moveDestination.y = character.transform.position.y;
                         hasMoveDestination = true;
                     }
                     else
@@ -172,8 +173,9 @@ namespace HonourWar
             var save = LoadData();
             if (save != null)
             {
-                character.Level = save.Level;
-                character.AgeDays = save.AgeDays;
+                character.Level = Mathf.Clamp(save.Level, 1, 250);
+                character.AgeDays = Mathf.Max(0, save.AgeDays);
+                character.ClassTier = HonourWarClassProgression.TierForLevel(character.Level);
                 character.transform.position = save.PlayerLocation == Vector3.zero ? new Vector3(0f, 1f, 11f) : save.PlayerLocation;
             }
             status = $"Gameplay active: {character.CharacterName} / {character.ClassId} / Tier {character.ClassTier} / Lv.{character.Level}";
@@ -256,7 +258,7 @@ namespace HonourWar
             if (p[0].Equals("@go", StringComparison.OrdinalIgnoreCase) && p.Length >= 3)
             {
                 var xy = p[2].Split(':');
-                if (xy.Length == 2 && float.TryParse(xy[0], out var x) && float.TryParse(xy[1], out var z))
+                if (xy.Length == 2 && float.TryParse(xy[0], NumberStyles.Float, CultureInfo.InvariantCulture, out var x) && float.TryParse(xy[1], NumberStyles.Float, CultureInfo.InvariantCulture, out var z))
                 {
                     character.Teleport(new Vector3(x / 10f, 1f, z / 10f));
                     Save();
@@ -315,9 +317,18 @@ namespace HonourWar
                     target = go.AddComponent<HonourWarMonster>();
                     target.Initialize("RUNTIME_TARGET", "Runtime Test Target", EHonourWarMonsterSpecies.Poring, 60);
                 }
-                for (int skill=0; skill<8; skill++) { character.Combat.RestoreVitals(); character.ActivateSkill(skill,target); }
+                var skillFailures = 0;
+                for (int skill=0; skill<8; skill++)
+                {
+                    character.Combat.RestoreVitals();
+                    target.Restore();
+                    character.ActivateSkill(skill, target);
+                    if (target.IsAlive == false && skill < 7) target.Restore();
+                    if (!character.Combat.LastCombatMessage.Contains("impact confirmed")) skillFailures++;
+                }
                 Save();
-                Debug.Log($"PASS[CLASS] {c} movement=click-to-move skillFailures=0");
+                if (skillFailures == 0) Debug.Log($"PASS[CLASS] {c} movement=click-to-move skillFailures=0");
+                else Debug.LogError($"FAIL[CLASS] {c} skillFailures={skillFailures}");
                 classIndex++;
                 yield return new WaitForSeconds(20f);
             }
@@ -348,7 +359,7 @@ namespace HonourWar
             data.ClassId = character == null ? (EHonourWarClass)selectedClass : character.ClassId;
             data.ClassTier = character == null ? HonourWarClassProgression.TierForLevel(data.Level) : character.ClassTier;
             data.PlayerLocation = character == null ? data.PlayerLocation : character.transform.position;
-            data.OnlineSeconds = (long)Time.realtimeSinceStartup;
+            data.OnlineSeconds = (long)Math.Max(0, Time.realtimeSinceStartup);
             data.SavedAtUtc = DateTime.UtcNow.ToString("O");
             PlayerPrefs.SetString(SaveKey, JsonUtility.ToJson(data));
             PlayerPrefs.Save();
