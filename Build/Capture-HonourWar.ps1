@@ -19,6 +19,23 @@ if (-not $Process.WaitForExit($TimeoutSeconds * 1000)) {
     throw "Honour War capture process exceeded timeout."
 }
 
+if ($Process.ExitCode -ne 0) {
+    throw "HonourWar.exe exited with code $($Process.ExitCode), so the real runtime test failed."
+}
+
+$RuntimeLog = Get-ChildItem -Path $PackageRoot -Recurse -Filter "HonourWar.log" -ErrorAction SilentlyContinue | Select-Object -First 1
+if ($null -eq $RuntimeLog) {
+    throw "Honour War runtime log was not produced."
+}
+$RuntimeLogCopy = Join-Path $Root "Build\HonourWar-runtime-log.txt"
+Copy-Item $RuntimeLog.FullName $RuntimeLogCopy -Force
+$LogText = Get-Content $RuntimeLog.FullName -Raw
+$FatalMarkers = @("Fatal error","Unhandled Exception","Assertion failed","Ensure condition failed","Critical error")
+$FatalHits = @($FatalMarkers | Where-Object { $LogText -match [regex]::Escape($_) })
+if ($FatalHits.Count -gt 0) {
+    throw "Honour War runtime log contains fatal markers: $($FatalHits -join ', '). See $RuntimeLogCopy"
+}
+
 $Screenshot = Get-ChildItem -Path $PackageRoot -Recurse -Filter "HonourWar-real-runtime.png" -ErrorAction SilentlyContinue | Select-Object -First 1
 if ($null -eq $Screenshot) { throw "Real Unreal runtime screenshot was not produced." }
 
