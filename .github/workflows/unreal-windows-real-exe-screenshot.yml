@@ -118,3 +118,11 @@ jobs:
           path: Build/HonourWar-E2E-report.txt
           if-no-files-found: error
           retention-days: 30
+
+      - name: Upload Unreal runtime log
+        uses: actions/upload-artifact@v4
+        with:
+          name: honour-war-real-runtime-log
+          path: Build/HonourWar-runtime-log.txt
+          if-no-files-found: error
+          retention-days: 30
