@@ -1,0 +1,1 @@
+using UnityEngine; namespace HonourWar { public sealed class HonourWarQuestComponent:MonoBehaviour { public int QuestId=1,Progress; public bool Complete; public void Advance(int amount){if(Complete)return;Progress+=Mathf.Max(0,amount);if(Progress>=100)Complete=true;} public void ResetQuest(){Progress=0;Complete=false;} } }
