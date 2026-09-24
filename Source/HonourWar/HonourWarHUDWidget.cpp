@@ -667,8 +667,23 @@ bool UHonourWarHUDWidget::RunAutomatedE2ETest(FString& OutFailure)
     PC->SendChatMessage(TEXT("@help EQUIP_001"));
     PC->SendChatMessage(TEXT("@stat STR 1"));
     PC->SendChatMessage(TEXT("@skill 1 1"));
-    Record(TEXT("PASS[11] Gameplay command path invoked: @help, @stat, @skill."));
-    Record(TEXT("PASS[12] End-to-end authentication and character flow completed."));
+    Record(TEXT("PASS[11] Gameplay command path invoked through SendChatMessage: @help, @stat, @skill."));
+
+    const FVector ExpectedGoLocation(2300.0f,2200.0f,Character->GetActorLocation().Z);
+    PC->SendChatMessage(TEXT("@go 0 230:220"));
+    if(FVector::Dist2D(Character->GetActorLocation(),ExpectedGoLocation)>5.0f)
+    {
+        OutFailure=FString::Printf(TEXT("E2E[@go] coordinate teleport failed. Expected %.0f:%.0f, actual %.0f:%.0f."),
+            ExpectedGoLocation.X,ExpectedGoLocation.Y,Character->GetActorLocation().X,Character->GetActorLocation().Y);
+        Record(FString::Printf(TEXT("FAIL[11A] %s"),*OutFailure));
+        FFileHelper::SaveStringToFile(Report,*FPaths::ProjectSavedDir()/TEXT("HonourWar-E2E-report.txt"));
+        return false;
+    }
+    Record(TEXT("PASS[11A] @go 0 230:220 routed and moved the live character to 2300:2200."));
+    Character->SetActorLocation(FVector(0.0f,1100.0f,Character->GetActorLocation().Z));
+    Character->ClearMouseCommand();
+
+    Record(TEXT("PASS[12] End-to-end authentication, character flow, gameplay commands, and coordinate teleport completed."));
     FFileHelper::SaveStringToFile(Report,*FPaths::ProjectSavedDir()/TEXT("HonourWar-E2E-report.txt"));
     return true;
 }
