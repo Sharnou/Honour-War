@@ -332,6 +332,32 @@ void AHonourWarCharacter::MixCards()
         LastCombatMessage = CombatComponent->TryMixCards() ? CombatComponent->GetLastLootMessage() : CombatComponent->GetLastLootMessage();
 }
 
+void AHonourWarCharacter::UpgradeSkill(int32 SkillIndex,int32 Amount)
+{
+    if(!CombatComponent) return;
+    const bool bOk=CombatComponent->SpendSkillPoint(FMath::Clamp(SkillIndex,0,7),FMath::Clamp(Amount,1,9));
+    LastCombatMessage=CombatComponent->GetLastLootMessage();
+    if(bOk) SaveProgress();
+}
+
+void AHonourWarCharacter::ResetSkills()
+{
+    if(!CombatComponent) return;
+    CombatComponent->TryResetSkills();
+    LastCombatMessage=CombatComponent->GetLastLootMessage();
+    SaveProgress();
+}
+
+int32 AHonourWarCharacter::GetSkillPoints() const
+{
+    return CombatComponent?CombatComponent->GetSkillPoints():0;
+}
+
+int32 AHonourWarCharacter::GetSkillLevel(int32 SkillIndex) const
+{
+    return CombatComponent?CombatComponent->GetSkillLevel(SkillIndex):0;
+}
+
 void AHonourWarCharacter::UpgradeBasicSkill()
 {
     if (CombatComponent)
@@ -526,6 +552,8 @@ void AHonourWarCharacter::SaveProgress()
     Save->Emveretarcon=CombatComponent->GetEmveretarcon();
     Save->Oridecon=CombatComponent->GetOridecon();
     Save->BasicSkillLevel=CombatComponent->GetBasicSkillLevel();
+    Save->SkillPoints=CombatComponent->GetSkillPoints();
+    Save->SkillLevels=CombatComponent->GetSkillLevels();
     Save->Honours=CombatComponent->GetHonours();
     Save->StatusPoints=CombatComponent->GetStatusPoints();
     Save->Strength=CombatComponent->GetStrength();
@@ -587,6 +615,7 @@ void AHonourWarCharacter::LoadProgress()
         bLegacyStatusData?10:Save->Dexterity,
         bLegacyStatusData?10:Save->LuckStat);
     CombatComponent->SetBasicSkillLevel(Save->BasicSkillLevel);
+    CombatComponent->SetSkillState(Save->SkillPoints,Save->SkillLevels);
     CombatComponent->SetInventoryItems(Save->InventoryItems);
     CombatComponent->SetCards(Save->Cards);
     if(QuestComponent)
