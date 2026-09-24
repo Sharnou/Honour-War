@@ -105,8 +105,7 @@ void AHonourWarScreenshotDirector::RequestCapture()
     {
         if(CaptureAttempts<10)
         {
-            if(DistanceToShowcase>320.0f) Player->SetMouseTarget(ShowcaseMonster.Get());
-            else Player->ActivateSkill(0);
+            Player->SetMouseTarget(ShowcaseMonster.Get());
             GetWorldTimerManager().SetTimer(CaptureTimer,this,&AHonourWarScreenshotDirector::RequestCapture,1.0f,false);
             return;
         }
