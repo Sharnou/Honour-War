@@ -8,6 +8,7 @@
 #include "HonourWarItemEncyclopedia.h"
 #include "HonourWarGameState.h"
 #include "HonourWarPlayerState.h"
+#include "HonourWarCombatComponent.h"
 #include "InputCoreTypes.h"
 #include "GameFramework/Actor.h"
 #include "Misc/Parse.h"
@@ -314,6 +315,8 @@ bool AHonourWarPlayerController::SaveActiveCharacterData(const UHonourWarSaveGam
     Slot.Emveretarcon=SaveData.Emveretarcon;
     Slot.Oridecon=SaveData.Oridecon;
     Slot.BasicSkillLevel=SaveData.BasicSkillLevel;
+    Slot.SkillPoints=SaveData.SkillPoints;
+    Slot.SkillLevels=SaveData.SkillLevels;
     Slot.Honours=SaveData.Honours;
     Slot.StatusPoints=SaveData.StatusPoints;
     Slot.Strength=SaveData.Strength;
@@ -352,6 +355,8 @@ bool AHonourWarPlayerController::LoadActiveCharacterData(UHonourWarSaveGame& Out
     OutSaveData.Emveretarcon=Slot.Emveretarcon;
     OutSaveData.Oridecon=Slot.Oridecon;
     OutSaveData.BasicSkillLevel=Slot.BasicSkillLevel;
+    OutSaveData.SkillPoints=Slot.SkillPoints;
+    OutSaveData.SkillLevels=Slot.SkillLevels;
     OutSaveData.Honours=Slot.Honours;
     OutSaveData.StatusPoints=Slot.StatusPoints;
     OutSaveData.Strength=Slot.Strength;
@@ -397,6 +402,8 @@ bool AHonourWarPlayerController::CreateCharacter(const FString& CharacterName,EH
     OwnedCharacters[Slot].Emveretarcon=10;
     OwnedCharacters[Slot].Oridecon=5;
     OwnedCharacters[Slot].BasicSkillLevel=1;
+    OwnedCharacters[Slot].SkillPoints=0;
+    OwnedCharacters[Slot].SkillLevels.Init(1,8);
     OwnedCharacters[Slot].Honours=0;
     OwnedCharacters[Slot].StatusPoints=30;
     OwnedCharacters[Slot].Strength=10;
@@ -438,6 +445,7 @@ void AHonourWarPlayerController::SendChatMessage(const FString& Message)
     Clean.LeftInline(180,true);
     if(Clean.IsEmpty()) return;
     if(!HasAuthority()){ServerSendChat(Clean);return;}
+    if(ExecuteSkillCommand(Clean) || ExecuteRestSkillsCommand(Clean)) return;
     if(AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(GetPawn()))
     {
         if(AHonourWarGameMode* GameMode=GetWorld()?GetWorld()->GetAuthGameMode<AHonourWarGameMode>():nullptr)
@@ -460,7 +468,7 @@ bool AHonourWarPlayerController::ExecuteHelpCommand(const FString& Command)
 
     if(Tokens.Num()==1)
     {
-        ClientMessage(TEXT("HELP: /help [item/card/pet ID or name] | examples: /help EQUIP_300, /help CARD_300, /help PETEQ_001, /help Machine Gun Bolts"));
+        ClientMessage(TEXT("HELP: /help [item/card/pet ID or name] | /skill | /skill impact <monster> | /restskills confirm"));
         ClientMessage(TEXT("IDs: EQUIP_001-300 | ITEM_001-076 | CARD_001-300 | JOBEQ_* | JOBCARD_* | PETEQ_001-100"));
         return true;
     }
@@ -535,6 +543,61 @@ bool AHonourWarPlayerController::ExecuteStatCommand(const FString& Command)
     return true;
 }
 
+bool AHonourWarPlayerController::ExecuteSkillCommand(const FString& Command)
+{
+    if(!IsReadyForGameplay()) return false;
+    AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(GetPawn());
+    if(!Character || !Character->GetCombatComponent()) return false;
+    TArray<FString> Tokens;
+    Command.ParseIntoArrayWS(Tokens);
+    if(Tokens.Num()==0) return false;
+    const bool bSkill=Tokens[0].Equals(TEXT("@skill"),ESearchCase::IgnoreCase)||Tokens[0].Equals(TEXT("/skill"),ESearchCase::IgnoreCase);
+    if(!bSkill) return false;
+    UHonourWarCombatComponent* Combat=Character->GetCombatComponent();
+    if(Tokens.Num()==1 || Tokens[1].Equals(TEXT("help"),ESearchCase::IgnoreCase))
+    {
+        ClientMessage(FString::Printf(
+            TEXT("SKILLS | 8 class skills | Skill Points %d | levels %d/%d/%d/%d/%d/%d/%d/%d | Use @skill 1 1"),
+            Combat->GetSkillPoints(),Combat->GetSkillLevel(0),Combat->GetSkillLevel(1),Combat->GetSkillLevel(2),Combat->GetSkillLevel(3),
+            Combat->GetSkillLevel(4),Combat->GetSkillLevel(5),Combat->GetSkillLevel(6),Combat->GetSkillLevel(7)));
+        return true;
+    }
+    if(Tokens[1].Equals(TEXT("impact"),ESearchCase::IgnoreCase))
+    {
+        const FString Species=Tokens.Num()>=3?Tokens[2]:TEXT("Skeleton");
+        ClientMessage(FString::Printf(TEXT("SKILL IMPACT | %s | Tier %s | class %s"),*Species,*Character->GetClassTierName(),*Character->GetClassName()));
+        for(int32 I=0;I<8;++I)
+            ClientMessage(FString::Printf(TEXT("  %d | Lv.%d | x%.2f"),I+1,Combat->GetSkillLevel(I),Combat->GetSkillImpactMultiplierForSpecies(I,Species)));
+        return true;
+    }
+    if(Tokens.Num()<3) return true;
+    const int32 Index=FMath::Clamp(FCString::Atoi(*Tokens[1])-1,0,7);
+    const int32 Amount=FMath::Clamp(FCString::Atoi(*Tokens[2]),1,9);
+    Character->UpgradeSkill(Index,Amount);
+    ClientMessage(Combat->GetLastLootMessage());
+    return true;
+}
+
+bool AHonourWarPlayerController::ExecuteRestSkillsCommand(const FString& Command)
+{
+    if(!IsReadyForGameplay()) return false;
+    TArray<FString> Tokens;
+    Command.ParseIntoArrayWS(Tokens);
+    if(Tokens.Num()==0) return false;
+    const bool bReset=Tokens[0].Equals(TEXT("@restskills"),ESearchCase::IgnoreCase)||Tokens[0].Equals(TEXT("/restskills"),ESearchCase::IgnoreCase);
+    if(!bReset) return false;
+    AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(GetPawn());
+    if(!Character || !Character->GetCombatComponent()) return false;
+    if(Tokens.Num()<2 || !Tokens[1].Equals(TEXT("confirm"),ESearchCase::IgnoreCase))
+    {
+        ClientMessage(TEXT("SKILL RESET | Available only at Tier 5 (Lv.200+). Type @restskills confirm to reset all 8 class skills to Lv.1 and refund spent points."));
+        return true;
+    }
+    Character->ResetSkills();
+    ClientMessage(Character->GetLastCombatMessage());
+    return true;
+}
+
 bool AHonourWarPlayerController::ExecuteGoCommand(const FString& Command)
 {
     if(!IsReadyForGameplay()) return false;
@@ -602,6 +665,8 @@ bool AHonourWarPlayerController::Exec(UWorld* InWorld,const TCHAR* Cmd,FOutputDe
 
     if(ExecuteGoCommand(Command)) return true;
     if(ExecuteStatCommand(Command)) return true;
+    if(ExecuteSkillCommand(Command)) return true;
+    if(ExecuteRestSkillsCommand(Command)) return true;
 
     if(!IsReadyForGameplay())
     {
