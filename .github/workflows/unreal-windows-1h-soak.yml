@@ -41,6 +41,10 @@ jobs:
           python tools/honour_war_progression_contract_qa.py
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
+      - name: Validate one-hour soak contract
+        shell: pwsh
+        run: python tools/honour_war_1h_soak_contract_qa.py
+
       - name: Preflight Unreal Engine 5.8 installation
         shell: pwsh
         env:
