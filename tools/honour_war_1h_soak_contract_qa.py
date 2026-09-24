@@ -30,10 +30,12 @@ checks = [
     ("3600-second session", "Elapsed>=3600.0f" in cpp),
     ("480-second class phases", "ClassElapsed>=480.0f" in cpp),
     ("PASS[CLASS]", 'PASS[CLASS]' in cpp),
-    ("PASS[CLASS-END]", 'PASS[CLASS-END]' in cpp),
+    ("PASS[CLASS-END]", 'PASS[CLASS-END]' in cpp and 'FAIL[CLASS-END]' in cpp),
     ("heartbeat", "HEARTBEAT" in cpp),
     ("save coverage", "Player->SaveProgress()" in cpp),
     ("resource recovery", "RestoreVitals()" in cpp),
+    ("movement result markers", "PASS[MOVEMENT]" in cpp and "FAIL[MOVEMENT]" in cpp),
+    ("per-skill failure markers", "FAIL[SKILL]" in cpp),
     ("manual workflow only", "workflow_dispatch:" in wf and "schedule:" not in wf),
     ("60-minute runtime safety window", "TimeoutSeconds = 3720" in ps1),
 ]
