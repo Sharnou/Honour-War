@@ -50,6 +50,7 @@ if ($null -ne $Report) {
 
 $FatalMarkers = @("Fatal error","Unhandled Exception","Assertion failed","Ensure condition failed","Critical error")
 $FatalHits = @($FatalMarkers | Where-Object { $LogText -match [regex]::Escape($_) })
+$LogLines = @(Get-Content $RuntimeLog.FullName)
 
 $ErrorLines = @(
     Get-Content $RuntimeLog.FullName |
@@ -61,7 +62,40 @@ $ErrorLines = @(
         $_ -match "Critical error"
     }
 ) | Select-Object -Unique
-$ErrorLines | Set-Content -Path $ErrorsCopy -Encoding UTF8
+$CrashLines = @($LogLines | Where-Object {
+    $_ -match "Fatal error" -or $_ -match "Unhandled Exception" -or
+    $_ -match "Assertion failed" -or $_ -match "Ensure condition failed" -or $_ -match "Critical error"
+}) | Select-Object -Unique
+$UnrealErrorLines = @($LogLines | Where-Object {
+    $_ -match "Error:" -or $_ -match "Ensure condition failed" -or $_ -match "Assertion failed"
+}) | Select-Object -Unique
+$ClassFailureLines = @($SoakText -split "\r?\n" | Where-Object { $_ -match "FAIL\[CLASS(-END)?\]" }) | Select-Object -Unique
+$MovementFailureLines = @($SoakText -split "\r?\n" | Where-Object { $_ -match "FAIL\[MOVEMENT\]" }) | Select-Object -Unique
+$SkillFailureLines = @($SoakText -split "\r?\n" | Where-Object { $_ -match "FAIL\[SKILL\]" }) | Select-Object -Unique
+$RuntimeHarnessFailureLines = @($SoakText -split "\r?\n" | Where-Object { $_ -match "FAIL\[(BOOT|RUNTIME)\]" }) | Select-Object -Unique
+
+@(
+    "Honour War One-Hour Runtime Diagnostic Classification"
+    "IMPORTANT: static contract QA is not gameplay evidence; this file classifies the real packaged runtime log/report."
+    "CRASH_OR_ASSERT_COUNT=$($CrashLines.Count)"
+    "UNREAL_ERROR_LINE_COUNT=$($UnrealErrorLines.Count)"
+    "CLASS_FAILURE_COUNT=$($ClassFailureLines.Count)"
+    "MOVEMENT_FAILURE_COUNT=$($MovementFailureLines.Count)"
+    "SKILL_FAILURE_COUNT=$($SkillFailureLines.Count)"
+    "RUNTIME_HARNESS_FAILURE_COUNT=$($RuntimeHarnessFailureLines.Count)"
+    ""
+    "[CRASH_OR_ASSERT]"; $CrashLines
+    ""
+    "[UNREAL_ERROR]"; $UnrealErrorLines
+    ""
+    "[CLASS_FAILURE]"; $ClassFailureLines
+    ""
+    "[MOVEMENT_FAILURE]"; $MovementFailureLines
+    ""
+    "[SKILL_FAILURE]"; $SkillFailureLines
+    ""
+    "[RUNTIME_HARNESS_FAILURE]"; $RuntimeHarnessFailureLines
+) | Set-Content -Path $ErrorsCopy -Encoding UTF8
 
 if ($TimedOut) {
     throw "Honour War one-hour soak exceeded the $TimeoutSeconds seconds safety timeout."
@@ -70,7 +104,7 @@ if ($Process.ExitCode -ne 0) {
     throw "HonourWar.exe exited with code $($Process.ExitCode). See $LogCopy and $ReportCopy."
 }
 if ($null -eq $Report) {
-    throw "One-hour soak report was not produced."
+    throw "One-hour soak report was not produced. This is a runtime-harness failure, not static validation."
 }
 
 $SoakText = Get-Content $ReportCopy -Raw
