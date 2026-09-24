@@ -88,7 +88,12 @@
               "cooldown_sec": 0.65,
               "resource_cost": 18,
               "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T1_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T1"
             },
             {
               "name": "Shield Bash",
@@ -96,8 +101,13 @@
               "power_ratio": 0.99,
               "cooldown_sec": 0.73,
               "resource_cost": 21,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "guard_break",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T1_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T1"
             },
             {
               "name": "Guard Break",
@@ -105,8 +115,13 @@
               "power_ratio": 1.03,
               "cooldown_sec": 0.81,
               "resource_cost": 24,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "armor_break",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T1_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T1"
             },
             {
               "name": "Brave Charge",
@@ -114,8 +129,13 @@
               "power_ratio": 1.07,
               "cooldown_sec": 0.89,
               "resource_cost": 27,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "charge",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T1_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T1"
             },
             {
               "name": "Iron Resolve",
@@ -123,8 +143,13 @@
               "power_ratio": 1.11,
               "cooldown_sec": 0.97,
               "resource_cost": 30,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "guard",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T1_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T1"
             },
             {
               "name": "War Cry",
@@ -132,8 +157,13 @@
               "power_ratio": 1.15,
               "cooldown_sec": 1.05,
               "resource_cost": 33,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "physical_aoe",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T1_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T1"
             },
             {
               "name": "Cleave",
@@ -141,8 +171,13 @@
               "power_ratio": 1.19,
               "cooldown_sec": 1.13,
               "resource_cost": 36,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "execute",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T1_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T1"
             },
             {
               "name": "Ember Guard",
@@ -150,8 +185,13 @@
               "power_ratio": 1.23,
               "cooldown_sec": 1.21,
               "resource_cost": 39,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "dominion",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T1_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T1"
             }
           ],
           "basic_attack": "Ember Slash",
@@ -286,8 +326,13 @@
               "power_ratio": 1.13,
               "cooldown_sec": 0.7,
               "resource_cost": 20,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "physical",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T2_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T2"
             },
             {
               "name": "Bulwark Wall",
@@ -295,8 +340,13 @@
               "power_ratio": 1.17,
               "cooldown_sec": 0.78,
               "resource_cost": 23,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "guard_break",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T2_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T2"
             },
             {
               "name": "Shield Breaker",
@@ -304,8 +354,13 @@
               "power_ratio": 1.21,
               "cooldown_sec": 0.86,
               "resource_cost": 26,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "armor_break",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T2_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T2"
             },
             {
               "name": "Knight Charge",
@@ -313,8 +368,13 @@
               "power_ratio": 1.25,
               "cooldown_sec": 0.94,
               "resource_cost": 29,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "charge",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T2_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T2"
             },
             {
               "name": "Fortress Heart",
@@ -322,8 +382,13 @@
               "power_ratio": 1.29,
               "cooldown_sec": 1.02,
               "resource_cost": 32,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "guard",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T2_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T2"
             },
             {
               "name": "Lion Roar",
@@ -331,8 +396,13 @@
               "power_ratio": 1.33,
               "cooldown_sec": 1.1,
               "resource_cost": 35,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "physical_aoe",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T2_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T2"
             },
             {
               "name": "Rending Arc",
@@ -340,8 +410,13 @@
               "power_ratio": 1.37,
               "cooldown_sec": 1.18,
               "resource_cost": 38,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "execute",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T2_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T2"
             },
             {
               "name": "Iron Halo",
@@ -349,8 +424,13 @@
               "power_ratio": 1.41,
               "cooldown_sec": 1.26,
               "resource_cost": 41,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "dominion",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T2_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T2"
             }
           ],
           "basic_attack": "Oath Strike",
@@ -485,8 +565,13 @@
               "power_ratio": 1.31,
               "cooldown_sec": 0.75,
               "resource_cost": 22,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "physical",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T3_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T3"
             },
             {
               "name": "Aegis Crash",
@@ -494,8 +579,13 @@
               "power_ratio": 1.35,
               "cooldown_sec": 0.83,
               "resource_cost": 25,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "guard_break",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T3_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T3"
             },
             {
               "name": "Holy Brand",
@@ -503,8 +593,13 @@
               "power_ratio": 1.39,
               "cooldown_sec": 0.91,
               "resource_cost": 28,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "armor_break",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T3_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T3"
             },
             {
               "name": "Crusader Rush",
@@ -512,8 +607,13 @@
               "power_ratio": 1.43,
               "cooldown_sec": 0.99,
               "resource_cost": 31,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "charge",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T3_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T3"
             },
             {
               "name": "Radiant Guard",
@@ -521,8 +621,13 @@
               "power_ratio": 1.47,
               "cooldown_sec": 1.07,
               "resource_cost": 34,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "guard",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T3_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T3"
             },
             {
               "name": "Judgement Field",
@@ -530,8 +635,13 @@
               "power_ratio": 1.51,
               "cooldown_sec": 1.15,
               "resource_cost": 37,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "physical_aoe",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T3_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T3"
             },
             {
               "name": "Meteor Break",
@@ -539,8 +649,13 @@
               "power_ratio": 1.55,
               "cooldown_sec": 1.23,
               "resource_cost": 40,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "execute",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T3_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T3"
             },
             {
               "name": "Paladin Vow",
@@ -548,8 +663,13 @@
               "power_ratio": 1.59,
               "cooldown_sec": 1.31,
               "resource_cost": 43,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "dominion",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T3_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T3"
             }
           ],
           "basic_attack": "Dawn Verdict",
@@ -684,8 +804,13 @@
               "power_ratio": 1.49,
               "cooldown_sec": 0.8,
               "resource_cost": 24,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "physical",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T4_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T4"
             },
             {
               "name": "Banner of Ruin",
@@ -693,8 +818,13 @@
               "power_ratio": 1.53,
               "cooldown_sec": 0.88,
               "resource_cost": 27,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "guard_break",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T4_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T4"
             },
             {
               "name": "Titan Guard",
@@ -702,8 +832,13 @@
               "power_ratio": 1.57,
               "cooldown_sec": 0.96,
               "resource_cost": 30,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "armor_break",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T4_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T4"
             },
             {
               "name": "Earthshaker",
@@ -711,8 +846,13 @@
               "power_ratio": 1.61,
               "cooldown_sec": 1.04,
               "resource_cost": 33,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "charge",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T4_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T4"
             },
             {
               "name": "Blood Oath",
@@ -720,8 +860,13 @@
               "power_ratio": 1.65,
               "cooldown_sec": 1.12,
               "resource_cost": 36,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "guard",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T4_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T4"
             },
             {
               "name": "War March",
@@ -729,8 +874,13 @@
               "power_ratio": 1.69,
               "cooldown_sec": 1.2,
               "resource_cost": 39,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "physical_aoe",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T4_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T4"
             },
             {
               "name": "Gravity Crush",
@@ -738,8 +888,13 @@
               "power_ratio": 1.73,
               "cooldown_sec": 1.28,
               "resource_cost": 42,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "execute",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T4_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T4"
             },
             {
               "name": "Battlefield Dominion",
@@ -747,8 +902,13 @@
               "power_ratio": 1.77,
               "cooldown_sec": 1.36,
               "resource_cost": 45,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "dominion",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T4_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T4"
             }
           ],
           "basic_attack": "Warlord Cleave",
@@ -883,8 +1043,13 @@
               "power_ratio": 1.67,
               "cooldown_sec": 0.85,
               "resource_cost": 26,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "physical",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T5_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T5"
             },
             {
               "name": "Singularity Break",
@@ -892,8 +1057,13 @@
               "power_ratio": 1.71,
               "cooldown_sec": 0.93,
               "resource_cost": 29,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "guard_break",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T5_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T5"
             },
             {
               "name": "Abyss Guard",
@@ -901,8 +1071,13 @@
               "power_ratio": 1.75,
               "cooldown_sec": 1.01,
               "resource_cost": 32,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "armor_break",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T5_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T5"
             },
             {
               "name": "Worldbreaker Charge",
@@ -910,8 +1085,13 @@
               "power_ratio": 1.79,
               "cooldown_sec": 1.09,
               "resource_cost": 35,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "charge",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T5_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T5"
             },
             {
               "name": "Gravitational Oath",
@@ -919,8 +1099,13 @@
               "power_ratio": 1.83,
               "cooldown_sec": 1.17,
               "resource_cost": 38,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "guard",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T5_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T5"
             },
             {
               "name": "Black Banner",
@@ -928,8 +1113,13 @@
               "power_ratio": 1.87,
               "cooldown_sec": 1.25,
               "resource_cost": 41,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "physical_aoe",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T5_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T5"
             },
             {
               "name": "Event Horizon",
@@ -937,8 +1127,13 @@
               "power_ratio": 1.91,
               "cooldown_sec": 1.33,
               "resource_cost": 44,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "execute",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T5_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T5"
             },
             {
               "name": "Abyssal Dominion",
@@ -946,8 +1141,13 @@
               "power_ratio": 1.95,
               "cooldown_sec": 1.41,
               "resource_cost": 47,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "dominion",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_WAR_T5_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_WAR_T5"
             }
           ],
           "basic_attack": "Abyssal Cleave",
@@ -1098,8 +1298,13 @@
               "power_ratio": 0.95,
               "cooldown_sec": 0.65,
               "resource_cost": 18,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "arcane",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T1_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T1"
             },
             {
               "name": "Frost Nova",
@@ -1107,8 +1312,13 @@
               "power_ratio": 0.99,
               "cooldown_sec": 0.73,
               "resource_cost": 21,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "frost",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T1_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T1"
             },
             {
               "name": "Spark Chain",
@@ -1116,8 +1326,13 @@
               "power_ratio": 1.03,
               "cooldown_sec": 0.81,
               "resource_cost": 24,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "lightning",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T1_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T1"
             },
             {
               "name": "Mana Shield",
@@ -1125,8 +1340,13 @@
               "power_ratio": 1.07,
               "cooldown_sec": 0.89,
               "resource_cost": 27,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "fire",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T1_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T1"
             },
             {
               "name": "Flame Sigil",
@@ -1134,8 +1354,13 @@
               "power_ratio": 1.11,
               "cooldown_sec": 0.97,
               "resource_cost": 30,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "frost_control",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T1_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T1"
             },
             {
               "name": "Blink",
@@ -1143,8 +1368,13 @@
               "power_ratio": 1.15,
               "cooldown_sec": 1.05,
               "resource_cost": 33,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "arcane_aoe",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T1_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T1"
             },
             {
               "name": "Rune Burst",
@@ -1152,8 +1382,13 @@
               "power_ratio": 1.19,
               "cooldown_sec": 1.13,
               "resource_cost": 36,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "chrono",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T1_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T1"
             },
             {
               "name": "Arcane Veil",
@@ -1161,8 +1396,13 @@
               "power_ratio": 1.23,
               "cooldown_sec": 1.21,
               "resource_cost": 39,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "arcane_finisher",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T1_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T1"
             }
           ],
           "basic_attack": "Arcane Bolt",
@@ -1298,7 +1538,12 @@
               "cooldown_sec": 0.7,
               "resource_cost": 20,
               "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T2_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T2"
             },
             {
               "name": "Glacier Ring",
@@ -1306,8 +1551,13 @@
               "power_ratio": 1.17,
               "cooldown_sec": 0.78,
               "resource_cost": 23,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "frost",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T2_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T2"
             },
             {
               "name": "Chain Lightning",
@@ -1315,8 +1565,13 @@
               "power_ratio": 1.21,
               "cooldown_sec": 0.86,
               "resource_cost": 26,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "lightning",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T2_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T2"
             },
             {
               "name": "Mana Prison",
@@ -1324,8 +1579,13 @@
               "power_ratio": 1.25,
               "cooldown_sec": 0.94,
               "resource_cost": 29,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "fire",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T2_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T2"
             },
             {
               "name": "Meteor Fall",
@@ -1333,8 +1593,13 @@
               "power_ratio": 1.29,
               "cooldown_sec": 1.02,
               "resource_cost": 32,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "frost_control",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T2_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T2"
             },
             {
               "name": "Time Thread",
@@ -1342,8 +1607,13 @@
               "power_ratio": 1.33,
               "cooldown_sec": 1.1,
               "resource_cost": 35,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "arcane_aoe",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T2_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T2"
             },
             {
               "name": "Spell Echo",
@@ -1351,8 +1621,13 @@
               "power_ratio": 1.37,
               "cooldown_sec": 1.18,
               "resource_cost": 38,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "chrono",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T2_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T2"
             },
             {
               "name": "Astral Barrier",
@@ -1360,8 +1635,13 @@
               "power_ratio": 1.41,
               "cooldown_sec": 1.26,
               "resource_cost": 41,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "arcane_finisher",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T2_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T2"
             }
           ],
           "basic_attack": "Astral Lance",
@@ -1496,8 +1776,13 @@
               "power_ratio": 1.31,
               "cooldown_sec": 0.75,
               "resource_cost": 22,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "arcane",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T3_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T3"
             },
             {
               "name": "Frozen Crown",
@@ -1505,8 +1790,13 @@
               "power_ratio": 1.35,
               "cooldown_sec": 0.83,
               "resource_cost": 25,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "frost",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T3_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T3"
             },
             {
               "name": "Thunder Spiral",
@@ -1514,8 +1804,13 @@
               "power_ratio": 1.39,
               "cooldown_sec": 0.91,
               "resource_cost": 28,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "lightning",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T3_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T3"
             },
             {
               "name": "Gravity Well",
@@ -1523,8 +1818,13 @@
               "power_ratio": 1.43,
               "cooldown_sec": 0.99,
               "resource_cost": 31,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "fire",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T3_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T3"
             },
             {
               "name": "Meteor Rain",
@@ -1532,8 +1832,13 @@
               "power_ratio": 1.47,
               "cooldown_sec": 1.07,
               "resource_cost": 34,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "frost_control",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T3_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T3"
             },
             {
               "name": "Chrono Bind",
@@ -1541,8 +1846,13 @@
               "power_ratio": 1.51,
               "cooldown_sec": 1.15,
               "resource_cost": 37,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "arcane_aoe",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T3_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T3"
             },
             {
               "name": "Astral Prison",
@@ -1550,8 +1860,13 @@
               "power_ratio": 1.55,
               "cooldown_sec": 1.23,
               "resource_cost": 40,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "chrono",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T3_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T3"
             },
             {
               "name": "Arcane Cataclysm",
@@ -1559,8 +1874,13 @@
               "power_ratio": 1.59,
               "cooldown_sec": 1.31,
               "resource_cost": 43,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "arcane_finisher",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T3_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T3"
             }
           ],
           "basic_attack": "Celestial Ray",
@@ -1695,8 +2015,13 @@
               "power_ratio": 1.49,
               "cooldown_sec": 0.8,
               "resource_cost": 24,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "arcane",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T4_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T4"
             },
             {
               "name": "Zero Field",
@@ -1704,8 +2029,13 @@
               "power_ratio": 1.53,
               "cooldown_sec": 0.88,
               "resource_cost": 27,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "frost",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T4_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T4"
             },
             {
               "name": "Storm Cage",
@@ -1713,8 +2043,13 @@
               "power_ratio": 1.57,
               "cooldown_sec": 0.96,
               "resource_cost": 30,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "lightning",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T4_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T4"
             },
             {
               "name": "Chrono Weave",
@@ -1722,8 +2057,13 @@
               "power_ratio": 1.61,
               "cooldown_sec": 1.04,
               "resource_cost": 33,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "fire",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T4_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T4"
             },
             {
               "name": "Starfall",
@@ -1731,8 +2071,13 @@
               "power_ratio": 1.65,
               "cooldown_sec": 1.12,
               "resource_cost": 36,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "frost_control",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T4_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T4"
             },
             {
               "name": "Aether Ward",
@@ -1740,8 +2085,13 @@
               "power_ratio": 1.69,
               "cooldown_sec": 1.2,
               "resource_cost": 39,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "arcane_aoe",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T4_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T4"
             },
             {
               "name": "Time Fracture",
@@ -1749,8 +2099,13 @@
               "power_ratio": 1.73,
               "cooldown_sec": 1.28,
               "resource_cost": 42,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "chrono",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T4_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T4"
             },
             {
               "name": "Grand Spellstorm",
@@ -1758,8 +2113,13 @@
               "power_ratio": 1.77,
               "cooldown_sec": 1.36,
               "resource_cost": 45,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "arcane_finisher",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T4_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T4"
             }
           ],
           "basic_attack": "Sage Comet",
@@ -1894,8 +2254,13 @@
               "power_ratio": 1.67,
               "cooldown_sec": 0.85,
               "resource_cost": 26,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "arcane",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T5_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T5"
             },
             {
               "name": "Chrono Break",
@@ -1903,8 +2268,13 @@
               "power_ratio": 1.71,
               "cooldown_sec": 0.93,
               "resource_cost": 29,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "frost",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T5_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T5"
             },
             {
               "name": "Axiom Collapse",
@@ -1912,8 +2282,13 @@
               "power_ratio": 1.75,
               "cooldown_sec": 1.01,
               "resource_cost": 32,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "lightning",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T5_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T5"
             },
             {
               "name": "Infinite Meteor",
@@ -1921,8 +2296,13 @@
               "power_ratio": 1.79,
               "cooldown_sec": 1.09,
               "resource_cost": 35,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "fire",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T5_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T5"
             },
             {
               "name": "Eternal Frost",
@@ -1930,8 +2310,13 @@
               "power_ratio": 1.83,
               "cooldown_sec": 1.17,
               "resource_cost": 38,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "frost_control",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T5_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T5"
             },
             {
               "name": "World Rune",
@@ -1939,8 +2324,13 @@
               "power_ratio": 1.87,
               "cooldown_sec": 1.25,
               "resource_cost": 41,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "arcane_aoe",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T5_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T5"
             },
             {
               "name": "Time Reversal",
@@ -1948,8 +2338,13 @@
               "power_ratio": 1.91,
               "cooldown_sec": 1.33,
               "resource_cost": 44,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "chrono",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T5_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T5"
             },
             {
               "name": "Spellwright Ascension",
@@ -1957,8 +2352,13 @@
               "power_ratio": 1.95,
               "cooldown_sec": 1.41,
               "resource_cost": 47,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "arcane_finisher",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MAG_T5_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MAG_T5"
             }
           ],
           "basic_attack": "Eternal Spellstorm",
@@ -2109,8 +2509,13 @@
               "power_ratio": 0.95,
               "cooldown_sec": 0.65,
               "resource_cost": 18,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "precision",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T1_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T1"
             },
             {
               "name": "Focused Arrow",
@@ -2118,8 +2523,13 @@
               "power_ratio": 0.99,
               "cooldown_sec": 0.73,
               "resource_cost": 21,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "piercing",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T1_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T1"
             },
             {
               "name": "Falcon Mark",
@@ -2127,8 +2537,13 @@
               "power_ratio": 1.03,
               "cooldown_sec": 0.81,
               "resource_cost": 24,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "mark",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T1_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T1"
             },
             {
               "name": "Windstep",
@@ -2136,8 +2551,13 @@
               "power_ratio": 1.07,
               "cooldown_sec": 0.89,
               "resource_cost": 27,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "wind",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T1_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T1"
             },
             {
               "name": "Bleed Arrow",
@@ -2145,8 +2565,13 @@
               "power_ratio": 1.11,
               "cooldown_sec": 0.97,
               "resource_cost": 30,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "bleed",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T1_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T1"
             },
             {
               "name": "Arrow Rain",
@@ -2154,8 +2579,13 @@
               "power_ratio": 1.15,
               "cooldown_sec": 1.05,
               "resource_cost": 33,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "precision_aoe",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T1_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T1"
             },
             {
               "name": "Deadeye",
@@ -2163,8 +2593,13 @@
               "power_ratio": 1.19,
               "cooldown_sec": 1.13,
               "resource_cost": 36,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "causality",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T1_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T1"
             },
             {
               "name": "Windguard",
@@ -2172,8 +2607,13 @@
               "power_ratio": 1.23,
               "cooldown_sec": 1.21,
               "resource_cost": 39,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "causality_finisher",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T1_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T1"
             }
           ],
           "basic_attack": "Double Shot",
@@ -2308,8 +2748,13 @@
               "power_ratio": 1.13,
               "cooldown_sec": 0.7,
               "resource_cost": 20,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "precision",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T2_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T2"
             },
             {
               "name": "Hunter Snare",
@@ -2317,8 +2762,13 @@
               "power_ratio": 1.17,
               "cooldown_sec": 0.78,
               "resource_cost": 23,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "piercing",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T2_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T2"
             },
             {
               "name": "Beast Mark",
@@ -2326,8 +2776,13 @@
               "power_ratio": 1.21,
               "cooldown_sec": 0.86,
               "resource_cost": 26,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "mark",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T2_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T2"
             },
             {
               "name": "Hawk Dash",
@@ -2335,8 +2790,13 @@
               "power_ratio": 1.25,
               "cooldown_sec": 0.94,
               "resource_cost": 29,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "wind",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T2_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T2"
             },
             {
               "name": "Poison Arrow",
@@ -2344,8 +2804,13 @@
               "power_ratio": 1.29,
               "cooldown_sec": 1.02,
               "resource_cost": 32,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "bleed",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T2_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T2"
             },
             {
               "name": "Storm Volley",
@@ -2353,8 +2818,13 @@
               "power_ratio": 1.33,
               "cooldown_sec": 1.1,
               "resource_cost": 35,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "precision_aoe",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T2_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T2"
             },
             {
               "name": "Piercing Eye",
@@ -2362,8 +2832,13 @@
               "power_ratio": 1.37,
               "cooldown_sec": 1.18,
               "resource_cost": 38,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "causality",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T2_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T2"
             },
             {
               "name": "Predator Sense",
@@ -2371,8 +2846,13 @@
               "power_ratio": 1.41,
               "cooldown_sec": 1.26,
               "resource_cost": 41,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "causality_finisher",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T2_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T2"
             }
           ],
           "basic_attack": "Triple Shot",
@@ -2508,7 +2988,12 @@
               "cooldown_sec": 0.75,
               "resource_cost": 22,
               "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T3_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T3"
             },
             {
               "name": "Sniper Focus",
@@ -2516,8 +3001,13 @@
               "power_ratio": 1.35,
               "cooldown_sec": 0.83,
               "resource_cost": 25,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "piercing",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T3_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T3"
             },
             {
               "name": "Falcon Barrage",
@@ -2525,8 +3015,13 @@
               "power_ratio": 1.39,
               "cooldown_sec": 0.91,
               "resource_cost": 28,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "mark",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T3_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T3"
             },
             {
               "name": "Phantom Step",
@@ -2534,8 +3029,13 @@
               "power_ratio": 1.43,
               "cooldown_sec": 0.99,
               "resource_cost": 31,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "wind",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T3_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T3"
             },
             {
               "name": "Rending Volley",
@@ -2543,8 +3043,13 @@
               "power_ratio": 1.47,
               "cooldown_sec": 1.07,
               "resource_cost": 34,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "bleed",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T3_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T3"
             },
             {
               "name": "Rain of Arrows",
@@ -2552,8 +3057,13 @@
               "power_ratio": 1.51,
               "cooldown_sec": 1.15,
               "resource_cost": 37,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "precision_aoe",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T3_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T3"
             },
             {
               "name": "Horizon Aim",
@@ -2561,8 +3071,13 @@
               "power_ratio": 1.55,
               "cooldown_sec": 1.23,
               "resource_cost": 40,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "causality",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T3_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T3"
             },
             {
               "name": "Astral Arrow",
@@ -2570,8 +3085,13 @@
               "power_ratio": 1.59,
               "cooldown_sec": 1.31,
               "resource_cost": 43,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "causality_finisher",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T3_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T3"
             }
           ],
           "basic_attack": "Star Arrow",
@@ -2706,8 +3226,13 @@
               "power_ratio": 1.49,
               "cooldown_sec": 0.8,
               "resource_cost": 24,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "precision",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T4_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T4"
             },
             {
               "name": "Longshot",
@@ -2715,8 +3240,13 @@
               "power_ratio": 1.53,
               "cooldown_sec": 0.88,
               "resource_cost": 27,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "piercing",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T4_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T4"
             },
             {
               "name": "Hawk Dominion",
@@ -2724,8 +3254,13 @@
               "power_ratio": 1.57,
               "cooldown_sec": 0.96,
               "resource_cost": 30,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "mark",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T4_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T4"
             },
             {
               "name": "Wind Rift",
@@ -2733,8 +3268,13 @@
               "power_ratio": 1.61,
               "cooldown_sec": 1.04,
               "resource_cost": 33,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "wind",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T4_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T4"
             },
             {
               "name": "Crimson Volley",
@@ -2742,8 +3282,13 @@
               "power_ratio": 1.65,
               "cooldown_sec": 1.12,
               "resource_cost": 36,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "bleed",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T4_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T4"
             },
             {
               "name": "Skyfire Rain",
@@ -2751,8 +3296,13 @@
               "power_ratio": 1.69,
               "cooldown_sec": 1.2,
               "resource_cost": 39,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "precision_aoe",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T4_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T4"
             },
             {
               "name": "Perfect Aim",
@@ -2760,8 +3310,13 @@
               "power_ratio": 1.73,
               "cooldown_sec": 1.28,
               "resource_cost": 42,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "causality",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T4_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T4"
             },
             {
               "name": "Horizon Break",
@@ -2769,8 +3324,13 @@
               "power_ratio": 1.77,
               "cooldown_sec": 1.36,
               "resource_cost": 45,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "causality_finisher",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T4_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T4"
             }
           ],
           "basic_attack": "Deadeye Barrage",
@@ -2905,8 +3465,13 @@
               "power_ratio": 1.67,
               "cooldown_sec": 0.85,
               "resource_cost": 26,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "precision",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T5_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T5"
             },
             {
               "name": "Fatepiercer",
@@ -2914,8 +3479,13 @@
               "power_ratio": 1.71,
               "cooldown_sec": 0.93,
               "resource_cost": 29,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "piercing",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T5_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T5"
             },
             {
               "name": "World Falcon",
@@ -2923,8 +3493,13 @@
               "power_ratio": 1.75,
               "cooldown_sec": 1.01,
               "resource_cost": 32,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "mark",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T5_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T5"
             },
             {
               "name": "Zero-Step Shot",
@@ -2932,8 +3507,13 @@
               "power_ratio": 1.79,
               "cooldown_sec": 1.09,
               "resource_cost": 35,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "wind",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T5_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T5"
             },
             {
               "name": "Doomsday Volley",
@@ -2941,8 +3521,13 @@
               "power_ratio": 1.83,
               "cooldown_sec": 1.17,
               "resource_cost": 38,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "bleed",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T5_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T5"
             },
             {
               "name": "Sky Sever",
@@ -2950,8 +3535,13 @@
               "power_ratio": 1.87,
               "cooldown_sec": 1.25,
               "resource_cost": 41,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "precision_aoe",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T5_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T5"
             },
             {
               "name": "Time Split Arrow",
@@ -2959,8 +3549,13 @@
               "power_ratio": 1.91,
               "cooldown_sec": 1.33,
               "resource_cost": 44,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "causality",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T5_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T5"
             },
             {
               "name": "Causality Finale",
@@ -2968,8 +3563,13 @@
               "power_ratio": 1.95,
               "cooldown_sec": 1.41,
               "resource_cost": 47,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "causality_finisher",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ARC_T5_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ARC_T5"
             }
           ],
           "basic_attack": "Causality Arrow",
@@ -3120,8 +3720,13 @@
               "power_ratio": 0.95,
               "cooldown_sec": 0.65,
               "resource_cost": 18,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "shadow",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T1_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T1"
             },
             {
               "name": "Poison Edge",
@@ -3129,8 +3734,13 @@
               "power_ratio": 0.99,
               "cooldown_sec": 0.73,
               "resource_cost": 21,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "poison",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T1_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T1"
             },
             {
               "name": "Backstep",
@@ -3138,8 +3748,13 @@
               "power_ratio": 1.03,
               "cooldown_sec": 0.81,
               "resource_cost": 24,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "mobility",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T1_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T1"
             },
             {
               "name": "Shadow Veil",
@@ -3147,8 +3762,13 @@
               "power_ratio": 1.07,
               "cooldown_sec": 0.89,
               "resource_cost": 27,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "stealth",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T1_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T1"
             },
             {
               "name": "Throwing Dagger",
@@ -3156,8 +3776,13 @@
               "power_ratio": 1.11,
               "cooldown_sec": 0.97,
               "resource_cost": 30,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "poison_dot",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T1_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T1"
             },
             {
               "name": "Venom Spiral",
@@ -3165,8 +3790,13 @@
               "power_ratio": 1.15,
               "cooldown_sec": 1.05,
               "resource_cost": 33,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "shadow_aoe",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T1_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T1"
             },
             {
               "name": "Silent Step",
@@ -3174,8 +3804,13 @@
               "power_ratio": 1.19,
               "cooldown_sec": 1.13,
               "resource_cost": 36,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "execute",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T1_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T1"
             },
             {
               "name": "Cheap Shot",
@@ -3183,8 +3818,13 @@
               "power_ratio": 1.23,
               "cooldown_sec": 1.21,
               "resource_cost": 39,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "void",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T1_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T1"
             }
           ],
           "basic_attack": "Quick Slash",
@@ -3319,8 +3959,13 @@
               "power_ratio": 1.13,
               "cooldown_sec": 0.7,
               "resource_cost": 20,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "shadow",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T2_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T2"
             },
             {
               "name": "Venom Kiss",
@@ -3328,8 +3973,13 @@
               "power_ratio": 1.17,
               "cooldown_sec": 0.78,
               "resource_cost": 23,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "poison",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T2_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T2"
             },
             {
               "name": "Blink Step",
@@ -3337,8 +3987,13 @@
               "power_ratio": 1.21,
               "cooldown_sec": 0.86,
               "resource_cost": 26,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "mobility",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T2_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T2"
             },
             {
               "name": "Smoke Veil",
@@ -3346,8 +4001,13 @@
               "power_ratio": 1.25,
               "cooldown_sec": 0.94,
               "resource_cost": 29,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "stealth",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T2_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T2"
             },
             {
               "name": "Night Shuriken",
@@ -3355,8 +4015,13 @@
               "power_ratio": 1.29,
               "cooldown_sec": 1.02,
               "resource_cost": 32,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "poison_dot",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T2_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T2"
             },
             {
               "name": "Blood Spiral",
@@ -3364,8 +4029,13 @@
               "power_ratio": 1.33,
               "cooldown_sec": 1.1,
               "resource_cost": 35,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "shadow_aoe",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T2_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T2"
             },
             {
               "name": "Killing Intent",
@@ -3373,8 +4043,13 @@
               "power_ratio": 1.37,
               "cooldown_sec": 1.18,
               "resource_cost": 38,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "execute",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T2_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T2"
             },
             {
               "name": "Shadow Feast",
@@ -3382,8 +4057,13 @@
               "power_ratio": 1.41,
               "cooldown_sec": 1.26,
               "resource_cost": 41,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "void",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T2_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T2"
             }
           ],
           "basic_attack": "Assassin Cut",
@@ -3518,8 +4198,13 @@
               "power_ratio": 1.31,
               "cooldown_sec": 0.75,
               "resource_cost": 22,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "shadow",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T3_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T3"
             },
             {
               "name": "Toxic Crescent",
@@ -3527,8 +4212,13 @@
               "power_ratio": 1.35,
               "cooldown_sec": 0.83,
               "resource_cost": 25,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "poison",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T3_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T3"
             },
             {
               "name": "Phantom Shift",
@@ -3536,8 +4226,13 @@
               "power_ratio": 1.39,
               "cooldown_sec": 0.91,
               "resource_cost": 28,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "mobility",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T3_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T3"
             },
             {
               "name": "Umbral Cloak",
@@ -3545,8 +4240,13 @@
               "power_ratio": 1.43,
               "cooldown_sec": 0.99,
               "resource_cost": 31,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "stealth",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T3_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T3"
             },
             {
               "name": "Soul Dagger",
@@ -3554,8 +4254,13 @@
               "power_ratio": 1.47,
               "cooldown_sec": 1.07,
               "resource_cost": 34,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "poison_dot",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T3_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T3"
             },
             {
               "name": "Nightmare Spiral",
@@ -3563,8 +4268,13 @@
               "power_ratio": 1.51,
               "cooldown_sec": 1.15,
               "resource_cost": 37,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "shadow_aoe",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T3_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T3"
             },
             {
               "name": "Execution Mark",
@@ -3572,8 +4282,13 @@
               "power_ratio": 1.55,
               "cooldown_sec": 1.23,
               "resource_cost": 40,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "execute",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T3_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T3"
             },
             {
               "name": "Void Assault",
@@ -3581,8 +4296,13 @@
               "power_ratio": 1.59,
               "cooldown_sec": 1.31,
               "resource_cost": 43,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "void",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T3_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T3"
             }
           ],
           "basic_attack": "Shadowlord Cut",
@@ -3718,7 +4438,12 @@
               "cooldown_sec": 0.8,
               "resource_cost": 24,
               "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T4_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T4"
             },
             {
               "name": "Perfect Ambush",
@@ -3726,8 +4451,13 @@
               "power_ratio": 1.53,
               "cooldown_sec": 0.88,
               "resource_cost": 27,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "poison",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T4_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T4"
             },
             {
               "name": "Afterimage",
@@ -3735,8 +4465,13 @@
               "power_ratio": 1.57,
               "cooldown_sec": 0.96,
               "resource_cost": 30,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "mobility",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T4_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T4"
             },
             {
               "name": "Black Mist",
@@ -3744,8 +4479,13 @@
               "power_ratio": 1.61,
               "cooldown_sec": 1.04,
               "resource_cost": 33,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "stealth",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T4_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T4"
             },
             {
               "name": "Abyssal Poison",
@@ -3753,8 +4493,13 @@
               "power_ratio": 1.65,
               "cooldown_sec": 1.12,
               "resource_cost": 36,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "poison_dot",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T4_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T4"
             },
             {
               "name": "Silent Tempest",
@@ -3762,8 +4507,13 @@
               "power_ratio": 1.69,
               "cooldown_sec": 1.2,
               "resource_cost": 39,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "shadow_aoe",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T4_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T4"
             },
             {
               "name": "Death Sentence",
@@ -3771,8 +4521,13 @@
               "power_ratio": 1.73,
               "cooldown_sec": 1.28,
               "resource_cost": 42,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "execute",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T4_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T4"
             },
             {
               "name": "Night Rift",
@@ -3780,8 +4535,13 @@
               "power_ratio": 1.77,
               "cooldown_sec": 1.36,
               "resource_cost": 45,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "void",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T4_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T4"
             }
           ],
           "basic_attack": "Nightblade Storm",
@@ -3916,8 +4676,13 @@
               "power_ratio": 1.67,
               "cooldown_sec": 0.85,
               "resource_cost": 26,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "shadow",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T5_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T5"
             },
             {
               "name": "Voidstep Execution",
@@ -3925,8 +4690,13 @@
               "power_ratio": 1.71,
               "cooldown_sec": 0.93,
               "resource_cost": 29,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "poison",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T5_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T5"
             },
             {
               "name": "Causality Cut",
@@ -3934,8 +4704,13 @@
               "power_ratio": 1.75,
               "cooldown_sec": 1.01,
               "resource_cost": 32,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "mobility",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T5_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T5"
             },
             {
               "name": "Eclipse Veil",
@@ -3943,8 +4718,13 @@
               "power_ratio": 1.79,
               "cooldown_sec": 1.09,
               "resource_cost": 35,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "stealth",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T5_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T5"
             },
             {
               "name": "Thousand Shade",
@@ -3952,8 +4732,13 @@
               "power_ratio": 1.83,
               "cooldown_sec": 1.17,
               "resource_cost": 38,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "poison_dot",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T5_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T5"
             },
             {
               "name": "Fate Poison",
@@ -3961,8 +4746,13 @@
               "power_ratio": 1.87,
               "cooldown_sec": 1.25,
               "resource_cost": 41,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "shadow_aoe",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T5_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T5"
             },
             {
               "name": "Worldshadow Rush",
@@ -3970,8 +4760,13 @@
               "power_ratio": 1.91,
               "cooldown_sec": 1.33,
               "resource_cost": 44,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "execute",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T5_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T5"
             },
             {
               "name": "Absolute Shadow",
@@ -3979,8 +4774,13 @@
               "power_ratio": 1.95,
               "cooldown_sec": 1.41,
               "resource_cost": 47,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "void",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_THI_T5_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_THI_T5"
             }
           ],
           "basic_attack": "Absolute Silence",
@@ -4131,8 +4931,13 @@
               "power_ratio": 0.95,
               "cooldown_sec": 0.65,
               "resource_cost": 18,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "holy_support",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T1_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T1"
             },
             {
               "name": "Blessing",
@@ -4140,8 +4945,13 @@
               "power_ratio": 0.99,
               "cooldown_sec": 0.73,
               "resource_cost": 21,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "blessing",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T1_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T1"
             },
             {
               "name": "Holy Strike",
@@ -4149,8 +4959,13 @@
               "power_ratio": 1.03,
               "cooldown_sec": 0.81,
               "resource_cost": 24,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "holy",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T1_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T1"
             },
             {
               "name": "Sanctuary",
@@ -4158,8 +4973,13 @@
               "power_ratio": 1.07,
               "cooldown_sec": 0.89,
               "resource_cost": 27,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "sanctuary",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T1_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T1"
             },
             {
               "name": "Light Shield",
@@ -4167,8 +4987,13 @@
               "power_ratio": 1.11,
               "cooldown_sec": 0.97,
               "resource_cost": 30,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "aegis",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T1_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T1"
             },
             {
               "name": "Renewal",
@@ -4176,8 +5001,13 @@
               "power_ratio": 1.15,
               "cooldown_sec": 1.05,
               "resource_cost": 33,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "holy_aoe",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T1_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T1"
             },
             {
               "name": "Prayer Pulse",
@@ -4185,8 +5015,13 @@
               "power_ratio": 1.19,
               "cooldown_sec": 1.13,
               "resource_cost": 36,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "rebirth",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T1_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T1"
             },
             {
               "name": "Holy Water",
@@ -4194,8 +5029,13 @@
               "power_ratio": 1.23,
               "cooldown_sec": 1.21,
               "resource_cost": 39,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "benediction",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T1_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T1"
             }
           ],
           "basic_attack": "Heal",
@@ -4270,7 +5110,7 @@
           "skills": [
             "Greater Heal",
             "Agi Blessing",
-            "Holy Brand",
+            "Radiant Brand",
             "Sanctuary Field",
             "Divine Guard",
             "Rebirth Prayer",
@@ -4322,7 +5162,7 @@
             "recommended_secondary": "VIT",
             "rule": "Player keeps free six-stat allocation; job profile is a recommendation only."
           },
-          "skill_list": "Greater Heal;Agi Blessing;Holy Brand;Sanctuary Field;Divine Guard;Rebirth Prayer;Radiant Hammer;Priest's Grace",
+          "skill_list": "Greater Heal;Agi Blessing;Radiant Brand;Sanctuary Field;Divine Guard;Rebirth Prayer;Radiant Hammer;Priest's Grace",
           "skill_profiles": [
             {
               "name": "Greater Heal",
@@ -4330,8 +5170,13 @@
               "power_ratio": 1.13,
               "cooldown_sec": 0.7,
               "resource_cost": 20,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "holy_support",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T2_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T2"
             },
             {
               "name": "Agi Blessing",
@@ -4339,17 +5184,27 @@
               "power_ratio": 1.17,
               "cooldown_sec": 0.78,
               "resource_cost": 23,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "blessing",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T2_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T2"
             },
             {
-              "name": "Holy Brand",
+              "name": "Radiant Brand",
               "kind": "core",
               "power_ratio": 1.21,
               "cooldown_sec": 0.86,
               "resource_cost": 26,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "holy",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T2_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T2"
             },
             {
               "name": "Sanctuary Field",
@@ -4357,8 +5212,13 @@
               "power_ratio": 1.25,
               "cooldown_sec": 0.94,
               "resource_cost": 29,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "sanctuary",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T2_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T2"
             },
             {
               "name": "Divine Guard",
@@ -4366,8 +5226,13 @@
               "power_ratio": 1.29,
               "cooldown_sec": 1.02,
               "resource_cost": 32,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "aegis",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T2_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T2"
             },
             {
               "name": "Rebirth Prayer",
@@ -4375,8 +5240,13 @@
               "power_ratio": 1.33,
               "cooldown_sec": 1.1,
               "resource_cost": 35,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "holy_aoe",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T2_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T2"
             },
             {
               "name": "Radiant Hammer",
@@ -4384,8 +5254,13 @@
               "power_ratio": 1.37,
               "cooldown_sec": 1.18,
               "resource_cost": 38,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "rebirth",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T2_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T2"
             },
             {
               "name": "Priest's Grace",
@@ -4393,8 +5268,13 @@
               "power_ratio": 1.41,
               "cooldown_sec": 1.26,
               "resource_cost": 41,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "benediction",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T2_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T2"
             }
           ],
           "basic_attack": "Greater Heal",
@@ -4529,8 +5409,13 @@
               "power_ratio": 1.31,
               "cooldown_sec": 0.75,
               "resource_cost": 22,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "holy_support",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T3_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T3"
             },
             {
               "name": "Blessing of Ages",
@@ -4538,8 +5423,13 @@
               "power_ratio": 1.35,
               "cooldown_sec": 0.83,
               "resource_cost": 25,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "blessing",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T3_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T3"
             },
             {
               "name": "Seraphic Ray",
@@ -4547,8 +5437,13 @@
               "power_ratio": 1.39,
               "cooldown_sec": 0.91,
               "resource_cost": 28,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "holy",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T3_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T3"
             },
             {
               "name": "Sacred Ground",
@@ -4556,8 +5451,13 @@
               "power_ratio": 1.43,
               "cooldown_sec": 0.99,
               "resource_cost": 31,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "sanctuary",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T3_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T3"
             },
             {
               "name": "Divine Aegis",
@@ -4565,8 +5465,13 @@
               "power_ratio": 1.47,
               "cooldown_sec": 1.07,
               "resource_cost": 34,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "aegis",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T3_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T3"
             },
             {
               "name": "Resurrection",
@@ -4574,8 +5479,13 @@
               "power_ratio": 1.51,
               "cooldown_sec": 1.15,
               "resource_cost": 37,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "holy_aoe",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T3_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T3"
             },
             {
               "name": "Holy Judgement",
@@ -4583,8 +5493,13 @@
               "power_ratio": 1.55,
               "cooldown_sec": 1.23,
               "resource_cost": 40,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "rebirth",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T3_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T3"
             },
             {
               "name": "Heavenfall",
@@ -4592,8 +5507,13 @@
               "power_ratio": 1.59,
               "cooldown_sec": 1.31,
               "resource_cost": 43,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "benediction",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T3_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T3"
             }
           ],
           "basic_attack": "Mass Heal",
@@ -4728,8 +5648,13 @@
               "power_ratio": 1.49,
               "cooldown_sec": 0.8,
               "resource_cost": 24,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "holy_support",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T4_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T4"
             },
             {
               "name": "Saint's Barrier",
@@ -4737,8 +5662,13 @@
               "power_ratio": 1.53,
               "cooldown_sec": 0.88,
               "resource_cost": 27,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "blessing",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T4_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T4"
             },
             {
               "name": "Seraph Lance",
@@ -4746,8 +5676,13 @@
               "power_ratio": 1.57,
               "cooldown_sec": 0.96,
               "resource_cost": 30,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "holy",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T4_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T4"
             },
             {
               "name": "Dawn Sanctuary",
@@ -4755,8 +5690,13 @@
               "power_ratio": 1.61,
               "cooldown_sec": 1.04,
               "resource_cost": 33,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "sanctuary",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T4_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T4"
             },
             {
               "name": "Miracle Pulse",
@@ -4764,8 +5704,13 @@
               "power_ratio": 1.65,
               "cooldown_sec": 1.12,
               "resource_cost": 36,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "aegis",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T4_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T4"
             },
             {
               "name": "Judgement Bell",
@@ -4773,8 +5718,13 @@
               "power_ratio": 1.69,
               "cooldown_sec": 1.2,
               "resource_cost": 39,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "holy_aoe",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T4_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T4"
             },
             {
               "name": "Life Return",
@@ -4782,8 +5732,13 @@
               "power_ratio": 1.73,
               "cooldown_sec": 1.28,
               "resource_cost": 42,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "rebirth",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T4_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T4"
             },
             {
               "name": "Radiant Dominion",
@@ -4791,8 +5746,13 @@
               "power_ratio": 1.77,
               "cooldown_sec": 1.36,
               "resource_cost": 45,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "benediction",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T4_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T4"
             }
           ],
           "basic_attack": "Eternal Grace",
@@ -4927,8 +5887,13 @@
               "power_ratio": 1.67,
               "cooldown_sec": 0.85,
               "resource_cost": 26,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "holy_support",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T5_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T5"
             },
             {
               "name": "Chrono Sanctify",
@@ -4936,8 +5901,13 @@
               "power_ratio": 1.71,
               "cooldown_sec": 0.93,
               "resource_cost": 29,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "blessing",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T5_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T5"
             },
             {
               "name": "Seraphic Rebirth",
@@ -4946,7 +5916,12 @@
               "cooldown_sec": 1.01,
               "resource_cost": 32,
               "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T5_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T5"
             },
             {
               "name": "World Prayer",
@@ -4954,8 +5929,13 @@
               "power_ratio": 1.79,
               "cooldown_sec": 1.09,
               "resource_cost": 35,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "sanctuary",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T5_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T5"
             },
             {
               "name": "Aegis of Eternity",
@@ -4963,8 +5943,13 @@
               "power_ratio": 1.83,
               "cooldown_sec": 1.17,
               "resource_cost": 38,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "aegis",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T5_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T5"
             },
             {
               "name": "Heaven's Mercy",
@@ -4972,8 +5957,13 @@
               "power_ratio": 1.87,
               "cooldown_sec": 1.25,
               "resource_cost": 41,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "holy_aoe",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T5_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T5"
             },
             {
               "name": "Final Hymn",
@@ -4981,8 +5971,13 @@
               "power_ratio": 1.91,
               "cooldown_sec": 1.33,
               "resource_cost": 44,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "rebirth",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T5_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T5"
             },
             {
               "name": "Benediction of Ages",
@@ -4990,8 +5985,13 @@
               "power_ratio": 1.95,
               "cooldown_sec": 1.41,
               "resource_cost": 47,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "benediction",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_ACO_T5_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_ACO_T5"
             }
           ],
           "basic_attack": "Eternal Benediction",
@@ -5142,8 +6142,13 @@
               "power_ratio": 0.95,
               "cooldown_sec": 0.65,
               "resource_cost": 18,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "trade_physical",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T1_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T1"
             },
             {
               "name": "Trade Insight",
@@ -5151,8 +6156,13 @@
               "power_ratio": 0.99,
               "cooldown_sec": 0.73,
               "resource_cost": 21,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "feint",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T1_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T1"
             },
             {
               "name": "Forge Edge",
@@ -5160,8 +6170,13 @@
               "power_ratio": 1.03,
               "cooldown_sec": 0.81,
               "resource_cost": 24,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "forge",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T1_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T1"
             },
             {
               "name": "Cart Slam",
@@ -5169,8 +6184,13 @@
               "power_ratio": 1.07,
               "cooldown_sec": 0.89,
               "resource_cost": 27,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "cart",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T1_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T1"
             },
             {
               "name": "Overcharge",
@@ -5178,8 +6198,13 @@
               "power_ratio": 1.11,
               "cooldown_sec": 0.97,
               "resource_cost": 30,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "profit_buff",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T1_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T1"
             },
             {
               "name": "Discount Sense",
@@ -5187,8 +6212,13 @@
               "power_ratio": 1.15,
               "cooldown_sec": 1.05,
               "resource_cost": 33,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "appraisal",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T1_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T1"
             },
             {
               "name": "Coin Toss",
@@ -5196,8 +6226,13 @@
               "power_ratio": 1.19,
               "cooldown_sec": 1.13,
               "resource_cost": 36,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "fortune",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T1_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T1"
             },
             {
               "name": "Trader's Guard",
@@ -5205,8 +6240,13 @@
               "power_ratio": 1.23,
               "cooldown_sec": 1.21,
               "resource_cost": 39,
-              "effect": "physical",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "quartermaster",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T1_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T1"
             }
           ],
           "basic_attack": "Mammonite",
@@ -5341,8 +6381,13 @@
               "power_ratio": 1.13,
               "cooldown_sec": 0.7,
               "resource_cost": 20,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "trade_physical",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T2_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T2"
             },
             {
               "name": "Market Feint",
@@ -5350,8 +6395,13 @@
               "power_ratio": 1.17,
               "cooldown_sec": 0.78,
               "resource_cost": 23,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "feint",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T2_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T2"
             },
             {
               "name": "Ironforge",
@@ -5359,8 +6409,13 @@
               "power_ratio": 1.21,
               "cooldown_sec": 0.86,
               "resource_cost": 26,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "forge",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T2_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T2"
             },
             {
               "name": "Cart Cannon",
@@ -5368,8 +6423,13 @@
               "power_ratio": 1.25,
               "cooldown_sec": 0.94,
               "resource_cost": 29,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "cart",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T2_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T2"
             },
             {
               "name": "Profit Surge",
@@ -5377,8 +6437,13 @@
               "power_ratio": 1.29,
               "cooldown_sec": 1.02,
               "resource_cost": 32,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "profit_buff",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T2_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T2"
             },
             {
               "name": "Appraisal",
@@ -5386,8 +6451,13 @@
               "power_ratio": 1.33,
               "cooldown_sec": 1.1,
               "resource_cost": 35,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "appraisal",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T2_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T2"
             },
             {
               "name": "Riches Ward",
@@ -5395,8 +6465,13 @@
               "power_ratio": 1.37,
               "cooldown_sec": 1.18,
               "resource_cost": 38,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "fortune",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T2_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T2"
             },
             {
               "name": "Merchant's Rush",
@@ -5404,8 +6479,13 @@
               "power_ratio": 1.41,
               "cooldown_sec": 1.26,
               "resource_cost": 41,
-              "effect": "arcane",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "quartermaster",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T2_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T2"
             }
           ],
           "basic_attack": "Royal Mammonite",
@@ -5540,8 +6620,13 @@
               "power_ratio": 1.31,
               "cooldown_sec": 0.75,
               "resource_cost": 22,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "trade_physical",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T3_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T3"
             },
             {
               "name": "Trade Mastery",
@@ -5549,8 +6634,13 @@
               "power_ratio": 1.35,
               "cooldown_sec": 0.83,
               "resource_cost": 25,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "feint",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T3_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T3"
             },
             {
               "name": "Refine Strike",
@@ -5558,8 +6648,13 @@
               "power_ratio": 1.39,
               "cooldown_sec": 0.91,
               "resource_cost": 28,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "forge",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T3_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T3"
             },
             {
               "name": "Cart Avalanche",
@@ -5567,8 +6662,13 @@
               "power_ratio": 1.43,
               "cooldown_sec": 0.99,
               "resource_cost": 31,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "cart",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T3_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T3"
             },
             {
               "name": "Fortune Mark",
@@ -5576,8 +6676,13 @@
               "power_ratio": 1.47,
               "cooldown_sec": 1.07,
               "resource_cost": 34,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "profit_buff",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T3_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T3"
             },
             {
               "name": "Royal Appraisal",
@@ -5585,8 +6690,13 @@
               "power_ratio": 1.51,
               "cooldown_sec": 1.15,
               "resource_cost": 37,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "appraisal",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T3_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T3"
             },
             {
               "name": "Forgemind",
@@ -5594,8 +6704,13 @@
               "power_ratio": 1.55,
               "cooldown_sec": 1.23,
               "resource_cost": 40,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "fortune",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T3_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T3"
             },
             {
               "name": "Guild Hammer",
@@ -5603,8 +6718,13 @@
               "power_ratio": 1.59,
               "cooldown_sec": 1.31,
               "resource_cost": 43,
-              "effect": "precision",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "quartermaster",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T3_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T3"
             }
           ],
           "basic_attack": "Smithing Burst",
@@ -5739,8 +6859,13 @@
               "power_ratio": 1.49,
               "cooldown_sec": 0.8,
               "resource_cost": 24,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "trade_physical",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T4_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T4"
             },
             {
               "name": "Forge Nova",
@@ -5748,8 +6873,13 @@
               "power_ratio": 1.53,
               "cooldown_sec": 0.88,
               "resource_cost": 27,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "feint",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T4_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T4"
             },
             {
               "name": "Trade Dominion",
@@ -5757,8 +6887,13 @@
               "power_ratio": 1.57,
               "cooldown_sec": 0.96,
               "resource_cost": 30,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "forge",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T4_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T4"
             },
             {
               "name": "Cart Cataclysm",
@@ -5766,8 +6901,13 @@
               "power_ratio": 1.61,
               "cooldown_sec": 1.04,
               "resource_cost": 33,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "cart",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T4_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T4"
             },
             {
               "name": "Fortune Engine",
@@ -5775,8 +6915,13 @@
               "power_ratio": 1.65,
               "cooldown_sec": 1.12,
               "resource_cost": 36,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "profit_buff",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T4_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T4"
             },
             {
               "name": "Master Appraisal",
@@ -5784,8 +6929,13 @@
               "power_ratio": 1.69,
               "cooldown_sec": 1.2,
               "resource_cost": 39,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "appraisal",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T4_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T4"
             },
             {
               "name": "Royal Workshop",
@@ -5793,8 +6943,13 @@
               "power_ratio": 1.73,
               "cooldown_sec": 1.28,
               "resource_cost": 42,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "fortune",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T4_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T4"
             },
             {
               "name": "Quartermaster's Call",
@@ -5802,8 +6957,13 @@
               "power_ratio": 1.77,
               "cooldown_sec": 1.36,
               "resource_cost": 45,
-              "effect": "shadow",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "quartermaster",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T4_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T4"
             }
           ],
           "basic_attack": "Grand Mammonite",
@@ -5938,8 +7098,13 @@
               "power_ratio": 1.67,
               "cooldown_sec": 0.85,
               "resource_cost": 26,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "trade_physical",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T5_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T5"
             },
             {
               "name": "Matrix Strike",
@@ -5947,8 +7112,13 @@
               "power_ratio": 1.71,
               "cooldown_sec": 0.93,
               "resource_cost": 29,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "feint",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T5_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T5"
             },
             {
               "name": "World Trade",
@@ -5956,8 +7126,13 @@
               "power_ratio": 1.75,
               "cooldown_sec": 1.01,
               "resource_cost": 32,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "forge",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T5_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T5"
             },
             {
               "name": "Cart Singularity",
@@ -5965,8 +7140,13 @@
               "power_ratio": 1.79,
               "cooldown_sec": 1.09,
               "resource_cost": 35,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "cart",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T5_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T5"
             },
             {
               "name": "Golden Dominion",
@@ -5974,8 +7154,13 @@
               "power_ratio": 1.83,
               "cooldown_sec": 1.17,
               "resource_cost": 38,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "profit_buff",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T5_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T5"
             },
             {
               "name": "Perfect Forge",
@@ -5983,8 +7168,13 @@
               "power_ratio": 1.87,
               "cooldown_sec": 1.25,
               "resource_cost": 41,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "appraisal",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T5_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T5"
             },
             {
               "name": "Infinite Appraisal",
@@ -5992,8 +7182,13 @@
               "power_ratio": 1.91,
               "cooldown_sec": 1.33,
               "resource_cost": 44,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "fortune",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T5_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T5"
             },
             {
               "name": "Quartermaster's Legacy",
@@ -6001,8 +7196,13 @@
               "power_ratio": 1.95,
               "cooldown_sec": 1.41,
               "resource_cost": 47,
-              "effect": "holy",
-              "visual": "HD 3D anime combat VFX"
+              "effect": "quartermaster",
+              "visual": "HD 3D anime combat VFX",
+              "skill_id": "SKILL_MER_T5_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_MER_T5"
             }
           ],
           "basic_attack": "Infinite Supply",
@@ -6153,8 +7353,13 @@
               "power_ratio": 0.95,
               "cooldown_sec": 0.65,
               "resource_cost": 18,
-              "effect": "physical",
-              "visual": "high-rate enchanted bolt muzzle flash"
+              "effect": "ballistic",
+              "visual": "high-rate enchanted bolt muzzle flash",
+              "skill_id": "SKILL_RAN_T1_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T1"
             },
             {
               "name": "Quick Bolt",
@@ -6162,8 +7367,13 @@
               "power_ratio": 0.99,
               "cooldown_sec": 0.73,
               "resource_cost": 21,
-              "effect": "physical",
-              "visual": "recoiling rune firearm with visible bolt trail"
+              "effect": "bolt",
+              "visual": "recoiling rune firearm with visible bolt trail",
+              "skill_id": "SKILL_RAN_T1_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T1"
             },
             {
               "name": "Beast Call",
@@ -6171,8 +7381,13 @@
               "power_ratio": 1.03,
               "cooldown_sec": 0.81,
               "resource_cost": 24,
-              "effect": "physical",
-              "visual": "high-rate enchanted bolt muzzle flash"
+              "effect": "beast_command",
+              "visual": "high-rate enchanted bolt muzzle flash",
+              "skill_id": "SKILL_RAN_T1_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T1"
             },
             {
               "name": "Thorn Trap",
@@ -6180,8 +7395,13 @@
               "power_ratio": 1.07,
               "cooldown_sec": 0.89,
               "resource_cost": 27,
-              "effect": "physical",
-              "visual": "recoiling rune firearm with visible bolt trail"
+              "effect": "nature_trap",
+              "visual": "recoiling rune firearm with visible bolt trail",
+              "skill_id": "SKILL_RAN_T1_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T1"
             },
             {
               "name": "Ranger's Mark",
@@ -6189,8 +7409,13 @@
               "power_ratio": 1.11,
               "cooldown_sec": 0.97,
               "resource_cost": 30,
-              "effect": "physical",
-              "visual": "high-rate enchanted bolt muzzle flash"
+              "effect": "mark",
+              "visual": "high-rate enchanted bolt muzzle flash",
+              "skill_id": "SKILL_RAN_T1_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T1"
             },
             {
               "name": "Bolt Volley",
@@ -6198,8 +7423,13 @@
               "power_ratio": 1.15,
               "cooldown_sec": 1.05,
               "resource_cost": 33,
-              "effect": "physical",
-              "visual": "recoiling rune firearm with visible bolt trail"
+              "effect": "machine_bolt_aoe",
+              "visual": "recoiling rune firearm with visible bolt trail",
+              "skill_id": "SKILL_RAN_T1_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T1"
             },
             {
               "name": "Wildstep",
@@ -6207,8 +7437,13 @@
               "power_ratio": 1.19,
               "cooldown_sec": 1.13,
               "resource_cost": 36,
-              "effect": "physical",
-              "visual": "high-rate enchanted bolt muzzle flash"
+              "effect": "repeater",
+              "visual": "high-rate enchanted bolt muzzle flash",
+              "skill_id": "SKILL_RAN_T1_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T1"
             },
             {
               "name": "Field Dressing",
@@ -6216,8 +7451,13 @@
               "power_ratio": 1.23,
               "cooldown_sec": 1.21,
               "resource_cost": 39,
-              "effect": "physical",
-              "visual": "recoiling rune firearm with visible bolt trail"
+              "effect": "verdant_finisher",
+              "visual": "recoiling rune firearm with visible bolt trail",
+              "skill_id": "SKILL_RAN_T1_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T1"
             }
           ],
           "basic_attack": "Trail Shot",
@@ -6359,8 +7599,13 @@
               "power_ratio": 1.13,
               "cooldown_sec": 0.7,
               "resource_cost": 20,
-              "effect": "arcane",
-              "visual": "high-rate enchanted bolt muzzle flash"
+              "effect": "ballistic",
+              "visual": "high-rate enchanted bolt muzzle flash",
+              "skill_id": "SKILL_RAN_T2_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T2"
             },
             {
               "name": "Spirit Bolt",
@@ -6368,8 +7613,13 @@
               "power_ratio": 1.17,
               "cooldown_sec": 0.78,
               "resource_cost": 23,
-              "effect": "arcane",
-              "visual": "recoiling rune firearm with visible bolt trail"
+              "effect": "bolt",
+              "visual": "recoiling rune firearm with visible bolt trail",
+              "skill_id": "SKILL_RAN_T2_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T2"
             },
             {
               "name": "Pack Command",
@@ -6377,8 +7627,13 @@
               "power_ratio": 1.21,
               "cooldown_sec": 0.86,
               "resource_cost": 26,
-              "effect": "arcane",
-              "visual": "high-rate enchanted bolt muzzle flash"
+              "effect": "beast_command",
+              "visual": "high-rate enchanted bolt muzzle flash",
+              "skill_id": "SKILL_RAN_T2_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T2"
             },
             {
               "name": "Bramble Snare",
@@ -6386,8 +7641,13 @@
               "power_ratio": 1.25,
               "cooldown_sec": 0.94,
               "resource_cost": 29,
-              "effect": "arcane",
-              "visual": "recoiling rune firearm with visible bolt trail"
+              "effect": "nature_trap",
+              "visual": "recoiling rune firearm with visible bolt trail",
+              "skill_id": "SKILL_RAN_T2_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T2"
             },
             {
               "name": "Hunter's Mark",
@@ -6395,8 +7655,13 @@
               "power_ratio": 1.29,
               "cooldown_sec": 1.02,
               "resource_cost": 32,
-              "effect": "arcane",
-              "visual": "high-rate enchanted bolt muzzle flash"
+              "effect": "mark",
+              "visual": "high-rate enchanted bolt muzzle flash",
+              "skill_id": "SKILL_RAN_T2_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T2"
             },
             {
               "name": "Rapid Volley",
@@ -6404,8 +7669,13 @@
               "power_ratio": 1.33,
               "cooldown_sec": 1.1,
               "resource_cost": 35,
-              "effect": "arcane",
-              "visual": "recoiling rune firearm with visible bolt trail"
+              "effect": "machine_bolt_aoe",
+              "visual": "recoiling rune firearm with visible bolt trail",
+              "skill_id": "SKILL_RAN_T2_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T2"
             },
             {
               "name": "Wild Dash",
@@ -6413,8 +7683,13 @@
               "power_ratio": 1.37,
               "cooldown_sec": 1.18,
               "resource_cost": 38,
-              "effect": "arcane",
-              "visual": "high-rate enchanted bolt muzzle flash"
+              "effect": "repeater",
+              "visual": "high-rate enchanted bolt muzzle flash",
+              "skill_id": "SKILL_RAN_T2_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T2"
             },
             {
               "name": "Beastguard",
@@ -6422,8 +7697,13 @@
               "power_ratio": 1.41,
               "cooldown_sec": 1.26,
               "resource_cost": 41,
-              "effect": "arcane",
-              "visual": "recoiling rune firearm with visible bolt trail"
+              "effect": "verdant_finisher",
+              "visual": "recoiling rune firearm with visible bolt trail",
+              "skill_id": "SKILL_RAN_T2_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T2"
             }
           ],
           "basic_attack": "Carbine Burst",
@@ -6565,8 +7845,13 @@
               "power_ratio": 1.31,
               "cooldown_sec": 0.75,
               "resource_cost": 22,
-              "effect": "precision",
-              "visual": "high-rate enchanted bolt muzzle flash"
+              "effect": "ballistic",
+              "visual": "high-rate enchanted bolt muzzle flash",
+              "skill_id": "SKILL_RAN_T3_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T3"
             },
             {
               "name": "Piercing Bolt",
@@ -6574,8 +7859,13 @@
               "power_ratio": 1.35,
               "cooldown_sec": 0.83,
               "resource_cost": 25,
-              "effect": "precision",
-              "visual": "recoiling rune firearm with visible bolt trail"
+              "effect": "bolt",
+              "visual": "recoiling rune firearm with visible bolt trail",
+              "skill_id": "SKILL_RAN_T3_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T3"
             },
             {
               "name": "Spirit Pack",
@@ -6583,8 +7873,13 @@
               "power_ratio": 1.39,
               "cooldown_sec": 0.91,
               "resource_cost": 28,
-              "effect": "precision",
-              "visual": "high-rate enchanted bolt muzzle flash"
+              "effect": "beast_command",
+              "visual": "high-rate enchanted bolt muzzle flash",
+              "skill_id": "SKILL_RAN_T3_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T3"
             },
             {
               "name": "Root Trap",
@@ -6592,8 +7887,13 @@
               "power_ratio": 1.43,
               "cooldown_sec": 0.99,
               "resource_cost": 31,
-              "effect": "precision",
-              "visual": "recoiling rune firearm with visible bolt trail"
+              "effect": "nature_trap",
+              "visual": "recoiling rune firearm with visible bolt trail",
+              "skill_id": "SKILL_RAN_T3_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T3"
             },
             {
               "name": "Deepwood Mark",
@@ -6601,8 +7901,13 @@
               "power_ratio": 1.47,
               "cooldown_sec": 1.07,
               "resource_cost": 34,
-              "effect": "precision",
-              "visual": "high-rate enchanted bolt muzzle flash"
+              "effect": "mark",
+              "visual": "high-rate enchanted bolt muzzle flash",
+              "skill_id": "SKILL_RAN_T3_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T3"
             },
             {
               "name": "Bolt Storm",
@@ -6610,8 +7915,13 @@
               "power_ratio": 1.51,
               "cooldown_sec": 1.15,
               "resource_cost": 37,
-              "effect": "precision",
-              "visual": "recoiling rune firearm with visible bolt trail"
+              "effect": "machine_bolt_aoe",
+              "visual": "recoiling rune firearm with visible bolt trail",
+              "skill_id": "SKILL_RAN_T3_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T3"
             },
             {
               "name": "Gale Recoil",
@@ -6619,8 +7929,13 @@
               "power_ratio": 1.55,
               "cooldown_sec": 1.23,
               "resource_cost": 40,
-              "effect": "precision",
-              "visual": "high-rate enchanted bolt muzzle flash"
+              "effect": "repeater",
+              "visual": "high-rate enchanted bolt muzzle flash",
+              "skill_id": "SKILL_RAN_T3_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T3"
             },
             {
               "name": "Forest Sight",
@@ -6628,8 +7943,13 @@
               "power_ratio": 1.59,
               "cooldown_sec": 1.31,
               "resource_cost": 43,
-              "effect": "precision",
-              "visual": "recoiling rune firearm with visible bolt trail"
+              "effect": "verdant_finisher",
+              "visual": "recoiling rune firearm with visible bolt trail",
+              "skill_id": "SKILL_RAN_T3_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T3"
             }
           ],
           "basic_attack": "Repeater Barrage",
@@ -6771,8 +8091,13 @@
               "power_ratio": 1.49,
               "cooldown_sec": 0.8,
               "resource_cost": 24,
-              "effect": "shadow",
-              "visual": "high-rate enchanted bolt muzzle flash"
+              "effect": "ballistic",
+              "visual": "high-rate enchanted bolt muzzle flash",
+              "skill_id": "SKILL_RAN_T4_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T4"
             },
             {
               "name": "Machine Volley",
@@ -6780,8 +8105,13 @@
               "power_ratio": 1.53,
               "cooldown_sec": 0.88,
               "resource_cost": 27,
-              "effect": "shadow",
-              "visual": "recoiling rune firearm with visible bolt trail"
+              "effect": "bolt",
+              "visual": "recoiling rune firearm with visible bolt trail",
+              "skill_id": "SKILL_RAN_T4_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T4"
             },
             {
               "name": "Wild Sovereign Mark",
@@ -6789,8 +8119,13 @@
               "power_ratio": 1.57,
               "cooldown_sec": 0.96,
               "resource_cost": 30,
-              "effect": "shadow",
-              "visual": "high-rate enchanted bolt muzzle flash"
+              "effect": "beast_command",
+              "visual": "high-rate enchanted bolt muzzle flash",
+              "skill_id": "SKILL_RAN_T4_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T4"
             },
             {
               "name": "Thornline Trap",
@@ -6798,8 +8133,13 @@
               "power_ratio": 1.61,
               "cooldown_sec": 1.04,
               "resource_cost": 33,
-              "effect": "shadow",
-              "visual": "recoiling rune firearm with visible bolt trail"
+              "effect": "nature_trap",
+              "visual": "recoiling rune firearm with visible bolt trail",
+              "skill_id": "SKILL_RAN_T4_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T4"
             },
             {
               "name": "Verdant Overwatch",
@@ -6807,8 +8147,13 @@
               "power_ratio": 1.65,
               "cooldown_sec": 1.12,
               "resource_cost": 36,
-              "effect": "shadow",
-              "visual": "high-rate enchanted bolt muzzle flash"
+              "effect": "mark",
+              "visual": "high-rate enchanted bolt muzzle flash",
+              "skill_id": "SKILL_RAN_T4_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T4"
             },
             {
               "name": "Rapid Repeater",
@@ -6816,8 +8161,13 @@
               "power_ratio": 1.69,
               "cooldown_sec": 1.2,
               "resource_cost": 39,
-              "effect": "shadow",
-              "visual": "recoiling rune firearm with visible bolt trail"
+              "effect": "machine_bolt_aoe",
+              "visual": "recoiling rune firearm with visible bolt trail",
+              "skill_id": "SKILL_RAN_T4_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T4"
             },
             {
               "name": "Briarstep",
@@ -6825,8 +8175,13 @@
               "power_ratio": 1.73,
               "cooldown_sec": 1.28,
               "resource_cost": 42,
-              "effect": "shadow",
-              "visual": "high-rate enchanted bolt muzzle flash"
+              "effect": "repeater",
+              "visual": "high-rate enchanted bolt muzzle flash",
+              "skill_id": "SKILL_RAN_T4_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T4"
             },
             {
               "name": "Wildheart Barrage",
@@ -6834,8 +8189,13 @@
               "power_ratio": 1.77,
               "cooldown_sec": 1.36,
               "resource_cost": 45,
-              "effect": "shadow",
-              "visual": "recoiling rune firearm with visible bolt trail"
+              "effect": "verdant_finisher",
+              "visual": "recoiling rune firearm with visible bolt trail",
+              "skill_id": "SKILL_RAN_T4_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T4"
             }
           ],
           "basic_attack": "Bolt Machine Burst",
@@ -6977,8 +8337,13 @@
               "power_ratio": 1.67,
               "cooldown_sec": 0.85,
               "resource_cost": 26,
-              "effect": "holy",
-              "visual": "high-rate enchanted bolt muzzle flash"
+              "effect": "ballistic",
+              "visual": "high-rate enchanted bolt muzzle flash",
+              "skill_id": "SKILL_RAN_T5_01",
+              "target_mode": "single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T5"
             },
             {
               "name": "Worldroot Volley",
@@ -6986,8 +8351,13 @@
               "power_ratio": 1.71,
               "cooldown_sec": 0.93,
               "resource_cost": 29,
-              "effect": "holy",
-              "visual": "recoiling rune firearm with visible bolt trail"
+              "effect": "bolt",
+              "visual": "recoiling rune firearm with visible bolt trail",
+              "skill_id": "SKILL_RAN_T5_02",
+              "target_mode": "cone",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T5"
             },
             {
               "name": "Machine Gun Boltstorm",
@@ -6995,8 +8365,13 @@
               "power_ratio": 1.75,
               "cooldown_sec": 1.01,
               "resource_cost": 32,
-              "effect": "holy",
-              "visual": "high-rate enchanted bolt muzzle flash"
+              "effect": "beast_command",
+              "visual": "high-rate enchanted bolt muzzle flash",
+              "skill_id": "SKILL_RAN_T5_03",
+              "target_mode": "single_mark",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T5"
             },
             {
               "name": "Paragon Mark",
@@ -7004,8 +8379,13 @@
               "power_ratio": 1.79,
               "cooldown_sec": 1.09,
               "resource_cost": 35,
-              "effect": "holy",
-              "visual": "recoiling rune firearm with visible bolt trail"
+              "effect": "nature_trap",
+              "visual": "recoiling rune firearm with visible bolt trail",
+              "skill_id": "SKILL_RAN_T5_04",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T5"
             },
             {
               "name": "Ancient Root Trap",
@@ -7013,8 +8393,13 @@
               "power_ratio": 1.83,
               "cooldown_sec": 1.17,
               "resource_cost": 38,
-              "effect": "holy",
-              "visual": "high-rate enchanted bolt muzzle flash"
+              "effect": "mark",
+              "visual": "high-rate enchanted bolt muzzle flash",
+              "skill_id": "SKILL_RAN_T5_05",
+              "target_mode": "self_or_single",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T5"
             },
             {
               "name": "Forest Overwatch",
@@ -7022,8 +8407,13 @@
               "power_ratio": 1.87,
               "cooldown_sec": 1.25,
               "resource_cost": 41,
-              "effect": "holy",
-              "visual": "recoiling rune firearm with visible bolt trail"
+              "effect": "machine_bolt_aoe",
+              "visual": "recoiling rune firearm with visible bolt trail",
+              "skill_id": "SKILL_RAN_T5_06",
+              "target_mode": "area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T5"
             },
             {
               "name": "Fate Repeater",
@@ -7031,8 +8421,13 @@
               "power_ratio": 1.91,
               "cooldown_sec": 1.33,
               "resource_cost": 44,
-              "effect": "holy",
-              "visual": "high-rate enchanted bolt muzzle flash"
+              "effect": "repeater",
+              "visual": "high-rate enchanted bolt muzzle flash",
+              "skill_id": "SKILL_RAN_T5_07",
+              "target_mode": "single_execute",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T5"
             },
             {
               "name": "Verdant Finale",
@@ -7040,8 +8435,13 @@
               "power_ratio": 1.95,
               "cooldown_sec": 1.41,
               "resource_cost": 47,
-              "effect": "holy",
-              "visual": "recoiling rune firearm with visible bolt trail"
+              "effect": "verdant_finisher",
+              "visual": "recoiling rune firearm with visible bolt trail",
+              "skill_id": "SKILL_RAN_T5_08",
+              "target_mode": "large_area",
+              "skill_level_cap": 10,
+              "skill_level_multiplier": 0.08,
+              "monster_impact_profile": "IMPACT_RAN_T5"
             }
           ],
           "basic_attack": "Verdant Paragon Gun",
