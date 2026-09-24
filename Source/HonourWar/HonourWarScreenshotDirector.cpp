@@ -24,9 +24,17 @@ void AHonourWarScreenshotDirector::BeginPlay()
 {
     Super::BeginPlay();
 
-    if (!FParse::Param(FCommandLine::Get(),TEXT("HonourWarCapture")))
+    const bool bCapture=FParse::Param(FCommandLine::Get(),TEXT("HonourWarCapture"));
+    const bool bSoak=FParse::Param(FCommandLine::Get(),TEXT("HonourWarSoak"));
+    if(!bCapture && !bSoak)
     {
         Destroy();
+        return;
+    }
+
+    if(bSoak)
+    {
+        GetWorldTimerManager().SetTimer(SetupTimer,this,&AHonourWarScreenshotDirector::SetupSoakTest,2.0f,false);
         return;
     }
 
@@ -147,4 +155,212 @@ void AHonourWarScreenshotDirector::FinishCapture()
         return;
     }
     FGenericPlatformMisc::RequestExit(false);
+}
+
+
+void AHonourWarScreenshotDirector::RecordSoak(const FString& Line)
+{
+    SoakReport += Line + TEXT("\n");
+    FFileHelper::SaveStringToFile(SoakReport,*FPaths::ProjectSavedDir()/TEXT("HonourWar-1h-soak-report.txt"));
+}
+
+void AHonourWarScreenshotDirector::SpawnSoakMonster()
+{
+    UWorld* World=GetWorld();
+    if(!World) return;
+    if(SoakMonster.IsValid()) SoakMonster->Destroy();
+
+    const EHonourWarMonsterSpecies Species=static_cast<EHonourWarMonsterSpecies>(SoakClassIndex%8);
+    const FVector SpawnLocation(720.0f,1200.0f,180.0f);
+    FActorSpawnParameters Params;
+    Params.SpawnCollisionHandlingOverride=ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+    AHonourWarMonster* Monster=World->SpawnActor<AHonourWarMonster>(
+        AHonourWarMonster::StaticClass(),SpawnLocation,FRotator::ZeroRotator,Params);
+    if(Monster)
+    {
+        Monster->SetLevel(60);
+        Monster->SetSpecies(Species);
+        Monster->SetDisplayName(FString::Printf(TEXT("Soak %s"),*Monster->GetSpeciesName()));
+        SoakMonster=Monster;
+    }
+}
+
+void AHonourWarScreenshotDirector::SetupSoakTest()
+{
+    UWorld* World=GetWorld();
+    if(!World) return;
+
+    AHonourWarPlayerController* PC=Cast<AHonourWarPlayerController>(UGameplayStatics::GetPlayerController(World,0));
+    AHonourWarHUD* HUD=PC?Cast<AHonourWarHUD>(PC->GetHUD()):nullptr;
+    if(!HUD||!HUD->GetRuntimeWidget())
+    {
+        GetWorldTimerManager().SetTimer(SetupTimer,this,&AHonourWarScreenshotDirector::SetupSoakTest,1.0f,false);
+        return;
+    }
+
+    if(!PC->IsReadyForGameplay())
+    {
+        FString Failure;
+        if(!HUD->GetRuntimeWidget()->RunAutomatedE2ETest(Failure))
+        {
+            RecordSoak(TEXT("FAIL[BOOT] Full register/login/character E2E failed: ")+Failure);
+            FinishSoakTest(false);
+            return;
+        }
+        RecordSoak(TEXT("PASS[BOOT] Full register/login/character E2E completed before soak."));
+    }
+
+    AHonourWarCharacter* Player=Cast<AHonourWarCharacter>(PC->GetPawn());
+    if(!Player||!Player->GetCombatComponent())
+    {
+        RecordSoak(TEXT("FAIL[BOOT] Gameplay pawn or combat component missing."));
+        FinishSoakTest(false);
+        return;
+    }
+
+    SoakClasses={
+        EHonourWarClass::Warrior,
+        EHonourWarClass::Mage,
+        EHonourWarClass::Archer,
+        EHonourWarClass::Thief,
+        EHonourWarClass::Acolyte,
+        EHonourWarClass::Merchant,
+        EHonourWarClass::Ranger
+    };
+    SoakClassIndex=0;
+    SoakSkillIndex=0;
+    SoakMovementRetries=0;
+    SoakSkillSuccesses=0;
+    SoakSkillFailures=0;
+    SoakSaveCount=0;
+    SoakWorldStartTime=World->GetTimeSeconds();
+    SoakLastReportTime=SoakWorldStartTime;
+    SoakClassStartTime=SoakWorldStartTime;
+    SoakReport=TEXT("Honour War One-Hour All-Class Runtime Soak\n");
+    RecordSoak(FString::Printf(TEXT("START UTC %s"),*FDateTime::UtcNow().ToIso8601()));
+    RecordSoak(TEXT("Scope: real packaged UE 5.8 executable; seven classes; repeated movement, combat skills, save, and HUD/gameplay state checks."));
+    Player->SetActorLocation(FVector(0.0f,1100.0f,180.0f));
+    Player->SetClassId(SoakClasses[0]);
+    SpawnSoakMonster();
+    Player->SetMouseTarget(SoakMonster.Get());
+    GetWorldTimerManager().SetTimer(CaptureTimer,this,&AHonourWarScreenshotDirector::RunSoakPhase,2.0f,true);
+}
+
+void AHonourWarScreenshotDirector::RunSoakPhase()
+{
+    UWorld* World=GetWorld();
+    if(!World) return;
+    AHonourWarPlayerController* PC=Cast<AHonourWarPlayerController>(UGameplayStatics::GetPlayerController(World,0));
+    AHonourWarCharacter* Player=PC?Cast<AHonourWarCharacter>(PC->GetPawn()):nullptr;
+    if(!Player||!Player->GetCombatComponent())
+    {
+        RecordSoak(FString::Printf(TEXT("FAIL[RUNTIME] %.0fs Gameplay pawn/combat component disappeared at class index %d."),World->GetTimeSeconds()-SoakWorldStartTime,SoakClassIndex));
+        FinishSoakTest(false);
+        return;
+    }
+
+    const float Elapsed=World->GetTimeSeconds()-SoakWorldStartTime;
+    const float ClassElapsed=World->GetTimeSeconds()-SoakClassStartTime;
+    if(Elapsed>=3600.0f)
+    {
+        FinishSoakTest(true);
+        return;
+    }
+
+    if(SoakClassIndex>=SoakClasses.Num())
+    {
+        SoakClassIndex=0;
+        SoakSkillIndex=0;
+        SoakClassStartTime=World->GetTimeSeconds();
+    }
+
+    const EHonourWarClass CurrentClass=SoakClasses[SoakClassIndex];
+    if(Player->GetClassId()!=CurrentClass)
+    {
+        Player->SetClassId(CurrentClass);
+        SoakSkillIndex=0;
+        SoakMovementRetries=0;
+        SoakClassStartTime=World->GetTimeSeconds();
+        SpawnSoakMonster();
+        Player->SetMouseTarget(SoakMonster.Get());
+        RecordSoak(FString::Printf(TEXT("PASS[CLASS] %.0fs Entered %s | Job=%s | Tier=%s | T5=%s"),
+            Elapsed,*Player->GetClassName(),*Player->GetCurrentJobName(),*Player->GetClassTierName(),*Player->GetFifthTierClassName()));
+    }
+
+    if(!SoakMonster.IsValid()||SoakMonster->IsDead())
+    {
+        SpawnSoakMonster();
+        Player->SetMouseTarget(SoakMonster.Get());
+        SoakMovementRetries=0;
+    }
+
+    const float Distance=FVector::Dist2D(Player->GetActorLocation(),SoakMonster.IsValid()?SoakMonster->GetActorLocation():FVector(999999.0f));
+    if(Distance>Player->GetCombatComponent()->GetEngagementRange())
+    {
+        Player->SetMouseTarget(SoakMonster.Get());
+        ++SoakMovementRetries;
+        if(SoakMovementRetries>10)
+        {
+            RecordSoak(FString::Printf(TEXT("FAIL[MOVEMENT] %.0fs %s could not reach combat range after %d retries; distance %.1f."),Elapsed,*Player->GetClassName(),SoakMovementRetries,Distance));
+            ++SoakClassIndex;
+            SoakSkillIndex=0;
+            SoakMovementRetries=0;
+            SoakClassStartTime=World->GetTimeSeconds();
+            return;
+        }
+    }
+    else
+    {
+        SoakMovementRetries=0;
+        const FString Before=Player->GetLastCombatMessage();
+        Player->ActivateSkill(SoakSkillIndex);
+        const FString After=Player->GetLastCombatMessage();
+        if(After!=Before && After.Contains(TEXT("impact confirmed"),ESearchCase::IgnoreCase))
+            ++SoakSkillSuccesses;
+        else
+            ++SoakSkillFailures;
+        SoakSkillIndex=(SoakSkillIndex+1)%8;
+
+        if(FMath::Fmod(Elapsed,30.0f)<2.1f)
+        {
+            Player->SaveProgress();
+            ++SoakSaveCount;
+        }
+    }
+
+    if(ClassElapsed>=FMath::Max(60.0f,3600.0f/static_cast<float>(SoakClasses.Num())))
+    {
+        const FString Result=SoakSkillFailures==0?TEXT("PASS"):TEXT("FAIL");
+        RecordSoak(FString::Printf(TEXT("%s[CLASS-END] %.0fs %s | phase %.0fs | skill successes=%d failures=%d saves=%d"),
+            *Result,Elapsed,*Player->GetClassName(),ClassElapsed,SoakSkillSuccesses,SoakSkillFailures,SoakSaveCount));
+        ++SoakClassIndex;
+        SoakSkillIndex=0;
+        SoakMovementRetries=0;
+        SoakSkillSuccesses=0;
+        SoakSkillFailures=0;
+        SoakClassStartTime=World->GetTimeSeconds();
+        if(SoakClassIndex<SoakClasses.Num())
+        {
+            Player->SetClassId(SoakClasses[SoakClassIndex]);
+            SpawnSoakMonster();
+            Player->SetMouseTarget(SoakMonster.Get());
+        }
+    }
+
+    if(World->GetTimeSeconds()-SoakLastReportTime>=60.0f)
+    {
+        SoakLastReportTime=World->GetTimeSeconds();
+        RecordSoak(FString::Printf(TEXT("HEARTBEAT %.0fs | class=%s | skill=%d | distance=%.1f | saves=%d"),
+            Elapsed,*Player->GetClassName(),SoakSkillIndex,Distance,SoakSaveCount));
+    }
+}
+
+void AHonourWarScreenshotDirector::FinishSoakTest(bool bSuccess)
+{
+    GetWorldTimerManager().ClearTimer(CaptureTimer);
+    if(SoakMonster.IsValid()) SoakMonster->Destroy();
+    const float Elapsed=GetWorld()?GetWorld()->GetTimeSeconds()-SoakWorldStartTime:0.0f;
+    RecordSoak(FString::Printf(TEXT("%s[END] %.0fs elapsed | UTC %s | saves=%d"),
+        bSuccess?TEXT("PASS"):TEXT("FAIL"),Elapsed,*FDateTime::UtcNow().ToIso8601(),SoakSaveCount));
+    FGenericPlatformMisc::RequestExit(bSuccess?false:true);
 }
