@@ -11,8 +11,7 @@
     }
   ],
   "Plugins": [
-    { "Name": "EnhancedInput", "Enabled": true },
-    { "Name": "UMG", "Enabled": true }
+    { "Name": "EnhancedInput", "Enabled": true }
   ],
   "TargetPlatforms": ["Windows"]
 }
