@@ -42,7 +42,7 @@ jobs:
             }
 
             if (!Number.isInteger(issueNumber) || issueNumber < 1) {
-              core.setFailed('A valid issue number is required.');
+              core.notice('No valid issue number was supplied; skipping one-time annotation safely.');
               return;
             }
 
