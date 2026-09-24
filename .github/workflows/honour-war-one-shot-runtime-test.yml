@@ -7,6 +7,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: honour-war-one-shot-runtime-test
+  cancel-in-progress: true
+
 jobs:
   runtime-test:
     runs-on: [self-hosted, windows, unreal-engine-5.8]
