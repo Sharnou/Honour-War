@@ -36,8 +36,6 @@ void UHonourWarCombatComponent::GetLifetimeReplicatedProps(TArray<FLifetimePrope
     DOREPLIFETIME(UHonourWarCombatComponent,BasicSkillLevel);
     DOREPLIFETIME(UHonourWarCombatComponent,SkillPoints);
     DOREPLIFETIME(UHonourWarCombatComponent,SkillLevels);
-    DOREPLIFETIME(UHonourWarCombatComponent,SkillPoints);
-    DOREPLIFETIME(UHonourWarCombatComponent,SkillLevels);
     DOREPLIFETIME(UHonourWarCombatComponent,Honours);
     DOREPLIFETIME(UHonourWarCombatComponent,StatusPoints);
     DOREPLIFETIME(UHonourWarCombatComponent,Strength);
