@@ -35,7 +35,7 @@ checks = [
     ("save coverage", "Player->SaveProgress()" in cpp),
     ("resource recovery", "RestoreVitals()" in cpp),
     ("movement result markers", "PASS[MOVEMENT]" in cpp and "FAIL[MOVEMENT]" in cpp),
-    ("per-skill failure markers", "FAIL[SKILL]" in cpp),
+    ("per-skill failure markers", "FAIL[SKILL]" in cpp and "before=%s after=%s" in cpp),
     ("manual workflow only", "workflow_dispatch:" in wf and "schedule:" not in wf),
     ("60-minute runtime safety window", "TimeoutSeconds = 3720" in ps1),
 ]
