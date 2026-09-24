@@ -1,0 +1,97 @@
+name: Honour War Unreal 5.8 One-Hour All-Class Soak Test
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: honour-war-unreal-windows-1h-soak
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  soak:
+    runs-on: [self-hosted, windows, unreal-engine-5.8]
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate permanent Honour War exclusions
+        shell: pwsh
+        run: python tools/rejected_systems_qa.py
+
+      - name: Validate full-game runtime readiness
+        shell: pwsh
+        run: python tools/full_game_test_contract_qa.py
+
+      - name: Validate content catalog and classes
+        shell: pwsh
+        run: |
+          python tools/content_catalog_qa.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python tools/skill_system_qa.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Validate Unreal 5.8 contract
+        shell: pwsh
+        run: |
+          python tools/unreal_engine_contract_qa.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python tools/honour_war_progression_contract_qa.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Preflight Unreal Engine 5.8 installation
+        shell: pwsh
+        env:
+          UNREAL_ENGINE_ROOT: C:\Program Files\Epic Games\UE_5.8
+        run: |
+          $editor = Join-Path $env:UNREAL_ENGINE_ROOT "Engine\Binaries\Win64\UnrealEditor.exe"
+          if (!(Test-Path $editor)) { throw "Unreal Engine 5.8 editor was not found at $editor" }
+          $version = & $editor -Version 2>&1 | Select-Object -First 1
+          Write-Host "UNREAL_ENGINE_5_8_PREFLIGHT_PASS: $version"
+
+      - name: Build and package the real Windows EXE
+        shell: pwsh
+        env:
+          UNREAL_ENGINE_ROOT: C:\Program Files\Epic Games\UE_5.8
+        run: powershell -ExecutionPolicy Bypass -File Build/Build-HonourWar.ps1 -Package
+
+      - name: Verify real EXE
+        shell: pwsh
+        run: |
+          $exe = Get-ChildItem -Path Build\Windows\HonourWar -Recurse -Filter HonourWar.exe -ErrorAction SilentlyContinue | Select-Object -First 1
+          if ($null -eq $exe) { throw "HonourWar.exe was not produced." }
+          if ($exe.Length -lt 1000000) { throw "HonourWar.exe is unexpectedly small: $($exe.Length) bytes." }
+          Write-Host "REAL_EXE_PASS: $($exe.FullName) size=$($exe.Length)"
+
+      - name: Run real one-hour seven-class soak
+        shell: pwsh
+        run: powershell -ExecutionPolicy Bypass -File Build/Run-HonourWar-1h-Soak.ps1 -TimeoutSeconds 3720
+
+      - name: Upload one-hour soak report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: honour-war-1h-all-class-soak-report
+          path: Build/HonourWar-1h-soak-report.txt
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Upload one-hour runtime log
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: honour-war-1h-runtime-log
+          path: Build/HonourWar-1h-runtime-log.txt
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Upload one-hour runtime errors
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: honour-war-1h-soak-errors
+          path: Build/HonourWar-1h-soak-errors.txt
+          if-no-files-found: warn
+          retention-days: 30
