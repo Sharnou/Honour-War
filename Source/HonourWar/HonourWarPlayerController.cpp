@@ -454,7 +454,6 @@ bool AHonourWarPlayerController::CreateCharacter(const FString& CharacterName,EH
 
 void AHonourWarPlayerController::SendChatMessage(const FString& Message)
 {
-    if(!IsReadyForGameplay()) return;
     FString Clean=Message;
     Clean.TrimStartAndEndInline();
     Clean.LeftInline(180,true);
@@ -465,6 +464,7 @@ void AHonourWarPlayerController::SendChatMessage(const FString& Message)
         ClientMessage(!bAuthenticated?TEXT("Not authenticated. Use @register or @login."):IsReadyForGameplay()?FString::Printf(TEXT("Authenticated as %s. Character slot %d selected."),*AccountUsername,ActiveCharacterSlot+1):FString::Printf(TEXT("Authenticated as %s. Character selection required."),*AccountUsername));
         return;
     }
+    if(!IsReadyForGameplay()) return;
     if(ExecuteHelpCommand(Clean) || ExecuteGoCommand(Clean) || ExecuteStatCommand(Clean) || ExecuteSkillCommand(Clean) || ExecuteRestSkillsCommand(Clean)) return;
     if(AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(GetPawn()))
     {
