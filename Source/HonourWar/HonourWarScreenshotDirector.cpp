@@ -62,7 +62,7 @@ void AHonourWarScreenshotDirector::SetupCaptureScene()
 
     if (AHonourWarCharacter* Player=Cast<AHonourWarCharacter>(UGameplayStatics::GetPlayerPawn(World,0)))
     {
-        Player->SetActorLocation(FVector(900.0f,900.0f,180.0f));
+        Player->SetActorLocation(FVector(0.0f,1100.0f,180.0f));
         if (APlayerController* PC=Cast<APlayerController>(Player->GetController()))
         {
             PC->SetControlRotation(FRotator(-48.0f,45.0f,0.0f));
@@ -71,7 +71,7 @@ void AHonourWarScreenshotDirector::SetupCaptureScene()
         FActorSpawnParameters Params;
         Params.SpawnCollisionHandlingOverride=ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
         AHonourWarMonster* Showcase=World->SpawnActor<AHonourWarMonster>(
-            AHonourWarMonster::StaticClass(),FVector(1650.0f,900.0f,180.0f),FRotator::ZeroRotator,Params);
+            AHonourWarMonster::StaticClass(),FVector(720.0f,1200.0f,180.0f),FRotator::ZeroRotator,Params);
         if (Showcase)
         {
             Showcase->SetLevel(300);
