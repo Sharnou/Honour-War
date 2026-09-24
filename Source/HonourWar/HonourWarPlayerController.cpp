@@ -460,7 +460,12 @@ void AHonourWarPlayerController::SendChatMessage(const FString& Message)
     Clean.LeftInline(180,true);
     if(Clean.IsEmpty()) return;
     if(!HasAuthority()){ServerSendChat(Clean);return;}
-    if(ExecuteSkillCommand(Clean) || ExecuteRestSkillsCommand(Clean)) return;
+    if(Clean.Equals(TEXT("@auth"),ESearchCase::IgnoreCase))
+    {
+        ClientMessage(!bAuthenticated?TEXT("Not authenticated. Use @register or @login."):IsReadyForGameplay()?FString::Printf(TEXT("Authenticated as %s. Character slot %d selected."),*AccountUsername,ActiveCharacterSlot+1):FString::Printf(TEXT("Authenticated as %s. Character selection required."),*AccountUsername));
+        return;
+    }
+    if(ExecuteHelpCommand(Clean) || ExecuteGoCommand(Clean) || ExecuteStatCommand(Clean) || ExecuteSkillCommand(Clean) || ExecuteRestSkillsCommand(Clean)) return;
     if(AHonourWarCharacter* Character=Cast<AHonourWarCharacter>(GetPawn()))
     {
         if(AHonourWarGameMode* GameMode=GetWorld()?GetWorld()->GetAuthGameMode<AHonourWarGameMode>():nullptr)
