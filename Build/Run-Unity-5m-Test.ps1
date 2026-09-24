@@ -2,7 +2,7 @@ param([int]$TimeoutSeconds=360)
 $ErrorActionPreference='Stop'
 
 # Honour War engine lock — do not change without an explicit project-engine migration.
-$RequiredUnityEditor = '6000.0.71f1'
+$RequiredUnityEditor = '6000.6.3f1'
 $RequiredUnityHub = '3.21.3'
 
 $project=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\Unity'))
@@ -17,7 +17,7 @@ foreach($root in $roots){
 if(-not $unity){throw "Required Unity Editor $RequiredUnityEditor was not found. Honour War is permanently pinned to this Editor version."}
 
 $out=Join-Path $PSScriptRoot 'Unity\HonourWar.exe'
-& $unity -batchmode -nographics -quit -projectPath $project -buildTarget Win64 -executeMethod HonourWar.EditorTools.HonourWarBuild.BuildWindows -logFile (Join-Path $PSScriptRoot 'Unity-5m-build.log')
+& $unity -batchmode -nographics -quit -projectPath $project -buildTarget Win64 -executeMethod HonourWar.EditorTools.HonourWarBuild.BuildWindows -logFile (Join-Path $PSScriptRoot 'Unity-6.6-build.log')
 if($LASTEXITCODE -ne 0){throw "Unity $RequiredUnityEditor build failed: $LASTEXITCODE"}
 if(-not(Test-Path $out)){throw 'Unity executable was not produced.'}
 
