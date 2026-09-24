@@ -439,8 +439,6 @@ void UHonourWarCombatComponent::GainExperience(int32 Amount)
         StatusPoints+=3;
         if(Level%5==0) ++SkillPoints;
         if(Level==25 || Level==50 || Level==150 || Level==200) SkillPoints+=3;
-        if(Level%5==0) ++SkillPoints;
-        if(Level==25 || Level==50 || Level==150 || Level==200) SkillPoints+=3;
         if(Level%25==0) StatusPoints+=5;
         RecalculateVitals();
         RestoreVitals();
