@@ -203,7 +203,7 @@ void AHonourWarScreenshotDirector::SetupSoakTest()
         FString Failure;
         if(!HUD->GetRuntimeWidget()->RunAutomatedE2ETest(Failure))
         {
-            RecordSoak(TEXT("FAIL[BOOT] Full register/login/character E2E failed: ")+Failure);
+            RecordSoak(FString::Printf(TEXT("FAIL[BOOT] Full register/login/character E2E failed: %s"),*Failure));
             FinishSoakTest(false);
             return;
         }
@@ -315,6 +315,8 @@ void AHonourWarScreenshotDirector::RunSoakPhase()
         const FString Before=Player->GetLastCombatMessage();
         Player->ActivateSkill(SoakSkillIndex);
         const FString After=Player->GetLastCombatMessage();
+        if(FMath::Fmod(Elapsed,10.0f)<2.1f)
+            Player->GetCombatComponent()->RestoreVitals();
         if(After!=Before && After.Contains(TEXT("impact confirmed"),ESearchCase::IgnoreCase))
             ++SoakSkillSuccesses;
         else
