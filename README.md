@@ -1,41 +1,42 @@
-# Honour War — Unreal Engine 5.8 HD MMORPG/ARPG
+# Honour War — Unity 6.0 LTS HD MMORPG/ARPG
 
-Development status: Unreal Engine 5.8 HD 3D production foundation. Godot has been permanently retired.
+Development status: **Unity 6.0 LTS (6000.0.x) production migration**. Godot is permanently retired. Unreal Engine 5.8 is no longer the active runtime or CI engine.
 
 ## Permanent visual identity
 
-Honour War is permanently defined as an HD 3D anime-inspired MMORPG/ARPG with a medieval/fantasy world, full-body 3D characters, class-specific equipment, expressive animation, readable combat VFX, dense environments and a compact MMORPG HUD.
+Honour War is an HD 3D anime-inspired MMORPG/ARPG with a medieval/fantasy world, full-body 3D characters, class-specific equipment, expressive animation, readable combat VFX, dense environments and a compact MMORPG HUD.
 
-The visual target is regenerated from the locked repository reference images on every development visual cycle. A completed cycle is not accepted until the regenerated brief, refreshed production assets, Unreal runtime validation and real EXE screenshot agree with the visual contract.
+The visual target is regenerated from the locked repository reference images. The authoritative visual source remains the Screenshot/ folder. The approved asset pipeline remains:
 
-The authoritative visual source is the Screenshot/ folder. Visual production uses the approved pipeline:
-Visual RAG/reference analysis → gap register → visual brief regeneration → Neural4D or Blender → Substance 3D Painter → FBX/OBJ → Unreal Engine 5.8 → runtime validation → real EXE screenshot → reference comparison.
+Visual RAG/reference analysis → gap register → visual brief regeneration → Neural4D or Blender → Substance 3D Painter → FBX/OBJ → **Unity 6.0 LTS** → runtime validation → real gameplay screenshot → reference comparison.
+
+GLB/GLTF is not an approved intake format for the project pipeline.
 
 ## MMORPG controls and camera
 
-The interaction model is permanently Ragnarok Online-inspired desktop MMORPG control, implemented independently in Unreal:
+The interaction model remains Ragnarok Online-inspired desktop MMORPG control:
 
-- Left click ground: click-to-move.
-- Left click living monster: select target, move into the class engagement range, then perform the basic attack.
-- Right-mouse hold + drag: orbit the perspective/isometric camera horizontally and vertically.
-- Mouse wheel: smooth bounded camera zoom.
+- Left click ground: click-to-move target path.
+- Left click living monster: select target and enter class engagement range.
+- Right-mouse hold + drag: perspective/isometric camera orbit.
+- Mouse wheel: bounded camera zoom.
 - W/A/S/D: secondary direct movement.
-- 1–8: gameplay skill inputs without requiring a bottom skill strip.
+- 1–8: gameplay skill inputs.
 - Q: reset camera framing.
 
-The camera remains a perspective, elevated isometric-style MMORPG camera with the complete hero visible during normal gameplay. Camera framing, movement, targeting and zoom are gameplay contracts, not optional presentation features.
+The camera remains an elevated perspective MMORPG camera with the complete hero visible during normal gameplay.
 
 ## MMORPG HUD
 
-The HUD is driven by the two locked repository visual anchors:
-- Screenshot/ChatGPT Image Sep 16, 2026, 12_22_47 AM.png
-- Screenshot/image_a4469f29.jpg
+The HUD remains driven by the locked repository visual anchors:
+- `Screenshot/ChatGPT Image Sep 16, 2026, 12_22_47 AM.png`
+- `Screenshot/image_a4469f29.jpg`
 
-Current reference-driven HUD:
+The target HUD includes:
 - upper-left portrait/profile with name, level/class, HP/SP/EXP, age and honour;
 - circular minimap with map coordinates, compass and time;
 - active quest tracker;
-- lower-left world chat with editable message input;
+- lower-left world chat with editable input;
 - compact MMORPG combat/economy status.
 
 Removed permanently:
@@ -47,31 +48,70 @@ Removed permanently:
 
 ## Engine
 
-Unreal Engine 5.8 is the sole runtime and Windows build target. No Godot runtime, project, scene, source file or workflow is part of the active game.
+**Unity 6.0 LTS (6000.0.x) is the active engine baseline.** The Unity project lives in `Unity/`.
+
+The selected baseline is Unity 6.0 LTS. Unity's official documentation identifies 6.0 LTS as the 6000.0 release line; the current project is pinned to the 6000.0.71f1 patch. Unity documents Windows 10 21H1+ as supported for Unity 6.0. Unity 6.0 LTS remains supported through October 2026.
+
+The previous Unreal C++ implementation is retained temporarily as migration/reference material so existing Honour War systems and design logic are not silently discarded during the C# port. It is not an active runtime, build target or CI gate.
+
+## Current Unity playable baseline
+
+`Unity/Assets/Scripts/HonourWarBootstrap.cs` currently provides a real Unity runtime vertical slice with:
+
+- register/login entry flow;
+- character/class selection;
+- Warrior, Mage, Archer, Thief, Acolyte, Merchant and Ranger;
+- eight initial skills for every class;
+- third-person/elevated gameplay camera;
+- live player movement;
+- monster test population;
+- local automatic save/resume;
+- `@help` command path;
+- `@go 0 230:220` coordinate movement;
+- Tier-5 skill-rest gate;
+- F9 capture of the actual running Unity game framebuffer.
+
+This is the migration foundation, not a claim that every legacy Unreal gameplay system has already been ported.
 
 ## Real screenshot rule
 
-Only a screenshot captured from the running Unreal Engine 5.8 game/Windows EXE counts as game evidence. Generated artwork, reference images and mockups never count.
+Only an image captured from the **running Unity game** counts as gameplay evidence. Generated artwork, reference images, mockups and editor screenshots do not count.
 
-Run the packaged executable with the HonourWarCapture argument to produce:
-Saved/Screenshots/HonourWar-real-runtime.png
+Press **F9 during live gameplay** to invoke Unity `ScreenCapture.CaptureScreenshot`. The resulting PNG is written beneath:
 
-The active Windows runner must actually build, launch and capture the executable before an EXE screenshot can be declared verified.
+`Application.persistentDataPath/HonourWarScreenshots/`
 
-## Visual target
+The repository also contains `Build/Run-Unity-HonourWar.ps1` for opening the project or building a Windows executable with the installed Unity 6.0 LTS Editor.
 
-The world remains medieval/fantasy with detailed terrain, buildings, vegetation, props, monsters, full-body heroes, readable combat effects and bright daylight. Futuristic/scifi machinery, robots, transformers, factories, rockets and space presentation are excluded.
+## Runtime testing rule
 
-## Validation
+Static contract validation is not gameplay evidence. A genuine runtime result requires the Unity Editor or a packaged Unity player to execute the game.
 
-The active release gate is tools/rejected_systems_qa.py plus tools/unreal_engine_contract_qa.py and the Unreal Windows build/runtime screenshot workflows. Retired Godot validation is not a current game gate.
+Runtime testing must distinguish:
+
+- Unity runtime exceptions/errors;
+- crashes/player termination;
+- class-selection failures;
+- movement failures;
+- skill failures;
+- command-routing failures;
+- save/load failures;
+- camera/player initialization failures.
 
 ## Fifth-tier class progression
 
-The class tree has five tiers:
+The class tree retains five tiers:
 Tier 1 Foundation (Lv. 1), Tier 2 Specialization (Lv. 25), Tier 3 Advanced (Lv. 50), Tier 4 Mastery (Lv. 150), Tier 5 Transcendence (Lv. 200).
 
-Tier 5 remains rooted in the original first-tier profession and preserves profession-specific weapon family, silhouette, equipment identity and skill lineage. Unreal exposes this through EHonourWarClassTier and EHonourWarFifthTierArchetype.
+Tier 5 remains rooted in the original first-tier profession and preserves profession-specific weapon family, silhouette, equipment identity and skill lineage. The Unity port must preserve this design contract while migrating implementation from C++ to C#.
+
+## Travel command
+
+The MMO command contract includes:
+
+`@go 0 230:220`
+
+The Unity migration's live gameplay slice executes this command and moves the player to the requested coordinate space.
 
 ## Copyright
 
