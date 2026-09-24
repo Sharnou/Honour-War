@@ -14,6 +14,7 @@ UHonourWarCombatComponent::UHonourWarCombatComponent()
     PrimaryComponentTick.bCanEverTick = true;
     SetIsReplicatedByDefault(true);
     SkillCooldowns.Init(0.0f, 8);
+    SkillLevels.Init(1, 8);
 }
 
 void UHonourWarCombatComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -32,6 +33,8 @@ void UHonourWarCombatComponent::GetLifetimeReplicatedProps(TArray<FLifetimePrope
     DOREPLIFETIME(UHonourWarCombatComponent,Emveretarcon);
     DOREPLIFETIME(UHonourWarCombatComponent,Oridecon);
     DOREPLIFETIME(UHonourWarCombatComponent,BasicSkillLevel);
+    DOREPLIFETIME(UHonourWarCombatComponent,SkillPoints);
+    DOREPLIFETIME(UHonourWarCombatComponent,SkillLevels);
     DOREPLIFETIME(UHonourWarCombatComponent,Honours);
     DOREPLIFETIME(UHonourWarCombatComponent,StatusPoints);
     DOREPLIFETIME(UHonourWarCombatComponent,Strength);
@@ -115,8 +118,10 @@ AHonourWarMonster* UHonourWarCombatComponent::FindNearestTarget(float MaxRange) 
 bool UHonourWarCombatComponent::UseSkill(int32 SkillIndex)
 {
     if (!SkillCooldowns.IsValidIndex(SkillIndex) || SkillCooldowns[SkillIndex] > 0.0f) return false;
+    if (GetSkillLevel(SkillIndex) < 1) return false;
 
-    const float ManaCost = 18.0f + SkillIndex * 4.0f;
+    const int32 SkillLevel = GetSkillLevel(SkillIndex);
+    const float ManaCost = (18.0f + SkillIndex * 4.0f) * (1.0f + static_cast<float>(SkillLevel-1)*0.025f);
     if (CurrentSp < ManaCost) return false;
 
     AHonourWarMonster* Target = FindNearestTarget(SkillRangeForClass());
@@ -125,7 +130,10 @@ bool UHonourWarCombatComponent::UseSkill(int32 SkillIndex)
     float EventDamageMultiplier=1.0f;
     if(const AHonourWarGameState* State=GetWorld()?GetWorld()->GetGameState<AHonourWarGameState>():nullptr)
         EventDamageMultiplier=State->GetWorldEventDamageMultiplier();
-    const float Damage = BaseDamageForClass() * (1.0f + SkillIndex * 0.18f) * EventDamageMultiplier;
+
+    const float SkillLevelMultiplier=1.0f+static_cast<float>(SkillLevel-1)*0.08f;
+    const float MonsterImpactMultiplier=SkillImpactMultiplier(SkillIndex,Target);
+    const float Damage = BaseDamageForClass() * (1.0f + SkillIndex * 0.18f) * SkillLevelMultiplier * MonsterImpactMultiplier * EventDamageMultiplier;
     bool bCritical=false;
     if(SkillIndex==0)
     {
@@ -150,8 +158,10 @@ bool UHonourWarCombatComponent::UseSkill(int32 SkillIndex)
             }
         }
     }
+
     CurrentSp -= ManaCost;
-    SkillCooldowns[SkillIndex] = (0.45f + SkillIndex * 0.08f) * GetSkillCooldownMultiplier();
+    const float CooldownSkillReduction=FMath::Min(0.12f,static_cast<float>(SkillLevel-1)*0.01f);
+    SkillCooldowns[SkillIndex] = (0.45f + SkillIndex * 0.08f) * (1.0f-CooldownSkillReduction) * GetSkillCooldownMultiplier();
     LastTarget = Target;
 
     Target->ReceiveCombatHit(Damage, CharacterClass,bCritical);
@@ -166,6 +176,79 @@ bool UHonourWarCombatComponent::UseSkill(int32 SkillIndex)
     }
     OnSkillUsed.Broadcast(SkillIndex, Damage);
     return true;
+}
+
+int32 UHonourWarCombatComponent::SkillSpeciesIndex(const FString& SpeciesName)
+{
+    if(SpeciesName.Contains(TEXT("Poring"),ESearchCase::IgnoreCase)) return 0;
+    if(SpeciesName.Contains(TEXT("Goblin"),ESearchCase::IgnoreCase)) return 1;
+    if(SpeciesName.Contains(TEXT("Wolf"),ESearchCase::IgnoreCase)) return 2;
+    if(SpeciesName.Contains(TEXT("Skeleton"),ESearchCase::IgnoreCase)) return 3;
+    if(SpeciesName.Contains(TEXT("Orc"),ESearchCase::IgnoreCase)) return 4;
+    if(SpeciesName.Contains(TEXT("Mantis"),ESearchCase::IgnoreCase)) return 5;
+    if(SpeciesName.Contains(TEXT("Golem"),ESearchCase::IgnoreCase)) return 6;
+    if(SpeciesName.Contains(TEXT("Dragon"),ESearchCase::IgnoreCase)||SpeciesName.Contains(TEXT("Drake"),ESearchCase::IgnoreCase)||SpeciesName.Contains(TEXT("Wyvern"),ESearchCase::IgnoreCase)) return 7;
+    return 0;
+}
+
+float UHonourWarCombatComponent::GetSkillImpactMultiplierForSpecies(int32 SkillIndex,const FString& SpeciesName) const
+{
+    const int32 SafeSkill=FMath::Clamp(SkillIndex,0,7);
+    static const float Matrix[7][8]={
+        {0.92f,1.08f,1.03f,0.98f,1.18f,1.02f,1.25f,1.10f},
+        {0.90f,0.98f,1.00f,1.12f,1.15f,1.18f,1.20f,1.10f},
+        {1.00f,1.08f,1.20f,1.05f,1.04f,1.15f,0.88f,1.15f},
+        {1.02f,1.20f,1.08f,1.12f,1.10f,1.18f,0.86f,1.08f},
+        {1.00f,1.12f,0.98f,0.92f,1.35f,1.08f,1.28f,1.20f},
+        {1.10f,1.22f,0.95f,1.08f,1.04f,1.15f,1.28f,1.00f},
+        {1.00f,1.10f,1.22f,1.12f,1.15f,1.20f,0.90f,1.18f}
+    };
+    const int32 ClassIndex=FMath::Clamp(static_cast<int32>(CharacterClass),0,6);
+    const int32 SpeciesIndex=FMath::Clamp(SkillSpeciesIndex(SpeciesName),0,7);
+    const int32 Tier=static_cast<int32>(HonourWarClassProgression::TierForLevel(Level));
+    const float TierScale=FMath::Clamp(0.60f+static_cast<float>(Tier-1)*0.10f,0.60f,1.00f);
+    static const float SkillBias[8]={0.00f,0.01f,0.02f,0.00f,0.03f,0.02f,0.05f,0.08f};
+    return FMath::Clamp(1.0f+(Matrix[ClassIndex][SpeciesIndex]-1.0f)*TierScale+SkillBias[SafeSkill],0.75f,1.35f);
+}
+
+float UHonourWarCombatComponent::SkillImpactMultiplier(int32 SkillIndex,const AHonourWarMonster* Target) const
+{
+    return Target?GetSkillImpactMultiplierForSpecies(SkillIndex,Target->GetSpeciesName()):1.0f;
+}
+
+bool UHonourWarCombatComponent::SpendSkillPoint(int32 SkillIndex,int32 Amount)
+{
+    if(!SkillLevels.IsValidIndex(SkillIndex) || Amount<=0 || SkillPoints<Amount) return false;
+    const int32 Current=FMath::Clamp(SkillLevels[SkillIndex],1,10);
+    if(Current>=10 || Current+Amount>10) return false;
+    SkillLevels[SkillIndex]=Current+Amount;
+    SkillPoints-=Amount;
+    LastLootMessage=FString::Printf(TEXT("SKILL ALLOCATION | slot %d | level %d | remaining points %d"),SkillIndex+1,SkillLevels[SkillIndex],SkillPoints);
+    return true;
+}
+
+bool UHonourWarCombatComponent::TryResetSkills()
+{
+    if(HonourWarClassProgression::TierForLevel(Level)!=EHonourWarClassTier::Tier5)
+    {
+        LastLootMessage=FString::Printf(TEXT("SKILL RESET BLOCKED | Tier 5 required | current class tier %s."),*HonourWarClassProgression::TierName(HonourWarClassProgression::TierForLevel(Level)));
+        return false;
+    }
+    if(SkillLevels.Num()!=8) SkillLevels.Init(1,8);
+    int32 Refunded=0;
+    for(int32& Value:SkillLevels){Refunded+=FMath::Max(0,Value-1);Value=1;}
+    SkillPoints+=Refunded;
+    for(float& Cooldown:SkillCooldowns) Cooldown=0.0f;
+    LastLootMessage=FString::Printf(TEXT("SKILL RESET SUCCESS | Tier 5 | 8 class skills reset to Lv.1 | refunded %d points | total points %d"),Refunded,SkillPoints);
+    return true;
+}
+
+void UHonourWarCombatComponent::SetSkillState(int32 InSkillPoints,const TArray<int32>& InSkillLevels)
+{
+    SkillPoints=FMath::Max(0,InSkillPoints);
+    SkillLevels=InSkillLevels;
+    if(SkillLevels.Num()!=8) SkillLevels.Init(1,8);
+    for(int32& Value:SkillLevels) Value=FMath::Clamp(Value,1,10);
 }
 
 int32 UHonourWarCombatComponent::GetHitRating() const
@@ -345,6 +428,8 @@ void UHonourWarCombatComponent::GainExperience(int32 Amount)
         Experience-=XpToNextLevel;
         ++Level;
         StatusPoints+=3;
+        if(Level%5==0) ++SkillPoints;
+        if(Level==25 || Level==50 || Level==150 || Level==200) SkillPoints+=3;
         if(Level%25==0) StatusPoints+=5;
         RecalculateVitals();
         RestoreVitals();
