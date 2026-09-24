@@ -5,49 +5,26 @@ PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 26
   productGUID: 4d9a5c2b1e7f4a8c9d6b3e0f2a1c7d55
-  AndroidProfiler: 0
-  AndroidFilterTouchesWhenObscured: 0
-  AndroidEnableSustainedPerformanceMode: 0
+  companyName: Sharnou
+  productName: Honour War
   defaultScreenOrientation: 4
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: Sharnou
-  productName: Honour War
-  defaultCursor: {fileID: 0}
-  cursorHotspot: {x: 0, y: 0}
-  m_SplashScreenBackgroundColor: {r: 0.05, g: 0.05, b: 0.07, a: 1}
   m_ShowUnitySplashScreen: 0
   m_ShowUnitySplashLogo: 1
-  m_SplashScreenOverlayOpacity: 1
-  m_SplashScreenAnimation: 1
-  m_SplashScreenLogoStyle: 1
-  m_SplashScreenDrawMode: 0
-  m_SplashScreenBackgroundAnimationZoom: 1
-  m_SplashScreenLogoAnimationZoom: 1
-  m_SplashScreenBackgroundLandscapeAspect: 1
-  m_SplashScreenBackgroundPortraitAspect: 1
-  m_SplashScreenBackgroundLandscapeUvs: {serializedVersion: 2, x: 0, y: 0, width: 1, height: 1}
-  m_SplashScreenBackgroundPortraitUvs: {serializedVersion: 2, x: 0, y: 0, width: 1, height: 1}
+  m_SplashScreenBackgroundColor: {r: 0.05, g: 0.05, b: 0.07, a: 1}
   m_SplashScreenLogos: []
-  m_VirtualRealitySplashScreen: {fileID: 0}
-  m_HolographicTrackingLossScreen: {fileID: 0}
   defaultScreenWidth: 1280
   defaultScreenHeight: 720
   defaultScreenWidthWeb: 960
   defaultScreenHeightWeb: 600
-  m_StereoRenderingPath: 0
   m_ActiveColorSpace: 0
-  unsupportedMSAAFallback: 0
-  m_SpriteBatchVertexThreshold: 300
   m_MTRendering: 1
   mipStripping: 0
-  numberOfMipsStripped: 0
-  numberOfMipsStrippedPerMipmapLimitGroup: {}
   m_StackTraceTypes: 010000000100000001000000010000000100000001000000
   iosShowActivityIndicatorOnLoading: -1
   androidShowActivityIndicatorOnLoading: -1
-  iosUseCustomAppBackgroundBehavior: 0
   allowedAutorotateToPortrait: 1
   allowedAutorotateToPortraitUpsideDown: 1
   allowedAutorotateToLandscapeRight: 1
@@ -59,131 +36,35 @@ PlayerSettings:
   androidStartInFullscreen: 1
   androidRenderOutsideSafeArea: 1
   androidUseSwappy: 1
-  androidBlitType: 0
   androidResizableWindow: 0
-  androidDefaultWindowWidth: 1920
-  androidDefaultWindowHeight: 1080
-  androidMinimumWindowWidth: 400
-  androidMinimumWindowHeight: 300
   androidFullscreenMode: 1
-  androidAutoRotationBehavior: 1
-  androidRequireARCore: 0
   androidMinSdkVersion: 22
   androidTargetSdkVersion: 35
   androidPreferredInstallLocation: 1
-  aotOptions: nimt-trampolines=1024
   stripEngineCode: 1
-  iPhoneStrippingLevel: 0
-  iPhoneScriptCallOptimization: 0
-  ForceInternetPermission: 0
-  ForceSDCardPermission: 0
-  locationUsageDescription: 
-  microphoneUsageDescription: 
-  switchNMETAOverride: 
-  switchNetLibKey: 
-  switchSocketMemoryPoolSize: 61440
-  switchSocketAllocatorPoolSize: 61440
-  switchSocketConcurrency: 64
-  switchSocketConfig: 0
-  switchMaxWorkerMultiple: 8
-  webGLInitialMemorySize: 32
-  webGLMaximumMemorySize: 2048
-  webGLMemoryGrowthMode: 2
-  webGLMemoryLinearGrowthStep: 16
-  webGLMemoryGeometricGrowthStep: 0.2
-  webGLMemoryGeometricGrowthCap: 96
-  webGLPowerPreference: 2
-  scriptingDefineSymbols: {}
-  additionalCompilerArguments:
-    Standalone: []
-  platformArchitecture: {}
   scriptingBackend:
     Standalone: 1
   il2cppCompilerConfiguration: {}
   il2cppCodeGeneration:
     Standalone: 0
   managedStrippingLevel:
-    EmbeddedLinux: 1
-    GameCoreScarlett: 1
-    GameCoreXboxOne: 1
-    Nintendo Switch: 1
-    PS4: 1
-    PS5: 1
-    QNX: 1
-    Stadia: 1
     Standalone: 4
-    VisionOS: 1
     WebGL: 1
-    Windows Store Apps: 1
-    XboxOne: 1
-    iPhone: 1
     Android: 1
   incrementalIl2cppBuild: {}
   suppressCommonWarnings: 1
   allowUnsafeCode: 0
   useDeterministicCompilation: 1
-  additionalIl2CppArgs: 
   scriptingRuntimeVersion: 1
   gcIncremental: 1
-  gcWBarrierValidation: 0
   apiCompatibilityLevelPerPlatform: {}
   m_RenderingPath: 1
   mobileRenderingPath: 1
-  metroPackageVersion: 1.0
-  metroPackageDisplayName: Honour War
-  metroPackageDescription: Honour War Unity 6.0 LTS
-  metroPackageCompanyName: Sharnou
-  metroPackageLogo: {fileID: 0}
-  metroPackageDefaultTile: {fileID: 0}
-  metroPackageDefaultSquareTile: {fileID: 0}
-  metroPackageDefaultWideTile: {fileID: 0}
-  metroPackageDefaultLargeTile: {fileID: 0}
-  metroPackageDefaultSmallTile: {fileID: 0}
-  metroPackageCapabilities: []
-  metroPackageDependencies: {}
-  metroPackageCertificatePath: 
-  metroPackageCertificatePassword: 
-  metroPackageCertificateSubject: 
-  metroPackageCertificateIssuer: 
-  metroPackageCertificateNotAfter: 0000-00-00T00:00:00
-  metroPackageIdentityName: HonourWar
-  xboxOneTitleId: 00000000
-  xboxOneContentId: 00000000
-  xboxOneDescription: Honour War
-  xboxOneGameConfig: {fileID: 0}
-  xboxOneIsContentPackage: 0
-  xboxOneEnableTypeOptimization: 0
-  xboxOnePresentOnConsole: 0
-  xboxOneEnable7thCore: 0
-  vrSettings:
-    enable360StereoCapture: 0
-  isWsaHolographicRemotingEnabled: 0
-  enableFrameTimingStats: 0
-  enableOpenGLProfilerGPURecorders: 1
-  allowHDRDisplaySupport: 0
-  useHDRDisplay: 0
-  hdrBitDepth: 0
-  m_ColorGamuts: 00000000
-  targetPixelDensity: 30
-  resolutionScalingMode: 0
-  resetResolutionOnWindowResize: 0
-  androidSupportedAspectRatio: 1.0
-  androidMaxAspectRatio: 2.1
   applicationIdentifier:
     Standalone: com.Sharnou.HonourWar
   buildNumber:
     Standalone: 1
   bundleVersion: 1.0.0
-  metroInputSource: 0
-  switchNMETAOverride: 
-  switchNPDMJSONOverride: 
-  switchNetLibKey: 
-  switchSocketMemoryPoolSize: 61440
-  switchSocketAllocatorPoolSize: 61440
-  switchSocketConcurrency: 64
-  switchMaxWorkerMultiple: 8
   scriptingDefineSymbols: {}
+  activeInputHandler: 2
   bootConfigValues: []
-  additionalIl2CppArgs: 
-  managedStrippingLevel: {}
-  playerSettingsInternal: {}
