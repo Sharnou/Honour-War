@@ -1,0 +1,1 @@
+using UnityEngine; namespace HonourWar { public sealed class HonourWarHUD:MonoBehaviour { public bool Visible=true; public void SetVisible(bool visible){Visible=visible;} } }
