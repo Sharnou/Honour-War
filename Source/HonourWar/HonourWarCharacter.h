@@ -42,6 +42,8 @@ public:
     void RefineEquipment();
     void MixCards();
     void UpgradeBasicSkill();
+    void UpgradeSkill(int32 SkillIndex,int32 Amount=1);
+    void ResetSkills();
     void CycleClass();
 
     void SetMouseDestination(const FVector& Destination);
@@ -56,6 +58,8 @@ public:
     UFUNCTION(BlueprintCallable) FString GetCurrentJobName() const;
     UFUNCTION(BlueprintCallable) FString GetCurrentJobId() const;
     UFUNCTION(BlueprintCallable) FString GetFifthTierClassName() const;
+    UFUNCTION(BlueprintCallable) int32 GetSkillPoints() const;
+    UFUNCTION(BlueprintCallable) int32 GetSkillLevel(int32 SkillIndex) const;
     UFUNCTION(BlueprintCallable) UHonourWarCombatComponent* GetCombatComponent() const { return CombatComponent; }
     UFUNCTION(BlueprintCallable) FString GetLastCombatMessage() const { return LastCombatMessage; }
     UFUNCTION(Server, Reliable)
