@@ -86,6 +86,7 @@ private:
     UPROPERTY() FVector MouseDestination = FVector::ZeroVector;
     UPROPERTY() bool bMouseMoveActive = false;
     UPROPERTY() int64 OnlineSeconds = 0;
+    float OnlineTimeAccumulator = 0.0f;
     float AutoSaveAccumulator = 0.0f;
     float HitStutterTimer = 0.0f;
     float HitVisualTimer = 0.0f;
