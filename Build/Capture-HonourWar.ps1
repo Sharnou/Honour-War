@@ -26,4 +26,10 @@ python (Join-Path $Root "tools\unreal_runtime_screenshot_qa.py") $Screenshot.Ful
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 Copy-Item $Screenshot.FullName (Join-Path $Root "Build\HonourWar-real-runtime.png") -Force
+
+$E2EReport = Join-Path $Root "Saved\HonourWar-E2E-report.txt"
+if (-not (Test-Path $E2EReport)) { throw "Honour War runtime E2E report was not produced." }
+Copy-Item $E2EReport (Join-Path $Root "Build\HonourWar-E2E-report.txt") -Force
+
 Write-Host "REAL_UNREAL_EXE_SCREENSHOT_PASS: $($Screenshot.FullName)"
+Write-Host "REAL_UNREAL_E2E_REPORT_PASS: $E2EReport"
