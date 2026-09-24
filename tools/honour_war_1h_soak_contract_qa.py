@@ -35,7 +35,7 @@ checks = [
     ("save coverage", "Player->SaveProgress()" in cpp),
     ("resource recovery", "RestoreVitals()" in cpp),
     ("manual workflow only", "workflow_dispatch:" in wf and "schedule:" not in wf),
-    ("60-minute runtime safety window", "TimeoutSeconds  = 3720" in ps1),
+    ("60-minute runtime safety window", "TimeoutSeconds = 3720" in ps1),
 ]
 
 for label, ok in checks:
