@@ -1,0 +1,2 @@
+using System; using UnityEngine;
+namespace HonourWar { [Serializable] public sealed class HonourWarAccountSaveGame { public string Username=""; public string PasswordHash=""; public int ActiveCharacterSlot=-1; public HonourWarSaveGame[] Characters=new HonourWarSaveGame[70]; public bool Registered; } }
