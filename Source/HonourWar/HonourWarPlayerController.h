@@ -25,6 +25,7 @@ public:
     bool RegisterAccount(const FString& Username,const FString& Password,FString& OutMessage);
     bool LoginAccount(const FString& Username,const FString& Password,FString& OutMessage);
     void EndSessionForE2E();
+    void ResetLocalAccountForE2E();
 
 protected:
     virtual void BeginPlay() override;
