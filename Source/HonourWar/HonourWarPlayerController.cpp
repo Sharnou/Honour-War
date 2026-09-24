@@ -253,6 +253,12 @@ void AHonourWarPlayerController::EndSessionForE2E()
     OwnedCharacters.Reset();
 }
 
+void AHonourWarPlayerController::ResetLocalAccountForE2E()
+{
+    UGameplayStatics::DeleteGameInSlot(AccountSlot,0);
+    EndSessionForE2E();
+}
+
 const TArray<FHonourWarCharacterSlot>& AHonourWarPlayerController::GetOwnedCharacters() const
 {
     return OwnedCharacters;
