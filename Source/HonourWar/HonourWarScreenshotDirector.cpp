@@ -27,29 +27,33 @@ void AHonourWarScreenshotDirector::BeginPlay()
         return;
     }
 
-    GetWorldTimerManager().SetTimer(CaptureTimer,this,&AHonourWarScreenshotDirector::RequestCapture,7.0f,false);
-    GetWorldTimerManager().SetTimer(ExitTimer,this,&AHonourWarScreenshotDirector::FinishCapture,14.0f,false);
+    GetWorldTimerManager().SetTimer(SetupTimer,this,&AHonourWarScreenshotDirector::SetupCaptureScene,1.5f,false);
+    GetWorldTimerManager().SetTimer(CaptureTimer,this,&AHonourWarScreenshotDirector::RequestCapture,7.5f,false);
+    GetWorldTimerManager().SetTimer(ExitTimer,this,&AHonourWarScreenshotDirector::FinishCapture,15.0f,false);
+}
 
-    if (UWorld* World=GetWorld())
+void AHonourWarScreenshotDirector::SetupCaptureScene()
+{
+    if (!GetWorld()) return;
+
+    if (AHonourWarCharacter* Player=Cast<AHonourWarCharacter>(UGameplayStatics::GetPlayerPawn(GetWorld(),0)))
     {
-        if (AHonourWarCharacter* Player=Cast<AHonourWarCharacter>(UGameplayStatics::GetPlayerPawn(World,0)))
+        Player->SetActorLocation(FVector(900.0f,900.0f,180.0f));
+        if (APlayerController* PC=Cast<APlayerController>(Player->GetController()))
         {
-            Player->SetActorLocation(FVector(900.0f,900.0f,180.0f));
-            if (APlayerController* PC=Cast<APlayerController>(Player->GetController()))
-            {
-                PC->SetControlRotation(FRotator(-48.0f,45.0f,0.0f));
-            }
-            FActorSpawnParameters Params;
-            Params.SpawnCollisionHandlingOverride=ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
-            AHonourWarMonster* Showcase=World->SpawnActor<AHonourWarMonster>(
-                AHonourWarMonster::StaticClass(),FVector(1650.0f,900.0f,180.0f),FRotator::ZeroRotator,Params);
-            if (Showcase)
-            {
-                Showcase->SetLevel(300);
-                Showcase->SetSpecies(EHonourWarMonsterSpecies::Dragon);
-                Showcase->SetDisplayName(TEXT("Ancient Wyrm"));
-                Player->SetMouseTarget(Showcase);
-            }
+            PC->SetControlRotation(FRotator(-48.0f,45.0f,0.0f));
+        }
+
+        FActorSpawnParameters Params;
+        Params.SpawnCollisionHandlingOverride=ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+        AHonourWarMonster* Showcase=GetWorld()->SpawnActor<AHonourWarMonster>(
+            AHonourWarMonster::StaticClass(),FVector(1650.0f,900.0f,180.0f),FRotator::ZeroRotator,Params);
+        if (Showcase)
+        {
+            Showcase->SetLevel(300);
+            Showcase->SetSpecies(EHonourWarMonsterSpecies::Dragon);
+            Showcase->SetDisplayName(TEXT("Ancient Wyrm"));
+            Player->SetMouseTarget(Showcase);
         }
     }
 }
