@@ -44,6 +44,8 @@ if "EquipmentForRank" not in loot: raise SystemExit("CONTENT_CATALOG_FAIL: equip
 if 'TEXT("Transcendent Monster Suit")' not in loot or 'TEXT("World Monarch Card")' not in loot: raise SystemExit("CONTENT_CATALOG_FAIL: runtime level-300 rewards missing")
 if "LootRank = FMath::Clamp(MonsterTier*40+MonsterFamilySlot+1,1,300)" not in combat: raise SystemExit("CONTENT_CATALOG_FAIL: full loot rank mapping missing")
 if len(c.get("pets",[]))!=20 or len(c.get("pet_skills",[]))!=120 or len(c.get("pet_equipment",[]))!=100: raise SystemExit("CONTENT_CATALOG_FAIL: pet content expansion")
+if not all(x in controller_text for x in ["CreateWarriorCharacter","CreateMageCharacter","CreateArcherCharacter","CreateThiefCharacter","CreateAcolyteCharacter","CreateMerchantCharacter","CreateRangerCharacter"]): raise SystemExit("CONTENT_CATALOG_FAIL: seven-class character creation UI")
+
 if not any(x["class"]=="Ranger" and x["slot"]=="Weapon" and x.get("weapon_family")=="Bolt Machine Gun" and x.get("ammo_type")=="machine_gun_bolt" for x in c["equipment"]): raise SystemExit("CONTENT_CATALOG_FAIL: Ranger bolt machine gun equipment")
 if not all(x.get("ammo_type")=="machine_gun_bolt" for x in c["equipment"] if x.get("class")=="Ranger" and x.get("slot")=="Weapon"): raise SystemExit("CONTENT_CATALOG_FAIL: Ranger weapon ammo mismatch")
 enc=json.loads((ROOT/"data/honour_war_item_encyclopedia.json").read_text(encoding="utf-8"))
