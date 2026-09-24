@@ -24755,5 +24755,9 @@
     }
   ],
   "entry_count": 797,
-  "catalog_rule": "Every equipment/item/card/job-reward/pet-equipment entry has a stable ID; searchable help resolves ID or name to full metadata, monster source, map and availability."
+  "catalog_rule": "Every equipment/item/card/job-reward/pet-equipment entry has a stable ID; searchable help resolves ID or name to full metadata, monster source, map and availability.",
+  "source_sync": {
+    "canonical_source_of_truth": "data/honour_war_content_catalog.json",
+    "last_sync_note": "Monster names, levels and map names are synchronized by source monster ID for /help output."
+  }
 }
