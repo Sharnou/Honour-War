@@ -501,7 +501,7 @@ bool UHonourWarHUDWidget::RunAutomatedE2ETest(FString& OutFailure)
 
     AHonourWarPlayerController* PC=Cast<AHonourWarPlayerController>(GetOwningPlayer());
     if(!PC){OutFailure=TEXT("E2E[BOOT] owning player controller missing.");return false;}
-    if(!AuthUsername||!AuthPassword||!AuthRegisterButton||!AuthLoginButton||!CharacterCreateButton||!CharacterNameInput||!CreateRangerButton||!CharacterSlotInput||!CharacterSelectButton)
+    if(!AuthPanel||!CharacterSelectPanel||!CharacterCreatePanel||!AuthUsername||!AuthPassword||!AuthRegisterButton||!AuthLoginButton||!AuthStatus||!CharacterCreateButton||!CharacterNameInput||!CreateRangerButton||!CharacterSelectStatus||!CharacterSlotInput||!CharacterSelectButton)
     {
         OutFailure=TEXT("E2E[BOOT] required authentication/character widgets missing.");
         return false;
