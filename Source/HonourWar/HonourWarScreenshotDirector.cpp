@@ -228,6 +228,7 @@ void AHonourWarScreenshotDirector::SetupSoakTest()
         EHonourWarClass::Ranger
     };
     SoakClassIndex=0;
+    bSoakClassEntered=false;
     SoakSkillIndex=0;
     SoakMovementRetries=0;
     SoakSkillSuccesses=0;
@@ -275,7 +276,7 @@ void AHonourWarScreenshotDirector::RunSoakPhase()
     }
 
     const EHonourWarClass CurrentClass=SoakClasses[SoakClassIndex];
-    if(Player->GetClassId()!=CurrentClass)
+    if(!bSoakClassEntered || Player->GetClassId()!=CurrentClass)
     {
         Player->SetClassId(CurrentClass);
         SoakSkillIndex=0;
