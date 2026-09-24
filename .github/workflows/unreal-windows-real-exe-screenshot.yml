@@ -75,6 +75,18 @@ jobs:
         shell: pwsh
         run: python tools/unreal_runtime_screenshot_qa.py Build/HonourWar-real-runtime.png
 
+      - name: Validate complete runtime E2E report
+        shell: pwsh
+        run: |
+          $report = "Build/HonourWar-E2E-report.txt"
+          if (!(Test-Path $report)) { throw "Runtime E2E report was not produced." }
+          $text = Get-Content $report -Raw
+          foreach ($marker in @("PASS[01]","PASS[02]","PASS[04]","PASS[06]","PASS[07]","PASS[08]","PASS[10]","PASS[12]")) {
+            if ($text -notmatch [regex]::Escape($marker)) { throw "Missing E2E marker: $marker" }
+          }
+          if ($text -match "FAIL") { throw "Runtime E2E report contains FAIL entries." }
+          Write-Host "RUNTIME_E2E_PASS: complete register/login/character/gameplay path"
+
       - name: Upload Windows 10 ZIP
         uses: actions/upload-artifact@v4
         with:
@@ -96,5 +108,13 @@ jobs:
         with:
           name: honour-war-real-unreal-exe-screenshot
           path: Build/HonourWar-real-runtime.png
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload full runtime E2E report
+        uses: actions/upload-artifact@v4
+        with:
+          name: honour-war-real-runtime-e2e-report
+          path: Build/HonourWar-E2E-report.txt
           if-no-files-found: error
           retention-days: 30
