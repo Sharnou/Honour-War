@@ -35,7 +35,7 @@ if ($OpenEditor) {
 if ($Build) {
     $out = Join-Path $PSScriptRoot 'Unity\HonourWar.exe'
     New-Item -ItemType Directory -Force -Path (Split-Path $out) | Out-Null
-    & $unity -batchmode -nographics -quit -projectPath $project -buildTarget Win64 -buildWindows64Player $out -logFile (Join-Path $PSScriptRoot 'Unity-build.log')
+    & $unity -batchmode -nographics -quit -projectPath $project -buildTarget Win64 -executeMethod HonourWar.EditorTools.HonourWarBuild.BuildWindows -logFile (Join-Path $PSScriptRoot 'Unity-build.log')
     if ($LASTEXITCODE -ne 0) { throw "Unity Windows build failed with exit code $LASTEXITCODE. See Build/Unity-build.log." }
     if (-not (Test-Path $out)) { throw 'Unity did not produce HonourWar.exe.' }
     Write-Host "UNITY_REAL_EXE_PASS=$out"
