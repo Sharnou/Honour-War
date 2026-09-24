@@ -133,7 +133,7 @@ static void UpdateHonourWarPlayerNameplate(AHonourWarCharacter* Character)
 void AHonourWarCharacter::BeginPlay()
 {
     Super::BeginPlay();
-    RespawnPoint=FVector(900.0f,900.0f,180.0f);
+    RespawnPoint=FVector(0.0f,1100.0f,180.0f);
     SetActorLocation(RespawnPoint);
     BuildHeroVisual();
     LoadProgress();
