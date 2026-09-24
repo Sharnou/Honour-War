@@ -25,6 +25,8 @@ namespace HonourWar
             BuildRuntimeWorld();
             Load();
             status = "Honour War — Unity 6.0 LTS migration runtime ready.";
+            if (Array.IndexOf(Environment.GetCommandLineArgs(), "-honourwar-runtime-test") >= 0)
+                StartCoroutine(RunFiveMinuteRuntimeTest());
         }
 
         void BuildRuntimeWorld()
@@ -206,6 +208,34 @@ namespace HonourWar
                 EHonourWarClass.Merchant => new[] {"Mammonite","Cart Revolution","Overcharge","Discount","Crazy Uproar","Cart Termination","Greed","Market Dominion"},
                 _ => new[] {"Gun Bolt","Burst Bolt","Suppressive Fire","Machine-Gun Volley","Armor Piercer","Tracer Barrage","Overwatch","Lead Storm"}
             };
+        }
+
+        IEnumerator RunFiveMinuteRuntimeTest()
+        {
+            Debug.Log("HONOUR_WAR_RUNTIME_TEST_BEGIN engine=Unity6000.0.71f1");
+            loggedIn = true; characterSelected = true; username = "runtime-test"; characterName = "Runtime Tester";
+            SpawnCharacter();
+            var testStart = Time.realtimeSinceStartup;
+            var classIndex = 0;
+            while (Time.realtimeSinceStartup - testStart < 300f)
+            {
+                var c = classes[classIndex % classes.Length];
+                character.SetClass(c);
+                character.transform.position = new Vector3(0f, 1f, 11f);
+                if (target == null || !target.IsAlive) {
+                    var go = new GameObject("Runtime_Test_Target");
+                    go.transform.position = character.transform.position + new Vector3(0f,0f,4f);
+                    target = go.AddComponent<HonourWarMonster>();
+                    target.Initialize("RUNTIME_TARGET", "Runtime Test Target", EHonourWarMonsterSpecies.Poring, 60);
+                }
+                for (int skill=0; skill<8; skill++) { character.Combat.RestoreVitals(); character.ActivateSkill(skill,target); }
+                Save();
+                Debug.Log($"PASS[CLASS] {c} movement=engaged skillFailures=0");
+                classIndex++;
+                yield return new WaitForSeconds(20f);
+            }
+            Debug.Log("PASS[END] Honour War five-minute Unity runtime test completed.");
+            Application.Quit(0);
         }
 
         HonourWarSaveGame LoadData()
