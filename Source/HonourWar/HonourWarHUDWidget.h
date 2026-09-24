@@ -22,6 +22,7 @@ class HONOURWAR_API UHonourWarHUDWidget : public UUserWidget
 protected:
     virtual void NativeConstruct() override;
     virtual void NativeTick(const FGeometry& MyGeometry,float InDeltaTime) override;
+    bool RunAutomatedE2ETest(FString& OutFailure);
 
 private:
     void BuildSurface();
