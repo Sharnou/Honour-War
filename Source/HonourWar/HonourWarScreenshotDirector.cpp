@@ -7,6 +7,10 @@
 #include "HAL/PlatformMisc.h"
 #include "TimerManager.h"
 #include "Engine/World.h"
+#include "Kismet/GameplayStatics.h"
+#include "HonourWarCharacter.h"
+#include "HonourWarMonster.h"
+#include "HonourWarTypes.h"
 
 AHonourWarScreenshotDirector::AHonourWarScreenshotDirector()
 {
@@ -23,8 +27,31 @@ void AHonourWarScreenshotDirector::BeginPlay()
         return;
     }
 
-    GetWorldTimerManager().SetTimer(CaptureTimer,this,&AHonourWarScreenshotDirector::RequestCapture,6.0f,false);
-    GetWorldTimerManager().SetTimer(ExitTimer,this,&AHonourWarScreenshotDirector::FinishCapture,12.0f,false);
+    GetWorldTimerManager().SetTimer(CaptureTimer,this,&AHonourWarScreenshotDirector::RequestCapture,7.0f,false);
+    GetWorldTimerManager().SetTimer(ExitTimer,this,&AHonourWarScreenshotDirector::FinishCapture,14.0f,false);
+
+    if (UWorld* World=GetWorld())
+    {
+        if (AHonourWarCharacter* Player=Cast<AHonourWarCharacter>(UGameplayStatics::GetPlayerPawn(World,0)))
+        {
+            Player->SetActorLocation(FVector(900.0f,900.0f,180.0f));
+            if (APlayerController* PC=Cast<APlayerController>(Player->GetController()))
+            {
+                PC->SetControlRotation(FRotator(-48.0f,45.0f,0.0f));
+            }
+            FActorSpawnParameters Params;
+            Params.SpawnCollisionHandlingOverride=ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+            AHonourWarMonster* Showcase=World->SpawnActor<AHonourWarMonster>(
+                AHonourWarMonster::StaticClass(),FVector(1650.0f,900.0f,180.0f),FRotator::ZeroRotator,Params);
+            if (Showcase)
+            {
+                Showcase->SetLevel(300);
+                Showcase->SetSpecies(EHonourWarMonsterSpecies::Dragon);
+                Showcase->SetDisplayName(TEXT("Ancient Wyrm"));
+                Player->SetMouseTarget(Showcase);
+            }
+        }
+    }
 }
 
 void AHonourWarScreenshotDirector::RequestCapture()
