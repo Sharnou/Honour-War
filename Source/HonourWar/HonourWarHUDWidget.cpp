@@ -510,7 +510,17 @@ bool UHonourWarHUDWidget::RunAutomatedE2ETest(FString& OutFailure)
     FString Report=TEXT("Honour War Runtime E2E\n");
     auto Record=[&](const FString& Line){Report+=Line+TEXT("\n");};
 
+    RefreshVitals();
+    if(AuthPanel->GetVisibility()!=ESlateVisibility::Visible || CharacterSelectPanel->GetVisibility()!=ESlateVisibility::Collapsed)
+    {
+        OutFailure=TEXT("E2E[BOOT] login screen did not start in unauthenticated state.");
+        Record(TEXT("FAIL[01] Initial authentication UI state invalid."));
+        FFileHelper::SaveStringToFile(Report,*FPaths::ProjectSavedDir()/TEXT("HonourWar-E2E-report.txt"));
+        return false;
+    }
+
     PC->ResetLocalAccountForE2E();
+    RefreshVitals();
     Record(TEXT("PASS[01] Fresh local account state reset."));
 
     AuthUsername->SetText(FText::FromString(TEXT("E2EPlayer")));
@@ -523,9 +533,25 @@ bool UHonourWarHUDWidget::RunAutomatedE2ETest(FString& OutFailure)
         FFileHelper::SaveStringToFile(Report,*FPaths::ProjectSavedDir()/TEXT("HonourWar-E2E-report.txt"));
         return false;
     }
+    RefreshVitals();
+    if(AuthPanel->GetVisibility()!=ESlateVisibility::Collapsed || CharacterSelectPanel->GetVisibility()!=ESlateVisibility::Visible)
+    {
+        OutFailure=TEXT("E2E[REGISTER_UI] authentication/character-selection transition did not refresh after registration.");
+        Record(TEXT("FAIL[02A] Registration UI transition failed."));
+        FFileHelper::SaveStringToFile(Report,*FPaths::ProjectSavedDir()/TEXT("HonourWar-E2E-report.txt"));
+        return false;
+    }
     Record(FString::Printf(TEXT("PASS[02] Register callback: %s"),*AuthStatus->GetText().ToString()));
 
     PC->EndSessionForE2E();
+    RefreshVitals();
+    if(AuthPanel->GetVisibility()!=ESlateVisibility::Visible)
+    {
+        OutFailure=TEXT("E2E[LOGOUT_UI] login panel did not return after session reset.");
+        Record(TEXT("FAIL[03A] Logout UI transition failed."));
+        FFileHelper::SaveStringToFile(Report,*FPaths::ProjectSavedDir()/TEXT("HonourWar-E2E-report.txt"));
+        return false;
+    }
     if(PC->IsAuthenticated())
     {
         OutFailure=TEXT("E2E[LOGOUT] session reset did not clear authentication.");
@@ -543,6 +569,14 @@ bool UHonourWarHUDWidget::RunAutomatedE2ETest(FString& OutFailure)
         FFileHelper::SaveStringToFile(Report,*FPaths::ProjectSavedDir()/TEXT("HonourWar-E2E-report.txt"));
         return false;
     }
+    RefreshVitals();
+    if(AuthPanel->GetVisibility()!=ESlateVisibility::Collapsed || CharacterSelectPanel->GetVisibility()!=ESlateVisibility::Visible)
+    {
+        OutFailure=TEXT("E2E[LOGIN_UI] character selection screen did not appear after login.");
+        Record(TEXT("FAIL[04A] Login UI transition failed."));
+        FFileHelper::SaveStringToFile(Report,*FPaths::ProjectSavedDir()/TEXT("HonourWar-E2E-report.txt"));
+        return false;
+    }
     Record(FString::Printf(TEXT("PASS[04] Login callback: %s"),*AuthStatus->GetText().ToString()));
 
     CreateNewCharacter();
@@ -555,6 +589,7 @@ bool UHonourWarHUDWidget::RunAutomatedE2ETest(FString& OutFailure)
     }
     CharacterNameInput->SetText(FText::FromString(TEXT("E2ERanger")));
     CreateRangerButton->OnClicked.Broadcast();
+    RefreshVitals();
     if(!PC->IsReadyForGameplay())
     {
         OutFailure=FString::Printf(TEXT("E2E[CHARACTER_CREATE] %s"),*CharacterSelectStatus->GetText().ToString());
@@ -562,10 +597,19 @@ bool UHonourWarHUDWidget::RunAutomatedE2ETest(FString& OutFailure)
         FFileHelper::SaveStringToFile(Report,*FPaths::ProjectSavedDir()/TEXT("HonourWar-E2E-report.txt"));
         return false;
     }
+    if(AuthPanel->GetVisibility()!=ESlateVisibility::Collapsed || CharacterSelectPanel->GetVisibility()!=ESlateVisibility::Collapsed || CharacterCreatePanel->GetVisibility()!=ESlateVisibility::Collapsed)
+    {
+        OutFailure=TEXT("E2E[CHARACTER_UI] gameplay UI panels did not collapse after character creation.");
+        Record(TEXT("FAIL[06A] Character-to-gameplay UI transition failed."));
+        FFileHelper::SaveStringToFile(Report,*FPaths::ProjectSavedDir()/TEXT("HonourWar-E2E-report.txt"));
+        return false;
+    }
     Record(FString::Printf(TEXT("PASS[06] Ranger character created: %s"),*CharacterSelectStatus->GetText().ToString()));
 
     PC->EndSessionForE2E();
+    RefreshVitals();
     AuthLoginButton->OnClicked.Broadcast();
+    RefreshVitals();
     if(!PC->IsAuthenticated() || PC->IsReadyForGameplay())
     {
         OutFailure=TEXT("E2E[RELOGIN] login did not restore authenticated-but-unselected state.");
@@ -573,14 +617,29 @@ bool UHonourWarHUDWidget::RunAutomatedE2ETest(FString& OutFailure)
         FFileHelper::SaveStringToFile(Report,*FPaths::ProjectSavedDir()/TEXT("HonourWar-E2E-report.txt"));
         return false;
     }
+    if(AuthPanel->GetVisibility()!=ESlateVisibility::Collapsed || CharacterSelectPanel->GetVisibility()!=ESlateVisibility::Visible)
+    {
+        OutFailure=TEXT("E2E[RELOGIN_UI] character selection screen did not return after re-login.");
+        Record(TEXT("FAIL[07A] Re-login UI transition failed."));
+        FFileHelper::SaveStringToFile(Report,*FPaths::ProjectSavedDir()/TEXT("HonourWar-E2E-report.txt"));
+        return false;
+    }
     Record(TEXT("PASS[07] Re-login restored account with character selection required."));
 
     CharacterSlotInput->SetText(FText::FromString(TEXT("1")));
     CharacterSelectButton->OnClicked.Broadcast();
+    RefreshVitals();
     if(!PC->IsReadyForGameplay())
     {
         OutFailure=FString::Printf(TEXT("E2E[SELECT] %s"),*CharacterSelectStatus->GetText().ToString());
         Record(FString::Printf(TEXT("FAIL[08] %s"),*OutFailure));
+        FFileHelper::SaveStringToFile(Report,*FPaths::ProjectSavedDir()/TEXT("HonourWar-E2E-report.txt"));
+        return false;
+    }
+    if(AuthPanel->GetVisibility()!=ESlateVisibility::Collapsed || CharacterSelectPanel->GetVisibility()!=ESlateVisibility::Collapsed)
+    {
+        OutFailure=TEXT("E2E[SELECT_UI] gameplay HUD did not replace character selection after selection.");
+        Record(TEXT("FAIL[08A] Character-selection UI transition failed."));
         FFileHelper::SaveStringToFile(Report,*FPaths::ProjectSavedDir()/TEXT("HonourWar-E2E-report.txt"));
         return false;
     }
