@@ -280,6 +280,18 @@ void AHonourWarScreenshotDirector::RunSoakPhase()
     if(!bSoakClassEntered || Player->GetClassId()!=CurrentClass)
     {
         Player->SetClassId(CurrentClass);
+        if(Player->GetClassId()!=CurrentClass)
+        {
+            RecordSoak(FString::Printf(TEXT("FAIL[CLASS] %.0fs class switch failed | expected=%s actual=%s."),
+                Elapsed,*HonourWarClassName(CurrentClass),*Player->GetClassName()));
+            ++SoakClassIndex;
+            bSoakClassEntered=false;
+            SoakSkillIndex=0;
+            SoakMovementRetries=0;
+            bSoakMovementPassed=false;
+            SoakClassStartTime=World->GetTimeSeconds();
+            return;
+        }
         SoakSkillIndex=0;
         SoakMovementRetries=0;
         bSoakMovementPassed=false;
