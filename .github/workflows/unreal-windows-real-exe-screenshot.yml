@@ -28,6 +28,9 @@ jobs:
       - name: Validate content catalog
         shell: pwsh
         run: python tools/content_catalog_qa.py
+      - name: Validate canonical skill system
+        shell: pwsh
+        run: python tools/skill_system_qa.py
 
       - name: Validate repository contract
         shell: pwsh
