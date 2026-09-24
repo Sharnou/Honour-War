@@ -1,0 +1,1 @@
+namespace HonourWar { public sealed class HonourWarPlayerState { public string Username=""; public int CharacterSlot=-1; public bool Authenticated; public bool GameplayReady=>Authenticated&&CharacterSlot>=0; } }
