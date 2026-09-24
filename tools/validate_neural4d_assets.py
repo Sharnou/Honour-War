@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Strict intake gate for Honour War Neural4D FBX/OBJ assets.
 
-Honour War character roster: 60 production characters. The roster is doubled
+Honour War character roster: 70 production characters. The roster is doubled
 from the former 30-character assumption because every character design is now
 generated in both gender variants. Retired interchange formats are permanently
 forbidden in this intake tree.
@@ -13,7 +13,7 @@ import pathlib
 
 ALLOWED = {".fbx", ".obj"}
 EXPECTED = {
-    "character": 60,
+    "character": 70,
     "monster": 11,
     "pet": 12,
 }
@@ -79,7 +79,7 @@ def main() -> int:
         "counts": counts,
         "expected_max": EXPECTED,
         "character_roster": {
-            "total": 60,
+            "total": 70,
             "gender_variants": "both genders for the complete character roster",
         },
         "files": records,
