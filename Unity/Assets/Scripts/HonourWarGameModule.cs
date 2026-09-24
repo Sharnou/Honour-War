@@ -1,0 +1,1 @@
+namespace HonourWar { public static class HonourWarGameModule { public const string Engine="Unity 6000.0 LTS"; public const string MigrationSource="Unreal Engine 5.8"; public const string AssetIntake="Visual RAG -> Neural4D/Blender FBX/OBJ -> Unity"; } }
