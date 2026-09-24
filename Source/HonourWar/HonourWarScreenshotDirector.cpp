@@ -335,7 +335,7 @@ void AHonourWarScreenshotDirector::RunSoakPhase()
         else
         {
             ++SoakSkillFailures;
-            RecordSoak(FString::Printf(TEXT("FAIL[SKILL] %.0fs %s skill=%d did not confirm impact | before="%s" after="%s" distance=%.1f."),
+            RecordSoak(FString::Printf(TEXT("FAIL[SKILL] %.0fs %s skill=%d did not confirm impact | before=\"%s\" after=\"%s\" distance=%.1f."),
                 Elapsed,*Player->GetClassName(),TestedSkillIndex,*Before,*After,Distance));
         }
         SoakSkillIndex=(SoakSkillIndex+1)%8;
