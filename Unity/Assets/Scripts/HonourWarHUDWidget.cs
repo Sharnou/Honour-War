@@ -1,0 +1,1 @@
+using UnityEngine; namespace HonourWar { public sealed class HonourWarHUDWidget:MonoBehaviour { public string Status=""; public void SetStatus(string value){Status=value;Debug.Log(value);} public void RefreshVitals(HonourWarCombatComponent combat){if(combat!=null)Status=$"HP {combat.HP:0}/{combat.MaxHP:0} SP {combat.SP:0}/{combat.MaxSP:0}";} } }
