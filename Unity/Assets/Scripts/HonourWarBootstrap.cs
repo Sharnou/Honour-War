@@ -346,14 +346,15 @@ namespace HonourWar
         void Load()
         {
             var data = LoadData();
-            username = string.IsNullOrEmpty(data.GuildName) ? username : data.GuildName;
-            characterName = "Adventurer";
+            username = string.IsNullOrEmpty(data.Username) ? username : data.Username;
+            characterName = string.IsNullOrEmpty(data.CharacterName) ? "Adventurer" : data.CharacterName;
         }
 
         void Save()
         {
             var data = LoadData();
-            data.GuildName = username;
+            data.Username = username;
+            data.CharacterName = characterName;
             data.Level = character == null ? data.Level : character.Level;
             data.AgeDays = character == null ? data.AgeDays : character.AgeDays;
             data.ClassId = character == null ? (EHonourWarClass)selectedClass : character.ClassId;
