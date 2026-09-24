@@ -647,17 +647,17 @@ void UHonourWarCombatComponent::RewardMonsterDefeat(int32 MonsterLevel,const FSt
 
     const int32 MonsterTier = HonourWarMonsterTier(SafeLevel);
     const int32 MonsterFamilySlot = FMath::Clamp(HonourWarMonsterFamilyIndex(MonsterName),0,29);
-    const int32 BaseLootRank = FMath::Clamp(MonsterTier*30+MonsterFamilySlot+1,1,240);
-    int32 LootRank = BaseLootRank;
+    const int32 LootRank = FMath::Clamp(MonsterTier*40+MonsterFamilySlot+1,1,300);
+    int32 RuntimeLootRank = LootRank;
     if(SafeLevel>=300)
     {
         // Lv.300 Worldbreakers open the final 30 equipment/card ranks.
-        LootRank=FMath::Clamp(271+MonsterFamilySlot,271,300);
+        RuntimeLootRank=FMath::Clamp(271+MonsterFamilySlot,271,300);
     }
     else if(SafeLevel>=230 && FMath::FRandRange(0.0f,100.0f)<20.0f)
     {
         // Lv.230 elite monsters have a 20% chance to open the 241-270 extension ranks.
-        LootRank=FMath::Clamp(241+MonsterFamilySlot,241,270);
+        RuntimeLootRank=FMath::Clamp(241+MonsterFamilySlot,241,270);
     }
 
     FString Rarity = TEXT("Rare");
@@ -670,15 +670,15 @@ void UHonourWarCombatComponent::RewardMonsterDefeat(int32 MonsterLevel,const FSt
     const FString GeneralItemName = HonourWarLootDatabase::Items()[300+GeneralItemIndex];
     InventoryItems.Add(FString::Printf(TEXT("ITEM_%03d | %s"),GeneralItemId,*GeneralItemName));
 
-    const FString DatabaseItem = HonourWarLootDatabase::EquipmentForRank(LootRank);
+    const FString DatabaseItem = HonourWarLootDatabase::EquipmentForRank(RuntimeLootRank);
     const bool bRangerBoltWeapon = CharacterClass==EHonourWarClass::Ranger;
     const FString RangerAmmoTag = bRangerBoltWeapon ? TEXT("Machine Gun Bolts | ITEM_075") : TEXT("");
-    const FString ItemName = CharacterClass==EHonourWarClass::Ranger ? FString::Printf(TEXT("%s | EQUIP_%03d | %s | %s"), *Rarity, LootRank, *DatabaseItem, *RangerAmmoTag) : FString::Printf(TEXT("%s | EQUIP_%03d | %s"), *Rarity, LootRank, *DatabaseItem);
+    const FString ItemName = CharacterClass==EHonourWarClass::Ranger ? FString::Printf(TEXT("%s | EQUIP_%03d | %s | %s"), *Rarity, RuntimeLootRank, *DatabaseItem, *RangerAmmoTag) : FString::Printf(TEXT("%s | EQUIP_%03d | %s"), *Rarity, RuntimeLootRank, *DatabaseItem);
     InventoryItems.Add(ItemName);
 
     {
         const FString DatabaseCard = HonourWarLootDatabase::CardForRank(LootRank);
-        Cards.Add(FString::Printf(TEXT("CARD_%03d | %s"),LootRank,*DatabaseCard));
+        Cards.Add(FString::Printf(TEXT("CARD_%03d | %s"),RuntimeLootRank,*DatabaseCard));
     }
 
     if (SafeLevel >= 300)
