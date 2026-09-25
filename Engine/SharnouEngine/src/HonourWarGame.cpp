@@ -59,13 +59,9 @@ bool HonourWarGame::Initialize() {
         for(const auto& command : program.at("commands")) {
             const std::string op = command.at("op").get<std::string>();
             if(op=="set_pos") {
-                player_.position = XMFLOAT3(
-                    command.at("x").get<float>(),
-                    command.at("y").get<float>(),
-                    command.at("z").get<float>()
-                );
-                player_.moveTarget = player_.position;
-                player_.moving = false;
+                (void)command.at("x").get<float>();
+                (void)command.at("y").get<float>();
+                (void)command.at("z").get<float>();
             } else if(op=="actor_spawn" || op=="bind_mesh" || op=="texture_avif") {
                 // Valid SPP operations are accepted by the engine boundary.
             } else {
@@ -78,6 +74,27 @@ bool HonourWarGame::Initialize() {
 
     if(!LoadCanonicalData()) return false;
     LoadGame();
+
+    // Apply authoring-state commands after persistent save restoration so the
+    // Sharnou IDE remains the final source of the authored startup scene.
+    try {
+        std::ifstream programIn(std::filesystem::path("Build")/"Runtime"/"honour-war.sppc.json");
+        json program; programIn >> program;
+        for(const auto& command : program.at("commands")) {
+            if(command.at("op").get<std::string>() == "set_pos") {
+                player_.position = XMFLOAT3(
+                    command.at("x").get<float>(),
+                    command.at("y").get<float>(),
+                    command.at("z").get<float>()
+                );
+                player_.moveTarget = player_.position;
+                player_.moving = false;
+            }
+        }
+    } catch(...) {
+        return false;
+    }
+
     ReloadSkillsForCurrentClass();
 
     monsters_.clear();
