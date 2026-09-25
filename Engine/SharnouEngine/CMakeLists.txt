@@ -11,7 +11,7 @@ endif()
 
 find_package(nlohmann_json CONFIG REQUIRED)
 
-add_executable(SharnouEngine
+add_executable(SharnouEngine WIN32
   src/main.cpp
   src/Engine.cpp
   src/Win32Window.cpp
