@@ -49,6 +49,9 @@ if (-not $enginePath) {
     throw "SharnouEngine.exe is not available in the configured runtime candidates."
 }
 
+# Mark the process as an authoritative Sharnou IDE launch.
+$env:SHARNOU_IDE_SESSION = "1"
+
 switch ($Command) {
     "self-test" {
         & $enginePath "--self-test"
