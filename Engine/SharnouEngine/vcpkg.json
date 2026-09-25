@@ -1,0 +1,8 @@
+{
+  "name": "sharnou-engine-honour-war",
+  "version-string": "1.0.0",
+  "description": "Native Sharnou Engine runtime for Honour War",
+  "dependencies": [
+    "nlohmann-json"
+  ]
+}

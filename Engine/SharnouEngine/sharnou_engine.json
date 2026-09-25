@@ -1,0 +1,14 @@
+{
+  "engine": "Sharnou Engine",
+  "engine_version": "HONOURWAR_NATIVE_1",
+  "game": "Honour War",
+  "development_ide": "Microsoft Visual Studio Community 2022",
+  "language": "C++20",
+  "build_system": "CMake",
+  "package_manager": "vcpkg",
+  "platform": "Windows 64-bit",
+  "graphics_backend": "Direct3D 11 bootstrap",
+  "gameplay_style": "3D HD MMORPG/ARPG",
+  "movement": "Ragnarok-style click-to-move; no WASD",
+  "active_engine_policy": "Do not use Unity or Unreal as the game runtime."
+}
