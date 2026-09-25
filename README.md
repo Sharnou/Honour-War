@@ -5,16 +5,16 @@ Development status: **native Sharnou Engine migration**. Unity and Unreal Engine
 ## Permanent project identity
 
 - **Game engine:** Sharnou Engine
-- **IDE/toolchain:** Microsoft Visual Studio Community 2022 / MSVC
-- **Language:** C++20
-- **Build system:** CMake
-- **Dependency manager:** vcpkg
+- **IDE:** Sharnou IDE
+- **Engine:** Sharnou Engine
+- **Authoring protocol:** Sharnou Project Protocol (SPP)
+- **Native runtime language:** C++20 (engine implementation)
 - **Platform:** Windows 64-bit
 - **Game style:** 3D HD MMORPG/ARPG
 - **Movement:** Ragnarok Online-style click-to-move; no WASD movement
-- **Graphics bootstrap:** native Direct3D 11
+- **Graphics bootstrap:** native Direct3D 11 runtime layer
 
-The Sharnou Engine runtime lives under Engine/SharnouEngine/.
+The Sharnou Engine runtime lives under Engine/SharnouEngine/. Honour War is launched and validated through Tools/SharnouIDE/; direct Visual Studio/MSBuild/Windows SDK/Unity/Unreal project paths are rejected by policy.
 
 ## Preserved Honour War design/data
 
@@ -64,3 +64,9 @@ A build, launch, gameplay test, or screenshot is only marked PASS when the nativ
 ## Copyright
 
 © Sharnou — Honour War
+
+## Sharnou IDE enforcement
+
+The authoritative project contract is Tools/SharnouIDE/honour-war.spp.json. The Sharnou IDE runner validates that manifest, locates the Sharnou Engine runtime, and exposes self-test/runtime-test entry points. It does not download or bootstrap external programming tools.
+
+The repository's native-source implementation still contains a C++ implementation layer. Rebuilding native C++ from source inherently requires some C++ compiler; the Sharnou IDE policy does not pretend otherwise. What is rejected is the Microsoft IDE/build/SDK stack and automatic acquisition of external programming tools for the project workflow.
