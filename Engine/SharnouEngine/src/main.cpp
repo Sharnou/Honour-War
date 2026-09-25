@@ -1,7 +1,7 @@
 #include "sharnou/Engine.h"
 #include <string>
 
-int WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR commandLine, int) {
+int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR commandLine, int) {
     const std::wstring args = commandLine ? commandLine : L"";
     if (args.find(L"--self-test") != std::wstring::npos) {
         Sharnou::HonourWarGame game;
