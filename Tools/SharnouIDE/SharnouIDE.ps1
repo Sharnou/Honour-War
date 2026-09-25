@@ -1,5 +1,5 @@
 param(
-    [ValidateSet("validate","self-test","runtime-test","run")]
+    [ValidateSet("validate","compile","self-test","runtime-test","run")]
     [string]$Command = "validate",
     [int]$RuntimeTestSeconds = 300
 )
@@ -28,6 +28,11 @@ foreach ($relative in $manifest.engine.runtime_candidates) {
 }
 $enginePath = $engineCandidates | Where-Object { Test-Path -LiteralPath $_ -PathType Leaf } | Select-Object -First 1
 
+if ($Command -eq "compile") {
+    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $compilerPath -Source $sppSource -Output $programPath
+    exit $LASTEXITCODE
+}
+
 if ($Command -eq "validate") {
     if (Test-Path -LiteralPath $policyPath) {
         & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $policyPath
@@ -51,6 +56,11 @@ if (-not $enginePath) {
 
 # Mark the process as an authoritative Sharnou IDE launch.
 $env:SHARNOU_IDE_SESSION = "1"
+
+# Author the runtime program before launching the game.
+& powershell.exe -NoProfile -ExecutionPolicy Bypass -File $compilerPath -Source $sppSource -Output $programPath
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+Set-Location -LiteralPath $repoRoot
 
 switch ($Command) {
     "self-test" {
