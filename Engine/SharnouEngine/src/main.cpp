@@ -5,7 +5,12 @@
 static bool SharnouIdeSessionActive() {
     wchar_t value[8]{};
     const DWORD length = GetEnvironmentVariableW(L"SHARNOU_IDE_SESSION", value, static_cast<DWORD>(sizeof(value) / sizeof(value[0])));
-    return length == 1 && value[0] == L'1';
+    if (length != 1 || value[0] != L'1') return false;
+
+    wchar_t repository[256]{};
+    const DWORD repoLength = GetEnvironmentVariableW(L"SHARNOU_IDE_REPOSITORY", repository, static_cast<DWORD>(sizeof(repository) / sizeof(repository[0])));
+    const std::wstring expected = L"https://github.com/Sharnou/Sharnou-IDE";
+    return repoLength == expected.size() && std::wstring(repository, repoLength) == expected;
 }
 
 int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR commandLine, int) {
