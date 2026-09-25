@@ -53,12 +53,14 @@ bool HonourWarGame::LoadCanonicalData() {
         std::ifstream jobsIn(std::filesystem::path(dataRoot_)/"honour_war_class_jobs.json");
         std::ifstream profilesIn(std::filesystem::path(dataRoot_)/"honour_war_character_profiles.json");
         std::ifstream skillsIn(std::filesystem::path(dataRoot_)/"honour_war_skill_system.json");
-        if(!catalogIn || !jobsIn || !profilesIn || !skillsIn) return false;
+        std::ifstream mapsIn(std::filesystem::path(dataRoot_)/"honour_war_maps.json");
+        if(!catalogIn || !jobsIn || !profilesIn || !skillsIn || !mapsIn) return false;
 
         catalogIn >> catalog_;
         jobsIn >> classJobs_;
         profilesIn >> characterProfiles_;
         skillsIn >> skillSystem_;
+        mapsIn >> maps_;
 
         const auto counts=catalog_.at("counts");
         const auto skillCounts=skillSystem_.at("counts");
@@ -75,7 +77,9 @@ bool HonourWarGame::LoadCanonicalData() {
                skillCounts.at("jobs").get<int>()==35 &&
                skillCounts.at("characters").get<int>()==70 &&
                skillCounts.at("class_skill_entries").get<int>()==280 &&
-               skillCounts.at("skills_per_job").get<int>()==8;
+               skillCounts.at("skills_per_job").get<int>()==8 &&
+               maps_.at("maps").is_array() &&
+               maps_.at("maps").size()==24;
     } catch(...) { return false; }
 }
 
@@ -127,6 +131,7 @@ void HonourWarGame::LoadGame() {
         player_.ageDays=std::max(0,j.value("ageDays",0));
         player_.onlineSeconds=std::max(0.0,j.value("onlineSeconds",0.0));
         player_.position=XMFLOAT3(j.value("x",0.0f),1.0f,j.value("z",0.0f));
+        SetCurrentMap(std::clamp(j.value("map",0),0,23));
         const std::string className=j.value("class","Warrior");
         for(int c=0;c<7;c++) {
             const auto candidate=static_cast<HonourClass>(c);
@@ -144,7 +149,8 @@ void HonourWarGame::SaveGame() {
     const auto save=local ? std::filesystem::path(local)/"SharnouEngine"/"HonourWar"/"player_save.json" : std::filesystem::path("player_save.json");
     try {
         json j={{"username",player_.username},{"characterName",player_.characterName},{"level",player_.level},
-                {"class",ClassName(player_.classId)},{"ageDays",player_.ageDays},{"onlineSeconds",player_.onlineSeconds},
+                {"class",ClassName(player_.classId)},{"map",currentMapIndex_},{"mapId",currentMapId_},
+                {"ageDays",player_.ageDays},{"onlineSeconds",player_.onlineSeconds},
                 {"x",player_.position.x},{"z",player_.position.z},{"skillLevels",player_.skillLevels}};
         std::ofstream out(save); out<<j.dump(2);
     } catch(...) {}
@@ -231,6 +237,18 @@ void HonourWarGame::ActivateSkill(int slot) {
     if(m.hp==0) m.alive=false;
 }
 
+bool HonourWarGame::SetCurrentMap(int mapIndex) {
+    if(mapIndex<0 || mapIndex>=24 || !maps_.contains("maps") || !maps_["maps"].is_array()) return false;
+    try {
+        const auto& map=maps_.at("maps").at(mapIndex);
+        currentMapIndex_=mapIndex;
+        currentMapId_=map.at("id").get<std::string>();
+        return true;
+    } catch(...) {
+        return false;
+    }
+}
+
 void HonourWarGame::SubmitCommand(const std::string& command) {
     std::istringstream ss(command);
     std::string verb,map,xy; ss>>verb>>map>>xy;
@@ -238,9 +256,12 @@ void HonourWarGame::SubmitCommand(const std::string& command) {
         const auto colon=xy.find(':');
         if(colon!=std::string::npos) {
             try {
+                const int mapIndex=std::stoi(map);
+                if(!SetCurrentMap(mapIndex)) return;
                 const float x=std::stof(xy.substr(0,colon)), z=std::stof(xy.substr(colon+1));
                 player_.position=XMFLOAT3(x/10.0f,1.0f,z/10.0f);
                 player_.moveTarget=player_.position; player_.moving=false;
+                SaveGame();
             } catch(...) {}
         }
     }
@@ -248,6 +269,9 @@ void HonourWarGame::SubmitCommand(const std::string& command) {
 
 bool HonourWarGame::RunSelfTest() {
     bool ok=LoadCanonicalData() && characterProfiles_.at("count").get<int>()==70;
+    for(int map=0; map<24; ++map) {
+        if(!SetCurrentMap(map) || currentMapIndex_!=map || currentMapId_.empty()) ok=false;
+    }
     for(int c=0;c<7;c++) {
         player_.classId=static_cast<HonourClass>(c);
         ReloadSkillsForCurrentClass();
@@ -318,7 +342,7 @@ bool HonourWarGame::RunRuntimeSoak(int simulatedSeconds) {
 
         const std::string map = std::to_string(second%24);
         SubmitCommand(std::string("@go ")+map+" 230:220");
-        if(std::fabs(player_.position.x-23.0f)>0.01f || std::fabs(player_.position.z-22.0f)>0.01f) ok=false;
+        if(currentMapIndex_ != second%24 || std::fabs(player_.position.x-23.0f)>0.01f || std::fabs(player_.position.z-22.0f)>0.01f) ok=false;
     }
     SaveGame();
     return ok;

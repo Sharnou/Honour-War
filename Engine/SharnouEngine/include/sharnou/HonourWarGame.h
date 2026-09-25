@@ -69,6 +69,8 @@ private:
     Character player_;
     std::vector<Monster> monsters_;
     int selectedMonster_{-1};
+    int currentMapIndex_{0};
+    std::string currentMapId_{"prontera_like_town"};
     float cameraYaw_{45.0f};
     float cameraPitch_{50.0f};
     float cameraDistance_{18.0f};
@@ -77,9 +79,11 @@ private:
     nlohmann::json classJobs_;
     nlohmann::json characterProfiles_;
     nlohmann::json skillSystem_;
+    nlohmann::json maps_;
     float saveAccumulator_{0.0f};
     void ReloadSkillsForCurrentClass();
     static const char* ClassName(HonourClass c);
+    bool SetCurrentMap(int mapIndex);
 };
 
 }
