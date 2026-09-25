@@ -1,5 +1,5 @@
 {
-  "schema": "sharnou-project/2",
+  "schema": "sharnou-project/3",
   "canonical_identity": {
     "project_id": "honour-war",
     "project_name": "Honour War",
@@ -29,11 +29,13 @@
     "required_runtime_args": ["--self-test", "--runtime-test"]
   },
   "visual_format_policy": {
+    "mode": "AVIF-only",
     "generated_texture_format": ".AVIF",
     "generated_visual_format": ".AVIF",
     "accepted_texture_formats": [".avif"],
     "accepted_generated_visual_formats": [".avif"],
-    "rejected_generated_visual_formats": [".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp", ".tga", ".dds"]
+    "rejected_generated_visual_formats": [".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp", ".tga", ".dds"],
+    "legacy_conversion": "automatic metadata conversion; binary encoder is not downloaded"
   },
   "authoring": {
     "movement": "click-to-move",
@@ -49,9 +51,12 @@
   "ide_migration_policy": {
     "authoritative_ide": "Sharnou-IDE",
     "automatic_project_conversion": true,
+    "supported_legacy_metadata": ["Visual Studio", "VS Code", "JetBrains", "Eclipse", "Xcode", "generic workspace metadata"],
     "convert_ide_project_metadata_to": "Sharnou-IDE SPP",
     "reject_non_sharnou_ide_runtime_control": true,
-    "legacy_ide_execution": false
+    "legacy_ide_execution": false,
+    "legacy_toolchain_execution": false,
+    "external_downloads": false
   },
   "forbidden_project_dependencies": [
     "Visual Studio",
@@ -64,7 +69,7 @@
     "automatic external programming-tool downloads"
   ],
   "build_policy": {
-    "mode": "Sharnou-IDE runtime-first",
+    "mode": "Sharnou-IDE + SharnouEngine only",
     "network_downloads": false,
     "external_tool_bootstrap": false,
     "compiler_installation": "forbidden",
