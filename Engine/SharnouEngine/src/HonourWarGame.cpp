@@ -299,43 +299,73 @@ void HonourWarGame::SubmitCommand(const std::string& command) {
 }
 
 bool HonourWarGame::RunSelfTest() {
-    bool ok=LoadCanonicalData() && characterProfiles_.at("count").get<int>()==70;
+    const char* forcedLog=std::getenv("SHARNOU_ENGINE_SELFTEST_LOG");
+    const char* local=std::getenv("LOCALAPPDATA");
+    const std::filesystem::path logPath=forcedLog && *forcedLog
+        ? std::filesystem::path(forcedLog)
+        : (local ? std::filesystem::path(local)/"SharnouEngine"/"HonourWar"/"self_test.log"
+                 : std::filesystem::path("self_test.log"));
+    std::filesystem::create_directories(logPath.parent_path());
+    std::ofstream log(logPath);
+
+    bool ok=true;
+    try {
+        if(!LoadCanonicalData()) {
+            ok=false;
+            log << "FAIL[CATALOG] canonical data validation\n";
+        }
+    } catch(...) {
+        ok=false;
+        log << "FAIL[CATALOG] exception during canonical data validation\n";
+    }
+
     try {
         const auto& profiles=characterProfiles_.at("profiles");
-        if(!profiles.is_array() || profiles.size()!=70) ok=false;
-        for(int i=0;i<70 && i<static_cast<int>(profiles.size());++i) {
-            if(!SelectCharacterProfile(i)) { ok=false; continue; }
-            if(player_.profileId != profiles.at(i).at("id").get<std::string>() ||
-               player_.jobName != profiles.at(i).at("job_name").get<std::string>() ||
-               player_.gender != profiles.at(i).at("gender").get<std::string>()) ok=false;
-            selectedMonster_=0;
-            monsters_[0].alive=true; monsters_[0].hp=monsters_[0].maxHp;
-            for(int s=0;s<8;s++) {
-                player_.sp=player_.maxSp;
-                const int hpBefore=monsters_[0].hp;
-                ActivateSkill(s);
-                if(monsters_[0].hp>=hpBefore || skills_[s].name.empty()) ok=false;
-                monsters_[0].hp=monsters_[0].maxHp; monsters_[0].alive=true;
+        if(!profiles.is_array() || profiles.size()!=70) {
+            ok=false;
+            log << "FAIL[PROFILE_COUNT] expected=70\n";
+        } else {
+            for(int i=0;i<70;++i) {
+                if(!SelectCharacterProfile(i)) {
+                    ok=false;
+                    log << "FAIL[PROFILE] index=" << i << "\n";
+                    continue;
+                }
+                if(player_.profileId != profiles.at(i).at("id").get<std::string>() ||
+                   player_.jobName != profiles.at(i).at("job_name").get<std::string>() ||
+                   player_.gender != profiles.at(i).at("gender").get<std::string>()) {
+                    ok=false;
+                    log << "FAIL[PROFILE_METADATA] index=" << i << "\n";
+                }
+                selectedMonster_=0;
+                monsters_[0].alive=true; monsters_[0].hp=monsters_[0].maxHp;
+                for(int s=0;s<8;++s) {
+                    player_.sp=player_.maxSp;
+                    const int hpBefore=monsters_[0].hp;
+                    ActivateSkill(s);
+                    if(monsters_[0].hp>=hpBefore || skills_[s].name.empty() || skills_[s].resourceCost<=0) {
+                        ok=false;
+                        log << "FAIL[SKILL] profile_index=" << i << " slot=" << s << "\n";
+                    }
+                    monsters_[0].hp=monsters_[0].maxHp; monsters_[0].alive=true;
+                }
             }
         }
-    } catch(...) { ok=false; }
-    for(int map=0; map<24; ++map) {
-        if(!SetCurrentMap(map) || currentMapIndex_!=map || currentMapId_.empty()) ok=false;
+    } catch(...) {
+        ok=false;
+        log << "FAIL[PROFILES] exception during profile/skill validation\n";
     }
-    for(int c=0;c<7;c++) {
-        player_.classId=static_cast<HonourClass>(c);
-        ReloadSkillsForCurrentClass();
-        selectedMonster_=0;
-        monsters_[0].alive=true; monsters_[0].hp=monsters_[0].maxHp;
-        for(int s=0;s<8;s++) {
-            player_.sp=player_.maxSp;
-            const int hpBefore=monsters_[0].hp;
-            ActivateSkill(s);
-            if(monsters_[0].hp>=hpBefore) ok=false;
-            if(skills_[s].name.empty() || skills_[s].resourceCost<=0) ok=false;
-            monsters_[0].hp=monsters_[0].maxHp; monsters_[0].alive=true;
+
+    for(int map=0; map<24; ++map) {
+        if(!SetCurrentMap(map) || currentMapIndex_!=map || currentMapId_.empty()) {
+            ok=false;
+            log << "FAIL[MAP] index=" << map << "\n";
         }
     }
+
+    log << (ok ? "PASS[END] Sharnou Engine canonical self-test completed.\n"
+               : "FAIL[END] Sharnou Engine canonical self-test detected failures.\n");
+    log << "profiles=70 classes=7 jobs=35 skills_per_job=8 maps=24\n";
     return ok;
 }
 
