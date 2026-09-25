@@ -4,7 +4,7 @@
 
 static bool SharnouIdeSessionActive() {
     wchar_t value[8]{};
-    const DWORD length = GetEnvironmentVariableW(L"SHARNOU_IDE_SESSION", value, static_cast<DWORD>(std::size(value)));
+    const DWORD length = GetEnvironmentVariableW(L"SHARNOU_IDE_SESSION", value, static_cast<DWORD>(sizeof(value) / sizeof(value[0])));
     return length == 1 && value[0] == L'1';
 }
 
