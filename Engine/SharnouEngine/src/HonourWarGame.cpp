@@ -38,6 +38,7 @@ bool HonourWarGame::Initialize() {
         if(!sppIn) return false;
         json spp; sppIn >> spp;
         if(spp.at("ide").at("id").get<std::string>() != "Sharnou-IDE") return false;
+        if(spp.at("ide").at("repository").get<std::string>() != "https://github.com/Sharnou/Sharnou-IDE") return false;
         if(spp.at("engine").at("id").get<std::string>() != "SharnouEngine") return false;
         if(spp.at("build_policy").at("network_downloads").get<bool>()) return false;
         if(spp.at("build_policy").at("external_tool_bootstrap").get<bool>()) return false;
