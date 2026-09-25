@@ -210,7 +210,7 @@ bool HonourWarGame::SelectCharacterProfile(int profileIndex) {
         player_.jobName=p.at("job_name").get<std::string>();
         player_.gender=p.at("gender").get<std::string>();
         player_.title=p.at("title").get<std::string>();
-        player_.level=std::max(player_.level,p.at("required_level").get<int>());
+        player_.level=std::clamp(p.at("required_level").get<int>(),1,250);
         ReloadSkillsForCurrentClass();
         SaveGame();
         return true;
