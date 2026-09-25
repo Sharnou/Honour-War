@@ -1,0 +1,49 @@
+name: Sharnou Engine CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  native-windows:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Locate vcpkg
+        shell: pwsh
+        run: |
+          if (-not $env:VCPKG_ROOT) {
+            $cmd = Get-Command vcpkg -ErrorAction Stop
+            "VCPKG_ROOT=$(Split-Path $cmd.Source -Parent)" | Out-File -FilePath $env:GITHUB_ENV -Append
+          }
+
+      - name: Install native dependencies
+        shell: pwsh
+        run: |
+          vcpkg install --triplet x64-windows --manifest-root "$env:GITHUB_WORKSPACE/Engine/SharnouEngine"
+
+      - name: Configure CMake / Visual Studio 2022
+        shell: pwsh
+        run: |
+          cmake -S Engine/SharnouEngine -B Engine/SharnouEngine/out/ci -G "Visual Studio 17 2022" -A x64 "-DCMAKE_TOOLCHAIN_FILE=$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
+
+      - name: Build Release
+        shell: pwsh
+        run: |
+          cmake --build Engine/SharnouEngine/out/ci --config Release --parallel
+
+      - name: Run native self-test
+        shell: pwsh
+        run: |
+          & "$env:GITHUB_WORKSPACE/Engine/SharnouEngine/out/ci/Release/SharnouEngine.exe" --self-test
+          if ($LASTEXITCODE -ne 0) { throw "Sharnou Engine self-test failed: $LASTEXITCODE" }
+
+      - name: Sharnou Engine contract QA
+        shell: pwsh
+        run: |
+          python tools/sharnou_engine_qa.py
