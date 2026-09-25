@@ -1,9 +1,9 @@
 # Honour War HD Assets
 
-Honour War now uses Unreal Engine 5.8 as its sole runtime.
+Honour War uses Sharnou Engine as its sole runtime.
 
 Production asset path:
-Visual RAG → Neural4D or Blender → Substance 3D Painter → FBX/OBJ → Unreal Engine 5.8.
+Visual RAG → Neural4D or Blender → Substance 3D Painter → FBX/OBJ → Sharnou Engine.
 
 GLB and GLTF are rejected from daily updates and runtime intake. Meshy and Godot are permanently rejected.
 
