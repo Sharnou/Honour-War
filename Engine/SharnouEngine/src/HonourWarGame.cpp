@@ -287,10 +287,7 @@ void HonourWarGame::Render(D3D11Renderer& renderer) {
     }
 }
 
-}
-
-
-bool HonourWarGame::RunRuntimeSoak(int simulatedSeconds) {
+(int simulatedSeconds) {
     if(simulatedSeconds<=0) return false;
     bool ok=true;
     for(int second=0; second<simulatedSeconds; ++second) {
@@ -325,4 +322,7 @@ bool HonourWarGame::RunRuntimeSoak(int simulatedSeconds) {
     }
     SaveGame();
     return ok;
+}
+
+
 }
