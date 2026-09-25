@@ -18,6 +18,10 @@ jobs:
         shell: powershell
         run: .\ci\sharnou-stack-policy.ps1
 
+      - name: Validate AVIF-only content policy
+        shell: powershell
+        run: .\ci\sharnou-avif-policy.ps1
+
       - name: Validate Honour War SPP manifest
         shell: powershell
         run: .\Tools\SharnouIDE\SharnouIDE.ps1 -Command validate
