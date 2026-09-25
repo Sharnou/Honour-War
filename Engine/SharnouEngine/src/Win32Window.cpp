@@ -1,4 +1,5 @@
 #include "sharnou/Win32Window.h"
+#include <windowsx.h>
 
 namespace Sharnou {
 
