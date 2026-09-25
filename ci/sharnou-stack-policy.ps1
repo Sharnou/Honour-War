@@ -40,6 +40,7 @@ $forbiddenText = @(
 Get-ChildItem -LiteralPath $root -Recurse -File -Force -ErrorAction SilentlyContinue |
     Where-Object {
         $_.FullName -notmatch "[\\/]Legacy[\\/]" -and
+        $_.FullName -notmatch "ci[\\/]sharnou-stack-policy\.ps1$" -and
         $codeExtensions -contains $_.Extension.ToLowerInvariant() -and
         $_.FullName -notmatch "[\\/]docs[\\/]"
     } |
