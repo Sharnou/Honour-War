@@ -1,55 +1,50 @@
 # Honour War — Sharnou Engine 3D HD MMORPG/ARPG
 
-Development status: **native Sharnou Engine migration**. Sharnou Engine and Sharnou IDE are the permanent active stack. Unity and Unreal Engine 5.8 are not active game runtime dependencies.
+Honour War is the **canonical `honour-war` project** and uses **Sharnou-IDE + SharnouEngine** as its exclusive active development/runtime stack.
 
 ## Permanent project identity
 
-- **Game engine:** Sharnou Engine
-- **IDE:** Sharnou IDE
+- **Project ID:** `honour-war`
+- **Canonical repository:** `https://github.com/Sharnou/Honour-War`
+- **IDE:** Sharnou-IDE — `https://github.com/Sharnou/Sharnou-IDE`
+- **Game engine:** SharnouEngine / Sharnou Engine
 - **Authoring protocol:** Sharnou Project Protocol (SPP)
 - **Native runtime language:** C++20
 - **Platform:** Windows 64-bit
 - **Game style:** 3D HD MMORPG/ARPG
 - **Movement:** Ragnarok Online-style click-to-move; no WASD movement
-- **Graphics bootstrap:** native Direct3D 11 runtime layer
 
-Honour War is launched and validated through `Sharnou-IDE`. Direct Visual Studio/MSBuild/Windows SDK/CMake/vcpkg/Unity/Unreal project paths are rejected by policy. The IDE does not download or bootstrap external programming tools.
+Honour War is launched and validated through Sharnou-IDE. The project rejects Visual Studio, MSBuild, Windows SDK development installations, CMake, vcpkg, Unity, Unreal Engine, and automatic external programming-tool downloads. Sharnou-IDE is the authoritative project controller.
+
+## Sharnou-IDE → SharnouEngine workflow
+
+1. Sharnou-IDE identifies the project as canonical `honour-war`.
+2. Sharnou-IDE validates `Tools/SharnouIDE/honour-war.spp.json` against the SharnouEngine contract.
+3. SPP is compiled to engine-consumable JSON bytecode by Sharnou-IDE.
+4. The engine bridge verifies the canonical IDE, project and engine identities.
+5. Only an already-existing approved SharnouEngine runtime is eligible for launch.
+6. No external compiler, IDE, build system or programming-tool download is performed.
+
+## IDE conversion policy
+
+Existing Honour War IDE/project metadata is treated as migration input and converted to the Sharnou-IDE SPP contract. Non-Sharnou IDEs are not runtime controllers for Honour War. The repository's policy gates reject active `.sln`, `.slnx`, `.vcxproj`, CMake and vcpkg build paths outside legacy/archive areas.
+
+## Visual format policy
+
+All newly generated or converted raster visuals/textures for Honour War use **`.avif` only**. Existing historical reference images can remain as references; they are not new generated game assets.
+
+Approved model intake remains FBX/OBJ through:
+
+Visual RAG/reference analysis → Neural4D or Blender processing → FBX/OBJ → Sharnou Engine asset validation → runtime validation.
+
+GLB/GLTF remains rejected as asset intake.
 
 ## Preserved Honour War design/data
 
-The canonical data under `data/` remains the source of truth:
-
-- 70 character profiles
-- 35 jobs across 7 classes and 5 tiers
-- 256 monsters
-- 24 maps
-- 300 equipment entries
-- 76 general items
-- 300 cards
-- 20 pets
-- 120 pet skills
-- 100 pet equipment entries
-- class skills and 8% per-level scaling contract
-- quests/events, visual profiles, affixes and audio manifests
-
-## Sharnou IDE → Sharnou Engine workflow
-
-1. Sharnou IDE validates `Tools/SharnouIDE/honour-war.spp.json`.
-2. Sharnou IDE compiles the SPP project into engine-consumable JSON bytecode.
-3. The Sharnou Engine bridge verifies the canonical IDE and engine identities and selects only an approved existing `SharnouEngine.exe` runtime.
-4. Self-test/runtime-test/run are executed only through the Sharnou IDE session.
-5. No external compiler/toolchain download is performed by the project.
+The canonical data under `data/` remains the source of truth, including 70 character profiles, 35 jobs across 7 classes and 5 tiers, monsters, maps, 300 equipment entries, 300 cards, pets, pet skills/equipment, quests/events and progression systems.
 
 ## Runtime evidence
 
-A build, launch, gameplay test, or screenshot is only marked PASS when the native Sharnou Engine executable actually executes. Static source inspection alone is not runtime evidence.
-
-## Art pipeline
-
-GLB/GLTF remains rejected as project intake. Approved flow remains:
-
-Visual RAG/reference analysis → Neural4D or Blender processing → FBX/OBJ → Sharnou Engine asset import/validation → runtime validation → real gameplay screenshot.
-
-## Copyright
+A build, launch, gameplay test, or screenshot is only marked PASS when an actual SharnouEngine runtime executes. Static source inspection alone is not runtime evidence.
 
 © Sharnou — Honour War
