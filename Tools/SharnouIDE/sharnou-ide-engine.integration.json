@@ -1,0 +1,32 @@
+{
+  "schema": "sharnou-ide-engine-integration/1",
+  "project_id": "honour-war",
+  "canonical": true,
+  "ide": {
+    "id": "Sharnou-IDE",
+    "repository": "https://github.com/Sharnou/Sharnou-IDE",
+    "authority": "exclusive"
+  },
+  "engine": {
+    "id": "SharnouEngine",
+    "repository": "https://github.com/Sharnou/Sharnou-Engine",
+    "authority": "exclusive-runtime"
+  },
+  "protocol": "Sharnou Project Protocol (SPP)",
+  "asset_policy": {
+    "generated_raster_format": ".AVIF",
+    "accepted_generated_raster_formats": [".AVIF"],
+    "rejected_generated_raster_formats": [".PNG", ".JPG", ".JPEG", ".WEBP", ".GIF", ".BMP", ".TGA", ".DDS"]
+  },
+  "external_tool_policy": {
+    "downloads": false,
+    "bootstrap": false,
+    "forbidden": ["Visual Studio", "MSBuild", "Windows SDK", "CMake", "vcpkg", "Unity", "Unreal Engine", "external programming tools"]
+  },
+  "legacy_ide_policy": {
+    "automatic_conversion": true,
+    "target": "Sharnou-IDE SPP",
+    "legacy_execution": false,
+    "legacy_toolchain_execution": false
+  }
+}
