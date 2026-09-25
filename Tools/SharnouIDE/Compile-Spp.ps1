@@ -63,5 +63,6 @@ $document = [ordered]@{
 
 $outputDirectory = Split-Path -Parent $Output
 New-Item -ItemType Directory -Force -Path $outputDirectory | Out-Null
-$document | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $Output -Encoding UTF8
+$jsonText = $document | ConvertTo-Json -Depth 8
+[System.IO.File]::WriteAllText($Output, $jsonText, (New-Object System.Text.UTF8Encoding($false)))
 Write-Host "PASS: SPP compiled $($commands.Count) commands -> $Output"
