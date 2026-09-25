@@ -51,6 +51,14 @@ jobs:
           & "$env:GITHUB_WORKSPACE/Engine/SharnouEngine/out/ci/Release/SharnouEngine.exe" --runtime-test
           if ($LASTEXITCODE -ne 0) { throw "Sharnou Engine runtime soak failed: $LASTEXITCODE" }
 
+      - name: Upload native runtime log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sharnou-engine-runtime-log
+          path: ${{ runner.temp }}/does-not-exist
+          if-no-files-found: ignore
+
       - name: Sharnou Engine contract QA
         shell: pwsh
         run: |
