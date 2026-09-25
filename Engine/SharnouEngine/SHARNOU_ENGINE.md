@@ -1,21 +1,22 @@
 # Sharnou Engine — Honour War
 
-Sharnou Engine is the active custom native game engine for Honour War.
+Sharnou Engine is the **only active game engine** for Honour War.
 
 ## Permanent project baseline
 
-- Engine: Sharnou Engine
-- Runtime: native Windows C++
-- Compiler/toolchain: Microsoft Visual Studio Community 2022 / MSVC
-- C++ standard: C++20
-- Build system: CMake
-- Package manager: vcpkg for third-party development dependencies
-- Graphics backend: Direct3D 11 during the bootstrap renderer stage
-- Target: Windows 64-bit
-- Game: 3D HD MMORPG/ARPG
+- Engine: **Sharnou Engine**
+- IDE: **Sharnou IDE**
+- Authoring protocol: **Sharnou Project Protocol (SPP)**
+- Runtime: native Windows 64-bit C++20
+- Graphics backend: Direct3D 11 bootstrap renderer
+- Game style: **3D HD MMORPG/ARPG**
 - Input: Ragnarok-style click-to-move and camera controls; no WASD movement
 
-Unity and Unreal Engine are not runtime dependencies of the active Sharnou Engine build.
+## Toolchain policy
+
+Honour War does **not** use or download Visual Studio, MSBuild, Windows SDK development packages, CMake, vcpkg, Unity, Unreal Engine, or any other external programming-tool bundle as part of the project workflow.
+
+Sharnou IDE is the authoritative authoring, validation, protocol-compilation, launch, and runtime-test controller. The repository does not claim that native C++ source can be rebuilt without a compiler and the platform interfaces required by that compiler; instead, the normal project workflow is runtime-first and never bootstraps those tools automatically.
 
 ## Honour War data contract
 
@@ -33,10 +34,20 @@ The engine consumes the repository's canonical data rather than discarding it:
 - 100 pet equipment entries
 - 8 skills per job with the existing skill-level scaling rules
 
-The canonical JSON files remain under data/ and are loaded by the native runtime.
+The canonical JSON files remain under `data/` and are loaded/validated by the native runtime.
 
-## Current native runtime
+## Runtime responsibilities
 
-The bootstrap runtime implements a real Win32 window and Direct3D renderer, a native Honour War gameplay loop, click movement, camera drag/zoom input, monster selection, eight skill slots, @go coordinate teleportation, persistent save data, catalog validation, and a startup self-test.
+The active runtime foundation covers the native game window/render loop, Direct3D 11 rendering, Honour War data validation, click-to-move movement, camera orbit/zoom, monster target selection, eight skill slots, `@go MAP X:Y` routing, persistent save data, and startup self-test.
 
-This is the first native engine runtime slice. It is not a claim that every production-grade MMORPG system, visual asset, network service, editor, animation system, renderer feature, and content pipeline is already finished.
+A runtime executable is only marked PASS after actual execution. Source inspection alone is not runtime evidence.
+
+## Art pipeline
+
+GLB/GLTF remains rejected as project intake. Approved flow:
+
+Visual RAG/reference analysis → Neural4D or Blender processing → FBX/OBJ → Sharnou Engine asset import/validation → runtime validation → real gameplay evidence.
+
+## Migration boundary
+
+Legacy Unity/Unreal material is retained only as historical/recovery material where present. It is not an active runtime dependency.
