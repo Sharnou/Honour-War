@@ -44,6 +44,13 @@ jobs:
           & "$env:GITHUB_WORKSPACE/Engine/SharnouEngine/out/ci/Release/SharnouEngine.exe" --self-test
           if ($LASTEXITCODE -ne 0) { throw "Sharnou Engine self-test failed: $LASTEXITCODE" }
 
+      - name: Native 300-second gameplay soak
+        shell: pwsh
+        timeout-minutes: 2
+        run: |
+          & "$env:GITHUB_WORKSPACE/Engine/SharnouEngine/out/ci/Release/SharnouEngine.exe" --runtime-test
+          if ($LASTEXITCODE -ne 0) { throw "Sharnou Engine runtime soak failed: $LASTEXITCODE" }
+
       - name: Sharnou Engine contract QA
         shell: pwsh
         run: |
