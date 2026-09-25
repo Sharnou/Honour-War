@@ -313,6 +313,15 @@ void HonourWarGame::Render(D3D11Renderer& renderer) {
 
 bool HonourWarGame::RunRuntimeSoak(int simulatedSeconds) {
     if(simulatedSeconds<=0) return false;
+
+    const char* local=std::getenv("LOCALAPPDATA");
+    const std::filesystem::path logPath=local
+        ? std::filesystem::path(local)/"SharnouEngine"/"HonourWar"/"runtime_test.log"
+        : std::filesystem::path("runtime_test.log");
+    std::filesystem::create_directories(logPath.parent_path());
+    std::ofstream log(logPath);
+    log << "SHARNOU_ENGINE_RUNTIME_TEST_BEGIN simulated_seconds=" << simulatedSeconds << "\n";
+
     bool ok=true;
     for(int second=0; second<simulatedSeconds; ++second) {
         player_.classId=static_cast<HonourClass>(second%7);
@@ -330,21 +339,33 @@ bool HonourWarGame::RunRuntimeSoak(int simulatedSeconds) {
         for(int tick=0; tick<60; ++tick)
             Update(1.0f/60.0f);
 
-        if(player_.moving) ok=false;
+        if(player_.moving) {
+            ok=false;
+            log << "FAIL[MOVEMENT] second=" << second << "\n";
+        }
         for(int skill=0; skill<8; ++skill) {
             player_.sp=player_.maxSp;
             monster.alive=true;
             monster.hp=monster.maxHp;
             const int before=monster.hp;
             ActivateSkill(skill);
-            if(skills_[skill].name.empty() || monster.hp>=before) ok=false;
+            if(skills_[skill].name.empty() || monster.hp>=before) {
+                ok=false;
+                log << "FAIL[SKILL] class=" << ClassName(player_.classId) << " slot=" << skill << "\n";
+            }
         }
 
         const std::string map = std::to_string(second%24);
         SubmitCommand(std::string("@go ")+map+" 230:220");
-        if(currentMapIndex_ != second%24 || std::fabs(player_.position.x-23.0f)>0.01f || std::fabs(player_.position.z-22.0f)>0.01f) ok=false;
+        if(currentMapIndex_ != second%24 || std::fabs(player_.position.x-23.0f)>0.01f || std::fabs(player_.position.z-22.0f)>0.01f) {
+            ok=false;
+            log << "FAIL[COMMAND] map=" << second%24 << " current=" << currentMapIndex_ << "\n";
+        }
     }
     SaveGame();
+    log << (ok ? "PASS[END] Sharnou Engine 300-second gameplay soak completed.\n"
+               : "FAIL[END] Sharnou Engine gameplay soak detected failures.\n");
+    log << "classes=7 skills_per_class=8 maps=24 movement=click-to-move command=@go\n";
     return ok;
 }
 
