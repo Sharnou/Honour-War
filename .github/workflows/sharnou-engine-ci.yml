@@ -42,16 +42,16 @@ jobs:
         shell: pwsh
         run: |
           $env:SHARNOU_ENGINE_SELFTEST_LOG = "$env:GITHUB_WORKSPACE/sharnou-self-test.log"
-          & "$env:GITHUB_WORKSPACE/Engine/SharnouEngine/out/ci/Release/SharnouEngine.exe" --self-test
-          if ($LASTEXITCODE -ne 0) { throw "Sharnou Engine self-test failed: $LASTEXITCODE" }
+          $p = Start-Process -FilePath "$env:GITHUB_WORKSPACE/Engine/SharnouEngine/out/ci/Release/SharnouEngine.exe" -ArgumentList "--self-test" -Wait -PassThru
+          if ($p.ExitCode -ne 0) { throw "Sharnou Engine self-test failed: $($p.ExitCode)" }
 
       - name: Native 300-second gameplay soak
         shell: pwsh
         timeout-minutes: 2
         run: |
           $env:SHARNOU_ENGINE_TEST_LOG = "$env:GITHUB_WORKSPACE/sharnou-runtime-test.log"
-          & "$env:GITHUB_WORKSPACE/Engine/SharnouEngine/out/ci/Release/SharnouEngine.exe" --runtime-test
-          if ($LASTEXITCODE -ne 0) { throw "Sharnou Engine runtime soak failed: $LASTEXITCODE" }
+          $p = Start-Process -FilePath "$env:GITHUB_WORKSPACE/Engine/SharnouEngine/out/ci/Release/SharnouEngine.exe" -ArgumentList "--runtime-test" -Wait -PassThru
+          if ($p.ExitCode -ne 0) { throw "Sharnou Engine runtime soak failed: $($p.ExitCode)" }
 
       - name: Upload native runtime log
         if: always()
