@@ -1,10 +1,10 @@
-# Honour War — Unreal Production Art Library
+# Honour War — Sharnou Engine Production Art Library
 
-This folder is the native Unreal Engine 5.8 destination for the production art library.
+This folder is the native Sharnou Engine destination for the production art library.
 
 ## Approved source path
 
-Visual RAG → Neural4D / Blender → Substance 3D Painter → FBX/OBJ + texture maps → Unreal Engine 5.8.
+Visual RAG → Neural4D / Blender → Substance 3D Painter → FBX/OBJ + texture maps → Sharnou Engine.
 
 GLB and GLTF are permanently rejected from Honour War runtime intake. Meshy is permanently rejected.
 
