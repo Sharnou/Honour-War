@@ -127,6 +127,11 @@ void HonourWarGame::LoadGame() {
         json j; in>>j;
         player_.username=j.value("username","player");
         player_.characterName=j.value("characterName","Adventurer");
+        player_.profileId=j.value("profileId","CHAR_PROFILE_001");
+        player_.jobId=j.value("jobId","JOB_WARRIOR_T1");
+        player_.jobName=j.value("jobName","Swordsman");
+        player_.gender=j.value("gender","male");
+        player_.title=j.value("title","Ember Vanguard");
         player_.level=std::clamp(j.value("level",1),1,250);
         player_.ageDays=std::max(0,j.value("ageDays",0));
         player_.onlineSeconds=std::max(0.0,j.value("onlineSeconds",0.0));
@@ -148,8 +153,9 @@ void HonourWarGame::SaveGame() {
     const char* local=std::getenv("LOCALAPPDATA");
     const auto save=local ? std::filesystem::path(local)/"SharnouEngine"/"HonourWar"/"player_save.json" : std::filesystem::path("player_save.json");
     try {
-        json j={{"username",player_.username},{"characterName",player_.characterName},{"level",player_.level},
-                {"class",ClassName(player_.classId)},{"map",currentMapIndex_},{"mapId",currentMapId_},
+        json j={{"username",player_.username},{"characterName",player_.characterName},{"profileId",player_.profileId},
+                {"jobId",player_.jobId},{"jobName",player_.jobName},{"gender",player_.gender},{"title",player_.title},
+                {"level",player_.level},{"class",ClassName(player_.classId)},{"map",currentMapIndex_},{"mapId",currentMapId_},
                 {"ageDays",player_.ageDays},{"onlineSeconds",player_.onlineSeconds},
                 {"x",player_.position.x},{"z",player_.position.z},{"skillLevels",player_.skillLevels}};
         std::ofstream out(save); out<<j.dump(2);
@@ -186,6 +192,31 @@ void HonourWarGame::MoveTowardTarget(float dt) {
     }
     const XMVECTOR step=XMVector3Normalize(d)*stepDistance;
     XMStoreFloat3(&player_.position,p+step);
+}
+
+bool HonourWarGame::SelectCharacterProfile(int profileIndex) {
+    try {
+        const auto& profiles=characterProfiles_.at("profiles");
+        if(!profiles.is_array() || profileIndex<0 || profileIndex>=static_cast<int>(profiles.size())) return false;
+        const auto& p=profiles.at(profileIndex);
+        const std::string className=p.at("class").get<std::string>();
+        for(int c=0;c<7;c++) {
+            const auto candidate=static_cast<HonourClass>(c);
+            if(className==ClassName(candidate)) { player_.classId=candidate; break; }
+        }
+        player_.profileId=p.at("id").get<std::string>();
+        player_.characterName=p.at("name").get<std::string>();
+        player_.jobId=p.at("job_id").get<std::string>();
+        player_.jobName=p.at("job_name").get<std::string>();
+        player_.gender=p.at("gender").get<std::string>();
+        player_.title=p.at("title").get<std::string>();
+        player_.level=std::max(player_.level,p.at("required_level").get<int>());
+        ReloadSkillsForCurrentClass();
+        SaveGame();
+        return true;
+    } catch(...) {
+        return false;
+    }
 }
 
 void HonourWarGame::OnLeftClick(int x,int y) {
@@ -269,6 +300,25 @@ void HonourWarGame::SubmitCommand(const std::string& command) {
 
 bool HonourWarGame::RunSelfTest() {
     bool ok=LoadCanonicalData() && characterProfiles_.at("count").get<int>()==70;
+    try {
+        const auto& profiles=characterProfiles_.at("profiles");
+        if(!profiles.is_array() || profiles.size()!=70) ok=false;
+        for(int i=0;i<70 && i<static_cast<int>(profiles.size());++i) {
+            if(!SelectCharacterProfile(i)) { ok=false; continue; }
+            if(player_.profileId != profiles.at(i).at("id").get<std::string>() ||
+               player_.jobName != profiles.at(i).at("job_name").get<std::string>() ||
+               player_.gender != profiles.at(i).at("gender").get<std::string>()) ok=false;
+            selectedMonster_=0;
+            monsters_[0].alive=true; monsters_[0].hp=monsters_[0].maxHp;
+            for(int s=0;s<8;s++) {
+                player_.sp=player_.maxSp;
+                const int hpBefore=monsters_[0].hp;
+                ActivateSkill(s);
+                if(monsters_[0].hp>=hpBefore || skills_[s].name.empty()) ok=false;
+                monsters_[0].hp=monsters_[0].maxHp; monsters_[0].alive=true;
+            }
+        }
+    } catch(...) { ok=false; }
     for(int map=0; map<24; ++map) {
         if(!SetCurrentMap(map) || currentMapIndex_!=map || currentMapId_.empty()) ok=false;
     }
@@ -327,6 +377,10 @@ bool HonourWarGame::RunRuntimeSoak(int simulatedSeconds) {
 
     bool ok=true;
     for(int second=0; second<simulatedSeconds; ++second) {
+        if(!SelectCharacterProfile(second%70)) {
+            ok=false;
+            log << "FAIL[PROFILE] index=" << second%70 << "\n";
+        }
         player_.classId=static_cast<HonourClass>(second%7);
         ReloadSkillsForCurrentClass();
         player_.sp=player_.maxSp;
@@ -368,7 +422,7 @@ bool HonourWarGame::RunRuntimeSoak(int simulatedSeconds) {
     SaveGame();
     log << (ok ? "PASS[END] Sharnou Engine 300-second gameplay soak completed.\n"
                : "FAIL[END] Sharnou Engine gameplay soak detected failures.\n");
-    log << "classes=7 skills_per_class=8 maps=24 movement=click-to-move command=@go\n";
+    log << "profiles=70 classes=7 skills_per_class=8 maps=24 movement=click-to-move command=@go\n";
     return ok;
 }
 

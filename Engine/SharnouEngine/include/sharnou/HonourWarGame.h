@@ -20,6 +20,11 @@ struct Skill {
 struct Character {
     std::string username{"player"};
     std::string characterName{"Adventurer"};
+    std::string profileId{"CHAR_PROFILE_001"};
+    std::string jobId{"JOB_WARRIOR_T1"};
+    std::string jobName{"Swordsman"};
+    std::string gender{"male"};
+    std::string title{"Ember Vanguard"};
     HonourClass classId{HonourClass::Warrior};
     int level{1};
     int ageDays{0};
@@ -56,6 +61,7 @@ public:
     void SubmitCommand(const std::string& command);
     bool RunSelfTest();
     bool RunRuntimeSoak(int simulatedSeconds);
+    bool SelectCharacterProfile(int profileIndex);
 
 private:
     bool LoadCanonicalData();
