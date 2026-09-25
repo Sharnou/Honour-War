@@ -1,0 +1,23 @@
+name: Sharnou IDE Stack Policy
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  policy:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate Sharnou IDE stack policy
+        shell: powershell
+        run: .\ci\sharnou-stack-policy.ps1
+
+      - name: Validate Honour War SPP manifest
+        shell: powershell
+        run: .\Tools\SharnouIDE\SharnouIDE.ps1 -Command validate
