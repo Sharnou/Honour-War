@@ -10,6 +10,9 @@ $ideRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 $repoRoot = [System.IO.Path]::GetFullPath((Join-Path $ideRoot "..\.."))
 $manifestPath = Join-Path $ideRoot "honour-war.spp.json"
 $policyPath = Join-Path $repoRoot "ci\sharnou-stack-policy.ps1"
+$compilerPath = Join-Path $ideRoot "Compile-Spp.ps1"
+$sppSource = Join-Path $ideRoot "project\main.spp"
+$programPath = Join-Path $repoRoot "Build\Runtime\honour-war.sppc.json"
 
 if (-not (Test-Path -LiteralPath $manifestPath)) {
     throw "Sharnou IDE manifest missing: $manifestPath"
@@ -35,12 +38,16 @@ if ($Command -eq "compile") {
 
 if ($Command -eq "validate") {
     if (Test-Path -LiteralPath $policyPath) {
+
         & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $policyPath
         if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
     }
     Write-Host "PASS: Sharnou IDE project contract validated."
     Write-Host "PASS: Engine identity = SharnouEngine."
     Write-Host "PASS: External tool download/bootstrap = disabled."
+    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $compilerPath -Source $sppSource -Output $programPath
+    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+    Write-Host "PASS: Sharnou Project Protocol authoring program compiled."
     if (-not $enginePath) {
         Write-Warning "Sharnou Engine executable not present in the local runtime candidates."
         Write-Warning "Source/project validation is complete; runtime execution requires a built SharnouEngine.exe."
