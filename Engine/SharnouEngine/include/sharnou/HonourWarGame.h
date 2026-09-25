@@ -73,6 +73,11 @@ private:
     float cameraDistance_{18.0f};
     std::array<Skill, 8> skills_;
     nlohmann::json catalog_;
+    nlohmann::json classJobs_;
+    nlohmann::json characterProfiles_;
+    nlohmann::json skillSystem_;
+    void ReloadSkillsForCurrentClass();
+    static const char* ClassName(HonourClass c);
 };
 
 }
