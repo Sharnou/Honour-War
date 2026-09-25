@@ -8,7 +8,7 @@ Every visual development cycle regenerates the visual game presentation from the
 
 ## Fixed production sequence
 
-Visual RAG / multimodal reference analysis → visual gap register → regenerated visual brief → Neural4D or Blender → Substance 3D Painter → FBX/OBJ → Unreal Engine 5.8 → gameplay/runtime validation → real EXE screenshot → reference comparison.
+Visual RAG / multimodal reference analysis → visual gap register → regenerated visual brief → Neural4D or Blender → Substance 3D Painter → FBX/OBJ → Sharnou Engine → gameplay/runtime validation → real EXE screenshot → reference comparison.
 
 ## Permanent exclusions
 
@@ -36,9 +36,9 @@ Approved interchange:
 - OBJ: approved static environment and prop meshes.
 - Texture maps: Base Color, Normal, Roughness, Metallic, AO, Emissive as applicable.
 
-## Unreal import
+## Sharnou Engine import
 
-Production assets are imported into Unreal Engine 5.8 and assigned native materials. Each asset receives:
+Production assets are imported into Sharnou Engine and assigned native materials. Each asset receives:
 - stable ID;
 - correct scale/orientation;
 - material slots;
@@ -60,10 +60,10 @@ Six base classes and advanced classes receive complete full-body models with vis
 The permanent gameplay framing is explicitly **Ragnarok Online-inspired** while remaining an original Honour War implementation.
 
 The permanent gameplay framing is a perspective, elevated isometric-style MMORPG camera inspired by the classic Ragnarok Online desktop interaction pattern:
-left-click navigation/targeting, right-mouse drag camera orbit, wheel zoom, direct keyboard movement and numeric skill inputs.
+left-click navigation/targeting, right-mouse drag camera orbit, wheel zoom, numeric skill inputs.
 
 The camera must keep the hero readable as a complete character during normal play; feet and legs must not be cropped by default framing.
 
 ## Runtime evidence
 
-The final graphical result must be judged from a real Unreal Engine 5.8 runtime/Windows EXE frame. Reference images and concept art are inputs, not evidence of gameplay.
+The final graphical result must be judged from a real Sharnou Engine runtime/Windows EXE frame. Reference images and concept art are inputs, not evidence of gameplay.
