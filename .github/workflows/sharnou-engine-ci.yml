@@ -41,6 +41,7 @@ jobs:
       - name: Run native self-test
         shell: pwsh
         run: |
+          $env:SHARNOU_ENGINE_SELFTEST_LOG = "$env:GITHUB_WORKSPACE/sharnou-self-test.log"
           & "$env:GITHUB_WORKSPACE/Engine/SharnouEngine/out/ci/Release/SharnouEngine.exe" --self-test
           if ($LASTEXITCODE -ne 0) { throw "Sharnou Engine self-test failed: $LASTEXITCODE" }
 
@@ -57,7 +58,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: sharnou-engine-runtime-log
-          path: sharnou-runtime-test.log
+          path: |
+            sharnou-self-test.log
+            sharnou-runtime-test.log
           if-no-files-found: warn
 
       - name: Sharnou Engine contract QA
