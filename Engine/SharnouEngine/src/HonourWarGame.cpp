@@ -45,6 +45,37 @@ bool HonourWarGame::Initialize() {
         return false;
     }
 
+    // The IDE compiler output is the runtime hand-off from Sharnou IDE to
+    // Sharnou Engine. Validate it before any world state is created.
+    try {
+        std::ifstream programIn(std::filesystem::path("Build")/"Runtime"/"honour-war.sppc.json");
+        if(!programIn) return false;
+        json program; programIn >> program;
+        if(program.at("ide_id").get<std::string>() != "Sharnou-IDE") return false;
+        if(program.at("engine_id").get<std::string>() != "SharnouEngine") return false;
+        if(program.at("project_id").get<std::string>() != "honour-war") return false;
+        if(!program.at("commands").is_array()) return false;
+
+        for(const auto& command : program.at("commands")) {
+            const std::string op = command.at("op").get<std::string>();
+            if(op=="set_pos") {
+                player_.position = XMFLOAT3(
+                    command.at("x").get<float>(),
+                    command.at("y").get<float>(),
+                    command.at("z").get<float>()
+                );
+                player_.moveTarget = player_.position;
+                player_.moving = false;
+            } else if(op=="actor_spawn" || op=="bind_mesh" || op=="texture_avif") {
+                // Valid SPP operations are accepted by the engine boundary.
+            } else {
+                return false;
+            }
+        }
+    } catch(...) {
+        return false;
+    }
+
     if(!LoadCanonicalData()) return false;
     LoadGame();
     ReloadSkillsForCurrentClass();
