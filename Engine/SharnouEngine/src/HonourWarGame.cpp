@@ -30,11 +30,9 @@ bool HonourWarGame::Initialize() {
     }
     if(dataRoot_.empty()) return false;
 
-    skills_={{{"Ember Slash",0.95f,18},{"Shield Bash",0.99f,21},{"Guard Break",1.03f,24},{"Brave Charge",1.07f,27},
-              {"Iron Resolve",1.11f,30},{"War Cry",1.15f,33},{"Cleave",1.19f,36},{"Ember Guard",1.23f,39}}};
-
     if(!LoadCanonicalData()) return false;
     LoadGame();
+    ReloadSkillsForCurrentClass();
 
     monsters_.clear();
     for(int i=0;i<32;i++) {
@@ -51,20 +49,69 @@ bool HonourWarGame::Initialize() {
 
 bool HonourWarGame::LoadCanonicalData() {
     try {
-        std::ifstream in(std::filesystem::path(dataRoot_)/"honour_war_content_catalog.json");
-        in>>catalog_;
+        std::ifstream catalogIn(std::filesystem::path(dataRoot_)/"honour_war_content_catalog.json");
+        std::ifstream jobsIn(std::filesystem::path(dataRoot_)/"honour_war_class_jobs.json");
+        std::ifstream profilesIn(std::filesystem::path(dataRoot_)/"honour_war_character_profiles.json");
+        std::ifstream skillsIn(std::filesystem::path(dataRoot_)/"honour_war_skill_system.json");
+        if(!catalogIn || !jobsIn || !profilesIn || !skillsIn) return false;
+
+        catalogIn >> catalog_;
+        jobsIn >> classJobs_;
+        profilesIn >> characterProfiles_;
+        skillsIn >> skillSystem_;
+
         const auto counts=catalog_.at("counts");
-        const bool ok=counts.at("characters").get<int>()==70 &&
-                      counts.at("monsters").get<int>()==256 &&
-                      counts.at("maps").get<int>()==24 &&
-                      counts.at("equipment").get<int>()==300 &&
-                      counts.at("items").get<int>()==76 &&
-                      counts.at("cards").get<int>()==300 &&
-                      counts.at("pets").get<int>()==20 &&
-                      counts.at("pet_skills").get<int>()==120 &&
-                      counts.at("pet_equipment").get<int>()==100;
-        return ok;
+        const auto skillCounts=skillSystem_.at("counts");
+        return counts.at("characters").get<int>()==70 &&
+               counts.at("monsters").get<int>()==256 &&
+               counts.at("maps").get<int>()==24 &&
+               counts.at("equipment").get<int>()==300 &&
+               counts.at("items").get<int>()==76 &&
+               counts.at("cards").get<int>()==300 &&
+               counts.at("pets").get<int>()==20 &&
+               counts.at("pet_skills").get<int>()==120 &&
+               counts.at("pet_equipment").get<int>()==100 &&
+               skillCounts.at("classes").get<int>()==7 &&
+               skillCounts.at("jobs").get<int>()==35 &&
+               skillCounts.at("characters").get<int>()==70 &&
+               skillCounts.at("class_skill_entries").get<int>()==280 &&
+               skillCounts.at("skills_per_job").get<int>()==8;
     } catch(...) { return false; }
+}
+
+const char* HonourWarGame::ClassName(HonourClass c) {
+    switch(c) {
+        case HonourClass::Warrior: return "Warrior";
+        case HonourClass::Mage: return "Mage";
+        case HonourClass::Archer: return "Archer";
+        case HonourClass::Thief: return "Thief";
+        case HonourClass::Acolyte: return "Acolyte";
+        case HonourClass::Merchant: return "Merchant";
+        case HonourClass::Ranger: return "Ranger";
+    }
+    return "Warrior";
+}
+
+void HonourWarGame::ReloadSkillsForCurrentClass() {
+    skills_ = {};
+    try {
+        const std::string className = ClassName(player_.classId);
+        const int tier = TierForLevel(player_.level);
+        const auto& tiers = classJobs_.at("classes").at(className).at("tiers");
+        for(const auto& job : tiers) {
+            if(job.at("tier").get<int>() != tier) continue;
+            const auto& profiles = job.at("skill_profiles");
+            for(size_t i=0; i<profiles.size() && i<skills_.size(); ++i) {
+                skills_[i].name = profiles[i].at("name").get<std::string>();
+                skills_[i].powerRatio = profiles[i].value("power_ratio",1.0f);
+                skills_[i].resourceCost = profiles[i].value("resource_cost",10);
+            }
+            break;
+        }
+    } catch(...) {
+        skills_={{{"Basic Strike",1.0f,5},{"Guard",1.1f,8},{"Burst",1.2f,11},{"Focus",1.25f,14},
+                  {"Signature",1.3f,17},{"Ultimate",1.4f,22},{"Execution",1.5f,28},{"Ascension",1.6f,35}}};
+    }
 }
 
 void HonourWarGame::LoadGame() {
@@ -80,6 +127,15 @@ void HonourWarGame::LoadGame() {
         player_.ageDays=std::max(0,j.value("ageDays",0));
         player_.onlineSeconds=std::max(0.0,j.value("onlineSeconds",0.0));
         player_.position=XMFLOAT3(j.value("x",0.0f),1.0f,j.value("z",0.0f));
+        const std::string className=j.value("class","Warrior");
+        for(int c=0;c<7;c++) {
+            const auto candidate=static_cast<HonourClass>(c);
+            if(className==ClassName(candidate)) { player_.classId=candidate; break; }
+        }
+        if(j.contains("skillLevels") && j["skillLevels"].is_array()) {
+            for(size_t i=0;i<player_.skillLevels.size() && i<j["skillLevels"].size(); ++i)
+                player_.skillLevels[i]=std::clamp(j["skillLevels"][i].get<int>(),1,10);
+        }
     } catch(...) {}
 }
 
@@ -88,7 +144,8 @@ void HonourWarGame::SaveGame() {
     const auto save=local ? std::filesystem::path(local)/"SharnouEngine"/"HonourWar"/"player_save.json" : std::filesystem::path("player_save.json");
     try {
         json j={{"username",player_.username},{"characterName",player_.characterName},{"level",player_.level},
-                {"ageDays",player_.ageDays},{"onlineSeconds",player_.onlineSeconds},{"x",player_.position.x},{"z",player_.position.z}};
+                {"class",ClassName(player_.classId)},{"ageDays",player_.ageDays},{"onlineSeconds",player_.onlineSeconds},
+                {"x",player_.position.x},{"z",player_.position.z},{"skillLevels",player_.skillLevels}};
         std::ofstream out(save); out<<j.dump(2);
     } catch(...) {}
 }
@@ -111,7 +168,13 @@ void HonourWarGame::MoveTowardTarget(float dt) {
     XMVECTOR d=XMVectorSetY(t-p,0);
     const float len=XMVectorGetX(XMVector3Length(d));
     if(len<0.08f){player_.moving=false;return;}
-    const XMVECTOR step=XMVector3Normalize(d)*(6.0f*dt);
+    const float stepDistance=6.0f*dt;
+    if(stepDistance>=len) {
+        player_.position=player_.moveTarget;
+        player_.moving=false;
+        return;
+    }
+    const XMVECTOR step=XMVector3Normalize(d)*stepDistance;
     XMStoreFloat3(&player_.position,p+step);
 }
 
@@ -142,7 +205,15 @@ void HonourWarGame::OnMouseWheel(float delta) {
 }
 
 void HonourWarGame::OnKeyDown(unsigned int key) {
-    if(key>='1' && key<='8') ActivateSkill(int(key-'1'));
+    if(key>='1' && key<='8') {
+        ActivateSkill(int(key-'1'));
+        return;
+    }
+    if(key>=VK_F2 && key<=VK_F8) {
+        player_.classId=static_cast<HonourClass>(key-VK_F2);
+        ReloadSkillsForCurrentClass();
+        SaveGame();
+    }
 }
 
 void HonourWarGame::ActivateSkill(int slot) {
@@ -172,9 +243,10 @@ void HonourWarGame::SubmitCommand(const std::string& command) {
 }
 
 bool HonourWarGame::RunSelfTest() {
-    bool ok=LoadCanonicalData();
+    bool ok=LoadCanonicalData() && characterProfiles_.at("count").get<int>()==70;
     for(int c=0;c<7;c++) {
         player_.classId=static_cast<HonourClass>(c);
+        ReloadSkillsForCurrentClass();
         selectedMonster_=0;
         monsters_[0].alive=true; monsters_[0].hp=monsters_[0].maxHp;
         for(int s=0;s<8;s++) {
@@ -182,6 +254,7 @@ bool HonourWarGame::RunSelfTest() {
             const int hpBefore=monsters_[0].hp;
             ActivateSkill(s);
             if(monsters_[0].hp>=hpBefore) ok=false;
+            if(skills_[s].name.empty() || skills_[s].resourceCost<=0) ok=false;
             monsters_[0].hp=monsters_[0].maxHp; monsters_[0].alive=true;
         }
     }
