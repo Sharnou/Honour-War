@@ -1,0 +1,55 @@
+{
+  "schema": "sharnou-project/1",
+  "project": {
+    "id": "honour-war",
+    "name": "Honour War",
+    "genre": "3D HD MMORPG/ARPG"
+  },
+  "ide": {
+    "id": "Sharnou-IDE",
+    "repository": "https://github.com/Sharnou/Sharnou-IDE",
+    "mode": "authoritative"
+  },
+  "engine": {
+    "id": "SharnouEngine",
+    "source_root": "Engine/SharnouEngine",
+    "runtime_candidates": [
+      "Build/Runtime/SharnouEngine.exe",
+      "Engine/SharnouEngine/bin/SharnouEngine.exe",
+      "Tools/SharnouIDE/runtime/SharnouEngine.exe"
+    ],
+    "required_runtime_args": [
+      "--self-test",
+      "--runtime-test"
+    ]
+  },
+  "authoring": {
+    "movement": "click-to-move",
+    "command_examples": [
+      "@go 0 230:220"
+    ],
+    "content_pipeline": [
+      "Visual RAG/reference analysis",
+      "Neural4D or Blender processing",
+      "FBX/OBJ intake",
+      "Sharnou Engine asset import and validation",
+      "runtime validation"
+    ]
+  },
+  "forbidden_project_dependencies": [
+    "Visual Studio",
+    "MSBuild",
+    "Windows SDK",
+    "Unity",
+    "Unreal Engine",
+    "vcpkg",
+    "CMake",
+    "automatic external programming-tool downloads"
+  ],
+  "build_policy": {
+    "mode": "runtime-first",
+    "network_downloads": false,
+    "external_tool_bootstrap": false,
+    "native_cpp_rebuild_note": "A native C++ compiler is intrinsically required to rebuild C++ source; the project does not bundle or automatically download one."
+  }
+}
