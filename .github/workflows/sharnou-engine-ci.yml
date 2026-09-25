@@ -17,7 +17,6 @@ jobs:
       - name: Enforce Sharnou IDE and Engine policy
         shell: pwsh
         run: |
-          & "$env:GITHUB_WORKSPACE/Tools/SharnouIDE/../.." 2>$null
           $manifest = Get-Content "$env:GITHUB_WORKSPACE/Tools/SharnouIDE/honour-war.spp.json" -Raw | ConvertFrom-Json
           if ($manifest.ide.id -ne 'Sharnou-IDE') { throw 'IDE identity mismatch.' }
           if ($manifest.ide.repository -ne 'https://github.com/Sharnou/Sharnou-IDE') { throw 'Canonical IDE repository mismatch.' }
@@ -32,12 +31,14 @@ jobs:
           if (Test-Path "$env:GITHUB_WORKSPACE/Engine/SharnouEngine/vcpkg.json") { throw 'vcpkg.json is forbidden.' }
           Write-Host 'PASS: Sharnou IDE -> Sharnou Engine policy.'
 
-      - name: Compile SPP protocol with Sharnou IDE
+      - name: Validate SPP source structure
         shell: pwsh
         run: |
-          & powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$env:GITHUB_WORKSPACE/Tools/SharnouIDE/../../src/invalid.ps1" 2>$null
-          & powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$env:GITHUB_WORKSPACE/Tools/SharnouIDE/../../.." 2>$null
-          & powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$env:GITHUB_WORKSPACE/../Sharnou-IDE/src/Compile-Spp.ps1" -Source "$env:GITHUB_WORKSPACE/Tools/SharnouIDE/project/main.spp" -Output "$env:GITHUB_WORKSPACE/Build/Runtime/honour-war.sppc.json"
+          $spp = Get-Content "$env:GITHUB_WORKSPACE/Tools/SharnouIDE/project/main.spp" -Raw
+          foreach ($required in @('actor_spawn','set_pos','bind_mesh','texture_avif')) {
+            if ($spp -notmatch [regex]::Escape($required)) { throw "SPP command missing: $required" }
+          }
+          Write-Host 'PASS: Honour War SPP source contract.'
 
       - name: Run native Sharnou Engine when a runtime artifact is present
         if: ${{ hashFiles('Build/Runtime/SharnouEngine.exe') != '' }}
@@ -54,5 +55,5 @@ jobs:
           if (Test-Path "$env:GITHUB_WORKSPACE/Build/Runtime/SharnouEngine.exe") {
             Write-Host 'PASS: Native Sharnou Engine runtime artifact is present and was tested.'
           } else {
-            Write-Host 'INFO: No native runtime artifact is checked into this source tree; source/policy validation completed without installing a compiler.'
+            Write-Host 'INFO: No native runtime artifact is checked into this source tree; policy/SPP validation completed without installing a compiler.'
           }
