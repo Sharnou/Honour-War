@@ -48,6 +48,7 @@ jobs:
         shell: pwsh
         timeout-minutes: 2
         run: |
+          $env:SHARNOU_ENGINE_TEST_LOG = "$env:GITHUB_WORKSPACE/sharnou-runtime-test.log"
           & "$env:GITHUB_WORKSPACE/Engine/SharnouEngine/out/ci/Release/SharnouEngine.exe" --runtime-test
           if ($LASTEXITCODE -ne 0) { throw "Sharnou Engine runtime soak failed: $LASTEXITCODE" }
 
@@ -56,8 +57,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: sharnou-engine-runtime-log
-          path: ${{ runner.temp }}/does-not-exist
-          if-no-files-found: ignore
+          path: sharnou-runtime-test.log
+          if-no-files-found: warn
 
       - name: Sharnou Engine contract QA
         shell: pwsh

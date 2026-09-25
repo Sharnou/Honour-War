@@ -314,10 +314,13 @@ void HonourWarGame::Render(D3D11Renderer& renderer) {
 bool HonourWarGame::RunRuntimeSoak(int simulatedSeconds) {
     if(simulatedSeconds<=0) return false;
 
+    const char* forcedLog=std::getenv("SHARNOU_ENGINE_TEST_LOG");
     const char* local=std::getenv("LOCALAPPDATA");
-    const std::filesystem::path logPath=local
-        ? std::filesystem::path(local)/"SharnouEngine"/"HonourWar"/"runtime_test.log"
-        : std::filesystem::path("runtime_test.log");
+    const std::filesystem::path logPath=forcedLog && *forcedLog
+        ? std::filesystem::path(forcedLog)
+        : (local
+            ? std::filesystem::path(local)/"SharnouEngine"/"HonourWar"/"runtime_test.log"
+            : std::filesystem::path("runtime_test.log"));
     std::filesystem::create_directories(logPath.parent_path());
     std::ofstream log(logPath);
     log << "SHARNOU_ENGINE_RUNTIME_TEST_BEGIN simulated_seconds=" << simulatedSeconds << "\n";
