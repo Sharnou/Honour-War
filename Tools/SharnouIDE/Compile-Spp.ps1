@@ -24,30 +24,30 @@ foreach ($rawLine in Get-Content -LiteralPath $Source) {
     $op = $tokens[0]
     switch ($op) {
         "actor_spawn" {
-            if ($tokens.Count -ne 2) { throw "Line $lineNumber: actor_spawn requires an actor id." }
+            if ($tokens.Count -ne 2) { throw "Line ${lineNumber}: actor_spawn requires an actor id." }
             $commands.Add([ordered]@{ op = "actor_spawn"; actor = $tokens[1]; line = $lineNumber })
         }
         "set_pos" {
-            if ($tokens.Count -ne 4) { throw "Line $lineNumber: set_pos requires x y z." }
+            if ($tokens.Count -ne 4) { throw "Line ${lineNumber}: set_pos requires x y z." }
             [float]$x = 0; [float]$y = 0; [float]$z = 0
-            if (-not [float]::TryParse($tokens[1], [Globalization.NumberStyles]::Float, [Globalization.CultureInfo]::InvariantCulture, [ref]$x)) { throw "Line $lineNumber: invalid x." }
-            if (-not [float]::TryParse($tokens[2], [Globalization.NumberStyles]::Float, [Globalization.CultureInfo]::InvariantCulture, [ref]$y)) { throw "Line $lineNumber: invalid y." }
-            if (-not [float]::TryParse($tokens[3], [Globalization.NumberStyles]::Float, [Globalization.CultureInfo]::InvariantCulture, [ref]$z)) { throw "Line $lineNumber: invalid z." }
+            if (-not [float]::TryParse($tokens[1], [Globalization.NumberStyles]::Float, [Globalization.CultureInfo]::InvariantCulture, [ref]$x)) { throw "Line ${lineNumber}: invalid x." }
+            if (-not [float]::TryParse($tokens[2], [Globalization.NumberStyles]::Float, [Globalization.CultureInfo]::InvariantCulture, [ref]$y)) { throw "Line ${lineNumber}: invalid y." }
+            if (-not [float]::TryParse($tokens[3], [Globalization.NumberStyles]::Float, [Globalization.CultureInfo]::InvariantCulture, [ref]$z)) { throw "Line ${lineNumber}: invalid z." }
             $commands.Add([ordered]@{ op = "set_pos"; x = $x; y = $y; z = $z; line = $lineNumber })
         }
         "bind_mesh" {
-            if ($tokens.Count -ne 2) { throw "Line $lineNumber: bind_mesh requires a mesh id." }
+            if ($tokens.Count -ne 2) { throw "Line ${lineNumber}: bind_mesh requires a mesh id." }
             $commands.Add([ordered]@{ op = "bind_mesh"; mesh = $tokens[1]; line = $lineNumber })
         }
         "texture_avif" {
-            if ($tokens.Count -ne 2) { throw "Line $lineNumber: texture_avif requires an AVIF path." }
+            if ($tokens.Count -ne 2) { throw "Line ${lineNumber}: texture_avif requires an AVIF path." }
             if ([System.IO.Path]::GetExtension($tokens[1]).ToLowerInvariant() -ne ".avif") {
-                throw "Line $lineNumber: texture_avif only accepts .avif assets."
+                throw "Line ${lineNumber}: texture_avif only accepts .avif assets."
             }
             $commands.Add([ordered]@{ op = "texture_avif"; asset = $tokens[1]; line = $lineNumber })
         }
         default {
-            throw "Line $lineNumber: unknown SPP operation '$op'."
+            throw "Line ${lineNumber}: unknown SPP operation '$op'."
         }
     }
 }
