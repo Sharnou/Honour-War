@@ -63,6 +63,7 @@ if (-not $enginePath) {
 
 # Mark the process as an authoritative Sharnou IDE launch.
 $env:SHARNOU_IDE_SESSION = "1"
+$env:SHARNOU_IDE_REPOSITORY = "https://github.com/Sharnou/Sharnou-IDE"
 
 # Author the runtime program before launching the game.
 & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $compilerPath -Source $sppSource -Output $programPath
