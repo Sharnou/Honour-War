@@ -22,10 +22,11 @@ jobs:
             "VCPKG_ROOT=$(Split-Path $cmd.Source -Parent)" | Out-File -FilePath $env:GITHUB_ENV -Append
           }
 
-      - name: Install native dependencies
+      - name: Install native dependencies from manifest
         shell: pwsh
+        working-directory: Engine/SharnouEngine
         run: |
-          vcpkg install --triplet x64-windows --manifest-root "$env:GITHUB_WORKSPACE/Engine/SharnouEngine"
+          vcpkg install --triplet x64-windows
 
       - name: Configure CMake / Visual Studio 2022
         shell: pwsh
