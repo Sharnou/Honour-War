@@ -1,4 +1,4 @@
-name: Sharnou Engine CI
+name: Honour War Sharnou Stack Validation
 
 on:
   push:
@@ -14,31 +14,55 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Enforce Sharnou IDE and Engine policy
+      - name: Enforce canonical Honour War identity
         shell: pwsh
         run: |
           $manifest = Get-Content "$env:GITHUB_WORKSPACE/Tools/SharnouIDE/honour-war.spp.json" -Raw | ConvertFrom-Json
+          if ($manifest.canonical_identity.project_id -ne 'honour-war' -or $manifest.canonical_identity.canonical -ne $true) { throw 'Honour War is not canonical.' }
           if ($manifest.ide.id -ne 'Sharnou-IDE') { throw 'IDE identity mismatch.' }
           if ($manifest.ide.repository -ne 'https://github.com/Sharnou/Sharnou-IDE') { throw 'Canonical IDE repository mismatch.' }
           if ($manifest.engine.id -ne 'SharnouEngine') { throw 'Engine identity mismatch.' }
+          if ($manifest.engine.repository -ne 'https://github.com/Sharnou/Sharnou-Engine') { throw 'Canonical engine repository mismatch.' }
           if ($manifest.build_policy.network_downloads -ne $false) { throw 'Network downloads are forbidden.' }
           if ($manifest.build_policy.external_tool_bootstrap -ne $false) { throw 'External tool bootstrap is forbidden.' }
+          if ($manifest.build_policy.external_ide_authoring -ne $false) { throw 'External IDE authoring is forbidden.' }
+          if ($manifest.visual_format_policy.accepted_texture_formats.Count -ne 1 -or $manifest.visual_format_policy.accepted_texture_formats[0] -ne '.avif') { throw 'AVIF-only texture policy is missing.' }
           $forbidden = @('Visual Studio','MSBuild','Windows SDK','CMake','vcpkg','Unity','Unreal Engine')
           foreach ($name in $forbidden) {
             if ($manifest.forbidden_project_dependencies -notcontains $name) { throw "Missing forbidden dependency policy: $name" }
           }
-          if (Test-Path "$env:GITHUB_WORKSPACE/Engine/SharnouEngine/CMakePresets.json") { throw 'CMakePresets.json is forbidden.' }
-          if (Test-Path "$env:GITHUB_WORKSPACE/Engine/SharnouEngine/vcpkg.json") { throw 'vcpkg.json is forbidden.' }
-          Write-Host 'PASS: Sharnou IDE -> Sharnou Engine policy.'
+          Write-Host 'PASS: canonical Honour War -> Sharnou-IDE -> SharnouEngine binding.'
 
-      - name: Validate SPP source structure
+      - name: Reject forbidden active build files
+        shell: pwsh
+        run: |
+          $patterns = @('CMakeLists.txt','CMakePresets.json','vcpkg.json','*.sln','*.slnx','*.vcxproj','*.vcxproj.filters')
+          foreach ($pattern in $patterns) {
+            $hits = Get-ChildItem "$env:GITHUB_WORKSPACE" -Recurse -File -Force -ErrorAction SilentlyContinue | Where-Object { $_.Name -like $pattern -and $_.FullName -notmatch '[\\/]legacy[\\/]' }
+            if ($hits) { $hits | ForEach-Object { Write-Host "FORBIDDEN ACTIVE BUILD FILE: $($_.FullName)" }; throw "Forbidden build path detected: $pattern" }
+          }
+          Write-Host 'PASS: no rejected IDE/build project files are active.'
+
+      - name: Validate SPP source structure and AVIF command
         shell: pwsh
         run: |
           $spp = Get-Content "$env:GITHUB_WORKSPACE/Tools/SharnouIDE/project/main.spp" -Raw
           foreach ($required in @('actor_spawn','set_pos','bind_mesh','texture_avif')) {
             if ($spp -notmatch [regex]::Escape($required)) { throw "SPP command missing: $required" }
           }
-          Write-Host 'PASS: Honour War SPP source contract.'
+          Write-Host 'PASS: Honour War SPP source contract and AVIF texture command.'
+
+      - name: Reject non-AVIF texture assets
+        shell: pwsh
+        run: |
+          $roots = @("$env:GITHUB_WORKSPACE/Content", "$env:GITHUB_WORKSPACE/assets") | Where-Object { Test-Path $_ }
+          $allowed = @('.avif','.wav','.ogg','.mp3','.fbx','.obj','.json','.md','.txt','.spp')
+          foreach ($root in $roots) {
+            Get-ChildItem $root -Recurse -File -Force -ErrorAction SilentlyContinue | ForEach-Object {
+              if ($_.Extension -in @('.png','.jpg','.jpeg','.webp','.gif','.bmp','.tga','.dds')) { throw "Rejected visual asset format: $($_.FullName)" }
+            }
+          }
+          Write-Host 'PASS: no rejected visual texture formats found.'
 
       - name: Run native Sharnou Engine when a runtime artifact is present
         if: ${{ hashFiles('Build/Runtime/SharnouEngine.exe') != '' }}
@@ -46,6 +70,8 @@ jobs:
         run: |
           $env:SHARNOU_IDE_SESSION = '1'
           $env:SHARNOU_IDE_REPOSITORY = 'https://github.com/Sharnou/Sharnou-IDE'
+          $env:SHARNOU_ENGINE_ID = 'SharnouEngine'
+          $env:SHARNOU_PROJECT_ID = 'honour-war'
           & "$env:GITHUB_WORKSPACE/Build/Runtime/SharnouEngine.exe" '--self-test'
           if ($LASTEXITCODE -ne 0) { throw "Sharnou Engine self-test failed: $LASTEXITCODE" }
 
@@ -53,7 +79,7 @@ jobs:
         shell: pwsh
         run: |
           if (Test-Path "$env:GITHUB_WORKSPACE/Build/Runtime/SharnouEngine.exe") {
-            Write-Host 'PASS: Native Sharnou Engine runtime artifact is present and was tested.'
+            Write-Host 'PASS: Native Sharnou Engine runtime artifact is present and tested.'
           } else {
-            Write-Host 'INFO: No native runtime artifact is checked into this source tree; policy/SPP validation completed without installing a compiler.'
+            Write-Host 'INFO: No native runtime artifact is checked into this source tree; no compiler/toolchain was installed or downloaded.'
           }
