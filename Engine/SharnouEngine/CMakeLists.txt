@@ -29,7 +29,7 @@ target_link_libraries(SharnouEngine PRIVATE
   gdi32
 )
 
-target_compile_definitions(SharnouEngine PRIVATE UNICODE _UNICODE NOMINMAX WIN32_LEAN_AND_MEAN)
+target_compile_definitions(SharnouEngine PRIVATE UNICODE _UNICODE NOMINMAX WIN32_LEAN_AND_MEAN _CRT_SECURE_NO_WARNINGS)
 
 add_custom_command(TARGET SharnouEngine POST_BUILD
   COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_FILE_DIR:SharnouEngine>/data"
