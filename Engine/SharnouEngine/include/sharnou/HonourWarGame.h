@@ -55,6 +55,7 @@ public:
     void OnKeyDown(unsigned int key);
     void SubmitCommand(const std::string& command);
     bool RunSelfTest();
+    bool RunRuntimeSoak(int simulatedSeconds);
 
 private:
     bool LoadCanonicalData();
@@ -76,6 +77,7 @@ private:
     nlohmann::json classJobs_;
     nlohmann::json characterProfiles_;
     nlohmann::json skillSystem_;
+    float saveAccumulator_{0.0f};
     void ReloadSkillsForCurrentClass();
     static const char* ClassName(HonourClass c);
 };

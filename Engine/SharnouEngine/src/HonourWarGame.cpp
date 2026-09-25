@@ -158,7 +158,11 @@ void HonourWarGame::Update(float dt) {
     player_.onlineSeconds+=dt;
     RecalculateAge();
     MoveTowardTarget(dt);
-    SaveGame();
+    saveAccumulator_+=dt;
+    if(saveAccumulator_>=1.0f) {
+        SaveGame();
+        saveAccumulator_=0.0f;
+    }
 }
 
 void HonourWarGame::MoveTowardTarget(float dt) {
@@ -283,4 +287,42 @@ void HonourWarGame::Render(D3D11Renderer& renderer) {
     }
 }
 
+}
+
+
+bool HonourWarGame::RunRuntimeSoak(int simulatedSeconds) {
+    if(simulatedSeconds<=0) return false;
+    bool ok=true;
+    for(int second=0; second<simulatedSeconds; ++second) {
+        player_.classId=static_cast<HonourClass>(second%7);
+        ReloadSkillsForCurrentClass();
+        player_.sp=player_.maxSp;
+        selectedMonster_=second%static_cast<int>(monsters_.size());
+        auto& monster=monsters_[selectedMonster_];
+        monster.alive=true;
+        monster.hp=monster.maxHp;
+
+        const XMFLOAT3 start=player_.position;
+        player_.moveTarget=XMFLOAT3(start.x + 2.0f,1.0f,start.z + 1.0f);
+        player_.moving=true;
+
+        for(int tick=0; tick<60; ++tick)
+            Update(1.0f/60.0f);
+
+        if(player_.moving) ok=false;
+        for(int skill=0; skill<8; ++skill) {
+            player_.sp=player_.maxSp;
+            monster.alive=true;
+            monster.hp=monster.maxHp;
+            const int before=monster.hp;
+            ActivateSkill(skill);
+            if(skills_[skill].name.empty() || monster.hp>=before) ok=false;
+        }
+
+        const std::string map = std::to_string(second%24);
+        SubmitCommand(std::string("@go ")+map+" 230:220");
+        if(std::fabs(player_.position.x-23.0f)>0.01f || std::fabs(player_.position.z-22.0f)>0.01f) ok=false;
+    }
+    SaveGame();
+    return ok;
 }

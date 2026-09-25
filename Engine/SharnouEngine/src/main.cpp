@@ -7,6 +7,10 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR commandLine, int) {
         Sharnou::HonourWarGame game;
         return game.Initialize() && game.RunSelfTest() ? 0 : 2;
     }
+    if (args.find(L"--runtime-test") != std::wstring::npos) {
+        Sharnou::HonourWarGame game;
+        return game.Initialize() && game.RunRuntimeSoak(300) ? 0 : 3;
+    }
 
     Sharnou::Engine engine;
     return engine.Initialize() ? engine.Run() : 1;
