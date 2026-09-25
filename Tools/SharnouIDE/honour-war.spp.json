@@ -1,5 +1,10 @@
 {
   "schema": "sharnou-project/1",
+  "canonical_identity": {
+    "project_id": "honour-war",
+    "project_name": "Honour War",
+    "repository": "https://github.com/Sharnou/Honour-War"
+  },
   "project": {
     "id": "honour-war",
     "name": "Honour War",
@@ -8,26 +13,22 @@
   "ide": {
     "id": "Sharnou-IDE",
     "repository": "https://github.com/Sharnou/Sharnou-IDE",
-    "mode": "authoritative"
+    "mode": "authoritative-and-exclusive"
   },
   "engine": {
     "id": "SharnouEngine",
+    "name": "Sharnou Engine",
     "source_root": "Engine/SharnouEngine",
     "runtime_candidates": [
       "Build/Runtime/SharnouEngine.exe",
       "Engine/SharnouEngine/bin/SharnouEngine.exe",
       "Tools/SharnouIDE/runtime/SharnouEngine.exe"
     ],
-    "required_runtime_args": [
-      "--self-test",
-      "--runtime-test"
-    ]
+    "required_runtime_args": ["--self-test", "--runtime-test"]
   },
   "authoring": {
     "movement": "click-to-move",
-    "command_examples": [
-      "@go 0 230:220"
-    ],
+    "command_examples": ["@go 0 230:220"],
     "content_pipeline": [
       "Visual RAG/reference analysis",
       "Neural4D or Blender processing",
@@ -35,6 +36,19 @@
       "Sharnou Engine asset import and validation",
       "runtime validation"
     ]
+  },
+  "visual_format_policy": {
+    "generated_texture_format": ".avif",
+    "generated_visual_format": ".avif",
+    "accepted_texture_formats": [".avif"],
+    "accepted_generated_visual_formats": [".avif"],
+    "rejected_generated_visual_formats": [".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp", ".tga"]
+  },
+  "ide_migration_policy": {
+    "authoritative_ide": "Sharnou-IDE",
+    "automatic_project_conversion": true,
+    "convert_ide_project_metadata_to": "Sharnou-IDE SPP",
+    "reject_non_sharnou_ide_runtime_control": true
   },
   "forbidden_project_dependencies": [
     "Visual Studio",
@@ -47,9 +61,10 @@
     "automatic external programming-tool downloads"
   ],
   "build_policy": {
-    "mode": "runtime-first",
+    "mode": "Sharnou-IDE runtime-first",
     "network_downloads": false,
     "external_tool_bootstrap": false,
-    "native_cpp_rebuild_note": "A native C++ compiler is intrinsically required to rebuild C++ source; the project does not bundle or automatically download one."
+    "compiler_installation": "forbidden",
+    "runtime_policy": "only an existing approved SharnouEngine runtime may be launched"
   }
 }
