@@ -1,0 +1,58 @@
+{
+  "schema": "sharnou-engine-architecture/1",
+  "engine": "Sharnou Engine",
+  "game": "Honour War",
+  "authoring_controller": "Sharnou-IDE",
+  "runtime": {
+    "native": true,
+    "platform": "Windows 64-bit",
+    "graphics": "Direct3D 11",
+    "target_style": "3D HD MMORPG/ARPG"
+  },
+  "core_subsystems": {
+    "language": {
+      "tokenizer": true,
+      "custom_active_language": true,
+      "SPP_operations": ["actor_spawn", "set_pos", "bind_mesh", "texture_avif"]
+    },
+    "ecs": {
+      "entity_component_system": true,
+      "dense_component_storage": true,
+      "target_world_capacity": 300000
+    },
+    "tasks": {
+      "asynchronous_worker_queue": true,
+      "fixed_physics_step": true
+    },
+    "renderer": {
+      "backend": "Direct3D 11",
+      "depth_format": "D32_FLOAT",
+      "shader_pipeline": "HLSL",
+      "anisotropic_sampling": true
+    },
+    "gameplay": {
+      "click_to_move": true,
+      "camera_orbit_and_zoom": true,
+      "monster_target_selection": true,
+      "skill_slots": 8,
+      "teleport_command": "@go MAP X:Y",
+      "persistent_save": true,
+      "network_identity": true
+    }
+  },
+  "asset_policy": {
+    "approved_intake": ["FBX", "OBJ"],
+    "rejected_intake": ["GLB", "GLTF"],
+    "flow": ["Visual RAG/reference analysis", "Neural4D or Blender processing", "FBX/OBJ", "Sharnou Engine validation", "runtime validation"]
+  },
+  "dependency_policy": {
+    "external_programming_tool_downloads": false,
+    "visual_studio": false,
+    "msbuild": false,
+    "windows_sdk_development_installation": false,
+    "cmake": false,
+    "vcpkg": false,
+    "unity": false,
+    "unreal_engine": false
+  }
+}
