@@ -1,8 +1,4 @@
-# Unreal Engine generated files
-Binaries/
-DerivedDataCache/
-Intermediate/
-Saved/
+# Sharnou Engine / Visual Studio generated files
 .vs/
 *.suo
 *.user
@@ -10,6 +6,16 @@ Saved/
 *.sdf
 *.VC.db
 *.VC.opendb
-# Local build artifacts
-Build/Windows/
 *.pdb
+*.obj
+
+# Native engine build outputs
+Engine/SharnouEngine/out/
+Build/SharnouEngine/
+Build/Windows/
+
+# Legacy / engine cache artifacts
+Binaries/
+Intermediate/
+Saved/
+DerivedDataCache/
