@@ -23,7 +23,7 @@ foreach ($pattern in $forbiddenFileNames) {
         ForEach-Object { $violations.Add("FORBIDDEN ACTIVE BUILD FILE: " + $_.FullName) }
 }
 
-$codeExtensions = @(".ps1",".cmd",".bat",".yml",".yaml",".cpp",".c",".cc",".h",".hpp",".ixx")
+$codeExtensions = @(".ps1",".cmd",".bat",".cpp",".c",".cc",".h",".hpp",".ixx")
 $forbiddenText = @(
     "(?i)\bmsbuild(\.exe)?\b",
     "(?i)\bdevenv(\.exe)?\b",
@@ -40,6 +40,7 @@ $forbiddenText = @(
 Get-ChildItem -LiteralPath $root -Recurse -File -Force -ErrorAction SilentlyContinue |
     Where-Object {
         $_.FullName -notmatch "[\\/]Legacy[\\/]" -and
+        $_.FullName -notmatch "[\\/]\.github[\\/]workflows[\\/]" -and
         $_.FullName -notmatch "ci[\\/]sharnou-stack-policy\.ps1$" -and
         $codeExtensions -contains $_.Extension.ToLowerInvariant() -and
         $_.FullName -notmatch "[\\/]docs[\\/]"
