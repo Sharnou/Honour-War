@@ -1,38 +1,34 @@
 param(
-  [ValidateSet("Debug","Release")]
-  [string]$Configuration = "Release"
+  [ValidateSet("Release","Debug")]
+  [string]$Configuration = "Release",
+  [switch]$SelfTest,
+  [switch]$RuntimeTest
 )
 $ErrorActionPreference = "Stop"
 
 $repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot ".."))
-$engine = Join-Path $repo "Engine\SharnouEngine"
-$build = Join-Path $engine "out\build\vs2022-x64"
+$candidates = @(
+  (Join-Path $repo "Build\Runtime\SharnouEngine.exe"),
+  (Join-Path $repo "Engine\SharnouEngine\bin\SharnouEngine.exe"),
+  (Join-Path $repo "Tools\SharnouIDE\runtime\SharnouEngine.exe")
+)
+$exe = $candidates | Where-Object { Test-Path -LiteralPath $_ -PathType Leaf } | Select-Object -First 1
 
-if (-not (Get-Command cmake -ErrorAction SilentlyContinue)) {
-  throw "CMake is required for Sharnou Engine."
+if (-not $exe) {
+  throw "SharnouEngine.exe is not present. Sharnou IDE does not install or download a compiler/build tool. Place the already-built native runtime in Build\Runtime or an approved runtime candidate path."
 }
 
-if (-not $env:VCPKG_ROOT) {
-  $vcpkgCommand = Get-Command vcpkg -ErrorAction SilentlyContinue
-  if ($vcpkgCommand) {
-    $env:VCPKG_ROOT = Split-Path $vcpkgCommand.Source -Parent
-  }
-}
-if (-not $env:VCPKG_ROOT -or -not (Test-Path (Join-Path $env:VCPKG_ROOT "scripts\buildsystems\vcpkg.cmake"))) {
-  throw "vcpkg is required. Set VCPKG_ROOT or install vcpkg for Visual Studio 2022."
-}
+$env:SHARNOU_IDE_SESSION = "1"
+$env:SHARNOU_IDE_REPOSITORY = "https://github.com/Sharnou/Sharnou-IDE"
+Set-Location -LiteralPath $repo
 
-cmake --preset vs2022-x64
-cmake --build $build --config $Configuration --parallel
+$args = @()
+if ($SelfTest) { $args += "--self-test" }
+if ($RuntimeTest) { $args += "--runtime-test=300" }
 
-$exe = Join-Path $build $Configuration "SharnouEngine.exe"
-if (-not (Test-Path $exe)) {
-  throw "Sharnou Engine executable was not produced: $exe"
-}
-
-& $exe "--self-test"
+& $exe @args
 if ($LASTEXITCODE -ne 0) {
-  throw "Sharnou Engine native self-test failed with exit code $LASTEXITCODE."
+  throw "Sharnou Engine exited with code $LASTEXITCODE."
 }
 
-Write-Host "SHARNOU_ENGINE_BUILD_AND_SELFTEST_PASS=$exe"
+Write-Host "SHARNOU_ENGINE_RUNTIME_PASS=$exe"
