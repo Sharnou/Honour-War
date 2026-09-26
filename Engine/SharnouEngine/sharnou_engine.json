@@ -4,7 +4,7 @@
   "game": "Honour War",
   "development_ide": "Sharnou-IDE",
   "language": "C++20",
-  "build_system": "Sharnou-IDE runtime-first",
+  "build_system": "Sharnou-IDE runtime-first with self-contained Sharnou toolchain",
   "package_manager": "none",
   "platform": "Windows 64-bit",
   "graphics_backend": "Direct3D 11 bootstrap",
@@ -20,5 +20,20 @@
     "Unity",
     "Unreal Engine"
   ],
+  "asset_policy": {
+    "runtime_scene_containers": [".gltf", ".glb"],
+    "runtime_scene_standard": "glTF 2.x",
+    "runtime_3d_texture_format": ".ktx2",
+    "runtime_3d_texture_standard": "KTX 2.0",
+    "runtime_3d_texture_glTF_extension": "KHR_texture_basisu",
+    "runtime_2d_raster_format": ".avif",
+    "authoring_interchange": [".fbx", ".obj"]
+  },
+  "compiler": {
+    "required": true,
+    "source": "self-contained Sharnou toolchain",
+    "automatic_download": false,
+    "fail_closed_when_missing": true
+  },
   "active_engine_policy": "Sharnou Engine is the only active Honour War runtime and Sharnou-IDE is the authoritative development controller."
 }
