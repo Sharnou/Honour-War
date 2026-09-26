@@ -68,6 +68,31 @@ foreach ($rawLine in Get-Content -LiteralPath $Source) {
                 line = $lineNumber
             })
         }
+        "texture_ktx2" {
+            if ($tokens.Count -ne 2) { throw "Line ${lineNumber}: texture_ktx2 requires a KTX2 path." }
+            $asset = [string]$tokens[1]
+            if ([System.IO.Path]::GetExtension($asset).ToLowerInvariant() -ne ".ktx2") {
+                throw "Line ${lineNumber}: texture_ktx2 only accepts .ktx2 assets."
+            }
+            $commands.Add([pscustomobject]@{
+                op = "texture_ktx2"
+                asset = $asset
+                line = $lineNumber
+            })
+        }
+        "scene_gltf" {
+            if ($tokens.Count -ne 2) { throw "Line ${lineNumber}: scene_gltf requires a .gltf or .glb path." }
+            $asset = [string]$tokens[1]
+            $ext = [System.IO.Path]::GetExtension($asset).ToLowerInvariant()
+            if ($ext -notin @(".gltf",".glb")) {
+                throw "Line ${lineNumber}: scene_gltf only accepts .gltf or .glb assets."
+            }
+            $commands.Add([pscustomobject]@{
+                op = "scene_gltf"
+                asset = $asset
+                line = $lineNumber
+            })
+        }
         default {
             throw "Line ${lineNumber}: unknown SPP operation '$op'."
         }
