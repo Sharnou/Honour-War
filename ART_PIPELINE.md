@@ -13,8 +13,7 @@ Visual RAG / multimodal reference analysis → visual gap register → regenerat
 ## Permanent exclusions
 
 - Godot is permanently rejected as the Honour War runtime/build target.
-- GLB is permanently rejected from visual-cycle intake and runtime intake.
-- GLTF is permanently rejected from visual-cycle intake and runtime intake.
+
 - Meshy is permanently rejected.
 - Unity is permanently rejected as the Honour War runtime/build target.
 - Unreal Engine is permanently rejected as the Honour War runtime/build target.
@@ -32,26 +31,23 @@ Every visual pass starts with reference analysis. The analysis compares the curr
 
 Neural4D is an approved generation source when available. Blender remains the authored-DCC source. Substance 3D Painter is the material authoring stage.
 
-Approved interchange:
+Approved authoring/interchange:
 - FBX: rigged/animated heroes, pets, monsters and NPCs.
 - OBJ: approved static environment and prop meshes.
 
-### AVIF-only generated visual policy
+Approved runtime delivery:
+- glTF 2.x: .gltf/.glb scene/model containers.
+- KTX2: .ktx2 GPU-facing 3D material textures, using KHR_texture_basisu for Basis Universal textures.
 
-All newly generated or converted raster visual/texture outputs for Honour War must use `.avif`.
+### Runtime texture format policy
 
-Accepted generated raster format:
-- `.avif`
+The runtime uses two texture tracks:
+- `.ktx2` for 3D material textures referenced by glTF.
+- `.avif` for UI, menu/background artwork, icons, skyboxes and other 2D/distribution raster imagery.
 
-Rejected generated raster formats:
-- `.png`
-- `.jpg`
-- `.jpeg`
-- `.webp`
-- `.gif`
-- `.bmp`
-- `.tga`
+Rejected shipped texture formats include `.png`, `.jpg`, `.jpeg`, `.webp`, `.gif`, `.bmp`, `.tga` and `.dds`.
 
+Existing reference images may remain as historical source material; they are not new generated assets and are not evidence of runtime graphics.
 Existing reference images may remain as historical source material; they are not new generated assets and are not evidence of runtime graphics.
 
 ## Sharnou Engine import
