@@ -21,15 +21,24 @@ def main() -> int:
         (root / "hero.ktx2").write_bytes(b"ABCD")
         (root / "login.avif").write_bytes(b"EFGH")
         (root / "ignored.txt").write_text("ignored", encoding="utf-8")
+
         records = scan(root)
-        assert [r.kind for r in records] == ["avif", "texture_ktx2", "scene_gltf"]
+        by_id = {r.asset_id: r for r in records}
+
+        assert len(records) == 3
+        assert by_id["scene.gltf"].kind == "scene_gltf"
+        assert by_id["hero.ktx2"].kind == "texture_ktx2"
+        assert by_id["login.avif"].kind == "avif"
         assert all(len(r.sha256) == 64 for r in records)
+
         out = root / "registry.json"
         write_registry(records, out)
         data = json.loads(out.read_text(encoding="utf-8"))
         assert data["schema"] == "sharnou.asset-registry.v1"
         assert data["project"] == "honour-war"
+        assert data["engine"] == "SharnouEngine"
         assert len(data["assets"]) == 3
+
     print("PASS: asset registry scan, hashing, canonical IDs, and serialization.")
     return 0
 
