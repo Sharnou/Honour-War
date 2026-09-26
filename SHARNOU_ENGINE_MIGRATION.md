@@ -10,12 +10,10 @@ The previous Unity implementation is retained only as a legacy reference while n
 
 ## Development environment
 
-- Microsoft Visual Studio Community 2022
-- MSVC C++20
-- CMake
-- vcpkg
+- Sharnou-IDE + SharnouEngine
 - Windows 64-bit
-- Direct3D 11 bootstrap renderer
+- Direct3D runtime integration through SharnouEngine
+- No external compiler, IDE, build-system or programming-tool bootstrap
 
 ## Migration rule
 
@@ -36,3 +34,11 @@ The native engine must retain the existing:
 - real gameplay screenshot/runtime-test requirements
 
 Additional native engine subsystems are to be implemented around this canonical data contract.
+
+## Runtime asset packaging
+
+- glTF 2.x (.gltf/.glb) is the runtime 3D scene/model container.
+- KTX2 (.ktx2) is the runtime 3D material texture format.
+- KHR_texture_basisu is used for glTF assets carrying Basis Universal KTX2 textures.
+- AVIF (.avif) is the runtime raster format for UI/2D/distribution imagery.
+- FBX/OBJ remain authoring/interchange inputs and are converted before runtime packaging.
