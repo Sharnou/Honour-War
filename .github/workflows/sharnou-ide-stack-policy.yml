@@ -18,7 +18,7 @@ jobs:
         shell: powershell
         run: .\ci\sharnou-stack-policy.ps1
 
-      - name: Validate AVIF-only content policy
+      - name: Validate runtime asset format policy
         shell: powershell
         run: .\ci\sharnou-avif-policy.ps1
 
