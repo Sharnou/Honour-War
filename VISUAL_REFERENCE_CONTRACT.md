@@ -32,18 +32,23 @@ A runtime that falls back to sparse primitive-only presentation is a visual regr
 
 ## Sole runtime
 
-Unreal Engine 5.8 is the only Honour War engine/runtime/build target. Godot is permanently rejected.
+SharnouEngine is the only Honour War engine/runtime target, controlled exclusively by Sharnou-IDE. Godot, Unity and Unreal Engine are permanently rejected as active runtime/build targets.
 
 ## Asset interchange
 
-Approved:
+Approved runtime delivery:
+- glTF 2.x (`.gltf` / `.glb`) for 3D scene/model containers;
+- KTX2 (`.ktx2`) for GPU-facing 3D material textures;
+- `KHR_texture_basisu` when a glTF asset uses Basis Universal KTX2 textures.
+
+Approved authoring/interchange:
 - FBX for rigged/animated assets;
 - OBJ for approved static assets;
 - texture maps authored in Substance 3D Painter or equivalent production tooling.
 
 Rejected:
-- GLB;
-- GLTF;
+- non-KTX2 shipped 3D material textures;
+- non-AVIF shipped 2D raster visuals;
 - Meshy;
 - generic substitute references as a replacement for the repository source;
 - futuristic/modern/scifi presentation.
