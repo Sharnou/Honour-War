@@ -58,3 +58,11 @@ Approved: FBX, OBJ.
 Rejected: GLB, GLTF, Meshy and Godot runtime assets.
 
 Procedural geometry in the C++ world bootstrap is development scaffolding only and must eventually be replaced by authored production assets.
+
+## Runtime packaging formats
+
+- Scene/model container: glTF 2.x (`.gltf` / `.glb`).
+- 3D material texture container: KTX2 (`.ktx2`). Use `KHR_texture_basisu` for Basis Universal KTX2 textures referenced by glTF.
+- 2D/UI/distribution raster: AVIF (`.avif`).
+- Authoring/interchange inputs: FBX/OBJ; convert before runtime packaging.
+- Do not ship PNG/JPEG/WebP/GIF/BMP/TGA/DDS as runtime raster textures.
