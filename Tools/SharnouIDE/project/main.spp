@@ -3,3 +3,5 @@ actor_spawn player
 set_pos 0 1 0
 bind_mesh character_mesh
 texture_avif assets/characters/player.avif
+scene_gltf assets/3d/honour_war_scene.gltf
+texture_ktx2 assets/3d/hero_basecolor.ktx2
