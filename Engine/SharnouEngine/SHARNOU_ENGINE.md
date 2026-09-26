@@ -16,7 +16,7 @@ Sharnou Engine is the **only active game engine** for Honour War.
 
 Honour War does **not** use or download Visual Studio, MSBuild, Windows SDK development packages, CMake, vcpkg, Unity, Unreal Engine, or any other external programming-tool bundle as part of the project workflow.
 
-Sharnou IDE is the authoritative authoring, validation, protocol-compilation, launch, and runtime-test controller. The repository does not claim that native C++ source can be rebuilt without a compiler and the platform interfaces required by that compiler; instead, the normal project workflow is runtime-first and never bootstraps those tools automatically.
+Sharnou IDE is the authoritative authoring, validation, protocol-compilation, launch, and runtime-test controller. A native `SharnouEngine.exe` is generated only by the self-contained Sharnou compiler declared by the toolchain contract. The repository fails closed when that compiler is not present; it never downloads a replacement compiler or SDK automatically.
 
 ## Honour War data contract
 
@@ -44,9 +44,7 @@ A runtime executable is only marked PASS after actual execution. Source inspecti
 
 ## Art pipeline
 
-GLB/GLTF remains rejected as project intake. Approved flow:
-
-Visual RAG/reference analysis → Neural4D or Blender processing → FBX/OBJ → Sharnou Engine asset import/validation → runtime validation → real gameplay evidence.
+Runtime 3D scenes/models use glTF 2.x (`.gltf`/`.glb`), shipped 3D material textures use KTX2 (`.ktx2`) with `KHR_texture_basisu` where applicable, and 2D/UI/distribution raster visuals use AVIF (`.avif`). FBX/OBJ remain authoring/interchange inputs and are converted before runtime packaging.
 
 ## Migration boundary
 
