@@ -28,13 +28,17 @@
     ],
     "required_runtime_args": ["--self-test", "--runtime-test"]
   },
-  "visual_format_policy": {
-    "mode": "AVIF-only",
-    "generated_texture_format": ".AVIF",
-    "generated_visual_format": ".AVIF",
-    "accepted_texture_formats": [".avif"],
-    "accepted_generated_visual_formats": [".avif"],
-    "rejected_generated_visual_formats": [".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp", ".tga", ".dds"],
+  "asset_format_policy": {
+    "runtime_scene_containers": [".gltf", ".glb"],
+    "runtime_scene_standard": "glTF 2.x",
+    "runtime_3d_texture_format": ".ktx2",
+    "runtime_3d_texture_standard": "KTX 2.0",
+    "runtime_3d_texture_glTF_extension": "KHR_texture_basisu",
+    "runtime_2d_raster_format": ".avif",
+    "runtime_2d_uses": ["UI", "menu backgrounds", "icons", "skyboxes", "distribution images"],
+    "authoring_interchange": [".fbx", ".obj"],
+    "rejected_runtime_texture_formats": [".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp", ".tga", ".dds"],
+    "rejected_runtime_model_formats": [".fbx", ".obj", ".blend"],
     "legacy_conversion": "automatic metadata conversion; binary encoder is not downloaded"
   },
   "authoring": {
