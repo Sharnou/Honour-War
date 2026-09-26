@@ -59,14 +59,17 @@ jobs:
         shell: pwsh
         run: |
           $roots = @("$env:GITHUB_WORKSPACE/Content", "$env:GITHUB_WORKSPACE/assets") | Where-Object { Test-Path $_ }
-          $allowed = @('.avif','.ktx2','.gltf','.glb','.wav','.ogg','.mp3','.fbx','.obj','.json','.md','.txt','.spp')
           foreach ($root in $roots) {
             Get-ChildItem $root -Recurse -File -Force -ErrorAction SilentlyContinue | ForEach-Object {
               if ($_.Extension -in @('.png','.jpg','.jpeg','.webp','.gif','.bmp','.tga','.dds')) { throw "Rejected raster asset format: $($_.FullName)" }
-              if ($_.Extension -in @('.gltf','.glb','.ktx2') -and $allowed -notcontains $_.Extension.ToLowerInvariant()) { throw "Rejected runtime asset format: $($_.FullName)" }
             }
           }
           Write-Host 'PASS: runtime asset extensions are compatible with glTF/GLB + KTX2 + AVIF.'
+
+      - name: Run deterministic SharnouEngine source validator tests
+        shell: pwsh
+        run: |
+          python Tools/tests/test_sharnou_engine_validator.py
 
       - name: Run native Sharnou Engine when a runtime artifact is present
         if: ${{ hashFiles('Build/Runtime/SharnouEngine.exe') != '' }}
