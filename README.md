@@ -29,15 +29,22 @@ Honour War is launched and validated through Sharnou-IDE. The project rejects Vi
 
 Existing Honour War IDE/project metadata is treated as migration input and converted to the Sharnou-IDE SPP contract. Non-Sharnou IDEs are not runtime controllers for Honour War. The repository's policy gates reject active `.sln`, `.slnx`, `.vcxproj`, CMake and vcpkg build paths outside legacy/archive areas.
 
-## Visual format policy
+## Asset format policy
 
-All newly generated or converted raster visuals/textures for Honour War use **`.avif` only**. Existing historical reference images can remain as references; they are not new generated game assets.
+Honour War uses a role-specific runtime asset strategy:
+
+- **glTF 2.x (`.gltf` / `.glb`)** for 3D scene/model containers.
+- **KTX2 (`.ktx2`)** for shipped GPU-facing 3D material textures; glTF assets using Basis Universal textures use `KHR_texture_basisu`.
+- **AVIF (`.avif`)** for UI, menu/background artwork, icons, skyboxes and other 2D/distribution raster imagery.
+- **FBX/OBJ** are authoring/interchange inputs and are converted before runtime packaging.
+
+Existing historical reference images can remain as references; they are not new generated runtime assets.
 
 Approved model intake remains FBX/OBJ through:
 
 Visual RAG/reference analysis → Neural4D or Blender processing → FBX/OBJ → Sharnou Engine asset validation → runtime validation.
 
-GLB/GLTF remains rejected as asset intake.
+glTF/GLB is the approved runtime 3D container. FBX/OBJ remain authoring/interchange inputs and are not shipped runtime model formats.
 
 ## Preserved Honour War design/data
 
