@@ -26,7 +26,10 @@ jobs:
           if ($manifest.build_policy.network_downloads -ne $false) { throw 'Network downloads are forbidden.' }
           if ($manifest.build_policy.external_tool_bootstrap -ne $false) { throw 'External tool bootstrap is forbidden.' }
           if ($manifest.build_policy.external_ide_authoring -ne $false) { throw 'External IDE authoring is forbidden.' }
-          if ($manifest.visual_format_policy.accepted_texture_formats.Count -ne 1 -or $manifest.visual_format_policy.accepted_texture_formats[0] -ne '.avif') { throw 'AVIF-only texture policy is missing.' }
+          if ($manifest.asset_format_policy.runtime_3d_texture_format -ne '.ktx2') { throw 'KTX2 3D texture policy is missing.' }
+          if ($manifest.asset_format_policy.runtime_2d_raster_format -ne '.avif') { throw 'AVIF 2D raster policy is missing.' }
+          if ($manifest.asset_format_policy.runtime_3d_texture_glTF_extension -ne 'KHR_texture_basisu') { throw 'KHR_texture_basisu policy is missing.' }
+          if ($manifest.asset_format_policy.runtime_scene_containers.Count -ne 2) { throw 'glTF/GLB runtime scene container policy is missing.' }
           $forbidden = @('Visual Studio','MSBuild','Windows SDK','CMake','vcpkg','Unity','Unreal Engine')
           foreach ($name in $forbidden) {
             if ($manifest.forbidden_project_dependencies -notcontains $name) { throw "Missing forbidden dependency policy: $name" }
@@ -43,26 +46,27 @@ jobs:
           }
           Write-Host 'PASS: no rejected IDE/build project files are active.'
 
-      - name: Validate SPP source structure and AVIF command
+      - name: Validate SPP source structure and asset commands
         shell: pwsh
         run: |
           $spp = Get-Content "$env:GITHUB_WORKSPACE/Tools/SharnouIDE/project/main.spp" -Raw
-          foreach ($required in @('actor_spawn','set_pos','bind_mesh','texture_avif')) {
+          foreach ($required in @('actor_spawn','set_pos','bind_mesh','texture_avif','texture_ktx2','scene_gltf')) {
             if ($spp -notmatch [regex]::Escape($required)) { throw "SPP command missing: $required" }
           }
-          Write-Host 'PASS: Honour War SPP source contract and AVIF texture command.'
+          Write-Host 'PASS: Honour War SPP source contract and glTF/KTX2/AVIF asset commands.'
 
-      - name: Reject non-AVIF texture assets
+      - name: Validate runtime asset extensions
         shell: pwsh
         run: |
           $roots = @("$env:GITHUB_WORKSPACE/Content", "$env:GITHUB_WORKSPACE/assets") | Where-Object { Test-Path $_ }
-          $allowed = @('.avif','.wav','.ogg','.mp3','.fbx','.obj','.json','.md','.txt','.spp')
+          $allowed = @('.avif','.ktx2','.gltf','.glb','.wav','.ogg','.mp3','.fbx','.obj','.json','.md','.txt','.spp')
           foreach ($root in $roots) {
             Get-ChildItem $root -Recurse -File -Force -ErrorAction SilentlyContinue | ForEach-Object {
-              if ($_.Extension -in @('.png','.jpg','.jpeg','.webp','.gif','.bmp','.tga','.dds')) { throw "Rejected visual asset format: $($_.FullName)" }
+              if ($_.Extension -in @('.png','.jpg','.jpeg','.webp','.gif','.bmp','.tga','.dds')) { throw "Rejected raster asset format: $($_.FullName)" }
+              if ($_.Extension -in @('.gltf','.glb','.ktx2') -and $allowed -notcontains $_.Extension.ToLowerInvariant()) { throw "Rejected runtime asset format: $($_.FullName)" }
             }
           }
-          Write-Host 'PASS: no rejected visual texture formats found.'
+          Write-Host 'PASS: runtime asset extensions are compatible with glTF/GLB + KTX2 + AVIF.'
 
       - name: Run native Sharnou Engine when a runtime artifact is present
         if: ${{ hashFiles('Build/Runtime/SharnouEngine.exe') != '' }}
