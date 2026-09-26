@@ -63,8 +63,11 @@ bool HonourWarGame::Initialize() {
                 (void)command.at("x").get<float>();
                 (void)command.at("y").get<float>();
                 (void)command.at("z").get<float>();
-            } else if(op=="actor_spawn" || op=="bind_mesh" || op=="texture_avif") {
+            } else if(op=="actor_spawn" || op=="bind_mesh" || op=="texture_avif" ||
+                      op=="texture_ktx2" || op=="scene_gltf") {
                 // Valid SPP operations are accepted by the engine boundary.
+                // Runtime roles are constrained by the canonical project asset policy:
+                // glTF/GLB scene containers, KTX2 for shipped 3D textures, AVIF for 2D raster.
             } else {
                 return false;
             }
