@@ -1,5 +1,5 @@
 {
-  "schema": "sharnou-engine-architecture/1",
+  "schema": "sharnou-engine-architecture/2",
   "engine": "Sharnou Engine",
   "game": "Honour War",
   "authoring_controller": "Sharnou-IDE",
@@ -13,7 +13,14 @@
     "language": {
       "tokenizer": true,
       "custom_active_language": true,
-      "SPP_operations": ["actor_spawn", "set_pos", "bind_mesh", "texture_avif"]
+      "SPP_operations": [
+        "actor_spawn",
+        "set_pos",
+        "bind_mesh",
+        "texture_avif",
+        "texture_ktx2",
+        "scene_gltf"
+      ]
     },
     "ecs": {
       "entity_component_system": true,
@@ -41,9 +48,15 @@
     }
   },
   "asset_policy": {
-    "approved_intake": ["FBX", "OBJ"],
-    "rejected_intake": ["GLB", "GLTF"],
-    "flow": ["Visual RAG/reference analysis", "Neural4D or Blender processing", "FBX/OBJ", "Sharnou Engine validation", "runtime validation"]
+    "runtime_scene_containers": [".gltf", ".glb"],
+    "runtime_scene_standard": "glTF 2.x",
+    "runtime_3d_texture_format": ".ktx2",
+    "runtime_3d_texture_standard": "KTX 2.0",
+    "runtime_3d_texture_glTF_extension": "KHR_texture_basisu",
+    "runtime_2d_raster_format": ".avif",
+    "approved_authoring_interchange": [".fbx", ".obj"],
+    "rejected_runtime_model_formats": [".fbx", ".obj", ".blend"],
+    "rejected_runtime_texture_formats": [".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp", ".dds", ".tga"]
   },
   "dependency_policy": {
     "external_programming_tool_downloads": false,
@@ -53,6 +66,8 @@
     "cmake": false,
     "vcpkg": false,
     "unity": false,
-    "unreal_engine": false
+    "unreal_engine": false,
+    "compiler_required": true,
+    "compiler_source": "self-contained Sharnou toolchain"
   }
 }
