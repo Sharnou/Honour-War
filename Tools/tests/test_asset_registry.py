@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
 from pathlib import Path
 import json
+import sys
 import tempfile
+
+# Allow this test to run directly as:
+#   python Tools\tests\test_asset_registry.py
+# without requiring the repository to be installed as a Python package.
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 from Tools.sharnou_asset_registry import scan, write_registry
 
