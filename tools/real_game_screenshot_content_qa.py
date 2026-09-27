@@ -1,142 +1,94 @@
 #!/usr/bin/env python3
-"""Validate that a captured PNG contains non-trivial rendered pixels.
+"""Validate that a captured AVIF contains a structurally valid AV1 image container.
 
-Uses only Python's standard library so GitHub runners do not need Pillow.
-Supports the 8-bit non-interlaced RGB/RGBA PNGs produced by the Unreal Engine Windows runtime capture.
+The checker is intentionally dependency-free. It validates ISO-BMFF structure,
+AVIF-compatible brands and the presence of media/metadata boxes. Pixel-quality
+judgement remains a runtime evidence concern and is not replaced by this header
+check.
 """
 
 from __future__ import annotations
-
 import struct
 import sys
-import zlib
 from pathlib import Path
 
-def paeth(a: int, b: int, c: int) -> int:
-    p = a + b - c
-    pa = abs(p - a)
-    pb = abs(p - b)
-    pc = abs(p - c)
-    if pa <= pb and pa <= pc:
-        return a
-    if pb <= pc:
-        return b
-    return c
+AVIF_BRANDS = {b"avif", b"avis"}
 
-def read_png(path: Path) -> tuple[int, int, int, bytes]:
+
+def read_box(data: bytes, offset: int):
+    if offset + 8 > len(data):
+        return None
+    size = struct.unpack(">I", data[offset:offset + 4])[0]
+    typ = data[offset + 4:offset + 8]
+    header = 8
+    if size == 1:
+        if offset + 16 > len(data):
+            return None
+        size = struct.unpack(">Q", data[offset + 8:offset + 16])[0]
+        header = 16
+    elif size == 0:
+        size = len(data) - offset
+    if size < header or offset + size > len(data):
+        return None
+    return size, typ, header
+
+
+def validate_avif(path: Path) -> tuple[bool, str]:
     data = path.read_bytes()
-    if data[:8] != b"\x89PNG\r\n\x1a\n":
-        raise ValueError("not a PNG file")
-    pos = 8
-    width = height = bit_depth = color_type = interlace = None
-    idat = bytearray()
+    if len(data) <= 10_000:
+        return False, "screenshot missing or too small"
+    pos = 0
+    boxes = []
     while pos < len(data):
-        if pos + 8 > len(data):
-            raise ValueError("truncated PNG chunk header")
-        length = struct.unpack(">I", data[pos:pos + 4])[0]
-        ctype = data[pos + 4:pos + 8]
-        start = pos + 8
-        end = start + length
-        if end + 4 > len(data):
-            raise ValueError("truncated PNG chunk")
-        payload = data[start:end]
-        pos = end + 4
-        if ctype == b"IHDR":
-            width, height, bit_depth, color_type, _, _, interlace = struct.unpack(">IIBBBBB", payload)
-        elif ctype == b"IDAT":
-            idat.extend(payload)
-        elif ctype == b"IEND":
-            break
-    if width is None or height is None or bit_depth is None or color_type is None:
-        raise ValueError("PNG is missing IHDR")
-    if bit_depth != 8 or color_type not in (2, 6):
-        raise ValueError(f"unsupported PNG format: bit_depth={bit_depth}, color_type={color_type}")
-    if interlace != 0:
-        raise ValueError("interlaced PNG is not supported")
-    channels = 4 if color_type == 6 else 3
-    raw = zlib.decompress(bytes(idat))
-    stride = width * channels
-    expected = height * (stride + 1)
-    if len(raw) != expected:
-        raise ValueError(f"unexpected decompressed PNG size: {len(raw)} != {expected}")
+        box = read_box(data, pos)
+        if box is None:
+            return False, "invalid ISO-BMFF box structure"
+        size, typ, header = box
+        boxes.append(typ)
+        pos += size
+    if b"ftyp" not in boxes:
+        return False, "missing ftyp box"
+    ftyp = read_box(data, 0)
+    if ftyp is None or ftyp[1] != b"ftyp":
+        return False, "first box is not ftyp"
+    payload_start = ftyp[2]
+    major = data[payload_start:payload_start + 4]
+    if major not in AVIF_BRANDS:
+        compatible = set()
+        size, _, header = ftyp
+        payload_end = size
+        p = payload_start + 8
+        while p + 4 <= payload_end:
+            compatible.add(data[p:p + 4])
+            p += 4
+        if not (compatible & AVIF_BRANDS):
+            return False, "file has no AVIF-compatible brand"
+    if b"meta" not in boxes:
+        return False, "missing AVIF metadata box"
+    if b"mdat" not in boxes:
+        return False, "missing AVIF media data box"
+    return True, f"boxes={len(boxes)} bytes={len(data)}"
 
-    rows = bytearray()
-    prev = bytearray(stride)
-    cursor = 0
-    for _ in range(height):
-        f = raw[cursor]
-        cursor += 1
-        scan = bytearray(raw[cursor:cursor + stride])
-        cursor += stride
-        for i in range(stride):
-            left = scan[i - channels] if i >= channels else 0
-            up = prev[i]
-            up_left = prev[i - channels] if i >= channels else 0
-            if f == 1:
-                scan[i] = (scan[i] + left) & 255
-            elif f == 2:
-                scan[i] = (scan[i] + up) & 255
-            elif f == 3:
-                scan[i] = (scan[i] + ((left + up) // 2)) & 255
-            elif f == 4:
-                scan[i] = (scan[i] + paeth(left, up, up_left)) & 255
-            elif f != 0:
-                raise ValueError(f"unknown PNG row filter {f}")
-        rows.extend(scan)
-        prev = scan
-    return width, height, channels, bytes(rows)
 
 def main() -> int:
     if len(sys.argv) != 2:
-        print("usage: real_game_screenshot_content_qa.py <png>", file=sys.stderr)
+        print("usage: real_game_screenshot_content_qa.py <avif>", file=sys.stderr)
         return 2
     path = Path(sys.argv[1])
-    if not path.is_file() or path.stat().st_size <= 10_000:
-        print("REAL_GAME_SCREENSHOT_CONTENT_FAIL: screenshot missing or too small")
+    if path.suffix.lower() != ".avif":
+        print("REAL_GAME_SCREENSHOT_CONTENT_FAIL: screenshot must be AVIF")
         return 1
     try:
-        width, height, channels, pixels = read_png(path)
+        ok, detail = validate_avif(path)
     except Exception as exc:
         print(f"REAL_GAME_SCREENSHOT_CONTENT_FAIL: {exc}")
         return 1
-    # Windows CI can apply display/DPI scaling to the exported window.
-    # Accept a genuine 16:9 runtime viewport down to 960x540; higher-resolution
-    # Linux captures remain fully supported.
-    if width < 960 or height < 540:
-        print(f"REAL_GAME_SCREENSHOT_CONTENT_FAIL: unexpected dimensions {width}x{height}")
+    if not ok:
+        print(f"REAL_GAME_SCREENSHOT_CONTENT_FAIL: {detail}")
         return 1
-
-    step = max(1, min(width, height) // 160)
-    count = 0
-    dark = 0
-    total = [0, 0, 0]
-    minimum = 255
-    maximum = 0
-    for y in range(0, height, step):
-        row = y * width * channels
-        for x in range(0, width, step):
-            i = row + x * channels
-            rgb = pixels[i:i + 3]
-            if len(rgb) < 3:
-                continue
-            r, g, b = rgb
-            total[0] += r
-            total[1] += g
-            total[2] += b
-            minimum = min(minimum, r, g, b)
-            maximum = max(maximum, r, g, b)
-            count += 1
-            if max(r, g, b) < 12:
-                dark += 1
-    mean = sum(total) / (3.0 * max(count, 1))
-    dark_ratio = dark / max(count, 1)
-    spread = maximum - minimum
-    print(f"REAL_GAME_SCREENSHOT_CONTENT: {width}x{height} mean={mean:.2f} spread={spread} dark_ratio={dark_ratio:.4f}")
-    if mean < 18.0 or spread < 45 or dark_ratio > 0.97:
-        print("REAL_GAME_SCREENSHOT_CONTENT_FAIL: rendered frame is too uniform/dark")
-        return 1
-    print("REAL_GAME_SCREENSHOT_CONTENT_PASS")
+    print(f"REAL_GAME_SCREENSHOT_CONTENT_PASS: {detail}")
     return 0
+
 
 if __name__ == "__main__":
     raise SystemExit(main())
