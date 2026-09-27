@@ -3,7 +3,7 @@ import math
 import os
 
 # Honour War SS (SUPER SHAMBION) production asset generator.
-# Pipeline contract: Blender/Neural4D -> Substance 3D Painter handoff -> FBX/OBJ -> Unreal Engine 5.8.
+# Pipeline contract: Blender/Neural4D -> Substance 3D Painter handoff -> FBX/OBJ private interchange -> SharnouEngine native compilation -> AVIF visual delivery.
 # This intentionally does NOT create a player-selectable character class.
 
 OUT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../assets/3d/generated/ss"))
