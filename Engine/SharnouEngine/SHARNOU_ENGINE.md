@@ -16,7 +16,7 @@ Sharnou Engine is the **only active game engine** for Honour War.
 
 Honour War does **not** use or download Visual Studio, MSBuild, Windows SDK development packages, CMake, vcpkg, Unity, Unreal Engine, or any other external programming-tool bundle as part of the project workflow.
 
-Sharnou IDE is the authoritative authoring, validation, protocol-compilation, launch, and runtime-test controller. A native `SharnouEngine.exe` is generated only by the self-contained Sharnou compiler declared by the toolchain contract. The repository fails closed when that compiler is not present; it never downloads a replacement compiler or SDK automatically.
+Sharnou IDE is the authoritative project controller; SharnouEngine is the sole game and asset-generation runtime. A native `SharnouEngine.exe` is generated only by the self-contained Sharnou compiler declared by the toolchain contract. The repository fails closed when that compiler is not present; it never downloads a replacement compiler or SDK automatically.
 
 ## Honour War data contract
 
@@ -44,9 +44,10 @@ A runtime executable is only marked PASS after actual execution. Source inspecti
 
 ## Art pipeline
 
-Runtime geometry is compiled into SharnouEngine-native representation. External shipped raster/visual assets use AVIF only.
+SharnouEngine is the only active generator of Honour War gameplay content and runtime geometry. External shipped raster/visual assets use AVIF only.
 
-- Approved private authoring/interchange: FBX/OBJ.
+- Active generator: SharnouEngine.
+- External model/DCC generation: disabled.
 - Approved shipped raster/visual format: AVIF.
 - Permanently rejected active visual containers: GLTF, GLB, KTX2.
 - Permanently rejected runtime raster formats: PNG, JPEG, WebP, GIF, BMP, TGA, DDS.
