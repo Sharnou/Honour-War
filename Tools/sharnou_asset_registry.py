@@ -2,8 +2,13 @@
 """Deterministic SharnouEngine asset registry/resource-cache foundation.
 
 Tracks canonical asset IDs, file hashes, dependencies and residency without
-loading GPU resources. The registry is deliberately format-aware for the
-Honour War runtime contract: AVIF shipped visuals; FBX/OBJ may exist only as private authoring/interchange inputs.
+loading GPU resources. The registry is format-aware for the Honour War
+runtime contract:
+  * .gltf / .glb  -> scene/model containers
+  * .ktx2         -> GPU texture container
+  * .avif         -> 2D/UI/menu/background/skybox raster
+FBX/OBJ are authoring/interchange inputs and are not indexed as shipped
+runtime assets.
 """
 from __future__ import annotations
 
@@ -14,7 +19,12 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Iterable
 
-SUPPORTED = {".avif": "avif"}
+SUPPORTED = {
+    ".gltf": "gltf",
+    ".glb": "glb",
+    ".ktx2": "ktx2",
+    ".avif": "avif",
+}
 
 @dataclass
 class AssetRecord:
@@ -42,14 +52,19 @@ def digest(path: Path, chunk: int = 1024 * 1024) -> str:
 
 def scan(root: Path) -> list[AssetRecord]:
     records: list[AssetRecord] = []
-    for path in sorted(p for p in root.rglob("*") if p.is_file() and p.suffix.lower() in SUPPORTED):
-        records.append(AssetRecord(
-            asset_id=canonical_id(path, root),
-            source=str(path.resolve()),
-            kind=SUPPORTED[path.suffix.lower()],
-            size=path.stat().st_size,
-            sha256=digest(path),
-        ))
+    for path in sorted(
+        p for p in root.rglob("*")
+        if p.is_file() and p.suffix.lower() in SUPPORTED
+    ):
+        records.append(
+            AssetRecord(
+                asset_id=canonical_id(path, root),
+                source=str(path.resolve()),
+                kind=SUPPORTED[path.suffix.lower()],
+                size=path.stat().st_size,
+                sha256=digest(path),
+            )
+        )
     return records
 
 
@@ -58,7 +73,11 @@ def write_registry(records: Iterable[AssetRecord], output: Path) -> None:
         "schema": "sharnou.asset-registry.v1",
         "project": "honour-war",
         "engine": "SharnouEngine",
-        "formats": [".avif"],
+        "formats": [".gltf", ".glb", ".ktx2", ".avif"],
+        "rejected_runtime_formats": [
+            ".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp", ".tga", ".dds"
+        ],
+        "authoring_only_formats": [".fbx", ".obj"],
         "assets": [asdict(r) for r in records],
     }
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -66,9 +85,15 @@ def write_registry(records: Iterable[AssetRecord], output: Path) -> None:
 
 
 def main() -> int:
-    p = argparse.ArgumentParser(description="Build the Honour War SharnouEngine asset registry.")
+    p = argparse.ArgumentParser(
+        description="Build the Honour War SharnouEngine asset registry."
+    )
     p.add_argument("root", type=Path)
-    p.add_argument("--output", type=Path, default=Path("Build/Runtime/asset_registry.json"))
+    p.add_argument(
+        "--output",
+        type=Path,
+        default=Path("Build/Runtime/asset_registry.json"),
+    )
     args = p.parse_args()
     root = args.root.resolve()
     if not root.is_dir():
@@ -76,8 +101,12 @@ def main() -> int:
         return 2
     records = scan(root)
     write_registry(records, args.output)
-    print(f"[SharnouAssetRegistry] PASS indexed={len(records)} output={args.output.resolve()}")
+    print(
+        f"[SharnouAssetRegistry] PASS indexed={len(records)} "
+        f"output={args.output.resolve()}"
+    )
     return 0
+
 
 if __name__ == "__main__":
     raise SystemExit(main())
