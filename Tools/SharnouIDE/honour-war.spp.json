@@ -39,27 +39,10 @@
     }
   },
   "asset_format_policy": {
-    "runtime_visual_format": ".avif",
-    "runtime_visual_standard": "AV1 Image File Format",
-    "runtime_visual_uses": [
-      "UI",
-      "HUD",
-      "menu backgrounds",
-      "icons",
-      "portraits",
-      "item art",
-      "skill art",
-      "skyboxes",
-      "loading artwork",
-      "distribution raster"
-    ],
-    "authoring_interchange": {
-      "historical_only": [
-        ".fbx",
-        ".obj"
-      ],
-      "active_generator_input": false
-    },
+    "accepted_input_formats": "*",
+    "automatic_conversion": true,
+    "runtime_representation": "SharnouEngine-native compiled asset package"
+  },
     "geometry_runtime": "SharnouEngine-native compiled representation",
     "rejected_runtime_visual_formats": [
       ".gltf",
