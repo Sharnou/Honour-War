@@ -18,6 +18,7 @@ EXTERNAL_GENERATOR_FILES = [
     ROOT / "tools" / "blender" / "honour_war_production_assets.py",
     ROOT / "tools" / "blender" / "honour_war_visual_max_assets.py",
     ROOT / "tools" / "blender" / "run_visual_max_assets.py",
+    ROOT / "tools" / "blender" / "VISUAL_MAX_BUILD_TRIGGER.txt",
 ]
 MANIFEST = ROOT / "Engine" / "SharnouEngine" / "HONOUR_WAR_GENERATION.json"
 
