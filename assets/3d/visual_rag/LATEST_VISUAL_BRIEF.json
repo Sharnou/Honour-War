@@ -10,14 +10,6 @@
     "Screenshot/image_a4469f29.jpg"
   ],
   "cycle_gate": "visual RAG -> gap register -> brief regeneration -> asset refresh -> SharnouEngine native runtime -> real EXE screenshot -> reference comparison",
-  "runtime_formats": [
-    "FBX",
-    "OBJ"
-  ],
-  "rejected_formats": [
-    "GLB",
-    "GLTF"
-  ],
   "required": {
     "characters": "full-body anime-inspired 3D silhouettes with visible face, hair, hands, legs, feet, layered equipment and class weapons",
     "classes": "six base professions plus advanced and fifth-tier progression",
@@ -71,5 +63,9 @@
     ".bmp",
     ".tga",
     ".dds"
+  ],
+  "authoring_interchange_formats": [
+    "FBX",
+    "OBJ"
   ]
 }
