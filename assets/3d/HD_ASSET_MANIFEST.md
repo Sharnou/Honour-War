@@ -1,6 +1,6 @@
-# Honour War — Unreal 5.8 HD Asset Manifest
+# Honour War — Sharnou Engine HD Asset Manifest
 
-The production visual library is imported into Unreal Engine 5.8 from FBX/OBJ assets and authored texture maps.
+The production visual library is authored through Neural4D/Blender using FBX/OBJ as private interchange inputs, then compiled for Sharnou Engine. Only AVIF raster visual assets are shipped as external visual files.
 
 ## Hero library
 
@@ -48,21 +48,21 @@ Barrels, crates, carts, benches, market stalls, lamps, banners, fences, signs, w
 
 Skin, hair/fur, cloth, leather, wood, stone, metal, glass/crystal, water and magic/emissive.
 
-Required texture channels where applicable:
+Required material channels where applicable:
 Base Color, Normal, Roughness, Metallic, AO, Emissive.
 
 ## Intake policy
 
-Approved: FBX, OBJ.
+Approved private authoring/interchange: FBX, OBJ.
 
-Rejected: GLB, GLTF, Meshy and Godot runtime assets.
+Rejected active runtime visual formats: GLB, GLTF, KTX2.
 
-Procedural geometry in the C++ world bootstrap is development scaffolding only and must eventually be replaced by authored production assets.
+## Runtime visual policy
 
-## Runtime packaging formats
+- Raster/visual delivery: .avif only.
+- External runtime geometry containers: none.
+- Geometry is compiled into a Sharnou Engine-native runtime representation.
+- Do not ship PNG/JPEG/WebP/GIF/BMP/TGA/DDS.
+- Do not ship GLTF/GLB/KTX2.
 
-- Scene/model container: glTF 2.x (`.gltf` / `.glb`).
-- 3D material texture container: KTX2 (`.ktx2`). Use `KHR_texture_basisu` for Basis Universal KTX2 textures referenced by glTF.
-- 2D/UI/distribution raster: AVIF (`.avif`).
-- Authoring/interchange inputs: FBX/OBJ; convert before runtime packaging.
-- Do not ship PNG/JPEG/WebP/GIF/BMP/TGA/DDS as runtime raster textures.
+Procedural geometry in the C++ world bootstrap is development scaffolding only and must eventually be replaced/refined by authored production geometry.
