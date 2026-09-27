@@ -1,18 +1,60 @@
 {
-  "schema": "sharnou-engine-architecture/3",
+  "schema": "sharnou-engine-architecture/4",
   "engine": "SharnouEngine",
   "game": "Honour War",
   "canonical_project_id": "honour-war",
   "authoring_controller": "Sharnou-IDE",
   "runtime_authority": "SharnouEngine",
-  "runtime": {"native": true, "platform": "Windows 64-bit", "target_style": "3D HD MMORPG/ARPG"},
+  "runtime": {
+    "native": true,
+    "platform": "Windows 64-bit",
+    "target_style": "3D HD MMORPG/ARPG"
+  },
   "asset_pipeline": {
     "accepted_input_formats": "*",
     "automatic_conversion": true,
     "native_output": "SharnouEngine-native compiled asset package",
     "format_neutral_ingestion": true,
-    "source_examples": [".gltf",".glb",".ktx2",".avif",".png",".jpg",".jpeg",".webp",".fbx",".obj",".tga",".dds",".bmp",".gif",".wav",".ogg",".mp3"],
-    "unknown_extensions": "classify-and-route; reject only when the engine cannot safely parse the source"
+    "source_examples": [
+      ".gltf",
+      ".glb",
+      ".ktx2",
+      ".avif",
+      ".png",
+      ".jpg",
+      ".jpeg",
+      ".webp",
+      ".fbx",
+      ".obj",
+      ".tga",
+      ".dds",
+      ".bmp",
+      ".gif",
+      ".wav",
+      ".ogg",
+      ".mp3"
+    ],
+    "unknown_extensions": "classify-and-route; reject only when the engine cannot safely parse the source",
+    "runtime_asset_strategy": {
+      "scene_containers": [
+        ".gltf",
+        ".glb"
+      ],
+      "three_d_textures": [
+        ".ktx2"
+      ],
+      "two_d_visuals": [
+        ".avif"
+      ],
+      "glTF_texture_extension": "KHR_texture_basisu",
+      "raster_visual_policy": ".AVIF only"
+    },
+    "source_model_intake": [
+      ".fbx",
+      ".obj"
+    ],
+    "source_asset_intake": "any-registered-format",
+    "original_sources_preserved": true
   },
   "core_subsystems": {
     "project_identity": true,
