@@ -35,6 +35,13 @@ jobs:
           if ($manifest.asset_format_policy.glTF_ktx2_extension -ne 'KHR_texture_basisu') { throw 'KHR_texture_basisu missing.' }
           Write-Host 'PASS: canonical Honour War -> Sharnou-IDE -> SharnouEngine contract.'
 
+      - name: Run SharnouEngine foundation tests
+        shell: pwsh
+        run: |
+          python Tools/tests/test_sharnou_engine_validator.py
+          python Tools/tests/test_asset_registry.py
+          python Tools/tests/test_resource_cache.py
+
       - name: Enforce Sharnou-only toolchain policy
         shell: pwsh
         run: ./ci/sharnou-stack-policy.ps1
