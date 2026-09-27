@@ -56,8 +56,22 @@
     "external_asset_generators_rejected": [
       "Neural4D",
       "Blender",
-      "Substance 3D Painter"
+      "Substance 3D Painter",
+      "Unity",
+      "Unreal Engine",
+      "Godot"
     ],
-    "shipped_visual_format": ".AVIF"
+    "shipped_visual_format": ".AVIF",
+    "automatic_handoff": {
+      "order": [
+        "Sharnou-IDE validates canonical project",
+        "Sharnou-IDE compiles SPP",
+        "SharnouEngine generates native Honour War runtime package",
+        "SharnouEngine validates canonical data and generated package",
+        "SharnouEngine launches Honour War runtime"
+      ],
+      "human_trigger": "explicit local IDE command only",
+      "daily_background_updates": false
+    }
   }
 }
