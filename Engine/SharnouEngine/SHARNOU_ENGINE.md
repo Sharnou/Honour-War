@@ -44,7 +44,13 @@ A runtime executable is only marked PASS after actual execution. Source inspecti
 
 ## Art pipeline
 
-Runtime 3D scenes/models use glTF 2.x (`.gltf`/`.glb`), shipped 3D material textures use KTX2 (`.ktx2`) with `KHR_texture_basisu` where applicable, and 2D/UI/distribution raster visuals use AVIF (`.avif`). FBX/OBJ remain authoring/interchange inputs and are converted before runtime packaging.
+Runtime geometry is compiled into SharnouEngine-native representation. External shipped raster/visual assets use AVIF only.
+
+- Approved private authoring/interchange: FBX/OBJ.
+- Approved shipped raster/visual format: AVIF.
+- Permanently rejected active visual containers: GLTF, GLB, KTX2.
+- Permanently rejected runtime raster formats: PNG, JPEG, WebP, GIF, BMP, TGA, DDS.
+- AVIF is used for UI, HUD, icons, portraits, item/skill/card art, menus, backgrounds, skyboxes, loading artwork and visual evidence.
 
 ## Migration boundary
 
