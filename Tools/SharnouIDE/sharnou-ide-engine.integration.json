@@ -1,1 +1,91 @@
-{"schema":"sharnou-ide-engine-integration/2","project_id":"honour-war","canonical":true,"ide":{"id":"Sharnou-IDE","repository":"https://github.com/Sharnou/Sharnou-IDE","role":"exclusive-authoring-and-runtime-controller"},"engine":{"id":"SharnouEngine","repository":"https://github.com/Sharnou/Sharnou-Engine","role":"exclusive-game-runtime"},"protocol":"Sharnou Project Protocol (SPP)","handoff":["canonical-identity","spp-source","spp-bytecode","asset-validation","runtime-test","runtime-launch"],"formats":{"3d_scene":[".gltf",".glb"],"3d_textures":[".ktx2"],"ui_2d":[".avif"],"source_models":[".fbx",".obj"],"source_intake":"any-registered-format"},"glTF_texture_extension":"KHR_texture_basisu","raster_output_policy":".AVIF only","external_tool_policy":{"downloads":false,"bootstrap":false,"forbidden":["Visual Studio","MSBuild","Windows SDK","Unity","Unreal Engine","CMake","vcpkg","external programming tools"]},"legacy_ide_policy":{"automatic_metadata_conversion":true,"target":"Sharnou-IDE SPP","legacy_execution":false}}
+{
+  "schema": "sharnou-ide-engine-integration/3",
+  "project_id": "honour-war",
+  "canonical": true,
+  "ide": {
+    "id": "Sharnou-IDE",
+    "repository": "https://github.com/Sharnou/Sharnou-IDE",
+    "role": "exclusive-authoring-and-runtime-controller"
+  },
+  "engine": {
+    "id": "SharnouEngine",
+    "repository": "https://github.com/Sharnou/Sharnou-Engine",
+    "role": "exclusive-game-runtime"
+  },
+  "protocol": "Sharnou Project Protocol (SPP)",
+  "handoff": [
+    "canonical-identity",
+    "universal-format-intake",
+    "spp-source",
+    "spp-bytecode",
+    "asset-validation",
+    "runtime-test",
+    "runtime-launch"
+  ],
+  "asset_policy": {
+    "accepted_input_formats": "*",
+    "conversion": "automatic",
+    "preserve_original_sources": true,
+    "accepted_generated_raster_formats": [
+      ".AVIF"
+    ],
+    "runtime_3d_scene_formats": [
+      ".gltf",
+      ".glb"
+    ],
+    "runtime_3d_texture_formats": [
+      ".ktx2"
+    ],
+    "runtime_2d_formats": [
+      ".avif"
+    ],
+    "source_model_intake": [
+      ".fbx",
+      ".obj"
+    ]
+  },
+  "formats": {
+    "3d_scene": [
+      ".gltf",
+      ".glb"
+    ],
+    "3d_textures": [
+      ".ktx2"
+    ],
+    "ui_2d": [
+      ".avif"
+    ],
+    "source_models": [
+      ".fbx",
+      ".obj"
+    ],
+    "source_intake": "any-registered-format",
+    "unknown_input": "preserve-and-inspect"
+  },
+  "glTF_texture_extension": "KHR_texture_basisu",
+  "raster_output_policy": ".AVIF only",
+  "external_tool_policy": {
+    "downloads": false,
+    "bootstrap": false,
+    "forbidden": [
+      "Visual Studio",
+      "MSBuild",
+      "Windows SDK",
+      "Unity",
+      "Unreal Engine",
+      "CMake",
+      "vcpkg",
+      "external programming tools"
+    ]
+  },
+  "legacy_ide_policy": {
+    "automatic_metadata_conversion": true,
+    "target": "Sharnou-IDE SPP",
+    "legacy_execution": false
+  },
+  "synchronization_policy": {
+    "source_contract": "SharnouEngine + Sharnou-IDE",
+    "conflict_rule": "Honour War runtime format roles follow the SharnouEngine asset contract; Sharnou-IDE remains the universal input/job-routing layer",
+    "automatic_daily_updates": false
+  }
+}
