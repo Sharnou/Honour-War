@@ -1,5 +1,5 @@
 param(
-    [ValidateSet("validate","migrate","compile","generate","auto","self-test","runtime-test","run")]
+    [ValidateSet("validate","migrate","compile","generate","full-generate","auto","self-test","runtime-test","run")]
     [string]$Command = "validate",
     [int]$RuntimeTestSeconds = 300
 )
@@ -67,7 +67,7 @@ function Invoke-SharnouEngine([string[]]$EngineArgs) {
     if ($LASTEXITCODE -ne 0) { throw "SharnouEngine exited with code $LASTEXITCODE." }
 }
 
-if ($Command -eq "generate" -or $Command -eq "auto") {
+if ($Command -eq "generate" -or $Command -eq "full-generate" -or $Command -eq "auto") {
     Invoke-SharnouContracts
     Invoke-SharnouCompile
     Invoke-SharnouEngine @("--generate")
