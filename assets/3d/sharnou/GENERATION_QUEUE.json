@@ -1,0 +1,21 @@
+{
+  "schema": "honour-war/sharnou-generation-queue/1",
+  "engine": "SharnouEngine",
+  "ide": "Sharnou-IDE",
+  "generation_authority": "SharnouEngine-only",
+  "external_generation": false,
+  "source": "canonical Honour War data + locked Screenshot references",
+  "runtime_visual_format": "AVIF",
+  "jobs": [
+    {"id":"characters","category":"characters","priority":1,"generator":"SharnouEngine","count":70,"deliverable":"native full-body character representations, class/tier equipment, animation metadata and AVIF visual assets"},
+    {"id":"classes-and-skills","category":"gameplay","priority":2,"generator":"SharnouEngine","count":7,"deliverable":"seven class trees, five tiers, skills and progression data"},
+    {"id":"monsters","category":"monsters","priority":3,"generator":"SharnouEngine","count":256,"deliverable":"native monster representations, combat metadata and AVIF visual assets"},
+    {"id":"maps","category":"maps","priority":4,"generator":"SharnouEngine","count":24,"deliverable":"native world/map representations, terrain, architecture, collision, lighting metadata and AVIF visuals"},
+    {"id":"pets","category":"pets","priority":5,"generator":"SharnouEngine","count":20,"deliverable":"native pet representations, skills/equipment and AVIF visuals"},
+    {"id":"items-equipment-cards","category":"items","priority":6,"generator":"SharnouEngine","count":676,"deliverable":"equipment, items, cards, refinement presentation and AVIF icon/art assets"},
+    {"id":"ui-and-vfx","category":"ui-effects","priority":7,"generator":"SharnouEngine","count":1,"deliverable":"HUD/menu layout, combat VFX metadata and AVIF UI artwork"},
+    {"id":"persistence","category":"systems","priority":8,"generator":"SharnouEngine","count":1,"deliverable":"autosave, ageing, progression restoration and runtime state"}
+  ],
+  "rejected_generators": ["Neural4D","Blender","Substance 3D Painter","Unity","Unreal Engine","Godot"],
+  "rejected_formats": [".gltf",".glb",".ktx2",".png",".jpg",".jpeg",".webp",".gif",".bmp",".tga",".dds"]
+}
