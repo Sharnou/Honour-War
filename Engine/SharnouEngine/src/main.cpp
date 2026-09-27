@@ -16,6 +16,11 @@ static bool SharnouIdeSessionActive() {
 int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR commandLine, int) {
     const std::wstring args = commandLine ? commandLine : L"";
 
+    if (args.find(L"--generate") != std::wstring::npos) {
+        Sharnou::HonourWarGame game;
+        return game.Initialize() ? 0 : 5;
+    }
+
     if (args.find(L"--self-test") != std::wstring::npos) {
         Sharnou::HonourWarGame game;
         return game.Initialize() && game.RunSelfTest() ? 0 : 2;
