@@ -1,81 +1,37 @@
 {
-  "schema": "sharnou-engine-architecture/2",
-  "engine": "Sharnou Engine",
+  "schema": "sharnou-engine-architecture/3",
+  "engine": "SharnouEngine",
   "game": "Honour War",
+  "canonical_project_id": "honour-war",
   "authoring_controller": "Sharnou-IDE",
-  "runtime": {
-    "native": true,
-    "platform": "Windows 64-bit",
-    "graphics": "Direct3D 11",
-    "target_style": "3D HD MMORPG/ARPG"
+  "runtime_authority": "SharnouEngine",
+  "runtime": {"native": true, "platform": "Windows 64-bit", "target_style": "3D HD MMORPG/ARPG"},
+  "asset_pipeline": {
+    "accepted_input_formats": "*",
+    "automatic_conversion": true,
+    "native_output": "SharnouEngine-native compiled asset package",
+    "format_neutral_ingestion": true,
+    "source_examples": [".gltf",".glb",".ktx2",".avif",".png",".jpg",".jpeg",".webp",".fbx",".obj",".tga",".dds",".bmp",".gif",".wav",".ogg",".mp3"],
+    "unknown_extensions": "classify-and-route; reject only when the engine cannot safely parse the source"
   },
   "core_subsystems": {
-    "language": {
-      "tokenizer": true,
-      "custom_active_language": true,
-      "SPP_operations": [
-        "actor_spawn",
-        "set_pos",
-        "bind_mesh",
-        "texture_avif"
-      ]
-    },
-    "ecs": {
-      "entity_component_system": true,
-      "dense_component_storage": true,
-      "target_world_capacity": 300000
-    },
-    "tasks": {
-      "asynchronous_worker_queue": true,
-      "fixed_physics_step": true
-    },
-    "renderer": {
-      "backend": "Direct3D 11",
-      "depth_format": "D32_FLOAT",
-      "shader_pipeline": "HLSL",
-      "anisotropic_sampling": true
-    },
-    "gameplay": {
-      "click_to_move": true,
-      "camera_orbit_and_zoom": true,
-      "monster_target_selection": true,
-      "skill_slots": 8,
-      "teleport_command": "@go MAP X:Y",
-      "persistent_save": true,
-      "network_identity": true
-    }
-  },
-  "asset_policy": {
-    "runtime_visual_format": ".avif",
-    "native_geometry_runtime": "SharnouEngine-native compiled representation",
-    "approved_authoring_interchange": [
-      ".fbx",
-      ".obj"
-    ],
-    "rejected_runtime_visual_formats": [
-      ".gltf",
-      ".glb",
-      ".ktx2",
-      ".png",
-      ".jpg",
-      ".jpeg",
-      ".webp",
-      ".gif",
-      ".bmp",
-      ".dds",
-      ".tga"
-    ]
+    "project_identity": true,
+    "spp_loader": true,
+    "asset_intake": true,
+    "asset_conversion": true,
+    "asset_validation": true,
+    "native_asset_packaging": true,
+    "ecs": true,
+    "renderer": true,
+    "gameplay": true,
+    "save_system": true,
+    "runtime_tests": true
   },
   "dependency_policy": {
-    "external_programming_tool_downloads": false,
-    "visual_studio": false,
-    "msbuild": false,
-    "windows_sdk_development_installation": false,
-    "cmake": false,
-    "vcpkg": false,
-    "unity": false,
-    "unreal_engine": false,
-    "compiler_required": true,
-    "compiler_source": "self-contained Sharnou toolchain"
+    "external_game_engine": false,
+    "external_ide": false,
+    "automatic_programming_tool_downloads": false,
+    "automatic_toolchain_downloads": false,
+    "automatic_toolchain_selection": false
   }
 }
