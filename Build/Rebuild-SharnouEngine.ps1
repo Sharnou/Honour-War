@@ -16,7 +16,6 @@ if (-not (Test-Path -LiteralPath $source -PathType Leaf)) {
 
 $sourceText = Get-Content -LiteralPath $source -Raw
 foreach ($required in @(
-    "has_batch_inputs",
     "--avif",
     "avif"
 )) {
