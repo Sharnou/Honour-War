@@ -8,13 +8,13 @@ Sharnou Engine is the **only active game engine** for Honour War.
 - IDE: **Sharnou IDE**
 - Authoring protocol: **Sharnou Project Protocol (SPP)**
 - Runtime: native Windows 64-bit C++20
-- Graphics backend: Direct3D 11 bootstrap renderer
+- Graphics backend: Sharnou Engine native renderer renderer
 - Game style: **3D HD MMORPG/ARPG**
 - Input: Ragnarok-style click-to-move and camera controls; no WASD movement
 
 ## Toolchain policy
 
-Honour War does **not** use or download Visual Studio, MSBuild, Windows SDK development packages, CMake, vcpkg, Unity, Unreal Engine, or any other external programming-tool bundle as part of the project workflow.
+Honour War does **not** use or download Visual Studio, MSBuild, Windows SDK development packages, Sharnou Engine build system, Sharnou Engine dependency/runtime layer, Unity, Unreal Engine, or any other external programming-tool bundle as part of the project workflow.
 
 Sharnou IDE is the authoritative project controller; SharnouEngine is the sole game and asset-generation runtime. A native `SharnouEngine.exe` is generated only by the self-contained Sharnou compiler declared by the toolchain contract. The repository fails closed when that compiler is not present; it never downloads a replacement compiler or SDK automatically.
 
