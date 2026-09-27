@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-"""Honour War Unreal Engine 5.8 HD production-art validation."""
+"""Honour War SharnouEngine AVIF-only HD asset validation."""
 
 from __future__ import annotations
 
 import json
 from pathlib import Path
-import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 ERRORS: list[str] = []
@@ -25,110 +24,90 @@ def require_dir(path: Path) -> None:
         fail(f"Missing required directory: {path.relative_to(ROOT)}")
 
 
-def validate_project() -> None:
-    project = ROOT / "HonourWar.uproject"
-    require_file(project)
-    if not project.is_file():
+def validate_project_contract() -> None:
+    manifest = ROOT / "Tools" / "SharnouIDE" / "honour-war.spp.json"
+    require_file(manifest)
+    if not manifest.is_file():
         return
-    data = json.loads(project.read_text(encoding="utf-8"))
-    if data.get("EngineAssociation") != "5.8":
-        fail("HonourWar.uproject must target Unreal Engine 5.8")
+    data = json.loads(manifest.read_text(encoding="utf-8"))
+    if data.get("canonical_identity", {}).get("project_id") != "honour-war":
+        fail("Canonical Honour War project id is missing")
+    if data.get("canonical_identity", {}).get("canonical") is not True:
+        fail("Canonical Honour War flag is missing")
+    if data.get("ide", {}).get("id") != "Sharnou-IDE":
+        fail("Sharnou-IDE is not authoritative")
+    if data.get("engine", {}).get("id") != "SharnouEngine":
+        fail("SharnouEngine is not the active engine")
+    policy = data.get("asset_format_policy", {})
+    if policy.get("runtime_visual_format") != ".avif":
+        fail("Runtime visual format must be .avif")
+    rejected = set(policy.get("rejected_runtime_visual_formats", []))
+    for ext in (".gltf", ".glb", ".ktx2", ".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp", ".tga", ".dds"):
+        if ext not in rejected:
+            fail(f"Missing rejected runtime visual format: {ext}")
 
 
-def validate_visual_identity() -> None:
-    brief = ROOT / "assets" / "3d" / "visual_rag" / "LATEST_VISUAL_BRIEF.json"
-    style = ROOT / "data" / "honour_war_visual_style.json"
-    contract = ROOT / "docs" / "HONOUR_WAR_HD_MMO_ANIME_STYLE_CONTRACT.md"
-    require_file(brief)
-    require_file(style)
-    require_file(contract)
-    if brief.is_file():
-        data = json.loads(brief.read_text(encoding="utf-8"))
-        if data.get("identity") != "HD 3D anime-inspired isometric MMORPG/ARPG":
-            fail("Visual brief identity drifted")
-        if data.get("runtime_formats") != ["FBX", "OBJ"]:
-            fail("Visual brief runtime formats must remain FBX/OBJ")
-        if data.get("rejected_formats") != ["GLB", "GLTF"]:
-            fail("Visual brief must permanently reject GLB/GLTF")
-    if style.is_file():
-        data = json.loads(style.read_text(encoding="utf-8"))
-        if data.get("engine") != "Unreal Engine 5.8":
-            fail("Visual style engine drifted")
-        if data.get("camera", {}).get("right_drag_orbit") is not True:
-            fail("Right-drag camera orbit is not locked")
-        if data.get("gameplay_control", {}).get("left_click_ground") != "click-to-move":
-            fail("Click-to-move control is not locked")
-
-
-def validate_required_paths() -> None:
+def validate_data_contract() -> None:
     for relative in (
-        "Source/HonourWar/HonourWarCharacter.cpp",
-        "Source/HonourWar/HonourWarPlayerController.cpp",
-        "Source/HonourWar/HonourWarCombatComponent.cpp",
-        "Source/HonourWar/HonourWarMonster.cpp",
-        "Source/HonourWar/HonourWarWorldDirector.cpp",
-        "Source/HonourWar/HonourWarLootDatabase.h",
-        "tools/validate_camera_controls.py",
-        "tools/honour_war_progression_contract_qa.py",
-        "tools/visual_gap_register_qa.py",
+        "data/honour_war_content_catalog.json",
+        "data/honour_war_visual_style.json",
+        "assets/3d/visual_rag/LATEST_VISUAL_BRIEF.json",
+        "Content/HonourWarArt/ART_ASSET_MANIFEST.json",
     ):
         require_file(ROOT / relative)
 
-    for relative in (
-        "assets/3d",
-        "assets/3d/visual_rag",
-        "assets/3d/neural4d",
-        "Content/HonourWarArt",
-    ):
-        require_dir(ROOT / relative)
 
-
-def validate_no_legacy_generators() -> None:
-    generators = [
-        ROOT / "tools" / "blender" / "honour_war_monster_assets.py",
-        ROOT / "tools" / "blender" / "honour_war_production_assets.py",
-        ROOT / "tools" / "blender" / "honour_war_visual_max_assets.py",
-        ROOT / "tools" / "blender" / "build_ss_production_asset.py",
-        ROOT / "tools" / "blender" / "run_visual_max_assets.py",
-    ]
-    forbidden_markers = (
-        "bpy.ops.export_scene.gltf",
-        "bpy.ops.wm.gltf_export",
-        ".glb",
-        ".gltf",
-    )
-    for path in generators:
-        if not path.is_file():
+def validate_visual_tree() -> None:
+    for root in (ROOT / "assets", ROOT / "Content"):
+        if not root.is_dir():
             continue
-        text = path.read_text(encoding="utf-8", errors="ignore")
-        for marker in forbidden_markers:
-            if marker in text:
-                fail(f"Legacy GLB/GLTF exporter remains in {path.relative_to(ROOT)}: {marker}")
+        for path in root.rglob("*"):
+            if not path.is_file():
+                continue
+            rel = str(path.relative_to(ROOT)).replace("\\", "/")
+            if "/Legacy/" in f"/{rel}/":
+                continue
+            if path.suffix.lower() in {".gltf", ".glb", ".ktx2", ".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp", ".tga", ".dds"}:
+                fail(f"Retired/non-AVIF active visual file present: {rel}")
+
+    for required_root in (
+        ROOT / "assets" / "visual",
+        ROOT / "assets" / "ui",
+        ROOT / "Content" / "visual",
+        ROOT / "Content" / "ui",
+    ):
+        if required_root.is_dir():
+            for path in required_root.rglob("*"):
+                if path.is_file() and path.suffix.lower() != ".avif":
+                    fail(f"Non-AVIF runtime visual present: {path.relative_to(ROOT)}")
 
 
-def validate_generated_tree() -> None:
-    generated = ROOT / "assets" / "3d" / "generated"
-    if not generated.is_dir():
-        return
-    for path in generated.rglob("*"):
-        if path.is_file() and path.suffix.lower() in {".glb", ".gltf"}:
-            fail(f"Retired generated asset format present: {path.relative_to(ROOT)}")
+def validate_no_retired_exporters() -> None:
+    generators = list((ROOT / "tools").rglob("*.py")) + list((ROOT / "Tools").rglob("*.py"))
+    forbidden = ("bpy.ops.export_scene.gltf", "bpy.ops.wm.gltf_export", ".glb", ".gltf", ".ktx2")
+    for path in generators:
+        rel = str(path.relative_to(ROOT)).replace("\\", "/")
+        if "/Legacy/" in f"/{rel}/":
+            continue
+        body = path.read_text(encoding="utf-8", errors="ignore").lower()
+        for marker in forbidden:
+            if marker in body and path.name not in {"validate_hd_assets.py"}:
+                fail(f"Retired format marker in active generator/tool: {rel} -> {marker}")
 
 
 def main() -> int:
-    validate_project()
-    validate_visual_identity()
-    validate_required_paths()
-    validate_no_legacy_generators()
-    validate_generated_tree()
+    validate_project_contract()
+    validate_data_contract()
+    validate_visual_tree()
+    validate_no_retired_exporters()
 
     if ERRORS:
         for error in ERRORS:
             print("HD_ART_FAIL:", error)
         return 1
 
-    print("HONOUR WAR HD ART VALIDATION PASS")
-    print("Unreal Engine 5.8 | HD 3D anime-inspired MMORPG | FBX/OBJ intake | legacy GLB/GLTF exporters blocked")
+    print("HONOUR WAR AVIF-ONLY HD ART VALIDATION PASS")
+    print("SharnouEngine | AVIF-only shipped visuals | FBX/OBJ private authoring intake")
     return 0
 
 
