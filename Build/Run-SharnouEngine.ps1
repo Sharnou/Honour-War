@@ -14,5 +14,5 @@ if (-not (Test-Path -LiteralPath $ide -PathType Leaf)) {
 
 $command = if ($FullGenerate) { "full-generate" } elseif ($SelfTest) { "self-test" } elseif ($RuntimeTest) { "runtime-test" } else { "run" }
 
-& powershell.exe -NoProfile -ExecutionPolicy Bypass -File $ide -Command $command
+& powershell.exe -NoProfile -ExecutionPolicy Bypass -File $ide -Command $command -RuntimeTestSeconds 300
 exit $LASTEXITCODE
