@@ -1,7 +1,7 @@
 // Honour War authored and generated through Sharnou IDE -> SharnouEngine
 project_bind honour-war
 generate_content characters
-generate_content class progression
+generate_content "class progression"
 generate_content skills
 generate_content monsters
 generate_content pets
@@ -13,10 +13,10 @@ generate_content maps
 generate_content terrain
 generate_content architecture
 generate_content props
-generate_content animation metadata
-generate_content combat VFX metadata
-generate_content HUD and UI layout
-generate_content save/progression state
+generate_content "animation metadata"
+generate_content "combat VFX metadata"
+generate_content "HUD and UI layout"
+generate_content "save/progression state"
 actor_spawn player
 set_pos 0 1 0
 bind_mesh character_mesh_native
