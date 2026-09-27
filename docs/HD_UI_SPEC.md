@@ -1,4 +1,4 @@
-# Honour War — Unreal Engine 5.8 MMORPG HUD Specification
+# Honour War — SharnouEngine MMORPG HUD Specification
 
 Honour War is an MMORPG/ARPG, not a strategy game.
 
@@ -56,6 +56,7 @@ Skill hotkeys 1 through 8 remain available as gameplay input and are not rendere
 ## Visual language
 
 Use:
+- AVIF-only shipped UI artwork/raster assets;
 - dark translucent glass panels;
 - warm gold accents;
 - portrait/profile framing;
@@ -71,4 +72,4 @@ The reference layout is authored around 1920x1080 and uses anchors/safe areas fo
 
 ## Acceptance
 
-HUD acceptance requires a real Unreal Engine 5.8 runtime frame over the actual 3D game world. Concept art and generated images are not gameplay evidence.
+HUD acceptance requires a real SharnouEngine runtime frame over the actual 3D game world. Concept art and generated images are not gameplay evidence.
