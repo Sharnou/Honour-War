@@ -32,9 +32,9 @@ def main() -> int:
         by_id = {r.asset_id: r for r in records}
 
         assert len(records) == 4
-        assert by_id["scene.gltf"].kind == "gltf"
-        assert by_id["model.glb"].kind == "glb"
-        assert by_id["albedo.ktx2"].kind == "ktx2"
+        assert by_id["scene.gltf"].kind == "scene_gltf"
+        assert by_id["model.glb"].kind == "scene_gltf"
+        assert by_id["albedo.ktx2"].kind == "texture_ktx2"
         assert by_id["login.avif"].kind == "avif"
         assert "rejected.png" not in by_id
         assert all(len(r.sha256) == 64 for r in records)
