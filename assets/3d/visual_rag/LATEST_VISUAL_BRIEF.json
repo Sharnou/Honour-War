@@ -1,7 +1,7 @@
 {
   "tool": "Honour War Visual RAG",
   "version": 5,
-  "engine": "Unreal Engine 5.8",
+  "engine": "SharnouEngine",
   "identity": "HD 3D anime-inspired isometric MMORPG/ARPG",
   "genre": "MMORPG/ARPG",
   "direct_visual_source": "Screenshot/",
@@ -9,9 +9,15 @@
     "Screenshot/ChatGPT Image Sep 16, 2026, 12_22_47 AM.png",
     "Screenshot/image_a4469f29.jpg"
   ],
-  "cycle_gate": "visual RAG -> gap register -> brief regeneration -> asset refresh -> Unreal runtime -> real EXE screenshot -> reference comparison",
-  "runtime_formats": ["FBX", "OBJ"],
-  "rejected_formats": ["GLB", "GLTF"],
+  "cycle_gate": "visual RAG -> gap register -> brief regeneration -> asset refresh -> SharnouEngine native runtime -> real EXE screenshot -> reference comparison",
+  "runtime_formats": [
+    "FBX",
+    "OBJ"
+  ],
+  "rejected_formats": [
+    "GLB",
+    "GLTF"
+  ],
   "required": {
     "characters": "full-body anime-inspired 3D silhouettes with visible face, hair, hands, legs, feet, layered equipment and class weapons",
     "classes": "six base professions plus advanced and fifth-tier progression",
@@ -30,7 +36,7 @@
       "left_click_monster": "select-and-engage",
       "right_drag": "camera_orbit",
       "mouse_wheel": "bounded_zoom",
-      "secondary": "W/A/S/D movement",
+      "secondary": "none (no WASD movement)",
       "skills": "1-8 gameplay inputs"
     },
     "world": "dense medieval town, forest field, mountain pass, river, desert ruins, snow region, arcane dungeon",
@@ -43,9 +49,27 @@
     "visual_rag_required_first": true,
     "regenerate_visual_brief_each_completed_cycle": true,
     "refresh_3d_assets_each_completed_cycle": true,
-    "validate_real_unreal_runtime_each_completed_cycle": true,
     "real_exe_screenshot_required": true,
     "manual_on_demand_only": true,
-    "daily_unattended_upgrade": false
-  }
+    "daily_unattended_upgrade": false,
+    "validate_real_sharnouengine_runtime_each_completed_cycle": true
+  },
+  "runtime_visual_format": ".avif",
+  "authoring_interchange": [
+    ".fbx",
+    ".obj"
+  ],
+  "rejected_runtime_formats": [
+    ".gltf",
+    ".glb",
+    ".ktx2",
+    ".png",
+    ".jpg",
+    ".jpeg",
+    ".webp",
+    ".gif",
+    ".bmp",
+    ".tga",
+    ".dds"
+  ]
 }
