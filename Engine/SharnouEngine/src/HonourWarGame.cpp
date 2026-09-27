@@ -77,20 +77,29 @@ bool HonourWarGame::Initialize() {
         if(program.at("project_id").get<std::string>() != "honour-war") return false;
         if(!program.at("commands").is_array()) return false;
 
+        bool sawProjectBind=false;
+        bool sawGenerationCommand=false;
         for(const auto& command : program.at("commands")) {
             const std::string op = command.at("op").get<std::string>();
-            if(op=="set_pos") {
+            if(op=="project_bind") {
+                if(command.at("project").get<std::string>()!="honour-war") return false;
+                sawProjectBind=true;
+            } else if(op=="generate_content") {
+                const std::string domain=command.at("domain").get<std::string>();
+                if(domain.empty()) return false;
+                sawGenerationCommand=true;
+            } else if(op=="set_pos") {
                 (void)command.at("x").get<float>();
                 (void)command.at("y").get<float>();
                 (void)command.at("z").get<float>();
             } else if(op=="actor_spawn" || op=="bind_mesh" || op=="texture_avif") {
-                // Valid SPP operations are accepted by the engine boundary.
                 // Runtime roles are constrained by the canonical project asset policy:
                 // AVIF is the only shipped raster/visual format. Geometry is SharnouEngine-native.
             } else {
                 return false;
             }
         }
+        if(!sawProjectBind || !sawGenerationCommand) return false;
     } catch(...) {
         return false;
     }
@@ -130,7 +139,84 @@ bool HonourWarGame::Initialize() {
         m.position=XMFLOAT3(-12.0f+(i%8)*3.5f,0.8f,4.0f+(i/8)*3.5f);
         monsters_.push_back(m);
     }
+
+    if(!GenerateRuntimeContent()) return false;
     return true;
+}
+
+bool HonourWarGame::GenerateRuntimeContent() {
+    try {
+        std::ifstream programIn(std::filesystem::path("Build")/"Runtime"/"honour-war.sppc.json");
+        if(!programIn) return false;
+        json program; programIn >> program;
+        if(!program.at("commands").is_array()) return false;
+
+        std::string boundProject;
+        std::vector<std::string> domains;
+        for(const auto& command : program.at("commands")) {
+            const std::string op=command.at("op").get<std::string>();
+            if(op=="project_bind") {
+                boundProject=command.at("project").get<std::string>();
+            } else if(op=="generate_content") {
+                const std::string domain=command.at("domain").get<std::string>();
+                if(!domain.empty() &&
+                   std::find(domains.begin(),domains.end(),domain)==domains.end()) {
+                    domains.push_back(domain);
+                }
+            }
+        }
+        if(boundProject!="honour-war" || domains.empty()) return false;
+
+        std::filesystem::path outputPath;
+        const char* forced=std::getenv("SHARNOU_ENGINE_GENERATION_OUTPUT");
+        const char* local=std::getenv("LOCALAPPDATA");
+        if(forced && *forced) {
+            outputPath=std::filesystem::path(forced);
+        } else {
+            outputPath=std::filesystem::path("Build")/"Runtime"/"honour-war.generated.json";
+        }
+        if(!outputPath.parent_path().empty())
+            std::filesystem::create_directories(outputPath.parent_path());
+
+        json generated={
+            {"schema","honour-war/sharnou-generated-runtime/1"},
+            {"project_id","honour-war"},
+            {"ide_id","Sharnou-IDE"},
+            {"engine_id","SharnouEngine"},
+            {"generated_by","SharnouEngine"},
+            {"generation_mode","native"},
+            {"runtime_visual_format",".avif"},
+            {"geometry_runtime","SharnouEngine-native compiled representation"},
+            {"source_spp","Tools/SharnouIDE/project/main.spp"},
+            {"compiled_spp","Build/Runtime/honour-war.sppc.json"},
+            {"generated_domains",domains},
+            {"canonical_counts",catalog_.at("counts")},
+            {"skill_counts",skillSystem_.at("counts")},
+            {"map_count",maps_.at("maps").size()},
+            {"runtime_preview_spawn_count",monsters_.size()},
+            {"startup_scene",{
+                {"project","honour-war"},
+                {"player_actor","player"},
+                {"native_mesh","character_mesh_native"},
+                {"default_position",{player_.position.x,player_.position.y,player_.position.z}},
+                {"visual_binding","assets/visual/characters/player.avif"}
+            }}
+        };
+
+        std::ofstream out(outputPath);
+        if(!out.good()) {
+            if(local && *local) {
+                outputPath=std::filesystem::path(local)/"SharnouEngine"/"HonourWar"/"honour-war.generated.json";
+                std::filesystem::create_directories(outputPath.parent_path());
+                out.open(outputPath);
+            }
+        }
+        if(!out.good()) return false;
+        out << generated.dump(2);
+        return static_cast<bool>(out);
+    } catch(...) {
+        return false;
+    }
 }
 
 bool HonourWarGame::LoadCanonicalData() {
