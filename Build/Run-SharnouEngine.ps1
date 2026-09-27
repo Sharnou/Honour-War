@@ -15,10 +15,8 @@ if ($m.canonical_identity.project_id -ne "honour-war" -or $m.canonical_identity.
 if ($m.ide.id -ne "Sharnou-IDE" -or $m.engine.id -ne "SharnouEngine") { throw "Sharnou IDE/Engine binding check failed." }
 
 $policy = $m.asset_format_policy
-if ($policy.runtime_scene_containers -notcontains ".gltf" -or $policy.runtime_scene_containers -notcontains ".glb") { throw "glTF 2.x runtime scene policy check failed." }
-if ($policy.runtime_3d_texture_format -ne ".ktx2") { throw "KTX2 3D texture policy check failed." }
-if ($policy.runtime_2d_raster_format -ne ".avif") { throw "AVIF 2D raster policy check failed." }
-if ($policy.runtime_3d_texture_glTF_extension -ne "KHR_texture_basisu") { throw "KHR_texture_basisu policy check failed." }
+if ($policy.runtime_visual_format -ne ".avif") { throw "AVIF-only runtime visual policy check failed." }
+if ($policy.rejected_runtime_visual_formats -notcontains ".gltf" -or $policy.rejected_runtime_visual_formats -notcontains ".glb" -or $policy.rejected_runtime_visual_formats -notcontains ".ktx2") { throw "Retired GLTF/GLB/KTX2 rejection policy check failed." }
 
 $candidates = @(
   (Join-Path $repo "Build\Runtime\SharnouEngine.exe"),
