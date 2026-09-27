@@ -5,4 +5,4 @@ ide Sharnou-IDE
 actor_spawn player
 set_pos 0 1 0
 bind_mesh character_mesh
-texture_avif assets/ui/player.avif
+texture_asset assets/ui/player.avif
