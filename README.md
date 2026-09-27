@@ -39,9 +39,11 @@ Honour War uses an **AVIF-only shipped visual asset policy**.
 - Other shipped raster formats including PNG/JPEG/WebP/GIF/BMP/TGA/DDS are rejected.
 - Runtime geometry is compiled into the native SharnouEngine representation rather than a GLTF/GLB container.
 
-Approved production flow remains:
+Approved active generation flow is:
 
-Visual RAG/reference analysis → Neural4D or Blender processing → FBX/OBJ private interchange → SharnouEngine native geometry/material compilation → AVIF visual delivery → runtime validation.
+Locked Screenshot/reference inspection → SharnouEngine native generation → SharnouEngine native geometry/material/animation compilation → AVIF visual delivery → SharnouEngine runtime validation.
+
+Neural4D, Blender and Substance 3D Painter are not active Honour War generators. Their historical scripts, if retained, are archive/reference material only and must never be invoked by the active build or runtime path.
 
 Existing historical reference images can remain as references; they are not generated runtime assets.
 
