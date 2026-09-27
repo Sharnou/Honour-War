@@ -42,8 +42,8 @@ bool HonourWarGame::Initialize() {
         if(spp.at("engine").at("id").get<std::string>() != "SharnouEngine") return false;
         if(spp.at("build_policy").at("network_downloads").get<bool>()) return false;
         if(spp.at("build_policy").at("external_tool_bootstrap").get<bool>()) return false;
-        if(!spp.at("asset_format_policy").at("runtime_visual_format").get<std::string>().empty() &&
-           spp.at("asset_format_policy").at("runtime_visual_format").get<std::string>() != ".avif") return false;
+        if(spp.at("asset_format_policy").at("accepted_input_formats").get<std::string>() != "*") return false;
+        if(!spp.at("asset_format_policy").at("automatic_conversion").get<bool>()) return false;
     } catch(...) {
         return false;
     }
@@ -199,7 +199,7 @@ bool HonourWarGame::GenerateRuntimeContent() {
                 {"player_actor","player"},
                 {"native_mesh","character_mesh_native"},
                 {"default_position",{player_.position.x,player_.position.y,player_.position.z}},
-                {"visual_binding","assets/visual/characters/player.avif"}
+                {"visual_binding","assets/visual/characters/player"}
             }}
         };
 
