@@ -72,12 +72,15 @@
       "@go 0 230:220"
     ],
     "content_pipeline": [
-      "Visual RAG/reference analysis",
-      "Neural4D or Blender processing",
-      "FBX/OBJ intake",
-      "Sharnou Engine asset import and validation",
-      "runtime validation"
-    ]
+      "Locked Screenshot reference inspection",
+      "SharnouEngine native generation",
+      "SharnouEngine native geometry/material/animation compilation",
+      "AVIF visual delivery",
+      "SharnouEngine runtime validation"
+    ],
+    "generation_authority": "SharnouEngine-only",
+    "external_asset_generators": false,
+    "external_art_generators": false
   },
   "ide_migration_policy": {
     "authoritative_ide": "Sharnou-IDE",
