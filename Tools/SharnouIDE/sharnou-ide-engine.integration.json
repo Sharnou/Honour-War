@@ -1,77 +1,41 @@
 {
-  "schema": "sharnou-ide-engine-integration/1",
+  "schema": "sharnou-ide-engine-integration/2",
   "project_id": "honour-war",
   "canonical": true,
-  "ide": {
-    "id": "Sharnou-IDE",
-    "repository": "https://github.com/Sharnou/Sharnou-IDE",
-    "authority": "exclusive"
-  },
-  "engine": {
-    "id": "SharnouEngine",
-    "repository": "https://github.com/Sharnou/Sharnou-Engine",
-    "authority": "exclusive-runtime"
-  },
+  "ide": {"id": "Sharnou-IDE", "authority": "exclusive"},
+  "engine": {"id": "SharnouEngine", "authority": "exclusive-runtime"},
   "protocol": "Sharnou Project Protocol (SPP)",
   "asset_policy": {
-    "generated_raster_format": ".AVIF",
-    "accepted_generated_raster_formats": [
-      ".AVIF"
-    ],
-    "rejected_generated_raster_formats": [
-      ".PNG",
-      ".JPG",
-      ".JPEG",
-      ".WEBP",
-      ".GIF",
-      ".BMP",
-      ".TGA",
-      ".DDS"
-    ]
+    "accepted_input_formats": "*",
+    "conversion": "automatic",
+    "runtime_representation": "SharnouEngine-native compiled asset package",
+    "examples": [".gltf",".glb",".ktx2",".avif",".png",".jpg",".jpeg",".webp",".fbx",".obj",".tga",".dds",".bmp",".gif",".wav",".ogg",".mp3"]
   },
   "external_tool_policy": {
-    "downloads": false,
-    "bootstrap": false,
-    "forbidden": [
-      "Visual Studio",
-      "MSBuild",
-      "Windows SDK",
-      "CMake",
-      "vcpkg",
-      "Unity",
-      "Unreal Engine",
-      "external programming tools"
-    ]
+    "automatic_downloads": false,
+    "automatic_installation": false,
+    "automatic_external_engine_selection": false,
+    "automatic_external_ide_selection": false,
+    "forbidden_runtime_engines": ["Unity","Unreal Engine","Godot","other external game engines"],
+    "forbidden_authoring_ides": ["other IDEs"]
   },
-  "legacy_ide_policy": {
+  "legacy_project_policy": {
     "automatic_conversion": true,
-    "target": "Sharnou-IDE SPP",
     "legacy_execution": false,
-    "legacy_toolchain_execution": false
+    "target": "Sharnou-IDE SPP"
   },
   "generation_policy": {
-    "authority": "SharnouEngine",
-    "native_generation": true,
-    "external_generation": false,
-    "external_asset_generators_rejected": [
-      "Neural4D",
-      "Blender",
-      "Substance 3D Painter",
-      "Unity",
-      "Unreal Engine",
-      "Godot"
-    ],
-    "shipped_visual_format": ".AVIF",
-    "automatic_handoff": {
-      "order": [
-        "Sharnou-IDE validates canonical project",
-        "Sharnou-IDE compiles SPP",
-        "SharnouEngine generates native Honour War runtime package",
-        "SharnouEngine validates canonical data and generated package",
-        "SharnouEngine launches Honour War runtime"
-      ],
-      "human_trigger": "explicit local IDE command only",
-      "daily_background_updates": false
-    }
+    "authoring_authority": "Sharnou-IDE",
+    "runtime_authority": "SharnouEngine",
+    "external_asset_generator_required": false,
+    "daily_background_updates": false,
+    "handoff": [
+      "Sharnou-IDE identifies canonical honour-war project",
+      "Sharnou-IDE converts authoring metadata to SPP",
+      "SharnouEngine receives SPP and asset intake records",
+      "SharnouEngine automatically converts and validates source assets",
+      "SharnouEngine packages native runtime assets",
+      "SharnouEngine runs Honour War"
+    ]
   }
 }
