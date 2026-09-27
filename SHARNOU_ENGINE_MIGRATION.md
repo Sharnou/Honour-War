@@ -37,8 +37,7 @@ Additional native engine subsystems are to be implemented around this canonical 
 
 ## Runtime asset packaging
 
-- glTF 2.x (.gltf/.glb) is the runtime 3D scene/model container.
-- KTX2 (.ktx2) is the runtime 3D material texture format.
-- KHR_texture_basisu is used for glTF assets carrying Basis Universal KTX2 textures.
-- AVIF (.avif) is the runtime raster format for UI/2D/distribution imagery.
-- FBX/OBJ remain authoring/interchange inputs and are converted before runtime packaging.
+- AVIF (.avif) is the only shipped raster/visual asset format.
+- FBX/OBJ remain private authoring/interchange inputs for Neural4D/Blender processing.
+- Runtime geometry is compiled into SharnouEngine-native representation.
+- GLTF, GLB and KTX2 are permanently rejected from active runtime visual delivery.
