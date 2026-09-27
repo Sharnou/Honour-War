@@ -6,7 +6,7 @@ Source: repository Screenshot/ folder.
 
 HD 3D anime-inspired medieval/fantasy MMORPG/ARPG.
 
-The visual game is 3D, not a flat or placeholder presentation. Every completed visual development cycle regenerates the visual brief from the locked references, refreshes the 3D production assets and validates the result in the real Unreal runtime.
+The visual game is 3D, not a flat or placeholder presentation. Every completed visual development cycle regenerates the visual brief from the locked references, refreshes the 3D production assets and validates the result in the real SharnouEngine runtime.
 
 Locked detail anchors:
 - Screenshot/ChatGPT Image Sep 16, 2026, 12_22_47 AM.png
@@ -19,7 +19,7 @@ The gameplay interaction remains a Ragnarok Online-inspired desktop MMORPG patte
 - left-click monster = select target and move into attack range;
 - right-mouse drag = perspective/isometric camera orbit;
 - mouse wheel = bounded zoom;
-- W/A/S/D = secondary direct movement;
+- no WASD movement;
 - 1–8 = gameplay skills.
 
 The camera is a perspective, elevated isometric-style camera, defaulting around a -50° pitch and 45° yaw, with complete hero framing during normal play.
@@ -39,11 +39,11 @@ The camera is a perspective, elevated isometric-style camera, defaulting around 
 
 ## Pipeline
 
-Visual RAG → gap register → regenerated visual brief → Neural4D or Blender → Substance 3D Painter → FBX/OBJ → Unreal Engine 5.8 → runtime validation → real EXE screenshot → reference comparison.
+Visual RAG → gap register → regenerated visual brief → Neural4D or Blender → Substance 3D Painter → FBX/OBJ private interchange → SharnouEngine native runtime compilation → AVIF visual delivery → runtime validation → real EXE screenshot → reference comparison.
 
 ## Rejected
 
-Godot, GLB, GLTF, Meshy, futuristic/modern/scifi machinery, robots, transformers, factories, space presentation, empty template maps and primitive-only final assets.
+Godot, GLB, GLTF, KTX2, non-AVIF shipped raster formats, Meshy, futuristic/modern/scifi machinery, robots, transformers, factories, space presentation, empty template maps and primitive-only final assets.
 
 ## Cycle rule
 
