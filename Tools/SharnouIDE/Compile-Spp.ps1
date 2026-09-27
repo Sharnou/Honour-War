@@ -77,7 +77,19 @@ foreach ($rawLine in Get-Content -LiteralPath $Source) {
         "texture_asset" {
             if ($tokens.Count -ne 2) { throw "Line ${lineNumber}: texture_asset requires an asset path." }
             $asset = [string]$tokens[1]
-                        $commands.Add([pscustomobject]@{
+            $commands.Add([pscustomobject]@{
+                op = "texture_asset"
+                asset = $asset
+                line = $lineNumber
+            })
+        }
+        "texture_avif" {
+            if ($tokens.Count -ne 2) { throw "Line ${lineNumber}: texture_avif requires an asset path." }
+            $asset = [string]$tokens[1]
+            if ([System.IO.Path]::GetExtension($asset).ToLowerInvariant() -ne ".avif") {
+                throw "Line ${lineNumber}: texture_avif requires a .avif asset."
+            }
+            $commands.Add([pscustomobject]@{
                 op = "texture_asset"
                 asset = $asset
                 line = $lineNumber
