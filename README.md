@@ -1,6 +1,6 @@
 # Honour War — canonical Sharnou Engine project
 
-Honour War (honour-war) is developed and run exclusively through Sharnou-IDE -> SharnouEngine.
+Honour War (honour-war) is developed and run exclusively through **Sharnou-IDE -> SharnouEngine**.
 
 - Game: 3D HD MMORPG/ARPG
 - Platform: Windows 64-bit
@@ -9,37 +9,66 @@ Honour War (honour-war) is developed and run exclusively through Sharnou-IDE -> 
 - Protocol: Sharnou Project Protocol (SPP)
 - Movement: Ragnarok Online-style click-to-move; no WASD
 
-## Exclusive tool policy
+## Exclusive stack
 
-Do not use, invoke, install, or download Visual Studio, MSBuild, Windows SDK development packages, Unity, Unreal Engine, or unrelated external programming tools.
+Sharnou-IDE is the only authoring/controller IDE for Honour War. SharnouEngine is the only Honour War game/runtime engine. No Unity, Unreal Engine, Visual Studio, MSBuild, Windows SDK development installation, CMake, vcpkg, or unrelated external programming-tool download is part of the active Honour War path.
 
-Sharnou-IDE is the only authoring/controller IDE. SharnouEngine is the only Honour War game/runtime engine. No automatic daily/background update system is part of this project.
+There is no automatic daily/background Honour War update system.
 
 ## Automatic project handoff
 
-The canonical project files under Tools/SharnouIDE bind this repository to the canonical Sharnou-IDE project id honour-war and SharnouEngine runtime.
+The canonical project files under Tools/SharnouIDE/ bind the repository to project id honour-war, Sharnou-IDE, and SharnouEngine.
 
-The IDE boundary accepts registered source formats and automatically converts/validates them as required. It preserves original sources and never downloads an external programming tool.
+Sharnou-IDE accepts any supplied source format at the intake boundary. It detects/classifies inputs, preserves originals, creates the required conversion/import job, and hands canonicalized output to SharnouEngine for validation. Unknown formats are preserved for inspection instead of silently discarded.
 
-## Runtime asset strategy
+## Canonical runtime asset strategy
 
-The runtime uses complementary formats:
-- .gltf / .glb — 3D scene/model containers.
-- .ktx2 — compressed 3D textures, including Basis Universal textures referenced from glTF through KHR_texture_basisu.
-- .avif — the only shipped raster/2D visual format: UI, HUD, icons, portraits, cards, menus, backgrounds, skyboxes and distribution visuals.
+The asset strategy is complementary rather than mutually exclusive:
 
-AVIF-only therefore applies to shipped raster/2D visuals; it does not prohibit glTF/GLB or KTX2, which serve the 3D pipeline.
+- **glTF 2.x (.gltf, .glb)** — 3D scene/model containers for meshes, nodes, skins and animations.
+- **KTX2 (.ktx2)** — compressed GPU-facing 3D material textures using Basis Universal; glTF references them through `KHR_texture_basisu`.
+- **AVIF (.avif)** — the shipped raster/2D visual format for UI, HUD, icons, portraits, cards, menus, backgrounds, skyboxes and distribution imagery.
 
-FBX/OBJ may be accepted as source/interchange input and converted by Sharnou-IDE. Runtime delivery is normalized to glTF/GLB + KTX2 + AVIF.
+AVIF-only applies to shipped raster/2D visuals. It does not reject glTF/GLB or KTX2, which are the complementary 3D asset formats.
 
-## Canonical identity
+FBX/OBJ remain approved source/interchange model inputs. They are converted before canonical runtime delivery. Other source formats may also enter through the Sharnou-IDE universal intake boundary when a registered adapter is available.
 
-Every build and generation job must identify project id honour-war, IDE Sharnou-IDE, and engine SharnouEngine.
+## Automatic Honour War / SharnouEngine jobs
 
-A runtime build/test is only marked PASS after the actual SharnouEngine executable runs. Static inspection is not runtime evidence.
+The Sharnou-IDE handoff is designed to automatically perform the necessary project/asset work:
+
+- format detection and validation
+- source preservation and provenance hashing
+- model/material/texture conversion and canonicalization
+- dependency resolution
+- SPP generation and compilation
+- project graph synchronization
+- SharnouEngine compatibility validation
+- incremental rebuild/stale-output detection
+- runtime smoke/self-test and runtime-test
+- diagnostics and repair metadata
+- real-runtime evidence capture
+
+The active stack never downloads an external programming tool to perform one of these jobs.
+
+## Canonical identity and runtime evidence
+
+Every generation/build/test job must identify:
+- project: honour-war
+- IDE: Sharnou-IDE
+- engine: SharnouEngine
+
+A gameplay/build PASS requires the actual approved SharnouEngine executable to run. Static source inspection is not runtime evidence.
 
 ## Preserved game design
 
 The migration preserves the existing Honour War content/data, including 70 character profiles, 35 jobs across 7 classes and 5 tiers, monsters, maps, equipment, cards, pets, quests/events, ageing/saved progression, and Ragnarok-style click movement.
+
+See:
+- `Engine/SharnouEngine/SHARNOU_ASSET_FORMATS.md`
+- `Engine/SharnouEngine/sharnou_engine_architecture.json`
+- `Tools/SharnouIDE/sharnou-ide-engine.integration.json`
+- `Tools/SharnouIDE/honour-war.spp.json`
+- `Tools/SharnouIDE/UNIVERSAL_ASSET_AUTOMATION.md`
 
 © Sharnou — Honour War
