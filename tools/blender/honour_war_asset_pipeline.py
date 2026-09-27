@@ -4,7 +4,7 @@ Purpose:
 - Create clean, named, export-ready collection structure for the ten development roles.
 - Generate non-destructive blockout guides that are intended to be replaced/refined
   into authored high-detail meshes, not shipped as final game art.
-- Prepare FBX/OBJ export conventions for Blender/Neural4D -> Substance 3D Painter -> Unreal Engine 5.8.
+- Prepare FBX/OBJ private interchange conventions for Blender/Neural4D -> Substance 3D Painter -> Sharnou Engine native runtime compilation -> AVIF visual delivery.
 
 Run inside Blender's Scripting workspace. This script does not claim to create
 finished character/monster art; it establishes a repeatable production scaffold.
@@ -77,10 +77,10 @@ def create_character_scaffold(collection, class_name):
 
 def create_export_metadata():
     scene = bpy.context.scene
-    scene["HW_pipeline"] = "Blender/Neural4D -> Substance 3D Painter -> FBX/OBJ -> Unreal Engine 5.8"
+    scene["HW_pipeline"] = "Visual RAG -> Blender/Neural4D -> Substance 3D Painter -> FBX/OBJ -> SharnouEngine native runtime -> AVIF"
     scene["HW_asset_status"] = "SCAFFOLD_ONLY"
-    scene["HW_target_renderer"] = "Unreal Engine 5.8"
-    scene["HW_texture_policy"] = "PBR: BaseColor / Normal / Roughness / Metallic / AO"
+    scene["HW_target_renderer"] = "SharnouEngine"
+    scene["HW_texture_policy"] = "Shipped raster visuals: AVIF only; source material channels remain BaseColor / Normal / Roughness / Metallic / AO"
     scene["HW_units"] = "meters"
     scene["HW_export_rule"] = "Only export approved authored assets; scaffold guides are not final art."
 
