@@ -1,18 +1,19 @@
 {
   "engine": "SharnouEngine",
   "ide": "Sharnou-IDE",
-  "source_stage": "Visual RAG",
-  "authoring_interchange": ["FBX", "OBJ"],
+  "generation_authority": "SharnouEngine-only",
+  "source_stage": "Locked Screenshot/reference inspection",
+  "external_generation": false,
   "runtime_visual_format": "AVIF",
-  "rejected_runtime_formats": ["GLB", "GLTF", "KTX2"],
+  "rejected_generation_tools": ["Neural4D", "Blender", "Substance 3D Painter"],
+  "rejected_runtime_formats": ["GLB", "GLTF", "KTX2", "PNG", "JPG", "JPEG", "WEBP", "GIF", "BMP", "TGA", "DDS"],
   "jobs": [
-    {"id":"hero_classes","category":"characters","priority":1,"source":"Screenshot/","deliverable":"70 gender-complete production character geometry through Neural4D/Blender authoring plus AVIF visual delivery"},
-    {"id":"pet_family","category":"pets","priority":2,"source":"Screenshot/","deliverable":"12 production pet geometry assets plus AVIF visual delivery"},
-    {"id":"monster_family","category":"monsters","priority":3,"source":"Screenshot/","deliverable":"11 Neural4D monster intake assets plus AVIF visual delivery"},
-    {"id":"town_environment","category":"maps","priority":4,"source":"Screenshot/","deliverable":"medieval town authored geometry plus AVIF visual delivery"},
-    {"id":"field_environment","category":"maps","priority":5,"source":"Screenshot/","deliverable":"field/forest terrain and prop authored geometry plus AVIF visual delivery"},
-    {"id":"dungeon_environment","category":"maps","priority":6,"source":"Screenshot/","deliverable":"dungeon authored geometry plus AVIF visual delivery"},
-    {"id":"combat_vfx","category":"effects","priority":7,"source":"Screenshot/","deliverable":"class-specific attack/impact visuals delivered as AVIF assets where raster representation is required"},
-    {"id":"ui_assets","category":"ui","priority":8,"source":"Screenshot/","deliverable":"high-resolution icons and panel artwork as AVIF"}
+    {"id":"hero_classes","category":"characters","priority":1,"generator":"SharnouEngine","deliverable":"70 gender-complete production character representations with native geometry, equipment, animation metadata and AVIF visual assets"},
+    {"id":"pet_family","category":"pets","priority":2,"generator":"SharnouEngine","deliverable":"20 canonical pets with native runtime representations and AVIF visuals"},
+    {"id":"monster_family","category":"monsters","priority":3,"generator":"SharnouEngine","deliverable":"256 canonical monster representations with native runtime data and AVIF visuals"},
+    {"id":"world_maps","category":"maps","priority":4,"generator":"SharnouEngine","deliverable":"24 canonical maps with native terrain, architecture, props, collision and lighting data plus AVIF visuals"},
+    {"id":"equipment_items_cards","category":"items","priority":5,"generator":"SharnouEngine","deliverable":"canonical equipment, items, cards and refinement presentation with AVIF icon/art delivery"},
+    {"id":"combat_vfx","category":"effects","priority":6,"generator":"SharnouEngine","deliverable":"class-specific native combat effects with AVIF raster visuals where required"},
+    {"id":"ui_assets","category":"ui","priority":7,"generator":"SharnouEngine","deliverable":"HUD, menu, icon, portrait and interface artwork as AVIF"}
   ]
 }
