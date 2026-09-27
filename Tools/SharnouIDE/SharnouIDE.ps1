@@ -24,10 +24,8 @@ if ($manifest.ide.id -ne "Sharnou-IDE") { throw "SPP IDE identity mismatch." }
 if ($manifest.engine.id -ne "SharnouEngine") { throw "SPP engine identity mismatch." }
 if ($manifest.build_policy.network_downloads -ne $false) { throw "External network bootstrap is not permitted." }
 if ($manifest.build_policy.external_tool_bootstrap -ne $false) { throw "External tool bootstrap is not permitted." }
-if ($manifest.asset_format_policy.runtime_visual_format -ne ".avif") { throw "AVIF-only runtime visual policy is missing." }
-if ($manifest.asset_format_policy.rejected_runtime_visual_formats -notcontains ".gltf") { throw "GLTF rejection policy is missing." }
-if ($manifest.asset_format_policy.rejected_runtime_visual_formats -notcontains ".glb") { throw "GLB rejection policy is missing." }
-if ($manifest.asset_format_policy.rejected_runtime_visual_formats -notcontains ".ktx2") { throw "KTX2 rejection policy is missing." }
+if ($manifest.asset_format_policy.accepted_input_formats -ne "*") { throw "Format-neutral asset input policy is missing." }
+if ($manifest.asset_format_policy.automatic_conversion -ne $true) { throw "Automatic asset conversion policy is missing." }
 
 $engineCandidates = @()
 foreach ($relative in $manifest.engine.runtime_candidates) { $engineCandidates += Join-Path $repoRoot $relative }
@@ -91,7 +89,7 @@ if ($Command -eq "validate") {
     Write-Host "PASS: canonical project = honour-war."
     Write-Host "PASS: authoring authority = Sharnou-IDE."
     Write-Host "PASS: runtime authority = SharnouEngine."
-    Write-Host "PASS: shipped raster/visual assets = AVIF only; runtime geometry = SharnouEngine-native."
+    Write-Host "PASS: any asset input format accepted; SharnouEngine performs automatic conversion/validation."
     Write-Host "PASS: external tool download/bootstrap = disabled."
     & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $compilerPath -Source $sppSource -Output $programPath
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
