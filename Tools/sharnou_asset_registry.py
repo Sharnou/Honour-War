@@ -20,9 +20,9 @@ from pathlib import Path
 from typing import Iterable
 
 SUPPORTED = {
-    ".gltf": "gltf",
-    ".glb": "glb",
-    ".ktx2": "ktx2",
+    ".gltf": "scene_gltf",
+    ".glb": "scene_gltf",
+    ".ktx2": "texture_ktx2",
     ".avif": "avif",
 }
 
