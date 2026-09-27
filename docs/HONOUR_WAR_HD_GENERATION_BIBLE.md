@@ -39,7 +39,7 @@ Never regenerate or reintroduce soldier systems, squad production/replacement, s
 The repository exclusion gate is authoritative and release-blocking.
 
 ## 5. Approved asset pipeline
-Visual RAG/reference analysis → gap register → detailed generation brief → Neural4D / Blender asset generation and processing → Substance 3D Painter material pass → FBX/OBJ production interchange → Unreal Engine 5.8 integration → collision/LOD/material validation → animation integration → runtime gameplay validation → real Windows EXE build → real gameplay screenshot capture → visual comparison and defect register → next controlled visual cycle.
+Visual RAG/reference analysis → gap register → detailed generation brief → Neural4D / Blender asset generation and processing → Substance 3D Painter material pass → FBX/OBJ private production interchange → SharnouEngine native runtime compilation → AVIF visual delivery → collision/LOD/material validation → animation integration → runtime gameplay validation → real Windows EXE build → real gameplay screenshot capture → visual comparison and defect register → next controlled visual cycle.
 
 Do not use GLB/GLTF as an alternate shortcut around this pipeline.
 
@@ -71,7 +71,7 @@ Validate PBR material completeness, appropriate texture resolution, no missing t
 ## 13. Runtime test matrix
 A release candidate is not complete until these are tested:
 1. Project opens without missing required assets.
-2. Unreal 5.8 contract passes.
+2. SharnouEngine runtime contract passes.
 3. Permanent exclusion gate passes.
 4. MMORPG camera/control contract passes.
 5. Progression/reward/economy/autosave contract passes.
@@ -94,7 +94,7 @@ A release candidate is not complete until these are tested:
 22. Real gameplay screenshot is captured from the built EXE.
 
 ## 14. Screenshot acceptance gate
-The final screenshot must show real runtime output, not an editor viewport, mockup, concept image or placeholder. Preferred capture contains the full hero body, visible face/equipment, detailed terrain/environment, a visible monster or gameplay encounter, readable MMORPG HUD and correct camera framing, with no construction/strategy/soldier/tower UI, black placeholder geometry or GLB/GLTF-derived production artifact.
+The final screenshot must show real SharnouEngine runtime output, not an editor viewport, mockup, concept image or placeholder. Preferred capture contains the full hero body, visible face/equipment, detailed terrain/environment, a visible monster or gameplay encounter, readable MMORPG HUD and correct camera framing, with no construction/strategy/soldier/tower UI, black placeholder geometry or GLTF/GLB/KTX2-derived production artifact.
 
 ## 15. High-detail generation priorities
 When compute is limited, prioritize: 1) hero full-body quality; 2) camera/control readability; 3) town/world geometry; 4) monsters/combat animation; 5) materials/lighting; 6) combat VFX/hit feedback; 7) HUD polish; 8) secondary NPC/prop density; 9) distant environment detail; 10) optional cosmetic polish.
