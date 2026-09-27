@@ -50,7 +50,7 @@ jobs:
         shell: pwsh
         run: |
           $spp = Get-Content "$env:GITHUB_WORKSPACE/Tools/SharnouIDE/project/main.spp" -Raw
-          foreach ($required in @('actor_spawn','set_pos','bind_mesh','texture_avif')) {
+          foreach ($required in @('project_bind','generate_content','actor_spawn','set_pos','bind_mesh','texture_avif')) {
             if ($spp -notmatch [regex]::Escape($required)) { throw "SPP command missing: $required" }
           }
           Write-Host 'PASS: Honour War SPP source contract and AVIF-only visual command.'
@@ -76,7 +76,14 @@ jobs:
         run: |
           python Tools/tests/test_sharnou_engine_validator.py
 
-      - name: Run native Sharnou Engine when a runtime artifact is present
+      - name: Execute automatic Sharnou IDE to SharnouEngine generation
+        if: ${{ hashFiles('Build/Runtime/SharnouEngine.exe') != '' }}
+        shell: pwsh
+        run: |
+          & "$env:GITHUB_WORKSPACE/Tools/SharnouIDE/SharnouIDE.ps1" -Command generate
+          if ($LASTEXITCODE -ne 0) { throw "Automatic Sharnou generation failed: $LASTEXITCODE" }
+
+      - name: Run native Sharnou Engine self-test after generation
         if: ${{ hashFiles('Build/Runtime/SharnouEngine.exe') != '' }}
         shell: pwsh
         run: |
@@ -86,7 +93,6 @@ jobs:
           $env:SHARNOU_PROJECT_ID = 'honour-war'
           & "$env:GITHUB_WORKSPACE/Build/Runtime/SharnouEngine.exe" '--self-test'
           if ($LASTEXITCODE -ne 0) { throw "Sharnou Engine self-test failed: $LASTEXITCODE" }
-
       - name: Runtime artifact evidence
         shell: pwsh
         run: |
