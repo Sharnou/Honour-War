@@ -1,6 +1,17 @@
 # Honour War — Sharnou Engine HD Asset Manifest
 
-The production visual library is authored through Neural4D/Blender using FBX/OBJ as private interchange inputs, then compiled for Sharnou Engine. Only AVIF raster visual assets are shipped as external visual files.
+The production visual library is generated and compiled by **SharnouEngine only** from canonical Honour War data and locked visual references.
+
+## Active generation authority
+
+- Generator: SharnouEngine
+- IDE controller: Sharnou-IDE
+- External generation: disabled
+- External DCC/art generators: disabled
+- Shipped external visual format: AVIF only
+- Runtime geometry: SharnouEngine-native compiled representation
+
+Historical Neural4D/Blender/FBX/OBJ material, when retained, is archive/reference content only. It is not an active generation input.
 
 ## Hero library
 
@@ -48,21 +59,14 @@ Barrels, crates, carts, benches, market stalls, lamps, banners, fences, signs, w
 
 Skin, hair/fur, cloth, leather, wood, stone, metal, glass/crystal, water and magic/emissive.
 
-Required material channels where applicable:
-Base Color, Normal, Roughness, Metallic, AO, Emissive.
-
-## Intake policy
-
-Approved private authoring/interchange: FBX, OBJ.
-
-Rejected active runtime visual formats: GLB, GLTF, KTX2.
-
 ## Runtime visual policy
 
 - Raster/visual delivery: .avif only.
 - External runtime geometry containers: none.
-- Geometry is compiled into a Sharnou Engine-native runtime representation.
+- Geometry is compiled into a SharnouEngine-native runtime representation.
 - Do not ship PNG/JPEG/WebP/GIF/BMP/TGA/DDS.
 - Do not ship GLTF/GLB/KTX2.
 
-Procedural geometry in the C++ world bootstrap is development scaffolding only and must eventually be replaced/refined by authored production geometry.
+## Native generation contract
+
+SharnouEngine must be able to generate the canonical gameplay representation directly from the repository data contracts without invoking an external model generator or DCC. The generated result is then validated in the real SharnouEngine runtime.
