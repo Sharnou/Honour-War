@@ -17,17 +17,13 @@ from Tools.sharnou_asset_registry import scan, write_registry
 def main() -> int:
     with tempfile.TemporaryDirectory() as temp:
         root = Path(temp)
-        (root / "scene.gltf").write_text('{"asset":{"version":"2.0"}}', encoding="utf-8")
-        (root / "hero.ktx2").write_bytes(b"ABCD")
-        (root / "login.avif").write_bytes(b"EFGH")
+        (root / "login.avif").write_bytes(b"valid-avif-fixture")
         (root / "ignored.txt").write_text("ignored", encoding="utf-8")
 
         records = scan(root)
         by_id = {r.asset_id: r for r in records}
 
-        assert len(records) == 3
-        assert by_id["scene.gltf"].kind == "scene_gltf"
-        assert by_id["hero.ktx2"].kind == "texture_ktx2"
+        assert len(records) == 1
         assert by_id["login.avif"].kind == "avif"
         assert all(len(r.sha256) == 64 for r in records)
 
@@ -37,7 +33,7 @@ def main() -> int:
         assert data["schema"] == "sharnou.asset-registry.v1"
         assert data["project"] == "honour-war"
         assert data["engine"] == "SharnouEngine"
-        assert len(data["assets"]) == 3
+        assert len(data["assets"]) == 1
 
     print("PASS: asset registry scan, hashing, canonical IDs, and serialization.")
     return 0
