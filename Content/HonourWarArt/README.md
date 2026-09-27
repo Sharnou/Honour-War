@@ -4,9 +4,9 @@ This folder is the native Sharnou Engine destination for the production art libr
 
 ## Approved source path
 
-Visual RAG → Neural4D / Blender → Substance 3D Painter → FBX/OBJ + texture maps → Sharnou Engine.
+Visual RAG → Neural4D / Blender → Substance 3D Painter → FBX/OBJ private interchange → SharnouEngine native compilation → AVIF visual delivery.
 
-GLB and GLTF are permanently rejected from Honour War runtime intake. Meshy is permanently rejected.
+GLTF, GLB and KTX2 are permanently rejected from Honour War active runtime visual delivery; AVIF is the only shipped raster/visual format. Meshy is permanently rejected.
 
 ## Quality target
 
