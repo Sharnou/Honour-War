@@ -36,22 +36,20 @@ SharnouEngine is the only Honour War engine/runtime target, controlled exclusive
 
 ## Asset interchange
 
-Approved runtime delivery:
-- glTF 2.x (`.gltf` / `.glb`) for 3D scene/model containers;
-- KTX2 (`.ktx2`) for GPU-facing 3D material textures;
-- `KHR_texture_basisu` when a glTF asset uses Basis Universal KTX2 textures.
-
-Approved authoring/interchange:
+Approved private authoring/interchange:
 - FBX for rigged/animated assets;
-- OBJ for approved static assets;
-- texture maps authored in Substance 3D Painter or equivalent production tooling.
+- OBJ for approved static assets.
 
-Rejected:
-- non-KTX2 shipped 3D material textures;
-- non-AVIF shipped 2D raster visuals;
-- Meshy;
-- generic substitute references as a replacement for the repository source;
-- futuristic/modern/scifi presentation.
+Approved shipped visual format:
+- AVIF (.avif) only for all external raster/visual assets.
+
+Rejected from active runtime delivery:
+- GLTF;
+- GLB;
+- KTX2;
+- PNG/JPEG/WebP/GIF/BMP/TGA/DDS.
+
+Runtime geometry is compiled into the native SharnouEngine representation. AVIF is not used as a 3D mesh container.
 
 ## Originality
 
@@ -59,7 +57,7 @@ The game must be an original Honour War implementation driven by the visual char
 
 ## Real screenshot rule
 
-Visual acceptance requires a screenshot from the actual Unreal Engine 5.8 runtime/EXE. A generated concept image or reference screenshot does not count.
+Visual acceptance requires a screenshot captured from the actual SharnouEngine Windows runtime/EXE. A generated concept image or reference screenshot does not count.
 
 ## Scope
 
