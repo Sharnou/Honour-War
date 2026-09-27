@@ -20,4 +20,4 @@ generate_content "save/progression state"
 actor_spawn player
 set_pos 0 1 0
 bind_mesh character_mesh_native
-texture_avif assets/visual/characters/player.avif
+texture_asset assets/visual/characters/player.avif
