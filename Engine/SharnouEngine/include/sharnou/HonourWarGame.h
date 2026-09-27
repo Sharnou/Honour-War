@@ -59,6 +59,7 @@ public:
     void OnMouseWheel(float delta);
     void OnKeyDown(unsigned int key);
     void SubmitCommand(const std::string& command);
+    bool GenerateRuntimeContent();
     bool RunSelfTest();
     bool RunRuntimeSoak(int simulatedSeconds);
     bool SelectCharacterProfile(int profileIndex);
