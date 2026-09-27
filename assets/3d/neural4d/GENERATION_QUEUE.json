@@ -1,17 +1,18 @@
 {
-  "engine": "Unreal Engine 5.8",
+  "engine": "SharnouEngine",
+  "ide": "Sharnou-IDE",
   "source_stage": "Visual RAG",
-  "input_formats": ["FBX","OBJ"],
-  "runtime_formats": ["FBX","OBJ"],
-  "rejected_formats": ["GLB","GLTF"],
+  "authoring_interchange": ["FBX", "OBJ"],
+  "runtime_visual_format": "AVIF",
+  "rejected_runtime_formats": ["GLB", "GLTF", "KTX2"],
   "jobs": [
-    {"id":"hero_classes","category":"characters","priority":1,"source":"Screenshot/","deliverable":"six base-class full-body hero FBX assets plus Ranger advanced-class variant"},
-    {"id":"pet_family","category":"pets","priority":2,"source":"Screenshot/","deliverable":"seven combat-pet FBX assets"},
-    {"id":"monster_family","category":"monsters","priority":3,"source":"Screenshot/","deliverable":"normal/elite/MVP production FBX assets"},
-    {"id":"town_environment","category":"maps","priority":4,"source":"Screenshot/","deliverable":"medieval town environment OBJ/FBX kit"},
-    {"id":"field_environment","category":"maps","priority":5,"source":"Screenshot/","deliverable":"field/forest terrain and prop OBJ/FBX kit"},
-    {"id":"dungeon_environment","category":"maps","priority":6,"source":"Screenshot/","deliverable":"dungeon environment OBJ/FBX kit"},
-    {"id":"combat_vfx","category":"effects","priority":7,"source":"Screenshot/","deliverable":"class-specific attack/impact effect assets for Unreal Niagara/material systems"},
-    {"id":"ui_assets","category":"ui","priority":8,"source":"Screenshot/","deliverable":"high-resolution icons and panel textures for UMG"}
+    {"id":"hero_classes","category":"characters","priority":1,"source":"Screenshot/","deliverable":"70 gender-complete production character geometry through Neural4D/Blender authoring plus AVIF visual delivery"},
+    {"id":"pet_family","category":"pets","priority":2,"source":"Screenshot/","deliverable":"12 production pet geometry assets plus AVIF visual delivery"},
+    {"id":"monster_family","category":"monsters","priority":3,"source":"Screenshot/","deliverable":"11 Neural4D monster intake assets plus AVIF visual delivery"},
+    {"id":"town_environment","category":"maps","priority":4,"source":"Screenshot/","deliverable":"medieval town authored geometry plus AVIF visual delivery"},
+    {"id":"field_environment","category":"maps","priority":5,"source":"Screenshot/","deliverable":"field/forest terrain and prop authored geometry plus AVIF visual delivery"},
+    {"id":"dungeon_environment","category":"maps","priority":6,"source":"Screenshot/","deliverable":"dungeon authored geometry plus AVIF visual delivery"},
+    {"id":"combat_vfx","category":"effects","priority":7,"source":"Screenshot/","deliverable":"class-specific attack/impact visuals delivered as AVIF assets where raster representation is required"},
+    {"id":"ui_assets","category":"ui","priority":8,"source":"Screenshot/","deliverable":"high-resolution icons and panel artwork as AVIF"}
   ]
 }
