@@ -61,7 +61,15 @@ bool HonourWarGame::Initialize() {
         if(generation.at("external_generation").get<bool>()) return false;
         if(generation.at("active_generators").size() != 1 ||
            generation.at("active_generators").at(0).get<std::string>() != "SharnouEngine") return false;
-        if(generation.at("runtime_visual_format").get<std::string>() != ".avif") return false;
+        if(generation.at("runtime_asset_strategy").at("scene_containers").size() != 2 ||
+           generation.at("runtime_asset_strategy").at("scene_containers").at(0).get<std::string>() != ".gltf" ||
+           generation.at("runtime_asset_strategy").at("scene_containers").at(1).get<std::string>() != ".glb") return false;
+        if(generation.at("runtime_asset_strategy").at("three_d_textures").size() != 1 ||
+           generation.at("runtime_asset_strategy").at("three_d_textures").at(0).get<std::string>() != ".ktx2") return false;
+        if(generation.at("runtime_asset_strategy").at("two_d_visuals").size() != 1 ||
+           generation.at("runtime_asset_strategy").at("two_d_visuals").at(0).get<std::string>() != ".avif") return false;
+        if(generation.at("runtime_asset_strategy").at("glTF_texture_extension").get<std::string>() != "KHR_texture_basisu") return false;
+        if(generation.at("runtime_asset_strategy").at("raster_visual_policy").get<std::string>() != ".AVIF only") return false;
     } catch(...) {
         return false;
     }
@@ -186,7 +194,14 @@ bool HonourWarGame::GenerateRuntimeContent() {
             {"generated_by","SharnouEngine"},
             {"generation_mode","native"},
             {"runtime_visual_format",".avif"},
-            {"geometry_runtime","SharnouEngine-native compiled representation"},
+            {"runtime_asset_strategy",{
+                {"scene_containers",{".gltf",".glb"}},
+                {"three_d_textures",{".ktx2"}},
+                {"two_d_visuals",{".avif"}},
+                {"glTF_texture_extension","KHR_texture_basisu"},
+                {"raster_visual_policy",".AVIF only"}
+            }},
+            {"geometry_runtime","SharnouEngine canonicalized scene representation from glTF/GLB inputs"},
             {"source_spp","Tools/SharnouIDE/project/main.spp"},
             {"compiled_spp","Build/Runtime/honour-war.sppc.json"},
             {"generated_domains",domains},
@@ -197,9 +212,11 @@ bool HonourWarGame::GenerateRuntimeContent() {
             {"startup_scene",{
                 {"project","honour-war"},
                 {"player_actor","player"},
-                {"native_mesh","character_mesh_native"},
+                {"mesh_role","glTF/GLB 3D scene"},
+                {"material_texture_role","KTX2 3D texture"},
+                {"ui_visual_role","AVIF 2D raster"},
                 {"default_position",{player_.position.x,player_.position.y,player_.position.z}},
-                {"visual_binding","assets/visual/characters/player"}
+                {"visual_binding","assets/ui/player.avif"}
             }}
         };
 
