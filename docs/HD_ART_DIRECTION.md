@@ -1,6 +1,6 @@
-# Honour War — Unreal Engine 5.8 HD Art Direction
+# Honour War — SharnouEngine HD Art Direction
 
-Honour War is an HD anime-inspired isometric medieval/fantasy MMORPG/ARPG. The visual target is controlled by the repository Screenshot references and implemented as original real-time 3D assets in Unreal Engine 5.8.
+Honour War is an HD anime-inspired isometric medieval/fantasy MMORPG/ARPG. The visual target is controlled by the repository Screenshot references and implemented as original real-time 3D assets in SharnouEngine.
 
 ## Visual identity
 
@@ -54,14 +54,14 @@ The player-facing HUD is a compact MMORPG interface with profile/vitals, RPG nav
 
 ## Production interchange
 
-Visual RAG → Neural4D or Blender → Substance 3D Painter → FBX/OBJ → Unreal Engine 5.8.
+Visual RAG → Neural4D or Blender → Substance 3D Painter → FBX/OBJ private interchange → SharnouEngine native runtime compilation → AVIF visual delivery.
 
-GLB, GLTF, Meshy and Godot are permanently rejected for Honour War runtime production.
+GLTF, GLB, KTX2, non-AVIF shipped raster formats, Meshy and Godot are permanently rejected for Honour War runtime visual delivery.
 
 ## Development-cycle rule
 
-Every completed visual development cycle regenerates or updates the Visual RAG brief, then validates a real Unreal runtime frame against the locked reference anchors. This is a development-cycle gate and does not restore daily unattended upgrades.
+Every completed visual development cycle regenerates or updates the Visual RAG brief, then validates a real SharnouEngine runtime frame against the locked reference anchors. This is a development-cycle gate and does not restore daily unattended upgrades.
 
 ## Quality floor
 
-The final game must not regress to sparse terrain, primitive-only actors, flat unlit geometry, missing full-body characters or generic UI. A real Unreal runtime frame is required for final visual acceptance.
+The final game must not regress to sparse terrain, primitive-only actors, flat unlit geometry, missing full-body characters or generic UI. A real SharnouEngine runtime frame is required for final visual acceptance.
