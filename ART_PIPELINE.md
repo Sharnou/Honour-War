@@ -8,7 +8,7 @@ Every visual development cycle is manual/on-demand and begins with authoritative
 
 ## Fixed production sequence
 
-Visual RAG / multimodal reference analysis → visual gap register → regenerated visual brief → Neural4D or Blender authored geometry → Substance 3D Painter material authoring → FBX/OBJ private interchange intake → Sharnou Engine native geometry/material compilation → AVIF raster visual delivery → gameplay/runtime validation → real EXE screenshot → reference comparison.
+Locked Screenshot/reference inspection → visual gap register → regenerated visual brief → SharnouEngine native generation → SharnouEngine native geometry/material/animation compilation → AVIF raster visual delivery → SharnouEngine gameplay/runtime validation → real EXE screenshot → reference comparison.
 
 ## Permanent exclusions
 
@@ -47,7 +47,7 @@ The following are permanently rejected from active runtime visual delivery:
 - .tga
 - .dds
 
-FBX/OBJ are permitted only as private Neural4D/Blender authoring/interchange inputs. They are not shipped runtime visual assets.
+FBX/OBJ are not part of the active generation pipeline. Historical files, where present, are archive/reference material only.
 
 Sharnou Engine geometry is an engine-native compiled runtime representation; it is not represented as a GLTF/GLB container. AVIF therefore governs the shipped raster/visual payloads rather than pretending a 2D image container is a 3D mesh container.
 
@@ -55,15 +55,11 @@ Sharnou Engine geometry is an engine-native compiled runtime representation; it 
 
 Every visual pass starts with reference analysis. The analysis compares the current real gameplay frame, when available, with the locked anchors and records macro/micro gaps in characters, equipment, pets, monsters/MVPs, terrain, architecture, props, lighting, camera, animation, combat VFX and UI.
 
-## Asset authoring
+## Asset generation
 
-Neural4D is an approved generation source when available. Blender remains the authored-DCC source. Substance 3D Painter is the material authoring stage.
+SharnouEngine is the only active Honour War asset generator. Characters, monsters, pets, equipment, maps, props, VFX, animation metadata and runtime scene content are generated/compiled by SharnouEngine from the canonical game data and locked visual references.
 
-Approved private authoring/interchange:
-- FBX: rigged/animated heroes, pets, monsters and NPCs.
-- OBJ: approved static environment and prop meshes.
-
-These source formats remain upstream inputs only.
+External art generators and DCC pipelines are not active dependencies. Historical FBX/OBJ/Neural4D/Blender material may remain only as archived recovery/reference material and must not be consumed by the active generation path.
 
 ## Sharnou Engine import
 
