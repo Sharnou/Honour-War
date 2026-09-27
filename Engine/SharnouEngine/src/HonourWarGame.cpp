@@ -42,6 +42,26 @@ bool HonourWarGame::Initialize() {
         if(spp.at("engine").at("id").get<std::string>() != "SharnouEngine") return false;
         if(spp.at("build_policy").at("network_downloads").get<bool>()) return false;
         if(spp.at("build_policy").at("external_tool_bootstrap").get<bool>()) return false;
+        if(!spp.at("asset_format_policy").at("runtime_visual_format").get<std::string>().empty() &&
+           spp.at("asset_format_policy").at("runtime_visual_format").get<std::string>() != ".avif") return false;
+    } catch(...) {
+        return false;
+    }
+
+    // SharnouEngine is the sole active Honour War generator. Refuse startup
+    // if the canonical generation manifest names any external generator.
+    try {
+        std::ifstream generationIn(std::filesystem::path("Engine")/"SharnouEngine"/"HONOUR_WAR_GENERATION.json");
+        if(!generationIn) generationIn.open(std::filesystem::path("HONOUR_WAR_GENERATION.json"));
+        if(!generationIn) return false;
+        json generation; generationIn >> generation;
+        if(generation.at("project_id").get<std::string>() != "honour-war") return false;
+        if(generation.at("engine").get<std::string>() != "SharnouEngine") return false;
+        if(generation.at("generation_authority").get<std::string>() != "SharnouEngine-only") return false;
+        if(generation.at("external_generation").get<bool>()) return false;
+        if(generation.at("active_generators").size() != 1 ||
+           generation.at("active_generators").at(0).get<std::string>() != "SharnouEngine") return false;
+        if(generation.at("runtime_visual_format").get<std::string>() != ".avif") return false;
     } catch(...) {
         return false;
     }
