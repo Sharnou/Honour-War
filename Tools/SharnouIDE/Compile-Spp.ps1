@@ -90,7 +90,7 @@ foreach ($rawLine in Get-Content -LiteralPath $Source) {
                 throw "Line ${lineNumber}: texture_avif requires a .avif asset."
             }
             $commands.Add([pscustomobject]@{
-                op = "texture_asset"
+                op = "texture_avif"
                 asset = $asset
                 line = $lineNumber
             })
