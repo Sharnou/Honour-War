@@ -1,1 +1,70 @@
-{"schema":"sharnou-project/1","canonical_identity":{"project_id":"honour-war","project_name":"Honour War","repository":"https://github.com/Sharnou/Honour-War","canonical":true},"project":{"id":"honour-war","name":"Honour War","genre":"3D HD MMORPG/ARPG"},"ide":{"id":"Sharnou-IDE","repository":"https://github.com/Sharnou/Sharnou-IDE","mode":"authoritative-and-exclusive"},"engine":{"id":"SharnouEngine","name":"Sharnou Engine","repository":"https://github.com/Sharnou/Sharnou-Engine","mode":"exclusive-runtime"},"asset_format_policy":{"runtime_3d_scene_formats":[".gltf",".glb"],"runtime_3d_texture_formats":[".ktx2"],"runtime_2d_formats":[".avif"],"runtime_raster_format":".avif","source_model_intake":[".fbx",".obj"],"source_asset_intake":"any-registered-format","glTF_ktx2_extension":"KHR_texture_basisu"},"build_policy":{"network_downloads":false,"external_tool_bootstrap":false,"external_ide_authoring":false,"forbidden":["Visual Studio","MSBuild","Windows SDK","Unity","Unreal Engine","CMake","vcpkg","external programming-tool downloads"]},"movement":"Ragnarok-style click-to-move; no WASD","automation":{"automatic_jobs":true,"automatic_legacy_ide_metadata_conversion":true,"automatic_engine_handoff":true}}
+{
+  "schema": "sharnou-project/2",
+  "canonical_identity": {
+    "project_id": "honour-war",
+    "project_name": "Honour War",
+    "repository": "https://github.com/Sharnou/Honour-War",
+    "canonical": true
+  },
+  "project": {
+    "id": "honour-war",
+    "name": "Honour War",
+    "genre": "3D HD MMORPG/ARPG"
+  },
+  "ide": {
+    "id": "Sharnou-IDE",
+    "repository": "https://github.com/Sharnou/Sharnou-IDE",
+    "mode": "authoritative-and-exclusive"
+  },
+  "engine": {
+    "id": "SharnouEngine",
+    "name": "Sharnou Engine",
+    "repository": "https://github.com/Sharnou/Sharnou-Engine",
+    "mode": "exclusive-runtime"
+  },
+  "asset_format_policy": {
+    "accepted_input_formats": "*",
+    "automatic_conversion": true,
+    "preserve_original_sources": true,
+    "runtime_3d_scene_formats": [
+      ".gltf",
+      ".glb"
+    ],
+    "runtime_3d_texture_formats": [
+      ".ktx2"
+    ],
+    "runtime_2d_formats": [
+      ".avif"
+    ],
+    "runtime_raster_format": ".avif",
+    "source_model_intake": [
+      ".fbx",
+      ".obj"
+    ],
+    "source_asset_intake": "any-registered-format",
+    "unknown_input": "preserve-and-inspect",
+    "glTF_ktx2_extension": "KHR_texture_basisu"
+  },
+  "build_policy": {
+    "network_downloads": false,
+    "external_tool_bootstrap": false,
+    "external_ide_authoring": false,
+    "forbidden": [
+      "Visual Studio",
+      "MSBuild",
+      "Windows SDK",
+      "Unity",
+      "Unreal Engine",
+      "CMake",
+      "vcpkg",
+      "external programming-tool downloads"
+    ]
+  },
+  "movement": "Ragnarok-style click-to-move; no WASD",
+  "automation": {
+    "automatic_jobs": true,
+    "automatic_legacy_ide_metadata_conversion": true,
+    "automatic_engine_handoff": true,
+    "daily_background_updates": false
+  }
+}
