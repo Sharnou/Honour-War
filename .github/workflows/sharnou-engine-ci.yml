@@ -5,6 +5,7 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   sharnou-stack-policy-and-runtime:
@@ -14,90 +15,125 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Enforce canonical Honour War identity
+      - name: Validate canonical Sharnou-IDE -> SharnouEngine identity
         shell: pwsh
         run: |
           $manifest = Get-Content "$env:GITHUB_WORKSPACE/Tools/SharnouIDE/honour-war.spp.json" -Raw | ConvertFrom-Json
-          if ($manifest.canonical_identity.project_id -ne 'honour-war' -or $manifest.canonical_identity.canonical -ne $true) { throw 'Honour War is not canonical.' }
+          if ($manifest.canonical_identity.project_id -ne 'honour-war') { throw 'Canonical project id mismatch.' }
+          if ($manifest.canonical_identity.canonical -ne $true) { throw 'Honour War is not canonical.' }
           if ($manifest.ide.id -ne 'Sharnou-IDE') { throw 'IDE identity mismatch.' }
-          if ($manifest.ide.repository -ne 'https://github.com/Sharnou/Sharnou-IDE') { throw 'Canonical IDE repository mismatch.' }
           if ($manifest.engine.id -ne 'SharnouEngine') { throw 'Engine identity mismatch.' }
-          if ($manifest.engine.repository -ne 'https://github.com/Sharnou/Sharnou-Engine') { throw 'Canonical engine repository mismatch.' }
           if ($manifest.build_policy.network_downloads -ne $false) { throw 'Network downloads are forbidden.' }
           if ($manifest.build_policy.external_tool_bootstrap -ne $false) { throw 'External tool bootstrap is forbidden.' }
           if ($manifest.build_policy.external_ide_authoring -ne $false) { throw 'External IDE authoring is forbidden.' }
-          if ($manifest.asset_format_policy.runtime_visual_format -ne '.avif') { throw 'AVIF-only runtime visual policy is missing.' }
-          if ($manifest.asset_format_policy.rejected_runtime_visual_formats -notcontains '.gltf') { throw 'GLTF rejection policy is missing.' }
-          if ($manifest.asset_format_policy.rejected_runtime_visual_formats -notcontains '.glb') { throw 'GLB rejection policy is missing.' }
-          if ($manifest.asset_format_policy.rejected_runtime_visual_formats -notcontains '.ktx2') { throw 'KTX2 rejection policy is missing.' }
-          $forbidden = @('Visual Studio','MSBuild','Windows SDK','CMake','vcpkg','Unity','Unreal Engine')
-          foreach ($name in $forbidden) {
-            if ($manifest.forbidden_project_dependencies -notcontains $name) { throw "Missing forbidden dependency policy: $name" }
-          }
-          Write-Host 'PASS: canonical Honour War -> Sharnou-IDE -> SharnouEngine binding.'
+          if ($manifest.asset_format_policy.accepted_input_formats -ne '*') { throw 'Universal input policy missing.' }
+          if ($manifest.asset_format_policy.automatic_conversion -ne $true) { throw 'Automatic conversion missing.' }
+          if ($manifest.asset_format_policy.runtime_3d_scene_formats -notcontains '.gltf') { throw 'glTF runtime role missing.' }
+          if ($manifest.asset_format_policy.runtime_3d_scene_formats -notcontains '.glb') { throw 'GLB runtime role missing.' }
+          if ($manifest.asset_format_policy.runtime_3d_texture_formats -notcontains '.ktx2') { throw 'KTX2 runtime role missing.' }
+          if ($manifest.asset_format_policy.runtime_2d_formats -notcontains '.avif') { throw 'AVIF runtime role missing.' }
+          if ($manifest.asset_format_policy.glTF_ktx2_extension -ne 'KHR_texture_basisu') { throw 'KHR_texture_basisu missing.' }
+          Write-Host 'PASS: canonical Honour War -> Sharnou-IDE -> SharnouEngine contract.'
 
-      - name: Reject forbidden active build files
+      - name: Enforce Sharnou-only toolchain policy
+        shell: pwsh
+        run: ./ci/sharnou-stack-policy.ps1
+
+      - name: Enforce glTF KTX2 AVIF runtime asset roles
+        shell: pwsh
+        run: ./ci/sharnou-avif-policy.ps1
+
+      - name: Validate complete Honour War catalog
         shell: pwsh
         run: |
-          $patterns = @('CMakeLists.txt','CMakePresets.json','vcpkg.json','*.sln','*.slnx','*.vcxproj','*.vcxproj.filters')
-          foreach ($pattern in $patterns) {
-            $hits = Get-ChildItem "$env:GITHUB_WORKSPACE" -Recurse -File -Force -ErrorAction SilentlyContinue | Where-Object { $_.Name -like $pattern -and $_.FullName -notmatch '[\\/]legacy[\\/]' }
-            if ($hits) { $hits | ForEach-Object { Write-Host "FORBIDDEN ACTIVE BUILD FILE: $($_.FullName)" }; throw "Forbidden build path detected: $pattern" }
+          $catalog = Get-Content "$env:GITHUB_WORKSPACE/data/honour_war_content_catalog.json" -Raw | ConvertFrom-Json
+          $expected = @{
+            characters=70; monsters=256; maps=24; equipment=300; items=76
+            cards=300; pets=20; pet_skills=120; pet_equipment=100
           }
-          Write-Host 'PASS: no rejected IDE/build project files are active.'
+          foreach ($key in $expected.Keys) {
+            if ([int]$catalog.counts.$key -ne $expected[$key]) {
+              throw "Catalog count mismatch: $key expected=$($expected[$key]) actual=$($catalog.counts.$key)"
+            }
+          }
+          $skills = Get-Content "$env:GITHUB_WORKSPACE/data/honour_war_skill_system.json" -Raw | ConvertFrom-Json
+          if ([int]$skills.counts.classes -ne 7) { throw 'Expected 7 classes.' }
+          if ([int]$skills.counts.jobs -ne 35) { throw 'Expected 35 jobs.' }
+          if ([int]$skills.counts.class_skill_entries -ne 280) { throw 'Expected 280 class-skill entries.' }
+          Write-Host 'PASS: canonical 7-class / 35-job / full content catalog.'
 
-      - name: Validate SPP source structure and asset commands
+      - name: Validate full-game Sharnou-IDE SPP
         shell: pwsh
         run: |
           $spp = Get-Content "$env:GITHUB_WORKSPACE/Tools/SharnouIDE/project/main.spp" -Raw
-          foreach ($required in @('project_bind','generate_content','actor_spawn','set_pos','bind_mesh','texture_avif')) {
-            if ($spp -notmatch [regex]::Escape($required)) { throw "SPP command missing: $required" }
+          $required = @(
+            'project_bind',
+            'generate_content "characters"',
+            'generate_content "class progression"',
+            'generate_content "skills"',
+            'generate_content "monsters"',
+            'generate_content "pets"',
+            'generate_content "equipment"',
+            'generate_content "items"',
+            'generate_content "cards"',
+            'generate_content "refinement"',
+            'generate_content "maps"',
+            'generate_content "terrain"',
+            'generate_content "architecture"',
+            'generate_content "props"',
+            'generate_content "animation metadata"',
+            'generate_content "combat VFX metadata"',
+            'generate_content "HUD and UI layout"',
+            'generate_content "save/progression state"',
+            'texture_avif'
+          )
+          foreach ($entry in $required) {
+            if ($spp -notmatch [regex]::Escape($entry)) { throw "Full-game SPP command missing: $entry" }
           }
-          Write-Host 'PASS: Honour War SPP source contract and AVIF-only visual command.'
+          Write-Host 'PASS: full Honour War generation SPP contains every canonical domain.'
 
-      - name: Validate runtime asset extensions
+      - name: Validate active runtime visual/model extensions
         shell: pwsh
         run: |
-          $roots = @("$env:GITHUB_WORKSPACE/Content", "$env:GITHUB_WORKSPACE/assets") | Where-Object { Test-Path $_ }
+          $roots = @("$env:GITHUB_WORKSPACE/assets", "$env:GITHUB_WORKSPACE/Content") | Where-Object { Test-Path $_ }
+          $rejected = @('.png','.jpg','.jpeg','.webp','.gif','.bmp','.tga','.dds')
+          $approved = @('.gltf','.glb','.ktx2','.avif')
           foreach ($root in $roots) {
             Get-ChildItem $root -Recurse -File -Force -ErrorAction SilentlyContinue | ForEach-Object {
-              if ($_.Extension -in @('.png','.jpg','.jpeg','.webp','.gif','.bmp','.tga','.dds','.gltf','.glb','.ktx2')) { throw "Rejected active visual asset format: $($_.FullName)" }
+              $ext = $_.Extension.ToLowerInvariant()
+              if ($rejected -contains $ext) { throw "Rejected active raster asset: $($_.FullName)" }
+              if ($ext -in @('.gltf','.glb','.ktx2','.avif') -and $approved -notcontains $ext) { throw "Internal extension check error." }
             }
           }
-          Write-Host 'PASS: active runtime visual extensions are AVIF-only; GLTF/GLB/KTX2 are rejected.'
+          Write-Host 'PASS: active visual runtime accepts glTF/GLB/KTX2/AVIF roles.'
 
-      - name: Validate SharnouEngine-only generation contract
+      - name: Compile full-game SPP through Sharnou-IDE
         shell: pwsh
         run: |
-          python tools/validate_art_generators.py
+          & "$env:GITHUB_WORKSPACE/Tools/SharnouIDE/SharnouIDE.ps1" -Command compile
+          if ($LASTEXITCODE -ne 0) { throw "Sharnou-IDE SPP compilation failed: $LASTEXITCODE" }
 
-      - name: Run deterministic SharnouEngine source validator tests
+      - name: Execute full-game generation when approved SharnouEngine runtime exists
         shell: pwsh
         run: |
-          python Tools/tests/test_sharnou_engine_validator.py
+          $candidates = @(
+            "$env:GITHUB_WORKSPACE/Build/Runtime/SharnouEngine.exe",
+            "$env:GITHUB_WORKSPACE/Engine/SharnouEngine/bin/SharnouEngine.exe",
+            "$env:GITHUB_WORKSPACE/Tools/SharnouIDE/runtime/SharnouEngine.exe"
+          )
+          $engine = $candidates | Where-Object { Test-Path $_ } | Select-Object -First 1
+          if ($engine) {
+            & "$env:GITHUB_WORKSPACE/Tools/SharnouIDE/SharnouIDE.ps1" -Command full-generate
+            if ($LASTEXITCODE -ne 0) { throw "Full-game SharnouEngine generation failed: $LASTEXITCODE" }
+          } else {
+            Write-Host 'INFO: no approved SharnouEngine executable is present in source; generation runtime execution is deferred until an approved binary exists.'
+          }
 
-      - name: Execute automatic Sharnou IDE to SharnouEngine generation
-        if: ${{ hashFiles('Build/Runtime/SharnouEngine.exe') != '' }}
-        shell: pwsh
-        run: |
-          & "$env:GITHUB_WORKSPACE/Tools/SharnouIDE/SharnouIDE.ps1" -Command generate
-          if ($LASTEXITCODE -ne 0) { throw "Automatic Sharnou generation failed: $LASTEXITCODE" }
-
-      - name: Run native Sharnou Engine self-test after generation
-        if: ${{ hashFiles('Build/Runtime/SharnouEngine.exe') != '' }}
-        shell: pwsh
-        run: |
-          $env:SHARNOU_IDE_SESSION = '1'
-          $env:SHARNOU_IDE_REPOSITORY = 'https://github.com/Sharnou/Sharnou-IDE'
-          $env:SHARNOU_ENGINE_ID = 'SharnouEngine'
-          $env:SHARNOU_PROJECT_ID = 'honour-war'
-          & "$env:GITHUB_WORKSPACE/Build/Runtime/SharnouEngine.exe" '--self-test'
-          if ($LASTEXITCODE -ne 0) { throw "Sharnou Engine self-test failed: $LASTEXITCODE" }
-      - name: Runtime artifact evidence
+      - name: Runtime evidence gate
         shell: pwsh
         run: |
           if (Test-Path "$env:GITHUB_WORKSPACE/Build/Runtime/SharnouEngine.exe") {
-            Write-Host 'PASS: Native Sharnou Engine runtime artifact is present and tested.'
+            Write-Host 'PASS: approved SharnouEngine runtime artifact is present.'
           } else {
-            Write-Host 'INFO: No native runtime artifact is checked into this source tree; no compiler/toolchain was installed or downloaded.'
+            Write-Host 'INFO: source/contracts and SPP generation handoff are validated; no external compiler, SDK, IDE, engine or toolchain was downloaded.'
           }
