@@ -1,8 +1,8 @@
 {
-  "schema_version": "3.0.0",
+  "schema_version": "4.0.0",
   "game": "Honour War",
   "canonical": true,
-  "runtime_engine": "Unreal Engine 5.8",
+  "runtime_engine": "SharnouEngine",
   "platform": "Windows PC",
   "hero_level_cap": 250,
   "monster_level_cap": 300,
@@ -16,11 +16,10 @@
     "Archer",
     "Thief",
     "Acolyte",
-    "Merchant"
-  ],
-  "advanced_classes": [
+    "Merchant",
     "Ranger"
   ],
+  "advanced_classes": [],
   "refinement_materials": [
     "Phracon",
     "Zeny",
@@ -47,18 +46,30 @@
     "appearance"
   ],
   "visual_runtime": {
-    "engine": "Unreal Engine 5.8",
+    "engine": "SharnouEngine",
     "reference_source": "Screenshot/",
     "approved_asset_intake": [
       "FBX",
       "OBJ"
     ],
-    "rejected_asset_intake": [
-      "GLB",
-      "GLTF"
-    ],
-    "visual_rag_required_first": true,
-    "real_runtime_screenshot_required": true
+    "rejected_asset_intake": [],
+    "visual_rag_required_first": false,
+    "real_runtime_screenshot_required": true,
+    "accepted_source_intake": "any-registered-format",
+    "canonical_runtime_formats": {
+      "scene_containers": [
+        ".gltf",
+        ".glb"
+      ],
+      "three_d_textures": [
+        ".ktx2"
+      ],
+      "two_d_visuals": [
+        ".avif"
+      ],
+      "glTF_texture_extension": "KHR_texture_basisu"
+    },
+    "generation_authority": "SharnouEngine"
   },
   "multiplayer": {
     "online": true,
@@ -82,10 +93,14 @@
       "left_click_monster",
       "right_drag_camera",
       "mouse_wheel_zoom",
-      "WASD",
+      "1-8_skills",
+      "click_ground_move",
+      "click_monster_target",
+      "right_drag_camera",
+      "mouse_wheel_zoom",
       "1-8_skills"
     ],
-    "cycle": "Visual RAG -> regenerated brief -> 3D asset refresh -> Unreal 5.8 runtime -> real EXE screenshot",
+    "cycle": "Sharnou-IDE universal intake -> SPP -> SharnouEngine generation/validation -> real SharnouEngine runtime evidence",
     "daily_unattended_upgrade": false,
     "camera_lock": {
       "locked": true,
@@ -99,17 +114,16 @@
       "zoom_step_per_wheel": 120,
       "right_drag_rotation": true,
       "mouse_wheel_zoom": true,
-      "wasd_movement": true,
+      "wasd_movement": false,
       "left_click_ground_move": true,
       "left_click_monster_target": true,
       "q_reset": true,
       "forbidden_changes": [
-        "Do not change camera pitch/yaw defaults",
-        "Do not change right-drag behavior",
-        "Do not change wheel zoom bounds or step",
-        "Do not replace WASD movement",
-        "Do not replace left-click ground/monster interaction"
-      ]
+        "Do not replace click-to-move",
+        "Do not change right-drag camera behavior",
+        "Do not change wheel zoom interaction"
+      ],
+      "wasMovingByWASD": false
     },
     "map_sky_fog_lock": {
       "locked": true,
@@ -190,7 +204,8 @@
     "monster_server_authority": false,
     "city_monsters": false,
     "glb": false,
-    "gltf": false
+    "gltf": false,
+    "strategy_building_systems": false
   },
   "monster_variant_count": 256,
   "status_points": {
