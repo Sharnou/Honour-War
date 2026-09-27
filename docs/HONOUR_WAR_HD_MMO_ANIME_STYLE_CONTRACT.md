@@ -40,10 +40,10 @@ Camera presentation:
 Every completed visual cycle must use this contract as an invariant. The cycle may improve quality, density, materials, models, animation, VFX and environments, but it must not drift away from the locked MMORPG/anime-inspired identity or the mouse-first camera/control pattern.
 
 Pipeline:
-Visual RAG → gap register → brief regeneration → Neural4D/Blender → Substance 3D Painter → FBX/OBJ → Unreal Engine 5.8 → runtime validation → real EXE screenshot → reference comparison.
+Visual RAG → gap register → brief regeneration → Neural4D/Blender → Substance 3D Painter → FBX/OBJ private interchange → SharnouEngine native runtime compilation → AVIF visual delivery → runtime validation → real EXE screenshot → reference comparison.
 
 This is a development-cycle contract only. It does not activate unattended daily upgrades.
 
 ## Exclusions
 
-Godot, GLB, GLTF, Meshy, generic primitive-only final art, strategy-game HUD/presentation and futuristic/scifi/robot/factory/space themes are not part of the target.
+Godot, GLB, GLTF, KTX2, non-AVIF shipped raster formats, Meshy, generic primitive-only final art, strategy-game HUD/presentation and futuristic/scifi/robot/factory/space themes are not part of the target.
