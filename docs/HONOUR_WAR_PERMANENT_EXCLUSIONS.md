@@ -13,14 +13,14 @@ Honour War is an HD 3D anime-inspired MMORPG/ARPG. The following systems and des
 - Player-vs-player server-authoritative combat, team-slot combat, and server-authoritative monster-damage wrappers.
 - Monsters spawning inside the city. Runtime monster spawn positions must remain outside the permanent city exclusion radius.
 - Transformer/futuristic machinery designs.
-- GLB and GLTF assets/exporters/runtime intake. Approved runtime interchange remains FBX and OBJ.
+- GLTF, GLB and KTX2 assets/exporters/runtime intake. FBX and OBJ are private authoring/interchange only; AVIF is the only shipped raster/visual format.
 
 This exclusion document is authoritative for future implementation and art generation. A future change that conflicts with it must fail QA instead of silently reintroducing the rejected feature.
 
 
 ## Engine and city-building hard exclusion
 
-- Unreal Engine 5.8 is the only supported engine for Honour War.
+- SharnouEngine is the only supported engine for Honour War.
 - Godot of any version is permanently removed. Godot project files, scenes, scripts, shaders, export presets, generated artifacts, and Godot-specific runtime/generation tooling must not exist or be regenerated.
 - The following city-building options are permanently rejected and must never be generated, restored, or exposed in runtime/UI/data/generators:
   1. Town Hall
