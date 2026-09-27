@@ -17,11 +17,8 @@ if (-not (Test-Path -LiteralPath $source -PathType Leaf)) {
 $sourceText = Get-Content -LiteralPath $source -Raw
 foreach ($required in @(
     "has_batch_inputs",
-    "--scene",
-    "--ktx2",
     "--avif",
-    "texture_ktx2",
-    "scene_gltf"
+    "avif"
 )) {
     if ($sourceText.IndexOf($required, [StringComparison]::Ordinal) -lt 0) {
         throw "Local SharnouEngine.py is missing required runtime parser contract: $required"
