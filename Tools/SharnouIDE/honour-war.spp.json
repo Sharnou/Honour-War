@@ -27,9 +27,16 @@
       "Tools/SharnouIDE/runtime/SharnouEngine.exe"
     ],
     "required_runtime_args": [
+      "--generate",
       "--self-test",
       "--runtime-test"
-    ]
+    ],
+    "automatic_handoff": {
+      "compile_spp": true,
+      "invoke_engine_generation": true,
+      "invoke_engine_validation": true,
+      "launch_after_success": false
+    }
   },
   "asset_format_policy": {
     "runtime_visual_format": ".avif",
@@ -46,10 +53,13 @@
       "loading artwork",
       "distribution raster"
     ],
-    "authoring_interchange": [
-      ".fbx",
-      ".obj"
-    ],
+    "authoring_interchange": {
+      "historical_only": [
+        ".fbx",
+        ".obj"
+      ],
+      "active_generator_input": false
+    },
     "geometry_runtime": "SharnouEngine-native compiled representation",
     "rejected_runtime_visual_formats": [
       ".gltf",
@@ -79,6 +89,7 @@
       "SharnouEngine runtime validation"
     ],
     "generation_authority": "SharnouEngine-only",
+    "automatic_generation": true,
     "external_asset_generators": false,
     "external_art_generators": false
   },
