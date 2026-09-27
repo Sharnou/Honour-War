@@ -1,64 +1,16 @@
 {
-  "engine": "Sharnou Engine",
-  "engine_version": "HONOURWAR_NATIVE_1",
+  "engine": "SharnouEngine",
+  "engine_version": "HONOURWAR_NATIVE_2",
   "game": "Honour War",
-  "development_ide": "Sharnou-IDE",
-  "language": "C++20",
-  "build_system": "Sharnou-IDE runtime-first with self-contained Sharnou toolchain",
-  "package_manager": "none",
+  "canonical_project_id": "honour-war",
+  "ide": "Sharnou-IDE",
+  "ide_authority": "exclusive",
+  "engine_authority": "exclusive",
   "platform": "Windows 64-bit",
-  "graphics_backend": "Direct3D 11 bootstrap",
   "gameplay_style": "3D HD MMORPG/ARPG",
-  "movement": "Ragnarok-style click-to-move; no WASD",
-  "external_tool_downloads": false,
-  "forbidden_tools": [
-    "Visual Studio",
-    "MSBuild",
-    "Windows SDK",
-    "CMake",
-    "vcpkg",
-    "Unity",
-    "Unreal Engine"
-  ],
-  "asset_policy": {
-    "runtime_visual_format": ".avif",
-    "runtime_visual_standard": "AV1 Image File Format",
-    "runtime_visual_uses": [
-      "UI",
-      "HUD",
-      "menus",
-      "backgrounds",
-      "icons",
-      "portraits",
-      "item/skill/card art",
-      "skyboxes",
-      "loading art",
-      "visual evidence"
-    ],
-    "native_geometry_runtime": "SharnouEngine-native compiled representation",
-    "authoring_interchange": [
-      ".fbx",
-      ".obj"
-    ],
-    "rejected_runtime_visual_formats": [
-      ".gltf",
-      ".glb",
-      ".ktx2",
-      ".png",
-      ".jpg",
-      ".jpeg",
-      ".webp",
-      ".gif",
-      ".bmp",
-      ".tga",
-      ".dds"
-    ]
-  },
-  "compiler": {
-    "required": true,
-    "source": "self-contained Sharnou toolchain",
-    "automatic_download": false,
-    "fail_closed_when_missing": true
-  },
-  "active_engine_policy": "Sharnou Engine is the only active Honour War runtime and Sharnou-IDE is the authoritative development controller."
+  "asset_input_policy": "accept-any-format-and-auto-convert",
+  "runtime_asset_representation": "SharnouEngine-native compiled asset package",
+  "external_engine_policy": "reject-all-other-game-engines",
+  "external_ide_policy": "reject-all-other-ides",
+  "automatic_external_downloads": false
 }
