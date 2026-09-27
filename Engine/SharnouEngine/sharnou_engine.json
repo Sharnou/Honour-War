@@ -1,1 +1,51 @@
-{"engine":"SharnouEngine","engine_version":"HONOURWAR_NATIVE_3","game":"Honour War","canonical_project_id":"honour-war","ide":"Sharnou-IDE","ide_authority":"exclusive","engine_authority":"exclusive","platform":"Windows 64-bit","gameplay_style":"3D HD MMORPG/ARPG","asset_input_policy":"accept-any-format-at-Sharnou-IDE-boundary-and-auto-convert","runtime_asset_strategy":{"scene_containers":[".gltf",".glb"],"three_d_textures":[".ktx2"],"two_d_visuals":[".avif"],"glTF_texture_extension":"KHR_texture_basisu","raster_visual_policy":".AVIF only"},"external_tool_policy":{"downloads":false,"forbidden":["Visual Studio","MSBuild","Windows SDK","Unity","Unreal Engine","other external programming tools"]},"active_stack":{"ide":"Sharnou-IDE","engine":"SharnouEngine","protocol":"Sharnou Project Protocol (SPP)"}}
+{
+  "engine": "SharnouEngine",
+  "engine_version": "HONOURWAR_NATIVE_4",
+  "game": "Honour War",
+  "canonical_project_id": "honour-war",
+  "ide": "Sharnou-IDE",
+  "ide_authority": "exclusive",
+  "engine_authority": "exclusive",
+  "platform": "Windows 64-bit",
+  "gameplay_style": "3D HD MMORPG/ARPG",
+  "asset_input_policy": "accept-any-format-at-Sharnou-IDE-boundary-and-auto-convert",
+  "runtime_asset_strategy": {
+    "scene_containers": [
+      ".gltf",
+      ".glb"
+    ],
+    "three_d_textures": [
+      ".ktx2"
+    ],
+    "two_d_visuals": [
+      ".avif"
+    ],
+    "glTF_texture_extension": "KHR_texture_basisu",
+    "raster_visual_policy": ".AVIF only"
+  },
+  "external_tool_policy": {
+    "downloads": false,
+    "forbidden": [
+      "Visual Studio",
+      "MSBuild",
+      "Windows SDK",
+      "Unity",
+      "Unreal Engine",
+      "CMake",
+      "vcpkg",
+      "other external programming tools"
+    ]
+  },
+  "active_stack": {
+    "ide": "Sharnou-IDE",
+    "engine": "SharnouEngine",
+    "protocol": "Sharnou Project Protocol (SPP)"
+  },
+  "generation": {
+    "authority": "SharnouEngine-only",
+    "input_controller": "Sharnou-IDE",
+    "full_game_generation": true,
+    "automatic_project_handoff": true,
+    "daily_background_updates": false
+  }
+}
