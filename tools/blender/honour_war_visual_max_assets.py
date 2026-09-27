@@ -5,7 +5,7 @@ from mathutils import Vector
 
 # Honour War production-grade visual asset pass.
 # Mandatory upstream: tools/visual_rag/honour_war_visual_rag.py
-# Art path: Visual RAG -> Blender/Neural4D -> Substance 3D Painter handoff -> FBX/OBJ -> Unreal Engine 5.8.
+# Art path: Visual RAG -> Blender/Neural4D -> Substance 3D Painter handoff -> FBX/OBJ private interchange -> SharnouEngine native compilation -> AVIF visual delivery.
 # This generator creates high-detail, original fantasy MMORPG silhouettes and PBR-ready materials.
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../assets/3d/generated"))
