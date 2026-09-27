@@ -3,7 +3,7 @@ import math
 import os
 
 # Honour War character production generator.
-# Approved pipeline: Blender/Neural4D -> FBX/OBJ -> Unreal Engine 5.8.
+# Approved pipeline: Blender/Neural4D -> FBX/OBJ private interchange -> SharnouEngine native compilation -> AVIF visual delivery.
 # This generator creates playable hero and companion assets only.
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../assets/3d/generated"))
