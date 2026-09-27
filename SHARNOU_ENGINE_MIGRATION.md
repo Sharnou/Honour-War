@@ -4,7 +4,7 @@ Honour War's active engine is now Sharnou Engine, a custom native C++ engine.
 
 ## Replaced runtime engines
 
-Unity and Unreal Engine 5.8 are no longer the active game runtime.
+Unity and Unreal Engine 5.8 are not used by the active project.
 
 The previous Unity implementation is retained only as a legacy reference while native equivalents are migrated. No active Sharnou Engine build links against Unity or Unreal.
 
