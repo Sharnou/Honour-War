@@ -1,5 +1,5 @@
 {
-  "schema": "honour-war/sharnou-generation/1",
+  "schema": "honour-war/sharnou-generation/2",
   "project_id": "honour-war",
   "engine": "SharnouEngine",
   "ide": "Sharnou-IDE",
@@ -18,9 +18,6 @@
   ],
   "runtime_visual_format": ".avif",
   "rejected_runtime_visual_formats": [
-    ".gltf",
-    ".glb",
-    ".ktx2",
     ".png",
     ".jpg",
     ".jpeg",
@@ -49,5 +46,25 @@
     "HUD and UI layout",
     "save/progression state"
   ],
-  "generation_rule": "All active Honour War game content is generated, compiled and runtime-validated by SharnouEngine from canonical repository data and locked visual references."
+  "generation_rule": "SharnouEngine generates, compiles and runtime-validates Honour War from canonical repository data plus registered source assets; Sharnou-IDE performs universal intake, routing and SPP handoff.",
+  "runtime_asset_strategy": {
+    "scene_containers": [
+      ".gltf",
+      ".glb"
+    ],
+    "three_d_textures": [
+      ".ktx2"
+    ],
+    "two_d_visuals": [
+      ".avif"
+    ],
+    "glTF_texture_extension": "KHR_texture_basisu",
+    "raster_visual_policy": ".AVIF only"
+  },
+  "source_asset_intake": "any-registered-format",
+  "source_model_intake": [
+    ".fbx",
+    ".obj"
+  ],
+  "preserve_original_sources": true
 }
