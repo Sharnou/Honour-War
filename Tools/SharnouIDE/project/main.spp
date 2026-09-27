@@ -1,7 +1,5 @@
-// Honour War sample authored through Sharnou IDE
+// Honour War authored through Sharnou IDE
 actor_spawn player
 set_pos 0 1 0
-bind_mesh character_mesh
-texture_avif assets/characters/player.avif
-scene_gltf assets/3d/honour_war_scene.gltf
-texture_ktx2 assets/3d/hero_basecolor.ktx2
+bind_mesh character_mesh_native
+texture_avif assets/visual/characters/player.avif
