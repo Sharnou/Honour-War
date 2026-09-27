@@ -20,7 +20,12 @@
     "id": "SharnouEngine",
     "name": "Sharnou Engine",
     "repository": "https://github.com/Sharnou/Sharnou-Engine",
-    "mode": "exclusive-runtime"
+    "mode": "exclusive-runtime",
+    "runtime_candidates": [
+      "Build/Runtime/SharnouEngine.exe",
+      "Engine/SharnouEngine/bin/SharnouEngine.exe",
+      "Tools/SharnouIDE/runtime/SharnouEngine.exe"
+    ]
   },
   "asset_format_policy": {
     "accepted_input_formats": "*",
@@ -66,5 +71,29 @@
     "automatic_legacy_ide_metadata_conversion": true,
     "automatic_engine_handoff": true,
     "daily_background_updates": false
+  },
+  "generation": {
+    "mode": "full-game",
+    "source": "Tools/SharnouIDE/project/full-game.spp",
+    "domains": [
+      "characters",
+      "class progression",
+      "skills",
+      "monsters",
+      "pets",
+      "equipment",
+      "items",
+      "cards",
+      "refinement",
+      "maps",
+      "terrain",
+      "architecture",
+      "props",
+      "animation metadata",
+      "combat VFX metadata",
+      "HUD and UI layout",
+      "save/progression state"
+    ],
+    "output": "Build/Runtime/honour-war.generated.json"
   }
 }
