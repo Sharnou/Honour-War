@@ -70,8 +70,14 @@ The obsolete development command toolbar is not part of the game.
 
 ## Visual acceptance
 
-The target is determined by the two locked repository visual anchors and the full Screenshot/ reference set. Production completion requires a real Unreal Engine 5.8 runtime/EXE screenshot showing the actual game, not a mockup.
+The target is determined by the two locked repository visual anchors and the full Screenshot/ reference set. Production completion requires a real SharnouEngine Windows EXE screenshot showing the actual game, not a mockup.
 
+## Runtime visual format policy
+
+- Shipped external raster/visual assets: AVIF (.avif) only.
+- FBX/OBJ are private authoring/interchange inputs only.
+- GLTF, GLB and KTX2 are permanently rejected from active runtime visual delivery.
+- Runtime geometry is compiled into the native SharnouEngine representation.
 
 ## Fifth-tier class and control requirements
 
@@ -97,7 +103,7 @@ Level-300 monsters are the top-tier reward source and can provide Mythic equipme
 
 ## Visual/gameplay invariants
 
-Every visual cycle must regenerate the visual target around the HD 3D anime-inspired MMORPG identity and preserve the Ragnarok Online-inspired perspective/isometric mouse-and-camera convention. Runtime proof is a real Unreal Engine 5.8 Windows EXE frame.
+Every visual cycle must regenerate the visual target around the HD 3D anime-inspired MMORPG identity and preserve the Ragnarok Online-inspired perspective/isometric mouse-and-camera convention. Runtime proof is a real SharnouEngine Windows EXE frame.
 
 
 ## Permanent exclusions
