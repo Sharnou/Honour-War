@@ -1,13 +1,19 @@
-# Honour War HD Assets
+# Honour War runtime asset policy
 
-Honour War uses Sharnou Engine as its sole runtime.
+Honour War uses Sharnou-IDE for authoring/intake automation and SharnouEngine for canonical runtime validation and execution.
 
-Production asset path:
-Visual RAG → Neural4D or Blender → Substance 3D Painter → FBX/OBJ private authoring/interchange → SharnouEngine native runtime compilation → AVIF visual delivery.
+## Runtime representation
 
-Runtime geometry is compiled into SharnouEngine-native representation. External shipped raster/visual assets use AVIF only. GLTF, GLB and KTX2 are permanently rejected. FBX/OBJ remain private authoring/interchange inputs. Meshy and Godot are permanently rejected.
+- .gltf / .glb are the canonical 3D scene/model containers.
+- .ktx2 is the canonical 3D texture container and glTF textures use KHR_texture_basisu.
+- .avif is the canonical shipped 2D/raster visual format for UI, menus, backgrounds, skyboxes, and similar raster content.
 
-See:
-- assets/3d/HD_ASSET_MANIFEST.md
-- assets/3d/visual_rag/LATEST_VISUAL_BRIEF.md
-- Content/HonourWarArt/ART_ASSET_MANIFEST.json
+## Source intake
+
+The Sharnou-IDE intake boundary is format-neutral. FBX/OBJ and other registered source formats may be inspected, converted, and validated before canonical runtime packaging. Original sources remain preserved as authoring/interchange material.
+
+## Pipeline
+
+source intake -> Sharnou-IDE -> SPP -> SharnouEngine canonicalization/validation -> Honour War runtime
+
+External game engines, external IDE authoring, automatic toolchain downloads, and external programming-tool bootstrap are not part of the Honour War runtime pipeline.
