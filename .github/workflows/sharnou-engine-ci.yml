@@ -66,6 +66,11 @@ jobs:
           }
           Write-Host 'PASS: active runtime visual extensions are AVIF-only; GLTF/GLB/KTX2 are rejected.'
 
+      - name: Validate SharnouEngine-only generation contract
+        shell: pwsh
+        run: |
+          python tools/validate_art_generators.py
+
       - name: Run deterministic SharnouEngine source validator tests
         shell: pwsh
         run: |
