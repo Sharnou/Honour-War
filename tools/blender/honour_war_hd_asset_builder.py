@@ -2,7 +2,7 @@
 Honour War HD Asset Builder
 
 Production rule:
-Blender/Neural4D -> Substance 3D Painter -> FBX/OBJ -> Unreal Engine 5.8
+Blender/Neural4D -> Substance 3D Painter -> FBX/OBJ private interchange -> SharnouEngine native compilation -> AVIF visual delivery
 
 This script is a repeatable starting point for production asset generation.
 It intentionally creates a clean game-ready source scene for Unreal runtime integration. Artists can replace the generated geometry
@@ -146,7 +146,7 @@ def create_hero(class_id="Warrior"):
     armature.parent = root
 
     root["asset_id"] = "hero_%s" % class_id.lower()
-    root["pipeline"] = "Blender/Neural4D -> Substance 3D Painter -> FBX/OBJ -> Unreal Engine 5.8"
+    root["pipeline"] = "Blender/Neural4D -> Substance 3D Painter -> FBX/OBJ -> SharnouEngine"
     root["material_contract"] = "BaseColor, Normal, Roughness, Metallic, AO, Emissive"
 
     output = os.path.join(CHARACTER_ROOT, "hero_%s_source.blend" % class_id.lower())
