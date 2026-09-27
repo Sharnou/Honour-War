@@ -85,5 +85,34 @@
   "authoring_interchange": [
     ".fbx",
     ".obj"
+  ],
+  "runtime_asset_strategy": {
+    "scene_containers": [
+      ".gltf",
+      ".glb"
+    ],
+    "three_d_textures": [
+      ".ktx2"
+    ],
+    "two_d_visuals": [
+      ".avif"
+    ],
+    "glTF_texture_extension": "KHR_texture_basisu"
+  },
+  "approved_model_source_intake": [
+    ".fbx",
+    ".obj"
+  ],
+  "source_asset_intake": "any-registered-format",
+  "rejected_runtime_model_formats": [],
+  "rejected_runtime_visual_formats": [
+    ".png",
+    ".jpg",
+    ".jpeg",
+    ".webp",
+    ".gif",
+    ".bmp",
+    ".tga",
+    ".dds"
   ]
 }
