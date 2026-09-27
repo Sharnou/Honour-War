@@ -3,7 +3,7 @@
 
 Tracks canonical asset IDs, file hashes, dependencies and residency without
 loading GPU resources. The registry is deliberately format-aware for the
-Honour War runtime contract: glTF/GLB scenes, KTX2 textures and AVIF UI art.
+Honour War runtime contract: AVIF shipped visuals; FBX/OBJ may exist only as private authoring/interchange inputs.
 """
 from __future__ import annotations
 
@@ -14,7 +14,7 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Iterable
 
-SUPPORTED = {".gltf": "scene_gltf", ".glb": "scene_gltf", ".ktx2": "texture_ktx2", ".avif": "avif"}
+SUPPORTED = {".avif": "avif"}
 
 @dataclass
 class AssetRecord:
@@ -58,7 +58,7 @@ def write_registry(records: Iterable[AssetRecord], output: Path) -> None:
         "schema": "sharnou.asset-registry.v1",
         "project": "honour-war",
         "engine": "SharnouEngine",
-        "formats": [".gltf", ".glb", ".ktx2", ".avif"],
+        "formats": [".avif"],
         "assets": [asdict(r) for r in records],
     }
     output.parent.mkdir(parents=True, exist_ok=True)
