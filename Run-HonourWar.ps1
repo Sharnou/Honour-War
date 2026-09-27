@@ -1,5 +1,5 @@
 param(
-    [ValidateSet("validate","compile","self-test","runtime-test","run")]
+    [ValidateSet("validate","compile","self-test","runtime-test","full-generate","run")]
     [string]$Command = "run",
     [int]$RuntimeTestSeconds = 300
 )
