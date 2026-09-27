@@ -1,5 +1,5 @@
 param(
-    [ValidateSet("validate","migrate","compile","self-test","runtime-test","run")]
+    [ValidateSet("validate","migrate","compile","generate","auto","self-test","runtime-test","run")]
     [string]$Command = "validate",
     [int]$RuntimeTestSeconds = 300
 )
@@ -15,6 +15,7 @@ $migrationPath = Join-Path $ideRoot "Import-All-IDE-Projects.ps1"
 $compilerPath = Join-Path $ideRoot "Compile-Spp.ps1"
 $sppSource = Join-Path $ideRoot "project\main.spp"
 $programPath = Join-Path $repoRoot "Build\Runtime\honour-war.sppc.json"
+$integrationPath = Join-Path $ideRoot "sharnou-ide-engine.integration.json"
 
 if (-not (Test-Path -LiteralPath $manifestPath)) { throw "Sharnou IDE manifest missing: $manifestPath" }
 $manifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
@@ -40,6 +41,46 @@ if ($Command -eq "migrate") {
 if ($Command -eq "compile") {
     & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $compilerPath -Source $sppSource -Output $programPath
     exit $LASTEXITCODE
+}
+
+function Invoke-SharnouContracts {
+    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $policyPath
+    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $avifPolicyPath
+    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+    if (-not (Test-Path -LiteralPath $integrationPath -PathType Leaf)) {
+        throw "Sharnou IDE/Engine integration contract missing: $integrationPath"
+    }
+}
+
+function Invoke-SharnouCompile {
+    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $compilerPath -Source $sppSource -Output $programPath
+    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+}
+
+function Invoke-SharnouEngine([string[]]$EngineArgs) {
+    if (-not $enginePath) { throw "SharnouEngine.exe is not available in the configured runtime candidates." }
+    $env:SHARNOU_IDE_SESSION = "1"
+    $env:SHARNOU_IDE_REPOSITORY = "https://github.com/Sharnou/Sharnou-IDE"
+    $env:SHARNOU_ENGINE_ID = "SharnouEngine"
+    $env:SHARNOU_PROJECT_ID = "honour-war"
+    Set-Location -LiteralPath $repoRoot
+    & $enginePath @EngineArgs
+    if ($LASTEXITCODE -ne 0) { throw "SharnouEngine exited with code $LASTEXITCODE." }
+}
+
+if ($Command -eq "generate" -or $Command -eq "auto") {
+    Invoke-SharnouContracts
+    Invoke-SharnouCompile
+    Invoke-SharnouEngine @("--generate")
+    if ($Command -eq "auto") {
+        Invoke-SharnouEngine @("--self-test")
+    }
+    Write-Host "PASS: automatic Honour War generation completed through Sharnou-IDE -> SharnouEngine."
+    if ($Command -eq "auto") {
+        Write-Host "PASS: automatic post-generation SharnouEngine self-test completed."
+    }
+    exit 0
 }
 
 if ($Command -eq "validate") {
