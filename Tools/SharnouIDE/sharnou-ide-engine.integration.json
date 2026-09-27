@@ -15,18 +15,49 @@
   "protocol": "Sharnou Project Protocol (SPP)",
   "asset_policy": {
     "generated_raster_format": ".AVIF",
-    "accepted_generated_raster_formats": [".AVIF"],
-    "rejected_generated_raster_formats": [".PNG", ".JPG", ".JPEG", ".WEBP", ".GIF", ".BMP", ".TGA", ".DDS"]
+    "accepted_generated_raster_formats": [
+      ".AVIF"
+    ],
+    "rejected_generated_raster_formats": [
+      ".PNG",
+      ".JPG",
+      ".JPEG",
+      ".WEBP",
+      ".GIF",
+      ".BMP",
+      ".TGA",
+      ".DDS"
+    ]
   },
   "external_tool_policy": {
     "downloads": false,
     "bootstrap": false,
-    "forbidden": ["Visual Studio", "MSBuild", "Windows SDK", "CMake", "vcpkg", "Unity", "Unreal Engine", "external programming tools"]
+    "forbidden": [
+      "Visual Studio",
+      "MSBuild",
+      "Windows SDK",
+      "CMake",
+      "vcpkg",
+      "Unity",
+      "Unreal Engine",
+      "external programming tools"
+    ]
   },
   "legacy_ide_policy": {
     "automatic_conversion": true,
     "target": "Sharnou-IDE SPP",
     "legacy_execution": false,
     "legacy_toolchain_execution": false
+  },
+  "generation_policy": {
+    "authority": "SharnouEngine",
+    "native_generation": true,
+    "external_generation": false,
+    "external_asset_generators_rejected": [
+      "Neural4D",
+      "Blender",
+      "Substance 3D Painter"
+    ],
+    "shipped_visual_format": ".AVIF"
   }
 }
