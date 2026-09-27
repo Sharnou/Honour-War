@@ -14,7 +14,7 @@ Honour War is the **canonical `honour-war` project** and uses **Sharnou-IDE + Sh
 - **Game style:** 3D HD MMORPG/ARPG
 - **Movement:** Ragnarok Online-style click-to-move; no WASD movement
 
-Honour War is launched and validated through Sharnou-IDE. The project rejects Visual Studio, MSBuild, Windows SDK development installations, CMake, vcpkg, Unity, Unreal Engine, and automatic external programming-tool downloads. Sharnou-IDE is the authoritative project controller.
+Honour War is launched and validated through Sharnou-IDE. The project rejects Visual Studio, MSBuild, Windows SDK development installations, Sharnou Engine build system, Sharnou Engine dependency/runtime layer, Unity, Unreal Engine, and automatic external programming-tool downloads. Sharnou-IDE is the authoritative project controller.
 
 ## Sharnou-IDE → SharnouEngine workflow
 
@@ -28,7 +28,7 @@ Honour War is launched and validated through Sharnou-IDE. The project rejects Vi
 
 ## IDE conversion policy
 
-Existing Honour War IDE/project metadata is treated as migration input and converted to the Sharnou-IDE SPP contract. Non-Sharnou IDEs are not runtime controllers for Honour War. The repository's policy gates reject active `.sln`, `.slnx`, `.vcxproj`, CMake and vcpkg build paths outside legacy/archive areas.
+Existing Honour War IDE/project metadata is treated as migration input and converted to the Sharnou-IDE SPP contract. Non-Sharnou IDEs are not runtime controllers for Honour War. The repository's policy gates reject active `.sln`, `.slnx`, `.vcxproj`, Sharnou Engine build system and Sharnou Engine dependency/runtime layer build paths outside legacy/archive areas.
 
 ## Asset format policy
 
