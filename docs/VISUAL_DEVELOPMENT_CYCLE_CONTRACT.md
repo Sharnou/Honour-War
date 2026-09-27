@@ -14,9 +14,9 @@ Every completed visual cycle must:
 3. Regenerate or update the visual brief from that analysis.
 4. Refresh required Neural4D/Blender production assets.
 5. Texture production assets through Substance 3D Painter.
-6. Import approved FBX/OBJ content into Unreal Engine 5.8.
-7. Run gameplay/runtime validation.
-8. Capture a real Unreal runtime/EXE frame.
+6. Compile approved FBX/OBJ private interchange content into SharnouEngine native runtime assets and deliver external raster visuals as AVIF only.
+7. Run SharnouEngine gameplay/runtime validation.
+8. Capture a real SharnouEngine runtime/EXE frame.
 9. Compare that real frame against the locked anchors before accepting the cycle.
 
 The visual brief is regenerated every completed cycle so visual changes remain anchored to the same HD anime-inspired MMORPG identity.
@@ -28,7 +28,7 @@ The gameplay controls and camera are part of the visual target and must be prese
 - left-click monster = select and engage;
 - right-mouse drag = camera orbit;
 - mouse wheel = bounded zoom;
-- W/A/S/D = secondary movement;
+- no WASD movement;
 - 1–8 = gameplay skill inputs;
 - perspective elevated isometric-style camera;
 - default framing keeps the hero's complete body readable.
@@ -54,7 +54,7 @@ These conventions are inspired by the classic Ragnarok Online desktop MMORPG int
 - empty maps;
 - flat unlit final materials;
 - generic placeholder HUD;
-- GLB/GLTF runtime intake;
+- GLTF/GLB/KTX2 runtime visual delivery;
 - Meshy.
 
 This contract controls development cycles only. It does not re-enable any retired daily or unattended automatic upgrade system.
