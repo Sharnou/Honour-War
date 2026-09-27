@@ -1,0 +1,88 @@
+{
+  "schema": "honour-war/sharnou-full-generation-seed/1",
+  "status": "generated-seed-for-SharnouEngine",
+  "project_id": "honour-war",
+  "ide_id": "Sharnou-IDE",
+  "engine_id": "SharnouEngine",
+  "generation_authority": "SharnouEngine-only",
+  "intake_controller": "Sharnou-IDE",
+  "runtime_formats": {
+    "scene_containers": [
+      ".gltf",
+      ".glb"
+    ],
+    "three_d_textures": [
+      ".ktx2"
+    ],
+    "two_d_visuals": [
+      ".avif"
+    ],
+    "glTF_texture_extension": "KHR_texture_basisu"
+  },
+  "source_models": [
+    ".fbx",
+    ".obj"
+  ],
+  "accepted_input_formats": "any-registered-format",
+  "preserve_original_sources": true,
+  "generation_domains": [
+    "characters",
+    "class progression",
+    "skills",
+    "monsters",
+    "pets",
+    "equipment",
+    "items",
+    "cards",
+    "refinement",
+    "maps",
+    "terrain",
+    "architecture",
+    "props",
+    "animation metadata",
+    "combat VFX metadata",
+    "HUD and UI layout",
+    "save/progression state"
+  ],
+  "canonical_content": {
+    "characters": 70,
+    "classes": 7,
+    "jobs": 35,
+    "skills": 280,
+    "skills_per_job": 8,
+    "monsters": 256,
+    "maps": 24,
+    "equipment": 300,
+    "items": 76,
+    "cards": 300,
+    "pets": 20,
+    "pet_skills": 120,
+    "pet_equipment": 100,
+    "encyclopedia_entries": 797,
+    "quests": 12,
+    "world_events": 6
+  },
+  "progression": {
+    "hero_level_cap": 250,
+    "monster_level_cap": 300,
+    "pet_level_cap": 250,
+    "hero_start_age": 18,
+    "age_effects": [
+      "basic_skill_effects",
+      "refinement_success",
+      "refinement_material_consumption",
+      "item_prices",
+      "appearance"
+    ]
+  },
+  "commands": {
+    "fast_travel": "@go [map] [x]:[y]",
+    "example": "@go 0 230:220",
+    "skill_slots": 8
+  },
+  "runtime_requirements": {
+    "executable_evidence": true,
+    "screenshot_requires_actual_runtime": true,
+    "automatic_daily_updates": false
+  }
+}
