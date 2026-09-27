@@ -26,24 +26,51 @@
       "Engine/SharnouEngine/bin/SharnouEngine.exe",
       "Tools/SharnouIDE/runtime/SharnouEngine.exe"
     ],
-    "required_runtime_args": ["--self-test", "--runtime-test"]
+    "required_runtime_args": [
+      "--self-test",
+      "--runtime-test"
+    ]
   },
   "asset_format_policy": {
-    "runtime_scene_containers": [".gltf", ".glb"],
-    "runtime_scene_standard": "glTF 2.x",
-    "runtime_3d_texture_format": ".ktx2",
-    "runtime_3d_texture_standard": "KTX 2.0",
-    "runtime_3d_texture_glTF_extension": "KHR_texture_basisu",
-    "runtime_2d_raster_format": ".avif",
-    "runtime_2d_uses": ["UI", "menu backgrounds", "icons", "skyboxes", "distribution images"],
-    "authoring_interchange": [".fbx", ".obj"],
-    "rejected_runtime_texture_formats": [".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp", ".tga", ".dds"],
-    "rejected_runtime_model_formats": [".fbx", ".obj", ".blend"],
-    "legacy_conversion": "automatic metadata conversion; binary encoder is not downloaded"
+    "runtime_visual_format": ".avif",
+    "runtime_visual_standard": "AV1 Image File Format",
+    "runtime_visual_uses": [
+      "UI",
+      "HUD",
+      "menu backgrounds",
+      "icons",
+      "portraits",
+      "item art",
+      "skill art",
+      "skyboxes",
+      "loading artwork",
+      "distribution raster"
+    ],
+    "authoring_interchange": [
+      ".fbx",
+      ".obj"
+    ],
+    "geometry_runtime": "SharnouEngine-native compiled representation",
+    "rejected_runtime_visual_formats": [
+      ".gltf",
+      ".glb",
+      ".ktx2",
+      ".png",
+      ".jpg",
+      ".jpeg",
+      ".webp",
+      ".gif",
+      ".bmp",
+      ".tga",
+      ".dds"
+    ],
+    "legacy_conversion": "metadata-only migration; no binary runtime format conversion or external tool download"
   },
   "authoring": {
     "movement": "click-to-move",
-    "command_examples": ["@go 0 230:220"],
+    "command_examples": [
+      "@go 0 230:220"
+    ],
     "content_pipeline": [
       "Visual RAG/reference analysis",
       "Neural4D or Blender processing",
@@ -55,7 +82,14 @@
   "ide_migration_policy": {
     "authoritative_ide": "Sharnou-IDE",
     "automatic_project_conversion": true,
-    "supported_legacy_metadata": ["Visual Studio", "VS Code", "JetBrains", "Eclipse", "Xcode", "generic workspace metadata"],
+    "supported_legacy_metadata": [
+      "Visual Studio",
+      "VS Code",
+      "JetBrains",
+      "Eclipse",
+      "Xcode",
+      "generic workspace metadata"
+    ],
     "convert_ide_project_metadata_to": "Sharnou-IDE SPP",
     "reject_non_sharnou_ide_runtime_control": true,
     "legacy_ide_execution": false,
