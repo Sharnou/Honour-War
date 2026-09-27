@@ -17,9 +17,7 @@
         "actor_spawn",
         "set_pos",
         "bind_mesh",
-        "texture_avif",
-        "texture_ktx2",
-        "scene_gltf"
+        "texture_avif"
       ]
     },
     "ecs": {
@@ -48,15 +46,25 @@
     }
   },
   "asset_policy": {
-    "runtime_scene_containers": [".gltf", ".glb"],
-    "runtime_scene_standard": "glTF 2.x",
-    "runtime_3d_texture_format": ".ktx2",
-    "runtime_3d_texture_standard": "KTX 2.0",
-    "runtime_3d_texture_glTF_extension": "KHR_texture_basisu",
-    "runtime_2d_raster_format": ".avif",
-    "approved_authoring_interchange": [".fbx", ".obj"],
-    "rejected_runtime_model_formats": [".fbx", ".obj", ".blend"],
-    "rejected_runtime_texture_formats": [".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp", ".dds", ".tga"]
+    "runtime_visual_format": ".avif",
+    "native_geometry_runtime": "SharnouEngine-native compiled representation",
+    "approved_authoring_interchange": [
+      ".fbx",
+      ".obj"
+    ],
+    "rejected_runtime_visual_formats": [
+      ".gltf",
+      ".glb",
+      ".ktx2",
+      ".png",
+      ".jpg",
+      ".jpeg",
+      ".webp",
+      ".gif",
+      ".bmp",
+      ".dds",
+      ".tga"
+    ]
   },
   "dependency_policy": {
     "external_programming_tool_downloads": false,
