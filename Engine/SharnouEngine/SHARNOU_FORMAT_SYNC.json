@@ -1,0 +1,63 @@
+{
+  "schema": "sharnou-honour-war-format-sync/1",
+  "project_id": "honour-war",
+  "mode": "synchronized-contract-snapshot",
+  "active_stack": {
+    "ide": "Sharnou-IDE",
+    "engine": "SharnouEngine",
+    "protocol": "Sharnou Project Protocol (SPP)"
+  },
+  "upstream_sources": [
+    {
+      "repository": "https://github.com/Sharnou/Sharnou-Engine",
+      "inspected_main_head": "45c50ac3db0748c53e8c5236fe5cb5365c5bf906",
+      "relevant_contracts": [
+        "SHARNOU_IDE_INTEGRATION.json",
+        "assets/textures/README.md",
+        "src/asset/AssetFormatPolicy.hpp",
+        "src/asset/Ktx2Container.hpp",
+        "src/runtime/RuntimeStack.hpp",
+        "src/RuntimeSelfTest.cpp"
+      ],
+      "adopted_rules": [
+        "gltf-glb-3d-scene-containers",
+        "ktx2-basis-universal-3d-textures",
+        "avif-2d-raster-visuals",
+        "KHR_texture_basisu",
+        "format-neutral-input-boundary",
+        "automatic-conversion"
+      ]
+    },
+    {
+      "repository": "https://github.com/Sharnou/Sharnou-IDE",
+      "inspected_main_head": "d98f24d7c54da24309df1ba2b8e3f5fb6b4ed654",
+      "relevant_contracts": [
+        "README.md",
+        "architecture/UNIVERSAL_ASSET_AUTOMATION.md",
+        "src/Convert-All-IDE-Projects.ps1",
+        "src/SharnouIDE.ps1"
+      ],
+      "adopted_rules": [
+        "universal-format-intake",
+        "automatic-job-routing",
+        "source-preservation",
+        "provenance-and-hashing",
+        "legacy-metadata-conversion",
+        "runtime-evidence-from-actual-executable"
+      ]
+    }
+  ],
+  "runtime_roles": {
+    ".gltf": "3D scene/model container",
+    ".glb": "3D scene/model container",
+    ".ktx2": "GPU-facing 3D material texture",
+    ".avif": "shipped raster/2D visual"
+  },
+  "input_boundary": "any",
+  "automatic_conversion": true,
+  "preserve_original_sources": true,
+  "external_engine": false,
+  "external_ide": false,
+  "external_programming_tool_downloads": false,
+  "daily_background_updates": false
+}
