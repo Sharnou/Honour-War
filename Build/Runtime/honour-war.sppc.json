@@ -1,0 +1,121 @@
+{
+  "schema": "sharnou-bytecode/1",
+  "ide_id": "Sharnou-IDE",
+  "engine_id": "SharnouEngine",
+  "project_id": "honour-war",
+  "source": "Tools/SharnouIDE/project/main.spp",
+  "commands": [
+    {
+      "op": "project_bind",
+      "project": "honour-war",
+      "line": 1
+    },
+    {
+      "op": "generate_content",
+      "domain": "characters",
+      "line": 2
+    },
+    {
+      "op": "generate_content",
+      "domain": "class progression",
+      "line": 3
+    },
+    {
+      "op": "generate_content",
+      "domain": "skills",
+      "line": 4
+    },
+    {
+      "op": "generate_content",
+      "domain": "monsters",
+      "line": 5
+    },
+    {
+      "op": "generate_content",
+      "domain": "pets",
+      "line": 6
+    },
+    {
+      "op": "generate_content",
+      "domain": "equipment",
+      "line": 7
+    },
+    {
+      "op": "generate_content",
+      "domain": "items",
+      "line": 8
+    },
+    {
+      "op": "generate_content",
+      "domain": "cards",
+      "line": 9
+    },
+    {
+      "op": "generate_content",
+      "domain": "refinement",
+      "line": 10
+    },
+    {
+      "op": "generate_content",
+      "domain": "maps",
+      "line": 11
+    },
+    {
+      "op": "generate_content",
+      "domain": "terrain",
+      "line": 12
+    },
+    {
+      "op": "generate_content",
+      "domain": "architecture",
+      "line": 13
+    },
+    {
+      "op": "generate_content",
+      "domain": "props",
+      "line": 14
+    },
+    {
+      "op": "generate_content",
+      "domain": "animation metadata",
+      "line": 15
+    },
+    {
+      "op": "generate_content",
+      "domain": "combat VFX metadata",
+      "line": 16
+    },
+    {
+      "op": "generate_content",
+      "domain": "HUD and UI layout",
+      "line": 17
+    },
+    {
+      "op": "generate_content",
+      "domain": "save/progression state",
+      "line": 18
+    },
+    {
+      "op": "actor_spawn",
+      "actor": "player",
+      "line": 19
+    },
+    {
+      "op": "set_pos",
+      "x": 0,
+      "y": 1,
+      "z": 0,
+      "line": 20
+    },
+    {
+      "op": "bind_mesh",
+      "mesh": "character_mesh",
+      "line": 21
+    },
+    {
+      "op": "texture_avif",
+      "asset": "assets/ui/player.avif",
+      "line": 22
+    }
+  ]
+}
