@@ -31,20 +31,19 @@ Existing Honour War IDE/project metadata is treated as migration input and conve
 
 ## Asset format policy
 
-Honour War uses a role-specific runtime asset strategy:
+Honour War uses an **AVIF-only shipped visual asset policy**.
 
-- **glTF 2.x (`.gltf` / `.glb`)** for 3D scene/model containers.
-- **KTX2 (`.ktx2`)** for shipped GPU-facing 3D material textures; glTF assets using Basis Universal textures use `KHR_texture_basisu`.
-- **AVIF (`.avif`)** for UI, menu/background artwork, icons, skyboxes and other 2D/distribution raster imagery.
-- **FBX/OBJ** are authoring/interchange inputs and are converted before runtime packaging.
+- **AVIF (.avif)** is the only approved shipped raster/visual asset format for UI, HUD, menus, backgrounds, icons, portraits, item/skill/card art, skyboxes, loading art and visual evidence.
+- **FBX/OBJ** are private Neural4D/Blender authoring/interchange inputs only. They are not shipped runtime visual assets.
+- **GLTF/GLB/KTX2** are permanently rejected from active Honour War runtime visual delivery.
+- Other shipped raster formats including PNG/JPEG/WebP/GIF/BMP/TGA/DDS are rejected.
+- Runtime geometry is compiled into the native SharnouEngine representation rather than a GLTF/GLB container.
 
-Existing historical reference images can remain as references; they are not new generated runtime assets.
+Approved production flow remains:
 
-Approved model intake remains FBX/OBJ through:
+Visual RAG/reference analysis → Neural4D or Blender processing → FBX/OBJ private interchange → SharnouEngine native geometry/material compilation → AVIF visual delivery → runtime validation.
 
-Visual RAG/reference analysis → Neural4D or Blender processing → FBX/OBJ → Sharnou Engine asset validation → runtime validation.
-
-glTF/GLB is the approved runtime 3D container. FBX/OBJ remain authoring/interchange inputs and are not shipped runtime model formats.
+Existing historical reference images can remain as references; they are not generated runtime assets.
 
 ## Preserved Honour War design/data
 
