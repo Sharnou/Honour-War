@@ -1,6 +1,6 @@
 {
   "game": "Honour War",
-  "engine": "Unreal Engine 5.8",
+  "engine": "SharnouEngine",
   "identity": "HD 3D anime-inspired isometric MMORPG/ARPG",
   "genre": "MMORPG/ARPG",
   "camera": {
@@ -21,7 +21,7 @@
     "left_click_monster": "select-and-engage",
     "right_drag": "camera-orbit",
     "mouse_wheel": "bounded-smooth-zoom",
-    "secondary_movement": "W/A/S/D",
+    "secondary_movement": "none",
     "skill_inputs": "1-8",
     "camera_reset": "Q"
   },
@@ -52,7 +52,7 @@
   ],
   "lighting": "bright medieval daylight",
   "hud": "compact MMORPG reference-driven layout",
-  "production_cycle": "Visual RAG -> gap register -> visual brief regeneration -> 3D asset refresh -> Unreal 5.8 runtime validation -> real EXE screenshot",
+  "production_cycle": "Visual RAG -> gap register -> visual brief regeneration -> Neural4D/Blender -> Substance 3D Painter -> FBX/OBJ private interchange -> SharnouEngine native runtime compilation -> AVIF visual delivery -> real EXE screenshot",
   "daily_auto_upgrade": false,
   "rejected": [
     "strategy presentation",
@@ -60,8 +60,17 @@
     "robots",
     "factories",
     "space",
+    "Meshy",
     "GLB",
     "GLTF",
+    "KTX2",
+    "PNG",
+    "JPEG",
+    "WebP",
+    "GIF",
+    "BMP",
+    "TGA",
+    "DDS",
     "Meshy"
   ],
   "rendering_detail": {
@@ -71,5 +80,10 @@
     "composition": "clear hero readability, strong monster silhouettes, depth separation and dense but uncluttered MMORPG framing",
     "quality_target": "high-resolution 3D presentation; no flat unshaded placeholder look",
     "progression": "visual complexity increases for higher class tiers and monster levels"
-  }
+  },
+  "runtime_visual_format": ".avif",
+  "authoring_interchange": [
+    ".fbx",
+    ".obj"
+  ]
 }
