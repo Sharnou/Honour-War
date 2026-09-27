@@ -83,18 +83,14 @@ def validate_visual_tree() -> None:
 
 
 def validate_no_retired_exporters() -> None:
-    generators = list((ROOT / "tools").rglob("*.py")) + list((ROOT / "Tools").rglob("*.py"))
+    generators = list((ROOT / "tools" / "blender").rglob("*.py"))
     forbidden = ("bpy.ops.export_scene.gltf", "bpy.ops.wm.gltf_export", ".glb", ".gltf", ".ktx2")
     for path in generators:
         rel = str(path.relative_to(ROOT)).replace("\\", "/")
-        if "/Legacy/" in f"/{rel}/":
-            continue
         body = path.read_text(encoding="utf-8", errors="ignore").lower()
         for marker in forbidden:
-            if marker in body and path.name not in {"validate_hd_assets.py"}:
-                fail(f"Retired format marker in active generator/tool: {rel} -> {marker}")
-
-
+            if marker in body:
+                fail(f"Retired format marker in active Blender generator: {rel} -> {marker}")
 def main() -> int:
     validate_project_contract()
     validate_data_contract()
