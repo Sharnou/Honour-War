@@ -1,0 +1,53 @@
+{
+  "schema": "honour-war/sharnou-generation/1",
+  "project_id": "honour-war",
+  "engine": "SharnouEngine",
+  "ide": "Sharnou-IDE",
+  "generation_authority": "SharnouEngine-only",
+  "external_generation": false,
+  "active_generators": [
+    "SharnouEngine"
+  ],
+  "rejected_active_generators": [
+    "Neural4D",
+    "Blender",
+    "Substance 3D Painter",
+    "Unity",
+    "Unreal Engine",
+    "Godot"
+  ],
+  "runtime_visual_format": ".avif",
+  "rejected_runtime_visual_formats": [
+    ".gltf",
+    ".glb",
+    ".ktx2",
+    ".png",
+    ".jpg",
+    ".jpeg",
+    ".webp",
+    ".gif",
+    ".bmp",
+    ".tga",
+    ".dds"
+  ],
+  "native_generation_domains": [
+    "characters",
+    "class progression",
+    "skills",
+    "monsters",
+    "pets",
+    "equipment",
+    "items",
+    "cards",
+    "refinement",
+    "maps",
+    "terrain",
+    "architecture",
+    "props",
+    "animation metadata",
+    "combat VFX metadata",
+    "HUD and UI layout",
+    "save/progression state"
+  ],
+  "generation_rule": "All active Honour War game content is generated, compiled and runtime-validated by SharnouEngine from canonical repository data and locked visual references."
+}
