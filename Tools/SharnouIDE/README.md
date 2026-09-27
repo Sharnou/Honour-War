@@ -1,15 +1,49 @@
-# Sharnou IDE integration
+# Honour War — Sharnou IDE integration
 
 This folder is the authoritative Honour War integration point for Sharnou-IDE.
 
-The project opens and validates through Tools/SharnouIDE/SharnouIDE.ps1. The runner has no package manager, compiler downloader, Visual Studio launcher, MSBuild invocation, Windows SDK installer, Unity invocation, Unreal invocation, CMake invocation, or vcpkg bootstrap.
+The project opens and validates through `Tools/SharnouIDE/SharnouIDE.ps1`. Sharnou-IDE is the only authoring/controller layer and SharnouEngine is the only Honour War runtime.
 
-The runner only performs three classes of work:
+## Full-game generation
 
-1. Validate the Sharnou Project Protocol manifest and repository policy.
-2. Execute an already-built SharnouEngine.exe for self-test/runtime-test.
-3. Launch the same SharnouEngine.exe for the game runtime.
+The canonical full-game SPP program is:
 
-The IDE repository itself remains the canonical editor implementation. Because the connected GitHub integration currently reports Sharnou/Sharnou-IDE as empty and denies write access, this integration layer is staged in Honour War until that repository can accept the generated IDE sources.
+`Tools/SharnouIDE/project/main.spp`
 
-A native C++ executable cannot be created from C++ source without some compiler backend. This integration therefore treats the engine executable as a runtime artifact and does not falsely advertise a compiler-free native rebuild.
+It covers every current generation domain:
+
+- characters
+- class progression
+- skills
+- monsters
+- pets
+- equipment
+- items
+- cards
+- refinement
+- maps
+- terrain
+- architecture
+- props
+- animation metadata
+- combat VFX metadata
+- HUD and UI layout
+- save/progression state
+
+The IDE compiles this SPP handoff to `Build/Runtime/honour-war.sppc.json` and, when an approved `SharnouEngine.exe` already exists, routes `full-generate`, self-test, runtime-test, or run directly to that executable.
+
+## Runtime asset roles
+
+- `.gltf` / `.glb`: 3D scene/model containers
+- `.ktx2`: compressed 3D material textures with `KHR_texture_basisu`
+- `.avif`: shipped raster/2D visual assets
+- `.fbx` / `.obj`: source/interchange model inputs
+- any registered source format: accepted at the IDE intake boundary and converted when safely supported
+
+## Tool policy
+
+The active project does not invoke, install, download, or bootstrap another engine, another IDE, or unrelated programming tools. External compiler/SDK acquisition is never automatic.
+
+## Runtime evidence
+
+Static policy, source inspection and SPP compilation are not gameplay evidence. A gameplay PASS or screenshot PASS requires the actual approved SharnouEngine executable to run.
