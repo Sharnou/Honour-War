@@ -93,11 +93,6 @@
       "left_click_monster",
       "right_drag_camera",
       "mouse_wheel_zoom",
-      "1-8_skills",
-      "click_ground_move",
-      "click_monster_target",
-      "right_drag_camera",
-      "mouse_wheel_zoom",
       "1-8_skills"
     ],
     "cycle": "Sharnou-IDE universal intake -> SPP -> SharnouEngine generation/validation -> real SharnouEngine runtime evidence",
