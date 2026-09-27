@@ -1,56 +1,17 @@
+# Compatibility policy name retained; the active policy is now format-neutral.
 $ErrorActionPreference = "Stop"
 $root = [IO.Path]::GetFullPath((Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) ".."))
-$scanRoots = @(
-  (Join-Path $root "Content"),
-  (Join-Path $root "assets")
-) | Where-Object { Test-Path -LiteralPath $_ }
-
-$approvedRaster = @(".avif")
-$rejectedRaster = @(".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp", ".tga", ".dds")
-$rejectedContainers = @(".gltf", ".glb", ".ktx2")
-$authoringInterchangeRoots = @(
-  (Join-Path $root "assets/3d/neural4d/incoming"),
-  (Join-Path $root "Content/HonourWarArt")
-)
-$violations = New-Object System.Collections.Generic.List[string]
-
-foreach($scanRoot in $scanRoots){
-  Get-ChildItem -LiteralPath $scanRoot -Recurse -File -Force -ErrorAction SilentlyContinue | ForEach-Object {
-    $path = $_.FullName
-    $ext = $_.Extension.ToLowerInvariant()
-    $isLegacy = $path -match "[\\/]Legacy[\\/]"
-    $isAuthoringInterchange = $false
-    foreach($authoringRoot in $authoringInterchangeRoots){
-      if($path.StartsWith([IO.Path]::GetFullPath($authoringRoot) + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)){
-        $isAuthoringInterchange = $true
-        break
-      }
-    }
-
-    if($rejectedContainers -contains $ext -and -not $isLegacy){
-      $violations.Add("REJECTED ACTIVE FORMAT: $path")
-      return
-    }
-
-    if($rejectedRaster -contains $ext -and -not $isLegacy){
-      $violations.Add("REJECTED RASTER FORMAT: $path")
-      return
-    }
-
-    if($isAuthoringInterchange -and $ext -in @(".fbx",".obj")){
-      return
-    }
-
-    if(($path -match "[\\/]assets[\\/]visual[\\/]|[\\/]assets[\\/]ui[\\/]|[\\/]Content[\\/]visual[\\/]|[\\/]Content[\\/]ui[\\/]") -and $ext -ne ".avif"){
-      $violations.Add("RUNTIME VISUAL MUST BE AVIF: $path")
-    }
-  }
-}
-
-if($violations.Count -gt 0){
-  $violations | ForEach-Object { Write-Host $_ }
-  Write-Host "FAIL: active Honour War visual delivery is AVIF-only; GLTF/GLB/KTX2 are rejected."
-  exit 1
-}
-Write-Host "PASS: AVIF-only visual delivery is enforced; GLTF/GLB/KTX2 are rejected."
+$integration = Join-Path $root "Tools\SharnouIDE\sharnou-ide-engine.integration.json"
+$engine = Join-Path $root "Engine\SharnouEngine\sharnou_engine_architecture.json"
+if (-not (Test-Path $integration) -or -not (Test-Path $engine)) { throw "Sharnou asset policy manifests are missing." }
+$i = Get-Content $integration -Raw | ConvertFrom-Json
+$e = Get-Content $engine -Raw | ConvertFrom-Json
+if ($i.project_id -ne "honour-war") { throw "Canonical project identity mismatch." }
+if ($i.ide.id -ne "Sharnou-IDE" -or $i.engine.id -ne "SharnouEngine") { throw "Sharnou IDE/Engine authority mismatch." }
+if ($i.asset_policy.accepted_input_formats -ne "*") { throw "Asset input policy is not format-neutral." }
+if ($i.asset_policy.conversion -ne "automatic") { throw "Automatic asset conversion is disabled." }
+if ($e.asset_pipeline.accepted_input_formats -ne "*") { throw "Engine asset intake is not format-neutral." }
+if ($e.asset_pipeline.automatic_conversion -ne $true) { throw "Engine automatic conversion is disabled." }
+Write-Host "PASS: SharnouEngine accepts any asset input format and owns automatic conversion/validation."
+Write-Host "PASS: AVIF, GLTF, GLB, KTX2 and other formats are accepted as source inputs."
 exit 0
