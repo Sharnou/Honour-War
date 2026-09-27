@@ -1,58 +1,33 @@
 # Sharnou Engine — Honour War
 
-Sharnou Engine is the **only active game engine** for Honour War.
+SharnouEngine is the only active game engine for the canonical Honour War project.
 
-## Permanent project baseline
+Permanent stack:
+- Project: honour-war
+- IDE: Sharnou-IDE
+- Engine: SharnouEngine
+- Protocol: Sharnou Project Protocol (SPP)
+- Game: 3D HD MMORPG/ARPG
+- Platform: Windows 64-bit
+- Movement: Ragnarok-style click-to-move; no WASD
 
-- Engine: **Sharnou Engine**
-- IDE: **Sharnou IDE**
-- Authoring protocol: **Sharnou Project Protocol (SPP)**
-- Runtime: native Windows 64-bit C++20
-- Graphics backend: Sharnou Engine native renderer renderer
-- Game style: **3D HD MMORPG/ARPG**
-- Input: Ragnarok-style click-to-move and camera controls; no WASD movement
+## Tool policy
 
-## Toolchain policy
+Honour War does not use, invoke, install, or download Visual Studio, MSBuild, Windows SDK development packages, Unity, Unreal Engine, or unrelated external programming tools. Sharnou-IDE is the exclusive authoring/controller layer and SharnouEngine is the exclusive runtime.
 
-Honour War does **not** use or download Visual Studio, MSBuild, Windows SDK development packages, Sharnou Engine build system, Sharnou Engine dependency/runtime layer, Unity, Unreal Engine, or any other external programming-tool bundle as part of the project workflow.
+## Asset policy
 
-Sharnou IDE is the authoritative project controller; SharnouEngine is the sole game and asset-generation runtime. A native `SharnouEngine.exe` is generated only by the self-contained Sharnou compiler declared by the toolchain contract. The repository fails closed when that compiler is not present; it never downloads a replacement compiler or SDK automatically.
+Sharnou-IDE accepts registered source formats and automatically routes them through the project conversion/validation pipeline. This is source-format acceptance, not permission to ship every source format.
 
-## Honour War data contract
+The canonical runtime asset strategy is:
+- glTF 2.x (.gltf/.glb): 3D scenes, meshes, nodes and animations.
+- KTX2 (.ktx2): compressed 3D material textures; glTF may reference them with KHR_texture_basisu.
+- AVIF (.avif): all shipped raster/2D visual assets such as UI, HUD, icons, portraits, cards, menus, backgrounds and visual evidence.
 
-The engine consumes the repository's canonical data rather than discarding it:
+Thus AVIF is the only shipped raster/2D format, while glTF/GLB and KTX2 are the complementary 3D asset formats.
 
-- 70 character profiles
-- 35 jobs across 7 classes and 5 tiers
-- 256 monsters
-- 24 maps
-- 300 equipment entries
-- 76 general items
-- 300 cards
-- 20 pets
-- 120 pet skills
-- 100 pet equipment entries
-- 8 skills per job with the existing skill-level scaling rules
+## Honour War integration
 
-The canonical JSON files remain under `data/` and are loaded/validated by the native runtime.
+The engine must identify the canonical project id honour-war, accept the Sharnou-IDE SPP handoff, preserve the existing Honour War content/data, validate generated assets, and expose native self-test and runtime-test commands.
 
-## Runtime responsibilities
-
-The active runtime foundation covers the native game window/render loop, Direct3D 11 rendering, Honour War data validation, click-to-move movement, camera orbit/zoom, monster target selection, eight skill slots, `@go MAP X:Y` routing, persistent save data, and startup self-test.
-
-A runtime executable is only marked PASS after actual execution. Source inspection alone is not runtime evidence.
-
-## Art pipeline
-
-SharnouEngine is the only active generator of Honour War gameplay content and runtime geometry. External shipped raster/visual assets use AVIF only.
-
-- Active generator: SharnouEngine.
-- External model/DCC generation: disabled.
-- Approved shipped raster/visual format: AVIF.
-- Permanently rejected active visual containers: GLTF, GLB, KTX2.
-- Permanently rejected runtime raster formats: PNG, JPEG, WebP, GIF, BMP, TGA, DDS.
-- AVIF is used for UI, HUD, icons, portraits, item/skill/card art, menus, backgrounds, skyboxes, loading artwork and visual evidence.
-
-## Migration boundary
-
-Legacy Unity/Unreal material is retained only as historical/recovery material where present. It is not an active runtime dependency.
+No Unity or Unreal runtime remains in the active path.
