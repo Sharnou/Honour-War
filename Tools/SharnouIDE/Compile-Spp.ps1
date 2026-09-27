@@ -26,6 +26,24 @@ foreach ($rawLine in Get-Content -LiteralPath $Source) {
     $op = [string]$tokens[0]
 
     switch ($op) {
+        "project_bind" {
+            if ($tokens.Count -ne 2) { throw "Line ${lineNumber}: project_bind requires a project id." }
+            if ([string]$tokens[1] -ne "honour-war") { throw "Line ${lineNumber}: only canonical project 'honour-war' can be bound." }
+            $commands.Add([pscustomobject]@{
+                op = "project_bind"
+                project = [string]$tokens[1]
+                line = $lineNumber
+            })
+        }
+        "generate_content" {
+            if ($tokens.Count -ne 2) { throw "Line ${lineNumber}: generate_content requires a content domain." }
+            if ([string]::IsNullOrWhiteSpace([string]$tokens[1])) { throw "Line ${lineNumber}: generation domain cannot be empty." }
+            $commands.Add([pscustomobject]@{
+                op = "generate_content"
+                domain = [string]$tokens[1]
+                line = $lineNumber
+            })
+        }
         "actor_spawn" {
             if ($tokens.Count -ne 2) { throw "Line ${lineNumber}: actor_spawn requires an actor id." }
             $commands.Add([pscustomobject]@{
