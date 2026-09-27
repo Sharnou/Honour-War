@@ -21,13 +21,38 @@
     "Unreal Engine"
   ],
   "asset_policy": {
-    "runtime_scene_containers": [".gltf", ".glb"],
-    "runtime_scene_standard": "glTF 2.x",
-    "runtime_3d_texture_format": ".ktx2",
-    "runtime_3d_texture_standard": "KTX 2.0",
-    "runtime_3d_texture_glTF_extension": "KHR_texture_basisu",
-    "runtime_2d_raster_format": ".avif",
-    "authoring_interchange": [".fbx", ".obj"]
+    "runtime_visual_format": ".avif",
+    "runtime_visual_standard": "AV1 Image File Format",
+    "runtime_visual_uses": [
+      "UI",
+      "HUD",
+      "menus",
+      "backgrounds",
+      "icons",
+      "portraits",
+      "item/skill/card art",
+      "skyboxes",
+      "loading art",
+      "visual evidence"
+    ],
+    "native_geometry_runtime": "SharnouEngine-native compiled representation",
+    "authoring_interchange": [
+      ".fbx",
+      ".obj"
+    ],
+    "rejected_runtime_visual_formats": [
+      ".gltf",
+      ".glb",
+      ".ktx2",
+      ".png",
+      ".jpg",
+      ".jpeg",
+      ".webp",
+      ".gif",
+      ".bmp",
+      ".tga",
+      ".dds"
+    ]
   },
   "compiler": {
     "required": true,
