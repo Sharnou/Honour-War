@@ -1,6 +1,7 @@
 param(
     [switch]$RunSelfTest,
-    [int]$RuntimeTestSeconds = 60
+    [int]$RuntimeTestSeconds = 60,
+    [string]$EngineRoot = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -54,10 +55,26 @@ $engineCandidates = @(
 $enginePath = $engineCandidates | Where-Object { Test-Path -LiteralPath $_ -PathType Leaf } | Select-Object -First 1
 
 if (-not $enginePath) {
-    Write-Warning "No approved SharnouEngine.exe is present in the configured runtime candidates."
-    Write-Host "Runtime descriptors and SPP bytecode are prepared, but executable runtime execution is NOT claimed." -ForegroundColor Yellow
-    Write-Host "No Unity, Unreal, Visual Studio, MSBuild, Windows SDK, CMake, vcpkg, or external tool download was attempted."
-    exit 2
+    Write-Host "[5/5] No approved SharnouEngine.exe found; invoking standalone SharnouEngine build pipeline..." -ForegroundColor Yellow
+    $builder = Join-Path $repoRoot "Tools\SharnouIDE\Build-StandaloneRuntime.ps1"
+    if (!(Test-Path -LiteralPath $builder -PathType Leaf)) {
+        throw "Runtime builder missing: $builder"
+    }
+
+    if ([string]::IsNullOrWhiteSpace($EngineRoot)) {
+        $EngineRoot = Join-Path $repoRoot "..\Sharnou-Engine-main"
+    }
+
+    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $builder -EngineRoot $EngineRoot -RuntimeTestSeconds $RuntimeTestSeconds -SkipRuntimeTest
+    if ($LASTEXITCODE -ne 0) {
+        throw "Standalone SharnouEngine build failed: $LASTEXITCODE"
+    }
+
+    $enginePath = $engineCandidates | Where-Object { Test-Path -LiteralPath $_ -PathType Leaf } | Select-Object -First 1
+}
+
+if (-not $enginePath) {
+    throw "Standalone SharnouEngine executable is still unavailable after the build attempt."
 }
 
 Write-Host "[5/5] SharnouEngine executable found: $enginePath" -ForegroundColor Green
