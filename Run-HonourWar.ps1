@@ -1,5 +1,5 @@
 param(
-    [ValidateSet("validate","compile","build-runtime","self-test","runtime-test","full-generate","run")]
+    [ValidateSet("validate","compile","build-runtime","complete-runtime","self-test","runtime-test","full-generate","run")]
     [string]$Command = "run",
     [int]$RuntimeTestSeconds = 300
 )
@@ -18,6 +18,14 @@ if ($Command -eq "build-runtime") {
         throw "Standalone runtime builder missing: $builder"
     }
     & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $builder -RuntimeTestSeconds $RuntimeTestSeconds
+    exit $LASTEXITCODE
+}
+if ($Command -eq "complete-runtime") {
+    $complete = Join-Path $root "Complete-Runtime.ps1"
+    if (!(Test-Path -LiteralPath $complete -PathType Leaf)) {
+        throw "Complete runtime script missing: $complete"
+    }
+    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $complete -RuntimeTestSeconds $RuntimeTestSeconds
     exit $LASTEXITCODE
 }
 
