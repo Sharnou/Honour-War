@@ -1,16 +1,15 @@
 #!/usr/bin/env python3
-"""Build Honour War's canonical runtime asset plan from the content catalog.
+"""Build Honour War's canonical SharnouEngine runtime asset plan.
 
-This generator is deliberately engine-owned: it does not invoke Unity, Unreal,
-Blender, Visual Studio, MSBuild, or an external asset manager.  It converts the
-existing gameplay catalog into deterministic SharnouEngine runtime descriptors
-and glTF scene containers.  Binary KTX2/AVIF encoding is delegated to the
-registered Sharnou-IDE codec adapters when they are available.
+The generator consumes the existing gameplay catalog and creates deterministic,
+valid glTF 2.0 scene containers. It never fabricates KTX2/AVIF bytes: those
+binary payloads must be produced by registered Sharnou-IDE/SharnouEngine codec
+adapters. Unity, Unreal, Blender, Visual Studio and MSBuild are not used.
 """
 from __future__ import annotations
 
 import argparse
-import hashlib
+import base64
 import json
 from pathlib import Path
 from typing import Any
@@ -19,6 +18,9 @@ RUNTIME_ROOT = Path("Build/Runtime/Generated")
 SCENE_ROOT = Path("assets/3d/generated")
 TEXTURE_ROOT = Path("assets/3d/textures")
 UI_ROOT = Path("assets/ui/generated")
+
+# Deterministic triangle bootstrap: positions followed by uint16 indices.
+BOOTSTRAP_GEOMETRY = "AAAAvwAAAAAAAAAAAAAAPwAAAAAAAAAAAAAAAAAAgD8AAAAAAAABAAIA"
 
 
 def read_catalog(path: Path) -> dict[str, Any]:
@@ -38,22 +40,40 @@ def stable_asset_id(kind: str, item: dict[str, Any]) -> str:
 
 
 def gltf_scene(name: str, role: str, material_texture: str) -> dict[str, Any]:
-    # Valid glTF 2.0 scene container with a deterministic placeholder mesh.
-    # The SharnouEngine runtime can replace the mesh payload during authoring
-    # while preserving the scene/material identity and KTX2 binding.
+    """Return a valid glTF scene with an engine-owned KTX2 material binding."""
     return {
         "asset": {"version": "2.0", "generator": "SharnouEngine Honour War Runtime Generator"},
+        "extensionsUsed": ["KHR_texture_basisu"],
         "scene": 0,
         "scenes": [{"name": name, "nodes": [0]}],
         "nodes": [{"name": name, "mesh": 0}],
-        "meshes": [{"name": f"{name}_mesh", "primitives": [{"attributes": {}}]}],
+        "meshes": [{
+            "name": f"{name}_bootstrap_mesh",
+            "primitives": [{
+                "attributes": {"POSITION": 0},
+                "indices": 1,
+                "material": 0
+            }]
+        }],
+        "buffers": [{"uri": f"data:application/octet-stream;base64,{BOOTSTRAP_GEOMETRY}", "byteLength": 42}],
+        "bufferViews": [
+            {"buffer": 0, "byteOffset": 0, "byteLength": 36, "target": 34962},
+            {"buffer": 0, "byteOffset": 36, "byteLength": 6, "target": 34963}
+        ],
+        "accessors": [
+            {"bufferView": 0, "componentType": 5126, "count": 3, "type": "VEC3", "min": [-0.5, 0.0, 0.0], "max": [0.5, 1.0, 0.0]},
+            {"bufferView": 1, "componentType": 5123, "count": 3, "type": "SCALAR", "min": [0], "max": [2]}
+        ],
+        "images": [{"uri": material_texture, "mimeType": "image/ktx2"}],
+        "textures": [{"source": 0}],
         "materials": [{
             "name": f"{name}_material",
+            "pbrMetallicRoughness": {"baseColorTexture": {"index": 0}, "metallicFactor": 0.0, "roughnessFactor": 0.72},
             "extras": {
                 "sharnou_role": role,
                 "canonical_texture": material_texture,
-                "texture_policy": "KTX2/Basis Universal via KHR_texture_basisu",
-            },
+                "texture_policy": "KTX2/Basis Universal via KHR_texture_basisu"
+            }
         }],
         "extras": {
             "engine": "SharnouEngine",
@@ -61,7 +81,9 @@ def gltf_scene(name: str, role: str, material_texture: str) -> dict[str, Any]:
             "runtime_role": role,
             "authoring": "Sharnou-IDE",
             "graphics_target": "HD 3D MMORPG/ARPG",
-        },
+            "bootstrap_geometry": True,
+            "final_art_policy": "replace bootstrap geometry with authored SharnouEngine model while retaining canonical asset identity"
+        }
     }
 
 
@@ -84,30 +106,30 @@ def main() -> int:
         "equipment": "equipment",
         "cards": "card",
         "pets": "pet",
-        "pet_equipment": "pet_equipment",
+        "pet_equipment": "pet_equipment"
     }
 
     plan: list[dict[str, Any]] = []
-    scene_paths: list[str] = []
     for collection, role in collections.items():
         for item in catalog.get(collection, []):
-            sid = stable_asset_id(role, item)
-            name = str(item.get("name", item.get("id", "unnamed")))
-            scene_rel = (SCENE_ROOT / f"{safe_id(str(item.get('id', name)))}.gltf").as_posix()
-            texture_rel = (TEXTURE_ROOT / f"{safe_id(str(item.get('id', name)))}.ktx2").as_posix()
+            catalog_id = str(item.get("id", item.get("name", "unknown")))
+            name = str(item.get("name", catalog_id))
+            stem = safe_id(catalog_id)
+            scene_rel = (SCENE_ROOT / f"{stem}.gltf").as_posix()
+            texture_rel = (TEXTURE_ROOT / f"{stem}.ktx2").as_posix()
+            ui_rel = (UI_ROOT / f"{stem}.avif").as_posix()
             plan.append({
-                "asset_id": sid,
-                "catalog_id": item.get("id"),
+                "asset_id": stable_asset_id(role, item),
+                "catalog_id": catalog_id,
                 "name": name,
                 "role": role,
                 "scene": scene_rel,
                 "texture_ktx2": texture_rel,
-                "ui_avif": (UI_ROOT / f"{safe_id(str(item.get('id', name)))}.avif").as_posix(),
+                "ui_avif": ui_rel,
                 "render_target": "HD_3D_MMO_ARPG",
                 "engine": "SharnouEngine",
-                "authoring_controller": "Sharnou-IDE",
+                "authoring_controller": "Sharnou-IDE"
             })
-            scene_paths.append(scene_rel)
             write_json(Path(scene_rel), gltf_scene(name, role, texture_rel))
 
     manifest = {
@@ -120,16 +142,17 @@ def main() -> int:
             "scene": ".gltf",
             "texture_3d": ".ktx2",
             "ui_2d": ".avif",
-            "gltf_texture_extension": "KHR_texture_basisu",
+            "gltf_texture_extension": "KHR_texture_basisu"
         },
         "no_external_engine_toolchain": True,
         "assets": plan,
         "counts": {k: len(catalog.get(k, [])) for k in collections},
-        "scene_count": len(scene_paths),
-        "note": "Generated scene containers are deterministic runtime identities; Sharnou-IDE codec adapters supply binary KTX2/AVIF payloads without changing the game contract.",
+        "scene_count": len(plan),
+        "binary_codec_status": "required Sharnou-IDE/SharnouEngine KTX2/AVIF codec adapters are authoritative; missing codecs must fail closed rather than generate fake files",
+        "bootstrap_status": "glTF scene containers include valid bootstrap geometry so runtime loading can be tested before final authored meshes are installed"
     }
     write_json(args.output, manifest)
-    print(f"[SharnouRuntimeGenerator] PASS scenes={len(scene_paths)} output={args.output}")
+    print(f"[SharnouRuntimeGenerator] PASS scenes={len(plan)} output={args.output}")
     return 0
 
 
