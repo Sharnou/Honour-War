@@ -33,6 +33,12 @@ AVIF-only applies to shipped raster/2D visuals. It does not reject glTF/GLB or K
 
 FBX/OBJ remain approved source/interchange model inputs. They are converted before canonical runtime delivery. Other source formats may also enter through the Sharnou-IDE universal intake boundary when a registered adapter is available.
 
+## Standalone runtime build
+
+Use `Complete-Runtime.ps1` as the canonical local runtime entrypoint. It validates the Sharnou-IDE/SPP contracts, generates the Honour War runtime scene plan, invokes the standalone SharnouEngine compiler, verifies the resulting Windows x64 PE, rebuilds the runtime registry/resource cache, and runs native engine self-test plus runtime-test. The build fails closed when the self-contained Sharnou compiler is absent; it never downloads a replacement compiler or external engine toolchain.
+
+The native engine runtime also consumes generated glTF bootstrap scenes and validates their KTX2/KHR_texture_basisu contract. Final authored meshes/textures must replace bootstrap content before a production-art runtime claim is made.
+
 ## Automatic Honour War / SharnouEngine jobs
 
 The Sharnou-IDE handoff is designed to automatically perform the necessary project/asset work:
