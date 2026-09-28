@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "project": "honour-war",
+  "engine": "SharnouEngine",
+  "authoring_controller": "Sharnou-IDE",
+  "architecture": "GFC-inspired 3D MMORPG/ARPG runtime architecture implemented by SharnouEngine",
+  "graphics_target": {
+    "dimension": "3D",
+    "quality": "HD",
+    "genres": ["MMORPG", "ARPG"],
+    "camera": "Ragnarok-style isometric/three-quarter camera",
+    "movement": "direct character movement; no WASD requirement",
+    "animation": [
+      "idle",
+      "walk",
+      "run",
+      "attack",
+      "cast",
+      "hit",
+      "death",
+      "emote",
+      "equip",
+      "unequip",
+      "interaction"
+    ],
+    "cloth": {
+      "enabled": true,
+      "simulation_targets": ["capes", "skirts", "robes", "scarves", "coats", "hair accessories"],
+      "fallback": "bone-driven secondary motion"
+    },
+    "character_identity": {
+      "source": "canonical character name + class + tier + gender + visual_profile",
+      "deterministic": true,
+      "silhouette_required": true,
+      "class_readability_required": true,
+      "tier_visual_progression_required": true,
+      "gender_visual_variant_required": true
+    },
+    "materials": {
+      "scene_container": "glTF 2.x",
+      "texture_3d": "KTX2/Basis Universal",
+      "gltf_extension": "KHR_texture_basisu",
+      "ui_2d": "AVIF",
+      "runtime_reject": ["PNG", "JPG", "JPEG", "WEBP", "GIF", "BMP", "TGA", "DDS"]
+    }
+  },
+  "content_targets": {
+    "characters": 70,
+    "class_count": 7,
+    "tiers_per_class": 5,
+    "gender_variants_per_class_tier": 2,
+    "monsters": 256,
+    "maps": 24,
+    "equipment": 300,
+    "cards": 300,
+    "pets": 20,
+    "pet_skills": 120,
+    "pet_equipment": 100
+  },
+  "classes": [
+    {"name":"Warrior","silhouette":"armored frontline fighter","primary_visuals":["sword","shield","plate","cape"]},
+    {"name":"Mage","silhouette":"arcane caster","primary_visuals":["staff","robe","spell focus","floating effects"]},
+    {"name":"Archer","silhouette":"ranged bow fighter","primary_visuals":["bow","quiver","light armor","hood"]},
+    {"name":"Thief","silhouette":"agile close-range fighter","primary_visuals":["daggers","light armor","hood","utility belt"]},
+    {"name":"Acolyte","silhouette":"holy support/combat caster","primary_visuals":["mace","holy focus","robes","relics"]},
+    {"name":"Merchant","silhouette":"armored trader/combat crafter","primary_visuals":["axe","pack","merchant coat","utility gear"]},
+    {"name":"Ranger","silhouette":"firearm-focused ranged fighter","primary_visuals":["gun","ammo rig","combat coat","mechanical accessories"]}
+  ],
+  "name_driven_visual_rule": "Hash the canonical character name to choose deterministic palette/material accents, hairstyle family, accessory pattern and secondary cloth variation; never alter gameplay statistics from this visual hash.",
+  "runtime_asset_layout": {
+    "scenes": "assets/3d/generated/*.gltf",
+    "textures": "assets/3d/textures/*.ktx2",
+    "ui": "assets/ui/generated/*.avif",
+    "runtime_plan": "Build/Runtime/Generated/honour_war_runtime_asset_plan.json"
+  },
+  "external_engine_policy": {
+    "unity": false,
+    "unreal": false,
+    "visual_studio": false,
+    "msbuild": false,
+    "external_asset_manager": false
+  }
+}
