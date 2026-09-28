@@ -41,6 +41,7 @@ jobs:
           python Tools/tests/test_sharnou_engine_validator.py
           python Tools/tests/test_asset_registry.py
           python Tools/tests/test_resource_cache.py
+          python Tools/tests/test_honour_war_runtime_generator.py
 
       - name: Enforce Sharnou-only toolchain policy
         shell: pwsh
@@ -50,7 +51,7 @@ jobs:
         shell: pwsh
         run: ./ci/sharnou-avif-policy.ps1
 
-      - name: Validate complete Honour War catalog
+      - name: Validate complete Honour War catalog and graphics target
         shell: pwsh
         run: |
           $catalog = Get-Content "$env:GITHUB_WORKSPACE/data/honour_war_content_catalog.json" -Raw | ConvertFrom-Json
@@ -63,6 +64,17 @@ jobs:
               throw "Catalog count mismatch: $key expected=$($expected[$key]) actual=$($catalog.counts.$key)"
             }
           }
+          $graphics = Get-Content "$env:GITHUB_WORKSPACE/data/honour_war_graphics_manifest.json" -Raw | ConvertFrom-Json
+          if ($graphics.engine -ne 'SharnouEngine') { throw 'Graphics manifest engine mismatch.' }
+          if ($graphics.authoring_controller -ne 'Sharnou-IDE') { throw 'Graphics manifest authoring controller mismatch.' }
+          if ($graphics.graphics_target.dimension -ne '3D') { throw '3D target missing.' }
+          if ($graphics.graphics_target.quality -ne 'HD') { throw 'HD target missing.' }
+          if ($graphics.graphics_target.genres -notcontains 'MMORPG') { throw 'MMORPG target missing.' }
+          if ($graphics.graphics_target.genres -notcontains 'ARPG') { throw 'ARPG target missing.' }
+          if ($graphics.materials.texture_3d -ne 'KTX2/Basis Universal') { throw 'KTX2 graphics rule missing.' }
+          if ($graphics.materials.ui_2d -ne 'AVIF') { throw 'AVIF graphics rule missing.' }
+          if ($graphics.classes.Count -ne 7) { throw 'Expected seven canonical classes.' }
+          Write-Host 'PASS: full content catalog and HD MMORPG/ARPG graphics contract.'
           $skills = Get-Content "$env:GITHUB_WORKSPACE/data/honour_war_skill_system.json" -Raw | ConvertFrom-Json
           if ([int]$skills.counts.classes -ne 7) { throw 'Expected 7 classes.' }
           if ([int]$skills.counts.jobs -ne 35) { throw 'Expected 35 jobs.' }
