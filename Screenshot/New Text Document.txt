@@ -1,0 +1,840 @@
+--- a/.github/workflows/sharnou-engine-dependency-preflight.yml
++++ b/.github/workflows/sharnou-engine-dependency-preflight.yml
+@@ -65,6 +65,15 @@
+           $ExternalIncludes = New-Object System.Collections.Generic.List[object]
+           $RuntimeRefs = New-Object System.Collections.Generic.List[object]
+           $Blocking = New-Object System.Collections.Generic.List[string]
++          $VisualStudioInstances = New-Object System.Collections.Generic.List[object]
++          $MsvcToolsets = New-Object System.Collections.Generic.List[object]
++          $clCandidateSources = New-Object System.Collections.Generic.List[object]
++          $linkCandidateSources = New-Object System.Collections.Generic.List[object]
++          $VsWhereAllInstances = @()
++          $VsWhereMsvcInstances = @()
++          $VsWhereMsvcInstallationPaths = @()
++          $VsWherePath = $null
++
+           
+           function Add-Block {
+               param([string]$Text)
+@@ -203,19 +212,307 @@
+           $RunnerImageVersion = if ($env:ImageVersion) { $env:ImageVersion } else { 'UNKNOWN' }
+           $RunnerArch = if ($env:PROCESSOR_ARCHITECTURE) { $env:PROCESSOR_ARCHITECTURE } else { 'UNKNOWN' }
+           
+-          $cl = @(Get-Command cl.exe -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source)
+-          $link = @(Get-Command link.exe -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source)
+-          $cl = @($cl | Sort-Object -Unique)
+-          $link = @($link | Sort-Object -Unique)
+-          
+           $VsRoots = @(
+               'HKLM:\SOFTWARE\Microsoft\VisualStudio\Setup\Instances',
+               'HKLM:\SOFTWARE\WOW6432Node\Microsoft\VisualStudio\Setup\Instances'
+           )
+-          
+-          $VsInstances = New-Object System.Collections.Generic.List[object]
+-          $MsvcToolsets = New-Object System.Collections.Generic.List[object]
+-          
++
++          $VsWhereDiscoverySource = 'vswhere MSVC component discovery + MSVC toolset filesystem validation'
++          $RegistryToolsetDiscoverySource = 'Windows registry discovery + MSVC toolset filesystem validation'
++
++          function Normalize-PathForComparison {
++              param([AllowNull()][string]$Path)
++              if ([string]::IsNullOrWhiteSpace($Path)) { return $null }
++              try {
++                  return ([System.IO.Path]::GetFullPath($Path)).TrimEnd('\').ToLowerInvariant()
++              }
++              catch {
++                  return $Path.TrimEnd('\').ToLowerInvariant()
++              }
++          }
++
++          function Get-VersionSortValue {
++              param([AllowNull()][string]$Version)
++              try { return [version]$Version }
++              catch { return [version]'0.0.0.0' }
++          }
++
++          function Get-VsWherePath {
++              $candidates = New-Object System.Collections.Generic.List[string]
++              try {
++                  $command = Get-Command vswhere.exe -ErrorAction Stop
++                  if ($command -and $command.Source) {
++                      [void]$candidates.Add([string]$command.Source)
++                  }
++              }
++              catch {
++                  # Read-only discovery only.
++              }
++
++              if ($env:ProgramFiles) {
++                  [void]$candidates.Add((Join-Path $env:ProgramFiles 'Microsoft Visual Studio\Installer\vswhere.exe'))
++              }
++              if (${env:ProgramFiles(x86)}) {
++                  [void]$candidates.Add((Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'))
++              }
++
++              foreach ($candidate in @($candidates | Sort-Object -Unique)) {
++                  if (Test-Path -LiteralPath $candidate -PathType Leaf) {
++                      return (Get-Item -LiteralPath $candidate -ErrorAction Stop).FullName
++                  }
++              }
++              return $null
++          }
++
++          function Get-VsWhereJson {
++              param(
++                  [Parameter(Mandatory = $true)][string]$Path,
++                  [Parameter(Mandatory = $true)][ValidateSet('AllInstances','MsvcInstances')][string]$Query
++              )
++
++              if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) { return @() }
++
++              try {
++                  if ($Query -eq 'AllInstances') {
++                      $output = & $Path '-products' '*' '-format' 'json' 2>$null
++                  }
++                  else {
++                      $output = & $Path '-products' '*' '-requires' 'Microsoft.VisualStudio.Component.VC.Tools.x86.x64' '-format' 'json' 2>$null
++                  }
++
++                  if ($LASTEXITCODE -ne 0 -or $null -eq $output) { return @() }
++                  $json = ($output -join [Environment]::NewLine)
++                  if ([string]::IsNullOrWhiteSpace($json)) { return @() }
++                  $parsed = $json | ConvertFrom-Json
++                  if ($null -eq $parsed) { return @() }
++                  return @($parsed)
++              }
++              catch {
++                  return @()
++              }
++          }
++
++          function Merge-VisualStudioInstance {
++              param(
++                  [Parameter(Mandatory = $true)][object]$Record,
++                  [Parameter(Mandatory = $true)]$Destination
++              )
++
++              if (-not $Record.InstallationPath) { return }
++              $normalized = Normalize-PathForComparison $Record.InstallationPath
++              foreach ($existing in $Destination) {
++                  if ((Normalize-PathForComparison $existing.InstallationPath) -eq $normalized) {
++                      $existing.DiscoverySources = @(@($existing.DiscoverySources) + @($Record.DiscoverySources)) | Where-Object { $_ } | Sort-Object -Unique
++                      if ($existing.Version -eq 'UNKNOWN' -and $Record.Version -ne 'UNKNOWN') { $existing.Version = $Record.Version }
++                      if ($existing.Edition -eq 'UNKNOWN' -and $Record.Edition -ne 'UNKNOWN') { $existing.Edition = $Record.Edition }
++                      if ($Record.MsvcX64ToolsComponentInstalled) { $existing.MsvcX64ToolsComponentInstalled = $true }
++                      return
++                  }
++              }
++              [void]$Destination.Add($Record)
++          }
++
++          function Add-MsvcToolsetRecord {
++              param(
++                  [Parameter(Mandatory = $true)][string]$InstallationPath,
++                  [Parameter(Mandatory = $true)][string]$ToolsetRoot,
++                  [Parameter(Mandatory = $true)][string]$DiscoverySource
++              )
++
++              if (-not (Test-Path -LiteralPath $InstallationPath -PathType Container)) { return }
++              if (-not (Test-Path -LiteralPath $ToolsetRoot -PathType Container)) { return }
++
++              $resolvedInstallationPath = (Get-Item -LiteralPath $InstallationPath -ErrorAction Stop).FullName
++              $resolvedToolsetRoot = (Get-Item -LiteralPath $ToolsetRoot -ErrorAction Stop).FullName
++              $toolsetVersion = Split-Path -Leaf $resolvedToolsetRoot
++              $targetBin = Join-Path $resolvedToolsetRoot 'bin\Hostx64\x64'
++              $clPath = Join-Path $targetBin 'cl.exe'
++              $linkPath = Join-Path $targetBin 'link.exe'
++              $includePath = Join-Path $resolvedToolsetRoot 'include'
++              $libX64Path = Join-Path $resolvedToolsetRoot 'lib\x64'
++
++              $record = [pscustomobject]@{
++                  InstallationPath = $resolvedInstallationPath
++                  ToolsetVersion = [string]$toolsetVersion
++                  ToolsetRoot = $resolvedToolsetRoot
++                  HostArchitecture = 'x64'
++                  TargetArchitecture = 'x64'
++                  ClPath = $clPath
++                  LinkPath = $linkPath
++                  IncludePath = $includePath
++                  LibX64Path = $libX64Path
++                  IncludeExists = Test-Path -LiteralPath $includePath -PathType Container
++                  LibX64Exists = Test-Path -LiteralPath $libX64Path -PathType Container
++                  ClExists = Test-Path -LiteralPath $clPath -PathType Leaf
++                  LinkExists = Test-Path -LiteralPath $linkPath -PathType Leaf
++                  DiscoverySources = @($DiscoverySource)
++              }
++
++              foreach ($existing in $MsvcToolsets) {
++                  $sameInstall = (Normalize-PathForComparison $existing.InstallationPath) -eq (Normalize-PathForComparison $resolvedInstallationPath)
++                  $sameToolset = (Normalize-PathForComparison $existing.ToolsetRoot) -eq (Normalize-PathForComparison $resolvedToolsetRoot)
++                  if ($sameInstall -and $sameToolset) {
++                      $existing.DiscoverySources = @(@($existing.DiscoverySources) + @($DiscoverySource)) | Where-Object { $_ } | Sort-Object -Unique
++                      $existing.ClPath = $record.ClPath
++                      $existing.LinkPath = $record.LinkPath
++                      $existing.IncludePath = $record.IncludePath
++                      $existing.LibX64Path = $record.LibX64Path
++                      $existing.IncludeExists = $record.IncludeExists
++                      $existing.LibX64Exists = $record.LibX64Exists
++                      $existing.ClExists = $record.ClExists
++                      $existing.LinkExists = $record.LinkExists
++                      return $existing
++                  }
++              }
++
++              [void]$MsvcToolsets.Add($record)
++              return $record
++          }
++
++          function Add-ExactMsvcCandidate {
++              param(
++                  [Parameter(Mandatory = $true)][string]$Path,
++                  [Parameter(Mandatory = $true)][ValidateSet('cl.exe','link.exe')][string]$Binary,
++                  [Parameter(Mandatory = $true)][string]$ToolsetRoot,
++                  [Parameter(Mandatory = $true)][string]$InstallationPath,
++                  [Parameter(Mandatory = $true)][string]$DiscoverySource
++              )
++
++              if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) { return }
++              $resolvedPath = (Get-Item -LiteralPath $Path -ErrorAction Stop).FullName
++              $record = [pscustomobject]@{
++                  Path = $resolvedPath
++                  Binary = $Binary
++                  ToolsetRoot = (Get-Item -LiteralPath $ToolsetRoot -ErrorAction Stop).FullName
++                  VisualStudioInstallationPath = (Get-Item -LiteralPath $InstallationPath -ErrorAction Stop).FullName
++                  ToolsetVersion = Split-Path -Leaf $ToolsetRoot
++                  DiscoverySource = $DiscoverySource
++              }
++
++              $destination = if ($Binary -eq 'cl.exe') { $clCandidateSources } else { $linkCandidateSources }
++              foreach ($existing in $destination) {
++                  if ((Normalize-PathForComparison $existing.Path) -eq (Normalize-PathForComparison $record.Path)) { return }
++              }
++              [void]$destination.Add($record)
++          }
++
++          function Get-MsvcToolsetContext {
++              param([Parameter(Mandatory = $true)][string]$BinaryPath)
++              $normalizedBinary = Normalize-PathForComparison $BinaryPath
++              if ($null -eq $normalizedBinary) { return $null }
++              foreach ($toolset in $MsvcToolsets) {
++                  $normalizedToolset = Normalize-PathForComparison $toolset.ToolsetRoot
++                  if ($normalizedToolset -and $normalizedBinary.StartsWith($normalizedToolset + '\')) {
++                      return $toolset
++                  }
++              }
++              return $null
++          }
++
++          function Get-MicrosoftBinaryEvidence {
++              param(
++                  [Parameter(Mandatory = $true)][string]$Path,
++                  [Parameter(Mandatory = $true)][ValidateSet('cl.exe','link.exe')][string]$Binary,
++                  [Parameter(Mandatory = $true)][string]$DiscoverySource
++              )
++
++              if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) {
++                  return [pscustomobject]@{
++                      Path = $Path
++                      Binary = $Binary
++                      Exists = $false
++                      IdentityVerified = $false
++                      Functionality = 'NOT TESTED'
++                      RejectionReason = 'Binary does not exist.'
++                      DiscoverySource = $DiscoverySource
++                      GitForWindowsLinkerRejected = $false
++                  }
++              }
++
++              $item = Get-Item -LiteralPath $Path -ErrorAction Stop
++              $versionInfo = $item.VersionInfo
++              $architecture = Pe-Architecture $Path
++              $sha256 = (Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash
++              $companyName = [string]$versionInfo.CompanyName
++              $fileDescription = [string]$versionInfo.FileDescription
++              $productName = [string]$versionInfo.ProductName
++              $combinedMetadata = "$companyName $fileDescription $productName"
++              $toolsetContext = Get-MsvcToolsetContext -BinaryPath $Path
++              $insideDiscoveredToolset = $null -ne $toolsetContext
++              $gitLinker = ($Binary -eq 'link.exe' -and (Normalize-PathForComparison $Path) -match '(?:^|\\)git\\usr\\bin\\link\.exe$')
++              $microsoftIdentity = (
++                  $companyName -match '(?i)microsoft' -and
++                  $combinedMetadata -match '(?i)(visual studio|visual c\+\+|c/c\+\+|microsoft.*c/c\+\+|msvc|linker)'
++              )
++              $x64Pe = $architecture -eq 'x64_0x8664'
++
++              $reasons = New-Object System.Collections.Generic.List[string]
++              if (-not $insideDiscoveredToolset) { [void]$reasons.Add('Candidate is not inside a discovered Visual Studio MSVC toolset directory.') }
++              if (-not $microsoftIdentity) { [void]$reasons.Add('Microsoft Visual C++ toolchain metadata was not verified.') }
++              if (-not $x64Pe) { [void]$reasons.Add("PE architecture is '$architecture', not x64.") }
++              if ($gitLinker) { [void]$reasons.Add('C:\Program Files\Git\usr\bin\link.exe is not an approved Microsoft linker.') }
++
++              [pscustomobject]@{
++                  Path = $item.FullName
++                  Binary = $Binary
++                  Exists = $true
++                  IdentityVerified = ($insideDiscoveredToolset -and $microsoftIdentity -and $x64Pe -and (-not $gitLinker))
++                  Functionality = 'NOT TESTED'
++                  RejectionReason = if ($reasons.Count -gt 0) { $reasons -join ' ' } else { $null }
++                  Version = if ([string]::IsNullOrWhiteSpace([string]$versionInfo.FileVersion)) { 'UNKNOWN' } else { [string]$versionInfo.FileVersion }
++                  FileDescription = $fileDescription
++                  CompanyName = $companyName
++                  ProductName = $productName
++                  Architecture = $architecture
++                  Sha256 = $sha256
++                  ToolsetVersion = if ($toolsetContext) { [string]$toolsetContext.ToolsetVersion } else { 'UNKNOWN' }
++                  ToolsetRoot = if ($toolsetContext) { [string]$toolsetContext.ToolsetRoot } else { $null }
++                  VisualStudioInstallationPath = if ($toolsetContext) { [string]$toolsetContext.InstallationPath } else { $null }
++                  DiscoverySource = $DiscoverySource
++                  GitForWindowsLinkerRejected = $gitLinker
++              }
++          }
++
++          # The only permitted vswhere invocations in this workflow are the two exact read-only queries below.
++          $VsWherePath = Get-VsWherePath
++          $VsWhereVersionMetadata = 'UNKNOWN'
++          if ($VsWherePath) {
++              try {
++                  $vswhereVersionInfo = (Get-Item -LiteralPath $VsWherePath -ErrorAction Stop).VersionInfo
++                  $VsWhereVersionMetadata = if ([string]::IsNullOrWhiteSpace([string]$vswhereVersionInfo.FileVersion)) { 'UNKNOWN' } else { [string]$vswhereVersionInfo.FileVersion }
++              }
++              catch {
++                  $VsWhereVersionMetadata = 'UNKNOWN'
++              }
++
++              $VsWhereAllInstances = Get-VsWhereJson -Path $VsWherePath -Query 'AllInstances'
++              $VsWhereMsvcInstances = Get-VsWhereJson -Path $VsWherePath -Query 'MsvcInstances'
++              $VsWhereMsvcInstallationPaths = @(
++                  $VsWhereMsvcInstances |
++                    ForEach-Object { if ($_.installationPath) { [string]$_.installationPath } } |
++                    Where-Object { Test-Path -LiteralPath $_ -PathType Container } |
++                    ForEach-Object { (Get-Item -LiteralPath $_ -ErrorAction Stop).FullName } |
++                    Sort-Object -Unique
++              )
++          }
++
++          # First populate and merge Visual Studio instance records from vswhere and the existing registry sources.
++          foreach ($instance in $VsWhereAllInstances) {
++              if (-not $instance.installationPath) { continue }
++              $installationPath = [string]$instance.installationPath
++              $normalizedPath = Normalize-PathForComparison $installationPath
++              $isMsvc = @($VsWhereMsvcInstallationPaths | Where-Object { (Normalize-PathForComparison $_) -eq $normalizedPath }).Count -gt 0
++              $edition = if ($instance.catalog_productLine) { [string]$instance.catalog_productLine } elseif ($instance.displayName) { [string]$instance.displayName } else { 'UNKNOWN' }
++              $version = if ($instance.installationVersion) { [string]$instance.installationVersion } elseif ($instance.catalog_productDisplayVersion) { [string]$instance.catalog_productDisplayVersion } else { 'UNKNOWN' }
++              Merge-VisualStudioInstance -Record ([pscustomobject]@{
++                  InstallationPath = $installationPath
++                  Edition = $edition
++                  Version = $version
++                  MsvcX64ToolsComponentInstalled = $isMsvc
++                  DiscoverySources = @('vswhere.exe -products * -format json')
++              }) -Destination $VisualStudioInstances
++          }
++
+           foreach ($rootKey in $VsRoots) {
+               if (-not (Test-Path -LiteralPath $rootKey)) { continue }
+               foreach ($key in Get-ChildItem -LiteralPath $rootKey -ErrorAction SilentlyContinue) {
+@@ -223,63 +520,171 @@
+                       $p = Get-ItemProperty -LiteralPath $key.PSPath -ErrorAction Stop
+                       $install = [string]$p.installationPath
+                       $version = [string]$p.catalog_productDisplayVersion
+-                      if ([string]::IsNullOrWhiteSpace($version)) {
+-                          $version = [string]$p.catalog_productLineVersion
+-                      }
+-                      $VsInstances.Add([ordered]@{
+-                          RegistryRoot = $rootKey
+-                          Instance = $key.PSChildName
++                      if ([string]::IsNullOrWhiteSpace($version)) { $version = [string]$p.catalog_productLineVersion }
++                      $edition = if ($p.catalog_productLine) { [string]$p.catalog_productLine } elseif ($p.displayName) { [string]$p.displayName } else { 'UNKNOWN' }
++                      Merge-VisualStudioInstance -Record ([pscustomobject]@{
+                           InstallationPath = $install
+-                          Version = if ($version) { $version } else { 'UNKNOWN' }
+-                      })
+-                      if ($install -and (Test-Path -LiteralPath $install -PathType Container)) {
+-                          $msvcRoot = Join-Path $install 'VC\Tools\MSVC'
+-                          if (Test-Path -LiteralPath $msvcRoot -PathType Container) {
+-                              foreach ($toolset in Get-ChildItem -LiteralPath $msvcRoot -Directory -ErrorAction SilentlyContinue) {
+-                                  $bin = Join-Path $toolset.FullName 'bin\Hostx64\x64'
+-                                  $clPath = Join-Path $bin 'cl.exe'
+-                                  $linkPath = Join-Path $bin 'link.exe'
+-                                  if (Test-Path -LiteralPath $clPath -PathType Leaf) { $cl += (Get-Item $clPath).FullName }
+-                                  if (Test-Path -LiteralPath $linkPath -PathType Leaf) { $link += (Get-Item $linkPath).FullName }
+-                                  $inc = Join-Path $toolset.FullName 'include'
+-                                  $lib = Join-Path $toolset.FullName 'lib\x64'
+-                                  $MsvcToolsets.Add([ordered]@{
+-                                      InstallationPath = $install
+-                                      ToolsetVersion = $toolset.Name
+-                                      ToolsetRoot = $toolset.FullName
+-                                      IncludePath = $inc
+-                                      LibraryPath = $lib
+-                                      IncludeExists = Test-Path -LiteralPath $inc -PathType Container
+-                                      LibraryExists = Test-Path -LiteralPath $lib -PathType Container
+-                                  })
+-                              }
+-                          }
+-                      }
+-                  } catch {}
+-              }
+-          }
+-          
+-          $cl = @($cl | Sort-Object -Unique)
+-          $link = @($link | Sort-Object -Unique)
+-          
+-          $clMeta = @($cl | ForEach-Object {
+-              [ordered]@{
+-                  Path = $_
+-                  VersionMetadata = Safe-Version $_
+-                  Architecture = Pe-Architecture $_
+-                  Functionality = 'NOT TESTED'
+-              }
+-          })
+-          
+-          $linkMeta = @($link | ForEach-Object {
+-              [ordered]@{
+-                  Path = $_
+-                  VersionMetadata = Safe-Version $_
+-                  Architecture = Pe-Architecture $_
+-                  Functionality = 'NOT TESTED'
+-              }
+-          })
+-          
++                          Edition = if ([string]::IsNullOrWhiteSpace($edition)) { 'UNKNOWN' } else { $edition }
++                          Version = if ([string]::IsNullOrWhiteSpace($version)) { 'UNKNOWN' } else { $version }
++                          MsvcX64ToolsComponentInstalled = $false
++                          DiscoverySources = @('Windows registry discovery')
++                      }) -Destination $VisualStudioInstances
++                  }
++                  catch {
++                      continue
++                  }
++              }
++          }
++
++          # Then populate and merge MSVC toolsets. vswhere MSVC component discovery is authoritative for selected x64 candidates.
++          foreach ($instance in $VsWhereMsvcInstances) {
++              if (-not $instance.installationPath) { continue }
++              $installationPath = [string]$instance.installationPath
++              if (-not (Test-Path -LiteralPath $installationPath -PathType Container)) { continue }
++              $resolvedInstallationPath = (Get-Item -LiteralPath $installationPath -ErrorAction Stop).FullName
++              $msvcRoot = Join-Path $resolvedInstallationPath 'VC\Tools\MSVC'
++              if (-not (Test-Path -LiteralPath $msvcRoot -PathType Container)) { continue }
++
++              foreach ($toolsetDirectory in @(Get-ChildItem -LiteralPath $msvcRoot -Directory -ErrorAction SilentlyContinue | Sort-Object Name)) {
++                  $record = Add-MsvcToolsetRecord -InstallationPath $resolvedInstallationPath -ToolsetRoot $toolsetDirectory.FullName -DiscoverySource $VsWhereDiscoverySource
++                  $exactBin = Join-Path $toolsetDirectory.FullName 'bin\Hostx64\x64'
++                  Add-ExactMsvcCandidate -Path (Join-Path $exactBin 'cl.exe') -Binary 'cl.exe' -ToolsetRoot $toolsetDirectory.FullName -InstallationPath $resolvedInstallationPath -DiscoverySource $VsWhereDiscoverySource
++                  Add-ExactMsvcCandidate -Path (Join-Path $exactBin 'link.exe') -Binary 'link.exe' -ToolsetRoot $toolsetDirectory.FullName -InstallationPath $resolvedInstallationPath -DiscoverySource $VsWhereDiscoverySource
++              }
++          }
++
++          # Registry-only toolset records are merged for cross-source corroboration; they do not introduce non-vswhere candidates.
++          foreach ($instance in $VisualStudioInstances) {
++              $registryOnly = @($instance.DiscoverySources | Where-Object { $_ -eq 'Windows registry discovery' }).Count -gt 0
++              if (-not $registryOnly -or [string]::IsNullOrWhiteSpace($instance.InstallationPath)) { continue }
++              if (-not (Test-Path -LiteralPath $instance.InstallationPath -PathType Container)) { continue }
++              $msvcRoot = Join-Path $instance.InstallationPath 'VC\Tools\MSVC'
++              if (-not (Test-Path -LiteralPath $msvcRoot -PathType Container)) { continue }
++              foreach ($toolsetDirectory in @(Get-ChildItem -LiteralPath $msvcRoot -Directory -ErrorAction SilentlyContinue | Sort-Object Name)) {
++                  [void](Add-MsvcToolsetRecord -InstallationPath $instance.InstallationPath -ToolsetRoot $toolsetDirectory.FullName -DiscoverySource $RegistryToolsetDiscoverySource)
++              }
++          }
++
++          # Validate only the exact Hostx64\x64 candidates; no recursive MSVC toolset scan is performed.
++          $CompilerCandidates = @(
++              $clCandidateSources |
++                Sort-Object Path -Unique |
++                ForEach-Object { Get-MicrosoftBinaryEvidence -Path $_.Path -Binary 'cl.exe' -DiscoverySource $_.DiscoverySource }
++          )
++          $LinkerCandidates = @(
++              $linkCandidateSources |
++                Sort-Object Path -Unique |
++                ForEach-Object { Get-MicrosoftBinaryEvidence -Path $_.Path -Binary 'link.exe' -DiscoverySource $_.DiscoverySource }
++          )
++
++          $selectedCompilerCandidates = @(
++              $CompilerCandidates |
++                Where-Object { $_.IdentityVerified -eq $true -and $_.Architecture -eq 'x64_0x8664' } |
++                Sort-Object @{Expression={ Get-VersionSortValue $_.ToolsetVersion }; Descending=$true}, @{Expression={$_.ToolsetRoot}; Descending=$false}, Path
++          )
++          $selectedCompiler = @($selectedCompilerCandidates | Select-Object -First 1)
++          $selectedCompiler = if ($selectedCompiler.Count -gt 0) { $selectedCompiler[0] } else { $null }
++
++          $selectedLinkerCandidates = @()
++          if ($selectedCompiler) {
++              $selectedLinkerCandidates = @(
++                  $LinkerCandidates |
++                    Where-Object {
++                        $_.IdentityVerified -eq $true -and
++                        $_.Architecture -eq 'x64_0x8664' -and
++                        $_.GitForWindowsLinkerRejected -ne $true -and
++                        (Normalize-PathForComparison $_.ToolsetRoot) -eq (Normalize-PathForComparison $selectedCompiler.ToolsetRoot) -and
++                        (Normalize-PathForComparison $_.VisualStudioInstallationPath) -eq (Normalize-PathForComparison $selectedCompiler.VisualStudioInstallationPath) -and
++                        $_.ToolsetVersion -eq $selectedCompiler.ToolsetVersion
++                    } |
++                    Sort-Object Path
++              )
++          }
++          $selectedLinker = @($selectedLinkerCandidates | Select-Object -First 1)
++          $selectedLinker = if ($selectedLinker.Count -gt 0) { $selectedLinker[0] } else { $null }
++
++          $selectedToolsetCandidates = @()
++          if ($selectedCompiler -and $selectedLinker) {
++              $selectedToolsetCandidates = @(
++                  $MsvcToolsets |
++                    Where-Object {
++                        $_.ClExists -and $_.LinkExists -and $_.IncludeExists -and $_.LibX64Exists -and
++                        (Normalize-PathForComparison $_.ToolsetRoot) -eq (Normalize-PathForComparison $selectedCompiler.ToolsetRoot) -and
++                        (Normalize-PathForComparison $_.ToolsetRoot) -eq (Normalize-PathForComparison $selectedLinker.ToolsetRoot) -and
++                        (Normalize-PathForComparison $_.InstallationPath) -eq (Normalize-PathForComparison $selectedCompiler.VisualStudioInstallationPath) -and
++                        (Normalize-PathForComparison $_.InstallationPath) -eq (Normalize-PathForComparison $selectedLinker.VisualStudioInstallationPath) -and
++                        $_.ToolsetVersion -eq $selectedCompiler.ToolsetVersion -and
++                        $_.ToolsetVersion -eq $selectedLinker.ToolsetVersion
++                    } |
++                    Sort-Object @{Expression={ Get-VersionSortValue $_.ToolsetVersion }; Descending=$true}, ToolsetRoot
++              )
++          }
++          $selectedToolset = @($selectedToolsetCandidates | Select-Object -First 1)
++          $selectedToolset = if ($selectedToolset.Count -gt 0) { $selectedToolset[0] } else { $null }
++
++          $selectedToolsetRequirementsPresent = $false
++          if ($selectedToolset) {
++              $selectedToolsetRequirementsPresent = (
++                  $selectedToolset.ClExists -and
++                  $selectedToolset.LinkExists -and
++                  $selectedToolset.IncludeExists -and
++                  $selectedToolset.LibX64Exists
++              )
++          }
++
++          $selectedCompilerLinkerSameToolset = $false
++          if ($selectedCompiler -and $selectedLinker) {
++              $selectedCompilerLinkerSameToolset = (
++                  (Normalize-PathForComparison $selectedCompiler.ToolsetRoot) -eq (Normalize-PathForComparison $selectedLinker.ToolsetRoot) -and
++                  (Normalize-PathForComparison $selectedCompiler.VisualStudioInstallationPath) -eq (Normalize-PathForComparison $selectedLinker.VisualStudioInstallationPath) -and
++                  $selectedCompiler.ToolsetVersion -eq $selectedLinker.ToolsetVersion
++              )
++          }
++
++          $selectedCompilerToolsetMatches = $false
++          if ($selectedCompiler -and $selectedToolset) {
++              $selectedCompilerToolsetMatches = (Normalize-PathForComparison $selectedCompiler.ToolsetRoot) -eq (Normalize-PathForComparison $selectedToolset.ToolsetRoot)
++          }
++
++          $selectedLinkerToolsetMatches = $false
++          if ($selectedLinker -and $selectedToolset) {
++              $selectedLinkerToolsetMatches = (Normalize-PathForComparison $selectedLinker.ToolsetRoot) -eq (Normalize-PathForComparison $selectedToolset.ToolsetRoot)
++          }
++
++          $selectedToolchainIdentityVerified = [bool](
++              $selectedToolsetRequirementsPresent -and
++              $selectedCompiler -and
++              $selectedLinker -and
++              $selectedCompiler.IdentityVerified -and
++              $selectedLinker.IdentityVerified -and
++              $selectedCompiler.Architecture -eq 'x64_0x8664' -and
++              $selectedLinker.Architecture -eq 'x64_0x8664' -and
++              $selectedCompilerLinkerSameToolset -and
++              $selectedCompilerToolsetMatches -and
++              $selectedLinkerToolsetMatches -and
++              ($selectedLinker.GitForWindowsLinkerRejected -ne $true)
++          )
++
++          $selectedToolchainStatus = if ($selectedToolchainIdentityVerified) { 'FOUND — IDENTITY VERIFIED — APPROVAL REQUIRED' } else { 'MISSING OR IDENTITY UNVERIFIED' }
++          $selectedCompilerPath = if ($selectedCompiler) { [string]$selectedCompiler.Path } else { 'NOT SELECTED' }
++          $selectedCompilerVersion = if ($selectedCompiler) { [string]$selectedCompiler.Version } else { 'UNKNOWN' }
++          $selectedCompilerSha256 = if ($selectedCompiler) { [string]$selectedCompiler.Sha256 } else { 'UNKNOWN' }
++          $selectedLinkerPath = if ($selectedLinker) { [string]$selectedLinker.Path } else { 'NOT SELECTED' }
++          $selectedLinkerVersion = if ($selectedLinker) { [string]$selectedLinker.Version } else { 'UNKNOWN' }
++          $selectedLinkerSha256 = if ($selectedLinker) { [string]$selectedLinker.Sha256 } else { 'UNKNOWN' }
++          $selectedToolsetRootText = if ($selectedToolset) { [string]$selectedToolset.ToolsetRoot } else { 'NOT SELECTED' }
++          $selectedToolsetVersionText = if ($selectedToolset) { [string]$selectedToolset.ToolsetVersion } else { 'UNKNOWN' }
++          $selectedIncludePathText = if ($selectedToolset) { [string]$selectedToolset.IncludePath } else { 'NOT SELECTED' }
++          $selectedLibX64PathText = if ($selectedToolset) { [string]$selectedToolset.LibX64Path } else { 'NOT SELECTED' }
++          $selectedToolsetClExistsText = if ($selectedToolset) { [string]$selectedToolset.ClExists } else { 'NOT FOUND' }
++          $selectedToolsetLinkExistsText = if ($selectedToolset) { [string]$selectedToolset.LinkExists } else { 'NOT FOUND' }
++          $selectedToolsetIncludeExistsText = if ($selectedToolset) { [string]$selectedToolset.IncludeExists } else { 'NOT FOUND' }
++          $selectedToolsetLibExistsText = if ($selectedToolset) { [string]$selectedToolset.LibX64Exists } else { 'NOT FOUND' }
++
++          if (-not $selectedToolchainIdentityVerified) {
++              Add-Block 'No fully verified Microsoft Visual C++ x64 toolchain was selected; compiler/linker approval remains required.'
++          }
++
+           $kitsRoot = Registry-Value `
+               -Path 'HKLM:\SOFTWARE\Microsoft\Windows Kits\Installed Roots' `
+               -Name 'KitsRoot10'
+@@ -756,17 +1161,113 @@
+                   ComputerSystemType = $cs.SystemType
+               }
+               CompilerDiscovery = [ordered]@{
+-                  Discovered = ($clMeta.Count -gt 0)
+-                  Candidates = $clMeta
++                  Discovered = ($CompilerCandidates.Count -gt 0)
++                  Candidates = @($CompilerCandidates)
++                  SelectedStatus = $selectedToolchainStatus
++                  Selected = if ($selectedCompiler) { $selectedCompiler } else { $null }
+                   Functionality = 'NOT TESTED'
+               }
+               LinkerDiscovery = [ordered]@{
+-                  Discovered = ($linkMeta.Count -gt 0)
+-                  Candidates = $linkMeta
++                  Discovered = ($LinkerCandidates.Count -gt 0)
++                  Candidates = @($LinkerCandidates)
++                  SelectedStatus = $selectedToolchainStatus
++                  Selected = if ($selectedLinker) { $selectedLinker } else { $null }
+                   Functionality = 'NOT TESTED'
+               }
+-              VisualStudioInstances = @($VsInstances)
++              VisualStudioInstances = @($VisualStudioInstances)
+               MsvcToolsets = @($MsvcToolsets)
++              MicrosoftToolchainVerification = [ordered]@{
++                  Status = if ($selectedToolchainIdentityVerified) { 'FOUND — IDENTITY VERIFIED — APPROVAL REQUIRED' } else { 'MISSING OR IDENTITY UNVERIFIED' }
++                  Verified = $selectedToolchainIdentityVerified
++                  VsWhere = [ordered]@{
++                      Discovered = $null -ne $VsWherePath
++                      Path = if ($VsWherePath) { $VsWherePath } else { 'NOT FOUND' }
++                      VersionMetadata = $VsWhereVersionMetadata
++                      DiscoverySource = 'Existing vswhere.exe read-only discovery'
++                      InstanceQuery = 'vswhere.exe -products * -format json'
++                      MsvcX64ComponentQuery = 'vswhere.exe -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -format json'
++                      MsvcInstallationPaths = @($VsWhereMsvcInstallationPaths)
++                  }
++                  VisualStudio = [ordered]@{
++                      Discovered = ($VisualStudioInstances.Count -gt 0)
++                      Edition = if ($selectedCompiler) {
++                          $selectedVs = @($VisualStudioInstances | Where-Object { (Normalize-PathForComparison $_.InstallationPath) -eq (Normalize-PathForComparison $selectedCompiler.VisualStudioInstallationPath) } | Select-Object -First 1)
++                          if ($selectedVs.Count -gt 0) { [string]$selectedVs[0].Edition } else { 'UNKNOWN' }
++                      } else { 'UNKNOWN' }
++                      Version = if ($selectedCompiler) {
++                          $selectedVs = @($VisualStudioInstances | Where-Object { (Normalize-PathForComparison $_.InstallationPath) -eq (Normalize-PathForComparison $selectedCompiler.VisualStudioInstallationPath) } | Select-Object -First 1)
++                          if ($selectedVs.Count -gt 0) { [string]$selectedVs[0].Version } else { 'UNKNOWN' }
++                      } else { 'UNKNOWN' }
++                      InstallationPath = if ($selectedCompiler) { [string]$selectedCompiler.VisualStudioInstallationPath } else { 'NOT SELECTED' }
++                      MsvcX64ToolsComponentInstalled = if ($selectedCompiler) {
++                          @($VsWhereMsvcInstallationPaths | Where-Object { (Normalize-PathForComparison $_) -eq (Normalize-PathForComparison $selectedCompiler.VisualStudioInstallationPath) }).Count -gt 0
++                      } else { $false }
++                      DiscoverySource = 'vswhere.exe + Windows registry merge'
++                  }
++                  Compiler = [ordered]@{
++                      Status = $selectedToolchainStatus
++                      Discovered = $null -ne $selectedCompiler
++                      IdentityVerified = $selectedToolchainIdentityVerified
++                      Functionality = 'NOT TESTED'
++                      Path = $selectedCompilerPath
++                      Version = $selectedCompilerVersion
++                      FileDescription = if ($selectedCompiler) { [string]$selectedCompiler.FileDescription } else { 'UNKNOWN' }
++                      CompanyName = if ($selectedCompiler) { [string]$selectedCompiler.CompanyName } else { 'UNKNOWN' }
++                      ProductName = if ($selectedCompiler) { [string]$selectedCompiler.ProductName } else { 'UNKNOWN' }
++                      Architecture = if ($selectedCompiler) { [string]$selectedCompiler.Architecture } else { 'UNKNOWN' }
++                      Sha256 = $selectedCompilerSha256
++                      ToolsetVersion = $selectedToolsetVersionText
++                      ToolsetRoot = $selectedToolsetRootText
++                      VisualStudioInstallationPath = if ($selectedCompiler) { [string]$selectedCompiler.VisualStudioInstallationPath } else { 'NOT SELECTED' }
++                      DiscoverySource = if ($selectedCompiler) { [string]$selectedCompiler.DiscoverySource } else { $VsWhereDiscoverySource }
++                      X64CandidateCount = @($CompilerCandidates | Where-Object { $_.Architecture -eq 'x64_0x8664' }).Count
++                      AllCandidates = @($CompilerCandidates)
++                  }
++                  Linker = [ordered]@{
++                      Status = $selectedToolchainStatus
++                      Discovered = $null -ne $selectedLinker
++                      IdentityVerified = $selectedToolchainIdentityVerified
++                      Functionality = 'NOT TESTED'
++                      Path = $selectedLinkerPath
++                      Version = $selectedLinkerVersion
++                      FileDescription = if ($selectedLinker) { [string]$selectedLinker.FileDescription } else { 'UNKNOWN' }
++                      CompanyName = if ($selectedLinker) { [string]$selectedLinker.CompanyName } else { 'UNKNOWN' }
++                      ProductName = if ($selectedLinker) { [string]$selectedLinker.ProductName } else { 'UNKNOWN' }
++                      Architecture = if ($selectedLinker) { [string]$selectedLinker.Architecture } else { 'UNKNOWN' }
++                      Sha256 = $selectedLinkerSha256
++                      ToolsetVersion = $selectedToolsetVersionText
++                      ToolsetRoot = $selectedToolsetRootText
++                      VisualStudioInstallationPath = if ($selectedLinker) { [string]$selectedLinker.VisualStudioInstallationPath } else { 'NOT SELECTED' }
++                      DiscoverySource = if ($selectedLinker) { [string]$selectedLinker.DiscoverySource } else { $VsWhereDiscoverySource }
++                      X64CandidateCount = @($LinkerCandidates | Where-Object { $_.Architecture -eq 'x64_0x8664' }).Count
++                      AllCandidates = @($LinkerCandidates)
++                      GitForWindowsLinkerRejected = @($LinkerCandidates | Where-Object { $_.GitForWindowsLinkerRejected -eq $true }).Count -gt 0
++                  }
++                  SelectedToolset = [ordered]@{
++                      Status = if ($selectedToolchainIdentityVerified) { 'FOUND — IDENTITY VERIFIED — APPROVAL REQUIRED' } else { 'NOT SELECTED' }
++                      ToolsetRoot = $selectedToolsetRootText
++                      ToolsetVersion = $selectedToolsetVersionText
++                      ClPath = if ($selectedToolset) { [string]$selectedToolset.ClPath } else { 'NOT SELECTED' }
++                      LinkPath = if ($selectedToolset) { [string]$selectedToolset.LinkPath } else { 'NOT SELECTED' }
++                      IncludePath = $selectedIncludePathText
++                      LibX64Path = $selectedLibX64PathText
++                      ClExists = $selectedToolsetClExistsText
++                      LinkExists = $selectedToolsetLinkExistsText
++                      IncludeExists = $selectedToolsetIncludeExistsText
++                      LibX64Exists = $selectedToolsetLibExistsText
++                      SameToolset = $selectedCompilerLinkerSameToolset -and $selectedCompilerToolsetMatches -and $selectedLinkerToolsetMatches
++                      DiscoverySource = $VsWhereDiscoverySource
++                  }
++                  WindowsSdk = [ordered]@{
++                      SelectedVersion = if ($SdkVersions.Count -gt 0) {
++                          $sdkVersionCandidates = @($SdkVersions | Sort-Object @{Expression={ Get-VersionSortValue $_.Version }; Descending=$true} | Select-Object -First 1)
++                          if ($sdkVersionCandidates.Count -gt 0) { [string]$sdkVersionCandidates[0].Version } else { 'UNKNOWN' }
++                      } else { 'UNKNOWN' }
++                      SelectedIncludePaths = @($SdkIncludeRoots)
++                      SelectedLibraryPaths = @($SdkLibraryRoots)
++                      DiscoverySource = 'Existing Windows SDK filesystem/registry discovery'
++                  }
++              }
+               WindowsSdk = [ordered]@{
+                   KitsRoot10 = $kitsRoot
+                   Versions = @($SdkVersions)
+@@ -837,12 +1338,25 @@
+           $md.Add("Workflow run ID: $($env:GITHUB_RUN_ID)")
+           $md.Add("Timestamp UTC: $Timestamp")
+           $md.Add('')
+-          $md.Add('Compiler discovered: ' + [string]($clMeta.Count -gt 0))
+-          $md.Add('Compiler version metadata: KNOWN OR UNKNOWN PER CANDIDATE')
++          $md.Add('Compiler discovered: ' + [string]($CompilerCandidates.Count -gt 0))
++          $md.Add('Compiler status: ' + $selectedToolchainStatus)
++          $md.Add('Compiler path: ' + $selectedCompilerPath)
++          $md.Add('Compiler version: ' + $selectedCompilerVersion)
++          $md.Add('Compiler SHA-256: ' + $selectedCompilerSha256)
++          $md.Add('Compiler PE architecture: ' + $(if ($selectedCompiler) { [string]$selectedCompiler.Architecture } else { 'UNKNOWN' }))
+           $md.Add('Compiler functionality: NOT TESTED')
+-          $md.Add('Linker discovered: ' + [string]($linkMeta.Count -gt 0))
+-          $md.Add('Linker version metadata: KNOWN OR UNKNOWN PER CANDIDATE')
++          $md.Add('Linker discovered: ' + [string]($LinkerCandidates.Count -gt 0))
++          $md.Add('Linker status: ' + $selectedToolchainStatus)
++          $md.Add('Linker path: ' + $selectedLinkerPath)
++          $md.Add('Linker version: ' + $selectedLinkerVersion)
++          $md.Add('Linker SHA-256: ' + $selectedLinkerSha256)
++          $md.Add('Linker PE architecture: ' + $(if ($selectedLinker) { [string]$selectedLinker.Architecture } else { 'UNKNOWN' }))
++          $md.Add('Linker Git-for-Windows rejection present: ' + [string](@($LinkerCandidates | Where-Object { $_.GitForWindowsLinkerRejected -eq $true }).Count -gt 0))
+           $md.Add('Linker functionality: NOT TESTED')
++          $md.Add('Selected MSVC toolset: ' + $selectedToolsetVersionText)
++          $md.Add('Selected MSVC toolset root: ' + $selectedToolsetRootText)
++          $md.Add('Selected MSVC include directory: ' + $selectedIncludePathText)
++          $md.Add('Selected MSVC lib\x64 directory: ' + $selectedLibX64PathText)
+           $md.Add('')
+           $md.Add('Compilation: NOT ATTEMPTED')
+           $md.Add('Linking: NOT ATTEMPTED')
+@@ -875,6 +1389,40 @@
+               $md.Add('| ' + ($cells -join ' | ') + ' |')
+           }
+           
++          $md.Add('')
++          $md.Add('## Microsoft C++ toolchain verification')
++          $md.Add('')
++          $md.Add('Selected verified toolchain status: ' + $selectedToolchainStatus)
++          $md.Add('vswhere path: ' + $(if ($VsWherePath) { $VsWherePath } else { 'NOT FOUND' }))
++          $md.Add('vswhere MSVC component discovery: ' + [string]($VsWhereMsvcInstallationPaths.Count -gt 0))
++          $md.Add('Candidate provenance: ' + $VsWhereDiscoverySource)
++          $md.Add('Exact compiler candidate path rule: <toolset>\\bin\\Hostx64\\x64\\cl.exe')
++          $md.Add('Exact linker candidate path rule: <toolset>\\bin\\Hostx64\\x64\\link.exe')
++          $md.Add('Recursive MSVC toolset binary scan: NOT PERFORMED')
++          $md.Add('Selected toolset root: ' + $selectedToolsetRootText)
++          $md.Add('Selected toolset version: ' + $selectedToolsetVersionText)
++          $md.Add('Selected include directory: ' + $selectedIncludePathText)
++          $md.Add('Selected lib\\x64 directory: ' + $selectedLibX64PathText)
++          $md.Add('cl.exe exists: ' + $selectedToolsetClExistsText)
++          $md.Add('link.exe exists: ' + $selectedToolsetLinkExistsText)
++          $md.Add('include exists: ' + $selectedToolsetIncludeExistsText)
++          $md.Add('lib\\x64 exists: ' + $selectedToolsetLibExistsText)
++          $md.Add('Compiler functionality: NOT TESTED')
++          $md.Add('Linker functionality: NOT TESTED')
++          $md.Add('Compilation: NOT ATTEMPTED')
++          $md.Add('Linking: NOT ATTEMPTED')
++          $md.Add('')
++          $md.Add('## Execution restrictions')
++          $md.Add('')
++          $md.Add('cl.exe execution: NOT PERFORMED')
++          $md.Add('link.exe execution: NOT PERFORMED')
++          $md.Add('MSBuild: NOT INVOKED')
++          $md.Add('CMake: NOT INVOKED')
++          $md.Add('Ninja: NOT INVOKED')
++          $md.Add('Dependency installation: NOT PERFORMED')
++          $md.Add('Dependency download: NOT PERFORMED')
++          $md.Add('Dependency restoration: NOT PERFORMED')
++          $md.Add('Executable generation: NOT ATTEMPTED')
+           $md.Add('')
+           $md.Add('## libavif')
+           $md.Add("avif/avif.h status: $(if ($AvifHeaders.Count -gt 0) { 'FOUND' } else { 'MISSING' })")
+@@ -1025,6 +1573,86 @@
+                   CheckedOutCommit = try { (git rev-parse HEAD).Trim() } catch { 'UNKNOWN' }
+                   WorkflowRunId = $env:GITHUB_RUN_ID
+                   TimestampUtc = [DateTime]::UtcNow.ToString('o')
++                  MicrosoftToolchainVerification = [ordered]@{
++                      Status = 'MISSING OR IDENTITY UNVERIFIED'
++                      Verified = $false
++                      VsWhere = [ordered]@{
++                          Discovered = $false
++                          Path = 'NOT FOUND'
++                          DiscoverySource = 'Existing vswhere.exe read-only discovery'
++                          InstanceQuery = 'vswhere.exe -products * -format json'
++                          MsvcX64ComponentQuery = 'vswhere.exe -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -format json'
++                          MsvcInstallationPaths = @()
++                      }
++                      VisualStudio = [ordered]@{
++                          Discovered = $false
++                          Edition = 'UNKNOWN'
++                          Version = 'UNKNOWN'
++                          InstallationPath = 'NOT SELECTED'
++                          MsvcX64ToolsComponentInstalled = $false
++                          DiscoverySource = 'vswhere.exe + Windows registry merge'
++                      }
++                      Compiler = [ordered]@{
++                          Status = 'MISSING OR IDENTITY UNVERIFIED'
++                          Discovered = $false
++                          IdentityVerified = $false
++                          Functionality = 'NOT TESTED'
++                          Path = 'NOT SELECTED'
++                          Version = 'UNKNOWN'
++                          FileDescription = 'UNKNOWN'
++                          CompanyName = 'UNKNOWN'
++                          ProductName = 'UNKNOWN'
++                          Architecture = 'UNKNOWN'
++                          Sha256 = 'UNKNOWN'
++                          ToolsetVersion = 'UNKNOWN'
++                          ToolsetRoot = 'NOT SELECTED'
++                          VisualStudioInstallationPath = 'NOT SELECTED'
++                          DiscoverySource = 'vswhere MSVC component discovery + MSVC toolset filesystem validation'
++                          X64CandidateCount = 0
++                          AllCandidates = @()
++                      }
++                      Linker = [ordered]@{
++                          Status = 'MISSING OR IDENTITY UNVERIFIED'
++                          Discovered = $false
++                          IdentityVerified = $false
++                          Functionality = 'NOT TESTED'
++                          Path = 'NOT SELECTED'
++                          Version = 'UNKNOWN'
++                          FileDescription = 'UNKNOWN'
++                          CompanyName = 'UNKNOWN'
++                          ProductName = 'UNKNOWN'
++                          Architecture = 'UNKNOWN'
++                          Sha256 = 'UNKNOWN'
++                          ToolsetVersion = 'UNKNOWN'
++                          ToolsetRoot = 'NOT SELECTED'
++                          VisualStudioInstallationPath = 'NOT SELECTED'
++                          DiscoverySource = 'vswhere MSVC component discovery + MSVC toolset filesystem validation'
++                          X64CandidateCount = 0
++                          AllCandidates = @()
++                          GitForWindowsLinkerRejected = $false
++                      }
++                      SelectedToolset = [ordered]@{
++                          Status = 'NOT SELECTED'
++                          ToolsetRoot = 'NOT SELECTED'
++                          ToolsetVersion = 'UNKNOWN'
++                          ClPath = 'NOT SELECTED'
++                          LinkPath = 'NOT SELECTED'
++                          IncludePath = 'NOT SELECTED'
++                          LibX64Path = 'NOT SELECTED'
++                          ClExists = 'NOT FOUND'
++                          LinkExists = 'NOT FOUND'
++                          IncludeExists = 'NOT FOUND'
++                          LibX64Exists = 'NOT FOUND'
++                          SameToolset = $false
++                          DiscoverySource = 'vswhere MSVC component discovery + MSVC toolset filesystem validation'
++                      }
++                      WindowsSdk = [ordered]@{
++                          SelectedVersion = 'UNKNOWN'
++                          SelectedIncludePaths = @()
++                          SelectedLibraryPaths = @()
++                          DiscoverySource = 'Existing Windows SDK filesystem/registry discovery'
++                      }
++                  }
+                   BlockingReasons = @("Preflight report generation error: $reason")
+                   CompilerFunctionality = 'NOT TESTED'
+                   LinkerFunctionality = 'NOT TESTED'
