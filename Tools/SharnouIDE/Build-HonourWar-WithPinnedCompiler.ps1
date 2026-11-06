@@ -4,7 +4,6 @@ param(
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
-$root = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..\..'))
 $resolved = & (Join-Path $PSScriptRoot 'toolchain/Resolve-PinnedSharnouCompiler.ps1')
 if (-not $resolved -or $resolved.ReleaseTag -ne 'R26.0-R2-R8') { throw 'Pinned compiler resolution did not return the expected release.' }
 
