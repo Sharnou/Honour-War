@@ -1,0 +1,29 @@
+name: Verify Pinned Compiler for Honour War
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-pin-and-report-stack:
+    runs-on: windows-2022
+    steps:
+      - name: Checkout Honour War
+        uses: actions/checkout@v4
+      - name: Resolve compiler and report downstream build status
+        shell: powershell
+        env:
+          SHARNOU_COMPILER_READ_TOKEN: ${{ secrets.SHARNOU_COMPILER_READ_TOKEN }}
+        run: |
+          if ([string]::IsNullOrWhiteSpace($env:SHARNOU_COMPILER_READ_TOKEN)) { throw 'Add repository secret SHARNOU_COMPILER_READ_TOKEN with contents:read access to Sharnou/Sharnou-Compiler.' }
+          $resolved = & .\Tools\SharnouIDE\toolchain\Resolve-PinnedSharnouCompiler.ps1
+          $pin = Get-Content .\compiler-version.json -Raw | ConvertFrom-Json
+          if ($pin.release_tag -ne $resolved.ReleaseTag -or $pin.asset_sha256 -ne $resolved.ArchiveSha256) { throw 'Honour War compiler pin mismatch.' }
+          $message = 'Compiler pin verified. Honour War native build remains blocked because the pinned release has no C++ frontend/native C++ driver for the Sharnou Engine .cpp sources.'
+          Write-Warning $message
+          Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY -Value '## Honour War compiler pin: PASS'
+          Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY -Value ''
+          Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY -Value '**Native build status: BLOCKED**'
+          Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY -Value $message

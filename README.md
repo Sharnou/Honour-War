@@ -1,4 +1,4 @@
-# Honour War — canonical Sharnou Engine project
+# Honour War - canonical Sharnou Engine project
 
 Honour War (honour-war) is developed and run exclusively through **Sharnou-IDE -> SharnouEngine**.
 
@@ -25,9 +25,9 @@ Sharnou-IDE accepts any supplied source format at the intake boundary. It detect
 
 The asset strategy is complementary rather than mutually exclusive:
 
-- **glTF 2.x (.gltf, .glb)** — 3D scene/model containers for meshes, nodes, skins and animations.
-- **KTX2 (.ktx2)** — compressed GPU-facing 3D material textures using Basis Universal; glTF references them through `KHR_texture_basisu`.
-- **AVIF (.avif)** — the shipped raster/2D visual format for UI, HUD, icons, portraits, cards, menus, backgrounds, skyboxes and distribution imagery.
+- **glTF 2.x (.gltf, .glb)** - 3D scene/model containers for meshes, nodes, skins and animations.
+- **KTX2 (.ktx2)** - compressed GPU-facing 3D material textures using Basis Universal; glTF references them through KHR_texture_basisu.
+- **AVIF (.avif)** - the shipped raster/2D visual format for UI, HUD, icons, portraits, cards, menus, backgrounds, skyboxes and distribution imagery.
 
 AVIF-only applies to shipped raster/2D visuals. It does not reject glTF/GLB or KTX2, which are the complementary 3D asset formats.
 
@@ -35,7 +35,7 @@ FBX/OBJ remain approved source/interchange model inputs. They are converted befo
 
 ## Standalone runtime build
 
-Use `Complete-Runtime.ps1` as the canonical local runtime entrypoint. It validates the Sharnou-IDE/SPP contracts, generates the Honour War runtime scene plan, invokes the standalone SharnouEngine compiler, verifies the resulting Windows x64 PE, rebuilds the runtime registry/resource cache, and runs native engine self-test plus runtime-test. The build fails closed when the self-contained Sharnou compiler is absent; it never downloads a replacement compiler or external engine toolchain.
+Use Complete-Runtime.ps1 as the canonical local runtime entrypoint. It validates the Sharnou-IDE/SPP contracts, generates the Honour War runtime scene plan, invokes the standalone SharnouEngine compiler, verifies the resulting Windows x64 PE, rebuilds the runtime registry/resource cache, and runs native engine self-test plus runtime-test. The build fails closed when the self-contained Sharnou compiler is absent; it never downloads a replacement compiler or external engine toolchain.
 
 The native engine runtime also consumes generated glTF bootstrap scenes and validates their KTX2/KHR_texture_basisu contract. Final authored meshes/textures must replace bootstrap content before a production-art runtime claim is made.
 
@@ -71,10 +71,26 @@ A gameplay/build PASS requires the actual approved SharnouEngine executable to r
 The migration preserves the existing Honour War content/data, including 70 character profiles, 35 jobs across 7 classes and 5 tiers, monsters, maps, equipment, cards, pets, quests/events, ageing/saved progression, and Ragnarok-style click movement.
 
 See:
-- `Engine/SharnouEngine/SHARNOU_ASSET_FORMATS.md`
-- `Engine/SharnouEngine/sharnou_engine_architecture.json`
-- `Tools/SharnouIDE/sharnou-ide-engine.integration.json`
-- `Tools/SharnouIDE/honour-war.spp.json`
-- `Tools/SharnouIDE/UNIVERSAL_ASSET_AUTOMATION.md`
+- Engine/SharnouEngine/SHARNOU_ASSET_FORMATS.md
+- Engine/SharnouEngine/sharnou_engine_architecture.json
+- Tools/SharnouIDE/sharnou-ide-engine.integration.json
+- Tools/SharnouIDE/honour-war.spp.json
+- Tools/SharnouIDE/UNIVERSAL_ASSET_AUTOMATION.md
 
-© Sharnou — Honour War
+## Pinned Sharnou compiler release
+
+compiler-version.json pins R26.0-R2-R8 by tag and exact archive SHA-256, matching the IDE and Engine pins. The compiler repository is private; use a read-only SHARNOU_COMPILER_READ_TOKEN secret for Actions or set the variable locally.
+
+Windows PowerShell 5.1:
+
+    $env:SHARNOU_COMPILER_READ_TOKEN = '<read-only token>'
+    .\Tools\SharnouIDE\toolchain\Resolve-PinnedSharnouCompiler.ps1
+    .\Tools\SharnouIDE\Build-HonourWar-WithPinnedCompiler.ps1 -EngineRoot ..\Sharnou-Engine
+
+The second command fails closed until the pinned compiler can compile the current C++ Engine. The game must not claim a successful native build until SharnouEngine has been built against a compatible Sharnou compiler. No external compiler or implicit fallback is permitted.
+
+Run Actions -> Verify Pinned Compiler for Honour War -> Run workflow after adding SHARNOU_COMPILER_READ_TOKEN as a repository secret. The workflow verifies the pin and records the build compatibility blocker; it does not claim to build or launch gameplay.
+
+## Preserved design
+
+© Sharnou - Honour War
