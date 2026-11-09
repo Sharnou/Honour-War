@@ -19,3 +19,24 @@ Binaries/
 Intermediate/
 Saved/
 DerivedDataCache/
+
+# Generated native binaries and compiler/linker intermediates.
+*.exe
+*.dll
+*.lib
+*.exp
+*.ilk
+*.pch
+*.idb
+*.ipdb
+*.iobj
+*.res
+*.tlog/
+*.lastbuildstate
+*.cache
+*.tmp
+
+# Narrow generated Build outputs; tracked Build files are retained.
+Build/Runtime/
+Build/Artifacts/
+Build/Temp/
