@@ -71,8 +71,8 @@ jobs:
           if ($graphics.graphics_target.quality -ne 'HD') { throw 'HD target missing.' }
           if ($graphics.graphics_target.genres -notcontains 'MMORPG') { throw 'MMORPG target missing.' }
           if ($graphics.graphics_target.genres -notcontains 'ARPG') { throw 'ARPG target missing.' }
-          if ($graphics.materials.texture_3d -ne 'KTX2/Basis Universal') { throw 'KTX2 graphics rule missing.' }
-          if ($graphics.materials.ui_2d -ne 'AVIF') { throw 'AVIF graphics rule missing.' }
+          if ($graphics.graphics_target.materials.texture_3d -ne 'KTX2/Basis Universal') { throw 'KTX2 graphics rule missing.' }
+          if ($graphics.graphics_target.materials.ui_2d -ne 'AVIF') { throw 'AVIF graphics rule missing.' }
           if ($graphics.classes.Count -ne 7) { throw 'Expected seven canonical classes.' }
           Write-Host 'PASS: full content catalog and HD MMORPG/ARPG graphics contract.'
           $skills = Get-Content "$env:GITHUB_WORKSPACE/data/honour_war_skill_system.json" -Raw | ConvertFrom-Json
